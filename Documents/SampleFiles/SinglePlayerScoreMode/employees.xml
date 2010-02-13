@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Employees>
+	<Employee>
+		<name>Janick</name>
+		<lastName>Gers</lastName>
+		<developer>10</developer>
+		<designer>9</designer>
+		<tester>2</tester>
+		<manager>7</manager>
+		<experienced>5</experienced>
+		<intelligent>7</intelligent>
+		<wise>8</wise>
+		<quickThinker>2</quickThinker>
+		<teamPlayer>5</teamPlayer>
+		<workAholic>6</workAholic>
+		<arrogant>7</arrogant>
+		<salary>1000.0</salary>
+		<curriculumVitae>Very good developer lousy tester.</curriculumVitae>
+	</Employee>
+	<Employee>
+		<name>Andrian</name>
+		<lastName>Smith</lastName>
+		<developer>7</developer>
+		<designer>2</designer>
+		<tester>9</tester>
+		<manager>1</manager>
+		<experienced>5</experienced>
+		<intelligent>8</intelligent>
+		<wise>1</wise>
+		<quickThinker>8</quickThinker>
+		<teamPlayer>8</teamPlayer>
+		<workAholic>1</workAholic>
+		<arrogant>2</arrogant>
+		<salary>1200.0</salary>
+		<curriculumVitae>Good tester,medium developer.</curriculumVitae>
+	</Employee>
+	<Employee>
+		<name>Steve</name>
+		<lastName>Harris</lastName>
+		<developer>5</developer>
+		<designer>1</designer>
+		<tester>10</tester>
+		<manager>1</manager>
+		<experienced>9</experienced>
+		<intelligent>9</intelligent>
+		<wise>8</wise>
+		<quickThinker>8</quickThinker>
+		<teamPlayer>10</teamPlayer>
+		<workAholic>5</workAholic>
+		<arrogant>1</arrogant>
+		<salary>1500.0</salary>
+		<curriculumVitae>Really experienced tester.</curriculumVitae>
+	</Employee>
+</Employees>

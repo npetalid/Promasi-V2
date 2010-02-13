@@ -1,0 +1,275 @@
+<Resources>
+	<org>
+		<promasi>
+			<ui>
+				<promasiui>
+					<promasidesktop>
+						<PlayModeSelectorFrame>
+							<title>Play Mode Selection</title>
+							<playModesList>
+								<borderTitle>Play modes</borderTitle>
+							</playModesList>
+							<playButton>
+								<text>Play</text>
+							</playButton>
+							<noSelectedPlayMode>
+								<text>Please select a play mode.</text>
+								<title>Error</title>
+							</noSelectedPlayMode>
+							<noLoginPane>
+								<text>Corrupted UI implementation,the program will
+									exit.</text>
+								<title>Error</title>
+							</noLoginPane>
+							<noInitializer>
+								<text>Corrupted Play mode implementation,the program
+									will
+									exit.</text>
+								<title>Error</title>
+							</noInitializer>
+						</PlayModeSelectorFrame>
+						<singleplayerscoremode>
+							<SinglePlayerScoreModeLoginUi>
+								<title>Login</title>
+								<nameText>Name</nameText>
+								<lastNameText>Last name</lastNameText>
+								<okButton>
+									<text>OK</text>
+								</okButton>
+								<invalidInput>
+									<text>Name Last name cannot be empty.</text>
+									<title>Error</title>
+								</invalidInput>
+								<invalidConfiguration>
+									<text>Corrupted data(Missing configuration files), the
+										program will exit.</text>
+									<title>Error</title>
+								</invalidConfiguration>
+							</SinglePlayerScoreModeLoginUi>
+							<StorySelectorFrame>
+								<title>Select a story</title>
+								<storiesList>
+									<borderTitle>Stories</borderTitle>
+								</storiesList>
+								<playButton>
+									<text>Play</text>
+								</playButton>
+								<descriptionText>
+									<errorMessage>Story description not available.
+									</errorMessage>
+								</descriptionText>
+								<noSelectedStory>
+									<text>Please select a story.</text>
+									<title>Error</title>
+								</noSelectedStory>
+							</StorySelectorFrame>
+							<projectFinishedUi>
+								<SinglePlayerScoreModeProjectFinishedUi>
+									<title>Finished project Info</title>
+									<projectProgress>Project completed</projectProgress>
+									<projectQuality>Project quality</projectQuality>
+									<prestigePoints>Prestige points :</prestigePoints>
+									<projectInfo>Project Info</projectInfo>
+									<ganttInfo>Gantt</ganttInfo>
+									<systemInfo>Statistics</systemInfo>
+								</SinglePlayerScoreModeProjectFinishedUi>
+								<SdModelInfoPanel>
+									<descriptionText>Description</descriptionText>
+									<hintText>Hint</hintText>
+								</SdModelInfoPanel>
+							</projectFinishedUi>
+						</singleplayerscoremode>
+						<programs>
+							<evolutionbird>
+								<MessageTableModel>
+									<title>Subject</title>
+									<sender>Sender</sender>
+									<recipient>Recipient</recipient>
+									<dateSend>Date Send</dateSend>
+								</MessageTableModel>
+								<EvolutionBirdButton>
+									<notificationText>
+										<before>You got</before>
+										<after>messages.</after>
+									</notificationText>
+								</EvolutionBirdButton>
+							</evolutionbird>
+							<marketplace>
+								<MarketPlaceEmployeeListRenderer>
+									<salaryText>Salary </salaryText>
+									<workingForText>Working for </workingForText>
+									<unemployedText>Free</unemployedText>
+									<workingForYourTeamText>Assigned to your team</workingForYourTeamText></MarketPlaceEmployeeListRenderer>
+								<MarketPlaceProgram>
+									<hireButton>
+										<text>Assign to your team</text>
+									</hireButton>
+									<noSelectedEmployee>
+										<text>Please select an employee first.</text>
+										<title>No selected employee</title>
+									</noSelectedEmployee>
+									<employeeAlreadyHired>
+										<text>The employee is already working in your team</text>
+										<title>Cannot assign employee</title>
+									</employeeAlreadyHired>
+								</MarketPlaceProgram>
+							</marketplace>
+							<planner>
+								
+								<GanttEditor>
+									<lineSeparatorColor>#beccf5</lineSeparatorColor>
+								</GanttEditor>
+								<PlannerProgram>
+									<zoomInButton>
+										<tooltip>Zoom in</tooltip>
+									</zoomInButton>
+									<zoomOutButton>
+										<tooltip>Zoom out</tooltip>
+									</zoomOutButton>
+									<insertScheduleButton>
+										<tooltip>Insert a new task.</tooltip>
+									</insertScheduleButton>
+									<editScheduleButton>
+										<tooltip>Edits the selected task.</tooltip>
+									</editScheduleButton>
+									<removeScheduleButton>
+										<tooltip>Remove the selected task.</tooltip>
+									</removeScheduleButton>
+									<applyButton>
+										<tooltip>Applies the current Gantt to the project.
+										</tooltip>
+									</applyButton>
+								<noProject>
+									<text>Cannot open planner. No project assigned.</text>
+									<title>Warning!</title>
+								</noProject>
+								<viewTeamButton>
+									<tooltip>Shows the resources of the task</tooltip></viewTeamButton></PlannerProgram>
+								<GanttTaskScheduleTableModel>
+									<nameHeader>Name</nameHeader>
+									<workHeader>Work</workHeader>
+									<invalidWorkValue>
+										<text>End date of schedule must be before project deadline</text>
+										<title>Warning!</title>
+									</invalidWorkValue>
+								</GanttTaskScheduleTableModel>
+								<EmployeeTeamDataTableModel>
+									<nameHeader>Name</nameHeader>
+									<salaryHeader>Cost(per month)</salaryHeader>
+									<workHeader>Work</workHeader>
+								</EmployeeTeamDataTableModel>
+								<GanttTaskScheduleUi>
+									<color>#8db6cd</color>
+								</GanttTaskScheduleUi>
+								<GanttTaskScheduleEditor>
+									<title>Task Properties</title>
+									<generalTabName>General</generalTabName>
+									<predecessorsTabName>Predecessors
+									</predecessorsTabName>
+									<resourcesTabName>Resources</resourcesTabName>
+									<generalProperties>
+										<nameText>Name :</nameText>
+										<workText>Work :</workText>
+									</generalProperties>
+									<okButton>
+										<text>OK</text>
+										<tooltip>Saves the changes</tooltip>
+									</okButton>
+									<addPredecessorButton>
+										<text>Add</text>
+									</addPredecessorButton>
+									<removePredecessorButton>
+										<text>Remove</text>
+									</removePredecessorButton>
+									<addResourceButton>
+										<text>Add</text>
+									</addResourceButton>
+									<removeResourceButton>
+										<text>Remove</text>
+									</removeResourceButton>
+								</GanttTaskScheduleEditor>
+								<AddPredecessorEditor>
+									<title>Add Predecessor</title>
+									<okButton>
+										<text>OK</text>
+									</okButton>
+									<relationExists>
+										<title>Warning</title>
+										<text>Could not add a predecessor relation because the
+											tasks are already related.</text>
+									</relationExists>
+								</AddPredecessorEditor>
+								<AddResourceEditor>
+									<title>Add Resource</title>
+									<okButton>
+										<text>OK</text>
+									</okButton>
+									<resourceExists>
+										<title>Warning</title>
+										<text>Could not add resource because the employee is
+											already assigned to this task.</text>
+									</resourceExists>
+								</AddResourceEditor>
+								<TaskSelector>
+									<title>Select Task</title>
+									<selectButton>
+										<text>Select</text>
+									</selectButton>
+								</TaskSelector>
+								<ViewResourcesDialog>
+									<title>Resources</title></ViewResourcesDialog></planner>
+							<infogate>
+								<ProjectInfoPanel>
+									<StartDateName>Start Date :</StartDateName>
+									<EndDateName>End Date :</EndDateName>
+									<BudgetName>Budget :</BudgetName>
+								</ProjectInfoPanel>
+								<InfoGateProgram>
+									<projectInfo>Project Info</projectInfo>
+									<companyInfo>Company Info</companyInfo>
+									<employeeInfo>Employee Info</employeeInfo></InfoGateProgram>
+								<CompanyInfoPanel>
+									<numberOfEmployees>Number of employees
+									</numberOfEmployees>
+									<descriptionText>Company Description</descriptionText></CompanyInfoPanel>
+							</infogate>
+						</programs>
+						<DesktopToolbar>
+							<quickLaunch>Quick Launch : </quickLaunch>
+						</DesktopToolbar>
+						<Application>
+							<invalidConfiguration>
+								<text>Corrupted data(Missing configuration files), the
+									program will exit.</text>
+								<title>Error</title>
+							</invalidConfiguration>
+						</Application>
+						<ClockPanel>
+							<slowButtonText>Slow</slowButtonText>
+							<normalButtonText>Normal</normalButtonText>
+							<fastButtonText>Fast</fastButtonText>
+							<speedText>Clock Speed :</speedText>
+						</ClockPanel>
+						<ExitButton>
+							<exit>
+								<text>Are you sure you want to exit?</text>
+								<title>Exit</title>
+							</exit>
+						</ExitButton>
+						<ProjectInfoButton>
+							<currentProject>Current Project :</currentProject>
+							<remainingTimeToStart> days left untill project start.
+							</remainingTimeToStart>
+							<remainingTimeToEnd>days left untill project end.
+							</remainingTimeToEnd>
+						</ProjectInfoButton>
+					</promasidesktop>
+				</promasiui>
+			</ui>
+		</promasi>
+	</org>
+	<dateOnlyFormat>dd/MM/yyyy</dateOnlyFormat>
+	<dateAndTimeFormat>dd/MM/yyyy HH:mm:ss</dateAndTimeFormat>
+	<dateAndTimeDetailedFormat>EEEE MMMM dd HH:mm
+	</dateAndTimeDetailedFormat>
+</Resources>
