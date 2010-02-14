@@ -2,7 +2,8 @@
  *
  */
 package org.promasi.main;
-import org.promasi.server.TCPServer;
+import org.promasi.tcpserver.TCPServer;
+import org.promasi.server.TcpEventHandler;
 
 /**
  * @author m1cRo
@@ -14,7 +15,7 @@ public class MainClass {
 	 */
 	public static void main(String[] args) {
 		TCPServer server=new TCPServer();
-		TCPEventHandler eventHandler=new TCPEventHandler();
+		TcpEventHandler eventHandler=new TcpEventHandler();
 		server.RegisterTcpEventHandler(eventHandler);
 		if(server.Start(2222)){
 			try {
