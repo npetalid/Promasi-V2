@@ -41,7 +41,7 @@ public class LoginProtocolState implements IProtocolState
 		{
 			Object request=new LoginRequest("UserName","Password");
 			Object object=decoder.readObject();
-			if(request.toString()==object.toString())
+			if(object instanceof LoginRequest)
 			{
 				LoginRequest loginRequest=(LoginRequest)object;
 				client.setClientId(loginRequest.getUserName());
