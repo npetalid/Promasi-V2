@@ -28,7 +28,7 @@ public class LoginProtocolState implements IProtocolState
 	 * @see org.promasi.protocol.state.IProtocolState#OnReceive(org.promasi.server.ProMaSiClient, java.lang.String)
 	 */
 	@Override
-	public void OnReceive(ProMaSiClient client, String recData)throws ProtocolException
+	public void onReceive(ProMaSiClient client, String recData)throws ProtocolException
 	{
 		client.SetClientId("Unknown");
 	}

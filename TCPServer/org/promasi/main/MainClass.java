@@ -16,15 +16,15 @@ public class MainClass {
 	public static void main(String[] args) {
 		TCPServer server=new TCPServer();
 		TcpEventHandler eventHandler=new TcpEventHandler();
-		server.RegisterTcpEventHandler(eventHandler);
-		if(server.Start(2222)){
+		server.registerTcpEventHandler(eventHandler);
+		if(server.start(2222)){
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			server.Stop();
+			server.stop();
 		}
 	}
 }

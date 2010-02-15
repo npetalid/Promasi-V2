@@ -16,8 +16,6 @@ public class ProMaSiClient
 {
 	private TCPClient _client;
 
-	private ProMaSi _promasi;
-
 	private IProtocolState _protocolState;
 
 	private String _clientId;
@@ -34,14 +32,13 @@ public class ProMaSiClient
 			throw new NullArgumentException("Wrong promasi argument");
 		}
 		_clientId=null;
-		_promasi=promasi;
 		_client=client;
 		_protocolState=new LoginProtocolState(promasi);
 	}
 
 	public void OnReceiveData(String recData)throws ProtocolException
 	{
-		_protocolState.OnReceive(this, recData);
+		_protocolState.onReceive(this, recData);
 	}
 
 	protected void ChangeState(IProtocolState protocolState)
@@ -67,6 +64,6 @@ public class ProMaSiClient
 
 	public void SendData(String sData)
 	{
-		_client.SendMessage(sData);
+		_client.sendMessage(sData);
 	}
 }

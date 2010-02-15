@@ -12,5 +12,5 @@ import java.net.ProtocolException;
  */
 public interface IProtocolState
 {
-	public void OnReceive(ProMaSiClient client,String recData)throws ProtocolException;
+	public void onReceive(ProMaSiClient client,String recData)throws ProtocolException;
 }

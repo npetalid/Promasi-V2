@@ -22,7 +22,7 @@ public class TcpEventHandler implements ITCPEventHandler
 	 * @see org.promasi.server.ITCPEventHandler#OnConnect(org.promasi.server.TCPClient)
 	 */
 	@Override
-	public boolean OnConnect(TCPClient tcpClient)
+	public boolean onConnect(TCPClient tcpClient)
 	{
 		// TODO Auto-generated method stub
 		return false;
@@ -32,7 +32,7 @@ public class TcpEventHandler implements ITCPEventHandler
 	 * @see org.promasi.server.ITCPEventHandler#OnConnectionError(org.promasi.server.TCPClient)
 	 */
 	@Override
-	public void OnConnectionError(TCPClient tcpClient)
+	public void onConnectionError(TCPClient tcpClient)
 	{
 		// TODO Auto-generated method stub
 
@@ -42,7 +42,7 @@ public class TcpEventHandler implements ITCPEventHandler
 	 * @see org.promasi.server.ITCPEventHandler#OnDisconnect(org.promasi.server.TCPClient)
 	 */
 	@Override
-	public void OnDisconnect(TCPClient tcpClient)
+	public void onDisconnect(TCPClient tcpClient)
 	{
 		// TODO Auto-generated method stub
 
@@ -52,7 +52,7 @@ public class TcpEventHandler implements ITCPEventHandler
 	 * @see org.promasi.server.ITCPEventHandler#OnReceive(org.promasi.server.TCPClient, java.lang.String)
 	 */
 	@Override
-	public boolean OnReceive(TCPClient tcpClient, String line)
+	public boolean onReceive(TCPClient tcpClient, String line)
 	{
 		// TODO Auto-generated method stub
 		return false;

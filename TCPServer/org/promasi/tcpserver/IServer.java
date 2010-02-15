@@ -10,6 +10,6 @@ package org.promasi.tcpserver;
  */
 public interface IServer
 {
-	boolean Start(int portNumber);
-	boolean Stop();
+	boolean start(int portNumber);
+	boolean stop();
 }

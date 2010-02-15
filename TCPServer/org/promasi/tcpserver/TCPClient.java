@@ -46,13 +46,13 @@ public class TCPClient implements Runnable
 		try
 		{
 			BufferedReader reader=new BufferedReader(new InputStreamReader(_clientSocket.getInputStream()));
-			if(!_tcpStrategy.OnConnect(this))
+			if(!_tcpStrategy.onConnect(this))
 			{
 				String line=null;
 				do
 				{
 					line=reader.readLine();
-					if( line != null && !_tcpStrategy.OnReceive(this, line))
+					if( line != null && !_tcpStrategy.onReceive(this, line))
 					{
 						reader.close();
 						_clientSocket.shutdownInput();
@@ -66,26 +66,26 @@ public class TCPClient implements Runnable
 		}
 		catch(IOException e)
 		{
-			_tcpStrategy.OnConnectionError(this);
+			_tcpStrategy.onConnectionError(this);
 		}
-		_tcpStrategy.OnDisconnect(this);
+		_tcpStrategy.onDisconnect(this);
 		_isConnected=false;
 	}
 
 
-	public boolean IsConnected()
+	public boolean isConnected()
 	{
 		return _isConnected;
 	}
 
 
-	public boolean RegisterTcpEventHandler(ITCPEventHandler tcpEventHandler)
+	public boolean registerTcpEventHandler(ITCPEventHandler tcpEventHandler)
 	{
-		return _tcpStrategy.RegisterTcpEventHandler(tcpEventHandler);
+		return _tcpStrategy.registerTcpEventHandler(tcpEventHandler);
 	}
 
 
-	public boolean Disconnect()
+	public boolean disconnect()
 	{
 		try
 		{
@@ -99,7 +99,7 @@ public class TCPClient implements Runnable
 	}
 
 
-	public boolean SendMessage(String message){
+	public boolean sendMessage(String message){
 		try
 		{
 			BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(_clientSocket.getOutputStream()));

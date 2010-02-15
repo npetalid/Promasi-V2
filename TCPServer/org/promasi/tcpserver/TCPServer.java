@@ -36,13 +36,13 @@ public class TCPServer implements Runnable,IServer
 		_listening=false;
 	}
 
-	public boolean RegisterTcpEventHandler(ITCPEventHandler tcpEventHandler)
+	public boolean registerTcpEventHandler(ITCPEventHandler tcpEventHandler)
 	{
-		if(!_tcpStrategy.RegisterTcpEventHandler(tcpEventHandler))
+		if(!_tcpStrategy.registerTcpEventHandler(tcpEventHandler))
 		{
 			return false;
 		}
-		if(!_clientManager.RegisterTcpEventHandler(tcpEventHandler))
+		if(!_clientManager.registerTcpEventHandler(tcpEventHandler))
 		{
 			return false;
 		}
@@ -54,7 +54,7 @@ public class TCPServer implements Runnable,IServer
 	 * @see Server.ITCPServer#Start(int)
 	 */
 	@Override
-	public boolean Start(int portNumber)
+	public boolean start(int portNumber)
 	{
 		try
 		{
@@ -62,7 +62,7 @@ public class TCPServer implements Runnable,IServer
 			{
 				try
 				{
-					_clientManager.Clear();
+					_clientManager.clear();
 					_serverSocket=new ServerSocket(portNumber);
 					_listening=true;
 					_acceptThread=new Thread(this);
@@ -90,12 +90,12 @@ public class TCPServer implements Runnable,IServer
 	 * @see Server.ITCPServer#Stop()
 	 */
 	@Override
-	public boolean Stop()
+	public boolean stop()
 	{
 		if(_lockObject.tryLock())
 		{
 			try{
-				_clientManager.Clear();
+				_clientManager.clear();
 				_serverSocket.close();
 				_listening=false;
 				while(_acceptThread.isAlive())
@@ -137,13 +137,13 @@ public class TCPServer implements Runnable,IServer
 			{
 				Socket clientSocket=_serverSocket.accept();
 				TCPClient client=new TCPClient(clientSocket);
-				if(client.RegisterTcpEventHandler(_tcpStrategy.GetTcpEventHandler()))
+				if(client.registerTcpEventHandler(_tcpStrategy.getTcpEventHandler()))
 				{
-					_clientManager.AddClient(client);
+					_clientManager.addClient(client);
 				}
 				else
 				{
-					client.Disconnect();
+					client.disconnect();
 				}
 			}
 			catch(IOException e)

@@ -41,7 +41,7 @@ public class TCPClientManager implements Runnable
 				{
 					for(TCPClient client:_clients)
 					{
-						if(!client.IsConnected())
+						if(!client.isConnected())
 						{
 							_clients.remove(client);
 							break;
@@ -70,7 +70,7 @@ public class TCPClientManager implements Runnable
 	}
 
 
-	public boolean AddClient(TCPClient client)
+	public boolean addClient(TCPClient client)
 	{
 		if(_lockObject.tryLock())
 		{
@@ -91,7 +91,7 @@ public class TCPClientManager implements Runnable
 	}
 
 
-	public boolean RemoveClient(TCPClient client)
+	public boolean removeClient(TCPClient client)
 	{
 		if(_lockObject.tryLock()){
 			try
@@ -111,14 +111,14 @@ public class TCPClientManager implements Runnable
 	}
 
 
-	public boolean RegisterTcpEventHandler(ITCPEventHandler tcpEventHandler){
+	public boolean registerTcpEventHandler(ITCPEventHandler tcpEventHandler){
 		if(_lockObject.tryLock())
 		{
 			try
 			{
 				for(TCPClient client:_clients)
 				{
-					if(!client.RegisterTcpEventHandler(tcpEventHandler))
+					if(!client.registerTcpEventHandler(tcpEventHandler))
 					{
 						return false;
 					}
@@ -137,7 +137,7 @@ public class TCPClientManager implements Runnable
 	}
 
 
-	public boolean Clear()
+	public boolean clear()
 	{
 		if(_lockObject.tryLock())
 		{
@@ -145,7 +145,7 @@ public class TCPClientManager implements Runnable
 			{
 				for(TCPClient client:_clients)
 				{
-					client.Disconnect();
+					client.disconnect();
 				}
 				_clients.clear();
 			}

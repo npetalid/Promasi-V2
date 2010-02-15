@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.server.Game;
 import org.promasi.tcpserver.TCPClient;
 
 /**
@@ -20,6 +21,11 @@ public class ProMaSi
 	 *
 	 */
 	private Map<TCPClient,ProMaSiClient> _clients;
+
+	/**
+	 *
+	 */
+	private Game _game;
 
 	/**
 	 *

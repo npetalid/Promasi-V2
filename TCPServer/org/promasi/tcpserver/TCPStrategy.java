@@ -18,7 +18,7 @@ public class TCPStrategy
 		_lockObject=new ReentrantLock();
 	}
 
-	public boolean RegisterTcpEventHandler(ITCPEventHandler tcpEventHandler)
+	public boolean registerTcpEventHandler(ITCPEventHandler tcpEventHandler)
 	{
 		if(_lockObject.tryLock())
 		{
@@ -39,7 +39,7 @@ public class TCPStrategy
 	}
 
 
-	public boolean OnReceive(TCPClient tcpClient,String line)
+	public boolean onReceive(TCPClient tcpClient,String line)
 	{
 		if(_lockObject.tryLock())
 		{
@@ -48,7 +48,7 @@ public class TCPStrategy
 			{
 				if(_tcpEventHandler!=null)
 				{
-					result=_tcpEventHandler.OnReceive(tcpClient,line);
+					result=_tcpEventHandler.onReceive(tcpClient,line);
 				}
 			}
 			finally
@@ -64,7 +64,7 @@ public class TCPStrategy
 	}
 
 
-	public boolean OnDisconnect(TCPClient tcpClient)
+	public boolean onDisconnect(TCPClient tcpClient)
 	{
 		if(_lockObject.tryLock())
 		{
@@ -72,7 +72,7 @@ public class TCPStrategy
 			{
 				if(_tcpEventHandler!=null)
 				{
-					_tcpEventHandler.OnDisconnect(tcpClient);
+					_tcpEventHandler.onDisconnect(tcpClient);
 				}
 			}
 			finally
@@ -87,7 +87,7 @@ public class TCPStrategy
 		}
 	}
 
-	public boolean OnConnect(TCPClient tcpClient)
+	public boolean onConnect(TCPClient tcpClient)
 	{
 		if(_lockObject.tryLock())
 		{
@@ -96,7 +96,7 @@ public class TCPStrategy
 			{
 				if(_tcpEventHandler!=null)
 				{
-					result=_tcpEventHandler.OnConnect(tcpClient);
+					result=_tcpEventHandler.onConnect(tcpClient);
 				}
 			}
 			finally
@@ -109,7 +109,7 @@ public class TCPStrategy
 	}
 
 
-	public void OnConnectionError(TCPClient tcpClient)
+	public void onConnectionError(TCPClient tcpClient)
 	{
 		if(_lockObject.tryLock())
 		{
@@ -117,7 +117,7 @@ public class TCPStrategy
 			{
 				if(_tcpEventHandler!=null)
 				{
-					_tcpEventHandler.OnConnectionError(tcpClient);
+					_tcpEventHandler.onConnectionError(tcpClient);
 				}
 			}
 			finally
@@ -128,7 +128,7 @@ public class TCPStrategy
 	}
 
 
-	public ITCPEventHandler GetTcpEventHandler()
+	public ITCPEventHandler getTcpEventHandler()
 	{
 		if(_lockObject.tryLock())
 		{

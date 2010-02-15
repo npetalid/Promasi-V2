@@ -1,13 +1,12 @@
 /**
  *
  */
-package org.promasi.protocol.request;
+package org.promasi.protocol.response;
 
 /**
  * @author m1cRo
  *
  */
-public interface IRequest
-{
+public interface IResponse {
 	public String toXML();
 }
