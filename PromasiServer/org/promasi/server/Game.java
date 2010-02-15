@@ -3,7 +3,7 @@
  */
 package org.promasi.server;
 
-import org.promasi.server.core.ClientList;
+import org.promasi.server.core.UserList;
 import org.promasi.server.core.ProMaSiClient;
 
 /**
@@ -14,5 +14,5 @@ public class Game
 {
 	private ProMaSiClient _gameMaster;
 
-	private ClientList _players;
+	private UserList _players;
 }

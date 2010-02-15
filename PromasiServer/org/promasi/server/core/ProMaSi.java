@@ -30,7 +30,7 @@ public class ProMaSi
 	/**
 	 *
 	 */
-	private ClientList _userList;
+	private UserList _userList;
 
 	/**
 	 *
@@ -38,13 +38,18 @@ public class ProMaSi
 	public ProMaSi()
 	{
 		_clients=new HashMap<TCPClient,ProMaSiClient>();
-		_userList=new ClientList();
+		_userList=new UserList();
 	}
 
 	/**
 	 *
+	 * @param client
+	 * @param recData
+	 * @throws NullArgumentException
+	 * @throws ProtocolException
+	 * @throws IllegalArgumentException
 	 */
-	public void OnReceiveData(TCPClient client,String recData)throws NullArgumentException,ProtocolException,IllegalArgumentException
+	public void onReceiveData(TCPClient client,String recData)throws NullArgumentException,ProtocolException,IllegalArgumentException
 	{
 		if(client==null)
 		{
@@ -62,14 +67,15 @@ public class ProMaSi
 		}
 		synchronized(_clients)
 		{
-			_clients.get(client).OnReceiveData(recData);
+			_clients.get(client).onReceiveData(recData);
 		}
 	}
 
 	/**
 	 *
+	 * @param client
 	 */
-	public void OnConnect(TCPClient client)
+	public void onConnect(TCPClient client)
 	{
 		if(client==null)
 		{
@@ -84,8 +90,11 @@ public class ProMaSi
 
 	/**
 	 *
+	 * @param client
+	 * @throws NullArgumentException
+	 * @throws IllegalArgumentException
 	 */
-	public void OnDisconnect(TCPClient client)throws NullArgumentException,IllegalArgumentException
+	public void onDisconnect(TCPClient client)throws NullArgumentException,IllegalArgumentException
 	{
 		if(client==null)
 		{
@@ -101,7 +110,7 @@ public class ProMaSi
 			ProMaSiClient promasiClient=_clients.get(client);
 			try
 			{
-				_userList.RemoveUser(promasiClient.GetClientId());
+				_userList.removeUser(promasiClient.getClientId());
 			}
 			catch(IllegalArgumentException e)
 			{
@@ -113,8 +122,11 @@ public class ProMaSi
 
 	/**
 	 *
+	 * @param client
+	 * @throws NullArgumentException
+	 * @throws IllegalArgumentException
 	 */
-	public void OnConnectionError(TCPClient client)throws NullArgumentException,IllegalArgumentException
+	public void onConnectionError(TCPClient client)throws NullArgumentException,IllegalArgumentException
 	{
 		if(client==null)
 		{
@@ -130,7 +142,7 @@ public class ProMaSi
 			ProMaSiClient promasiClient=_clients.get(client);
 			try
 			{
-				_userList.RemoveUser(promasiClient.GetClientId());
+				_userList.removeUser(promasiClient.getClientId());
 			}
 			catch(IllegalArgumentException e)
 			{
@@ -141,10 +153,22 @@ public class ProMaSi
 	}
 
 	/**
-	 *
+	 * isClientInList method.
+	 * @param clientId
+	 * @return true if client with the same clientId was found in _userList "{@link UserList}", false otherwise.
 	 */
-	public boolean IsClientInList(String clientId)
+	public boolean isClientInList(String clientId)
 	{
-		return _userList.IsUserInList(clientId);
+		return _userList.isUserInList(clientId);
+	}
+
+	/**
+	 * addUser method.
+	 * @param client
+	 * Instance of {@link ProMaSiClient} client that identify the client who from the {@link LoginRequest} was received.
+	 */
+	protected void addUser(ProMaSiClient client)throws IllegalArgumentException,NullArgumentException
+	{
+		_userList.addUser(client.getClientId(),client);
 	}
 }

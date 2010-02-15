@@ -12,16 +12,16 @@ import org.apache.commons.lang.NullArgumentException;
  * @author m1cRo
  *
  */
-public class ClientList
+public class UserList
 {
 	private Map<String,ProMaSiClient> _users;
 
-	public ClientList()
+	public UserList()
 	{
 		_users=new HashMap<String,ProMaSiClient>();
 	}
 
-	public void AddUser(String clientId,ProMaSiClient client)throws IllegalArgumentException,NullArgumentException
+	public void addUser(String clientId,ProMaSiClient client)throws IllegalArgumentException,NullArgumentException
 	{
 		if(clientId==null)
 		{
@@ -42,7 +42,7 @@ public class ClientList
 		}
 	}
 
-	public void RemoveUser(String clientId)throws IllegalArgumentException,NullArgumentException
+	public void removeUser(String clientId)throws IllegalArgumentException,NullArgumentException
 	{
 		if(clientId==null)
 		{
@@ -58,7 +58,7 @@ public class ClientList
 		}
 	}
 
-	public boolean IsUserInList(String clientId)
+	public boolean isUserInList(String clientId)
 	{
 		synchronized(this)
 		{

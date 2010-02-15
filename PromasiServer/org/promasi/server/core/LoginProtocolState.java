@@ -3,9 +3,13 @@
  */
 package org.promasi.server.core;
 
-import java.net.ProtocolException;
 
+import java.beans.XMLDecoder;
+import java.net.ProtocolException;
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.protocol.request.LoginRequest;
+import org.xml.sax.InputSource;
+
 
 /**
  * @author m1cRo
@@ -24,12 +28,42 @@ public class LoginProtocolState implements IProtocolState
 		_promasi=promasi;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.promasi.protocol.state.IProtocolState#OnReceive(org.promasi.server.ProMaSiClient, java.lang.String)
+	/**
+	 *
 	 */
 	@Override
 	public void onReceive(ProMaSiClient client, String recData)throws ProtocolException
 	{
-		client.SetClientId("Unknown");
+		InputSource source=new InputSource(recData);
+		source.getByteStream();
+		XMLDecoder decoder=new XMLDecoder(source.getByteStream());
+		try
+		{
+			Object request=new LoginRequest("UserName","Password");
+			Object object=decoder.readObject();
+			if(request.toString()==object.toString())
+			{
+				LoginRequest loginRequest=(LoginRequest)object;
+				client.setClientId(loginRequest.getUserName());
+				_promasi.addUser(client);
+			}
+			else
+			{
+				throw new ProtocolException("Wrong protocol");
+			}
+			decoder.close();
+		}
+		catch(ArrayIndexOutOfBoundsException e)
+		{
+			throw new ProtocolException("Wrong protocol");
+		}
+		catch(NullArgumentException e)
+		{
+			throw new ProtocolException("Wrong protocol");
+		}
+		catch(IllegalArgumentException e)
+		{
+			throw new ProtocolException("Wrong protocol");
+		}
 	}
 }

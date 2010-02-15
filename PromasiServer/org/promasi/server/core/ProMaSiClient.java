@@ -36,17 +36,17 @@ public class ProMaSiClient
 		_protocolState=new LoginProtocolState(promasi);
 	}
 
-	public void OnReceiveData(String recData)throws ProtocolException
+	public void onReceiveData(String recData)throws ProtocolException
 	{
 		_protocolState.onReceive(this, recData);
 	}
 
-	protected void ChangeState(IProtocolState protocolState)
+	protected void changeState(IProtocolState protocolState)
 	{
 		_protocolState=protocolState;
 	}
 
-	protected void SetClientId(String userName)throws NullArgumentException
+	protected void setClientId(String userName)throws NullArgumentException
 	{
 		synchronized(this)
 		{
@@ -54,7 +54,7 @@ public class ProMaSiClient
 		}
 	}
 
-	protected String GetClientId()
+	protected String getClientId()
 	{
 		synchronized(this)
 		{
@@ -62,8 +62,13 @@ public class ProMaSiClient
 		}
 	}
 
-	public void SendData(String sData)
+	public void sendData(String sData)
 	{
 		_client.sendMessage(sData);
+	}
+
+	public boolean disonnect()
+	{
+		return _client.disconnect();
 	}
 }
