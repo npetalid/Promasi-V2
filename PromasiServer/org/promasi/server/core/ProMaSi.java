@@ -5,6 +5,7 @@ package org.promasi.server.core;
 
 import java.net.ProtocolException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
@@ -172,5 +173,10 @@ public class ProMaSi
 	public void addUser(ProMaSiClient client)throws IllegalArgumentException,NullArgumentException
 	{
 		_userManager.addUser(client.getClientId(),client);
+	}
+
+	public LinkedList<String> retreiveGames()
+	{
+		return _gameList.retreiveGames();
 	}
 }

@@ -49,9 +49,19 @@ public class LoginRequest  extends AbstractRequest  implements Serializable
 			throw new NullArgumentException("Wrong argument userName==null");
 		}
 
+		if(userName==null)
+		{
+			throw new NullArgumentException("Wrong argument userName==null");
+		}
+
 		if(password==null)
 		{
 			throw new NullArgumentException("Wrong argument password==null");
+		}
+
+		if(password==null)
+		{
+			throw new NullArgumentException("Wrong argument password.isEmpty()");
 		}
 		_userName=userName;
 		_password=password;
@@ -80,11 +90,16 @@ public class LoginRequest  extends AbstractRequest  implements Serializable
 	 * @param userName
 	 * @throws NullArgumentException
 	 */
-	public void setUserName(String userName)throws NullArgumentException
+	public void setUserName(String userName)throws NullArgumentException,IllegalArgumentException
 	{
 		if(userName==null)
 		{
 			throw new NullArgumentException("Wrong argument userName==null");
+		}
+
+		if(userName.isEmpty())
+		{
+			throw new IllegalArgumentException("Wrong argument userName.isEmpty()");
 		}
 		_userName=userName;
 	}
@@ -99,6 +114,11 @@ public class LoginRequest  extends AbstractRequest  implements Serializable
 		if(password==null)
 		{
 			throw new NullArgumentException("Wrong argument password==null");
+		}
+
+		if(password==null)
+		{
+			throw new NullArgumentException("Wrong argument password.isEmpty()");
 		}
 		_password=password;
 	}

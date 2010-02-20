@@ -47,8 +47,16 @@ public class LoginResponse extends AbstractResponse implements Serializable {
 		{
 			throw new NullArgumentException("Wrong argument message==null");
 		}
+
 		_loginIsDone=loginIsDone;
-		_message=message;
+		if(!message.isEmpty())
+		{
+			_message=message;
+		}
+		else
+		{
+			_message="Login failed - Wrong username or password";
+		}
 	}
 
 	/**
@@ -80,7 +88,11 @@ public class LoginResponse extends AbstractResponse implements Serializable {
 		{
 			throw new NullArgumentException("Wrong argument message==null");
 		}
-		_message=message;
+
+		if(!message.isEmpty())
+		{
+			_message=message;
+		}
 	}
 
 	/**

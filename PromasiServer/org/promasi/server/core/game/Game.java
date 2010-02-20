@@ -3,7 +3,11 @@
  */
 package org.promasi.server.core.game;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.server.core.GameModel;
 import org.promasi.server.core.UserManager;
 import org.promasi.server.core.ProMaSiClient;
 
@@ -17,7 +21,7 @@ public class Game
 
 	private ProMaSiClient _gameMaster;
 
-	private UserManager _players;
+	private Map<String,GameModel> _gameModels;
 
 	private String _promasiModel;
 
@@ -39,7 +43,7 @@ public class Game
 		}
 		_gameId=gameId;
 		_gameMaster=gameMaster;
-		_players=new UserManager();
+		_gameModels=new HashMap<String,GameModel>();
 		_promasiModel=promasiModel;
 	}
 
