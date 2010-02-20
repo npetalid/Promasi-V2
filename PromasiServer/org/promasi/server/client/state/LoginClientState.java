@@ -6,9 +6,12 @@ package org.promasi.server.client.state;
 import java.beans.XMLDecoder;
 import java.io.ByteArrayInputStream;
 import java.net.ProtocolException;
+import java.util.NoSuchElementException;
+
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.protocol.request.LoginRequest;
 import org.promasi.protocol.response.LoginResponse;
+import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.AbstractClientState;
 import org.promasi.server.core.ProMaSi;
 import org.promasi.server.core.ProMaSiClient;
@@ -58,6 +61,7 @@ public class LoginClientState extends AbstractClientState
 			}
 			else
 			{
+				client.sendData(new WrongProtocolResponse().toXML());
 				throw new ProtocolException("Wrong protocol");
 			}
 		}
@@ -74,6 +78,11 @@ public class LoginClientState extends AbstractClientState
 		catch(IllegalArgumentException e)
 		{
 			client.sendData(new LoginResponse().toXML());
+			throw new ProtocolException("Wrong protocol - " + e.getMessage());
+		}
+		catch(NoSuchElementException e)
+		{
+			client.sendData(new WrongProtocolResponse().toXML());
 			throw new ProtocolException("Wrong protocol - " + e.getMessage());
 		}
 	}

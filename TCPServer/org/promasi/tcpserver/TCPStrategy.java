@@ -10,136 +10,99 @@ import java.util.concurrent.locks.*;
  */
 public class TCPStrategy
 {
+	/**
+	 *
+	 */
 	private ITCPEventHandler _tcpEventHandler;
 
-	private Lock _lockObject;
-
+	/**
+	 *
+	 */
 	public TCPStrategy(){
-		_lockObject=new ReentrantLock();
 	}
 
-	public boolean registerTcpEventHandler(ITCPEventHandler tcpEventHandler)
+	/**
+	 *
+	 * @param tcpEventHandler
+	 * @return
+	 */
+	public void registerTcpEventHandler(ITCPEventHandler tcpEventHandler)
 	{
-		if(_lockObject.tryLock())
+		synchronized(this)
 		{
-			try
-			{
-				_tcpEventHandler=tcpEventHandler;
-			}
-			finally
-			{
-				_lockObject.unlock();
-			}
-			return true;
-		}
-		else
-		{
-			return false;
+			_tcpEventHandler=tcpEventHandler;
 		}
 	}
 
-
+	/**
+	 *
+	 * @param tcpClient
+	 * @param line
+	 * @return
+	 */
 	public boolean onReceive(TCPClient tcpClient,String line)
 	{
-		if(_lockObject.tryLock())
+		synchronized(this)
 		{
-			boolean result=true;
-			try
+			if(_tcpEventHandler!=null)
 			{
-				if(_tcpEventHandler!=null)
-				{
-					result=_tcpEventHandler.onReceive(tcpClient,line);
-				}
+				return _tcpEventHandler.onReceive(tcpClient,line);
 			}
-			finally
-			{
-				_lockObject.unlock();
-			}
-			return result;
-		}
-		else
-		{
-			return true;
-		}
-	}
-
-
-	public boolean onDisconnect(TCPClient tcpClient)
-	{
-		if(_lockObject.tryLock())
-		{
-			try
-			{
-				if(_tcpEventHandler!=null)
-				{
-					_tcpEventHandler.onDisconnect(tcpClient);
-				}
-			}
-			finally
-			{
-				_lockObject.unlock();
-			}
-			return true;
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	public boolean onConnect(TCPClient tcpClient)
-	{
-		if(_lockObject.tryLock())
-		{
-			boolean result=true;
-			try
-			{
-				if(_tcpEventHandler!=null)
-				{
-					result=_tcpEventHandler.onConnect(tcpClient);
-				}
-			}
-			finally
-			{
-				_lockObject.unlock();
-			}
-			return result;
 		}
 		return true;
 	}
 
-
-	public void onConnectionError(TCPClient tcpClient)
+	/**
+	 *
+	 * @param tcpClient
+	 * @return
+	 */
+	public void onDisconnect(TCPClient tcpClient)
 	{
-		if(_lockObject.tryLock())
+		synchronized(this)
 		{
-			try
-			{
-				if(_tcpEventHandler!=null)
-				{
-					_tcpEventHandler.onConnectionError(tcpClient);
-				}
-			}
-			finally
-			{
-				_lockObject.unlock();
-			}
+			_tcpEventHandler.onDisconnect(tcpClient);
 		}
 	}
 
-
-	public ITCPEventHandler getTcpEventHandler()
+	/**
+	 *
+	 * @param tcpClient
+	 * @return
+	 */
+	public boolean onConnect(TCPClient tcpClient)
 	{
-		if(_lockObject.tryLock())
+		synchronized(this)
 		{
-			try{
-				return _tcpEventHandler;
-			}
-			finally
+			if(_tcpEventHandler!=null)
 			{
-				_lockObject.unlock();
+				return _tcpEventHandler.onConnect(tcpClient);
 			}
 		}
-		return null;
+		return true;
+	}
+
+	/**
+	 *
+	 * @param tcpClient
+	 */
+	public void onConnectionError(TCPClient tcpClient)
+	{
+		synchronized(this)
+		{
+			_tcpEventHandler.onConnectionError(tcpClient);
+		}
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public ITCPEventHandler getTcpEventHandler()
+	{
+		synchronized(this)
+		{
+			return _tcpEventHandler;
+		}
 	}
 }

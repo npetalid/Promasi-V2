@@ -14,39 +14,50 @@ import java.net.*;
  */
 public class TCPServer implements Runnable,IServer
 {
+	/**
+	 *
+	 */
 	private TCPClientManager _clientManager;
 
+	/**
+	 *
+	 */
 	private TCPStrategy _tcpStrategy;
 
+	/**
+	 *
+	 */
 	private ServerSocket _serverSocket;
 
+	/**
+	 *
+	 */
 	private Thread _acceptThread;
 
-	private Lock   _lockObject;
-
+	/**
+	 *
+	 */
 	private boolean _listening;
 
-
+	/**
+	 *
+	 */
 	public TCPServer()
 	{
 		_clientManager=new TCPClientManager();
 		_tcpStrategy=new TCPStrategy();
 		_acceptThread=null;
-		_lockObject=new ReentrantLock();
 		_listening=false;
 	}
 
-	public boolean registerTcpEventHandler(ITCPEventHandler tcpEventHandler)
+	/**
+	 *
+	 * @param tcpEventHandler
+	 */
+	public void registerTcpEventHandler(ITCPEventHandler tcpEventHandler)
 	{
-		if(!_tcpStrategy.registerTcpEventHandler(tcpEventHandler))
-		{
-			return false;
-		}
-		if(!_clientManager.registerTcpEventHandler(tcpEventHandler))
-		{
-			return false;
-		}
-		return true;
+		_tcpStrategy.registerTcpEventHandler(tcpEventHandler);
+		_clientManager.registerTcpEventHandler(tcpEventHandler);
 	}
 
 
@@ -56,31 +67,20 @@ public class TCPServer implements Runnable,IServer
 	@Override
 	public boolean start(int portNumber)
 	{
-		try
+		synchronized(this)
 		{
-			if(_lockObject.tryLock() && _acceptThread==null)
+			try
 			{
-				try
-				{
-					_clientManager.clear();
-					_serverSocket=new ServerSocket(portNumber);
-					_listening=true;
-					_acceptThread=new Thread(this);
-					_acceptThread.start();
-				}
-				catch(IOException e)
-				{
-					return false;
-				}
+				_clientManager.clear();
+				_serverSocket=new ServerSocket(portNumber);
+				_listening=true;
+				_acceptThread=new Thread(this);
+				_acceptThread.start();
 			}
-			else
+			catch(IOException e)
 			{
 				return false;
 			}
-		}
-		finally
-		{
-			_lockObject.unlock();
 		}
 		return true;
 	}
@@ -92,7 +92,7 @@ public class TCPServer implements Runnable,IServer
 	@Override
 	public boolean stop()
 	{
-		if(_lockObject.tryLock())
+		synchronized(this)
 		{
 			try{
 				_clientManager.clear();
@@ -115,14 +115,6 @@ public class TCPServer implements Runnable,IServer
 			{
 				return false;
 			}
-			finally
-			{
-					_lockObject.unlock();
-			}
-		}
-		else
-		{
-			return false;
 		}
 		return true;
 	}
@@ -137,14 +129,8 @@ public class TCPServer implements Runnable,IServer
 			{
 				Socket clientSocket=_serverSocket.accept();
 				TCPClient client=new TCPClient(clientSocket);
-				if(client.registerTcpEventHandler(_tcpStrategy.getTcpEventHandler()))
-				{
-					_clientManager.addClient(client);
-				}
-				else
-				{
-					client.disconnect();
-				}
+				client.registerTcpEventHandler(_tcpStrategy.getTcpEventHandler());
+				_clientManager.addClient(client);
 			}
 			catch(IOException e)
 			{

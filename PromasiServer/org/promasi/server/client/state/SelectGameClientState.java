@@ -7,6 +7,7 @@ import java.beans.XMLDecoder;
 import java.io.ByteArrayInputStream;
 import java.net.ProtocolException;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.protocol.request.JoinGameRequest;
@@ -14,6 +15,7 @@ import org.promasi.protocol.request.LoginRequest;
 import org.promasi.protocol.request.RetreiveGamesRequest;
 import org.promasi.protocol.response.LoginResponse;
 import org.promasi.protocol.response.RetreiveGamesResponse;
+import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.AbstractClientState;
 import org.promasi.server.core.ProMaSi;
 import org.promasi.server.core.ProMaSiClient;
@@ -83,6 +85,11 @@ public class SelectGameClientState extends AbstractClientState {
 		{
 			client.sendData(new LoginResponse().toXML());
 			throw new ProtocolException("Failed - " + e.getMessage());
+		}
+		catch(NoSuchElementException e)
+		{
+			client.sendData(new WrongProtocolResponse().toXML());
+			throw new ProtocolException("Wrong protocol - " + e.getMessage());
 		}
 	}
 }

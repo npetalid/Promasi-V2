@@ -4,8 +4,6 @@
 package org.promasi.tcpserver;
 
 import java.util.LinkedList;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author m1cRo
@@ -13,18 +11,27 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class TCPClientManager implements Runnable
 {
+	/**
+	 *
+	 */
 	private LinkedList<TCPClient> _clients;
 
+	/**
+	 *
+	 */
 	private Thread _managementThread;
 
+	/**
+	 *
+	 */
 	private boolean _running;
 
-	private Lock _lockObject;
-
+	/**
+	 * Default constructor.
+	 */
 	TCPClientManager()
 	{
 		_clients=new LinkedList<TCPClient>();
-		_lockObject=new ReentrantLock();
 		_running=true;
 		_managementThread=new Thread(this);
 		_managementThread.start();
@@ -35,24 +42,18 @@ public class TCPClientManager implements Runnable
 	{
 		while(_running)
 		{
-			if(_lockObject.tryLock())
+			synchronized(this)
 			{
-				try
+				for(TCPClient client:_clients)
 				{
-					for(TCPClient client:_clients)
+					if(!client.isConnected())
 					{
-						if(!client.isConnected())
-						{
-							_clients.remove(client);
-							break;
-						}
+						_clients.remove(client);
+						break;
 					}
 				}
-				finally
-				{
-					_lockObject.unlock();
-				}
 			}
+
 			try
 			{
 				Thread.sleep(100);
@@ -64,99 +65,70 @@ public class TCPClientManager implements Runnable
 		}
 	}
 
+	/**
+	 *
+	 */
 	public void finalize()
 	{
 		_running=false;
 	}
 
-
+	/**
+	 *
+	 * @param client
+	 * @return
+	 */
 	public boolean addClient(TCPClient client)
 	{
-		if(_lockObject.tryLock())
+		synchronized(this)
 		{
-			try
-			{
-				_clients.add(client);
-			}
-			finally
-			{
-				_lockObject.unlock();
-			}
+			return _clients.add(client);
 		}
-		else
-		{
-			return false;
-		}
-		return true;
 	}
 
-
+	/**
+	 *
+	 * @param client
+	 * @return
+	 */
 	public boolean removeClient(TCPClient client)
 	{
-		if(_lockObject.tryLock()){
-			try
-			{
-				_clients.remove(client);
-			}
-			finally
-			{
-				_lockObject.unlock();
-			}
-		}
-		else
+		synchronized(this)
 		{
-			return false;
+			return _clients.remove(client);
 		}
-		return true;
 	}
 
-
-	public boolean registerTcpEventHandler(ITCPEventHandler tcpEventHandler){
-		if(_lockObject.tryLock())
+	/**
+	 *
+	 * @param tcpEventHandler
+	 */
+	public void registerTcpEventHandler(ITCPEventHandler tcpEventHandler){
+		synchronized(this)
 		{
-			try
+			for(TCPClient client:_clients)
 			{
-				for(TCPClient client:_clients)
-				{
-					if(!client.registerTcpEventHandler(tcpEventHandler))
-					{
-						return false;
-					}
-				}
-			}
-			finally
-			{
-				_lockObject.unlock();
+				client.registerTcpEventHandler(tcpEventHandler);
 			}
 		}
-		else
-		{
-			return false;
-		}
-		return true;
 	}
 
-
+	/**
+	 *
+	 * @return
+	 */
 	public boolean clear()
 	{
-		if(_lockObject.tryLock())
+		synchronized(this)
 		{
-			try
+			for(TCPClient client:_clients)
 			{
-				for(TCPClient client:_clients)
+				if(!client.disconnect())
 				{
-					client.disconnect();
+					return false;
 				}
-				_clients.clear();
 			}
-			finally
-			{
-				_lockObject.unlock();
-			}
-		}
-		else
-		{
-			return false;
+			_clients.clear();
 		}
 		return true;
 	}

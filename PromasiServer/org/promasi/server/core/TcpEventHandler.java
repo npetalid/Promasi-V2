@@ -2,6 +2,7 @@ package org.promasi.server.core;
 
 import java.net.ProtocolException;
 
+import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.tcpserver.ITCPEventHandler;
 import org.promasi.tcpserver.TCPClient;
 
@@ -59,6 +60,7 @@ public class TcpEventHandler implements ITCPEventHandler
 		}
 		catch(ProtocolException e)
 		{
+			tcpClient.sendMessage(new WrongProtocolResponse().toXML());
 			return false;
 		}
 		return true;

@@ -2,9 +2,6 @@
  *
  */
 package org.promasi.main;
-import java.beans.XMLDecoder;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 import org.promasi.tcpserver.TCPServer;
 import org.promasi.protocol.request.LoginRequest;

@@ -79,9 +79,9 @@ public class TCPClient implements Runnable
 	}
 
 
-	public boolean registerTcpEventHandler(ITCPEventHandler tcpEventHandler)
+	public void registerTcpEventHandler(ITCPEventHandler tcpEventHandler)
 	{
-		return _tcpStrategy.registerTcpEventHandler(tcpEventHandler);
+		_tcpStrategy.registerTcpEventHandler(tcpEventHandler);
 	}
 
 
