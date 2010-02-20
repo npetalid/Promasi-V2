@@ -76,10 +76,11 @@ public class LoginRequest  extends AbstractRequest  implements Serializable
 	}
 
 	/**
-	 * UserName setter.
+	 *
 	 * @param userName
+	 * @throws NullArgumentException
 	 */
-	public void setUserName(String userName)
+	public void setUserName(String userName)throws NullArgumentException
 	{
 		if(userName==null)
 		{
@@ -89,10 +90,11 @@ public class LoginRequest  extends AbstractRequest  implements Serializable
 	}
 
 	/**
-	 * Password setter.
+	 *
 	 * @param password
+	 * @throws NullArgumentException
 	 */
-	public void setPassword(String password)
+	public void setPassword(String password)throws NullArgumentException
 	{
 		if(password==null)
 		{
