@@ -10,7 +10,7 @@ import java.net.ProtocolException;
  * @author m1cRo
  *
  */
-public interface IProtocolState
+public interface IClientState
 {
 	/**
 	 *

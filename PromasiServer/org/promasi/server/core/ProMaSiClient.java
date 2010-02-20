@@ -16,7 +16,7 @@ public class ProMaSiClient
 {
 	private TCPClient _client;
 
-	private IProtocolState _protocolState;
+	private IClientState _clientState;
 
 	private String _clientId;
 
@@ -33,17 +33,17 @@ public class ProMaSiClient
 		}
 		_clientId=null;
 		_client=client;
-		_protocolState=new LoginProtocolState(promasi);
+		_clientState=new LoginClientState(promasi);
 	}
 
 	public void onReceiveData(String recData)throws ProtocolException
 	{
-		_protocolState.onReceive(this, recData);
+		_clientState.onReceive(this, recData);
 	}
 
-	protected void changeState(IProtocolState protocolState)
+	protected void changeState(IClientState protocolState)
 	{
-		_protocolState=protocolState;
+		_clientState=protocolState;
 	}
 
 	protected void setClientId(String userName)throws NullArgumentException

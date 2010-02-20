@@ -11,7 +11,7 @@ import org.apache.commons.lang.NullArgumentException;
  * @author m1cRo
  *
  */
-public class PlayingProtocolState implements IProtocolState {
+public class SelectGameClientState implements IClientState {
 
 	/**
 	 *
@@ -21,7 +21,7 @@ public class PlayingProtocolState implements IProtocolState {
 	/**
 	 *
 	 */
-	public PlayingProtocolState(ProMaSi promasi)
+	public SelectGameClientState(ProMaSi promasi)
 	{
 		if(promasi==null)
 		{
@@ -34,8 +34,8 @@ public class PlayingProtocolState implements IProtocolState {
 	 * @see org.promasi.protocol.state.IProtocolState#OnReceive(org.promasi.server.ProMaSiClient, java.lang.String)
 	 */
 	@Override
-	public void onReceive(ProMaSiClient client, String recData) throws ProtocolException {
+	public void onReceive(ProMaSiClient client, String recData)throws ProtocolException
+	{
 		// TODO Auto-generated method stub
 	}
-
 }

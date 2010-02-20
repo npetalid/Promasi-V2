@@ -9,7 +9,7 @@ import java.net.ProtocolException;
  * @author m1cRo
  *
  */
-public class BotPlayerProtocolState implements IProtocolState {
+public class DisconnectedClientState implements IClientState {
 
 	/* (non-Javadoc)
 	 * @see org.promasi.server.core.IProtocolState#OnReceive(org.promasi.server.core.ProMaSiClient, java.lang.String)

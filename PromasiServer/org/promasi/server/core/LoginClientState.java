@@ -3,7 +3,6 @@
  */
 package org.promasi.server.core;
 
-
 import java.beans.XMLDecoder;
 import java.net.ProtocolException;
 import org.apache.commons.lang.NullArgumentException;
@@ -15,11 +14,11 @@ import org.xml.sax.InputSource;
  * @author m1cRo
  *
  */
-public class LoginProtocolState implements IProtocolState
+public class LoginClientState implements IClientState
 {
 	private ProMaSi _promasi;
 
-	public LoginProtocolState(ProMaSi promasi)
+	public LoginClientState(ProMaSi promasi)
 	{
 		if(promasi==null)
 		{
@@ -39,13 +38,13 @@ public class LoginProtocolState implements IProtocolState
 		XMLDecoder decoder=new XMLDecoder(source.getByteStream());
 		try
 		{
-			Object request=new LoginRequest("UserName","Password");
 			Object object=decoder.readObject();
 			if(object instanceof LoginRequest)
 			{
 				LoginRequest loginRequest=(LoginRequest)object;
 				client.setClientId(loginRequest.getUserName());
 				_promasi.addUser(client);
+				client.changeState(new SelectGameClientState(_promasi));
 			}
 			else
 			{
@@ -55,15 +54,15 @@ public class LoginProtocolState implements IProtocolState
 		}
 		catch(ArrayIndexOutOfBoundsException e)
 		{
-			throw new ProtocolException("Wrong protocol");
+			throw new ProtocolException("Wrong protocol - " + e.getMessage());
 		}
 		catch(NullArgumentException e)
 		{
-			throw new ProtocolException("Wrong protocol");
+			throw new ProtocolException("Wrong protocol - " + e.getMessage());
 		}
 		catch(IllegalArgumentException e)
 		{
-			throw new ProtocolException("Wrong protocol");
+			throw new ProtocolException("Wrong protocol - " + e.getMessage());
 		}
 	}
 }

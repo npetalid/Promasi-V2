@@ -46,7 +46,7 @@ public class TCPClient implements Runnable
 		try
 		{
 			BufferedReader reader=new BufferedReader(new InputStreamReader(_clientSocket.getInputStream()));
-			if(!_tcpStrategy.onConnect(this))
+			if(_tcpStrategy.onConnect(this))
 			{
 				String line=null;
 				do

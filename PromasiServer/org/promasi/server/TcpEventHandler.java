@@ -1,5 +1,7 @@
 package org.promasi.server;
 
+import java.net.ProtocolException;
+
 import org.promasi.server.core.ProMaSi;
 import org.promasi.tcpserver.ITCPEventHandler;
 import org.promasi.tcpserver.TCPClient;
@@ -24,8 +26,8 @@ public class TcpEventHandler implements ITCPEventHandler
 	@Override
 	public boolean onConnect(TCPClient tcpClient)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		_promasi.onConnect(tcpClient);
+		return true;
 	}
 
 	/* (non-Javadoc)
@@ -34,8 +36,7 @@ public class TcpEventHandler implements ITCPEventHandler
 	@Override
 	public void onConnectionError(TCPClient tcpClient)
 	{
-		// TODO Auto-generated method stub
-
+		_promasi.onConnectionError(tcpClient);
 	}
 
 	/* (non-Javadoc)
@@ -44,8 +45,7 @@ public class TcpEventHandler implements ITCPEventHandler
 	@Override
 	public void onDisconnect(TCPClient tcpClient)
 	{
-		// TODO Auto-generated method stub
-
+		_promasi.onDisconnect(tcpClient);
 	}
 
 	/* (non-Javadoc)
@@ -54,8 +54,14 @@ public class TcpEventHandler implements ITCPEventHandler
 	@Override
 	public boolean onReceive(TCPClient tcpClient, String line)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		try
+		{
+			_promasi.onReceiveData(tcpClient,line);
+		}
+		catch(ProtocolException e)
+		{
+			return false;
+		}
+		return true;
 	}
-
 }
