@@ -12,11 +12,11 @@ import org.apache.commons.lang.NullArgumentException;
  * @author m1cRo
  *
  */
-public class UserList
+public class UserManager
 {
 	private Map<String,ProMaSiClient> _users;
 
-	public UserList()
+	public UserManager()
 	{
 		_users=new HashMap<String,ProMaSiClient>();
 	}

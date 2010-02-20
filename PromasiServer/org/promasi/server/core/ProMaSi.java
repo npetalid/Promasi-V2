@@ -8,7 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.server.Game;
+import org.promasi.server.core.game.Game;
+import org.promasi.server.core.game.GameList;
 import org.promasi.tcpserver.TCPClient;
 
 /**
@@ -25,12 +26,12 @@ public class ProMaSi
 	/**
 	 *
 	 */
-	private Game _game;
+	private GameList _gameList;
 
 	/**
 	 *
 	 */
-	private UserList _userList;
+	private UserManager _userManager;
 
 	/**
 	 *
@@ -38,7 +39,8 @@ public class ProMaSi
 	public ProMaSi()
 	{
 		_clients=new HashMap<TCPClient,ProMaSiClient>();
-		_userList=new UserList();
+		_userManager=new UserManager();
+		_gameList=new GameList();
 	}
 
 	/**
@@ -110,7 +112,7 @@ public class ProMaSi
 			ProMaSiClient promasiClient=_clients.get(client);
 			try
 			{
-				_userList.removeUser(promasiClient.getClientId());
+				_userManager.removeUser(promasiClient.getClientId());
 			}
 			catch(IllegalArgumentException e)
 			{
@@ -142,7 +144,7 @@ public class ProMaSi
 			ProMaSiClient promasiClient=_clients.get(client);
 			try
 			{
-				_userList.removeUser(promasiClient.getClientId());
+				_userManager.removeUser(promasiClient.getClientId());
 			}
 			catch(IllegalArgumentException e)
 			{
@@ -155,11 +157,11 @@ public class ProMaSi
 	/**
 	 * isClientInList method.
 	 * @param clientId
-	 * @return true if client with the same clientId was found in _userList "{@link UserList}", false otherwise.
+	 * @return true if client with the same clientId was found in _userList "{@link UserManager}", false otherwise.
 	 */
 	public boolean isClientInList(String clientId)
 	{
-		return _userList.isUserInList(clientId);
+		return _userManager.isUserInList(clientId);
 	}
 
 	/**
@@ -167,8 +169,8 @@ public class ProMaSi
 	 * @param client
 	 * Instance of {@link ProMaSiClient} client that identify the client who from the {@link LoginRequest} was received.
 	 */
-	protected void addUser(ProMaSiClient client)throws IllegalArgumentException,NullArgumentException
+	public void addUser(ProMaSiClient client)throws IllegalArgumentException,NullArgumentException
 	{
-		_userList.addUser(client.getClientId(),client);
+		_userManager.addUser(client.getClientId(),client);
 	}
 }

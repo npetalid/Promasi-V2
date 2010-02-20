@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.server.core;
+package org.promasi.server.client.state;
 
 import java.beans.XMLDecoder;
 import java.io.ByteArrayInputStream;
@@ -9,13 +9,16 @@ import java.net.ProtocolException;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.protocol.request.LoginRequest;
 import org.promasi.protocol.response.LoginResponse;
+import org.promasi.server.core.AbstractClientState;
+import org.promasi.server.core.ProMaSi;
+import org.promasi.server.core.ProMaSiClient;
 
 
 /**
  * @author m1cRo
  *
  */
-public class LoginClientState implements IClientState
+public class LoginClientState extends AbstractClientState
 {
 	/**
 	 *
@@ -38,7 +41,6 @@ public class LoginClientState implements IClientState
 	/**
 	 *
 	 */
-	@Override
 	public void onReceive(ProMaSiClient client, String recData)throws ProtocolException
 	{
 		XMLDecoder decoder=new XMLDecoder(new ByteArrayInputStream(recData.getBytes()));
@@ -52,7 +54,7 @@ public class LoginClientState implements IClientState
 				client.setClientId(loginRequest.getUserName());
 				_promasi.addUser(client);
 				client.sendData(new LoginResponse().toXML());
-				client.changeState(new SelectGameClientState(_promasi));
+				changeClientState(client,new SelectGameClientState(_promasi));
 			}
 			else
 			{

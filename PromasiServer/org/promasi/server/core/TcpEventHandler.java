@@ -1,8 +1,7 @@
-package org.promasi.server;
+package org.promasi.server.core;
 
 import java.net.ProtocolException;
 
-import org.promasi.server.core.ProMaSi;
 import org.promasi.tcpserver.ITCPEventHandler;
 import org.promasi.tcpserver.TCPClient;
 

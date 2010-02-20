@@ -6,6 +6,8 @@ package org.promasi.server.core;
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.server.client.state.IClientState;
+import org.promasi.server.client.state.LoginClientState;
 import org.promasi.tcpserver.TCPClient;
 
 /**
@@ -41,12 +43,12 @@ public class ProMaSiClient
 		_clientState.onReceive(this, recData);
 	}
 
-	protected void changeState(IClientState protocolState)
+	protected void changeState(IClientState clientState)
 	{
-		_clientState=protocolState;
+		_clientState=clientState;
 	}
 
-	protected void setClientId(String userName)throws NullArgumentException
+	public void setClientId(String userName)throws NullArgumentException
 	{
 		synchronized(this)
 		{
@@ -54,7 +56,7 @@ public class ProMaSiClient
 		}
 	}
 
-	protected String getClientId()
+	public String getClientId()
 	{
 		synchronized(this)
 		{

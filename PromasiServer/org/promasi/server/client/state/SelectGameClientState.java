@@ -1,17 +1,20 @@
 /**
  *
  */
-package org.promasi.server.core;
+package org.promasi.server.client.state;
 
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.server.core.AbstractClientState;
+import org.promasi.server.core.ProMaSi;
+import org.promasi.server.core.ProMaSiClient;
 
 /**
  * @author m1cRo
  *
  */
-public class PlayingClientState implements IClientState {
+public class SelectGameClientState extends AbstractClientState {
 
 	/**
 	 *
@@ -20,8 +23,9 @@ public class PlayingClientState implements IClientState {
 
 	/**
 	 *
+	 * @param promasi
 	 */
-	public PlayingClientState(ProMaSi promasi)
+	public SelectGameClientState(ProMaSi promasi)
 	{
 		if(promasi==null)
 		{
@@ -34,8 +38,8 @@ public class PlayingClientState implements IClientState {
 	 * @see org.promasi.protocol.state.IProtocolState#OnReceive(org.promasi.server.ProMaSiClient, java.lang.String)
 	 */
 	@Override
-	public void onReceive(ProMaSiClient client, String recData) throws ProtocolException {
+	public void onReceive(ProMaSiClient client, String recData)throws ProtocolException
+	{
 		// TODO Auto-generated method stub
 	}
-
 }

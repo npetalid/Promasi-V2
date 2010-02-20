@@ -1,15 +1,18 @@
 /**
- * 
+ *
  */
-package org.promasi.server.core;
+package org.promasi.server.client.state;
 
 import java.net.ProtocolException;
+
+import org.promasi.server.core.AbstractClientState;
+import org.promasi.server.core.ProMaSiClient;
 
 /**
  * @author m1cRo
  *
  */
-public class DisconnectedClientState implements IClientState {
+public class DisconnectedClientState extends AbstractClientState {
 
 	/* (non-Javadoc)
 	 * @see org.promasi.server.core.IProtocolState#OnReceive(org.promasi.server.core.ProMaSiClient, java.lang.String)
