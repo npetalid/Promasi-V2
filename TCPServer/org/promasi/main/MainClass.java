@@ -17,8 +17,6 @@ public class MainClass {
 	 */
 	public static void main(String[] args)
 	{
-		LoginRequest request=new LoginRequest("new","pass");
-		System.out.print(request.toXML());
 		TCPServer server=new TCPServer();
 		TcpEventHandler eventHandler=new TcpEventHandler();
 		server.registerTcpEventHandler(eventHandler);

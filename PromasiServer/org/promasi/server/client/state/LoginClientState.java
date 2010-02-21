@@ -15,6 +15,7 @@ import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.AbstractClientState;
 import org.promasi.server.core.ProMaSi;
 import org.promasi.server.core.ProMaSiClient;
+import org.xml.sax.SAXParseException;
 
 
 /**
@@ -44,8 +45,17 @@ public class LoginClientState extends AbstractClientState
 	/**
 	 *
 	 */
-	public void onReceive(ProMaSiClient client, String recData)throws ProtocolException
+	public void onReceive(ProMaSiClient client, String recData)throws ProtocolException,NullArgumentException
 	{
+		if(client==null)
+		{
+			throw new NullArgumentException("Wrong argument client==null");
+		}
+
+		if(recData==null)
+		{
+			throw new NullArgumentException("Wrong argument client==null");
+		}
 		XMLDecoder decoder=new XMLDecoder(new ByteArrayInputStream(recData.getBytes()));
 		try
 		{
@@ -56,34 +66,34 @@ public class LoginClientState extends AbstractClientState
 				LoginRequest loginRequest=(LoginRequest)object;
 				client.setClientId(loginRequest.getUserName());
 				_promasi.addUser(client);
-				client.sendData(new LoginResponse().toXML());
+				client.sendMessage(new LoginResponse().toXML());
 				changeClientState(client,new SelectGameClientState(_promasi));
 			}
 			else
 			{
-				client.sendData(new WrongProtocolResponse().toXML());
+				client.sendMessage(new WrongProtocolResponse().toXML());
 				throw new ProtocolException("Wrong protocol");
 			}
 		}
 		catch(ArrayIndexOutOfBoundsException e)
 		{
-			client.sendData(new LoginResponse(false,e.getMessage()).toXML());
-			throw new ProtocolException("Wrong protocol - " + e.getMessage());
+			client.sendMessage(new LoginResponse(false,e.getMessage()).toXML());
+			throw new ProtocolException("Wrong protocol" );
 		}
 		catch(NullArgumentException e)
 		{
-			client.sendData(new LoginResponse(false,e.getMessage()).toXML());
-			throw new ProtocolException("Wrong protocol - " + e.getMessage());
+			client.sendMessage(new LoginResponse(false,e.getMessage()).toXML());
+			throw new ProtocolException("Wrong protocol");
 		}
 		catch(IllegalArgumentException e)
 		{
-			client.sendData(new LoginResponse().toXML());
-			throw new ProtocolException("Wrong protocol - " + e.getMessage());
+			client.sendMessage(new LoginResponse().toXML());
+			throw new ProtocolException("Wrong protocol");
 		}
 		catch(NoSuchElementException e)
 		{
-			client.sendData(new WrongProtocolResponse().toXML());
-			throw new ProtocolException("Wrong protocol - " + e.getMessage());
+			client.sendMessage(new WrongProtocolResponse().toXML());
+			throw new ProtocolException("Wrong protocol");
 		}
 	}
 }

@@ -16,12 +16,27 @@ import org.promasi.tcpserver.TCPClient;
  */
 public class ProMaSiClient
 {
+	/**
+	 *
+	 */
 	private TCPClient _client;
 
+	/**
+	 *
+	 */
 	private IClientState _clientState;
 
+	/**
+	 *
+	 */
 	private String _clientId;
 
+	/**
+	 *
+	 * @param client
+	 * @param promasi
+	 * @throws NullArgumentException
+	 */
 	public ProMaSiClient(TCPClient client,ProMaSi promasi)throws NullArgumentException
 	{
 		if(client==null)
@@ -38,16 +53,30 @@ public class ProMaSiClient
 		_clientState=new LoginClientState(promasi);
 	}
 
+	/**
+	 *
+	 * @param recData
+	 * @throws ProtocolException
+	 */
 	public void onReceiveData(String recData)throws ProtocolException
 	{
 		_clientState.onReceive(this, recData);
 	}
 
+	/**
+	 *
+	 * @param clientState
+	 */
 	protected void changeState(IClientState clientState)
 	{
 		_clientState=clientState;
 	}
 
+	/**
+	 *
+	 * @param userName
+	 * @throws NullArgumentException
+	 */
 	public void setClientId(String userName)throws NullArgumentException
 	{
 		synchronized(this)
@@ -56,6 +85,10 @@ public class ProMaSiClient
 		}
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getClientId()
 	{
 		synchronized(this)
@@ -64,11 +97,20 @@ public class ProMaSiClient
 		}
 	}
 
-	public void sendData(String sData)
+	/**
+	 *
+	 * @param message
+	 * @return
+	 */
+	public boolean sendMessage(String message)
 	{
-		_client.sendMessage(sData);
+		return _client.sendMessage(message);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public boolean disonnect()
 	{
 		return _client.disconnect();

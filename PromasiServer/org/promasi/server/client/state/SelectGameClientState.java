@@ -48,8 +48,17 @@ public class SelectGameClientState extends AbstractClientState {
 	 * @see org.promasi.protocol.state.IProtocolState#OnReceive(org.promasi.server.ProMaSiClient, java.lang.String)
 	 */
 	@Override
-	public void onReceive(ProMaSiClient client, String recData)throws ProtocolException
+	public void onReceive(ProMaSiClient client, String recData)throws ProtocolException,NullArgumentException
 	{
+		if(client==null)
+		{
+			throw new NullArgumentException("Wrong argument client==null");
+		}
+
+		if(recData==null)
+		{
+			throw new NullArgumentException("Wrong argument client==null");
+		}
 		XMLDecoder decoder=new XMLDecoder(new ByteArrayInputStream(recData.getBytes()));
 		try
 		{
@@ -59,7 +68,7 @@ public class SelectGameClientState extends AbstractClientState {
 			{
 				LinkedList<String> gameList=_promasi.retreiveGames();
 				RetreiveGamesResponse response=new RetreiveGamesResponse(gameList);
-				client.sendData(response.toXML());
+				client.sendMessage(response.toXML());
 			}
 			else if( object instanceof JoinGameRequest)
 			{
@@ -73,23 +82,22 @@ public class SelectGameClientState extends AbstractClientState {
 		}
 		catch(ArrayIndexOutOfBoundsException e)
 		{
-			client.sendData(new LoginResponse(false,e.getMessage()).toXML());
-			throw new ProtocolException("Failed - " + e.getMessage());
+			client.sendMessage(new LoginResponse(false,e.getMessage()).toXML());
+			throw new ProtocolException("Wrong protocol");
 		}
 		catch(NullArgumentException e)
 		{
-			client.sendData(new LoginResponse(false,e.getMessage()).toXML());
-			throw new ProtocolException("Failed - " + e.getMessage());
+			client.sendMessage(new LoginResponse(false,e.getMessage()).toXML());
+			throw new ProtocolException("Wrong protocol");
 		}
 		catch(IllegalArgumentException e)
 		{
-			client.sendData(new LoginResponse().toXML());
-			throw new ProtocolException("Failed - " + e.getMessage());
+			client.sendMessage(new LoginResponse().toXML());
+			throw new ProtocolException("Wrong protocol");
 		}
 		catch(NoSuchElementException e)
 		{
-			client.sendData(new WrongProtocolResponse().toXML());
-			throw new ProtocolException("Wrong protocol - " + e.getMessage());
+			throw new ProtocolException("Wrong protocol");
 		}
 	}
 }

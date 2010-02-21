@@ -17,24 +17,50 @@ import java.lang.IllegalArgumentException;;
  */
 public class TCPClient implements Runnable
 {
-	/*
-	 * Client socket.
+	/**
+	 *
 	 */
 	private Socket _clientSocket;
 
+	/**
+	 *
+	 */
 	private boolean _isConnected;
 
+	/**
+	 *
+	 */
 	private TCPStrategy _tcpStrategy;
 
+	/**
+	 *
+	 */
 	private Thread _recvThread;
 
-	public TCPClient(Socket socket) throws IllegalArgumentException
+	/**
+	 *
+	 */
+	private BufferedReader _socketStreamReader;
+
+	/**
+	 *
+	 */
+	private BufferedWriter _socketStreamWriter;
+	/**
+	 *
+	 * @param socket
+	 * @throws IllegalArgumentException
+	 * @throws IOException
+	 */
+	public TCPClient(Socket socket) throws IllegalArgumentException, IOException
 	{
 		if(socket==null)
 		{
 			throw new IllegalArgumentException("Wrong socket==null");
 		}
 		_clientSocket=socket;
+		_socketStreamReader=new BufferedReader(new InputStreamReader(_clientSocket.getInputStream()));
+		_socketStreamWriter=new BufferedWriter(new OutputStreamWriter(_clientSocket.getOutputStream()));
 		_isConnected=true;
 		_tcpStrategy=new TCPStrategy();
 		_recvThread=new Thread(this);
@@ -42,19 +68,21 @@ public class TCPClient implements Runnable
 	}
 
 
+	/**
+	 *
+	 */
 	public void run(){
 		try
 		{
-			BufferedReader reader=new BufferedReader(new InputStreamReader(_clientSocket.getInputStream()));
 			if(_tcpStrategy.onConnect(this))
 			{
 				String line=null;
 				do
 				{
-					line=reader.readLine();
+					line=_socketStreamReader.readLine();
 					if( line != null && !_tcpStrategy.onReceive(this, line))
 					{
-						reader.close();
+						_socketStreamReader.close();
 						_clientSocket.shutdownInput();
 						_clientSocket.shutdownOutput();
 						_clientSocket.close();
@@ -62,33 +90,46 @@ public class TCPClient implements Runnable
 					}
 				}
 				while(line!=null);
+				_tcpStrategy.onDisconnect(this);
 			}
 		}
 		catch(IOException e)
 		{
 			_tcpStrategy.onConnectionError(this);
 		}
-		_tcpStrategy.onDisconnect(this);
 		_isConnected=false;
 	}
 
-
+	/**
+	 *
+	 * @return
+	 */
 	public boolean isConnected()
 	{
 		return _isConnected;
 	}
 
-
+	/**
+	 *
+	 * @param tcpEventHandler
+	 */
 	public void registerTcpEventHandler(ITCPEventHandler tcpEventHandler)
 	{
 		_tcpStrategy.registerTcpEventHandler(tcpEventHandler);
 	}
 
-
+	/**
+	 *
+	 * @return
+	 */
 	public boolean disconnect()
 	{
 		try
 		{
+			_socketStreamReader.close();
+			_socketStreamWriter.close();
+			_clientSocket.shutdownInput();
+			_clientSocket.shutdownOutput();
 			_clientSocket.close();
 		}
 		catch(IOException e)
@@ -98,12 +139,21 @@ public class TCPClient implements Runnable
 		return true;
 	}
 
-
+	/**
+	 *
+	 * @param message
+	 * @return
+	 */
 	public boolean sendMessage(String message){
+		if(message==null)
+		{
+			return false;
+		}
+
 		try
 		{
-			BufferedWriter writer=new BufferedWriter(new OutputStreamWriter(_clientSocket.getOutputStream()));
-			writer.write(message);
+			_socketStreamWriter.write(message);
+			_socketStreamWriter.close();
 		}
 		catch(IOException e)
 		{

@@ -37,8 +37,17 @@ public class PlayingClientState extends AbstractClientState {
 	 * @see org.promasi.protocol.state.IProtocolState#OnReceive(org.promasi.server.ProMaSiClient, java.lang.String)
 	 */
 	@Override
-	public void onReceive(ProMaSiClient client, String recData) throws ProtocolException {
-		// TODO Auto-generated method stub
+	public void onReceive(ProMaSiClient client, String recData) throws ProtocolException,NullArgumentException
+	{
+		if(client==null)
+		{
+			throw new NullArgumentException("Wrong argument client==null");
+		}
+
+		if(recData==null)
+		{
+			throw new NullArgumentException("Wrong argument client==null");
+		}
 	}
 
 }
