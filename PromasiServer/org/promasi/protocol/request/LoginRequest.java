@@ -3,7 +3,6 @@
  */
 package org.promasi.protocol.request;
 
-import java.io.Serializable;
 import org.apache.commons.lang.NullArgumentException;
 
 
@@ -11,7 +10,7 @@ import org.apache.commons.lang.NullArgumentException;
  * @author m1cRo
  *
  */
-public class LoginRequest  extends AbstractRequest  implements Serializable
+public class LoginRequest  extends AbstractRequest
 {
 	/**
 	 *

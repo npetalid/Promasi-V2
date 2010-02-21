@@ -153,7 +153,7 @@ public class TCPClient implements Runnable
 		try
 		{
 			_socketStreamWriter.write(message);
-			_socketStreamWriter.close();
+			_socketStreamWriter.flush();
 		}
 		catch(IOException e)
 		{

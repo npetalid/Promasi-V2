@@ -14,6 +14,11 @@ public class JoinGameRequest extends AbstractRequest
 	/**
 	 *
 	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 *
+	 */
 	private String _gameId;
 
 	/**

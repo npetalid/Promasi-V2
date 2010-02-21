@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.server.core.game.Game;
 import org.promasi.server.core.game.GameList;
 import org.promasi.tcpserver.TCPClient;
 

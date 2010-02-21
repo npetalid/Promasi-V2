@@ -15,7 +15,6 @@ import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.AbstractClientState;
 import org.promasi.server.core.ProMaSi;
 import org.promasi.server.core.ProMaSiClient;
-import org.xml.sax.SAXParseException;
 
 
 /**

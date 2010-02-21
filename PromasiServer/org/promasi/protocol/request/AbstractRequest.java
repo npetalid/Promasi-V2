@@ -5,13 +5,19 @@ package org.promasi.protocol.request;
 
 import java.beans.XMLEncoder;
 import java.io.ByteArrayOutputStream;
+import java.io.Serializable;
 
 /**
  * @author m1cRo
  *
  */
-public abstract class  AbstractRequest
+public abstract class  AbstractRequest implements Serializable
 {
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 *
 	 * @return

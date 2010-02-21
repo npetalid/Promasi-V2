@@ -2,8 +2,6 @@
  *
  */
 package org.promasi.tcpserver;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.io.IOException;
 import java.net.*;
 

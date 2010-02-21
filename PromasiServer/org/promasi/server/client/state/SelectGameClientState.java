@@ -11,11 +11,9 @@ import java.util.NoSuchElementException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.protocol.request.JoinGameRequest;
-import org.promasi.protocol.request.LoginRequest;
 import org.promasi.protocol.request.RetreiveGamesRequest;
 import org.promasi.protocol.response.LoginResponse;
 import org.promasi.protocol.response.RetreiveGamesResponse;
-import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.AbstractClientState;
 import org.promasi.server.core.ProMaSi;
 import org.promasi.server.core.ProMaSiClient;
