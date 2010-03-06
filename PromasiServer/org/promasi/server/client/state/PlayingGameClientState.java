@@ -69,6 +69,7 @@ public class PlayingGameClientState extends AbstractClientState {
 		{
 			throw new NullArgumentException("Wrong argument client==null");
 		}
+
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);

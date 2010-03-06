@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.protocol.request.StartGameRequest;
 import org.promasi.server.core.GameModel;
 import org.promasi.server.core.UserManager;
 import org.promasi.server.core.ProMaSiClient;
@@ -17,14 +18,33 @@ import org.promasi.server.core.ProMaSiClient;
  */
 public class Game
 {
+	/**
+	 *
+	 */
 	private String _gameId;
 
+	/**
+	 *
+	 */
 	private ProMaSiClient _gameMaster;
 
-	private Map<String,GameModel> _gameModels;
+	/**
+	 *
+	 */
+	private Map<ProMaSiClient,GameModel> _gameModels;
 
+	/**
+	 *
+	 */
 	private String _promasiModel;
 
+	/**
+	 *
+	 * @param gameId
+	 * @param gameMaster
+	 * @param promasiModel
+	 * @throws NullArgumentException
+	 */
 	public Game(String gameId,ProMaSiClient gameMaster,String promasiModel)throws NullArgumentException
 	{
 		if(gameId==null)
@@ -43,8 +63,9 @@ public class Game
 		}
 		_gameId=gameId;
 		_gameMaster=gameMaster;
-		_gameModels=new HashMap<String,GameModel>();
+		_gameModels=new HashMap<ProMaSiClient,GameModel>();
 		_promasiModel=promasiModel;
+		_gameModels.put(gameMaster, new GameModel(promasiModel));
 	}
 
 	/**
@@ -62,19 +83,19 @@ public class Game
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public void addPlayer(String playerId)throws NullArgumentException,IllegalArgumentException
+	public void addPlayer(ProMaSiClient player)throws NullArgumentException,IllegalArgumentException
 	{
-		if(playerId==null)
+		if(player==null)
 		{
 			throw new NullArgumentException("Wrong argument playerId==null");
 		}
 		synchronized(this)
 		{
-			if(_gameModels.containsKey(playerId) || _gameMaster.getClientId()==playerId)
+			if(_gameModels.containsKey(player) || _gameMaster.getClientId()==player.getClientId())
 			{
 				throw new IllegalArgumentException("Wrong argument playerId is already in game");
 			}
-			_gameModels.put(playerId, new GameModel(_promasiModel)); //ToDo change GameModel.
+			_gameModels.put(player, new GameModel(_promasiModel)); //ToDo change GameModel.
 		}
 	}
 
@@ -95,5 +116,26 @@ public class Game
 	public boolean isGameMaster(ProMaSiClient client)
 	{
 		return client==_gameMaster;
+	}
+
+	/**
+	 *
+	 * @param message
+	 * @return
+	 */
+	public boolean startGame(String message)
+	{
+		synchronized(this)
+		{
+			if(_gameModels.size()<2)
+			{
+				return false;
+			}
+			for(Map.Entry<ProMaSiClient,GameModel> entry:_gameModels.entrySet())
+			{
+				entry.getKey().onReceiveData(message);
+			}
+		}
+		return true;
 	}
 }

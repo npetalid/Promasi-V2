@@ -7,7 +7,9 @@ import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.protocol.request.RequestBuilder;
+import org.promasi.protocol.request.StartGameRequest;
 import org.promasi.protocol.response.InternalErrorResponse;
+import org.promasi.protocol.response.StartGameResponse;
 import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.AbstractClientState;
 import org.promasi.server.core.ProMaSi;
@@ -30,6 +32,12 @@ public class GameMasterClientState extends AbstractClientState {
 	 */
 	private Game _game;
 
+	/**
+	 *
+	 * @param promasi
+	 * @param game
+	 * @throws NullArgumentException
+	 */
 	public GameMasterClientState(ProMaSi promasi,Game game)throws NullArgumentException
 	{
 		if(promasi==null)
@@ -62,18 +70,32 @@ public class GameMasterClientState extends AbstractClientState {
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
+			if(object instanceof StartGameRequest)
+			{
+				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameId()));
+				_game.startGame("Game started");
+				client.sendMessage(new StartGameResponse(_game.getGameId()).toXML());
+			}
+			else
+			{
+				client.sendMessage(new WrongProtocolResponse().toXML());
+				client.disonnect();
+			}
 		}
 		catch(ProtocolException e)
 		{
 			client.sendMessage(new WrongProtocolResponse().toXML());
+			client.disonnect();
 		}
 		catch(NullArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
+			client.disonnect();
 		}
 		catch(IllegalArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
+			client.disonnect();
 		}
 	}
 

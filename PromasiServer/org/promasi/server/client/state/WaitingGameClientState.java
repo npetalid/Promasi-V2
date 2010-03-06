@@ -6,10 +6,10 @@ package org.promasi.server.client.state;
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.protocol.request.LoginRequest;
 import org.promasi.protocol.request.RequestBuilder;
+import org.promasi.protocol.request.StartGameRequest;
 import org.promasi.protocol.response.InternalErrorResponse;
-import org.promasi.protocol.response.LoginResponse;
+import org.promasi.protocol.response.StartGameResponse;
 import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.AbstractClientState;
 import org.promasi.server.core.ProMaSi;
@@ -70,6 +70,15 @@ public class WaitingGameClientState extends AbstractClientState {
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
+			if(object instanceof StartGameRequest)
+			{
+				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameId()));
+				client.sendMessage(new StartGameResponse(_game.getGameId()).toXML());
+			}
+			else
+			{
+				client.sendMessage(new WrongProtocolResponse().toXML());
+			}
 		}
 		catch(ProtocolException e)
 		{
