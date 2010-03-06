@@ -9,5 +9,8 @@ package org.promasi.server.core;
  */
 public class GameModel
 {
+	public GameModel(String xmlModel)
+	{
 
+	}
 }

@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.server.core.ProMaSiClient;
 
 
 /**
@@ -21,12 +22,15 @@ public class GameList
 	 */
 	private Map<String,Game> _gameList;
 
+	private Map<ProMaSiClient,Game> _players;
+
 	/**
 	 * Default constructor.
 	 */
 	public GameList()
 	{
 		_gameList=new HashMap<String,Game>();
+		_players=new HashMap<ProMaSiClient,Game>();
 	}
 
 	/**
@@ -63,9 +67,14 @@ public class GameList
 	 * @param gameId
 	 * @return
 	 * @throws IllegalArgumentException
+	 * @throws NullArgumentException
 	 */
-	public Game getGame(String gameId)throws IllegalArgumentException
+	public Game getGame(String gameId)throws IllegalArgumentException,NullArgumentException
 	{
+		if(gameId==null)
+		{
+			throw new NullArgumentException("Wrong argument gameId == null");
+		}
 		synchronized(this)
 		{
 			if(!_gameList.containsKey(gameId))
@@ -112,5 +121,46 @@ public class GameList
 			}
 		}
 		return result;
+	}
+
+	/**
+	 *
+	 * @param client
+	 * @param gameId
+	 * @return
+	 */
+	public boolean joinGame(ProMaSiClient client,String gameId)throws NullArgumentException
+	{
+		if(gameId==null)
+		{
+			throw new NullArgumentException("Wrong argument gameId==null");
+		}
+
+		if(client==null)
+		{
+			throw new NullArgumentException("Wrong argument client==null");
+		}
+
+		if(gameId.isEmpty())
+		{
+			return false;
+		}
+
+		if(_players.containsKey(client))
+		{
+			return false;
+		}
+		synchronized(this)
+		{
+			if(!_gameList.containsKey(gameId))
+			{
+				return false;
+			}
+
+			Game game=_gameList.get(gameId);
+			//ToDo add user.
+			_players.put(client, game);
+		}
+		return true;
 	}
 }

@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.server.core.game.Game;
 import org.promasi.server.core.game.GameList;
 import org.promasi.tcpserver.TCPClient;
 
@@ -51,7 +52,7 @@ public class ProMaSi
 	 * @throws ProtocolException
 	 * @throws IllegalArgumentException
 	 */
-	public void onReceiveData(TCPClient client,String recData)throws NullArgumentException,ProtocolException,IllegalArgumentException
+	public void onReceiveData(TCPClient client,String recData)throws NullArgumentException,IllegalArgumentException
 	{
 		if(client==null)
 		{
@@ -174,8 +175,24 @@ public class ProMaSi
 		_userManager.addUser(client.getClientId(),client);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public LinkedList<String> retreiveGames()
 	{
 		return _gameList.retreiveGames();
+	}
+
+	/**
+	 *
+	 * @param gameId
+	 * @return
+	 * @throws IllegalArgumentException
+	 * @throws NullArgumentException
+	 */
+	public Game getGame(String gameId)throws IllegalArgumentException,NullArgumentException
+	{
+		return _gameList.getGame(gameId);
 	}
 }

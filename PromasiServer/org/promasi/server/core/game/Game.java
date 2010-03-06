@@ -55,4 +55,45 @@ public class Game
 	{
 		return _gameId;
 	}
+
+	/**
+	 *
+	 * @param playerId
+	 * @throws NullArgumentException
+	 * @throws IllegalArgumentException
+	 */
+	public void addPlayer(String playerId)throws NullArgumentException,IllegalArgumentException
+	{
+		if(playerId==null)
+		{
+			throw new NullArgumentException("Wrong argument playerId==null");
+		}
+		synchronized(this)
+		{
+			if(_gameModels.containsKey(playerId) || _gameMaster.getClientId()==playerId)
+			{
+				throw new IllegalArgumentException("Wrong argument playerId is already in game");
+			}
+			_gameModels.put(playerId, new GameModel(_promasiModel)); //ToDo change GameModel.
+		}
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public ProMaSiClient getGameMaster()
+	{
+		return _gameMaster;
+	}
+
+	/**
+	 *
+	 * @param client
+	 * @return
+	 */
+	public boolean isGameMaster(ProMaSiClient client)
+	{
+		return client==_gameMaster;
+	}
 }

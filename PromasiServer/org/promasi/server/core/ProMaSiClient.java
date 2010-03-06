@@ -12,22 +12,22 @@ import org.promasi.tcpserver.TCPClient;
 
 /**
  * @author m1cRo
- *
+ * ProMaSiClient class.
  */
 public class ProMaSiClient
 {
 	/**
-	 *
+	 *	TCP communication port for current user.
 	 */
 	private TCPClient _client;
 
 	/**
-	 *
+	 *	Client states defined by protocol logic.
 	 */
 	private IClientState _clientState;
 
 	/**
-	 *
+	 *	ProMasi registered user id.
 	 */
 	private String _clientId;
 
@@ -58,7 +58,7 @@ public class ProMaSiClient
 	 * @param recData
 	 * @throws ProtocolException
 	 */
-	public void onReceiveData(String recData)throws ProtocolException
+	public void onReceiveData(String recData)
 	{
 		_clientState.onReceive(this, recData);
 	}
@@ -100,7 +100,7 @@ public class ProMaSiClient
 	/**
 	 *
 	 * @param message
-	 * @return
+	 * @return true if message was sent, false otherwise.
 	 */
 	public boolean sendMessage(String message)
 	{
@@ -108,8 +108,8 @@ public class ProMaSiClient
 	}
 
 	/**
-	 *
-	 * @return
+	 * This method will close the connection with current user and will terminate the receive thread.
+	 * @return true if the connection was successfully closed, false otherwise.
 	 */
 	public boolean disonnect()
 	{

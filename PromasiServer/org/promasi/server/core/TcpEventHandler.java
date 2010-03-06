@@ -105,12 +105,6 @@ public class TcpEventHandler implements ITCPEventHandler
 		{
 			System.out.print(e.getMessage());
 		}
-		catch(ProtocolException e)
-		{
-			tcpClient.sendMessage(new WrongProtocolResponse().toXML());
-			System.out.print(e.getMessage()+"\n");
-			return false;
-		}
 		return true;
 	}
 }
