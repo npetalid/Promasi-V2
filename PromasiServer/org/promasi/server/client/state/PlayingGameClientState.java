@@ -77,14 +77,17 @@ public class PlayingGameClientState extends AbstractClientState {
 		catch(ProtocolException e)
 		{
 			client.sendMessage(new WrongProtocolResponse().toXML());
+			client.disonnect();
 		}
 		catch(NullArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
+			client.disonnect();
 		}
 		catch(IllegalArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
+			client.disonnect();
 		}
 	}
 

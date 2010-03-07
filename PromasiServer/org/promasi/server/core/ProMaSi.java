@@ -195,4 +195,15 @@ public class ProMaSi
 	{
 		return _gameList.getGame(gameId);
 	}
+
+	/**
+	 *
+	 * @param game
+	 * @throws IllegalArgumentException
+	 * @throws NullArgumentException
+	 */
+	public void createNewGame(Game game)throws IllegalArgumentException,NullArgumentException
+	{
+		_gameList.addNewGame(game);
+	}
 }

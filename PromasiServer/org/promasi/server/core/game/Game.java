@@ -7,9 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.protocol.request.StartGameRequest;
 import org.promasi.server.core.GameModel;
-import org.promasi.server.core.UserManager;
 import org.promasi.server.core.ProMaSiClient;
 
 /**

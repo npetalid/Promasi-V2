@@ -18,6 +18,7 @@ import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.AbstractClientState;
 import org.promasi.server.core.ProMaSi;
 import org.promasi.server.core.ProMaSiClient;
+import org.promasi.server.core.game.Game;
 
 /**
  * @author m1cRo
@@ -71,29 +72,38 @@ public class JoinGameClientState extends AbstractClientState {
 			else if( object instanceof JoinGameRequest)
 			{
 				JoinGameRequest joinRequest=(JoinGameRequest)object;
-				//changeClientState(client,new PlayingGameClientState(_promasi,joinRequest.getGameId()));
-				client.sendMessage(new JoinGameResponse().toXML());
+				_promasi.getGame(joinRequest.getGameId()).addPlayer(client);
+				if(!client.sendMessage(new JoinGameResponse().toXML()))
+				{
+					client.disonnect();
+				}
 			}
 			else if(object instanceof CreateNewGameRequest)
 			{
-
+				CreateNewGameRequest request=(CreateNewGameRequest)object;
+				Game game=new Game(request.getGameId(),client,request.getGameModel().toXML());
+				_promasi.createNewGame(game);
 			}
 			else
 			{
 				client.sendMessage(new JoinGameResponse("Wrong protocol").toXML());
+				client.disonnect();
 			}
 		}
 		catch(ProtocolException e)
 		{
 			client.sendMessage(new WrongProtocolResponse().toXML());
+			client.disonnect();
 		}
 		catch(NullArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
+			client.disonnect();
 		}
 		catch(IllegalArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
+			client.disonnect();
 		}
 	}
 }
