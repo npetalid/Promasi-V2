@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.server.core.GameModel;
 import org.promasi.server.core.ProMaSiClient;
 
 /**
@@ -135,5 +134,28 @@ public class Game
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * 
+	 * @param values
+	 * @return
+	 */
+	public HashMap<String,Double> setGameValues(HashMap<String,Double> values)
+	{
+		synchronized(this)
+		{
+			//ToDo
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public HashMap<String,Double> getGameValues()
+	{
+		return null;
 	}
 }

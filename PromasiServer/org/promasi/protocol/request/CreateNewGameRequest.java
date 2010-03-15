@@ -4,7 +4,7 @@
 package org.promasi.protocol.request;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.server.core.GameModel;
+import org.promasi.server.core.game.GameModel;
 
 /**
  * @author m1cRo

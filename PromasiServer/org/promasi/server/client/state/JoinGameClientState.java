@@ -11,6 +11,7 @@ import org.promasi.protocol.request.CreateNewGameRequest;
 import org.promasi.protocol.request.JoinGameRequest;
 import org.promasi.protocol.request.RequestBuilder;
 import org.promasi.protocol.request.RetreiveGamesRequest;
+import org.promasi.protocol.response.CreateNewGameResponse;
 import org.promasi.protocol.response.InternalErrorResponse;
 import org.promasi.protocol.response.JoinGameResponse;
 import org.promasi.protocol.response.RetreiveGamesResponse;
@@ -60,6 +61,7 @@ public class JoinGameClientState extends AbstractClientState {
 			throw new NullArgumentException("Wrong argument client==null");
 		}
 
+		//Check for current request type.
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
@@ -72,17 +74,28 @@ public class JoinGameClientState extends AbstractClientState {
 			else if( object instanceof JoinGameRequest)
 			{
 				JoinGameRequest joinRequest=(JoinGameRequest)object;
-				_promasi.getGame(joinRequest.getGameId()).addPlayer(client);
+				Game game=_promasi.getGame(joinRequest.getGameId());
+				game.addPlayer(client);
 				if(!client.sendMessage(new JoinGameResponse().toXML()))
 				{
 					client.disonnect();
 				}
+				changeClientState(client,new WaitingGameClientState(_promasi,game));
 			}
 			else if(object instanceof CreateNewGameRequest)
 			{
 				CreateNewGameRequest request=(CreateNewGameRequest)object;
 				Game game=new Game(request.getGameId(),client,request.getGameModel().toXML());
-				_promasi.createNewGame(game);
+				try
+				{
+					_promasi.createNewGame(game);
+					client.sendMessage(new CreateNewGameResponse(true).toXML());
+					changeClientState(client,new GameMasterClientState(_promasi,game));
+				}
+				catch(IllegalArgumentException e)
+				{
+					client.sendMessage(new CreateNewGameResponse(false).toXML());
+				}
 			}
 			else
 			{

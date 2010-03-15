@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.server.core;
+package org.promasi.server.core.game;
 
 import java.beans.XMLEncoder;
 import java.io.ByteArrayOutputStream;

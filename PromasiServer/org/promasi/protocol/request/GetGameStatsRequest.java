@@ -11,10 +11,21 @@ import org.apache.commons.lang.NullArgumentException;
  */
 public class GetGameStatsRequest
 {
+	/**
+	 *
+	 */
 	private String _userId;
 
+	/**
+	 *
+	 */
 	private String _gameId;
 
+	/**
+	 *
+	 * @param userId
+	 * @throws NullArgumentException
+	 */
 	public void setUserId(String userId)throws NullArgumentException
 	{
 		if(userId==null)
@@ -24,11 +35,20 @@ public class GetGameStatsRequest
 		_userId=userId;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getUserId()
 	{
 		return _userId;
 	}
 
+	/**
+	 *
+	 * @param gameId
+	 * @throws NullArgumentException
+	 */
 	public void setGameId(String gameId)throws NullArgumentException
 	{
 		if(gameId==null)
@@ -38,6 +58,10 @@ public class GetGameStatsRequest
 		_gameId=gameId;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getGameId()
 	{
 		return _gameId;

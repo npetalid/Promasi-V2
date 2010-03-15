@@ -1,9 +1,6 @@
 package org.promasi.server.core;
 
-import java.net.ProtocolException;
-
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.tcpserver.ITCPEventHandler;
 import org.promasi.tcpserver.TCPClient;
 

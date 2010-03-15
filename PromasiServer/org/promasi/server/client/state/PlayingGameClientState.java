@@ -4,16 +4,14 @@
 package org.promasi.server.client.state;
 
 import java.net.ProtocolException;
-import java.util.LinkedList;
+import java.util.HashMap;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.protocol.request.CreateNewGameRequest;
-import org.promasi.protocol.request.JoinGameRequest;
+import org.promasi.protocol.request.GetGameStatsRequest;
 import org.promasi.protocol.request.RequestBuilder;
-import org.promasi.protocol.request.RetreiveGamesRequest;
+import org.promasi.protocol.request.SetGameValuesRequest;
 import org.promasi.protocol.response.InternalErrorResponse;
-import org.promasi.protocol.response.JoinGameResponse;
-import org.promasi.protocol.response.RetreiveGamesResponse;
+import org.promasi.protocol.response.SetGameValuesResponse;
 import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.AbstractClientState;
 import org.promasi.server.core.ProMaSi;
@@ -73,6 +71,27 @@ public class PlayingGameClientState extends AbstractClientState {
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
+			if(object instanceof SetGameValuesRequest)
+			{
+				SetGameValuesRequest request=(SetGameValuesRequest)object;
+				HashMap<String,Double> invalidValues=_game.setGameValues(request.getValues());
+				if(invalidValues==null)
+				{
+					client.sendMessage(new SetGameValuesResponse().toXML());
+				}
+				else
+				{
+					client.sendMessage(new SetGameValuesResponse(invalidValues).toXML());
+				}
+			}
+			else if(object instanceof GetGameStatsRequest)
+			{
+				
+			}
+			else
+			{
+
+			}
 		}
 		catch(ProtocolException e)
 		{
