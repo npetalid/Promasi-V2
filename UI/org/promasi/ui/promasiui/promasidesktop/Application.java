@@ -14,6 +14,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.promasi.shell.Shell;
 import org.promasi.shell.UiManager;
 import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
+import org.promasi.shell.ui.IUiInitializer;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.ui.promasiui.promasidesktop.singleplayerscoremode.SinglePlayerScoreModeUiInitializer;
 
@@ -21,11 +22,11 @@ import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 
 /**
- * 
+ *
  * Main class that starts the program.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public final class Application
 {
@@ -53,9 +54,9 @@ public final class Application
     }
 
     /**
-     * 
+     *
      * Main method that starts the application.
-     * 
+     *
      * @param args
      *            The arguments of the method.
      */
@@ -79,7 +80,14 @@ public final class Application
         UiManager.getInstance( ).registerPlayModeInitializer( SinglePlayerScorePlayMode.class, new SinglePlayerScoreModeUiInitializer( ) );
         try
         {
-            Shell.getInstance( ).initializeUi( );
+            LOGGER.info( "Initializing UI..." );
+            IUiInitializer uiInitializer = UiManager.getInstance( ).getUiInitializer( );
+            if ( uiInitializer == null )
+            {
+                LOGGER.error( "No registered UI initializer." );
+                throw new ConfigurationException( "No registered UI initializer." );
+            }
+            uiInitializer.registerMainFrame( );
         }
         catch ( ConfigurationException e )
         {
@@ -92,11 +100,11 @@ public final class Application
     }
 
     /**
-     * 
+     *
      * Class that handles the UI initialization.
-     * 
+     *
      * @author eddiefullmetal
-     * 
+     *
      */
     private static class ApplicationRunner
             implements Runnable

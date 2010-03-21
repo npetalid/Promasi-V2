@@ -6,8 +6,8 @@ import java.util.Vector;
 
 import javax.naming.ConfigurationException;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
-import org.promasi.communication.Communicator;
 import org.promasi.model.Clock;
 import org.promasi.model.Company;
 import org.promasi.model.Employee;
@@ -20,16 +20,14 @@ import org.promasi.shell.model.communication.JXPathResolver;
 import org.promasi.shell.model.communication.ModelMessageReceiver;
 import org.promasi.shell.model.communication.ResolverFactory;
 import org.promasi.shell.ui.IMainFrame;
-import org.promasi.shell.ui.IUiInitializer;
-import org.promasi.shell.ui.playmode.IPlayUiModeInitializer;
 
 
 /**
- * 
+ *
  * Controls the current session of the user.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public final class Shell
         implements INotifierListener
@@ -56,6 +54,11 @@ public final class Shell
     private List<IShellListener> _listeners;
 
     /**
+     * The current model message receiver.
+     */
+    private ModelMessageReceiver _modelMessageReceiver;
+
+    /**
      * Default logger for this class.
      */
     private static final Logger LOGGER = Logger.getLogger( Shell.class );
@@ -66,6 +69,7 @@ public final class Shell
     private Shell( )
     {
         _listeners = new Vector<IShellListener>( );
+        _modelMessageReceiver=new ModelMessageReceiver();
     }
 
     /**
@@ -89,25 +93,21 @@ public final class Shell
     }
 
     /**
-     * 
+     *
      * Sets the {@link #_currentPlayMode} and initializes the play mode.
-     * 
+     *
      * @param currentPlayMode
      *            the {@link #_currentPlayMode} to set.
-     * @throws ConfigurationException
+     * @throws NullArgumentException
      */
     public void setCurrentPlayMode ( IPlayMode currentPlayMode )
-            throws ConfigurationException
+            throws NullArgumentException
     {
+    	if(currentPlayMode==null)
+    	{
+    		throw new NullArgumentException("Wrong argument currentPlayMode==null");
+    	}
         _currentPlayMode = currentPlayMode;
-        IPlayUiModeInitializer playModeInitializer = UiManager.getInstance( ).getPlayModeInitializer( currentPlayMode.getClass( ) );
-        if ( playModeInitializer == null )
-        {
-            LOGGER.error( "No registered play mode initializer for play mode" );
-            throw new ConfigurationException( "No registered play mode initializer for play mode" );
-        }
-        playModeInitializer.registerLoginUi( );
-        playModeInitializer.registerProjectFinishedUi( );
     }
 
     /**
@@ -119,10 +119,10 @@ public final class Shell
     }
 
     /**
-     * 
+     *
      * Sets the {@link #_company} and the context of the
      * {@link ModelMessageReceiver}.
-     * 
+     *
      * @param company
      *            the {@link #_company} to set.
      */
@@ -130,48 +130,20 @@ public final class Shell
     {
         _company = company;
         // Initialize model objects.
-        ModelMessageReceiver.getInstance( ).setContext( company );
+        _modelMessageReceiver.setContext( company );
         ResolverFactory.registerResolver( new JXPathResolver( ) );
         _company.getNotifier( ).addListener( this );
     }
 
     /**
      * Shows the {@link IMainFrame} and starts the play mode.
-     * 
+     *
      * @throws ConfigurationException
      */
     public void start ( )
             throws ConfigurationException
     {
-        Communicator.getInstance( ).setMainReceiver( ModelMessageReceiver.getInstance( ) );
-        IMainFrame mainFrame = UiManager.getInstance( ).getRegisteredMainFrame( );
-        if ( mainFrame == null || _currentPlayMode == null )
-        {
-            LOGGER.error( "No registered MainFrame or play mode." );
-            throw new ConfigurationException( "No registered MainFrame or play mode." );
-        }
-        mainFrame.initializeMainFrame( );
-        mainFrame.showMainFrame( );
         _currentPlayMode.start( );
-    }
-
-    /**
-     * Initializes the UI by calling the registered {@link IUiInitializer} from
-     * the {@link UiManager}.
-     * 
-     * @throws ConfigurationException
-     */
-    public void initializeUi ( )
-            throws ConfigurationException
-    {
-        LOGGER.info( "Initializing UI..." );
-        IUiInitializer uiInitializer = UiManager.getInstance( ).getUiInitializer( );
-        if ( uiInitializer == null )
-        {
-            LOGGER.error( "No registered UI initializer." );
-            throw new ConfigurationException( "No registered UI initializer." );
-        }
-        uiInitializer.registerMainFrame( );
     }
 
     /**
@@ -200,7 +172,7 @@ public final class Shell
 
     /**
      * Hires the employee.
-     * 
+     *
      * @param employee
      *            The {@link Employee} to hire.
      */
@@ -280,6 +252,15 @@ public final class Shell
     }
 
     /**
+     *
+     * @return
+     */
+    public ModelMessageReceiver getModelMessageReceiver()
+    {
+    	return _modelMessageReceiver;
+    }
+
+    /**
      * Class used only by the {@link Shell} to schedule the project start time.
      */
     private static class ProjectStartTimerTask
@@ -314,13 +295,6 @@ public final class Shell
             }
         }
 
-        /**
-         * @return the {@link #_project}.
-         */
-        public Project getProject ( )
-        {
-            return _project;
-        }
 
         @Override
         public String toString ( )

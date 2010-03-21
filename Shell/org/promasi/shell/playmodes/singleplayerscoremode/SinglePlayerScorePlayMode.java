@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.naming.ConfigurationException;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.joda.time.DurationFieldType;
 import org.promasi.core.IStatePersister;
@@ -34,13 +35,13 @@ import org.promasi.shell.ui.playmode.IProjectFinishedUi;
 
 
 /**
- * 
+ *
  * This play mode works with XML file storage. The purpose of this mode is to
  * complete all levels with the higher score(prestige points). For more info
  * read the "SinglePlayerScoreMode_Specification".
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class SinglePlayerScorePlayMode
         implements IPlayMode, IClockListener, IShellListener
@@ -72,6 +73,11 @@ public class SinglePlayerScorePlayMode
     private Map<Project, IStatePersister> _projectPersisters;
 
     /**
+     * The current system shell.
+     */
+    private Shell _shell;
+
+    /**
      * Default logger for this class.
      */
     private static final Logger LOGGER = Logger.getLogger( SinglePlayerScorePlayMode.class );
@@ -79,9 +85,14 @@ public class SinglePlayerScorePlayMode
     /**
      * Initializes the object.
      */
-    public SinglePlayerScorePlayMode( )
+    public SinglePlayerScorePlayMode( Shell shell )throws NullArgumentException
     {
-        Shell.getInstance( ).addListener( this );
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
+    	_shell=shell;
+    	_shell.addListener( this );
         _projectPersisters = new Hashtable<Project, IStatePersister>( );
         _lockObject = new Object( );
     }
@@ -224,17 +235,17 @@ public class SinglePlayerScorePlayMode
             if ( project.equals( _currentStory.getCurrentProject( ) ) )
             {
                 // set up the mode message receiver.
-                ModelMessageReceiver.getInstance( ).clearAll( );
+               	_shell.getModelMessageReceiver().clearAll( );
                 List<OutputVariableBinding> variableBindings = _currentStory.getOutputVariableBindings( project );
                 for ( OutputVariableBinding outputVariableBinding : variableBindings )
                 {
-                    ModelMessageReceiver.getInstance( ).addValueSentData( outputVariableBinding.getSdObjectKey( ),
+                	_shell.getModelMessageReceiver().addValueSentData( outputVariableBinding.getSdObjectKey( ),
                             outputVariableBinding.getModelXPath( ) );
                 }
                 List<ExternalEquationBinding> externalBindings = _currentStory.getExternalEquationBindings( project );
                 for ( ExternalEquationBinding externalEquationBinding : externalBindings )
                 {
-                    ModelMessageReceiver.getInstance( ).addValueRequestedData( externalEquationBinding.getSdObjectKey( ),
+                	 _shell.getModelMessageReceiver().addValueRequestedData( externalEquationBinding.getSdObjectKey( ),
                             externalEquationBinding.getModelXPath( ) );
                 }
                 List<EventBinding> eventBindings = _currentStory.getEventBindings( project );
@@ -252,7 +263,7 @@ public class SinglePlayerScorePlayMode
                         }
                         if ( action.isValid( ) )
                         {
-                            ModelMessageReceiver.getInstance( ).addEventAction( eventBinding.getEventName( ), eventBinding.getSdObjectKey( ), action );
+                        	_shell.getModelMessageReceiver().addEventAction( eventBinding.getEventName( ), eventBinding.getSdObjectKey( ), action );
                         }
                         else
                         {

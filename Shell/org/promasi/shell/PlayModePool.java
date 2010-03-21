@@ -8,11 +8,11 @@ import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMo
 
 
 /**
- * 
+ *
  * Contains all available play modes. Singleton implementation.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public final class PlayModePool
 {
@@ -70,6 +70,6 @@ public final class PlayModePool
      */
     private void loadDefaultPlayModes ( )
     {
-        registerPlayMode( new SinglePlayerScorePlayMode( ) );
+        registerPlayMode( new SinglePlayerScorePlayMode(Shell.getInstance()) );
     }
 }

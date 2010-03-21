@@ -21,23 +21,27 @@ import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.log4j.Logger;
+import org.promasi.communication.Communicator;
 import org.promasi.model.Company;
 import org.promasi.model.ProjectManager;
 import org.promasi.shell.Shell;
+import org.promasi.shell.UiManager;
+import org.promasi.shell.model.communication.ModelMessageReceiver;
 import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
 import org.promasi.shell.playmodes.singleplayerscoremode.StoriesPool;
 import org.promasi.shell.playmodes.singleplayerscoremode.Story;
+import org.promasi.shell.ui.IMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.PlayModeSelectorFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
 
 
 /**
- * 
+ *
  * A {@link JFrame} used for selecting a {@link Story}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class StorySelectorFrame
         extends JFrame
@@ -173,6 +177,15 @@ public class StorySelectorFrame
             dispose( );
             try
             {
+                Communicator.getInstance( ).setMainReceiver( Shell.getInstance().getModelMessageReceiver());
+                IMainFrame mainFrame = UiManager.getInstance( ).getRegisteredMainFrame( );
+                if ( mainFrame == null || playMode == null )
+                {
+                    LOGGER.error( "No registered MainFrame or play mode." );
+                    throw new ConfigurationException( "No registered MainFrame or play mode." );
+                }
+                mainFrame.initializeMainFrame( );
+                mainFrame.showMainFrame( );
                 Shell.getInstance( ).start( );
             }
             catch ( ConfigurationException e )

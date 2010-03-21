@@ -11,21 +11,15 @@ import org.promasi.shell.model.actions.IModelAction;
 
 
 /**
- * 
+ *
  * Singleton class that receives and handles notifications from the core layer.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public final class ModelMessageReceiver
         implements IMessageReceiver
 {
-
-    /**
-     * The singleton instance.
-     */
-    private static ModelMessageReceiver INSTANCE;
-
     /**
      * A {@link Map} that contains for a sdObjectKey what data it will use in
      * order to get the value.
@@ -58,7 +52,7 @@ public final class ModelMessageReceiver
     /**
      * Initializes the object.
      */
-    private ModelMessageReceiver( )
+    public ModelMessageReceiver( )
     {
         _valueRequestedData = new Hashtable<String, Object>( );
         _valueSentData = new Hashtable<String, Object>( );
@@ -162,10 +156,10 @@ public final class ModelMessageReceiver
     }
 
     /**
-     * 
+     *
      * Adds an entry to the {@link #_eventActions}. If an entry for the
      * specified event and object exists the entry is ignored.
-     * 
+     *
      * @param eventName
      * @param sdObjectName
      * @param action
@@ -199,18 +193,6 @@ public final class ModelMessageReceiver
     public void setContext ( Company context )
     {
         _context = context;
-    }
-
-    /**
-     * @return the {@link #INSTANCE}.
-     */
-    public static ModelMessageReceiver getInstance ( )
-    {
-        if ( INSTANCE == null )
-        {
-            INSTANCE = new ModelMessageReceiver( );
-        }
-        return INSTANCE;
     }
 
 }

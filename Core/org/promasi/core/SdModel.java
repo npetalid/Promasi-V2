@@ -2,6 +2,7 @@ package org.promasi.core;
 
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
@@ -15,9 +16,9 @@ import org.promasi.utilities.ErrorBuilder;
  * The SdModel consists of many {@link ISdObject}s that describe the model. It
  * organizes those objects and provides various methods to handle them. The
  * class follows the javabeans specification.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class SdModel
         implements Serializable
@@ -67,12 +68,12 @@ public class SdModel
     }
 
     /**
-     * 
+     *
      * Registers all the given {@link ISdObject}s.
-     * 
+     *
      * @param sdObjects
      *            The {@link ISdObject}s to register.
-     * 
+     *
      * @throws NullArgumentException
      *             In case the sdobjects is null.
      */
@@ -105,7 +106,7 @@ public class SdModel
 
     /**
      * Registers a single {@link ISdObject} to the model.
-     * 
+     *
      * @param sdObject
      *            The {@link ISdObject} to register.
      */
@@ -148,12 +149,12 @@ public class SdModel
 
     /**
      * Gets an {@link ISdObject} from the model with a given key.
-     * 
+     *
      * @param key
      *            The key of the {@link ISdObject} to return.
      * @return The {@link ISdObject} corresponding to the given key or null if
      *         an {@link ISdObject} with the specified key does not exists.
-     * 
+     *
      * @throws IllegalArgumentException
      *             In case the key is null or empty
      */
@@ -173,7 +174,7 @@ public class SdModel
     /**
      * Gets all the {@link ISdObject}s that have the specified
      * {@link SdObjectType}.
-     * 
+     *
      * @param type
      *            The {@link SdObjectType}.
      * @return All the {@link ISdObject}s for the specified type or an empty
@@ -192,7 +193,7 @@ public class SdModel
 
     /**
      * Gets all the {@link ISdObject}s that the sdObject affects.
-     * 
+     *
      * @param sdObject
      *            The {@link ISdObject} to learn which {@link ISdObject}s it
      *            affects.
@@ -222,5 +223,28 @@ public class SdModel
     public List<ISdObject> getSdObjects ( )
     {
         return _sdObjects;
+    }
+
+    /**
+     *
+     * @return The output values for current SdModel
+     */
+    public HashMap<String,Double> getOutputs()
+    {
+    	HashMap<String,Double> result=new HashMap<String,Double>();
+    	if(!_categories.contains(SdObjectType.Output))
+    	{
+    		return result;
+    	}
+    	List<ISdObject> sdObjects=_categories.get(SdObjectType.Output);
+    	for(int i=0;i<sdObjects.size();i++)
+    	{
+    		ISdObject object=sdObjects.get(i);
+    		if(object!=null)
+    		{
+    			result.put(object.getKey(), object.getValue());
+    		}
+    	}
+    	return result;
     }
 }

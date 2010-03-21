@@ -26,16 +26,17 @@ import org.promasi.shell.PlayModePool;
 import org.promasi.shell.Shell;
 import org.promasi.shell.UiManager;
 import org.promasi.shell.ui.playmode.ILoginUi;
+import org.promasi.shell.ui.playmode.IPlayUiModeInitializer;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
 
 
 /**
- * 
+ *
  * A {@link JFrame} that allows the user to select a {@link IPlayMode}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class PlayModeSelectorFrame
         extends JFrame
@@ -150,6 +151,14 @@ public class PlayModeSelectorFrame
             try
             {
                 Shell.getInstance( ).setCurrentPlayMode( playMode );
+                IPlayUiModeInitializer playModeInitializer = UiManager.getInstance( ).getPlayModeInitializer( playMode.getClass( ) );
+                if ( playModeInitializer == null )
+                {
+                    LOGGER.error( "No registered play mode initializer for play mode" );
+                    throw new ConfigurationException( "No registered play mode initializer for play mode" );
+                }
+                playModeInitializer.registerLoginUi( );
+                playModeInitializer.registerProjectFinishedUi( );
             }
             catch ( ConfigurationException e )
             {

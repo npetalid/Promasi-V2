@@ -2,6 +2,7 @@ package org.promasi.core;
 
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -13,12 +14,12 @@ import org.promasi.utilities.ErrorBuilder;
 
 
 /**
- * 
+ *
  * The SdSystem contains one {@link SdModel}. An implementation of an
  * {@link IComputationalSequence} and provides methods for handling the system.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class SdSystem
 {
@@ -59,10 +60,10 @@ public class SdSystem
 
     /**
      * Initializes the {@link SdSystem}.
-     * 
+     *
      * @param sdObjects
      *            The {@link ISdObject}s to initialize the {@link SdModel} with.
-     * 
+     *
      * @param computationalSequence
      *            The {@link IComputationalSequence} to use.
      */
@@ -79,7 +80,7 @@ public class SdSystem
     /**
      * Initializes the {@link SdSystem} with a
      * {@link DefaultComputationalSequence}.
-     * 
+     *
      * @param sdObjects
      *            The {@link ISdObject}s to initialize the {@link SdModel} with.
      */
@@ -114,10 +115,10 @@ public class SdSystem
 
     /**
      * Adds an {@link ISdListener}.
-     * 
+     *
      * @param listener
      *            The {@link ISdListener} to add.
-     * 
+     *
      * @throws NullArgumentException
      *             In case the listener is null.
      */
@@ -139,7 +140,7 @@ public class SdSystem
 
     /**
      * Removes the {@link ISdListener} from the system.
-     * 
+     *
      * @param listener
      *            The {@link ISdListener} to remove.
      * @throws NullArgumentException
@@ -164,7 +165,7 @@ public class SdSystem
     /**
      * Register the {@link IStatePersister} and initialize it with the
      * {@link #_model}.
-     * 
+     *
      * @param persister
      *            The {@link IStatePersister} to use.
      */
@@ -181,7 +182,7 @@ public class SdSystem
      * <ol>
      * <li> {@link TimeSdObject}</li>
      * </ol>
-     * 
+     *
      * @param sdObjects
      *            The {@link ISdObject}s to normalize.
      */
@@ -212,15 +213,28 @@ public class SdSystem
     }
 
     /**
-     * 
+     *
      * Gets the current step of the system using the {@link TimeSdObject} from
      * the current {@link SdModel}.
-     * 
+     *
      * @return The current step.
      */
     public double getCurrentStep ( )
     {
         ISdObject time = _model.getSdObject( TimeSdObject.KEY );
         return time.getValue( );
+    }
+
+    /**
+     *
+     * @return The outputs values for current SdSystem
+     */
+    public HashMap<String,Double> getOutputs()
+    {
+    	if(_model==null)
+    	{
+    		return new HashMap<String,Double>();
+    	}
+    	return _model.getOutputs();
     }
 }
