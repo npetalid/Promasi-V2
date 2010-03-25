@@ -155,7 +155,7 @@ public class SinglePlayerScorePlayMode
     public void start ( )
             throws ConfigurationException
     {
-        Company company = Shell.getInstance( ).getCompany( );
+        Company company = _shell.getCompany( );
         if ( _currentStory == null || !_currentStory.isValid( ) )
         {
             LOGGER.error( "No story is selected or story is not properly configured." );
@@ -186,7 +186,7 @@ public class SinglePlayerScorePlayMode
         message.setTitle( "New project." );
         Project currentProject = company.getCurrentProject( );
         message.setBody( currentProject.getDescription( ) );
-        Shell.getInstance( ).sendMail( message );
+        _shell.sendMail( message );
     }
 
     @Override
@@ -210,12 +210,12 @@ public class SinglePlayerScorePlayMode
                 message.setRecipient( company.getProjectManager( ) );
                 message.setTitle( "Payments" );
                 message.setBody( "Total payments : " + total );
-                Shell.getInstance( ).sendMail( message );
+                _shell.sendMail( message );
             }
             if ( changedTypes.contains( DurationFieldType.hours( ) ) )
             {
                 int currentHourOfDay = Clock.getInstance( ).getCurrentDateTime( ).getHourOfDay( );
-                Company company = Shell.getInstance( ).getCompany( );
+                Company company = _shell.getCompany( );
                 int companyEndHour = company.getEndTime( ).getHourOfDay( );
                 if ( currentHourOfDay >= companyEndHour )
                 {
@@ -300,7 +300,7 @@ public class SinglePlayerScorePlayMode
         synchronized ( _lockObject )
         {
             _currentSdSystem = null;
-            Company company = Shell.getInstance( ).getCompany( );
+            Company company = _shell.getCompany( );
             Project nextProject = _currentStory.getNextProject( );
             if ( nextProject != null )
             {

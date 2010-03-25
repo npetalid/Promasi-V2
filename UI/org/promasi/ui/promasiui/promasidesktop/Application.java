@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.promasi.shell.Shell;
@@ -38,7 +39,10 @@ public final class Application
     /**
      * The {@link ApplicationRunner} that is used.
      */
-    private static final ApplicationRunner RUNNER = new ApplicationRunner( );
+
+    private static final Shell _shell=new Shell();
+
+    private static final ApplicationRunner RUNNER = new ApplicationRunner(_shell);
 
     /**
      * Default logger for this class.
@@ -87,7 +91,7 @@ public final class Application
                 LOGGER.error( "No registered UI initializer." );
                 throw new ConfigurationException( "No registered UI initializer." );
             }
-            uiInitializer.registerMainFrame( );
+            uiInitializer.registerMainFrame(_shell );
         }
         catch ( ConfigurationException e )
         {
@@ -110,13 +114,23 @@ public final class Application
             implements Runnable
     {
 
+    	private Shell _shell;
+
+    	public ApplicationRunner(Shell shell)throws NullArgumentException
+    	{
+    		if(shell==null)
+    		{
+    			throw new NullArgumentException("Wrong argument shell==null");
+    		}
+    		_shell=shell;
+    	}
         /**
          * Shows the {@link PlayModeSelectorFrame}.
          */
         @Override
         public void run ( )
         {
-            PlayModeSelectorFrame dialog = new PlayModeSelectorFrame( );
+            PlayModeSelectorFrame dialog = new PlayModeSelectorFrame(_shell);
             dialog.setVisible( true );
         }
 

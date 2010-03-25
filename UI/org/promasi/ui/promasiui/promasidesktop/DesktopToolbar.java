@@ -18,6 +18,8 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
+import org.promasi.shell.Shell;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
 import org.promasi.ui.promasiui.promasidesktop.programs.evolutionbird.EvolutionBirdProgram;
 import org.promasi.ui.promasiui.promasidesktop.programs.infogate.InfoGateProgram;
@@ -27,11 +29,11 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
 /**
- * 
+ *
  * The main toolbar of the {@link DesktopMainFrame}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class DesktopToolbar
         extends JToolBar
@@ -66,30 +68,38 @@ public class DesktopToolbar
     /**
      * Initializes the object.
      */
-    public DesktopToolbar( )
+    public DesktopToolbar(Shell shell )throws NullArgumentException
     {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
         _quickLaunchButtons = new Hashtable<JButton, AbstractProgram>( );
         _listeners = new Vector<IToolbarListener>( );
         setFloatable( false );
         setBorder( BorderFactory.createEtchedBorder( ) );
-        initializeComponents( );
+        initializeComponents(shell );
         initializeLayout( );
-        addQuickLaunch( new EvolutionBirdProgram( ) );
-        addQuickLaunch( new MarketPlaceProgram( ) );
-        addQuickLaunch( new PlannerProgram( ) );
-        addQuickLaunch( new InfoGateProgram( ) );
+        addQuickLaunch( new EvolutionBirdProgram(shell ) );
+        addQuickLaunch( new MarketPlaceProgram(shell ) );
+        addQuickLaunch( new PlannerProgram(shell ) );
+        addQuickLaunch( new InfoGateProgram(shell) );
     }
 
     /**
      * Initializes the components.
      */
-    private void initializeComponents ( )
+    private void initializeComponents (Shell shell )throws NullArgumentException
     {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
         _clock = new ClockButton( );
         _quickLaunchPanel = new JPanel( );
         _quickLaunchPanel.setBorder( BorderFactory.createEmptyBorder( ) );
         _quickLaunchPanel.setLayout( new MigLayout( new LC( ) ) );
-        _projectInfoButton = new ProjectInfoButton( );
+        _projectInfoButton = new ProjectInfoButton(shell );
     }
 
     /**
@@ -107,7 +117,7 @@ public class DesktopToolbar
 
     /**
      * Adds a button to the quick launch.
-     * 
+     *
      * @param program
      *            The {@link AbstractProgram}.
      */

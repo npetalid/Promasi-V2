@@ -22,6 +22,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.EmployeeTeamData;
 import org.promasi.shell.Shell;
 import org.promasi.shell.UiManager;
@@ -30,11 +31,11 @@ import org.promasi.utilities.ui.ScreenUtils;
 
 
 /**
- * 
+ *
  * Edits a {@link GanttTaskSchedule}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class GanttTaskScheduleEditor
         extends JDialog
@@ -121,17 +122,24 @@ public class GanttTaskScheduleEditor
      */
     private JButton _removeResourceButton;
 
+    private Shell _shell;
+
     /**
      * Initializes the object.
-     * 
+     *
      * @param allTasks
      *            The {@link #_allTasks}.
      * @param taskToEdit
      *            The {@link #_taskToEdit}.
      */
-    public GanttTaskScheduleEditor( List<GanttTaskSchedule> allTasks, GanttTaskSchedule taskToEdit )
+    public GanttTaskScheduleEditor( List<GanttTaskSchedule> allTasks, GanttTaskSchedule taskToEdit,Shell shell )throws NullArgumentException
     {
         super( (Window) UiManager.getInstance( ).getRegisteredMainFrame( ) );
+        if(shell==null)
+        {
+        	throw new NullArgumentException("Wrong argument shell==null");
+        }
+        _shell=shell;
         setModal( true );
         setTitle( ResourceManager.getString( GanttTaskScheduleEditor.class, "title" ) );
         setSize( ScreenUtils.sizeForPercentage( 0.4, 0.2 ) );
@@ -266,7 +274,7 @@ public class GanttTaskScheduleEditor
         }
         else if ( e.getSource( ).equals( _addResourceButton ) )
         {
-            AddResourceEditor editor = new AddResourceEditor( Shell.getInstance( ).getHiredEmployees( ), _taskToEdit );
+            AddResourceEditor editor = new AddResourceEditor( _shell.getHiredEmployees( ), _taskToEdit );
             editor.setVisible( true );
             _resourcesTable.setModel( new EmployeeTeamDataTableModel( _taskToEdit.getResources( ) ) );
             repaint( );

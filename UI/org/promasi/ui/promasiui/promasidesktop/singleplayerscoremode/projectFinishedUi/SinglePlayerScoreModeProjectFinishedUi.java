@@ -16,10 +16,12 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.StringUtils;
 import org.promasi.core.ISdObject;
 import org.promasi.core.SdSystem;
 import org.promasi.model.Project;
+import org.promasi.shell.Shell;
 import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
 import org.promasi.shell.ui.playmode.IProjectFinishedUi;
 import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
@@ -30,12 +32,12 @@ import org.promasi.utilities.ui.SwingCreator;
 
 
 /**
- * 
+ *
  * Implementation of the {@link IProjectFinishedUi} for the
  * {@link SinglePlayerScorePlayMode}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class SinglePlayerScoreModeProjectFinishedUi
         extends JPanel
@@ -93,6 +95,8 @@ public class SinglePlayerScoreModeProjectFinishedUi
      */
     private SdModelInfoPanel _systemInfoPanel;
 
+    private Shell _shell;
+
     /**
      * The finished {@link Project}.
      */
@@ -100,10 +104,15 @@ public class SinglePlayerScoreModeProjectFinishedUi
 
     /**
      * Initializes the object.
-     * 
+     *
      */
-    public SinglePlayerScoreModeProjectFinishedUi( )
+    public SinglePlayerScoreModeProjectFinishedUi(Shell shell)throws NullArgumentException
     {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
+    	_shell=shell;
         Initialize( );
     }
 
@@ -227,7 +236,7 @@ public class SinglePlayerScoreModeProjectFinishedUi
     {
         if ( _ganttInfoPanel == null )
         {
-            _ganttInfoPanel = new PlannerProgram( );
+            _ganttInfoPanel = new PlannerProgram(_shell );
         }
         return _ganttInfoPanel;
     }
@@ -239,7 +248,7 @@ public class SinglePlayerScoreModeProjectFinishedUi
     {
         if ( _systemInfoPanel == null )
         {
-            _systemInfoPanel = new SdModelInfoPanel( );
+            _systemInfoPanel = new SdModelInfoPanel(_shell );
         }
         return _systemInfoPanel;
     }
@@ -262,7 +271,7 @@ public class SinglePlayerScoreModeProjectFinishedUi
         getProjectNameLabel( ).setText( _project.getName( ) );
         getProjectInfoPanel( ).setProject( _project );
         getSystemInfoPanel( ).setProject( _project );
-        DesktopMainFrame.getInstance( ).showWindow( getInternalFrame( ) );
+        DesktopMainFrame.getInstance(_shell ).showWindow( getInternalFrame( ) );
     }
 
 }

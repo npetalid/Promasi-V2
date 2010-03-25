@@ -1,6 +1,7 @@
 package org.promasi.shell.model.actions;
 
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.StringUtils;
 import org.promasi.model.Company;
 import org.promasi.model.Message;
@@ -8,12 +9,12 @@ import org.promasi.shell.Shell;
 
 
 /**
- * 
+ *
  * An {@link IModelAction} that sends a mail from the boss with the specified
  * message and title.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class BossMailModelAction
         implements IModelAction
@@ -29,26 +30,31 @@ public class BossMailModelAction
      */
     private String _title;
 
+    private Shell _shell;
+
     /**
      * Initializes the object.
-     * 
+     *
      */
-    public BossMailModelAction( )
+    public BossMailModelAction( Shell shell )throws NullArgumentException
     {
-
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
+    	_shell=shell;
     }
 
     @Override
     public void runAction ( )
     {
-        Company company = Shell.getInstance( ).getCompany( );
+        Company company = _shell.getCompany( );
         Message message = new Message( );
         message.setBody( _message );
         message.setTitle( _title );
         message.setRecipient( company.getProjectManager( ) );
         message.setSender( company.getBoss( ) );
-
-        Shell.getInstance( ).sendMail( message );
+        _shell.sendMail( message );
     }
 
     @Override

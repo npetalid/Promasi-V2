@@ -19,7 +19,9 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
+import org.promasi.shell.Shell;
 import org.promasi.shell.ui.IMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
 import org.promasi.utilities.ui.ScreenUtils;
@@ -29,9 +31,9 @@ import com.sun.java.swing.Painter;
 
 /**
  * The main frame of the Promasi application.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class DesktopMainFrame
         extends JFrame
@@ -53,6 +55,8 @@ public class DesktopMainFrame
      */
     private JDesktopPane _desktopPane;
 
+    private Shell _shell;
+
     /**
      * Singleton implementation.
      */
@@ -61,8 +65,13 @@ public class DesktopMainFrame
     /**
      * Initializes the object.
      */
-    private DesktopMainFrame( )
+    private DesktopMainFrame(Shell shell )throws NullArgumentException
     {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
+    	_shell=shell;
         // Set the painter
         // if ( UIManager.getLookAndFeel( ).getClass( ).getName( ).equals(
         // NimbusLookAndFeel.class.getName( ) ) )
@@ -78,7 +87,7 @@ public class DesktopMainFrame
      */
     private void initializeComponents ( )
     {
-        _toolbar = new DesktopToolbar( );
+        _toolbar = new DesktopToolbar(_shell );
         _toolbar.addListener( this );
         _desktopPane = new JDesktopPane( );
     }
@@ -123,7 +132,7 @@ public class DesktopMainFrame
 
     /**
      * Shows a {@link JInternalFrame} to the screen.
-     * 
+     *
      * @param frame
      * @return True if the frame did not exist on the desktop,False if the frame
      *         already exists and was just selected.
@@ -166,20 +175,20 @@ public class DesktopMainFrame
     /**
      * Singleton implementation.
      */
-    public static DesktopMainFrame getInstance ( )
+    public static DesktopMainFrame getInstance (Shell shell )
     {
         if ( INSTANCE == null )
         {
-            INSTANCE = new DesktopMainFrame( );
+            INSTANCE = new DesktopMainFrame(shell );
         }
         return INSTANCE;
     }
 
     /**
      * A Painter for painting the wallpaper of the {@link DesktopMainFrame}.
-     * 
+     *
      * @author eddiefullmetal
-     * 
+     *
      */
     private class WallPaperPainter
             implements Painter<JDesktopPane>

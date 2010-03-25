@@ -20,6 +20,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.PlayModePool;
@@ -62,6 +63,8 @@ public class PlayModeSelectorFrame
      */
     private JButton _playButton;
 
+    private Shell _shell;
+
     /**
      * Default logger for this class.
      */
@@ -70,8 +73,13 @@ public class PlayModeSelectorFrame
     /**
      * Initializes the object.
      */
-    public PlayModeSelectorFrame( )
+    public PlayModeSelectorFrame(Shell shell )throws NullArgumentException
     {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
+    	_shell=shell;
         LOGGER.info( "Selecting play mode" );
         setTitle( ResourceManager.getString( PlayModeSelectorFrame.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -86,7 +94,7 @@ public class PlayModeSelectorFrame
      */
     private void initializeComponents ( )
     {
-        _playModesList = new JList( PlayModePool.getInstance( ).getPlayModes( ).toArray( ) );
+        _playModesList = new JList( PlayModePool.getInstance( _shell ).getPlayModes( ).toArray( ) );
         _playModesList.getSelectionModel( ).addListSelectionListener( new ListSelectionListener( )
         {
             @Override
@@ -150,15 +158,15 @@ public class PlayModeSelectorFrame
             setVisible( false );
             try
             {
-                Shell.getInstance( ).setCurrentPlayMode( playMode );
+                _shell.setCurrentPlayMode( playMode );
                 IPlayUiModeInitializer playModeInitializer = UiManager.getInstance( ).getPlayModeInitializer( playMode.getClass( ) );
                 if ( playModeInitializer == null )
                 {
                     LOGGER.error( "No registered play mode initializer for play mode" );
                     throw new ConfigurationException( "No registered play mode initializer for play mode" );
                 }
-                playModeInitializer.registerLoginUi( );
-                playModeInitializer.registerProjectFinishedUi( );
+                playModeInitializer.registerLoginUi(_shell );
+                playModeInitializer.registerProjectFinishedUi( _shell );
             }
             catch ( ConfigurationException e )
             {

@@ -14,15 +14,16 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.StringUtils;
 import org.promasi.model.Company;
+import org.promasi.shell.Shell;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.SwingCreator;
 
 
 /**
  * A panel that shows information about the {@link Company}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class CompanyInfoPanel
         extends JPanel
@@ -53,11 +54,11 @@ public class CompanyInfoPanel
 
     /**
      * Initializes the object.
-     * 
+     *
      */
-    public CompanyInfoPanel( )
+    public CompanyInfoPanel(Shell shell )
     {
-        _controller = new CompanyInfoPanelController( this );
+        _controller = new CompanyInfoPanelController( this,shell );
         initialize( );
     }
 

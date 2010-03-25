@@ -4,17 +4,18 @@ package org.promasi.ui.promasiui.promasidesktop.programs.infogate;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
 import org.promasi.shell.Shell;
 import org.promasi.utilities.beansbinding.BindingSupport;
 
 
 /**
- * 
+ *
  * Controller for the {@link CompanyInfoPanel}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class CompanyInfoPanelController
         implements PropertyChangeListener
@@ -37,13 +38,17 @@ public class CompanyInfoPanelController
 
     /**
      * Initializes the object.
-     * 
+     *
      */
-    public CompanyInfoPanelController( CompanyInfoPanel ui )
+    public CompanyInfoPanelController( CompanyInfoPanel ui,Shell shell )throws NullArgumentException
     {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
         _bindingSupport = new BindingSupport( );
         _ui = ui;
-        _model = Shell.getInstance( ).getCompany( );
+        _model = shell.getCompany( );
         _model.addPropertyChangeListener( this );
         initializeBindings( );
     }

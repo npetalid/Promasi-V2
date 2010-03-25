@@ -12,6 +12,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
 import org.promasi.shell.Shell;
 import org.promasi.ui.promasiui.promasidesktop.programs.marketplace.MarketPlaceEmployeeListRenderer;
@@ -19,7 +20,7 @@ import org.promasi.ui.promasiui.promasidesktop.programs.marketplace.MarketPlaceE
 
 /**
  * Panel that shows information on the hired employees.
- * 
+ *
  * @author eddiefullmetal
  */
 public class EmployeesInfoPanel
@@ -39,11 +40,15 @@ public class EmployeesInfoPanel
 
     /**
      * Initializes the object.
-     * 
+     *
      */
-    public EmployeesInfoPanel( )
+    public EmployeesInfoPanel(Shell shell )throws NullArgumentException
     {
-        _company = Shell.getInstance( ).getCompany( );
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
+        _company = shell.getCompany( );
         _company.addPropertyChangeListener( this );
         setLayout( new MigLayout( new LC( ).fill( ) ) );
         add( new JScrollPane( getEmployeeList( ) ), new CC( ).grow( ) );

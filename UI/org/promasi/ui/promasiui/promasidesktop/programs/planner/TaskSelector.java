@@ -13,6 +13,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Project;
 import org.promasi.model.Task;
 import org.promasi.shell.Shell;
@@ -22,12 +23,12 @@ import org.promasi.utilities.ui.ScreenUtils;
 
 
 /**
- * 
+ *
  * {@link JDialog} that helps selecting an available {@link Task} from the
  * current {@link Project}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class TaskSelector
         extends JDialog
@@ -49,12 +50,19 @@ public class TaskSelector
      */
     private boolean _isSelected;
 
+    private Shell _shell;
+
     /**
      * Initializes the object.
      */
-    public TaskSelector( )
+    public TaskSelector(Shell shell )throws NullArgumentException
     {
         super( (Window) UiManager.getInstance( ).getRegisteredMainFrame( ) );
+        if(shell==null)
+        {
+        	throw new NullArgumentException("Wrong argument shell==null");
+        }
+        _shell=shell;
         setModal( true );
         setTitle( ResourceManager.getString( TaskSelector.class, "title" ) );
         setSize( ScreenUtils.sizeForPercentage( 0.2, 0.2 ) );
@@ -68,7 +76,7 @@ public class TaskSelector
      */
     private void initializeComponents ( )
     {
-        _tasksList = new JList( Shell.getInstance( ).getCurrentProject( ).getTasks( ).toArray( ) );
+        _tasksList = new JList( _shell.getCurrentProject( ).getTasks( ).toArray( ) );
         _selectButton = new JButton( ResourceManager.getString( TaskSelector.class, "selectButton", "text" ), ResourceManager.getIcon( "ok" ) );
         _selectButton.addActionListener( this );
     }

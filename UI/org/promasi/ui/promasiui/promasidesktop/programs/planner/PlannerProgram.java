@@ -22,6 +22,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.promasi.model.EmployeeTeamData;
 import org.promasi.model.Project;
@@ -34,12 +35,12 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
 /**
- * 
+ *
  * Program for scheduling tasks. This class needs rewriting. Code hard to read
  * on the actionPerformed.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class PlannerProgram
         extends AbstractProgram
@@ -103,6 +104,8 @@ public class PlannerProgram
      */
     private JButton _viewTeamButton;
 
+    private Shell _shell;
+
     /**
      * All the created task schedules.
      */
@@ -121,9 +124,14 @@ public class PlannerProgram
     /**
      * Initializes the object.
      */
-    public PlannerProgram( )
+    public PlannerProgram(Shell shell )throws NullArgumentException
     {
         super( "planner", "Planner, Schedule tasks" );
+        if(shell==null)
+        {
+        	throw new NullArgumentException("Wrong argument shell==null");
+        }
+        _shell=shell;
         _taskSchedules = new Vector<GanttTaskSchedule>( );
         _schedulesToRemove = new Vector<GanttTaskSchedule>( );
         initializeComponents( );
@@ -229,7 +237,7 @@ public class PlannerProgram
     @Override
     public void opened ( )
     {
-        Project project = Shell.getInstance( ).getCurrentProject( );
+        Project project = _shell.getCurrentProject( );
         if ( project != null )
         {
             _editor.setStartDate( project.getStartDate( ).toLocalDate( ) );
@@ -259,7 +267,7 @@ public class PlannerProgram
         }
         else if ( e.getSource( ).equals( _insertScheduleButton ) )
         {
-            TaskSelector taskSelector = new TaskSelector( );
+            TaskSelector taskSelector = new TaskSelector(_shell );
             taskSelector.setVisible( true );
             if ( taskSelector.isSelected( ) && taskSelector.getSelectedTask( ) != null )
             {
@@ -279,7 +287,7 @@ public class PlannerProgram
             if ( selectedRow >= 0 )
             {
                 GanttTaskSchedule taskSchedule = ( (GanttTaskScheduleTableModel) _tasksTable.getModel( ) ).getTaskScheduleAt( selectedRow );
-                GanttTaskScheduleEditor editor = new GanttTaskScheduleEditor( _taskSchedules, taskSchedule );
+                GanttTaskScheduleEditor editor = new GanttTaskScheduleEditor( _taskSchedules, taskSchedule,_shell );
                 editor.setVisible( true );
                 _editorScrollPane.repaint( );
                 _editor.repaint( );
@@ -360,7 +368,7 @@ public class PlannerProgram
     /**
      * Loads the gantt from a {@link Project} based on the projects
      * {@link TaskSchedule}s.
-     * 
+     *
      * @param project
      */
     public void loadFromProject ( Project project )
@@ -408,15 +416,15 @@ public class PlannerProgram
             TaskSchedule schedule = taskSchedule.getReferencedScheduled( );
             if ( schedule == null )
             {
-                schedule = new TaskSchedule( taskSchedule.getStartDate( ).toDateTime( Shell.getInstance( ).getCompany( ).getStartTime( ) ),
-                        taskSchedule.getEndDate( ).toDateTime( Shell.getInstance( ).getCompany( ).getEndTime( ) ) );
+                schedule = new TaskSchedule( taskSchedule.getStartDate( ).toDateTime( _shell.getCompany( ).getStartTime( ) ),
+                        taskSchedule.getEndDate( ).toDateTime( _shell.getCompany( ).getEndTime( ) ) );
                 taskSchedule.setReferencedScheduled( schedule );
                 taskSchedule.getParentTask( ).addTaskSchedule( schedule );
             }
             else
             {
-                schedule.setStartDate( taskSchedule.getStartDate( ).toDateTime( Shell.getInstance( ).getCompany( ).getStartTime( ) ) );
-                schedule.setEndDate( taskSchedule.getEndDate( ).toDateTime( Shell.getInstance( ).getCompany( ).getEndTime( ) ) );
+                schedule.setStartDate( taskSchedule.getStartDate( ).toDateTime( _shell.getCompany( ).getStartTime( ) ) );
+                schedule.setEndDate( taskSchedule.getEndDate( ).toDateTime( _shell.getCompany( ).getEndTime( ) ) );
             }
             Team team = new Team( );
             for ( EmployeeTeamData teamData : taskSchedule.getResources( ) )

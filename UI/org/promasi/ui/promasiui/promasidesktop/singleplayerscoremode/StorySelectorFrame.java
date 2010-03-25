@@ -20,6 +20,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.promasi.communication.Communicator;
 import org.promasi.model.Company;
@@ -31,6 +32,7 @@ import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMo
 import org.promasi.shell.playmodes.singleplayerscoremode.StoriesPool;
 import org.promasi.shell.playmodes.singleplayerscoremode.Story;
 import org.promasi.shell.ui.IMainFrame;
+import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.PlayModeSelectorFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
@@ -72,6 +74,8 @@ public class StorySelectorFrame
      */
     private ProjectManager _projectManager;
 
+    private Shell _shell;
+
     /**
      * Default logger for this class.
      */
@@ -80,8 +84,18 @@ public class StorySelectorFrame
     /**
      * Initializes the object.
      */
-    public StorySelectorFrame( ProjectManager projectManager )
+    public StorySelectorFrame( ProjectManager projectManager, Shell shell )throws NullArgumentException
     {
+    	if(projectManager==null)
+    	{
+    		throw new NullArgumentException("Wrong argument projectManager==null");
+    	}
+
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
+    	_shell=shell;
         LOGGER.info( "Selecting story..." );
         _projectManager = projectManager;
         setTitle( ResourceManager.getString( StorySelectorFrame.class, "title" ) );
@@ -170,15 +184,15 @@ public class StorySelectorFrame
             Company company = story.getCompany( );
             company.setProjectManager( _projectManager );
             _projectManager.setWorkingCompany( company );
-            Shell.getInstance( ).setCompany( company );
-            SinglePlayerScorePlayMode playMode = (SinglePlayerScorePlayMode) Shell.getInstance( ).getCurrentPlayMode( );
+            _shell.setCompany( company );
+            SinglePlayerScorePlayMode playMode = (SinglePlayerScorePlayMode) _shell.getCurrentPlayMode( );
             playMode.setCurrentStory( story );
             setVisible( false );
             dispose( );
             try
             {
-                Communicator.getInstance( ).setMainReceiver( Shell.getInstance().getModelMessageReceiver());
-                IMainFrame mainFrame = UiManager.getInstance( ).getRegisteredMainFrame( );
+                Communicator.getInstance( ).setMainReceiver( _shell.getModelMessageReceiver());
+                IMainFrame mainFrame = UiManager.getInstance().getRegisteredMainFrame();
                 if ( mainFrame == null || playMode == null )
                 {
                     LOGGER.error( "No registered MainFrame or play mode." );
@@ -186,7 +200,7 @@ public class StorySelectorFrame
                 }
                 mainFrame.initializeMainFrame( );
                 mainFrame.showMainFrame( );
-                Shell.getInstance( ).start( );
+                _shell.start( );
             }
             catch ( ConfigurationException e )
             {

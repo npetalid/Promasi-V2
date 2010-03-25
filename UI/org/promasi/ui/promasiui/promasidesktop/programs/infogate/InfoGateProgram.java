@@ -8,6 +8,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
 import org.promasi.model.Project;
 import org.promasi.shell.Shell;
@@ -16,12 +17,12 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
 /**
- * 
+ *
  * Program for showing info about various parts of the company(current
  * project,company info etc).
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class InfoGateProgram
         extends AbstractProgram
@@ -50,12 +51,19 @@ public class InfoGateProgram
      */
     private JTabbedPane _tabbedPane;
 
+    private Shell _shell;
+
     /**
      * Initializes the object.
      */
-    public InfoGateProgram( )
+    public InfoGateProgram(Shell shell )throws NullArgumentException
     {
         super( "infoGate", "InfoGate, view information" );
+        if(shell==null)
+        {
+        	throw new NullArgumentException("Wrong argument shell==null");
+        }
+        _shell=shell;
         initializeComponents( );
         initializeLayout( );
     }
@@ -66,8 +74,8 @@ public class InfoGateProgram
     private void initializeComponents ( )
     {
         _projectInfoPanel = new ProjectInfoPanel( );
-        _companyInfoPanel = new CompanyInfoPanel( );
-        _employeesInfoPanel = new EmployeesInfoPanel( );
+        _companyInfoPanel = new CompanyInfoPanel(_shell );
+        _employeesInfoPanel = new EmployeesInfoPanel(_shell );
 
         _tabbedPane = new JTabbedPane( );
         _tabbedPane.addTab( ResourceManager.getString( InfoGateProgram.class, "companyInfo" ), _companyInfoPanel );
@@ -100,7 +108,7 @@ public class InfoGateProgram
     @Override
     public void opened ( )
     {
-        Project currentProject = Shell.getInstance( ).getCurrentProject( );
+        Project currentProject = _shell.getCurrentProject( );
         if ( currentProject != null )
         {
             _tabbedPane.setEnabledAt( 1, true );

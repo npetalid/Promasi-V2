@@ -43,10 +43,6 @@ public final class Shell
      */
     private Company _company;
 
-    /**
-     * Singleton instance.
-     */
-    private static Shell INSTANCE;
 
     /**
      * All the registered {@link IShellListener}s.
@@ -66,23 +62,12 @@ public final class Shell
     /**
      * Initializes the object.
      */
-    private Shell( )
+    public Shell( )
     {
         _listeners = new Vector<IShellListener>( );
         _modelMessageReceiver=new ModelMessageReceiver();
     }
 
-    /**
-     * @return The {@link #INSTANCE}.
-     */
-    public static Shell getInstance ( )
-    {
-        if ( INSTANCE == null )
-        {
-            INSTANCE = new Shell( );
-        }
-        return INSTANCE;
-    }
 
     /**
      * @return the {@link #_currentPlayMode}.
@@ -263,7 +248,7 @@ public final class Shell
     /**
      * Class used only by the {@link Shell} to schedule the project start time.
      */
-    private static class ProjectStartTimerTask
+    private  class ProjectStartTimerTask
             implements ITimerTask
     {
 
@@ -289,7 +274,7 @@ public final class Shell
         public void runTimerTask ( )
         {
             // Notify all listeners.
-            for ( IShellListener listener : Shell.getInstance( )._listeners )
+            for ( IShellListener listener : _listeners )
             {
                 listener.projectStarted( _project );
             }
@@ -306,7 +291,7 @@ public final class Shell
     /**
      * Class used only by the {@link Shell} to schedule the project end time.
      */
-    public static class ProjectEndTimerTask
+    public class ProjectEndTimerTask
             implements ITimerTask
     {
 
@@ -332,9 +317,9 @@ public final class Shell
         public void runTimerTask ( )
         {
             LOGGER.info( "Project " + _project + " is finished..." );
-            Shell.getInstance( )._company.setCurrentProject( null );
+            _company.setCurrentProject( null );
             // Notify all listeners.
-            for ( IShellListener listener : Shell.getInstance( )._listeners )
+            for ( IShellListener listener : _listeners )
             {
                 listener.projectFinished( _project );
             }

@@ -17,6 +17,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
 import org.promasi.model.Message;
 import org.promasi.model.MessagingServer;
@@ -26,12 +27,12 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
 /**
- * 
+ *
  * The EvolutionBird is a program for reading messages from the
  * {@link MessagingServer}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class EvolutionBirdProgram
         extends AbstractProgram
@@ -57,12 +58,19 @@ public class EvolutionBirdProgram
      */
     private List<Message> _readMessages;
 
+    private Shell _shell;
+
     /**
      * Initializes the object.
      */
-    public EvolutionBirdProgram( )
+    public EvolutionBirdProgram(Shell shell )throws NullArgumentException
     {
-        super( "evolutionBird", "Evolution bird, mail client" );
+    	 super( "evolutionBird", "Evolution bird, mail client" );
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
+    	_shell=shell;
         _readMessages = new Vector<Message>( );
         initializeComponents( );
         initializeLayout( );
@@ -110,7 +118,7 @@ public class EvolutionBirdProgram
      */
     public void readMessages ( )
     {
-        Company company = Shell.getInstance( ).getCompany( );
+        Company company = _shell.getCompany( );
         MessagingServer messagingServer = company.getMessagingServer( );
         List<Message> messages = messagingServer.getMessages( company.getProjectManager( ) );
         _messageTable.setModel( new MessageTableModel( messages ) );

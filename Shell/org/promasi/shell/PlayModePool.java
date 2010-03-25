@@ -4,6 +4,7 @@ package org.promasi.shell;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
 
 
@@ -30,10 +31,14 @@ public final class PlayModePool
     /**
      * Initializes the object.
      */
-    private PlayModePool( )
+    private PlayModePool(Shell shell )throws NullArgumentException
     {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
         _playModes = new Vector<IPlayMode>( );
-        loadDefaultPlayModes( );
+        loadDefaultPlayModes(shell );
     }
 
     /**
@@ -56,11 +61,11 @@ public final class PlayModePool
     /**
      * @return the singleton instance.
      */
-    public static PlayModePool getInstance ( )
+    public static PlayModePool getInstance (Shell shell )
     {
         if ( INSTANCE == null )
         {
-            INSTANCE = new PlayModePool( );
+            INSTANCE = new PlayModePool( shell );
         }
         return INSTANCE;
     }
@@ -68,8 +73,8 @@ public final class PlayModePool
     /**
      * Registers all the default play modes.
      */
-    private void loadDefaultPlayModes ( )
+    private void loadDefaultPlayModes (Shell shell )
     {
-        registerPlayMode( new SinglePlayerScorePlayMode(Shell.getInstance()) );
+        registerPlayMode( new SinglePlayerScorePlayMode(shell));
     }
 }

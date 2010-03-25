@@ -15,6 +15,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Employee;
 import org.promasi.shell.Shell;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
@@ -24,11 +25,11 @@ import com.jidesoft.swing.JideButton;
 
 
 /**
- * 
+ *
  * Program for browsing and hiring available employees.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class MarketPlaceProgram
         extends AbstractProgram
@@ -44,12 +45,19 @@ public class MarketPlaceProgram
      */
     private JideButton _hireButton;
 
+    private Shell _shell;
+
     /**
      * Initializes the object.
      */
-    public MarketPlaceProgram( )
+    public MarketPlaceProgram(Shell shell )throws NullArgumentException
     {
         super( "marketplace", "Marketplace, browse and hire employees" );
+        if(shell==null)
+        {
+        	throw new NullArgumentException("Wrong argument shell==null");
+        }
+        _shell=shell;
         initializeComponents( );
         initializeLayout( );
     }
@@ -59,7 +67,7 @@ public class MarketPlaceProgram
      */
     private void initializeComponents ( )
     {
-        _employeeList = new JList( Shell.getInstance( ).getAllEmployees( ).toArray( ) );
+        _employeeList = new JList( _shell.getAllEmployees( ).toArray( ) );
         _employeeList.setCellRenderer( new MarketPlaceEmployeeListRenderer( ) );
         // Due to nimbus look and feel if this is not done the empty space from
         // the list will be white.
@@ -101,7 +109,7 @@ public class MarketPlaceProgram
         {
             if ( !employee.isHired( ) )
             {
-                Shell.getInstance( ).hireEmployee( employee );
+            	_shell.hireEmployee( employee );
                 invalidate( );
                 repaint( );
                 validate( );

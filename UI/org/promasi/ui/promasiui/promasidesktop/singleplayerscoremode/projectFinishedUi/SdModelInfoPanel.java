@@ -15,6 +15,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -33,12 +34,12 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
 /**
- * 
+ *
  * Panel that displays info about certain {@link ISdObject}s of the
  * {@link SdSystem}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class SdModelInfoPanel
         extends JPanel
@@ -73,12 +74,19 @@ public class SdModelInfoPanel
      */
     private JPanel _chartPanelContainer;
 
+    private Shell _shell;
+
     /**
      * Initializes the object.
-     * 
+     *
      */
-    public SdModelInfoPanel( )
+    public SdModelInfoPanel(Shell shell )throws NullArgumentException
     {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
+    	_shell=shell;
         Initialize( );
     }
 
@@ -155,19 +163,19 @@ public class SdModelInfoPanel
     /**
      * @param project
      *            The {@link Project} to display the data for.
-     * 
+     *
      */
     public void setProject ( Project project )
     {
-        SdModel model = Shell.getInstance( ).getCurrentPlayMode( ).getModelForProject( project );
-        _statePersister = Shell.getInstance( ).getCurrentPlayMode( ).getPersisterForProject( project );
+        SdModel model = _shell.getCurrentPlayMode( ).getModelForProject( project );
+        _statePersister = _shell.getCurrentPlayMode( ).getPersisterForProject( project );
         _sdObjectList.setModel( new SdObjectListModel( model ) );
     }
 
     /**
      * Creates and adds the {@link ChartPanel} to the
      * {@link #_chartPanelContainer} using the specified sdObject.
-     * 
+     *
      * @param sdObject
      */
     private void createChartPanel ( ISdObject sdObject )

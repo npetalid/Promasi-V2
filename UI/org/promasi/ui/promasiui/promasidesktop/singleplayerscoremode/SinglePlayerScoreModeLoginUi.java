@@ -15,9 +15,11 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.promasi.model.ProjectManager;
+import org.promasi.shell.Shell;
 import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
 import org.promasi.shell.ui.playmode.ILoginUi;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
@@ -25,11 +27,11 @@ import org.promasi.utilities.ui.ScreenUtils;
 
 
 /**
- * 
+ *
  * The {@link ILoginUi} for the {@link SinglePlayerScorePlayMode}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class SinglePlayerScoreModeLoginUi
         extends JFrame
@@ -51,6 +53,8 @@ public class SinglePlayerScoreModeLoginUi
      */
     private JButton _okButton;
 
+    private Shell _shell;
+
     /**
      * Default logger for this class.
      */
@@ -59,8 +63,13 @@ public class SinglePlayerScoreModeLoginUi
     /**
      * Initializes the object.
      */
-    public SinglePlayerScoreModeLoginUi( )
+    public SinglePlayerScoreModeLoginUi(Shell shell )throws NullArgumentException
     {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
+    	_shell=shell;
         setTitle( ResourceManager.getString( SinglePlayerScoreModeLoginUi.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         final double sizePercentage = 0.15d;
@@ -121,7 +130,7 @@ public class SinglePlayerScoreModeLoginUi
             // Show the story selector frame.
             setVisible( false );
             dispose( );
-            StorySelectorFrame storySelector = new StorySelectorFrame( projectManager );
+            StorySelectorFrame storySelector = new StorySelectorFrame( projectManager,_shell );
             storySelector.setVisible( true );
         }
     }

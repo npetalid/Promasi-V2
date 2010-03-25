@@ -17,6 +17,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.joda.time.DurationFieldType;
 import org.promasi.model.Clock;
 import org.promasi.model.Employee;
@@ -28,15 +29,15 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
 /**
- * 
+ *
  * Button that shows which is the current project. How many time is left before
  * the project starts. It also provides an option to immediately start the
  * project(moves the date to the project start date) which is available if the
  * project has not started yet.
- * 
- * 
+ *
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class ProjectInfoButton
         extends JButton
@@ -77,18 +78,22 @@ public class ProjectInfoButton
 
     /**
      * Initializes the object.
-     * 
+     *
      */
-    public ProjectInfoButton( )
+    public ProjectInfoButton(Shell shell )throws NullArgumentException
     {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
         _lockObject = new Object( );
         _projectHasStarted = false;
         addMouseListener( this );
-        Shell.getInstance( ).addListener( this );
+        shell.addListener( this );
         Clock.getInstance( ).addListener( this );
         setIcon( ResourceManager.getIcon( "projectInfo" ) );
         setFocusable( false );
-        initializeComponents( );
+        initializeComponents(shell );
     }
 
     /**
@@ -106,8 +111,12 @@ public class ProjectInfoButton
     /**
      * Initializes the components.
      */
-    private void initializeComponents ( )
+    private void initializeComponents (final Shell shell )throws NullArgumentException
     {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
         _remainingTimeLabel = new JLabel( );
         _jumpToProject = new JButton( ResourceManager.getIcon( "jumpToProject" ) );
         _jumpToProject.addActionListener( new ActionListener( )
@@ -116,7 +125,7 @@ public class ProjectInfoButton
             @Override
             public void actionPerformed ( ActionEvent e )
             {
-                Shell.getInstance( ).jumpToProjectDate( );
+                shell.jumpToProjectDate( );
             }
 
         } );
