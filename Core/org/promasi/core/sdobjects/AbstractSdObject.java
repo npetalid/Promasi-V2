@@ -12,6 +12,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.log4j.Logger;
 import org.nfunk.jep.ParseException;
+import org.promasi.communication.ICommunicator;
 import org.promasi.core.Event;
 import org.promasi.core.IEquation;
 import org.promasi.core.ISdObject;
@@ -25,9 +26,9 @@ import org.promasi.utilities.ErrorBuilder;
  * Abstract implementation of {@link ISdObject} using an {@link IEquation}
  * object to calculate its value. The initial value of all
  * {@link AbstractSdObject}s is 1.The class follows the javabeans specification.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public abstract class AbstractSdObject
         implements ISdObject, Serializable
@@ -46,6 +47,11 @@ public abstract class AbstractSdObject
      * The key of the {@link ISdObject}.
      */
     private String _key;
+
+	/**
+	 *	System communicator.
+	 */
+	protected ICommunicator _communicator;
 
     /**
      * The dependencies of the {@link ISdObject}.
@@ -79,13 +85,13 @@ public abstract class AbstractSdObject
 
     /**
      * Initializes the object.
-     * 
-     * 
+     *
+     *
      * @param sdObjectType
      *            The {@link #_type}
      * @param key
      *            The {@link #_key}
-     * 
+     *
      * @throws IllegalArgumentException
      *             In case the key is null or empty.
      */
@@ -217,7 +223,7 @@ public abstract class AbstractSdObject
 
     /**
      * Adds an {@link Event} to the {@link AbstractSdObject}.
-     * 
+     *
      * @param event
      *            The {@link Event} to add.
      */
@@ -303,7 +309,15 @@ public abstract class AbstractSdObject
      */
     public void setEquation ( IEquation equation )
     {
-        _equation = equation;
+    	synchronized(this)
+    	{
+    		_equation = equation;
+    		if(_equation!=null)
+    		{
+    			_equation.registerCommunicator(_communicator);
+    		}
+    	}
+
     }
 
     /**
@@ -366,5 +380,17 @@ public abstract class AbstractSdObject
     public void setProperties ( Map<String, Object> properties )
     {
         _properties = properties;
+    }
+
+    public void registerCommunicator(ICommunicator communicator)
+    {
+    	synchronized(this)
+    	{
+    		_communicator=communicator;
+    		if(_equation!=null)
+    		{
+    			_equation.registerCommunicator(communicator);
+    		}
+    	}
     }
 }

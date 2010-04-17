@@ -6,14 +6,14 @@ import java.util.Vector;
 
 
 /**
- * 
+ *
  * Singleton class. Provides methods for the core to communicate with an upper
  * layer.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
-public final class Communicator
+public final class Communicator implements ICommunicator
 {
 
     /**
@@ -31,14 +31,9 @@ public final class Communicator
     private InternalMessageDispatcher _mainDispatcher;
 
     /**
-     * Singleton implementation.
-     */
-    private static Communicator INSTANCE;
-
-    /**
      * Initializes the object.
      */
-    private Communicator( )
+    public Communicator( )
     {
         _additionalDispatchers = new Vector<IMessageDispatcher>( );
         _mainDispatcher = new InternalMessageDispatcher( );
@@ -47,7 +42,7 @@ public final class Communicator
     /**
      * Is called when an {@link org.promasi.core.ISdObject} sends it's value to
      * the upper layer. It notifies the {@link #_mainDispatcher} and all others.
-     * 
+     *
      * @param sdObjectKey
      *            The {@link org.promasi.core.ISdObject}
      * @param value
@@ -63,14 +58,14 @@ public final class Communicator
     }
 
     /**
-     * 
+     *
      * Is called when an {@link org.promasi.core.ISdObject} from the core raises
      * an event. It notifies the {@link #_mainDispatcher} and all others.
-     * 
+     *
      * @param sdObjectKey
      *            The key of the {@link org.promasi.core.ISdObject} that raised
      *            the event.
-     * 
+     *
      * @param eventName
      *            The name of the event.
      */
@@ -86,11 +81,11 @@ public final class Communicator
     /**
      * Is called when an {@link org.promasi.core.ISdObject} requests a value. It
      * notifies the {@link #_mainDispatcher}.
-     * 
+     *
      * @param sdObjectKey
      *            The key of the {@link org.promasi.core.ISdObject} that
      *            requested a value.
-     * 
+     *
      * @return A value that corresponds to the sdObjectKey.
      */
     public Double requestValue ( String sdObjectKey )
@@ -101,7 +96,7 @@ public final class Communicator
     /**
      * Adds an {@link IMessageDispatcher} to the {@link #_additionalDispatchers}
      * if it doesn't exist.
-     * 
+     *
      * @param dispatcher
      *            The {@link IMessageDispatcher} to add.
      */
@@ -116,7 +111,7 @@ public final class Communicator
     /**
      * Removes an {@link IMessageDispatcher} to the
      * {@link #_additionalDispatchers}.
-     * 
+     *
      * @param dispatcher
      *            The {@link IMessageDispatcher} to remove.
      */
@@ -135,17 +130,5 @@ public final class Communicator
     public void setMainReceiver ( IMessageReceiver receiver )
     {
         _mainDispatcher.setReceiver( receiver );
-    }
-
-    /**
-     * @return The singleton instance.
-     */
-    public static Communicator getInstance ( )
-    {
-        if ( INSTANCE == null )
-        {
-            INSTANCE = new Communicator( );
-        }
-        return INSTANCE;
     }
 }

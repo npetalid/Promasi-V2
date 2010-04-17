@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.promasi.communication.Communicator;
+import org.promasi.communication.ICommunicator;
 import org.promasi.communication.IMessageReceiver;
 import org.promasi.core.ISdObject;
 import org.promasi.core.equations.ExternalEquation;
@@ -15,9 +16,9 @@ import org.promasi.utilities.TestUtil;
 
 /**
  * Tests the {@link ExternalEquation} class.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class ExternalEquationTester
 {
@@ -38,7 +39,8 @@ public class ExternalEquationTester
     {
         final Double valueOfX = 5.5;
         // Register the main IMessageReceiver.
-        Communicator.getInstance( ).setMainReceiver( new IMessageReceiver( )
+        ICommunicator communicator=new Communicator();
+        communicator.setMainReceiver( new IMessageReceiver( )
         {
 
             @Override
@@ -59,6 +61,7 @@ public class ExternalEquationTester
         } );
 
         AbstractSdObject x = new VariableSdObject( "x" );
+        x.registerCommunicator(communicator);
         x.setEquation( new ExternalEquation( x ) );
         x.calculateValue( );
         Assert.assertEquals( valueOfX, x.getValue( ) );
@@ -72,7 +75,8 @@ public class ExternalEquationTester
     @Test
     public void testNoMainReceiver ( )
     {
-        Communicator.getInstance( ).setMainReceiver( null );
+    	ICommunicator communicator=new Communicator();
+        communicator.setMainReceiver( null );
         AbstractSdObject x = new VariableSdObject( "x" );
         x.setEquation( new ExternalEquation( x ) );
         x.calculateValue( );

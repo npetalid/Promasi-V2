@@ -3,17 +3,18 @@ package org.promasi.core.equations;
 
 import java.io.Serializable;
 
+import org.promasi.communication.ICommunicator;
 import org.promasi.core.EquationType;
 import org.promasi.core.IEquation;
 
 
 /**
- * 
+ *
  * The constant equation returns always the value that was used to initialize
  * the equation. The class follows the javabeans specification.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class ConstantEquation
         implements IEquation, Serializable
@@ -26,7 +27,7 @@ public class ConstantEquation
 
     /**
      * Initializes the object.
-     * 
+     *
      * @param value
      *            The {@link #_value}.
      */
@@ -70,5 +71,10 @@ public class ConstantEquation
     public void setValue ( Double value )
     {
         _value = value;
+    }
+
+    public void registerCommunicator(ICommunicator communicator)
+    {
+
     }
 }

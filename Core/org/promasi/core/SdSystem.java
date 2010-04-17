@@ -8,6 +8,7 @@ import java.util.Vector;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
+import org.promasi.communication.ICommunicator;
 import org.promasi.core.computationalsequences.DefaultComputationalSequence;
 import org.promasi.core.sdobjects.system.TimeSdObject;
 import org.promasi.utilities.ErrorBuilder;
@@ -236,5 +237,16 @@ public class SdSystem
     		return new HashMap<String,Double>();
     	}
     	return _model.getOutputs();
+    }
+
+    public void registerCommunicator(ICommunicator communicator)
+    {
+    	synchronized(this)
+    	{
+    		if(_model!=null)
+    		{
+    			_model.registerCommunicator(communicator);
+    		}
+    	}
     }
 }

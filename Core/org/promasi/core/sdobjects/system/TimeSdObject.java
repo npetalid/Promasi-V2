@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import org.promasi.communication.ICommunicator;
 import org.promasi.core.ISdListener;
 import org.promasi.core.ISdObject;
 import org.promasi.core.SdObjectInfo;
@@ -16,9 +17,9 @@ import org.promasi.core.SdSystem;
 /**
  * The TimeSdObject is used to store the systems current step. This
  * {@link ISdObject} is added to the model by the {@link SdSystem}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class TimeSdObject
         implements ISdObject, ISdListener
@@ -50,7 +51,7 @@ public class TimeSdObject
 
     /**
      * Does nothing. System objects do not support dependencies.
-     * 
+     *
      * @param sdObject
      *            ...
      */
@@ -66,7 +67,7 @@ public class TimeSdObject
 
     /**
      * Returns an empty list. System objects do not support dependencies.
-     * 
+     *
      * @return An empty list.
      */
     @Override
@@ -126,4 +127,10 @@ public class TimeSdObject
     {
         return KEY;
     }
+
+	@Override
+	public void registerCommunicator(ICommunicator communicator) {
+		// TODO Auto-generated method stub
+
+	}
 }

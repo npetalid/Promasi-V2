@@ -12,6 +12,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.joda.time.DurationFieldType;
+import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
 import org.promasi.core.SdSystem;
@@ -57,6 +58,8 @@ public class SinglePlayerScorePlayMode
      */
     private SdSystem _currentSdSystem;
 
+
+    private ICommunicator _systemCommunicator;
     /**
      * The directory that this play mode stores its data.
      */
@@ -167,7 +170,7 @@ public class SinglePlayerScorePlayMode
         Clock.getInstance( ).addListener( this );
         Clock.getInstance( ).setCurrentDateTime( _currentStory.getStartDate( ).toDateTime( company.getStartTime( ) ).toMutableDateTime( ) );
         Clock.getInstance( ).start( );
-        company.assignProject( _currentStory.getNextProject( ) );
+        company.assignProject(_currentStory.getNextProject( ));
     }
 
     @Override
@@ -280,6 +283,8 @@ public class SinglePlayerScorePlayMode
                 SdModel model = _currentStory.getModel( project );
                 _currentSdSystem = new SdSystem( );
                 _currentSdSystem.initialize( model.getSdObjects( ) );
+                // Register the system communicator
+                _currentSdSystem.registerCommunicator(_systemCommunicator);
                 // Register the persister.
                 IStatePersister persister = new MemoryStatePersister( );
                 _projectPersisters.put( project, persister );
@@ -327,4 +332,17 @@ public class SinglePlayerScorePlayMode
     {
 
     }
+
+	@Override
+	public void registerCommunicator(ICommunicator communicator)
+	{
+		synchronized(this)
+		{
+			_systemCommunicator=communicator;
+			if(_currentSdSystem!=null)
+			{
+				_currentSdSystem.registerCommunicator(communicator);
+			}
+		}
+	}
 }

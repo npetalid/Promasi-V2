@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.promasi.communication.Communicator;
+import org.promasi.communication.ICommunicator;
 import org.promasi.communication.IMessageReceiver;
 import org.promasi.core.ISdObject;
 import org.promasi.core.equations.ConstantEquation;
@@ -16,9 +17,9 @@ import org.promasi.utilities.TestUtil;
 
 /**
  * Tests the {@link OutputSdObject} class.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class OutputSdObjectTester
 {
@@ -44,8 +45,9 @@ public class OutputSdObjectTester
         x.setEquation( new ConstantEquation( valueOfX ) );
         // Register the main IMessageReceiver
         TestReceiver receiver = new TestReceiver( );
-        Communicator.getInstance( ).setMainReceiver( receiver );
-
+        ICommunicator communicator=new Communicator();
+        communicator.setMainReceiver( receiver );
+        x.registerCommunicator(communicator);
         x.calculateValue( );
 
         Assert.assertEquals( valueOfX, receiver.getValue( ) );
@@ -53,12 +55,12 @@ public class OutputSdObjectTester
     }
 
     /**
-     * 
+     *
      * This receiver is used to test if the {@link OutputSdObject} has send its
      * value.
-     * 
+     *
      * @author eddiefullmetal
-     * 
+     *
      */
     private class TestReceiver
             implements IMessageReceiver
@@ -94,7 +96,7 @@ public class OutputSdObjectTester
 
         /**
          * Gets the {@link #_sdObjectKey}.
-         * 
+         *
          * @return The {@link #_sdObjectKey}.
          */
         public String getSdObjectKey ( )
@@ -104,7 +106,7 @@ public class OutputSdObjectTester
 
         /**
          * Gets the {@link #_value}.
-         * 
+         *
          * @return The {@link #_value}.
          */
         public Double getValue ( )

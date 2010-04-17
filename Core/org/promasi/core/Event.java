@@ -6,7 +6,7 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.util.MathUtils;
 import org.apache.log4j.Logger;
 import org.nfunk.jep.ParseException;
-import org.promasi.communication.Communicator;
+import org.promasi.communication.ICommunicator;
 import org.promasi.utilities.ErrorBuilder;
 
 
@@ -16,9 +16,9 @@ import org.promasi.utilities.ErrorBuilder;
  * true. In order for the {@link IEquation} of the event to be correctly
  * calculated the dependencies of the {@link ISdObject} must be set correctly.
  * The class follows the javabeans specification.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class Event
 {
@@ -45,6 +45,11 @@ public class Event
     private boolean _wasRaised;
 
     /**
+     *
+     */
+    private ICommunicator _communicator;
+
+    /**
      * Default logger for this class.
      */
     private static final Logger LOGGER = Logger.getLogger( Event.class );
@@ -59,7 +64,7 @@ public class Event
 
     /**
      * Initializes the object.
-     * 
+     *
      * @param name
      *            The {@link #_name}.
      * @param equation
@@ -97,6 +102,14 @@ public class Event
         _context = context;
     }
 
+    public void registerCommunicator(ICommunicator communicator)
+    {
+    	synchronized(this)
+    	{
+    		_communicator=communicator;
+    	}
+    }
+
     /**
      * Notifies the {@link Communicator} if the {@link #_equation} returns >=1
      * rounded by 2 digits.
@@ -111,8 +124,14 @@ public class Event
                 value = MathUtils.round( value, 2 );
                 if ( value >= 1.0d )
                 {
-                    Communicator.getInstance( ).raiseEvent( _context.getKey( ), _name );
-                    _wasRaised = true;
+                	synchronized(this)
+                	{
+                		if(_communicator!=null)
+                		{
+                			_communicator.raiseEvent( _context.getKey( ), _name );
+                			 _wasRaised = true;
+                		}
+                	}
                 }
             }
             catch ( ParseException e )

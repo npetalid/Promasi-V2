@@ -11,6 +11,8 @@ import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.SymbolTable;
 import org.nfunk.jep.Variable;
+import org.promasi.communication.Communicator;
+import org.promasi.communication.ICommunicator;
 import org.promasi.core.EquationType;
 import org.promasi.core.IEquation;
 import org.promasi.core.ISdObject;
@@ -19,15 +21,15 @@ import org.promasi.utilities.ErrorBuilder;
 
 
 /**
- * 
+ *
  * The calculated equation takes a string that represents the equation for
  * example : <code>x*y</code> where <i>x</i> and <i>y</i> are the keys of the
  * {@link ISdObject} that exist as a dependency in the {@link #_context}.
  * Generally the {@link #_equationString} can take {@link JEP} expressions. The
  * class follows the javabeans specification.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class CalculatedEquation
         implements IEquation, Serializable
@@ -51,10 +53,10 @@ public class CalculatedEquation
 
     /**
      * Initializes the object.
-     * 
+     *
      * @param equationString
      *            The {@link #_equationString}.
-     * 
+     *
      * @param context
      *            The {@link #_context}.
      * @throws NullArgumentException
@@ -91,7 +93,7 @@ public class CalculatedEquation
 
     /**
      * Calculates the value of the equation.
-     * 
+     *
      * @return The value of the equation.
      * @throws ParseException
      *             In case the {@link JEP} fails to parse the
@@ -160,11 +162,11 @@ public class CalculatedEquation
     }
 
     /**
-     * 
+     *
      * Gets the {@link ISdObject} from the {@link ISdObject#getDependencies()}
      * of the {@link #_context} and returns the {@link ISdObject} that has the
      * same key.
-     * 
+     *
      * @param key
      *            The key to perform the search.
      * @return The {@link ISdObject} from the
@@ -233,4 +235,8 @@ public class CalculatedEquation
         _equationString = equationString;
     }
 
+	@Override
+	public void registerCommunicator(ICommunicator communicator) {
+
+	}
 }

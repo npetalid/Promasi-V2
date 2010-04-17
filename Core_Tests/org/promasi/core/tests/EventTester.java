@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.promasi.communication.Communicator;
+import org.promasi.communication.ICommunicator;
 import org.promasi.communication.IMessageReceiver;
 import org.promasi.core.Event;
 import org.promasi.core.ISdObject;
@@ -18,9 +19,9 @@ import org.promasi.utilities.TestUtil;
 
 /**
  * Tests the {@link Event} class.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class EventTester
 {
@@ -40,13 +41,17 @@ public class EventTester
     @Test
     public void testSuccessfull ( )
     {
+    	ICommunicator communicator=new Communicator();
         TestReceiver receiver = new TestReceiver( );
-        Communicator.getInstance( ).setMainReceiver( receiver );
+        communicator.setMainReceiver( receiver );
 
         final Double valueOfX = 5.0;
         AbstractSdObject x = new VariableSdObject( "x" );
+        x.registerCommunicator(communicator);
         x.setEquation( new ConstantEquation( valueOfX ) );
-        x.addEvent( new Event( "eventName", new CalculatedEquation( x, "if(x==5,1,0)" ), x ) );
+        Event event=new Event( "eventName", new CalculatedEquation( x, "if(x==5,1,0)" ), x );
+        event.registerCommunicator(communicator);
+        x.addEvent( event );
         x.calculateValue( );
 
         Assert.assertEquals( "x", receiver.getSdObjectKey( ) );
@@ -55,9 +60,9 @@ public class EventTester
 
     /**
      * This receiver is used to test if an {@link Event} is successfully raised.
-     * 
+     *
      * @author eddiefullmetal
-     * 
+     *
      */
     private class TestReceiver
             implements IMessageReceiver
@@ -94,7 +99,7 @@ public class EventTester
 
         /**
          * Gets the {@link #_eventName}.
-         * 
+         *
          * @return The {@link #_eventName}.
          */
         public String getEventName ( )
@@ -104,7 +109,7 @@ public class EventTester
 
         /**
          * Gets the {@link #_sdObjectKey}.
-         * 
+         *
          * @return The {@link #_sdObjectKey}.
          */
         public String getSdObjectKey ( )

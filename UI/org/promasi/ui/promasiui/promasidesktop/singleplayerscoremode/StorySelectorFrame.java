@@ -23,6 +23,7 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.promasi.communication.Communicator;
+import org.promasi.communication.ICommunicator;
 import org.promasi.model.Company;
 import org.promasi.model.ProjectManager;
 import org.promasi.shell.Shell;
@@ -191,7 +192,8 @@ public class StorySelectorFrame
             dispose( );
             try
             {
-                Communicator.getInstance( ).setMainReceiver( _shell.getModelMessageReceiver());
+            	ICommunicator communicator=new Communicator();
+            	communicator.setMainReceiver( _shell.getModelMessageReceiver());
                 IMainFrame mainFrame = UiManager.getInstance().getRegisteredMainFrame();
                 if ( mainFrame == null || playMode == null )
                 {
@@ -201,6 +203,7 @@ public class StorySelectorFrame
                 mainFrame.initializeMainFrame( );
                 mainFrame.showMainFrame( );
                 _shell.start( );
+                mainFrame.registerCommunicator(communicator);
             }
             catch ( ConfigurationException e )
             {

@@ -8,6 +8,7 @@ import javax.naming.ConfigurationException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
+import org.promasi.communication.ICommunicator;
 import org.promasi.model.Clock;
 import org.promasi.model.Company;
 import org.promasi.model.Employee;
@@ -177,6 +178,15 @@ public final class Shell
             _listeners.add( listener );
         }
     }
+
+    /**
+    *
+    * @param communicator
+    */
+   public void registerCommunicator(ICommunicator communicator)
+   {
+	   _currentPlayMode.registerCommunicator(communicator);
+   }
 
     /**
      * Start a timer to notify all the {@link IShellListener}s when the start

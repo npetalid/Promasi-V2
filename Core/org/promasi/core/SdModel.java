@@ -9,6 +9,9 @@ import java.util.Vector;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
+import org.promasi.communication.ICommunicator;
+import org.promasi.core.sdobjects.AbstractSdObject;
+import org.promasi.core.sdobjects.OutputSdObject;
 import org.promasi.utilities.ErrorBuilder;
 
 
@@ -223,6 +226,21 @@ public class SdModel
     public List<ISdObject> getSdObjects ( )
     {
         return _sdObjects;
+    }
+
+    /**
+     * Register communicator
+     * @param communicator
+     */
+    public void registerCommunicator(ICommunicator communicator)
+    {
+    	synchronized(this)
+    	{
+    		for(ISdObject curObject : _keySdObjects.values())
+    		{
+    			curObject.registerCommunicator(communicator);
+    		}
+    	}
     }
 
     /**

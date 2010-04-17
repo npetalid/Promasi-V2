@@ -8,17 +8,16 @@ import org.promasi.core.SdObjectType;
 /**
  * Implementation of the {@link AbstractSdObject} for the
  * {@link SdObjectType#Output}.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class OutputSdObject
         extends AbstractSdObject
 {
-
     /**
      * Initializes the object.
-     * 
+     *
      * @param key
      *            The key of the {@link AbstractSdObject}
      */
@@ -46,7 +45,13 @@ public class OutputSdObject
     public void calculateValue ( )
     {
         super.calculateValue( );
-        Communicator.getInstance( ).sendValue( getKey( ), getValue( ) );
+        synchronized(this)
+        {
+        	if(_communicator!=null)
+        	{
+        		_communicator.sendValue( getKey( ), getValue( ) );
+        	}
+        }
     }
 
 }

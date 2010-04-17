@@ -10,6 +10,7 @@ import org.apache.commons.math.analysis.SplineInterpolator;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.UnivariateRealInterpolator;
 import org.apache.log4j.Logger;
+import org.promasi.communication.ICommunicator;
 import org.promasi.core.EquationType;
 import org.promasi.core.IEquation;
 import org.promasi.core.ISdObject;
@@ -25,9 +26,9 @@ import org.promasi.utilities.ErrorBuilder;
  * of 3.5 the value of the equation will be 3.5. The {@link ISdObject} that uses
  * this {@link IEquation} must have the {@link #_dependentObject} as a
  * dependency. The class follows the javabeans specification.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class LookupEquation
         implements IEquation, Serializable
@@ -55,7 +56,7 @@ public class LookupEquation
 
     /**
      * Initializes the object.
-     * 
+     *
      * @param xyPoints
      *            An array containing the xy pairs of the graph. The equation is
      *            initialized with a {@link SortedMap}(x is the key,y the value)
@@ -64,16 +65,16 @@ public class LookupEquation
      *            _xValues[3] will pair with the _yValues[3]. The
      *            {@link SortedMap} is needed cause the x points(keys) must have
      *            an increasing order.
-     * 
-     * 
+     *
+     *
      * @param dependentObject
      *            The {@link #_dependentObject}.
-     * 
+     *
      * @throws IllegalArgumentException
      *             In case the xyPoints is null or empty.
      * @throws NullArgumentException
      *             In case the dependentObject is null.
-     * 
+     *
      */
     public LookupEquation( SortedMap<Double, Double> xyPoints, ISdObject dependentObject )
             throws IllegalArgumentException, NullArgumentException
@@ -118,7 +119,7 @@ public class LookupEquation
      * Calculates the value of the equation, using the
      * {@link UnivariateRealInterpolator} and the {@link UnivariateRealFunction}
      * .
-     * 
+     *
      * @return The value of the equation.
      * @throws MathException
      *             In case an error occurs when
@@ -192,4 +193,10 @@ public class LookupEquation
     {
         _yValues = values;
     }
+
+	@Override
+	public void registerCommunicator(ICommunicator communicator) {
+		// TODO Auto-generated method stub
+
+	}
 }

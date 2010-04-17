@@ -18,11 +18,11 @@ import org.promasi.utilities.jodautils.DurationFieldTypeUtils;
 
 
 /**
- * 
+ *
  * The clock of the model layer.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public final class Clock
         implements Runnable
@@ -232,7 +232,7 @@ public final class Clock
 
     /**
      * Forces a day change.
-     * 
+     *
      * @param startTime
      *            The {@link LocalTime} to put when the day changes.
      */

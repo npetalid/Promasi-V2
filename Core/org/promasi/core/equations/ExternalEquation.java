@@ -4,6 +4,7 @@ package org.promasi.core.equations;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.promasi.communication.Communicator;
+import org.promasi.communication.ICommunicator;
 import org.promasi.core.EquationType;
 import org.promasi.core.IEquation;
 import org.promasi.core.ISdObject;
@@ -11,12 +12,12 @@ import org.promasi.utilities.ErrorBuilder;
 
 
 /**
- * 
+ *
  * The external equation takes its value from the upper layer using the
  * {@link Communicator}. The class follows the javabeans specification.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public class ExternalEquation
         implements IEquation
@@ -28,14 +29,19 @@ public class ExternalEquation
     private ISdObject _context;
 
     /**
+     * System communicator
+     */
+    private ICommunicator _communicator;
+
+    /**
      * Default logger for this class.
      */
     private static final Logger LOGGER = Logger.getLogger( ExternalEquation.class );
 
     /**
-     * 
+     *
      * Initializes the object.
-     * 
+     *
      * @param context
      *            The {@link #_context}
      * @throws NullArgumentException
@@ -71,7 +77,15 @@ public class ExternalEquation
             LOGGER.error( "Context is not defined" );
             throw new NullPointerException( "Context is not defined" );
         }
-        return Communicator.getInstance( ).requestValue( _context.getKey( ) );
+
+        synchronized(this)
+        {
+        	if(_communicator!=null)
+        	{
+        		return _communicator.requestValue( _context.getKey( ));
+        	}
+        }
+        return 0.0;
     }
 
     @Override
@@ -96,4 +110,12 @@ public class ExternalEquation
     {
         _context = context;
     }
+
+	@Override
+	public void registerCommunicator(ICommunicator communicator) {
+    	synchronized(this)
+    	{
+    		_communicator=communicator;
+    	}
+	}
 }

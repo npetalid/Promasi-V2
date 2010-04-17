@@ -2,6 +2,7 @@ package org.promasi.core;
 
 
 import java.util.List;
+import org.promasi.communication.ICommunicator;
 
 
 /**
@@ -15,11 +16,11 @@ import java.util.List;
  * <li>An ISdObject might depend on other objects in order to calculate its
  * value.
  * </ol>
- * 
+ *
  * @see SdObjectType
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public interface ISdObject
 {
@@ -34,16 +35,16 @@ public interface ISdObject
      * Returns the {@link SdObjectType} of this object. This method must not
      * return null, all {@link ISdObject}s must have a defined
      * {@link SdObjectType}.
-     * 
+     *
      * @return The {@link SdObjectType} of the {@link ISdObject}
      */
     SdObjectType getType ( );
 
     /**
-     * 
+     *
      * Returns the value of the object. This method must not return null,
      * instead a 0 value must be returned.
-     * 
+     *
      * @return The value of the object
      */
     Double getValue ( );
@@ -51,24 +52,24 @@ public interface ISdObject
     /**
      * Returns the key of the object. This method must not return null, all
      * {@link ISdObject}s must have a unique key.
-     * 
+     *
      * @return The key of the object
      */
     String getKey ( );
 
     /**
      * Adds a dependency with another {@link ISdObject}.
-     * 
+     *
      * @param sdObject
      *            The {@link ISdObject} that this object depends.
      */
     void addDependency ( ISdObject sdObject );
 
     /**
-     * 
+     *
      * Returns the dependencies. This method must not return null, instead an
      * empty {@link List} must be returned.
-     * 
+     *
      * @return The dependencies of this sd object.
      */
     List<ISdObject> getDependencies ( );
@@ -82,7 +83,7 @@ public interface ISdObject
     /**
      * Adds an external property for this object so that any external
      * application can keep properties for a specific object.
-     * 
+     *
      * @param key
      *            The key of the property.
      * @param property
@@ -95,4 +96,10 @@ public interface ISdObject
      * @return The property with the specified key.
      */
     Object getProperty ( String key );
+
+    /**
+     * Will register the system communicator.
+     * @param communicator
+     */
+    public void registerCommunicator(ICommunicator communicator);
 }

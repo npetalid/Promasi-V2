@@ -6,7 +6,10 @@ package org.promasi.server.core.game;
 import java.beans.XMLEncoder;
 import java.io.ByteArrayOutputStream;
 
+import javax.naming.ConfigurationException;
+
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.shell.Shell;
 
 /**
  * @author m1cRo
@@ -14,6 +17,8 @@ import org.apache.commons.lang.NullArgumentException;
  */
 public class GameModel
 {
+	private Shell _gameShell;
+
 	public GameModel(String xmlModel)throws NullArgumentException,IllegalArgumentException
 	{
 		if(xmlModel==null)
@@ -44,5 +49,17 @@ public class GameModel
 			}
 		}
 		return result;
+	}
+
+	public boolean start()
+	{
+		try {
+			_gameShell.start();
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 }

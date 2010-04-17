@@ -21,6 +21,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
+import org.promasi.communication.ICommunicator;
 import org.promasi.shell.Shell;
 import org.promasi.shell.ui.IMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
@@ -51,10 +52,18 @@ public class DesktopMainFrame
     private DesktopToolbar _toolbar;
 
     /**
+     *
+     */
+    private ICommunicator _communicator;
+
+    /**
      * The desktop pane to show the program windows.
      */
     private JDesktopPane _desktopPane;
 
+    /**
+     *	System shell.
+     */
     private Shell _shell;
 
     /**
@@ -217,4 +226,13 @@ public class DesktopMainFrame
             g.drawImage( image, _filter, 0, 0 );
         }
     }
+
+	@Override
+	public void registerCommunicator(ICommunicator communicator) {
+		synchronized(this)
+		{
+			_communicator=communicator;
+			_shell.registerCommunicator(communicator);
+		}
+	}
 }

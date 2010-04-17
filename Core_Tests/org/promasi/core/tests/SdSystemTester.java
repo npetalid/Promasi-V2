@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.promasi.communication.Communicator;
+import org.promasi.communication.ICommunicator;
 import org.promasi.communication.IMessageReceiver;
 import org.promasi.core.Event;
 import org.promasi.core.ISdObject;
@@ -25,9 +26,9 @@ import org.promasi.utilities.TestUtil;
 
 
 /**
- * 
+ *
  * Tests the {@link SdSystem} class.
- * 
+ *
  * @author eddiefullmetal
  */
 public class SdSystemTester
@@ -319,7 +320,8 @@ public class SdSystemTester
     {
         // Register the IMessageReceiver.
         TestReceiver receiver = new TestReceiver( );
-        Communicator.getInstance( ).setMainReceiver( receiver );
+        ICommunicator communicator=new Communicator();
+        communicator.setMainReceiver( receiver );
         // Define the names of all SdObjects.
         final String sumDeveloperKey = "sumdeveloper";
         final String maxTeamplayerKey = "maxteamplayer";
@@ -369,6 +371,7 @@ public class SdSystemTester
 
         // Register the events.
         Event workToDoEvent = new Event( "worktodo", new CalculatedEquation( workToDo, "if(" + workToDoKey + "<992.0,1,0)" ), workToDo );
+        workToDoEvent.registerCommunicator(communicator);
         workToDo.addEvent( workToDoEvent );
 
         // ------------
@@ -457,7 +460,7 @@ public class SdSystemTester
         // Create and run the first step of the system.
         SdSystem system = new SdSystem( );
         system.initialize( sdObjects );
-
+        system.registerCommunicator(communicator);
         // Define the expected results for all steps.
         final int numberOfSteps = 2;
         final Double[] expectedValuesOfSumDeveloper = new Double[] { 20.0, 20.0 };
@@ -512,13 +515,13 @@ public class SdSystemTester
     }
 
     /**
-     * 
+     *
      * This receiver is used to test if the
      * {@link SdSystemTester#testComplicatedSystemFull()} notifies correctly the
      * communicator.
-     * 
+     *
      * @author eddiefullmetal
-     * 
+     *
      */
     private class TestReceiver
             implements IMessageReceiver
@@ -565,8 +568,8 @@ public class SdSystemTester
         }
 
         /**
-         * 
-         * 
+         *
+         *
          * @param sdObjectKey
          *            The key of the {@link ISdObject} that raised the event.
          * @param eventName
@@ -584,7 +587,7 @@ public class SdSystemTester
         /**
          * The sumdeveloper,maxteamplayer and the workingemployees have external
          * equations.
-         * 
+         *
          * @param sdObjectKey
          *            The key of the {@link ISdObject} that requested the value.
          * @return The value of the corresponding {@link ISdObject}.
@@ -613,7 +616,7 @@ public class SdSystemTester
 
         /**
          * The quality and the productivity send their values.
-         * 
+         *
          * @param sdObjectKey
          *            The key of the {@link ISdObject} that sent the value.
          * @param value
@@ -637,7 +640,7 @@ public class SdSystemTester
 
         /**
          * Gets the {@link #_valuesOfProductivity}.
-         * 
+         *
          * @return The {@link #_valuesOfProductivity}.
          */
         public List<Double> getValuesOfProductivity ( )
@@ -647,7 +650,7 @@ public class SdSystemTester
 
         /**
          * Gets the {@link #_valuesOfQuality}.
-         * 
+         *
          * @return The {@link #_valuesOfQuality}.
          */
         public List<Double> getValuesOfQuality ( )
@@ -657,7 +660,7 @@ public class SdSystemTester
 
         /**
          * Gets the {@link #_workToDoRaised}.
-         * 
+         *
          * @return The {@link #_workToDoRaised}.
          */
         public boolean isWorkToDoRaised ( )

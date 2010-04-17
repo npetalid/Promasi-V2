@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.naming.ConfigurationException;
 
+import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
 import org.promasi.model.Employee;
@@ -12,11 +13,11 @@ import org.promasi.model.Project;
 
 
 /**
- * 
+ *
  * Interface that defines a play mode.
- * 
+ *
  * @author eddiefullmetal
- * 
+ *
  */
 public interface IPlayMode
 {
@@ -29,13 +30,13 @@ public interface IPlayMode
     /**
      * @return The description of the play mode. The description can be in HTML
      *         format.
-     * 
+     *
      */
     String getDescription ( );
 
     /**
      * Starts the play mode.
-     * 
+     *
      * @throws ConfigurationException
      *             In case the play mode is not configured properly.
      */
@@ -50,7 +51,7 @@ public interface IPlayMode
     /**
      * This is used from the {@link Shell} in order to know which
      * {@link SdModel} will initialize.
-     * 
+     *
      * @return The current {@link SdModel}.
      */
     SdModel getCurrentModel ( );
@@ -67,4 +68,10 @@ public interface IPlayMode
      * @return The {@link IStatePersister} for the specified project.
      */
     IStatePersister getPersisterForProject ( Project project );
+
+    /**
+     *
+     * @param communicator
+     */
+    public void registerCommunicator(ICommunicator communicator);
 }
