@@ -91,12 +91,13 @@ public final class Application
                 LOGGER.error( "No registered UI initializer." );
                 throw new ConfigurationException( "No registered UI initializer." );
             }
+            
             uiInitializer.registerMainFrame(_shell );
         }
         catch ( ConfigurationException e )
         {
             JOptionPane.showMessageDialog( null, ResourceManager.getString( Application.class, "invalidConfiguration", "text" ), ResourceManager
-                    .getString( Application.class, "invalidConfiguration", "title" ), JOptionPane.ERROR_MESSAGE );
+                  .getString( Application.class, "invalidConfiguration", "title" ), JOptionPane.ERROR_MESSAGE );
             System.exit( -1 );
         }
         // Start the mainframe in the event queue.
@@ -110,10 +111,8 @@ public final class Application
      * @author eddiefullmetal
      *
      */
-    private static class ApplicationRunner
-            implements Runnable
+    private static class ApplicationRunner implements Runnable
     {
-
     	private Shell _shell;
 
     	public ApplicationRunner(Shell shell)throws NullArgumentException

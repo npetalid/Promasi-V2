@@ -5,6 +5,7 @@ package org.promasi.server.core.game;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.server.core.ProMaSiClient;
@@ -15,6 +16,9 @@ import org.promasi.server.core.ProMaSiClient;
  */
 public class Game
 {
+	private Timer _timer;
+	
+	
 	/**
 	 *
 	 */
@@ -58,6 +62,7 @@ public class Game
 		{
 			throw new NullArgumentException("Wrong argument promasiModel==null");
 		}
+		
 		_gameId=gameId;
 		_gameMaster=gameMaster;
 		_gameModels=new HashMap<ProMaSiClient,GameModel>();
@@ -86,12 +91,14 @@ public class Game
 		{
 			throw new NullArgumentException("Wrong argument playerId==null");
 		}
+		
 		synchronized(this)
 		{
 			if(_gameModels.containsKey(player) || _gameMaster.getClientId()==player.getClientId())
 			{
 				throw new IllegalArgumentException("Wrong argument playerId is already in game");
 			}
+			
 			_gameModels.put(player, new GameModel(_promasiModel)); //ToDo change GameModel.
 		}
 	}
@@ -128,11 +135,15 @@ public class Game
 			{
 				return false;
 			}
+			
 			for(Map.Entry<ProMaSiClient,GameModel> entry:_gameModels.entrySet())
 			{
 				entry.getKey().onReceiveData(message);
 			}
+			
+			
 		}
+		
 		return true;
 	}
 

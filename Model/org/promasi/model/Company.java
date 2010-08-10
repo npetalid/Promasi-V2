@@ -3,6 +3,7 @@ package org.promasi.model;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
@@ -20,10 +21,14 @@ import org.promasi.utilities.ICloneable;
  * @author eddiefullmetal
  * 
  */
-public class Company
-        implements ICloneable<Company>
+public class Company implements ICloneable<Company>, Serializable
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The name of the company.
      */
     private String _name;
@@ -450,4 +455,5 @@ public class Company
             return null;
         }
     }
+    
 }

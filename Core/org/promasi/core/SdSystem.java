@@ -1,6 +1,7 @@
 package org.promasi.core;
 
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,7 @@ import org.promasi.utilities.ErrorBuilder;
  * @author eddiefullmetal
  *
  */
-public class SdSystem
+public class SdSystem implements Serializable
 {
 
     /**
@@ -239,6 +240,10 @@ public class SdSystem
     	return _model.getOutputs();
     }
 
+    /**
+     * 
+     * @param communicator
+     */
     public void registerCommunicator(ICommunicator communicator)
     {
     	synchronized(this)
@@ -249,4 +254,89 @@ public class SdSystem
     		}
     	}
     }
+    
+    /**
+     * 
+     * @return
+     */
+    public SdModel getSdModel(){
+    	return _model;
+    }
+    
+    /**
+     * 
+     * @param sdModel
+     * @throws NullArgumentException
+     */
+    public void setSdModel(SdModel sdModel)throws NullArgumentException{
+    	if(sdModel==null){
+    		throw new NullArgumentException("");
+    	}
+    	
+    	_model=sdModel;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public IComputationalSequence getComputationalSequence(){
+    	return _computationalSequence;
+    }
+
+    /**
+     * 
+     * @param computationalSequence
+     * @throws NullArgumentException
+     */
+    public void setComputationalSquence(IComputationalSequence computationalSequence)throws NullArgumentException{
+    	if(computationalSequence==null){
+    		throw new NullArgumentException("");
+    	}
+    	
+    	_computationalSequence=computationalSequence;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public List<ISdListener> getListeners(){
+    	return _listeners;
+    }
+    
+    /**
+     * 
+     * @param listeners
+     * @throws NullArgumentException
+     */
+    public void setListeners(List<ISdListener> listeners)throws NullArgumentException{
+    	if(listeners==null){
+    		throw new NullArgumentException("");
+    	}
+    	
+    	_listeners=listeners;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public IStatePersister getStatePersister(){
+    	return _persister;
+    }
+    
+    /**
+     * 
+     * @param statePersister
+     * @throws NullArgumentException
+     */
+    public void setStatePersister(IStatePersister statePersister)throws NullArgumentException{
+    	if(statePersister==null){
+    		throw new NullArgumentException("");
+    	}
+    	
+    	_persister=statePersister;
+    }
+
 }

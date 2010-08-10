@@ -44,10 +44,8 @@ import org.promasi.shell.ui.playmode.IProjectFinishedUi;
  * @author eddiefullmetal
  *
  */
-public class SinglePlayerScorePlayMode
-        implements IPlayMode, IClockListener, IShellListener
+public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, IShellListener
 {
-
     /**
      * The current {@link Story} of this play mode.
      */
@@ -58,8 +56,11 @@ public class SinglePlayerScorePlayMode
      */
     private SdSystem _currentSdSystem;
 
-
+    /**
+     * 
+     */
     private ICommunicator _systemCommunicator;
+    
     /**
      * The directory that this play mode stores its data.
      */
@@ -94,6 +95,7 @@ public class SinglePlayerScorePlayMode
     	{
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
+    	
     	_shell=shell;
     	_shell.addListener( this );
         _projectPersisters = new Hashtable<Project, IStatePersister>( );
@@ -155,8 +157,7 @@ public class SinglePlayerScorePlayMode
     }
 
     @Override
-    public void start ( )
-            throws ConfigurationException
+    public void start ( ) throws ConfigurationException
     {
         Company company = _shell.getCompany( );
         if ( _currentStory == null || !_currentStory.isValid( ) )
@@ -164,6 +165,7 @@ public class SinglePlayerScorePlayMode
             LOGGER.error( "No story is selected or story is not properly configured." );
             throw new ConfigurationException( "No story is selected or story is not properly configured." );
         }
+        
         company.setBoss( _currentStory.getBoss( ) );
         company.setAccountant( _currentStory.getAccountant( ) );
         company.setAdministrator( _currentStory.getAdministrator( ) );
@@ -201,6 +203,7 @@ public class SinglePlayerScorePlayMode
             {
                 _currentSdSystem.executeStep( );
             }
+            
             if ( changedTypes.contains( DurationFieldType.days( ) ) )
             {
                 Company company = _currentStory.getCompany( );
@@ -215,6 +218,7 @@ public class SinglePlayerScorePlayMode
                 message.setBody( "Total payments : " + total );
                 _shell.sendMail( message );
             }
+            
             if ( changedTypes.contains( DurationFieldType.hours( ) ) )
             {
                 int currentHourOfDay = Clock.getInstance( ).getCurrentDateTime( ).getHourOfDay( );
@@ -245,12 +249,14 @@ public class SinglePlayerScorePlayMode
                 	_shell.getModelMessageReceiver().addValueSentData( outputVariableBinding.getSdObjectKey( ),
                             outputVariableBinding.getModelXPath( ) );
                 }
+                
                 List<ExternalEquationBinding> externalBindings = _currentStory.getExternalEquationBindings( project );
                 for ( ExternalEquationBinding externalEquationBinding : externalBindings )
                 {
                 	 _shell.getModelMessageReceiver().addValueRequestedData( externalEquationBinding.getSdObjectKey( ),
                             externalEquationBinding.getModelXPath( ) );
                 }
+                
                 List<EventBinding> eventBindings = _currentStory.getEventBindings( project );
                 for ( EventBinding eventBinding : eventBindings )
                 {
@@ -264,6 +270,7 @@ public class SinglePlayerScorePlayMode
                         {
                             BeanUtils.setProperty( action, paramName, actionBinding.getParameter( paramName ) );
                         }
+                        
                         if ( action.isValid( ) )
                         {
                         	_shell.getModelMessageReceiver().addEventAction( eventBinding.getEventName( ), eventBinding.getSdObjectKey( ), action );
@@ -278,6 +285,7 @@ public class SinglePlayerScorePlayMode
                         LOGGER.warn( "Could not add eventBinding.", e );
                     }
                 }
+                
                 // Set up the SdModel.
                 LOGGER.info( "Starting project..." );
                 SdModel model = _currentStory.getModel( project );

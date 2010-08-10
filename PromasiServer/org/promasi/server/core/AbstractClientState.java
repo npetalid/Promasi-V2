@@ -4,7 +4,7 @@
 package org.promasi.server.core;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.server.client.state.IClientState;
+import org.promasi.server.clientstate.IClientState;
 
 /**
  * @author m1cRo

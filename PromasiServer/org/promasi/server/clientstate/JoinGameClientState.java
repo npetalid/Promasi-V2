@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.server.client.state;
+package org.promasi.server.clientstate;
 
 import java.net.ProtocolException;
 import java.util.LinkedList;

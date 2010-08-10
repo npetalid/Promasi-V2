@@ -5,20 +5,39 @@ package org.promasi.server.core.game;
 
 import java.beans.XMLEncoder;
 import java.io.ByteArrayOutputStream;
-
-import javax.naming.ConfigurationException;
+import java.io.Serializable;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.shell.Shell;
+import org.promasi.core.SdSystem;
+import org.promasi.model.Company;
 
 /**
  * @author m1cRo
  *
  */
-public class GameModel
+public class GameModel implements Serializable
 {
-	private Shell _gameShell;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
+	/**
+     * The current {@link Company} of this game model.
+     */
+	private Company _company;
+
+    /**
+     * The running sd system.
+     */
+    private SdSystem _sdSystem;
+	
+    /**
+     * 
+     * @param xmlModel
+     * @throws NullArgumentException
+     * @throws IllegalArgumentException
+     */
 	public GameModel(String xmlModel)throws NullArgumentException,IllegalArgumentException
 	{
 		if(xmlModel==null)
@@ -32,6 +51,7 @@ public class GameModel
 		}
 	}
 
+	
 	public String toXML()
 	{
 		ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
@@ -48,18 +68,59 @@ public class GameModel
 				result=result+ch;
 			}
 		}
+		
 		return result;
 	}
-
-	public boolean start()
+	
+	
+	public void executeStep()
 	{
-		try {
-			_gameShell.start();
-		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
+		_sdSystem.executeStep();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Company getCompany()
+	{
+		return _company;
+	}
+	
+	/**
+	 * 
+	 * @param company
+	 * @throws NullArgumentException
+	 */
+	public void setCompany(Company company)throws NullArgumentException
+	{
+		if(company==null){
+			throw new NullArgumentException("");
 		}
-		return true;
+		
+		_company=company;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public SdSystem getSdSystem()
+	{
+		return _sdSystem;
+	}
+	
+	/**
+	 * 
+	 * @param sdSystem
+	 * @throws NullArgumentException
+	 */
+	public void setSdSystem(SdSystem sdSystem)throws NullArgumentException
+	{
+		if(sdSystem==null){
+			throw new NullArgumentException("");
+		}
+		
+		_sdSystem=sdSystem;
 	}
 }
