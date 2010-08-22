@@ -14,10 +14,8 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.promasi.shell.Shell;
 import org.promasi.shell.UiManager;
-import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
 import org.promasi.shell.ui.IUiInitializer;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
-import org.promasi.ui.promasiui.promasidesktop.singleplayerscoremode.SinglePlayerScoreModeUiInitializer;
 
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
@@ -39,9 +37,21 @@ public final class Application
     /**
      * The {@link ApplicationRunner} that is used.
      */
-
     private static final Shell _shell=new Shell();
 
+    /**
+     * 
+     */
+    private static final String _hostname="localhost";
+    
+    /**
+     * 
+     */
+    private static final int _port=2222;
+    
+    /**
+     * 
+     */
     private static final ApplicationRunner RUNNER = new ApplicationRunner(_shell);
 
     /**
@@ -80,8 +90,9 @@ public final class Application
             // start with the metal lf.
             LOGGER.warn( "Could not set look and feel" );
         }
+        
         UiManager.getInstance( ).setUiInitializer( new DesktopUiInitializer( ) );
-        UiManager.getInstance( ).registerPlayModeInitializer( SinglePlayerScorePlayMode.class, new SinglePlayerScoreModeUiInitializer( ) );
+        
         try
         {
             LOGGER.info( "Initializing UI..." );
@@ -91,15 +102,15 @@ public final class Application
                 LOGGER.error( "No registered UI initializer." );
                 throw new ConfigurationException( "No registered UI initializer." );
             }
-            
             uiInitializer.registerMainFrame(_shell );
         }
         catch ( ConfigurationException e )
         {
             JOptionPane.showMessageDialog( null, ResourceManager.getString( Application.class, "invalidConfiguration", "text" ), ResourceManager
-                  .getString( Application.class, "invalidConfiguration", "title" ), JOptionPane.ERROR_MESSAGE );
+                    .getString( Application.class, "invalidConfiguration", "title" ), JOptionPane.ERROR_MESSAGE );
             System.exit( -1 );
         }
+        
         // Start the mainframe in the event queue.
         EventQueue.invokeLater( RUNNER );
     }
@@ -111,27 +122,44 @@ public final class Application
      * @author eddiefullmetal
      *
      */
-    private static class ApplicationRunner implements Runnable
+    private static class ApplicationRunner
+            implements Runnable
     {
+    	/**
+    	 * 
+    	 */
     	private Shell _shell;
 
+    	/**
+    	 * 
+    	 * @param shell
+    	 * @throws NullArgumentException
+    	 */
     	public ApplicationRunner(Shell shell)throws NullArgumentException
     	{
     		if(shell==null)
     		{
     			throw new NullArgumentException("Wrong argument shell==null");
     		}
+    		
     		_shell=shell;
     	}
+    	
         /**
          * Shows the {@link PlayModeSelectorFrame}.
          */
         @Override
         public void run ( )
         {
-            PlayModeSelectorFrame dialog = new PlayModeSelectorFrame(_shell);
-            dialog.setVisible( true );
+        	try
+        	{
+                PlayModeSelectorFrame dialog = new PlayModeSelectorFrame(_shell,_hostname,_port);
+                dialog.setVisible( true );
+        	}
+        	catch(IllegalArgumentException e)
+        	{
+        		System.exit( -1 );
+        	}
         }
-
     }
 }

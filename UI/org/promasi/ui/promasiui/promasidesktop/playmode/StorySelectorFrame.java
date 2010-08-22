@@ -1,4 +1,4 @@
-package org.promasi.ui.promasiui.promasidesktop.singleplayerscoremode;
+package org.promasi.ui.promasiui.promasidesktop.playmode;
 
 
 import java.awt.event.ActionEvent;
@@ -26,17 +26,16 @@ import org.promasi.communication.Communicator;
 import org.promasi.communication.ICommunicator;
 import org.promasi.model.Company;
 import org.promasi.model.ProjectManager;
+import org.promasi.shell.IPlayMode;
 import org.promasi.shell.Shell;
 import org.promasi.shell.UiManager;
-import org.promasi.shell.model.communication.ModelMessageReceiver;
-import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
-import org.promasi.shell.playmodes.singleplayerscoremode.StoriesPool;
 import org.promasi.shell.playmodes.singleplayerscoremode.Story;
 import org.promasi.shell.ui.IMainFrame;
-import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
+
 import org.promasi.ui.promasiui.promasidesktop.PlayModeSelectorFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
+import java.util.List;
 
 
 /**
@@ -74,7 +73,12 @@ public class StorySelectorFrame
      * The user that logged in.
      */
     private ProjectManager _projectManager;
+    
+    IPlayMode _currentPlayMode;
 
+    /**
+     * 
+     */
     private Shell _shell;
 
     /**
@@ -85,7 +89,7 @@ public class StorySelectorFrame
     /**
      * Initializes the object.
      */
-    public StorySelectorFrame( ProjectManager projectManager, Shell shell )throws NullArgumentException
+    public StorySelectorFrame( ProjectManager projectManager, Shell shell , IPlayMode playMode)throws NullArgumentException, IllegalArgumentException
     {
     	if(projectManager==null)
     	{
@@ -96,24 +100,32 @@ public class StorySelectorFrame
     	{
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
+    	
+    	if(playMode==null){
+    		throw new NullArgumentException("Wrong argument playMode==null");
+    	}
+    	
+    	_currentPlayMode=playMode;
+        List<Story> stories=_currentPlayMode.getStories();
+        if(stories==null){
+        	//ToDo logger
+        	throw new IllegalArgumentException("Wrong IPlayMode implementation getStories returns null");
+        }
+    	
+    	LOGGER.info( "Selecting story..." );
+    	
+    	
     	_shell=shell;
-        LOGGER.info( "Selecting story..." );
         _projectManager = projectManager;
         setTitle( ResourceManager.getString( StorySelectorFrame.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         final double sizePercentage = 0.4d;
         setSize( ScreenUtils.sizeForPercentage( sizePercentage, sizePercentage ) );
         ScreenUtils.centerInScreen( this );
-        initializeComponents( );
-        initializeLayout( );
-    }
+        
 
-    /**
-     * Initializes the components.
-     */
-    private void initializeComponents ( )
-    {
-        _storiesList = new JList( StoriesPool.getAllStories( ).toArray( ) );
+        
+        _storiesList = new JList( stories.toArray() );
         _storiesList.getSelectionModel( ).addListSelectionListener( new ListSelectionListener( )
         {
             @Override
@@ -123,8 +135,8 @@ public class StorySelectorFrame
             }
 
         } );
-        _storiesList.setBorder( BorderFactory
-                .createTitledBorder( ResourceManager.getString( StorySelectorFrame.class, "storiesList", "borderTitle" ) ) );
+        
+        _storiesList.setBorder( BorderFactory.createTitledBorder( ResourceManager.getString( StorySelectorFrame.class, "storiesList", "borderTitle" ) ) );
         _playButton = new JButton( ResourceManager.getString( StorySelectorFrame.class, "playButton", "text" ) );
         _playButton.addActionListener( new ActionListener( )
         {
@@ -136,17 +148,12 @@ public class StorySelectorFrame
             }
 
         } );
+        
         _playModeNameLabel = new JLabel( );
         _descriptionText = new JEditorPane( );
         _descriptionText.setContentType( "text/html" );
         _descriptionText.setEditable( false );
-    }
-
-    /**
-     * Initializes the layout.
-     */
-    private void initializeLayout ( )
-    {
+        
         setLayout( new MigLayout( new LC( ).fill( ) ) );
         add( new JScrollPane( _storiesList ), new CC( ).spanY( ).growY( ).minWidth( "150px" ) );
         add( _playModeNameLabel, new CC( ).split( 2 ).flowY( ).alignX( "center" ) );
@@ -186,8 +193,7 @@ public class StorySelectorFrame
             company.setProjectManager( _projectManager );
             _projectManager.setWorkingCompany( company );
             _shell.setCompany( company );
-            SinglePlayerScorePlayMode playMode = (SinglePlayerScorePlayMode) _shell.getCurrentPlayMode( );
-            playMode.setCurrentStory( story );
+            _currentPlayMode.setCurrentStory( story );
             setVisible( false );
             dispose( );
             try
@@ -195,11 +201,13 @@ public class StorySelectorFrame
             	ICommunicator communicator=new Communicator();
             	communicator.setMainReceiver( _shell.getModelMessageReceiver());
                 IMainFrame mainFrame = UiManager.getInstance().getRegisteredMainFrame();
-                if ( mainFrame == null || playMode == null )
+                if ( mainFrame == null )
                 {
                     LOGGER.error( "No registered MainFrame or play mode." );
-                    throw new ConfigurationException( "No registered MainFrame or play mode." );
+                    throw new ConfigurationException( "No registered MainFrame." );
                 }
+                
+                _shell.setCurrentPlayMode(_currentPlayMode);
                 mainFrame.initializeMainFrame( );
                 mainFrame.showMainFrame( );
                 _shell.start( );

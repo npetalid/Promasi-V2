@@ -87,14 +87,7 @@ public class SdModelInfoPanel
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
     	_shell=shell;
-        Initialize( );
-    }
-
-    /**
-     * Initializes the UI.
-     */
-    private void Initialize ( )
-    {
+    	
         setLayout( new MigLayout( new LC( ).fill( ) ) );
         add( new JScrollPane( getSdObjectList( ) ), new CC( ).spanY( ).minWidth( "100px" ).growY( ) );
         add( new JScrollPane( getChartPanelContainer( ) ), new CC( ).grow( ).spanY( ) );
