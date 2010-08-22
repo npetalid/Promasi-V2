@@ -6,9 +6,9 @@ package org.promasi.server.core;
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.server.clientstate.IClientState;
-import org.promasi.server.clientstate.LoginClientState;
-import org.promasi.tcpserver.TCPClient;
+import org.promasi.network.tcp.TcpClient;
+import org.promasi.server.client.state.IClientState;
+import org.promasi.server.client.state.LoginClientState;
 
 /**
  * @author m1cRo
@@ -19,7 +19,7 @@ public class ProMaSiClient
 	/**
 	 *	TCP communication port for current user.
 	 */
-	private TCPClient _client;
+	private TcpClient _client;
 
 	/**
 	 *	Client states defined by protocol logic.
@@ -32,12 +32,12 @@ public class ProMaSiClient
 	private String _clientId;
 
 	/**
-	 * ProMaSiClient constructor.
-	 * @param client tcp connection for current client.
-	 * @param promasi main promasi engine.
+	 *
+	 * @param client
+	 * @param promasi
 	 * @throws NullArgumentException
 	 */
-	public ProMaSiClient(TCPClient client,ProMaSi promasi)throws NullArgumentException
+	public ProMaSiClient(TcpClient client,ProMaSi promasi)throws NullArgumentException
 	{
 		if(client==null)
 		{
