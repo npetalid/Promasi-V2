@@ -7,8 +7,8 @@ import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.network.tcp.TcpClient;
-import org.promasi.server.client.state.IClientState;
-import org.promasi.server.client.state.LoginClientState;
+import org.promasi.server.clientstate.IClientState;
+import org.promasi.server.clientstate.LoginClientState;
 
 /**
  * @author m1cRo

@@ -13,7 +13,6 @@
 	<classpathentry kind="src" path="Communication_Tests"/>
 	<classpathentry kind="src" path="Utilities"/>
 	<classpathentry kind="src" path="Utilities_Tests"/>
-	<classpathentry kind="src" path="TCPServer"/>
 	<classpathentry kind="src" path="PromasiServer"/>
 	<classpathentry kind="src" path="network"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
