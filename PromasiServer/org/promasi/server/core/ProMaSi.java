@@ -9,9 +9,9 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.network.tcp.TcpClient;
 import org.promasi.server.core.game.Game;
 import org.promasi.server.core.game.GameList;
-import org.promasi.tcpserver.TCPClient;
 
 /**
  * @author m1cRo
@@ -22,7 +22,7 @@ public class ProMaSi
 	/**
 	 *
 	 */
-	private Map<TCPClient,ProMaSiClient> _clients;
+	private Map<TcpClient,ProMaSiClient> _clients;
 
 	/**
 	 *
@@ -39,7 +39,7 @@ public class ProMaSi
 	 */
 	public ProMaSi()
 	{
-		_clients=new HashMap<TCPClient,ProMaSiClient>();
+		_clients=new HashMap<TcpClient,ProMaSiClient>();
 		_userManager=new UserManager();
 		_gameList=new GameList();
 	}
@@ -52,7 +52,7 @@ public class ProMaSi
 	 * @throws ProtocolException
 	 * @throws IllegalArgumentException
 	 */
-	public void onReceiveData(TCPClient client,String recData)throws NullArgumentException,IllegalArgumentException
+	public void onReceiveData(TcpClient client,String recData)throws NullArgumentException,IllegalArgumentException
 	{
 		if(client==null)
 		{
@@ -78,7 +78,7 @@ public class ProMaSi
 	 *
 	 * @param client
 	 */
-	public void onConnect(TCPClient client)
+	public void onConnect(TcpClient client)
 	{
 		if(client==null)
 		{
@@ -97,7 +97,7 @@ public class ProMaSi
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public void onDisconnect(TCPClient client)throws NullArgumentException,IllegalArgumentException
+	public void onDisconnect(TcpClient client)throws NullArgumentException,IllegalArgumentException
 	{
 		if(client==null)
 		{
@@ -129,7 +129,7 @@ public class ProMaSi
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public void onConnectionError(TCPClient client)throws NullArgumentException,IllegalArgumentException
+	public void onConnectionError(TcpClient client)throws NullArgumentException,IllegalArgumentException
 	{
 		if(client==null)
 		{

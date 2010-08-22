@@ -1,14 +1,14 @@
 package org.promasi.server.core;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.tcpserver.ITCPEventHandler;
-import org.promasi.tcpserver.TCPClient;
+import org.promasi.network.tcp.ITcpEventHandler;
+import org.promasi.network.tcp.TcpClient;
 
 /**
  * @author m1cRo
  *
  */
-public class TcpEventHandler implements ITCPEventHandler
+public class TcpEventHandler implements ITcpEventHandler
 {
 
 	private ProMaSi _promasi;
@@ -22,7 +22,7 @@ public class TcpEventHandler implements ITCPEventHandler
 	 * @see org.promasi.server.ITCPEventHandler#OnConnect(org.promasi.server.TCPClient)
 	 */
 	@Override
-	public boolean onConnect(TCPClient tcpClient)throws NullArgumentException
+	public boolean onConnect(TcpClient tcpClient)throws NullArgumentException
 	{
 		if(tcpClient==null)
 		{
@@ -37,7 +37,7 @@ public class TcpEventHandler implements ITCPEventHandler
 	 * @see org.promasi.server.ITCPEventHandler#OnConnectionError(org.promasi.server.TCPClient)
 	 */
 	@Override
-	public void onConnectionError(TCPClient tcpClient)throws NullArgumentException
+	public void onConnectionError(TcpClient tcpClient)throws NullArgumentException
 	{
 		if(tcpClient==null)
 		{
@@ -59,7 +59,7 @@ public class TcpEventHandler implements ITCPEventHandler
 	 * @see org.promasi.server.ITCPEventHandler#OnDisconnect(org.promasi.server.TCPClient)
 	 */
 	@Override
-	public void onDisconnect(TCPClient tcpClient)throws NullArgumentException
+	public void onDisconnect(TcpClient tcpClient)throws NullArgumentException
 	{
 		if(tcpClient==null)
 		{
@@ -81,7 +81,7 @@ public class TcpEventHandler implements ITCPEventHandler
 	 * @see org.promasi.server.ITCPEventHandler#OnReceive(org.promasi.server.TCPClient, java.lang.String)
 	 */
 	@Override
-	public boolean onReceive(TCPClient tcpClient, String line)throws NullArgumentException
+	public boolean onReceive(TcpClient tcpClient, String line)throws NullArgumentException
 	{
 		if(tcpClient==null)
 		{
