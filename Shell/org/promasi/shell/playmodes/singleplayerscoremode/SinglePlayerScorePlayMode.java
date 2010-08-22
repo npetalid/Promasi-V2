@@ -22,12 +22,12 @@ import org.promasi.model.Employee;
 import org.promasi.model.IClockListener;
 import org.promasi.model.Message;
 import org.promasi.model.Project;
+import org.promasi.model.ProjectManager;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
 import org.promasi.shell.UiManager;
 import org.promasi.shell.model.actions.IModelAction;
-import org.promasi.shell.model.communication.ModelMessageReceiver;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ActionBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.EventBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ExternalEquationBinding;
@@ -136,12 +136,6 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     public Story getCurrentStory ( )
     {
         return _currentStory;
-    }
-
-    @Override
-    public SdModel getCurrentModel ( )
-    {
-        return _currentStory.getModel( _currentStory.getCurrentProject( ) );
     }
 
     @Override
@@ -263,7 +257,8 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
                     IModelAction action;
                     try
                     {
-                        Class clazz = Class.forName( eventBinding.getActionBinding( ).getActionClassName( ) );
+                        @SuppressWarnings("rawtypes")
+						Class clazz = Class.forName( eventBinding.getActionBinding( ).getActionClassName( ) );
                         action = (IModelAction) clazz.newInstance( );
                         ActionBinding actionBinding = eventBinding.getActionBinding( );
                         for ( String paramName : actionBinding.getParameters( ).keySet( ) )
@@ -336,9 +331,9 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     }
 
     @Override
-    public void employeeHired ( Employee employee )
+    public void employeeHired(Employee employee)
     {
-
+  
     }
 
 	@Override
@@ -352,5 +347,21 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 				_currentSdSystem.registerCommunicator(communicator);
 			}
 		}
+	}
+	
+	@Override
+	public ProjectManager login(String firstName,String lastName,String password){
+		return new ProjectManager(firstName,lastName);
+	}
+
+	@Override
+	public boolean needPasswordToLogin() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public List<Story> getStories() {
+		return StoriesPool.getAllStories( );
 	}
 }

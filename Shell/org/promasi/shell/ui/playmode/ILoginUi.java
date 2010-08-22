@@ -14,13 +14,6 @@ import org.promasi.shell.ui.IMainFrame;
  */
 public interface ILoginUi
 {
-
-    /**
-     * Logs in the user. This method should call the {@link Shell#start()} in
-     * order to show the {@link IMainFrame} after the user logs in.
-     */
-    void login ( );
-
     /**
      * Shows the Login UI.
      */

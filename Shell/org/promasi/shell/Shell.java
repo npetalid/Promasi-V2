@@ -28,9 +28,12 @@ import org.promasi.shell.ui.IMainFrame;
  * Controls the current session of the user.
  *
  * @author eddiefullmetal
+ *
  */
-public final class Shell implements INotifierListener
+public final class Shell
+        implements INotifierListener
 {
+
     /**
      * The current {@link IPlayMode}.
      */
@@ -40,6 +43,7 @@ public final class Shell implements INotifierListener
      * The company of the user(project manager).
      */
     private Company _company;
+
 
     /**
      * All the registered {@link IShellListener}s.
@@ -64,6 +68,7 @@ public final class Shell implements INotifierListener
         _listeners = new Vector<IShellListener>( );
         _modelMessageReceiver=new ModelMessageReceiver();
     }
+
 
     /**
      * @return the {@link #_currentPlayMode}.
@@ -121,7 +126,7 @@ public final class Shell implements INotifierListener
      *
      * @throws ConfigurationException
      */
-    public void start ( )throws ConfigurationException
+    public void start ( ) throws ConfigurationException
     {
         _currentPlayMode.start( );
     }
@@ -252,8 +257,8 @@ public final class Shell implements INotifierListener
     /**
      * Class used only by the {@link Shell} to schedule the project start time.
      */
-    private  class ProjectStartTimerTask implements ITimerTask
-    {
+    private  class ProjectStartTimerTask implements ITimerTask  {
+
         /**
          * The {@link Project}.
          */
@@ -293,8 +298,8 @@ public final class Shell implements INotifierListener
     /**
      * Class used only by the {@link Shell} to schedule the project end time.
      */
-    public class ProjectEndTimerTask implements ITimerTask
-    {
+    public class ProjectEndTimerTask implements ITimerTask{
+
         /**
          * The {@link Project}.
          */
@@ -339,6 +344,5 @@ public final class Shell implements INotifierListener
             return "ProjectEndTimerTask on project :" + _project;
         }
     }
-    
-   
+
 }
