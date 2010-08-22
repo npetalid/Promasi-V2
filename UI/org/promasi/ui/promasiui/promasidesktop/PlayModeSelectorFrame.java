@@ -4,7 +4,6 @@ package org.promasi.ui.promasiui.promasidesktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.naming.ConfigurationException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -25,9 +24,7 @@ import org.apache.log4j.Logger;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.PlayModePool;
 import org.promasi.shell.Shell;
-import org.promasi.shell.UiManager;
-import org.promasi.shell.ui.playmode.ILoginUi;
-import org.promasi.shell.ui.playmode.IPlayUiModeInitializer;
+import org.promasi.ui.promasiui.promasidesktop.playmode.LoginUi;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
 
@@ -39,11 +36,14 @@ import org.promasi.utilities.ui.ScreenUtils;
  * @author eddiefullmetal
  *
  */
-public class PlayModeSelectorFrame
-        extends JFrame
+public class PlayModeSelectorFrame extends JFrame
 {
-
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * A list that contains all the play modes.
      */
     private JList _playModesList;
@@ -63,6 +63,9 @@ public class PlayModeSelectorFrame
      */
     private JButton _playButton;
 
+    /**
+     * 
+     */
     private Shell _shell;
 
     /**
@@ -73,28 +76,21 @@ public class PlayModeSelectorFrame
     /**
      * Initializes the object.
      */
-    public PlayModeSelectorFrame(Shell shell )throws NullArgumentException
+    public PlayModeSelectorFrame(Shell shell, String hostname, int port )throws NullArgumentException, IllegalArgumentException
     {
     	if(shell==null)
     	{
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
+    	
     	_shell=shell;
         LOGGER.info( "Selecting play mode" );
         setTitle( ResourceManager.getString( PlayModeSelectorFrame.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( ScreenUtils.sizeForPercentage( 0.5d, 0.5d ) );
         ScreenUtils.centerInScreen( this );
-        initializeComponents( );
-        initializeLayout( );
-    }
-
-    /**
-     * Initializes the components.
-     */
-    private void initializeComponents ( )
-    {
-        _playModesList = new JList( PlayModePool.getInstance( _shell ).getPlayModes( ).toArray( ) );
+        
+        _playModesList = new JList( new PlayModePool(_shell,hostname,port).getPlayModes().toArray() );
         _playModesList.getSelectionModel( ).addListSelectionListener( new ListSelectionListener( )
         {
             @Override
@@ -104,8 +100,8 @@ public class PlayModeSelectorFrame
             }
 
         } );
-        _playModesList.setBorder( BorderFactory.createTitledBorder( ResourceManager.getString( PlayModeSelectorFrame.class, "playModesList",
-                "borderTitle" ) ) );
+        
+        _playModesList.setBorder( BorderFactory.createTitledBorder( ResourceManager.getString( PlayModeSelectorFrame.class, "playModesList","borderTitle" ) ) );
         _playButton = new JButton( ResourceManager.getString( PlayModeSelectorFrame.class, "playButton", "text" ) );
         _playButton.addActionListener( new ActionListener( )
         {
@@ -117,17 +113,12 @@ public class PlayModeSelectorFrame
             }
 
         } );
+        
         _playModeNameLabel = new JLabel( );
         _descriptionText = new JEditorPane( );
         _descriptionText.setContentType( "text/html" );
         _descriptionText.setEditable( false );
-    }
-
-    /**
-     * Initializes the layout.
-     */
-    private void initializeLayout ( )
-    {
+        
         setLayout( new MigLayout( new LC( ).fill( ) ) );
         add( new JScrollPane( _playModesList ), new CC( ).spanY( ).growY( ) );
         add( _playModeNameLabel, new CC( ).split( 2 ).flowY( ).alignX( "center" ) );
@@ -156,38 +147,9 @@ public class PlayModeSelectorFrame
         {
             LOGGER.info( "Selected " + playMode.toString( ) );
             setVisible( false );
-            try
-            {
-                _shell.setCurrentPlayMode( playMode );
-                IPlayUiModeInitializer playModeInitializer = UiManager.getInstance( ).getPlayModeInitializer( playMode.getClass( ) );
-                if ( playModeInitializer == null )
-                {
-                    LOGGER.error( "No registered play mode initializer for play mode" );
-                    throw new ConfigurationException( "No registered play mode initializer for play mode" );
-                }
-                playModeInitializer.registerLoginUi(_shell );
-                playModeInitializer.registerProjectFinishedUi( _shell );
-            }
-            catch ( ConfigurationException e )
-            {
-                LOGGER.fatal( "Play mode implementation is corrupted initializer is registered for play mode :" + playMode.getName( ) );
-                JOptionPane.showMessageDialog( this, ResourceManager.getString( PlayModeSelectorFrame.class, "noInitializer", "text" ),
-                        ResourceManager.getString( PlayModeSelectorFrame.class, "noInitializer", "title" ), JOptionPane.ERROR_MESSAGE );
-                System.exit( -1 );
-            }
-            ILoginUi loginPane = UiManager.getInstance( ).getLoginUi( playMode.getClass( ) );
-            if ( loginPane != null )
-            {
-                loginPane.showUi( );
-                dispose( );
-            }
-            else
-            {
-                LOGGER.fatal( "UI implementation is corrupted no login pane is registered for play mode :" + playMode.getName( ) );
-                JOptionPane.showMessageDialog( this, ResourceManager.getString( PlayModeSelectorFrame.class, "noLoginPane", "text" ), ResourceManager
-                        .getString( PlayModeSelectorFrame.class, "noLoginPane", "title" ), JOptionPane.ERROR_MESSAGE );
-                System.exit( -1 );
-            }
+            
+            LoginUi loginUi=new LoginUi(_shell,playMode);
+            loginUi.showUi();
         }
         else
         {
