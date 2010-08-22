@@ -4,12 +4,17 @@ package org.promasi.shell;
 import java.util.List;
 
 import javax.naming.ConfigurationException;
+import javax.swing.JList;
 
 import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
 import org.promasi.model.Employee;
 import org.promasi.model.Project;
+import org.promasi.model.ProjectManager;
+import org.promasi.shell.playmodes.singleplayerscoremode.Story;
+
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
 
 
 /**
@@ -49,14 +54,6 @@ public interface IPlayMode
     List<Employee> getAllEmployees ( );
 
     /**
-     * This is used from the {@link Shell} in order to know which
-     * {@link SdModel} will initialize.
-     *
-     * @return The current {@link SdModel}.
-     */
-    SdModel getCurrentModel ( );
-
-    /**
      * @param project
      * @return The {@link SdModel} that is associated with the specified
      *         {@link Project}.
@@ -74,4 +71,31 @@ public interface IPlayMode
      * @param communicator
      */
     public void registerCommunicator(ICommunicator communicator);
+    
+    /**
+     * 
+     * @param firstName
+     * @param lastName
+     * @param password
+     * @return
+     */
+    public ProjectManager login(String firstName,String lastName,String password);
+    
+    /**
+     * 
+     * @return
+     */
+    boolean needPasswordToLogin();
+
+    /**
+     * 
+     * @param story
+     */
+	public void setCurrentStory(Story story);
+	
+	/**
+	 * 
+	 * @return
+	 */
+    public List<Story> getStories();
 }
