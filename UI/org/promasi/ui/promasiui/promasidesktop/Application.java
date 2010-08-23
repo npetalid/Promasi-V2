@@ -38,16 +38,6 @@ public final class Application
      * The {@link ApplicationRunner} that is used.
      */
     private static final Shell _shell=new Shell();
-
-    /**
-     * 
-     */
-    private static final String _hostname="localhost";
-    
-    /**
-     * 
-     */
-    private static final int _port=2222;
     
     /**
      * 
@@ -153,7 +143,7 @@ public final class Application
         {
         	try
         	{
-                PlayModeSelectorFrame dialog = new PlayModeSelectorFrame(_shell,_hostname,_port);
+                PlayModeSelectorFrame dialog = new PlayModeSelectorFrame(_shell);
                 dialog.setVisible( true );
         	}
         	catch(IllegalArgumentException e)

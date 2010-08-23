@@ -25,33 +25,17 @@ public final class PlayModePool
      * All available play modes.
      */
     private List<IPlayMode> _playModes;
-    
-    /**
-     * 
-     */
-    private String _hostname;
-    
-    /**
-     * 
-     */
-    private int _port;
 
     /**
      * Initializes the object.
      */
-    public PlayModePool(Shell shell ,String hostname, int port)throws NullArgumentException, IllegalArgumentException
+    public PlayModePool(Shell shell)throws NullArgumentException, IllegalArgumentException
     {
-    	if( shell==null || hostname==null )
+    	if( shell==null)
     	{
     		throw new NullArgumentException("Wrong argument");
     	}
-    	
-    	if( port < 0 ){
-    		throw new IllegalArgumentException("Wrong argument port<0");
-    	}
-    	
-    	_hostname=hostname;
-    	_port=port;
+
         _playModes = new Vector<IPlayMode>( );
         loadDefaultPlayModes(shell );
     }
@@ -84,7 +68,7 @@ public final class PlayModePool
         registerPlayMode( new SinglePlayerScorePlayMode(shell));
         
         try {
-			registerPlayMode( new MultiPlayerScorePlayMode(shell,_hostname,_port));
+			registerPlayMode( new MultiPlayerScorePlayMode(shell) );
 		} 
         catch (UnknownHostException e) {
 			e.printStackTrace();

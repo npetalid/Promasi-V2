@@ -56,23 +56,29 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	
 	/**
 	 * 
+	 */
+	private static final String _hostname="localhost";
+	
+	/**
+	 * 
+	 */
+	private static final int _port=2222;
+	
+	/**
+	 * 
 	 * @param hostname
 	 * @param portNumber
 	 * @throws IllegalArgumentException
 	 * @throws UnknownHostException
 	 * @throws IOException
 	 */
-	public MultiPlayerScorePlayMode(Shell shell,String hostname,int portNumber) throws NullArgumentException, IllegalArgumentException, UnknownHostException, IOException{
-		if(hostname==null || shell==null){
+	public MultiPlayerScorePlayMode(Shell shell) throws NullArgumentException, IllegalArgumentException, UnknownHostException, IOException{
+		if(shell==null){
 			throw new NullArgumentException("MultiplayerScorePlayMode wrong arguments");
 		}
 		
-		if( portNumber<0 ){
-			throw new IllegalArgumentException( "Illegal argument portNumber<0" );
-		}
-		
 		_employees=new LinkedList<Employee>();
-		_tcpClient=new TcpClient(hostname,portNumber);
+		_tcpClient=new TcpClient(_hostname,_port);
 	}
 	
 	/* (non-Javadoc)

@@ -76,7 +76,7 @@ public class PlayModeSelectorFrame extends JFrame
     /**
      * Initializes the object.
      */
-    public PlayModeSelectorFrame(Shell shell, String hostname, int port )throws NullArgumentException, IllegalArgumentException
+    public PlayModeSelectorFrame(Shell shell )throws NullArgumentException, IllegalArgumentException
     {
     	if(shell==null)
     	{
@@ -90,7 +90,7 @@ public class PlayModeSelectorFrame extends JFrame
         setSize( ScreenUtils.sizeForPercentage( 0.5d, 0.5d ) );
         ScreenUtils.centerInScreen( this );
         
-        _playModesList = new JList( new PlayModePool(_shell,hostname,port).getPlayModes().toArray() );
+        _playModesList = new JList( new PlayModePool( _shell ).getPlayModes().toArray() );
         _playModesList.getSelectionModel( ).addListSelectionListener( new ListSelectionListener( )
         {
             @Override
