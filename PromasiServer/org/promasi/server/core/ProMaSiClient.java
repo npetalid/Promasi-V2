@@ -32,25 +32,24 @@ public class ProMaSiClient
 	private String _clientId;
 
 	/**
-	 *
+	 * 
 	 * @param client
-	 * @param promasi
 	 * @throws NullArgumentException
 	 */
-	public ProMaSiClient(TcpClient client,ProMaSi promasi)throws NullArgumentException
+	public ProMaSiClient(TcpClient client,IClientState clientState)throws NullArgumentException
 	{
 		if(client==null)
 		{
 			throw new NullArgumentException("Wrong client argument");
 		}
-
-		if(promasi==null)
-		{
-			throw new NullArgumentException("Wrong promasi argument");
+		
+		if(clientState==null){
+			throw new NullArgumentException("Wrong clientState argument");
 		}
+
 		_clientId=null;
 		_client=client;
-		_clientState=new LoginClientState(promasi);
+		_clientState=clientState; 
 	}
 
 	/**
@@ -77,24 +76,18 @@ public class ProMaSiClient
 	 * @param userName
 	 * @throws NullArgumentException
 	 */
-	public void setClientId(String userName)throws NullArgumentException
+	public synchronized void setClientId(String userName)throws NullArgumentException
 	{
-		synchronized(this)
-		{
-			_clientId=userName;
-		}
+		_clientId=userName;
 	}
 
 	/**
 	 *
 	 * @return
 	 */
-	public String getClientId()
+	public synchronized String getClientId()
 	{
-		synchronized(this)
-		{
-			return _clientId;
-		}
+		return _clientId;
 	}
 
 	/**

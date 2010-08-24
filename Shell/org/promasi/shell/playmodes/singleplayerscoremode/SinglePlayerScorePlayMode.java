@@ -361,7 +361,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	}
 
 	@Override
-	public List<Story> getStories() {
+	public List<Story> getStories(){
 		return StoriesPool.getAllStories( );
 	}
 }

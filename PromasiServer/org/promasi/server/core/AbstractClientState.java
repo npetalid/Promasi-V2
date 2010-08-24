@@ -24,6 +24,7 @@ public abstract class AbstractClientState implements IClientState
 		{
 			throw new NullArgumentException("Wrong argument promasiClient==null");
 		}
+		
 		client.changeState(clientState);
 	}
 }

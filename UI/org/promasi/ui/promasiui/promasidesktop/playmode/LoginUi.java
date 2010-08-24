@@ -4,6 +4,7 @@ package org.promasi.ui.promasiui.promasidesktop.playmode;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -156,8 +157,19 @@ public class LoginUi extends JFrame implements ILoginUi
             // Show the story selector frame.
             setVisible( false );
             dispose( );
-            StorySelectorFrame storySelector = new StorySelectorFrame( projectManager,_shell, _currentPlayMode );
-            storySelector.setVisible( true );
+            StorySelectorFrame storySelector;
+			try {
+				storySelector = new StorySelectorFrame( projectManager,_shell, _currentPlayMode );
+				storySelector.setVisible( true );
+			} catch (NullArgumentException e) {
+				// TODO mesage
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO message
+				e.printStackTrace();
+			}
+			
+           
         }
     }
 

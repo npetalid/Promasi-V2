@@ -7,16 +7,19 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import javax.naming.ConfigurationException;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.client.clientstate.ChooseGameClientState;
 import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
 import org.promasi.model.Employee;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
+import org.promasi.server.core.ProMaSiClient;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
@@ -47,12 +50,17 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	/**
 	 * 
 	 */
-	private TcpClient _tcpClient;
+	private ProMaSiClient _proMaSiClient;
 	
 	/**
 	 * 
 	 */
 	private Shell _shell;
+	
+	/**
+	 * 
+	 */
+	private List<Story> _stories;
 	
 	/**
 	 * 
@@ -78,9 +86,10 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		}
 		
 		_employees=new LinkedList<Employee>();
-		_tcpClient=new TcpClient(_hostname,_port);
+		_proMaSiClient=new ProMaSiClient( new TcpClient(_hostname,_port),new ChooseGameClientState() );
+		_stories=new Vector<Story>();
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see org.promasi.shell.IPlayMode#getName()
 	 */
@@ -192,9 +201,10 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
     }
 
 	@Override
-	public List<Story> getStories() {
+	public synchronized List<Story> getStories(){
 		// TODO Auto-generated method stub
-		return null;
+		List<Story> stories=new Vector<Story>(_stories);
+		return stories;
 	}
 
 }

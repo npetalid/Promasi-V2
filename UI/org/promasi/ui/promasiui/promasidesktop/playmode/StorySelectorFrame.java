@@ -3,6 +3,7 @@ package org.promasi.ui.promasiui.promasidesktop.playmode;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.naming.ConfigurationException;
 import javax.swing.BorderFactory;
@@ -36,6 +37,7 @@ import org.promasi.ui.promasiui.promasidesktop.PlayModeSelectorFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
 import java.util.List;
+import java.util.Vector;
 
 
 /**
@@ -45,11 +47,15 @@ import java.util.List;
  * @author eddiefullmetal
  *
  */
-public class StorySelectorFrame
-        extends JFrame
+public class StorySelectorFrame extends JFrame implements Runnable
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * A list that contains all the stories.
      */
     private JList _storiesList;
@@ -74,7 +80,18 @@ public class StorySelectorFrame
      */
     private ProjectManager _projectManager;
     
-    IPlayMode _currentPlayMode;
+    
+    private Thread _updateThread;
+    
+    /**
+     * 
+     */
+    private boolean _stopUpdating;
+    
+    /**
+     * 
+     */
+    private IPlayMode _currentPlayMode;
 
     /**
      * 
@@ -88,8 +105,9 @@ public class StorySelectorFrame
 
     /**
      * Initializes the object.
+     * @throws IOException 
      */
-    public StorySelectorFrame( ProjectManager projectManager, Shell shell , IPlayMode playMode)throws NullArgumentException, IllegalArgumentException
+    public StorySelectorFrame( ProjectManager projectManager, Shell shell , IPlayMode playMode)throws NullArgumentException, IOException
     {
     	if(projectManager==null)
     	{
@@ -106,11 +124,7 @@ public class StorySelectorFrame
     	}
     	
     	_currentPlayMode=playMode;
-        List<Story> stories=_currentPlayMode.getStories();
-        if(stories==null){
-        	//ToDo logger
-        	throw new IllegalArgumentException("Wrong IPlayMode implementation getStories returns null");
-        }
+
     	
     	LOGGER.info( "Selecting story..." );
     	
@@ -125,7 +139,7 @@ public class StorySelectorFrame
         
 
         
-        _storiesList = new JList( stories.toArray() );
+        _storiesList = new JList( );
         _storiesList.getSelectionModel( ).addListSelectionListener( new ListSelectionListener( )
         {
             @Override
@@ -159,6 +173,9 @@ public class StorySelectorFrame
         add( _playModeNameLabel, new CC( ).split( 2 ).flowY( ).alignX( "center" ) );
         add( _descriptionText, new CC( ).grow( ).wrap( ) );
         add( _playButton, new CC( ) );
+        
+        _updateThread=new Thread(this);
+        _updateThread.start();
     }
 
     /**
@@ -224,4 +241,22 @@ public class StorySelectorFrame
                     .getString( StorySelectorFrame.class, "noSelectedStory", "title" ), JOptionPane.ERROR_MESSAGE );
         }
     }
+
+	@Override
+	public void run() {
+		while(!_stopUpdating){
+			List<Story> stories = _currentPlayMode.getStories();
+		    if(stories!=null){
+		       _storiesList.setListData(new Vector<Story>(_currentPlayMode.getStories()));
+		    }
+		    
+		    try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }

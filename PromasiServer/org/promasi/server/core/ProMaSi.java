@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.network.tcp.TcpClient;
+import org.promasi.server.clientstate.LoginClientState;
 import org.promasi.server.core.game.Game;
 import org.promasi.server.core.game.GameList;
 
@@ -84,7 +85,7 @@ public class ProMaSi
 		{
 			throw new NullArgumentException("Wrong argument client");
 		}
-		ProMaSiClient promasiClient=new ProMaSiClient(client,this);
+		ProMaSiClient promasiClient=new ProMaSiClient(client,new LoginClientState(this));
 		synchronized(_clients)
 		{
 			_clients.put(client, promasiClient);

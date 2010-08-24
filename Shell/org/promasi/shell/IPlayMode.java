@@ -1,10 +1,10 @@
 package org.promasi.shell;
 
 
+
 import java.util.List;
 
 import javax.naming.ConfigurationException;
-import javax.swing.JList;
 
 import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
@@ -13,9 +13,6 @@ import org.promasi.model.Employee;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
 import org.promasi.shell.playmodes.singleplayerscoremode.Story;
-
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 
 /**
  *
@@ -97,5 +94,6 @@ public interface IPlayMode
 	 * 
 	 * @return
 	 */
-    public List<Story> getStories();
+	public List<Story> getStories();
+	
 }
