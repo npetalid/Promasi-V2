@@ -10,9 +10,14 @@ import org.promasi.network.tcp.TcpClient;
  */
 public class TcpEventHandler implements ITcpEventHandler
 {
-
+	/**
+	 * 
+	 */
 	private ProMaSi _promasi;
 
+	/**
+	 * 
+	 */
 	public TcpEventHandler()
 	{
 		_promasi=new ProMaSi();

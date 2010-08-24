@@ -35,7 +35,7 @@ public class OfflineClientState extends AbstractClientState {
 		}
 		try
 		{
-			Object object=RequestBuilder.buildRequest(recData);
+			RequestBuilder.buildRequest(recData);
 		}
 		catch(ProtocolException e)
 		{
