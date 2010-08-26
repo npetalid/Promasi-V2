@@ -20,8 +20,6 @@ import org.promasi.model.Timer;
 import org.promasi.shell.model.communication.JXPathResolver;
 import org.promasi.shell.model.communication.ModelMessageReceiver;
 import org.promasi.shell.model.communication.ResolverFactory;
-import org.promasi.shell.ui.IMainFrame;
-
 
 /**
  *
@@ -126,9 +124,9 @@ public final class Shell
      *
      * @throws ConfigurationException
      */
-    public void start ( ) throws ConfigurationException
+    public void start() throws ConfigurationException
     {
-        _currentPlayMode.start( );
+        _currentPlayMode.start();
     }
 
     /**

@@ -25,7 +25,7 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.EmployeeTeamData;
 import org.promasi.shell.Shell;
-import org.promasi.shell.UiManager;
+import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
 
@@ -123,6 +123,8 @@ public class GanttTaskScheduleEditor
     private JButton _removeResourceButton;
 
     private Shell _shell;
+    
+    private DesktopMainFrame _mainFrame;
 
     /**
      * Initializes the object.
@@ -132,13 +134,20 @@ public class GanttTaskScheduleEditor
      * @param taskToEdit
      *            The {@link #_taskToEdit}.
      */
-    public GanttTaskScheduleEditor( List<GanttTaskSchedule> allTasks, GanttTaskSchedule taskToEdit,Shell shell )throws NullArgumentException
+    public GanttTaskScheduleEditor( DesktopMainFrame mainFrame,List<GanttTaskSchedule> allTasks, GanttTaskSchedule taskToEdit,Shell shell )throws NullArgumentException
     {
-        super( (Window) UiManager.getInstance( ).getRegisteredMainFrame( ) );
+        super( mainFrame );
+        
+        if(mainFrame==null){
+        	throw new NullArgumentException("Wrong argument mainFrame==null");
+        }
+        
         if(shell==null)
         {
         	throw new NullArgumentException("Wrong argument shell==null");
         }
+        
+        _mainFrame=mainFrame;
         _shell=shell;
         setModal( true );
         setTitle( ResourceManager.getString( GanttTaskScheduleEditor.class, "title" ) );
@@ -258,7 +267,7 @@ public class GanttTaskScheduleEditor
         }
         else if ( e.getSource( ).equals( _addPredecessorButton ) )
         {
-            AddPredecessorEditor editor = new AddPredecessorEditor( _allTasks, _taskToEdit );
+            AddPredecessorEditor editor = new AddPredecessorEditor( _mainFrame,_allTasks, _taskToEdit );
             editor.setVisible( true );
             _predecessorsList.setListData( _taskToEdit.getPredecessors( ).toArray( ) );
             repaint( );
@@ -274,7 +283,7 @@ public class GanttTaskScheduleEditor
         }
         else if ( e.getSource( ).equals( _addResourceButton ) )
         {
-            AddResourceEditor editor = new AddResourceEditor( _shell.getHiredEmployees( ), _taskToEdit );
+            AddResourceEditor editor = new AddResourceEditor( _mainFrame,_shell.getHiredEmployees( ), _taskToEdit );
             editor.setVisible( true );
             _resourcesTable.setModel( new EmployeeTeamDataTableModel( _taskToEdit.getResources( ) ) );
             repaint( );

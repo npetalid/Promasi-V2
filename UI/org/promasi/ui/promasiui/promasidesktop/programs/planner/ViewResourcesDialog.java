@@ -1,8 +1,5 @@
 package org.promasi.ui.promasiui.promasidesktop.programs.planner;
 
-
-import java.awt.Window;
-
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -11,7 +8,8 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
-import org.promasi.shell.UiManager;
+import org.apache.commons.lang.NullArgumentException;
+import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
 
@@ -28,6 +26,11 @@ public class ViewResourcesDialog
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * {@link JTable} that contains all the resources of the
      * {@link #_taskToEdit} .
      */
@@ -42,9 +45,15 @@ public class ViewResourcesDialog
      * Initializes the object.
      * 
      */
-    public ViewResourcesDialog( GanttTaskSchedule task )
+    public ViewResourcesDialog( DesktopMainFrame mainFrame,GanttTaskSchedule task )throws NullArgumentException
     {
-        super( (Window) UiManager.getInstance( ).getRegisteredMainFrame( ) );
+        super( mainFrame );
+        
+        if(mainFrame==null)
+        {
+        	throw new NullArgumentException("Wrong argument mainFrame==null");
+        }
+        
         setModal( true );
         setTitle( ResourceManager.getString( ViewResourcesDialog.class, "title" ) );
         setSize( ScreenUtils.sizeForPercentage( 0.4, 0.2 ) );

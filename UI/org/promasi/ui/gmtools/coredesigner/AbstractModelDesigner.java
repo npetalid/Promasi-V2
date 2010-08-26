@@ -38,6 +38,11 @@ public abstract class AbstractModelDesigner
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The info of the model that is referring to this designer.
      */
     private SdModelInfo _modelInfo;

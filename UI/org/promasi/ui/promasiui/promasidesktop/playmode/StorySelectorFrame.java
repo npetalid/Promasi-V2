@@ -29,10 +29,9 @@ import org.promasi.model.Company;
 import org.promasi.model.ProjectManager;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.Shell;
-import org.promasi.shell.UiManager;
 import org.promasi.shell.playmodes.singleplayerscoremode.Story;
-import org.promasi.shell.ui.IMainFrame;
 
+import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.PlayModeSelectorFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
@@ -185,15 +184,18 @@ public class StorySelectorFrame extends JFrame implements Runnable
     private void selectionChanged ( )
     {
         Story story = (Story) _storiesList.getSelectedValue( );
-        _playModeNameLabel.setText( story.getName( ) );
-        try
+        if(story!=null)
         {
-            _descriptionText.setPage( story.getInfoFile( ).toURI( ).toURL( ) );
-        }
-        catch ( Exception e )
-        {
-            LOGGER.error( "Could not load url", e );
-            _descriptionText.setText( ResourceManager.getString( StorySelectorFrame.class, "descriptionText", "errorMessage" ) );
+            _playModeNameLabel.setText( story.getName( ) );
+            try
+            {
+                _descriptionText.setPage( story.getInfoFile( ).toURI( ).toURL( ) );
+            }
+            catch ( Exception e )
+            {
+                LOGGER.error( "Could not load url", e );
+                _descriptionText.setText( ResourceManager.getString( StorySelectorFrame.class, "descriptionText", "errorMessage" ) );
+            }
         }
     }
 
@@ -217,17 +219,11 @@ public class StorySelectorFrame extends JFrame implements Runnable
             {
             	ICommunicator communicator=new Communicator();
             	communicator.setMainReceiver( _shell.getModelMessageReceiver());
-                IMainFrame mainFrame = UiManager.getInstance().getRegisteredMainFrame();
-                if ( mainFrame == null )
-                {
-                    LOGGER.error( "No registered MainFrame or play mode." );
-                    throw new ConfigurationException( "No registered MainFrame." );
-                }
-                
+            	
                 _shell.setCurrentPlayMode(_currentPlayMode);
-                mainFrame.initializeMainFrame( );
+                DesktopMainFrame mainFrame = new DesktopMainFrame(_shell);
                 mainFrame.showMainFrame( );
-                _shell.start( );
+                _shell.start();
                 mainFrame.registerCommunicator(communicator);
             }
             catch ( ConfigurationException e )

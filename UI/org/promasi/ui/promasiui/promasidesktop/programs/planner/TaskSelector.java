@@ -17,7 +17,7 @@ import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Project;
 import org.promasi.model.Task;
 import org.promasi.shell.Shell;
-import org.promasi.shell.UiManager;
+import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
 
@@ -50,42 +50,32 @@ public class TaskSelector
      */
     private boolean _isSelected;
 
-    private Shell _shell;
-
     /**
      * Initializes the object.
      */
-    public TaskSelector(Shell shell )throws NullArgumentException
+    public TaskSelector(DesktopMainFrame mainFrame,Shell shell )throws NullArgumentException
     {
-        super( (Window) UiManager.getInstance( ).getRegisteredMainFrame( ) );
+        super( mainFrame );
+        
+        if(mainFrame==null)
+        {
+        	throw new NullArgumentException("Wrong argument mainFrame==null");
+        }
+        
         if(shell==null)
         {
         	throw new NullArgumentException("Wrong argument shell==null");
         }
-        _shell=shell;
+        
         setModal( true );
         setTitle( ResourceManager.getString( TaskSelector.class, "title" ) );
         setSize( ScreenUtils.sizeForPercentage( 0.2, 0.2 ) );
         ScreenUtils.centerInScreen( this );
-        initializeComponents( );
-        initializeLayout( );
-    }
-
-    /**
-     * Initializes the components.
-     */
-    private void initializeComponents ( )
-    {
-        _tasksList = new JList( _shell.getCurrentProject( ).getTasks( ).toArray( ) );
+       
+        _tasksList = new JList( shell.getCurrentProject( ).getTasks( ).toArray( ) );
         _selectButton = new JButton( ResourceManager.getString( TaskSelector.class, "selectButton", "text" ), ResourceManager.getIcon( "ok" ) );
         _selectButton.addActionListener( this );
-    }
-
-    /**
-     * Initializes the layout.
-     */
-    private void initializeLayout ( )
-    {
+        
         setLayout( new MigLayout( new LC( ).fill( ) ) );
         add( _tasksList, new CC( ).grow( ).wrap( ) );
         add( _selectButton, new CC( ) );

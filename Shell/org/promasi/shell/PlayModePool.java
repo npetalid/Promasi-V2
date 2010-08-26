@@ -10,7 +10,6 @@ import org.apache.commons.lang.NullArgumentException;
 import org.promasi.shell.playmodes.multiplayermode.MultiPlayerScorePlayMode;
 import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
 
-
 /**
  *
  * Contains all available play modes. Singleton implementation.
@@ -37,7 +36,17 @@ public final class PlayModePool
     	}
 
         _playModes = new Vector<IPlayMode>( );
-        loadDefaultPlayModes(shell );
+        
+        registerPlayMode( new SinglePlayerScorePlayMode(shell));
+        
+        try {
+			registerPlayMode( new MultiPlayerScorePlayMode(shell) );
+		} 
+        catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     /**
@@ -57,23 +66,4 @@ public final class PlayModePool
         _playModes.add( playMode );
     }
 
-    /**
-     * Registers all the default play modes.
-     * @throws IOException 
-     * @throws UnknownHostException 
-     * @throws IllegalArgumentException 
-     */
-    private void loadDefaultPlayModes (Shell shell )throws IllegalArgumentException
-    {
-        registerPlayMode( new SinglePlayerScorePlayMode(shell));
-        
-        try {
-			registerPlayMode( new MultiPlayerScorePlayMode(shell) );
-		} 
-        catch (UnknownHostException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    }
 }

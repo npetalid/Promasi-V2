@@ -51,6 +51,11 @@ public class MainPanel
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The main toolbar that contains the basic controlls.
      */
     private JToolBar _mainToolbar;
@@ -187,7 +192,6 @@ public class MainPanel
             _loadButton.setVerticalTextPosition( SwingConstants.BOTTOM );
             FileDrop drop = new FileDrop( _loadButton, BorderFactory.createLineBorder( Color.RED ), new FileDrop.Listener( )
             {
-
                 @Override
                 public void filesDropped ( File[] files )
                 {

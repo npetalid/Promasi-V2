@@ -1,7 +1,5 @@
 package org.promasi.ui.promasiui.promasidesktop.programs.planner;
 
-
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -16,7 +14,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
-import org.promasi.shell.UiManager;
+import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
 
@@ -34,6 +32,11 @@ public class AddPredecessorEditor
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * All the available {@link GanttTaskSchedule}s.
      */
     private List<GanttTaskSchedule> _allTasks;
@@ -57,9 +60,9 @@ public class AddPredecessorEditor
     /**
      * Initializes the object.
      */
-    public AddPredecessorEditor( List<GanttTaskSchedule> allTasks, GanttTaskSchedule taskToEdit )
+    public AddPredecessorEditor( DesktopMainFrame mainFrame,List<GanttTaskSchedule> allTasks, GanttTaskSchedule taskToEdit )
     {
-        super( (Window) UiManager.getInstance( ).getRegisteredMainFrame( ) );
+        super( mainFrame );
         setModal( true );
         setTitle( ResourceManager.getString( AddPredecessorEditor.class, "title" ) );
         setSize( ScreenUtils.sizeForPercentage( 0.2, 0.2 ) );
@@ -70,25 +73,11 @@ public class AddPredecessorEditor
         _allTasks.addAll( allTasks );
         _allTasks.remove( taskToEdit );
         _allTasks.removeAll( _taskToEdit.getPredecessors( ) );
-        initializeComponents( );
-        initializeLayout( );
-    }
 
-    /**
-     * Initializes the components.
-     */
-    private void initializeComponents ( )
-    {
         _tasksCombo = new JComboBox( _allTasks.toArray( ) );
         _okButton = new JButton( ResourceManager.getString( AddPredecessorEditor.class, "okButton", "text" ), ResourceManager.getIcon( "ok" ) );
         _okButton.addActionListener( this );
-    }
-
-    /**
-     * Initializes the layout.
-     */
-    private void initializeLayout ( )
-    {
+        
         setLayout( new MigLayout( new LC( ).fill( ) ) );
         add( _tasksCombo, new CC( ).growX( ).wrap( ) );
         add( _okButton, new CC( ) );

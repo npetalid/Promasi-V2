@@ -19,7 +19,6 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
-import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.PlayModePool;
@@ -76,21 +75,16 @@ public class PlayModeSelectorFrame extends JFrame
     /**
      * Initializes the object.
      */
-    public PlayModeSelectorFrame(Shell shell )throws NullArgumentException, IllegalArgumentException
+    public PlayModeSelectorFrame()
     {
-    	if(shell==null)
-    	{
-    		throw new NullArgumentException("Wrong argument shell==null");
-    	}
-    	
-    	_shell=shell;
+    	_shell=new Shell();
         LOGGER.info( "Selecting play mode" );
         setTitle( ResourceManager.getString( PlayModeSelectorFrame.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( ScreenUtils.sizeForPercentage( 0.5d, 0.5d ) );
         ScreenUtils.centerInScreen( this );
         
-        _playModesList = new JList( new PlayModePool( _shell ).getPlayModes().toArray() );
+        _playModesList = new JList( new PlayModePool(_shell ).getPlayModes().toArray() );
         _playModesList.getSelectionModel( ).addListSelectionListener( new ListSelectionListener( )
         {
             @Override

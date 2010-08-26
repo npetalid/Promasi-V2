@@ -30,6 +30,7 @@ import org.promasi.model.Task;
 import org.promasi.model.TaskSchedule;
 import org.promasi.model.Team;
 import org.promasi.shell.Shell;
+import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
@@ -48,6 +49,11 @@ public class PlannerProgram
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link GanttEditor}.
      */
     private GanttEditor _editor;
@@ -104,6 +110,8 @@ public class PlannerProgram
      */
     private JButton _viewTeamButton;
 
+    private DesktopMainFrame _mainFrame;
+    
     private Shell _shell;
 
     /**
@@ -124,13 +132,21 @@ public class PlannerProgram
     /**
      * Initializes the object.
      */
-    public PlannerProgram(Shell shell )throws NullArgumentException
+    public PlannerProgram(DesktopMainFrame mainFrame,Shell shell )throws NullArgumentException
     {
         super( "planner", "Planner, Schedule tasks" );
+        
+        if(mainFrame==null)
+        {
+        	throw new NullArgumentException("Wrong argument mainFrame==null");
+        }
+        
         if(shell==null)
         {
         	throw new NullArgumentException("Wrong argument shell==null");
         }
+        
+        _mainFrame=mainFrame;
         _shell=shell;
         _taskSchedules = new Vector<GanttTaskSchedule>( );
         _schedulesToRemove = new Vector<GanttTaskSchedule>( );
@@ -267,7 +283,7 @@ public class PlannerProgram
         }
         else if ( e.getSource( ).equals( _insertScheduleButton ) )
         {
-            TaskSelector taskSelector = new TaskSelector(_shell );
+            TaskSelector taskSelector = new TaskSelector(_mainFrame,_shell );
             taskSelector.setVisible( true );
             if ( taskSelector.isSelected( ) && taskSelector.getSelectedTask( ) != null )
             {
@@ -287,7 +303,7 @@ public class PlannerProgram
             if ( selectedRow >= 0 )
             {
                 GanttTaskSchedule taskSchedule = ( (GanttTaskScheduleTableModel) _tasksTable.getModel( ) ).getTaskScheduleAt( selectedRow );
-                GanttTaskScheduleEditor editor = new GanttTaskScheduleEditor( _taskSchedules, taskSchedule,_shell );
+                GanttTaskScheduleEditor editor = new GanttTaskScheduleEditor( _mainFrame,_taskSchedules, taskSchedule,_shell );
                 editor.setVisible( true );
                 _editorScrollPane.repaint( );
                 _editor.repaint( );
@@ -322,7 +338,7 @@ public class PlannerProgram
             if ( selectedRow >= 0 )
             {
                 GanttTaskSchedule selectedTaskSchedule = ( (GanttTaskScheduleTableModel) _tasksTable.getModel( ) ).getTaskScheduleAt( selectedRow );
-                ViewResourcesDialog viewResourcesDialog = new ViewResourcesDialog( selectedTaskSchedule );
+                ViewResourcesDialog viewResourcesDialog = new ViewResourcesDialog(_mainFrame, selectedTaskSchedule );
                 viewResourcesDialog.setVisible( true );
             }
         }

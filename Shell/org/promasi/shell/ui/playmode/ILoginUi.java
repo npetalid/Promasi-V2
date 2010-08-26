@@ -2,7 +2,6 @@ package org.promasi.shell.ui.playmode;
 
 
 import org.promasi.shell.Shell;
-import org.promasi.shell.ui.IMainFrame;
 
 
 /**

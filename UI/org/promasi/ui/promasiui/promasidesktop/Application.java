@@ -4,18 +4,12 @@ package org.promasi.ui.promasiui.promasidesktop;
 import java.awt.EventQueue;
 import java.io.File;
 
-import javax.naming.ConfigurationException;
-import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
-import org.promasi.shell.Shell;
-import org.promasi.shell.UiManager;
-import org.promasi.shell.ui.IUiInitializer;
-import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
@@ -33,16 +27,11 @@ public final class Application
      * The name of the application.
      */
     private static final String NAME = "PRO.MA.SI";
-
-    /**
-     * The {@link ApplicationRunner} that is used.
-     */
-    private static final Shell _shell=new Shell();
     
     /**
      * 
      */
-    private static final ApplicationRunner RUNNER = new ApplicationRunner(_shell);
+    private static final ApplicationRunner RUNNER = new ApplicationRunner();
 
     /**
      * Default logger for this class.
@@ -81,26 +70,6 @@ public final class Application
             LOGGER.warn( "Could not set look and feel" );
         }
         
-        UiManager.getInstance( ).setUiInitializer( new DesktopUiInitializer( ) );
-        
-        try
-        {
-            LOGGER.info( "Initializing UI..." );
-            IUiInitializer uiInitializer = UiManager.getInstance( ).getUiInitializer( );
-            if ( uiInitializer == null )
-            {
-                LOGGER.error( "No registered UI initializer." );
-                throw new ConfigurationException( "No registered UI initializer." );
-            }
-            uiInitializer.registerMainFrame(_shell );
-        }
-        catch ( ConfigurationException e )
-        {
-            JOptionPane.showMessageDialog( null, ResourceManager.getString( Application.class, "invalidConfiguration", "text" ), ResourceManager
-                    .getString( Application.class, "invalidConfiguration", "title" ), JOptionPane.ERROR_MESSAGE );
-            System.exit( -1 );
-        }
-        
         // Start the mainframe in the event queue.
         EventQueue.invokeLater( RUNNER );
     }
@@ -117,22 +86,11 @@ public final class Application
     {
     	/**
     	 * 
-    	 */
-    	private Shell _shell;
-
-    	/**
-    	 * 
     	 * @param shell
     	 * @throws NullArgumentException
     	 */
-    	public ApplicationRunner(Shell shell)throws NullArgumentException
+    	public ApplicationRunner()throws NullArgumentException
     	{
-    		if(shell==null)
-    		{
-    			throw new NullArgumentException("Wrong argument shell==null");
-    		}
-    		
-    		_shell=shell;
     	}
     	
         /**
@@ -143,7 +101,7 @@ public final class Application
         {
         	try
         	{
-                PlayModeSelectorFrame dialog = new PlayModeSelectorFrame(_shell);
+                PlayModeSelectorFrame dialog = new PlayModeSelectorFrame();
                 dialog.setVisible( true );
         	}
         	catch(IllegalArgumentException e)

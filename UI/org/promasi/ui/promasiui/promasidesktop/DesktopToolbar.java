@@ -41,6 +41,11 @@ public class DesktopToolbar
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link ClockButton}.
      */
     private ClockButton _clock;
@@ -68,12 +73,18 @@ public class DesktopToolbar
     /**
      * Initializes the object.
      */
-    public DesktopToolbar(Shell shell )throws NullArgumentException
+    public DesktopToolbar(DesktopMainFrame mainFrame,Shell shell )throws NullArgumentException
     {
+    	if(mainFrame==null)
+    	{
+    		throw new NullArgumentException("Wrong argument mainFrame==null");
+    	}
+    	
     	if(shell==null)
     	{
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
+    	
         _quickLaunchButtons = new Hashtable<JButton, AbstractProgram>( );
         _listeners = new Vector<IToolbarListener>( );
         setFloatable( false );
@@ -82,7 +93,7 @@ public class DesktopToolbar
         initializeLayout( );
         addQuickLaunch( new EvolutionBirdProgram(shell ) );
         addQuickLaunch( new MarketPlaceProgram(shell ) );
-        addQuickLaunch( new PlannerProgram(shell ) );
+        addQuickLaunch( new PlannerProgram(mainFrame,shell ) );
         addQuickLaunch( new InfoGateProgram(shell) );
     }
 

@@ -30,6 +30,11 @@ public class ToolboxPanel
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * A label that displays the components message.
      */
     private JXLabel _componentsLabel;

@@ -45,6 +45,11 @@ public class SinglePlayerScoreModeProjectFinishedUi
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link JInternalFrame}.
      */
     private JInternalFrame _internalFrame;
@@ -95,6 +100,8 @@ public class SinglePlayerScoreModeProjectFinishedUi
      */
     private SdModelInfoPanel _systemInfoPanel;
 
+    private DesktopMainFrame _mainFrame;
+    
     private Shell _shell;
 
     /**
@@ -106,21 +113,21 @@ public class SinglePlayerScoreModeProjectFinishedUi
      * Initializes the object.
      *
      */
-    public SinglePlayerScoreModeProjectFinishedUi(Shell shell)throws NullArgumentException
+    public SinglePlayerScoreModeProjectFinishedUi(DesktopMainFrame mainFrame,Shell shell)throws NullArgumentException
     {
+    	if(mainFrame==null)
+    	{
+    		throw new NullArgumentException("Wrong argument mainFrame==null");
+    	}
+    	
     	if(shell==null)
     	{
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
+    	
+    	_mainFrame=mainFrame;
     	_shell=shell;
-        Initialize( );
-    }
-
-    /**
-     * Initializes the UI.
-     */
-    private void Initialize ( )
-    {
+       
         setLayout( new MigLayout( new LC( ).fill( ) ) );
         add( getProjectNameLabel( ), new CC( ) );
         add( SwingCreator.createLabel( ResourceManager.getString( SinglePlayerScoreModeProjectFinishedUi.class, "prestigePoints" ), Font.BOLD ),
@@ -236,7 +243,7 @@ public class SinglePlayerScoreModeProjectFinishedUi
     {
         if ( _ganttInfoPanel == null )
         {
-            _ganttInfoPanel = new PlannerProgram(_shell );
+            _ganttInfoPanel = new PlannerProgram(_mainFrame,_shell );
         }
         return _ganttInfoPanel;
     }
@@ -271,7 +278,7 @@ public class SinglePlayerScoreModeProjectFinishedUi
         getProjectNameLabel( ).setText( _project.getName( ) );
         getProjectInfoPanel( ).setProject( _project );
         getSystemInfoPanel( ).setProject( _project );
-        DesktopMainFrame.getInstance(_shell ).showWindow( getInternalFrame( ) );
+        _mainFrame.showWindow( getInternalFrame( ) );
     }
 
 }

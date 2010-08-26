@@ -1,7 +1,5 @@
 package org.promasi.ui.promasiui.promasidesktop.programs.planner;
 
-
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -20,7 +18,7 @@ import net.miginfocom.swing.MigLayout;
 
 import org.promasi.model.Employee;
 import org.promasi.model.EmployeeTeamData;
-import org.promasi.shell.UiManager;
+import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
 
@@ -37,6 +35,11 @@ public class AddResourceEditor
         implements ActionListener
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * All the available {@link Employee}s.
      */
     private List<Employee> _allEmployees;
@@ -65,9 +68,9 @@ public class AddResourceEditor
     /**
      * Initializes the object.
      */
-    public AddResourceEditor( List<Employee> allEmployees, GanttTaskSchedule taskToEdit )
+    public AddResourceEditor( DesktopMainFrame mainFrame, List<Employee> allEmployees, GanttTaskSchedule taskToEdit )
     {
-        super( (Window) UiManager.getInstance( ).getRegisteredMainFrame( ) );
+        super( mainFrame );
         setModal( true );
         setTitle( ResourceManager.getString( AddResourceEditor.class, "title" ) );
         setSize( ScreenUtils.sizeForPercentage( 0.2, 0.2 ) );
@@ -78,26 +81,12 @@ public class AddResourceEditor
         _allEmployees.addAll( allEmployees );
         _allEmployees.remove( taskToEdit );
         _allEmployees.removeAll( _taskToEdit.getPredecessors( ) );
-        initializeComponents( );
-        initializeLayout( );
-    }
-
-    /**
-     * Initializes the components.
-     */
-    private void initializeComponents ( )
-    {
+       
         _tasksCombo = new JComboBox( _allEmployees.toArray( ) );
         _okButton = new JButton( ResourceManager.getString( AddResourceEditor.class, "okButton", "text" ), ResourceManager.getIcon( "ok" ) );
         _okButton.addActionListener( this );
         _hoursToWorkSpinner = new JSpinner( new SpinnerNumberModel( 8, 1, 8, 1 ) );
-    }
 
-    /**
-     * Initializes the layout.
-     */
-    private void initializeLayout ( )
-    {
         setLayout( new MigLayout( new LC( ).fill( ) ) );
         add( _tasksCombo, new CC( ).growX( ).wrap( ) );
         add( _hoursToWorkSpinner, new CC( ).growX( ).wrap( ) );

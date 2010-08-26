@@ -157,6 +157,7 @@ public class LoginUi extends JFrame implements ILoginUi
             // Show the story selector frame.
             setVisible( false );
             dispose( );
+            
             StorySelectorFrame storySelector;
 			try {
 				storySelector = new StorySelectorFrame( projectManager,_shell, _currentPlayMode );
