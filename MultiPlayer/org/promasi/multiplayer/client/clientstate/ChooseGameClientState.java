@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.promasi.multiplayer.client;
+package org.promasi.multiplayer.client.clientstate;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
