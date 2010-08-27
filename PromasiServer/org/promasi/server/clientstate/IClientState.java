@@ -6,7 +6,7 @@ package org.promasi.server.clientstate;
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.server.core.ProMaSiClient;
+import org.promasi.multiplayer.ProMaSiClient;
 
 
 /**

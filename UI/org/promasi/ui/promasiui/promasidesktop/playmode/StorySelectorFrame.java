@@ -79,7 +79,9 @@ public class StorySelectorFrame extends JFrame implements Runnable
      */
     private ProjectManager _projectManager;
     
-    
+    /**
+     * 
+     */
     private Thread _updateThread;
     
     /**
@@ -150,7 +152,7 @@ public class StorySelectorFrame extends JFrame implements Runnable
         } );
         
         _storiesList.setBorder( BorderFactory.createTitledBorder( ResourceManager.getString( StorySelectorFrame.class, "storiesList", "borderTitle" ) ) );
-        _playButton = new JButton( ResourceManager.getString( StorySelectorFrame.class, "playButton", "text" ) );
+        _playButton = new JButton( "Play" );
         _playButton.addActionListener( new ActionListener( )
         {
 
@@ -233,8 +235,7 @@ public class StorySelectorFrame extends JFrame implements Runnable
         }
         else
         {
-            JOptionPane.showMessageDialog( this, ResourceManager.getString( StorySelectorFrame.class, "noSelectedStory", "text" ), ResourceManager
-                    .getString( StorySelectorFrame.class, "noSelectedStory", "title" ), JOptionPane.ERROR_MESSAGE );
+            JOptionPane.showMessageDialog( this, "Please select your story first" , "Error ", JOptionPane.ERROR_MESSAGE );
         }
     }
 

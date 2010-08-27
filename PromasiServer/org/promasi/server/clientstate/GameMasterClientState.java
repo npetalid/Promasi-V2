@@ -6,14 +6,14 @@ package org.promasi.server.clientstate;
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.multiplayer.AbstractClientState;
+import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.multiplayer.server.ProMaSi;
 import org.promasi.network.protocol.request.RequestBuilder;
 import org.promasi.network.protocol.request.StartGameRequest;
-import org.promasi.protocol.response.InternalErrorResponse;
-import org.promasi.protocol.response.StartGameResponse;
-import org.promasi.protocol.response.WrongProtocolResponse;
-import org.promasi.server.core.AbstractClientState;
-import org.promasi.server.core.ProMaSi;
-import org.promasi.server.core.ProMaSiClient;
+import org.promasi.network.protocol.response.InternalErrorResponse;
+import org.promasi.network.protocol.response.StartGameResponse;
+import org.promasi.network.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.game.Game;
 
 /**

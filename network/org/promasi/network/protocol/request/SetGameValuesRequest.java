@@ -4,7 +4,6 @@
 package org.promasi.network.protocol.request;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
 

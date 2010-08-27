@@ -106,10 +106,6 @@ public class LoginRequest  extends AbstractRequest
 			throw new NullArgumentException("Wrong argument password==null");
 		}
 
-		if(password==null)
-		{
-			throw new NullArgumentException("Wrong argument password.isEmpty()");
-		}
 		_password=password;
 	}
 }

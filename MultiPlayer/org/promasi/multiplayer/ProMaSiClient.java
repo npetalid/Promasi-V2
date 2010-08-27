@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.server.core;
+package org.promasi.multiplayer;
 
 import java.net.ProtocolException;
 

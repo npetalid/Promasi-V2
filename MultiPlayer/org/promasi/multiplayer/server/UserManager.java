@@ -1,12 +1,13 @@
 /**
  *
  */
-package org.promasi.server.core;
+package org.promasi.multiplayer.server;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.multiplayer.ProMaSiClient;
 
 /**
  * @author m1cRo

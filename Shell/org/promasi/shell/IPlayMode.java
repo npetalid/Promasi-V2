@@ -92,6 +92,12 @@ public interface IPlayMode
 	
 	/**
 	 * 
+	 * @param list
+	 */
+	public void updateStories(final List<Story> list);
+	
+	/**
+	 * 
 	 * @return
 	 */
 	public List<Story> getStories();

@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.server.core;
+package org.promasi.multiplayer.server;
 
 import java.net.ProtocolException;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.tcp.TcpClient;
 import org.promasi.server.clientstate.LoginClientState;
 import org.promasi.server.core.game.Game;

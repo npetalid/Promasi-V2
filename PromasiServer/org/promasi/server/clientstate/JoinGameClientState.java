@@ -7,18 +7,18 @@ import java.net.ProtocolException;
 import java.util.LinkedList;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.multiplayer.AbstractClientState;
+import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.multiplayer.server.ProMaSi;
 import org.promasi.network.protocol.request.CreateNewGameRequest;
 import org.promasi.network.protocol.request.JoinGameRequest;
 import org.promasi.network.protocol.request.RequestBuilder;
 import org.promasi.network.protocol.request.RetreiveGamesRequest;
-import org.promasi.protocol.response.CreateNewGameResponse;
-import org.promasi.protocol.response.InternalErrorResponse;
-import org.promasi.protocol.response.JoinGameResponse;
-import org.promasi.protocol.response.RetreiveGamesResponse;
-import org.promasi.protocol.response.WrongProtocolResponse;
-import org.promasi.server.core.AbstractClientState;
-import org.promasi.server.core.ProMaSi;
-import org.promasi.server.core.ProMaSiClient;
+import org.promasi.network.protocol.response.CreateNewGameResponse;
+import org.promasi.network.protocol.response.InternalErrorResponse;
+import org.promasi.network.protocol.response.JoinGameResponse;
+import org.promasi.network.protocol.response.RetreiveGamesResponse;
+import org.promasi.network.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.game.Game;
 
 /**

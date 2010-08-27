@@ -19,7 +19,7 @@ import org.promasi.core.SdModel;
 import org.promasi.model.Employee;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
-import org.promasi.server.core.ProMaSiClient;
+import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
@@ -86,7 +86,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		}
 		
 		_employees=new LinkedList<Employee>();
-		_proMaSiClient=new ProMaSiClient( new TcpClient(_hostname,_port),new ChooseGameClientState() );
+		_proMaSiClient=new ProMaSiClient( new TcpClient(_hostname,_port),new ChooseGameClientState(this) );
 		_stories=new Vector<Story>();
 	}
 
@@ -184,14 +184,12 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 
 	@Override
 	public ProjectManager login(String firstName, String lastName,String password) {
-		// TODO Auto-generated method stub
 		return new ProjectManager(firstName,lastName);
 	}
 
 	@Override
 	public boolean needPasswordToLogin() {
-		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 	
     @Override
@@ -200,9 +198,15 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
         return getName( );
     }
 
+    @Override
+    public synchronized void updateStories(final List<Story> stories )
+    {
+    	_stories.clear();
+    	_stories.addAll(stories);
+    }
+    
 	@Override
 	public synchronized List<Story> getStories(){
-		// TODO Auto-generated method stub
 		List<Story> stories=new Vector<Story>(_stories);
 		return stories;
 	}

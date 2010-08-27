@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.server.core.ProMaSiClient;
+import org.promasi.multiplayer.ProMaSiClient;
 
 
 /**

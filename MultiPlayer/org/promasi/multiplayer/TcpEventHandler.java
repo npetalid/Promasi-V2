@@ -1,6 +1,7 @@
-package org.promasi.server.core;
+package org.promasi.multiplayer;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.multiplayer.server.ProMaSi;
 import org.promasi.network.tcp.ITcpEventHandler;
 import org.promasi.network.tcp.TcpClient;
 
