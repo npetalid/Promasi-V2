@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.server.clientstate;
+package org.promasi.multiplayer.server.clientstate;
 
 import java.net.ProtocolException;
 import java.util.LinkedList;
@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.multiplayer.game.Game;
 import org.promasi.multiplayer.server.ProMaSi;
 import org.promasi.network.protocol.request.CreateNewGameRequest;
 import org.promasi.network.protocol.request.JoinGameRequest;
@@ -19,7 +20,6 @@ import org.promasi.network.protocol.response.InternalErrorResponse;
 import org.promasi.network.protocol.response.JoinGameResponse;
 import org.promasi.network.protocol.response.RetreiveGamesResponse;
 import org.promasi.network.protocol.response.WrongProtocolResponse;
-import org.promasi.server.core.game.Game;
 
 /**
  * @author m1cRo

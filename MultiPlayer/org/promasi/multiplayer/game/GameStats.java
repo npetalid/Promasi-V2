@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.server.core.game;
+package org.promasi.multiplayer.game;
 
 /**
  * @author m1cRo

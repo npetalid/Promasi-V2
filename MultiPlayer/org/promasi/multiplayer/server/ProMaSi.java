@@ -10,10 +10,10 @@ import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.multiplayer.game.Game;
+import org.promasi.multiplayer.game.GameList;
+import org.promasi.multiplayer.server.clientstate.LoginClientState;
 import org.promasi.network.tcp.TcpClient;
-import org.promasi.server.clientstate.LoginClientState;
-import org.promasi.server.core.game.Game;
-import org.promasi.server.core.game.GameList;
 
 /**
  * @author m1cRo

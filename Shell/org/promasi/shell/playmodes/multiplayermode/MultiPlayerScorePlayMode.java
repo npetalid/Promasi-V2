@@ -12,7 +12,6 @@ import java.util.Vector;
 import javax.naming.ConfigurationException;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.client.clientstate.ChooseGameClientState;
 import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
@@ -20,6 +19,7 @@ import org.promasi.model.Employee;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.multiplayer.client.clientstate.ChooseGameClientState;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;

@@ -4,7 +4,7 @@
 package org.promasi.multiplayer;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.server.clientstate.IClientState;
+import org.promasi.multiplayer.server.clientstate.IClientState;
 
 /**
  * @author m1cRo

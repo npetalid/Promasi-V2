@@ -1,27 +1,27 @@
 /**
  *
  */
-package org.promasi.server.clientstate;
+package org.promasi.multiplayer.server.clientstate;
 
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.multiplayer.game.Game;
 import org.promasi.multiplayer.server.ProMaSi;
-import org.promasi.network.protocol.request.LoginRequest;
 import org.promasi.network.protocol.request.RequestBuilder;
+import org.promasi.network.protocol.request.StartGameRequest;
 import org.promasi.network.protocol.response.InternalErrorResponse;
-import org.promasi.network.protocol.response.LoginResponse;
+import org.promasi.network.protocol.response.StartGameResponse;
 import org.promasi.network.protocol.response.WrongProtocolResponse;
-
 
 /**
  * @author m1cRo
  *
  */
-public class LoginClientState extends AbstractClientState
-{
+public class GameMasterClientState extends AbstractClientState {
+
 	/**
 	 *
 	 */
@@ -29,22 +29,35 @@ public class LoginClientState extends AbstractClientState
 
 	/**
 	 *
-	 * @param promasi
 	 */
-	public LoginClientState(ProMaSi promasi)
-	{
-		if(promasi==null)
-		{
-			throw new NullArgumentException("Wrong argument promasi");
-		}
-		_promasi=promasi;
-	}
+	private Game _game;
 
 	/**
 	 *
+	 * @param promasi
+	 * @param game
+	 * @throws NullArgumentException
 	 */
-	public void onReceive(ProMaSiClient client, String recData)throws NullArgumentException
+	public GameMasterClientState(ProMaSi promasi,Game game)throws NullArgumentException
 	{
+		if(promasi==null)
+		{
+			throw new NullArgumentException("Wrong argument promasi==null");
+		}
+
+		if(game==null)
+		{
+			throw new NullArgumentException("Wrong argument game==null");
+		}
+		_promasi=promasi;
+		_game=game;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.promasi.server.client.state.IClientState#onReceive(org.promasi.server.core.ProMaSiClient, java.lang.String)
+	 */
+	@Override
+	public void onReceive(ProMaSiClient client, String recData)throws NullArgumentException {
 		if(client==null)
 		{
 			throw new NullArgumentException("Wrong argument client==null");
@@ -57,13 +70,11 @@ public class LoginClientState extends AbstractClientState
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
-			if(object instanceof LoginRequest)
+			if(object instanceof StartGameRequest)
 			{
-				LoginRequest loginRequest=(LoginRequest)object;
-				client.setClientId(loginRequest.getUserName());
-				_promasi.addUser(client);
-				changeClientState(client,new JoinGameClientState(_promasi));
-				client.sendMessage(new LoginResponse().toXML());
+				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameId()));
+				_game.startGame("Game started");
+				client.sendMessage(new StartGameResponse(_game.getGameId()).toXML());
 			}
 			else
 			{
@@ -87,4 +98,5 @@ public class LoginClientState extends AbstractClientState
 			client.disonnect();
 		}
 	}
+
 }

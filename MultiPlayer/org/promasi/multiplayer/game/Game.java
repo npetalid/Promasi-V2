@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.server.core.game;
+package org.promasi.multiplayer.game;
 
 import java.util.HashMap;
 import java.util.Map;

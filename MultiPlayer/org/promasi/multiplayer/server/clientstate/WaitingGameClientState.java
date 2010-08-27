@@ -1,26 +1,26 @@
 /**
  *
  */
-package org.promasi.server.clientstate;
+package org.promasi.multiplayer.server.clientstate;
 
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.multiplayer.game.Game;
 import org.promasi.multiplayer.server.ProMaSi;
 import org.promasi.network.protocol.request.RequestBuilder;
 import org.promasi.network.protocol.request.StartGameRequest;
 import org.promasi.network.protocol.response.InternalErrorResponse;
 import org.promasi.network.protocol.response.StartGameResponse;
 import org.promasi.network.protocol.response.WrongProtocolResponse;
-import org.promasi.server.core.game.Game;
 
 /**
  * @author m1cRo
  *
  */
-public class GameMasterClientState extends AbstractClientState {
+public class WaitingGameClientState extends AbstractClientState {
 
 	/**
 	 *
@@ -38,7 +38,7 @@ public class GameMasterClientState extends AbstractClientState {
 	 * @param game
 	 * @throws NullArgumentException
 	 */
-	public GameMasterClientState(ProMaSi promasi,Game game)throws NullArgumentException
+	public WaitingGameClientState(ProMaSi promasi,Game game)throws NullArgumentException
 	{
 		if(promasi==null)
 		{
@@ -57,7 +57,7 @@ public class GameMasterClientState extends AbstractClientState {
 	 * @see org.promasi.server.client.state.IClientState#onReceive(org.promasi.server.core.ProMaSiClient, java.lang.String)
 	 */
 	@Override
-	public void onReceive(ProMaSiClient client, String recData)throws NullArgumentException {
+	public void onReceive(ProMaSiClient client, String recData)throws  NullArgumentException {
 		if(client==null)
 		{
 			throw new NullArgumentException("Wrong argument client==null");
@@ -73,7 +73,6 @@ public class GameMasterClientState extends AbstractClientState {
 			if(object instanceof StartGameRequest)
 			{
 				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameId()));
-				_game.startGame("Game started");
 				client.sendMessage(new StartGameResponse(_game.getGameId()).toXML());
 			}
 			else

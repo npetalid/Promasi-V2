@@ -6,8 +6,8 @@ package org.promasi.multiplayer;
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.multiplayer.server.clientstate.IClientState;
 import org.promasi.network.tcp.TcpClient;
-import org.promasi.server.clientstate.IClientState;
 
 /**
  * @author m1cRo

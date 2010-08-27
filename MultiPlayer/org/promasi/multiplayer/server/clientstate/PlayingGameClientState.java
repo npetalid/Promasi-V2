@@ -1,26 +1,28 @@
 /**
  *
  */
-package org.promasi.server.clientstate;
+package org.promasi.multiplayer.server.clientstate;
 
 import java.net.ProtocolException;
+import java.util.HashMap;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.multiplayer.game.Game;
 import org.promasi.multiplayer.server.ProMaSi;
+import org.promasi.network.protocol.request.GetGameStatsRequest;
 import org.promasi.network.protocol.request.RequestBuilder;
-import org.promasi.network.protocol.request.StartGameRequest;
+import org.promasi.network.protocol.request.SetGameValuesRequest;
 import org.promasi.network.protocol.response.InternalErrorResponse;
-import org.promasi.network.protocol.response.StartGameResponse;
+import org.promasi.network.protocol.response.SetGameValuesResponse;
 import org.promasi.network.protocol.response.WrongProtocolResponse;
-import org.promasi.server.core.game.Game;
 
 /**
  * @author m1cRo
  *
  */
-public class WaitingGameClientState extends AbstractClientState {
+public class PlayingGameClientState extends AbstractClientState {
 
 	/**
 	 *
@@ -34,30 +36,28 @@ public class WaitingGameClientState extends AbstractClientState {
 
 	/**
 	 *
-	 * @param promasi
-	 * @param game
-	 * @throws NullArgumentException
 	 */
-	public WaitingGameClientState(ProMaSi promasi,Game game)throws NullArgumentException
+	public PlayingGameClientState(ProMaSi promasi,String gameId)throws IllegalArgumentException,NullArgumentException
 	{
 		if(promasi==null)
 		{
 			throw new NullArgumentException("Wrong argument promasi==null");
 		}
 
-		if(game==null)
+		if(gameId==null)
 		{
-			throw new NullArgumentException("Wrong argument game==null");
+			throw new NullArgumentException("Wrong argument promasi==null");
 		}
 		_promasi=promasi;
-		_game=game;
+		_game=_promasi.getGame(gameId);
 	}
 
 	/* (non-Javadoc)
-	 * @see org.promasi.server.client.state.IClientState#onReceive(org.promasi.server.core.ProMaSiClient, java.lang.String)
+	 * @see org.promasi.protocol.state.IProtocolState#OnReceive(org.promasi.server.ProMaSiClient, java.lang.String)
 	 */
 	@Override
-	public void onReceive(ProMaSiClient client, String recData)throws  NullArgumentException {
+	public void onReceive(ProMaSiClient client, String recData) throws NullArgumentException
+	{
 		if(client==null)
 		{
 			throw new NullArgumentException("Wrong argument client==null");
@@ -67,18 +67,30 @@ public class WaitingGameClientState extends AbstractClientState {
 		{
 			throw new NullArgumentException("Wrong argument client==null");
 		}
+
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
-			if(object instanceof StartGameRequest)
+			if(object instanceof SetGameValuesRequest)
 			{
-				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameId()));
-				client.sendMessage(new StartGameResponse(_game.getGameId()).toXML());
+				SetGameValuesRequest request=(SetGameValuesRequest)object;
+				HashMap<String,Double> invalidValues=_game.setGameValues(request.getValues());
+				if(invalidValues==null)
+				{
+					client.sendMessage(new SetGameValuesResponse().toXML());
+				}
+				else
+				{
+					client.sendMessage(new SetGameValuesResponse(invalidValues).toXML());
+				}
+			}
+			else if(object instanceof GetGameStatsRequest)
+			{
+				
 			}
 			else
 			{
-				client.sendMessage(new WrongProtocolResponse().toXML());
-				client.disonnect();
+
 			}
 		}
 		catch(ProtocolException e)
