@@ -13,9 +13,7 @@
 	<classpathentry kind="src" path="Communication_Tests"/>
 	<classpathentry kind="src" path="Utilities"/>
 	<classpathentry kind="src" path="Utilities_Tests"/>
-	<classpathentry kind="src" path="PromasiServer"/>
 	<classpathentry kind="src" path="network"/>
-	<classpathentry kind="src" path="PromasiClient"/>
 	<classpathentry kind="src" path="MultiPlayer"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="Libraries/Apache/Commons/Proper/commons-beanutils-1.8.0/commons-beanutils-1.8.0.jar" sourcepath="Libraries/Apache/Commons/Proper/commons-beanutils-1.8.0/commons-beanutils-1.8.0-sources.jar"/>

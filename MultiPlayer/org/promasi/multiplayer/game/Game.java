@@ -5,7 +5,6 @@ package org.promasi.multiplayer.game;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Timer;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
@@ -16,9 +15,6 @@ import org.promasi.multiplayer.ProMaSiClient;
  */
 public class Game
 {
-	private Timer _timer;
-	
-	
 	/**
 	 *
 	 */

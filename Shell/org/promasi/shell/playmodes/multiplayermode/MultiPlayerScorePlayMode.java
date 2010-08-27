@@ -19,7 +19,7 @@ import org.promasi.model.Employee;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.multiplayer.client.clientstate.ChooseGameClientState;
+import org.promasi.multiplayer.client.ChooseGameClientState;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
