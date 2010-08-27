@@ -4,6 +4,7 @@
 package org.promasi.protocol.request;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.network.protocol.request.AbstractRequest;
 
 
 /**
@@ -48,20 +49,11 @@ public class LoginRequest  extends AbstractRequest
 			throw new NullArgumentException("Wrong argument userName==null");
 		}
 
-		if(userName==null)
+		if(password==null)
 		{
 			throw new NullArgumentException("Wrong argument userName==null");
 		}
-
-		if(password==null)
-		{
-			throw new NullArgumentException("Wrong argument password==null");
-		}
-
-		if(password==null)
-		{
-			throw new NullArgumentException("Wrong argument password.isEmpty()");
-		}
+		
 		_userName=userName;
 		_password=password;
 	}
