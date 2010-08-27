@@ -6,7 +6,7 @@ package org.promasi.server.clientstate;
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.protocol.request.RequestBuilder;
+import org.promasi.network.protocol.request.RequestBuilder;
 import org.promasi.protocol.response.InternalErrorResponse;
 import org.promasi.protocol.response.WrongProtocolResponse;
 import org.promasi.server.core.AbstractClientState;

@@ -7,9 +7,9 @@ import java.net.ProtocolException;
 import java.util.HashMap;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.protocol.request.GetGameStatsRequest;
-import org.promasi.protocol.request.RequestBuilder;
-import org.promasi.protocol.request.SetGameValuesRequest;
+import org.promasi.network.protocol.request.GetGameStatsRequest;
+import org.promasi.network.protocol.request.RequestBuilder;
+import org.promasi.network.protocol.request.SetGameValuesRequest;
 import org.promasi.protocol.response.InternalErrorResponse;
 import org.promasi.protocol.response.SetGameValuesResponse;
 import org.promasi.protocol.response.WrongProtocolResponse;

@@ -7,10 +7,10 @@ import java.net.ProtocolException;
 import java.util.LinkedList;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.protocol.request.CreateNewGameRequest;
-import org.promasi.protocol.request.JoinGameRequest;
-import org.promasi.protocol.request.RequestBuilder;
-import org.promasi.protocol.request.RetreiveGamesRequest;
+import org.promasi.network.protocol.request.CreateNewGameRequest;
+import org.promasi.network.protocol.request.JoinGameRequest;
+import org.promasi.network.protocol.request.RequestBuilder;
+import org.promasi.network.protocol.request.RetreiveGamesRequest;
 import org.promasi.protocol.response.CreateNewGameResponse;
 import org.promasi.protocol.response.InternalErrorResponse;
 import org.promasi.protocol.response.JoinGameResponse;
