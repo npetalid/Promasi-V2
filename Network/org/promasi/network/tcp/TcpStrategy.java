@@ -53,7 +53,10 @@ public class TcpStrategy
 	 */
 	public synchronized void onDisconnect(TcpClient tcpClient)
 	{
-		_tcpEventHandler.onDisconnect(tcpClient);
+		if(_tcpEventHandler!=null)
+		{
+			_tcpEventHandler.onDisconnect(tcpClient);
+		}
 	}
 
 	/**
@@ -77,7 +80,10 @@ public class TcpStrategy
 	 */
 	public synchronized void onConnectionError(TcpClient tcpClient)
 	{
-		_tcpEventHandler.onConnectionError(tcpClient);
+		if(_tcpEventHandler!=null)
+		{
+			_tcpEventHandler.onConnectionError(tcpClient);
+		}
 	}
 
 	/**

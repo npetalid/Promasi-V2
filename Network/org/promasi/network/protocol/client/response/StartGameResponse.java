@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.network.protocol.request;
+package org.promasi.network.protocol.client.response;
 
 import org.apache.commons.lang.NullArgumentException;
 
@@ -9,48 +9,35 @@ import org.apache.commons.lang.NullArgumentException;
  * @author m1cRo
  *
  */
-public class JoinGameRequest extends AbstractRequest
+public class StartGameResponse extends AbstractResponse
 {
 	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 *
+	 * 
 	 */
 	private String _gameId;
-
+	
 	/**
-	 *
+	 * 
 	 * @param gameId
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public JoinGameRequest(String gameId)throws NullArgumentException,IllegalArgumentException
+	public StartGameResponse(String gameId)throws NullArgumentException,IllegalArgumentException
 	{
 		if(gameId==null)
 		{
 			throw new NullArgumentException("Wrong argument gameId==null");
 		}
+		
 		if(gameId.isEmpty())
 		{
-			throw new IllegalArgumentException("Wrong argument gameId.isEmpty()");
+			throw new IllegalArgumentException("Wrong argument gameId.isEmtpy()");
 		}
 		_gameId=gameId;
 	}
-
+	
 	/**
-	 *
-	 * @return
-	 */
-	public String getGameId()
-	{
-		return _gameId;
-	}
-
-	/**
-	 *
+	 * 
 	 * @param gameId
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
@@ -61,10 +48,20 @@ public class JoinGameRequest extends AbstractRequest
 		{
 			throw new NullArgumentException("Wrong argument gameId==null");
 		}
+		
 		if(gameId.isEmpty())
 		{
-			throw new IllegalArgumentException("Wrong argument gameId.isEmpty()");
+			throw new IllegalArgumentException("Wrong argument gameId.isEmtpy()");
 		}
 		_gameId=gameId;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getGameId()
+	{
+		return _gameId;
 	}
 }

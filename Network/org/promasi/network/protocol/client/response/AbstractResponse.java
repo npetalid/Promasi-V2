@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.network.protocol.response;
+package org.promasi.network.protocol.client.response;
 
 import java.beans.XMLEncoder;
 import java.io.ByteArrayOutputStream;

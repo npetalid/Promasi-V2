@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.network.protocol.request;
+package org.promasi.network.protocol.client.request;
 
 
 /**
