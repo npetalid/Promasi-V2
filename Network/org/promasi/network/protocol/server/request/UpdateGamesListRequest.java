@@ -1,4 +1,4 @@
-package org.promasi.protocol.server.request;
+package org.promasi.network.protocol.server.request;
 
 import org.promasi.network.protocol.client.request.AbstractRequest;
 
