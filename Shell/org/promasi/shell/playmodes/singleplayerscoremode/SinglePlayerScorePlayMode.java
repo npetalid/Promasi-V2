@@ -55,6 +55,11 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     private SdSystem _currentSdSystem;
 
     /**
+     * Object used for locking.
+     */
+    private Object _lockObject;
+    
+    /**
      * 
      */
     private ICommunicator _systemCommunicator;
@@ -89,6 +94,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
 
+    	_lockObject = new Object( );
     	_shell=shell;
     	_shell.addListener( this );
         _projectPersisters = new Hashtable<Project, IStatePersister>( );
@@ -143,7 +149,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     }
 
     @Override
-    public synchronized void start ( ) throws ConfigurationException
+    public void start ( ) throws ConfigurationException
     {
         Company company = _shell.getCompany( );
         if ( _currentStory == null || !_currentStory.isValid( ) )
@@ -181,125 +187,134 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     }
 
     @Override
-    public synchronized void ticked ( List<DurationFieldType> changedTypes )
+    public void ticked ( List<DurationFieldType> changedTypes )
     {
-    	if ( _currentSdSystem != null )
-    	{
-    		_currentSdSystem.executeStep( );
-    	}
-            
-    	if ( changedTypes.contains( DurationFieldType.days( ) ) )
-    	{
-    		Company company = _currentStory.getCompany( );
-    		double total = company.getAccountant( ).calculateDailySalaries( );
-    		LOGGER.info( "Paying employees " + total );
-    		Project currentProject = _currentStory.getCurrentProject( );
-    		currentProject.setBudget( currentProject.getBudget( ) - total );
-    		Message message = new Message( );
-    		message.setSender( company.getAccountant( ) );
-    		message.setRecipient( company.getProjectManager( ) );
-    		message.setTitle( "Payments" );
-    		message.setBody( "Total payments : " + total );
-    		_shell.sendMail( message );
-    	}
-            
-    	if ( changedTypes.contains( DurationFieldType.hours( ) ) )
-    	{
-    		int currentHourOfDay = Clock.getInstance( ).getCurrentDateTime( ).getHourOfDay( );
-    		Company company = _shell.getCompany( );
-    		int companyEndHour = company.getEndTime( ).getHourOfDay( );
-    		if ( currentHourOfDay >= companyEndHour )
-    		{
-                    Clock.getInstance( ).performDayChange( company.getStartTime( ) );
-    		}
-    	}
+        synchronized ( _lockObject )
+        {
+	    	if ( _currentSdSystem != null )
+	    	{
+	    		_currentSdSystem.executeStep( );
+	    	}
+	            
+	    	if ( changedTypes.contains( DurationFieldType.days( ) ) )
+	    	{
+	    		Company company = _currentStory.getCompany( );
+	    		double total = company.getAccountant( ).calculateDailySalaries( );
+	    		LOGGER.info( "Paying employees " + total );
+	    		Project currentProject = _currentStory.getCurrentProject( );
+	    		currentProject.setBudget( currentProject.getBudget( ) - total );
+	    		Message message = new Message( );
+	    		message.setSender( company.getAccountant( ) );
+	    		message.setRecipient( company.getProjectManager( ) );
+	    		message.setTitle( "Payments" );
+	    		message.setBody( "Total payments : " + total );
+	    		_shell.sendMail( message );
+	    	}
+	            
+	    	if ( changedTypes.contains( DurationFieldType.hours( ) ) )
+	    	{
+	    		int currentHourOfDay = Clock.getInstance( ).getCurrentDateTime( ).getHourOfDay( );
+	    		Company company = _shell.getCompany( );
+	    		int companyEndHour = company.getEndTime( ).getHourOfDay( );
+	    		if ( currentHourOfDay >= companyEndHour )
+	    		{
+	                    Clock.getInstance( ).performDayChange( company.getStartTime( ) );
+	    		}
+	    	}
+        }
     }
 
     @Override
-    public synchronized void projectStarted ( Project project )
+    public void projectStarted ( Project project )
     {
-    	// Just to be safe. If for some reason a random project starts
-    	// ignore it.
-    	if ( project.equals( _currentStory.getCurrentProject( ) ) )
-    	{
-    		// set up the mode message receiver.
-    		_shell.getModelMessageReceiver().clearAll( );
-    		List<OutputVariableBinding> variableBindings = _currentStory.getOutputVariableBindings( project );
-    		for ( OutputVariableBinding outputVariableBinding : variableBindings )
-    		{
-    			_shell.getModelMessageReceiver().addValueSentData( outputVariableBinding.getSdObjectKey( ),outputVariableBinding.getModelXPath( ) );
-    		}
-                
-    		List<ExternalEquationBinding> externalBindings = _currentStory.getExternalEquationBindings( project );
-    		for ( ExternalEquationBinding externalEquationBinding : externalBindings )
-    		{
-    			_shell.getModelMessageReceiver().addValueRequestedData( externalEquationBinding.getSdObjectKey( ),externalEquationBinding.getModelXPath( ) );
-    		}
-                
-    		List<EventBinding> eventBindings = _currentStory.getEventBindings( project );
-    		for ( EventBinding eventBinding : eventBindings )
-    		{
-    			IModelAction action;
-    			try
-    			{
-    				@SuppressWarnings("rawtypes")
-    				Class clazz = Class.forName( eventBinding.getActionBinding( ).getActionClassName( ) );
-    				action = (IModelAction) clazz.newInstance( );
-    				ActionBinding actionBinding = eventBinding.getActionBinding( );
-    				for ( String paramName : actionBinding.getParameters( ).keySet( ) )
-    				{
-    					BeanUtils.setProperty( action, paramName, actionBinding.getParameter( paramName ) );
-    				}
-                        
-    				if ( action.isValid( ) )
-    				{
-    					_shell.getModelMessageReceiver().addEventAction( eventBinding.getEventName( ), eventBinding.getSdObjectKey( ), action );
-    				}
-    				else
-    				{
-                            LOGGER.warn( "Skipping action" + action + ",invalid action." );
-    				}
-    			}
-    			catch ( Exception e )
-    			{
-                        LOGGER.warn( "Could not add eventBinding.", e );
-    			}
-    		}
-                
-    		// Set up the SdModel.
-    		LOGGER.info( "Starting project..." );
-    		SdModel model = _currentStory.getModel( project );
-    		_currentSdSystem = new SdSystem( );
-    		_currentSdSystem.initialize( model.getSdObjects( ) );
-    		// Register the system communicator
-    		_currentSdSystem.registerCommunicator(_systemCommunicator);
-    		// Register the persister.
-    		IStatePersister persister = new MemoryStatePersister( );
-    		_projectPersisters.put( project, persister );
-    		_currentSdSystem.registerStatePersister( persister );
-    		// Execute the first step.
-    		_currentSdSystem.executeStep( );
-    	}
-    	else
-    	{
-    		LOGGER.warn( "projectStarted called with unexpected project..." );
-    	}
+        synchronized ( _lockObject )
+        {
+	    	// Just to be safe. If for some reason a random project starts
+	    	// ignore it.
+	    	if ( project.equals( _currentStory.getCurrentProject( ) ) )
+	    	{
+	    		// set up the mode message receiver.
+	    		_shell.getModelMessageReceiver().clearAll( );
+	    		List<OutputVariableBinding> variableBindings = _currentStory.getOutputVariableBindings( project );
+	    		for ( OutputVariableBinding outputVariableBinding : variableBindings )
+	    		{
+	    			_shell.getModelMessageReceiver().addValueSentData( outputVariableBinding.getSdObjectKey( ),outputVariableBinding.getModelXPath( ) );
+	    		}
+	                
+	    		List<ExternalEquationBinding> externalBindings = _currentStory.getExternalEquationBindings( project );
+	    		for ( ExternalEquationBinding externalEquationBinding : externalBindings )
+	    		{
+	    			_shell.getModelMessageReceiver().addValueRequestedData( externalEquationBinding.getSdObjectKey( ),externalEquationBinding.getModelXPath( ) );
+	    		}
+	                
+	    		List<EventBinding> eventBindings = _currentStory.getEventBindings( project );
+	    		for ( EventBinding eventBinding : eventBindings )
+	    		{
+	    			IModelAction action;
+	    			try
+	    			{
+	    				@SuppressWarnings("rawtypes")
+	    				Class clazz = Class.forName( eventBinding.getActionBinding( ).getActionClassName( ) );
+	    				action = (IModelAction) clazz.newInstance( );
+	    				ActionBinding actionBinding = eventBinding.getActionBinding( );
+	    				for ( String paramName : actionBinding.getParameters( ).keySet( ) )
+	    				{
+	    					BeanUtils.setProperty( action, paramName, actionBinding.getParameter( paramName ) );
+	    				}
+	                        
+	    				if ( action.isValid( ) )
+	    				{
+	    					_shell.getModelMessageReceiver().addEventAction( eventBinding.getEventName( ), eventBinding.getSdObjectKey( ), action );
+	    				}
+	    				else
+	    				{
+	                            LOGGER.warn( "Skipping action" + action + ",invalid action." );
+	    				}
+	    			}
+	    			catch ( Exception e )
+	    			{
+	                        LOGGER.warn( "Could not add eventBinding.", e );
+	    			}
+	    		}
+	                
+	    		// Set up the SdModel.
+	    		LOGGER.info( "Starting project..." );
+	    		SdModel model = _currentStory.getModel( project );
+	    		_currentSdSystem = new SdSystem( );
+	    		_currentSdSystem.initialize( model.getSdObjects( ) );
+	    		// Register the system communicator
+	    		_currentSdSystem.registerCommunicator(_systemCommunicator);
+	    		// Register the persister.
+	    		IStatePersister persister = new MemoryStatePersister( );
+	    		_projectPersisters.put( project, persister );
+	    		_currentSdSystem.registerStatePersister( persister );
+	    		// Execute the first step.
+	    		_currentSdSystem.executeStep( );
+	    	}
+	    	else
+	    	{
+	    		LOGGER.warn( "projectStarted called with unexpected project..." );
+	    	}
+        }
     }
 
     @Override
-    public synchronized void projectFinished ( Project project )
+    public void projectFinished ( Project project )
     {
-    	_currentSdSystem = null;
-    	Company company = _shell.getCompany( );
-    	Project nextProject = _currentStory.getNextProject( );
-    	if ( nextProject != null )
-    	{
-    		// Add the prestige points gained from the finished project to
-    		// the company.
-    		company.setPrestigePoints( company.getPrestigePoints( ) + project.getPrestigePoints( ) );
-    		// Assign the next project
-    		company.assignProject( nextProject );
-    	}
+        synchronized ( _lockObject )
+        {
+	    	_currentSdSystem = null;
+	    	Company company = _shell.getCompany( );
+	    	Project nextProject = _currentStory.getNextProject( );
+	    	if ( nextProject != null )
+	    	{
+	    		// Add the prestige points gained from the finished project to
+	    		// the company.
+	    		company.setPrestigePoints( company.getPrestigePoints( ) + project.getPrestigePoints( ) );
+	    		// Assign the next project
+	    		company.assignProject( nextProject );
+	    	}
+        }
     }
 
     @Override
@@ -309,7 +324,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     }
 
 	@Override
-	public synchronized void registerCommunicator(ICommunicator communicator)
+	public void registerCommunicator(ICommunicator communicator)
 	{
 		_systemCommunicator=communicator;
 		if(_currentSdSystem!=null)

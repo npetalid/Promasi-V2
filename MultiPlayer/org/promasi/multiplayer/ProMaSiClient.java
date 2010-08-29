@@ -54,11 +54,13 @@ public class ProMaSiClient
 	/**
 	 *
 	 * @param recData
+	 * @return 
 	 * @throws ProtocolException
 	 */
-	public void onReceiveData(String recData)
+	public boolean onReceiveData(String recData)
 	{
 		_clientState.onReceive(this, recData);
+		return true;
 	}
 
 	/**

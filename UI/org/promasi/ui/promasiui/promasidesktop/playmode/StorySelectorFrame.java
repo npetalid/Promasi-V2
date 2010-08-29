@@ -204,7 +204,7 @@ public class StorySelectorFrame extends JFrame implements Runnable
     /**
      * Called when the {@link #_playButton} is clicked.
      */
-    private void play ( )
+    private synchronized void play ( )
     {
         Story story = (Story) _storiesList.getSelectedValue( );
         if ( story != null )
@@ -225,8 +225,8 @@ public class StorySelectorFrame extends JFrame implements Runnable
                 _shell.setCurrentPlayMode(_currentPlayMode);
                 DesktopMainFrame mainFrame = new DesktopMainFrame(_shell);
                 mainFrame.showMainFrame( );
-                _shell.start();
                 mainFrame.registerCommunicator(communicator);
+                _shell.start();
             }
             catch ( ConfigurationException e )
             {
@@ -242,10 +242,13 @@ public class StorySelectorFrame extends JFrame implements Runnable
 	@Override
 	public void run() {
 		while(!_stopUpdating){
-			List<Story> stories = _currentPlayMode.getStories();
-		    if(stories!=null){
-		       _storiesList.setListData(new Vector<Story>(_currentPlayMode.getStories()));
-		    }
+			synchronized(this)
+			{
+				List<Story> stories = _currentPlayMode.getStories();
+			    if(stories!=null){
+			       _storiesList.setListData(new Vector<Story>(_currentPlayMode.getStories()));
+			    }
+			}
 		    
 		    try {
 				Thread.sleep(5000);

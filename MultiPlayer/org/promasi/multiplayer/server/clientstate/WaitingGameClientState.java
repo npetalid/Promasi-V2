@@ -10,11 +10,11 @@ import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
 import org.promasi.multiplayer.server.ProMaSi;
-import org.promasi.network.protocol.request.RequestBuilder;
-import org.promasi.network.protocol.request.StartGameRequest;
-import org.promasi.network.protocol.response.InternalErrorResponse;
-import org.promasi.network.protocol.response.StartGameResponse;
-import org.promasi.network.protocol.response.WrongProtocolResponse;
+import org.promasi.network.protocol.client.request.RequestBuilder;
+import org.promasi.network.protocol.client.request.StartGameRequest;
+import org.promasi.network.protocol.client.response.InternalErrorResponse;
+import org.promasi.network.protocol.client.response.StartGameResponse;
+import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 
 /**
  * @author m1cRo

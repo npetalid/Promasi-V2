@@ -11,15 +11,15 @@ import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
 import org.promasi.multiplayer.server.ProMaSi;
-import org.promasi.network.protocol.request.CreateNewGameRequest;
-import org.promasi.network.protocol.request.JoinGameRequest;
-import org.promasi.network.protocol.request.RequestBuilder;
-import org.promasi.network.protocol.request.RetreiveGamesRequest;
-import org.promasi.network.protocol.response.CreateNewGameResponse;
-import org.promasi.network.protocol.response.InternalErrorResponse;
-import org.promasi.network.protocol.response.JoinGameResponse;
-import org.promasi.network.protocol.response.RetreiveGamesResponse;
-import org.promasi.network.protocol.response.WrongProtocolResponse;
+import org.promasi.network.protocol.client.request.CreateNewGameRequest;
+import org.promasi.network.protocol.client.request.JoinGameRequest;
+import org.promasi.network.protocol.client.request.RequestBuilder;
+import org.promasi.network.protocol.client.request.RetreiveGamesRequest;
+import org.promasi.network.protocol.client.response.CreateNewGameResponse;
+import org.promasi.network.protocol.client.response.InternalErrorResponse;
+import org.promasi.network.protocol.client.response.JoinGameResponse;
+import org.promasi.network.protocol.client.response.RetreiveGamesResponse;
+import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 
 /**
  * @author m1cRo
@@ -42,6 +42,7 @@ public class JoinGameClientState extends AbstractClientState {
 		{
 			throw new NullArgumentException("Wrong argument promasi");
 		}
+		
 		_promasi=promasi;
 	}
 

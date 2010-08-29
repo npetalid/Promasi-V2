@@ -31,9 +31,9 @@ public class Game
 	private Map<ProMaSiClient,GameModel> _gameModels;
 
 	/**
-	 *
+	 * 
 	 */
-	private String _promasiModel;
+	private String _gameModel;
 
 	/**
 	 *
@@ -42,7 +42,7 @@ public class Game
 	 * @param promasiModel
 	 * @throws NullArgumentException
 	 */
-	public Game(String gameId,ProMaSiClient gameMaster,String promasiModel)throws NullArgumentException
+	public Game(String gameId,ProMaSiClient gameMaster,String gameModel)throws NullArgumentException
 	{
 		if(gameId==null)
 		{
@@ -54,7 +54,7 @@ public class Game
 			throw new NullArgumentException("Wrong argument gameMaster==null");
 		}
 
-		if(promasiModel==null)
+		if(gameModel==null)
 		{
 			throw new NullArgumentException("Wrong argument promasiModel==null");
 		}
@@ -62,8 +62,8 @@ public class Game
 		_gameId=gameId;
 		_gameMaster=gameMaster;
 		_gameModels=new HashMap<ProMaSiClient,GameModel>();
-		_promasiModel=promasiModel;
-		_gameModels.put(gameMaster, new GameModel(promasiModel));
+		_gameModel=gameModel;
+		_gameModels.put(gameMaster, new GameModel(gameModel));
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class Game
 				throw new IllegalArgumentException("Wrong argument playerId is already in game");
 			}
 			
-			_gameModels.put(player, new GameModel(_promasiModel)); //ToDo change GameModel.
+			_gameModels.put(player, new GameModel(_gameModel)); //ToDo change GameModel.
 		}
 	}
 

@@ -186,6 +186,7 @@ public final class Clock
                 _currentDateTime.add( _fieldType, 1 );
                 ticked( previousDateTime );
             }
+            
             // Do not sleep inside the synchronized block.
             try
             {
@@ -269,71 +270,69 @@ public final class Clock
      */
     private void ticked ( MutableDateTime previousDateTime )
     {
-        synchronized ( _lockObject )
-        {
-            DurationFieldType higherChangedType = _fieldType;
-            // Determine the higher DurationFieldType that has changed.
-            // If the year is changed then add all DurationFieldTypes under
-            // year(month,day,hour,minute,second,millis) etc.
-            LocalDate previousDate = previousDateTime.toDateTime( ).toLocalDate( );
-            LocalDate currentDate = _currentDateTime.toDateTime( ).toLocalDate( );
-            Period datePeriod = Period.fieldDifference( previousDate, currentDate );
-            if ( datePeriod.getYears( ) > 0 )
-            {
-                higherChangedType = DurationFieldType.years( );
-            }
-            else if ( datePeriod.getMonths( ) > 0 )
-            {
-                higherChangedType = DurationFieldType.months( );
-            }
-            else if ( datePeriod.getDays( ) > 0 )
-            {
-                higherChangedType = DurationFieldType.days( );
-            }
-            else
-            {
-                LocalTime previousTime = previousDateTime.toDateTime( ).toLocalTime( );
-                LocalTime currentTime = _currentDateTime.toDateTime( ).toLocalTime( );
+    	DurationFieldType higherChangedType = _fieldType;
+    	// Determine the higher DurationFieldType that has changed.
+    	// If the year is changed then add all DurationFieldTypes under
+    	// year(month,day,hour,minute,second,millis) etc.
+    	LocalDate previousDate = previousDateTime.toDateTime( ).toLocalDate( );
+    	LocalDate currentDate = _currentDateTime.toDateTime( ).toLocalDate( );
+    	Period datePeriod = Period.fieldDifference( previousDate, currentDate );
+    	if ( datePeriod.getYears( ) > 0 )
+    	{
+    		higherChangedType = DurationFieldType.years( );
+    	}
+    	else if ( datePeriod.getMonths( ) > 0 )
+    	{
+    		higherChangedType = DurationFieldType.months( );
+    	}
+    	else if ( datePeriod.getDays( ) > 0 )
+    	{
+    		higherChangedType = DurationFieldType.days( );
+    	}
+    	else
+    	{
+    		LocalTime previousTime = previousDateTime.toDateTime( ).toLocalTime( );
+    		LocalTime currentTime = _currentDateTime.toDateTime( ).toLocalTime( );
 
-                Period timePeriod = Period.fieldDifference( previousTime, currentTime );
+    		Period timePeriod = Period.fieldDifference( previousTime, currentTime );
 
-                if ( timePeriod.getHours( ) > 0 )
-                {
+    		if ( timePeriod.getHours( ) > 0 )
+    		{
                     higherChangedType = DurationFieldType.hours( );
-                }
-                else if ( timePeriod.getMinutes( ) > 0 )
-                {
-                    higherChangedType = DurationFieldType.minutes( );
-                }
-                else if ( timePeriod.getSeconds( ) > 0 )
-                {
-                    higherChangedType = DurationFieldType.seconds( );
-                }
-                else if ( timePeriod.getMillis( ) > 0 )
-                {
+    		}
+    		else if ( timePeriod.getMinutes( ) > 0 )
+    		{
+    			higherChangedType = DurationFieldType.minutes( );
+    		}
+    		else if ( timePeriod.getSeconds( ) > 0 )
+    		{
+    			higherChangedType = DurationFieldType.seconds( );
+    		}
+    		else if ( timePeriod.getMillis( ) > 0 )
+    		{
                     higherChangedType = DurationFieldType.millis( );
-                }
-            }
-            // Populate the changed types.
-            List<DurationFieldType> changedTypes = new Vector<DurationFieldType>( );
-            try
-            {
-                if ( !DurationFieldTypeUtils.higherThan( higherChangedType, _fieldType ) )
-                {
-                    higherChangedType = _fieldType;
-                }
+    		}
+    	}
+    	
+    	// Populate the changed types.
+    	List<DurationFieldType> changedTypes = new Vector<DurationFieldType>( );
+    	try
+    	{
+    		if ( !DurationFieldTypeUtils.higherThan( higherChangedType, _fieldType ) )
+    		{
+    			higherChangedType = _fieldType;
+    		}
 
-                changedTypes = DurationFieldTypeUtils.getDurationFieldTypes( higherChangedType );
-            }
-            catch ( NotSupportedException e )
-            {
-                LOGGER.warn( "DurationFieldType is not supported returning empty changedTypes.", e );
-            }
-            // Notify the listeners.
-            for ( IClockListener listener : _listeners )
-            {
+    		changedTypes = DurationFieldTypeUtils.getDurationFieldTypes( higherChangedType );
+    	}
+    	catch ( NotSupportedException e )
+    	{
+    		LOGGER.warn( "DurationFieldType is not supported returning empty changedTypes.", e );
+    	}
+    	// Notify the listeners.
+    	for ( IClockListener listener : _listeners )
+    	{
                 listener.ticked( changedTypes );
-            }
-        }
+    	}
     }
 }

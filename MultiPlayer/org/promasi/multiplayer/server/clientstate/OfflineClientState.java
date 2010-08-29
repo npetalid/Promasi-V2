@@ -8,9 +8,9 @@ import java.net.ProtocolException;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.network.protocol.request.RequestBuilder;
-import org.promasi.network.protocol.response.InternalErrorResponse;
-import org.promasi.network.protocol.response.WrongProtocolResponse;
+import org.promasi.network.protocol.client.request.RequestBuilder;
+import org.promasi.network.protocol.client.response.InternalErrorResponse;
+import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 
 /**
  * @author m1cRo

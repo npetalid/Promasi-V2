@@ -70,6 +70,7 @@ public class ProMaSi
 		{
 			throw new IllegalArgumentException("Illegal argument client");
 		}
+		
 		synchronized(_clients)
 		{
 			_clients.get(client).onReceiveData(recData);
