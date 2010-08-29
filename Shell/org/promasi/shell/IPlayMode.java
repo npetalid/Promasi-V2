@@ -7,13 +7,13 @@ import java.util.List;
 
 import javax.naming.ConfigurationException;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
 import org.promasi.model.Employee;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
-import org.promasi.shell.playmodes.singleplayerscoremode.Story;
 
 /**
  *
@@ -43,8 +43,7 @@ public interface IPlayMode
      * @throws ConfigurationException
      *             In case the play mode is not configured properly.
      */
-    void start ( )
-            throws ConfigurationException;
+    void start ( ) throws ConfigurationException;
 
     /**
      * @return All the available employees in the system(Hired and Free).
@@ -84,18 +83,6 @@ public interface IPlayMode
      * @return
      */
     boolean needPasswordToLogin();
-
-    /**
-     * 
-     * @param story
-     */
-	public void setCurrentStory(Story story);
-	
-	/**
-	 * 
-	 * @param list
-	 */
-	public void updateStories(final List<Story> list);
 	
 	/**
 	 * 
@@ -108,19 +95,19 @@ public interface IPlayMode
 	 * @param gameId
 	 * @return
 	 */
-	public String getGameDescription(int gameId);
+	public String getGameDescription(int gameId)throws IllegalArgumentException;
 	
 	/**
 	 * 
 	 * @param gameId
 	 * @return
 	 */
-	public URL getGameInfo(int gameId);
+	public URL getGameInfo(int gameId)throws IllegalArgumentException;
 	
 	/**
 	 * 
 	 * @param gameId
 	 * @return
 	 */
-	public boolean play(int gameId , ProjectManager projectManager);
+	public boolean play(int gameId , ProjectManager projectManager)throws IllegalArgumentException,NullArgumentException;
 }

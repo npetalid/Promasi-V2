@@ -191,14 +191,26 @@ public class StorySelectorFrame extends JFrame implements Runnable
     	int selectedIndex=_storiesList.getSelectedIndex();
     	if(selectedIndex>=0)
     	{
-    		if(_currentPlayMode.play(selectedIndex,_projectManager))
+    		try
     		{
-                setVisible( false );
-                dispose( );
-    		} 
-    		else
+        		if(_currentPlayMode.play(selectedIndex,_projectManager))
+        		{
+        			_stopUpdating=true;
+                    setVisible( false );
+                    dispose( );
+        		} 
+        		else
+        		{
+        			JOptionPane.showMessageDialog( this, "Please select your story first" , "Error ", JOptionPane.ERROR_MESSAGE );
+        		}
+    		}
+    		catch(NullArgumentException e)
     		{
-    			JOptionPane.showMessageDialog( this, "Please select your story first" , "Error ", JOptionPane.ERROR_MESSAGE );
+    			e.printStackTrace();
+    		}
+    		catch(IllegalArgumentException e)
+    		{
+    			e.printStackTrace();
     		}
     	}
     	else
@@ -212,22 +224,32 @@ public class StorySelectorFrame extends JFrame implements Runnable
 		while(!_stopUpdating){
 			synchronized(this)
 			{
-				int gameId=_storiesList.getSelectedIndex();
-
-				List<String> stories = _currentPlayMode.getGamesList();
-			    if(stories!=null){
-			       _storiesList.setListData(new Vector<String>(_currentPlayMode.getGamesList()));
-			    }
-			    
-				if(gameId>=0)
+				try
 				{
-					_storiesList.setSelectedIndex(gameId);
+					int gameId=_storiesList.getSelectedIndex();
+
+					List<String> games = _currentPlayMode.getGamesList();
+				    if(games!=null){
+				       _storiesList.setListData(new Vector<String>(games));
+				    }
+				    
+					if(gameId>=0)
+					{
+						_storiesList.setSelectedIndex(gameId);
+					}
+				}
+				catch(IllegalArgumentException e)
+				{
+					e.printStackTrace();
 				}
 			}
 		    
-		    try {
+		    try 
+		    {
 				Thread.sleep(5000);
-			} catch (InterruptedException e) {
+			} 
+		    catch (InterruptedException e) 
+		    {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

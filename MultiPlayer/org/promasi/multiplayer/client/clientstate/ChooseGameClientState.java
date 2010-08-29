@@ -15,8 +15,7 @@ import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 import org.promasi.network.protocol.server.request.UpdateGamesListRequest;
-import org.promasi.shell.IPlayMode;
-import org.promasi.shell.playmodes.singleplayerscoremode.StoriesPool;
+import org.promasi.shell.playmodes.multiplayermode.MultiPlayerScorePlayMode;
 
 /**
  * @author m1cRo
@@ -27,14 +26,14 @@ public class ChooseGameClientState extends AbstractClientState{
 	/**
 	 * 
 	 */
-	private IPlayMode _playMode;
+	private MultiPlayerScorePlayMode _playMode;
 	
 	/**
 	 * 
 	 * @param playMode
 	 * @throws NullArgumentException
 	 */
-	public ChooseGameClientState(IPlayMode playMode)throws NullArgumentException
+	public ChooseGameClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException
 	{
 		if( playMode==null )
 		{
@@ -64,7 +63,8 @@ public class ChooseGameClientState extends AbstractClientState{
 			Object object=RequestBuilder.buildRequest(recData);
 			if(object instanceof UpdateGamesListRequest)
 			{
-				
+				UpdateGamesListRequest request=(UpdateGamesListRequest)object;
+				_playMode.updateGameList(request.getGames());
 			}
 			else
 			{
@@ -87,8 +87,6 @@ public class ChooseGameClientState extends AbstractClientState{
 			client.sendMessage(new InternalErrorResponse().toXML());
 			client.disonnect();
 		}
-		
-		_playMode.updateStories(StoriesPool.getAllStories( ));
 	}
 	
 	/**

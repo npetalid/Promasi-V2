@@ -24,8 +24,8 @@ import org.promasi.multiplayer.client.clientstate.ChooseGameClientState;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
-import org.promasi.shell.playmodes.singleplayerscoremode.Story;
 import org.promasi.network.tcp.TcpClient;
+import org.promasi.protocol.dtos.GameDto;
 
 /**
  * @author m1cRo
@@ -61,7 +61,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	/**
 	 * 
 	 */
-	private List<Story> _stories;
+	private List<GameDto> _games;
 	
 	/**
 	 * 
@@ -88,7 +88,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		
 		_employees=new LinkedList<Employee>();
 		_proMaSiClient=new ProMaSiClient( new TcpClient(_hostname,_port),new ChooseGameClientState(this) );
-		_stories=new Vector<Story>();
+		_games=new Vector<GameDto>();
 	}
 
 	/* (non-Javadoc)
@@ -178,11 +178,6 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		// TODO Auto-generated method stub
 	}
 
-	public void setCurrentStory(Story story) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public ProjectManager login(String firstName, String lastName,String password) {
 		return new ProjectManager(firstName,lastName);
@@ -199,48 +194,73 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
         return getName( );
     }
 
-    @Override
-    public synchronized void updateStories(final List<Story> stories )
+    public synchronized void updateGameList(final List<GameDto> stories )
     {
-    	_stories.clear();
-    	_stories.addAll(stories);
+    	_games.clear();
+    	_games.addAll(stories);
     }
     
 	@Override
 	public synchronized List<String> getGamesList(){
-		Vector<String> stories=new Vector<String>();
-		for(Story story : _stories)
+		Vector<String> gameList=new Vector<String>();
+		for(GameDto game : _games)
 		{
-			stories.add(story.getName());
+			gameList.add(game.getName());
 		}
 		
-		return stories;
+		return gameList;
 	}
 
 	@Override
-	public String getGameDescription(int gameId) 
+	public String getGameDescription(int gameId) throws IllegalArgumentException
 	{
-		if(gameId>=0 && gameId<_stories.size())
+		if(gameId<0)
 		{
-			Story story=_stories.get(gameId);
-			if(story!=null)
+			throw new IllegalArgumentException("Wrong argument gameId<0");
+		}
+		
+		if(gameId<_games.size())
+		{
+			GameDto game=_games.get(gameId);
+			if(game!=null)
 			{
-				return story.getName();
+				return game.getName();
+			}
+			else
+			{
+				throw new  IllegalArgumentException("Wrong argument gameId");
 			}
 		}
-		
-		return "Unknown";
+		else
+		{
+			throw new  IllegalArgumentException("Wrong argument gameId");
+		}
 	}
 
 	@Override
-	public URL getGameInfo(int gameId) {
-		// TODO Auto-generated method stub
+	public URL getGameInfo(int gameId)throws IllegalArgumentException 
+	{
+		if(gameId<0)
+		{
+			throw new IllegalArgumentException("Wrong argument gameId<0");
+		}
+		
 		return null;
 	}
 
 	@Override
-	public boolean play(int gameId, ProjectManager projectManager) {
-		// TODO Auto-generated method stub
+	public boolean play(int gameId, ProjectManager projectManager)throws IllegalArgumentException,NullArgumentException
+	{
+		if(gameId<0)
+		{
+			throw new IllegalArgumentException("Wrong argument gameId<0");
+		}
+		
+		if(projectManager==null)
+		{
+			throw new NullArgumentException("Wrong argument projectManager==null");
+		}
+		
 		return false;
 	}
 

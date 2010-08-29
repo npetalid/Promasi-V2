@@ -24,7 +24,6 @@ import org.promasi.model.ProjectManager;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.Shell;
 import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
-import org.promasi.shell.ui.playmode.ILoginUi;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
 
@@ -36,7 +35,7 @@ import org.promasi.utilities.ui.ScreenUtils;
  * @author eddiefullmetal
  *
  */
-public class LoginUi extends JFrame implements ILoginUi
+public class LoginUi extends JFrame
 {
     /**
 	 * 
@@ -168,7 +167,6 @@ public class LoginUi extends JFrame implements ILoginUi
         }
     }
 
-    @Override
     public void showUi ( )
     {
         // Make sure that the setVisible is called inside the event queue.

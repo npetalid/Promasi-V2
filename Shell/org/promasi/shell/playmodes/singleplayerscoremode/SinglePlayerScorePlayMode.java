@@ -356,13 +356,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	}
 
 	@Override
-	public void updateStories(List<Story> list) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public List<String> getGamesList() {
+	public synchronized List<String> getGamesList() {
 		Vector<String> stories=new Vector<String>();
 		for(Story story : _stories)
 		{
@@ -373,23 +367,38 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	}
 
 	@Override
-	public String getGameDescription(int gameId) 
+	public synchronized String getGameDescription(int gameId) throws IllegalArgumentException
 	{
-		if(gameId>=0 && gameId<_stories.size())
+		if(gameId<0)
+		{
+			throw new IllegalArgumentException("Wrong argument gameId<0");
+		}
+		
+		if(gameId<_stories.size())
 		{
 			Story story=_stories.get(gameId);
 			if(story!=null)
 			{
 				return story.getName();
 			}
+			else
+			{
+				throw new IllegalArgumentException("Wrong argument gameId");
+			}
 		}
 		
-		return "Unknown";
+		throw new IllegalArgumentException("Wrong argument gameId");
 	}
 
 	@Override
-	public URL getGameInfo(int gameId) {
-		if(gameId>=0 && gameId<_stories.size())
+	public synchronized URL getGameInfo(int gameId) throws IllegalArgumentException
+	{
+		if(gameId<0)
+		{
+			throw new IllegalArgumentException("Wrong argument gameId<0");
+		}
+		
+		if(gameId<_stories.size())
 		{
 			Story story=_stories.get(gameId);
 			if(story!=null)
@@ -399,15 +408,33 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					throw new IllegalArgumentException("Wrong argument gameId");
 				}
 			}
+			else
+			{
+				throw new IllegalArgumentException("Wrong argument gameId");
+			}
 		}
-		
-		return null;
+		else
+		{
+			throw new IllegalArgumentException("Wrong argument gameId");
+		}
 	}
 
 	@Override
-	public boolean play(int gameId , ProjectManager projectManager) {
+	public synchronized boolean play(int gameId , ProjectManager projectManager)throws IllegalArgumentException,NullArgumentException
+	{
+		if(gameId<0)
+		{
+			throw new IllegalArgumentException("Wrong argument gameId<0");
+		}
+		
+		if(projectManager==null)
+		{
+			throw new NullArgumentException("Wrong argument projectManager==null");
+		}
+		
         Story story = _stories.get(gameId);
         if ( story != null )
         {
