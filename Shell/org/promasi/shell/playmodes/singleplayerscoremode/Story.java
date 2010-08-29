@@ -35,8 +35,7 @@ import org.promasi.utilities.IValidatable;
  * @author eddiefullmetal
  * 
  */
-public class Story
-        implements IValidatable
+public class Story implements IValidatable
 {
 
     /**
@@ -52,7 +51,7 @@ public class Story
     /**
      * Each {@link Project} which {@link OutputVariableBinding}s needs.
      */
-    private Map<Project, List<OutputVariableBinding>> _projectOutputVariableBindings;
+    private Map<Project, List<OutputVariableBinding> > _projectOutputVariableBindings;
 
     /**
      * Each {@link Project} which {@link ExternalEquationBinding}s needs.

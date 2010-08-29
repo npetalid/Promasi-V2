@@ -62,11 +62,6 @@ public class LoginUi extends JFrame implements ILoginUi
      * The OK button.
      */
     private JButton _okButton;
-
-    /**
-     * 
-     */
-    private Shell _shell;
     
     /**
      * 
@@ -88,7 +83,6 @@ public class LoginUi extends JFrame implements ILoginUi
     		throw new NullArgumentException("Wrong arguments");
     	}
     	
-    	_shell=shell;
     	_currentPlayMode=playMode;
         setTitle( ResourceManager.getString( LoginUi.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -160,7 +154,7 @@ public class LoginUi extends JFrame implements ILoginUi
             
             StorySelectorFrame storySelector;
 			try {
-				storySelector = new StorySelectorFrame( projectManager,_shell, _currentPlayMode );
+				storySelector = new StorySelectorFrame( projectManager,_currentPlayMode );
 				storySelector.setVisible( true );
 			} catch (NullArgumentException e) {
 				// TODO mesage

@@ -2,6 +2,7 @@ package org.promasi.shell;
 
 
 
+import java.net.URL;
 import java.util.List;
 
 import javax.naming.ConfigurationException;
@@ -100,6 +101,26 @@ public interface IPlayMode
 	 * 
 	 * @return
 	 */
-	public List<Story> getStories();
+	public List<String> getGamesList();
 	
+	/**
+	 * 
+	 * @param gameId
+	 * @return
+	 */
+	public String getGameDescription(int gameId);
+	
+	/**
+	 * 
+	 * @param gameId
+	 * @return
+	 */
+	public URL getGameInfo(int gameId);
+	
+	/**
+	 * 
+	 * @param gameId
+	 * @return
+	 */
+	public boolean play(int gameId , ProjectManager projectManager);
 }

@@ -4,8 +4,8 @@ package org.promasi.ui.promasiui.promasidesktop.playmode;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.URL;
 
-import javax.naming.ConfigurationException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -23,15 +23,11 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
-import org.promasi.communication.Communicator;
-import org.promasi.communication.ICommunicator;
-import org.promasi.model.Company;
+
 import org.promasi.model.ProjectManager;
 import org.promasi.shell.IPlayMode;
-import org.promasi.shell.Shell;
 import org.promasi.shell.playmodes.singleplayerscoremode.Story;
 
-import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.PlayModeSelectorFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
@@ -95,11 +91,6 @@ public class StorySelectorFrame extends JFrame implements Runnable
     private IPlayMode _currentPlayMode;
 
     /**
-     * 
-     */
-    private Shell _shell;
-
-    /**
      * Default logger for this class.
      */
     private static final Logger LOGGER = Logger.getLogger( PlayModeSelectorFrame.class );
@@ -108,16 +99,11 @@ public class StorySelectorFrame extends JFrame implements Runnable
      * Initializes the object.
      * @throws IOException 
      */
-    public StorySelectorFrame( ProjectManager projectManager, Shell shell , IPlayMode playMode)throws NullArgumentException, IOException
+    public StorySelectorFrame( ProjectManager projectManager, IPlayMode playMode)throws NullArgumentException, IOException
     {
     	if(projectManager==null)
     	{
     		throw new NullArgumentException("Wrong argument projectManager==null");
-    	}
-
-    	if(shell==null)
-    	{
-    		throw new NullArgumentException("Wrong argument shell==null");
     	}
     	
     	if(playMode==null){
@@ -126,19 +112,14 @@ public class StorySelectorFrame extends JFrame implements Runnable
     	
     	_currentPlayMode=playMode;
 
-    	
     	LOGGER.info( "Selecting story..." );
     	
-    	
-    	_shell=shell;
         _projectManager = projectManager;
         setTitle( ResourceManager.getString( StorySelectorFrame.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         final double sizePercentage = 0.4d;
         setSize( ScreenUtils.sizeForPercentage( sizePercentage, sizePercentage ) );
         ScreenUtils.centerInScreen( this );
-        
-
         
         _storiesList = new JList( );
         _storiesList.getSelectionModel( ).addListSelectionListener( new ListSelectionListener( )
@@ -185,19 +166,20 @@ public class StorySelectorFrame extends JFrame implements Runnable
      */
     private void selectionChanged ( )
     {
-        Story story = (Story) _storiesList.getSelectedValue( );
-        if(story!=null)
+    	int gameId=_storiesList.getSelectedIndex();
+        _playModeNameLabel.setText( _currentPlayMode.getGameDescription(gameId));
+        try
         {
-            _playModeNameLabel.setText( story.getName( ) );
-            try
-            {
-                _descriptionText.setPage( story.getInfoFile( ).toURI( ).toURL( ) );
-            }
-            catch ( Exception e )
-            {
-                LOGGER.error( "Could not load url", e );
-                _descriptionText.setText( ResourceManager.getString( StorySelectorFrame.class, "descriptionText", "errorMessage" ) );
-            }
+        	URL gameInfo=_currentPlayMode.getGameInfo(gameId);
+        	if(gameInfo!=null)
+        	{
+        		_descriptionText.setPage( _currentPlayMode.getGameInfo(gameId) );
+        	}
+        }
+        catch ( Exception e )
+        {
+            LOGGER.error( "Could not load url", e );
+            _descriptionText.setText( ResourceManager.getString( StorySelectorFrame.class, "descriptionText", "errorMessage" ) );
         }
     }
 
@@ -206,37 +188,23 @@ public class StorySelectorFrame extends JFrame implements Runnable
      */
     private synchronized void play ( )
     {
-        Story story = (Story) _storiesList.getSelectedValue( );
-        if ( story != null )
-        {
-            LOGGER.info( "Selected story:" + story );
-            Company company = story.getCompany( );
-            company.setProjectManager( _projectManager );
-            _projectManager.setWorkingCompany( company );
-            _shell.setCompany( company );
-            _currentPlayMode.setCurrentStory( story );
-            setVisible( false );
-            dispose( );
-            try
-            {
-            	ICommunicator communicator=new Communicator();
-            	communicator.setMainReceiver( _shell.getModelMessageReceiver());
-            	
-                _shell.setCurrentPlayMode(_currentPlayMode);
-                DesktopMainFrame mainFrame = new DesktopMainFrame(_shell);
-                mainFrame.showMainFrame( );
-                mainFrame.registerCommunicator(communicator);
-                _shell.start();
-            }
-            catch ( ConfigurationException e )
-            {
-                e.printStackTrace( );
-            }
-        }
-        else
-        {
-            JOptionPane.showMessageDialog( this, "Please select your story first" , "Error ", JOptionPane.ERROR_MESSAGE );
-        }
+    	int selectedIndex=_storiesList.getSelectedIndex();
+    	if(selectedIndex>=0)
+    	{
+    		if(_currentPlayMode.play(selectedIndex,_projectManager))
+    		{
+                setVisible( false );
+                dispose( );
+    		} 
+    		else
+    		{
+    			JOptionPane.showMessageDialog( this, "Please select your story first" , "Error ", JOptionPane.ERROR_MESSAGE );
+    		}
+    	}
+    	else
+    	{
+    		JOptionPane.showMessageDialog( this, "Please select your story first" , "Error ", JOptionPane.ERROR_MESSAGE );
+    	}
     }
 
 	@Override
@@ -244,10 +212,17 @@ public class StorySelectorFrame extends JFrame implements Runnable
 		while(!_stopUpdating){
 			synchronized(this)
 			{
-				List<Story> stories = _currentPlayMode.getStories();
+				int gameId=_storiesList.getSelectedIndex();
+
+				List<String> stories = _currentPlayMode.getGamesList();
 			    if(stories!=null){
-			       _storiesList.setListData(new Vector<Story>(_currentPlayMode.getStories()));
+			       _storiesList.setListData(new Vector<String>(_currentPlayMode.getGamesList()));
 			    }
+			    
+				if(gameId>=0)
+				{
+					_storiesList.setSelectedIndex(gameId);
+				}
 			}
 		    
 		    try {

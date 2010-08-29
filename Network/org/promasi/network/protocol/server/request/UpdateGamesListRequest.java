@@ -2,7 +2,7 @@ package org.promasi.network.protocol.server.request;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.network.protocol.client.request.AbstractRequest;
-import org.promasi.multiplayer.game.Game;
+import org.promasi.protocol.dtos.GameDto;
 import java.util.List;
 
 public class UpdateGamesListRequest extends AbstractRequest {
@@ -15,14 +15,14 @@ public class UpdateGamesListRequest extends AbstractRequest {
 	/**
 	 * 
 	 */
-	private List<Game> _games;
+	private List<GameDto> _games;
 	
 	/**
 	 * 
 	 * @param games
 	 * @throws NullArgumentException
 	 */
-	public UpdateGamesListRequest(final List<Game> games)throws NullArgumentException
+	public UpdateGamesListRequest(final List<GameDto> games)throws NullArgumentException
 	{
 		if(games==null)
 		{
@@ -36,9 +36,15 @@ public class UpdateGamesListRequest extends AbstractRequest {
 	 * 
 	 * @return
 	 */
-	public synchronized List<Game> getGames()
+	public List<GameDto> getGames()
 	{
-		return _games;
+		List<GameDto> games=null;
+		synchronized(this)
+		{
+			games=_games;
+		}
+		
+		return games;
 	}
 	
 	/**
@@ -46,7 +52,7 @@ public class UpdateGamesListRequest extends AbstractRequest {
 	 * @param games
 	 * @throws NullArgumentException
 	 */
-	public synchronized void setGames(final List<Game> games)throws NullArgumentException
+	public synchronized void setGames(final List<GameDto> games)throws NullArgumentException
 	{
 		if(games==null)
 		{

@@ -4,6 +4,7 @@
 package org.promasi.shell.playmodes.multiplayermode;
 
 import java.io.IOException;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.LinkedList;
@@ -206,9 +207,41 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
     }
     
 	@Override
-	public synchronized List<Story> getStories(){
-		List<Story> stories=new Vector<Story>(_stories);
+	public synchronized List<String> getGamesList(){
+		Vector<String> stories=new Vector<String>();
+		for(Story story : _stories)
+		{
+			stories.add(story.getName());
+		}
+		
 		return stories;
+	}
+
+	@Override
+	public String getGameDescription(int gameId) 
+	{
+		if(gameId>=0 && gameId<_stories.size())
+		{
+			Story story=_stories.get(gameId);
+			if(story!=null)
+			{
+				return story.getName();
+			}
+		}
+		
+		return "Unknown";
+	}
+
+	@Override
+	public URL getGameInfo(int gameId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean play(int gameId, ProjectManager projectManager) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

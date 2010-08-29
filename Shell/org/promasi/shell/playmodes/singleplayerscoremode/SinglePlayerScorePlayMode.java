@@ -2,9 +2,12 @@ package org.promasi.shell.playmodes.singleplayerscoremode;
 
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.naming.ConfigurationException;
 
@@ -12,6 +15,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.joda.time.DurationFieldType;
+import org.promasi.communication.Communicator;
 import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
@@ -31,6 +35,7 @@ import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ActionBind
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.EventBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ExternalEquationBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.OutputVariableBinding;
+import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 
 
 /**
@@ -44,6 +49,11 @@ import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.OutputVari
  */
 public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, IShellListener
 {
+	/**
+	 * 
+	 */
+	List<Story> _stories;
+	
     /**
      * The current {@link Story} of this play mode.
      */
@@ -98,6 +108,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     	_shell=shell;
     	_shell.addListener( this );
         _projectPersisters = new Hashtable<Project, IStatePersister>( );
+        _stories=StoriesPool.getAllStories( );
     }
 
     @Override
@@ -345,13 +356,90 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	}
 
 	@Override
-	public List<Story> getStories(){
-		return StoriesPool.getAllStories( );
-	}
-
-	@Override
 	public void updateStories(List<Story> list) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<String> getGamesList() {
+		Vector<String> stories=new Vector<String>();
+		for(Story story : _stories)
+		{
+			stories.add(story.getName());
+		}
+		
+		return stories;
+	}
+
+	@Override
+	public String getGameDescription(int gameId) 
+	{
+		if(gameId>=0 && gameId<_stories.size())
+		{
+			Story story=_stories.get(gameId);
+			if(story!=null)
+			{
+				return story.getName();
+			}
+		}
+		
+		return "Unknown";
+	}
+
+	@Override
+	public URL getGameInfo(int gameId) {
+		if(gameId>=0 && gameId<_stories.size())
+		{
+			Story story=_stories.get(gameId);
+			if(story!=null)
+			{
+				try {
+					return story.getInfoFile().toURI().toURL();
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return null;
+	}
+
+	@Override
+	public boolean play(int gameId , ProjectManager projectManager) {
+        Story story = _stories.get(gameId);
+        if ( story != null )
+        {
+            LOGGER.info( "Selected story:" + story );
+            Company company = story.getCompany( );
+            company.setProjectManager( projectManager );
+            projectManager.setWorkingCompany( company );
+            _shell.setCompany( company );
+            setCurrentStory( story );
+            
+            try
+            {
+            	ICommunicator communicator=new Communicator();
+            	communicator.setMainReceiver( _shell.getModelMessageReceiver());
+            	
+                _shell.setCurrentPlayMode(this);
+                DesktopMainFrame mainFrame = new DesktopMainFrame(_shell);
+                mainFrame.showMainFrame( );
+                mainFrame.registerCommunicator(communicator);
+                _shell.start();
+            }
+            catch ( ConfigurationException e )
+            {
+                e.printStackTrace( );
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+        
+		return true;
 	}
 }
