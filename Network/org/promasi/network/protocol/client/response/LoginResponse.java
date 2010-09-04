@@ -6,6 +6,7 @@ package org.promasi.network.protocol.client.response;
 import java.io.Serializable;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.model.ProjectManager;
 
 /**
  * @author m1cRo
@@ -18,63 +19,16 @@ public class LoginResponse extends AbstractResponse implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 *
-	 */
-	private boolean _loginIsDone;
 
-	/**
-	 *
-	 */
-	private String _message;
-
-	/**
-	 *
-	 */
-	public LoginResponse()
-	{
-		_loginIsDone=false;
-		_message="Login failed - Wrong username or password";
-	}
+	private ProjectManager _projectManager;
 
 	/**
 	 *
 	 * @param loginIsDone
 	 */
-	public LoginResponse(boolean loginIsDone,String message)throws NullArgumentException
+	public LoginResponse(ProjectManager projectManager)
 	{
-		if(message==null)
-		{
-			throw new NullArgumentException("Wrong argument message==null");
-		}
-
-		_loginIsDone=loginIsDone;
-		if(!message.isEmpty())
-		{
-			_message=message;
-		}
-		else
-		{
-			_message="Login failed - Wrong username or password";
-		}
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public boolean isLoginComplete()
-	{
-		return _loginIsDone;
-	}
-
-	/**
-	 *
-	 * @param loginIsDone
-	 */
-	public void loginComplete(boolean loginIsDone)
-	{
-		_loginIsDone=loginIsDone;
+		_projectManager=projectManager;
 	}
 
 	/**
@@ -82,25 +36,17 @@ public class LoginResponse extends AbstractResponse implements Serializable {
 	 * @param message
 	 * @throws NullArgumentException
 	 */
-	public void SetMessage(String message)throws NullArgumentException
+	public void setProjectManager(ProjectManager projectManager)
 	{
-		if(message==null)
-		{
-			throw new NullArgumentException("Wrong argument message==null");
-		}
-
-		if(!message.isEmpty())
-		{
-			_message=message;
-		}
+		_projectManager=projectManager;
 	}
 
 	/**
 	 *
 	 * @return
 	 */
-	public String GetMessage()
+	public ProjectManager getProjectManager()
 	{
-		return _message;
+		return _projectManager;
 	}
 }

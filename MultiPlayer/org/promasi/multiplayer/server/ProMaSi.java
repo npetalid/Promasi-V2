@@ -209,4 +209,9 @@ public class ProMaSi
 	{
 		_gameList.addNewGame(game);
 	}
+	
+	public synchronized boolean joinGame(ProMaSiClient client,String gameId)
+	{
+		return _gameList.joinGame(client, gameId);
+	}
 }

@@ -2,7 +2,8 @@ package org.promasi.network.protocol.server.request;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.network.protocol.client.request.AbstractRequest;
-import org.promasi.protocol.dtos.GameDto;
+import org.promasi.network.protocol.dtos.GameDto;
+
 import java.util.List;
 
 public class UpdateGamesListRequest extends AbstractRequest {

@@ -6,6 +6,7 @@ package org.promasi.multiplayer.server.clientstate;
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.model.ProjectManager;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.server.ProMaSi;
@@ -54,37 +55,40 @@ public class LoginClientState extends AbstractClientState
 		{
 			throw new NullArgumentException("Wrong argument client==null");
 		}
+		
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
 			if(object instanceof LoginRequest)
 			{
 				LoginRequest loginRequest=(LoginRequest)object;
-				client.setClientId(loginRequest.getUserName());
+				client.setClientId(loginRequest.getFistName());
 				_promasi.addUser(client);
 				changeClientState(client,new JoinGameClientState(_promasi));
-				client.sendMessage(new LoginResponse().toXML());
+				ProjectManager projectManager=new ProjectManager(loginRequest.getFistName(),loginRequest.getLastName());
+				LoginResponse loginResponse=new LoginResponse(projectManager);
+				client.sendMessage(loginResponse.toXML());
 			}
 			else
 			{
 				client.sendMessage(new WrongProtocolResponse().toXML());
-				client.disonnect();
+				client.disconnect();
 			}
 		}
 		catch(ProtocolException e)
 		{
 			client.sendMessage(new WrongProtocolResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 		catch(NullArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 	}
 }

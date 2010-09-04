@@ -21,11 +21,14 @@ import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.client.clientstate.ChooseGameClientState;
+import org.promasi.multiplayer.client.clientstate.LoginClientState;
+import org.promasi.multiplayer.client.TcpEventHandler;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
+import org.promasi.network.protocol.client.request.LoginRequest;
+import org.promasi.network.protocol.dtos.GameDto;
 import org.promasi.network.tcp.TcpClient;
-import org.promasi.protocol.dtos.GameDto;
 
 /**
  * @author m1cRo
@@ -51,7 +54,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	/**
 	 * 
 	 */
-	private ProMaSiClient _proMaSiClient;
+	private ProMaSiClient _promasiClient;
 	
 	/**
 	 * 
@@ -87,7 +90,10 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		}
 		
 		_employees=new LinkedList<Employee>();
-		_proMaSiClient=new ProMaSiClient( new TcpClient(_hostname,_port),new ChooseGameClientState(this) );
+		TcpClient tcpClient=new TcpClient(_hostname,_port);
+		
+		_promasiClient=new ProMaSiClient( tcpClient,new LoginClientState(this));
+		tcpClient.registerTcpEventHandler(new TcpEventHandler(_promasiClient));
 		_games=new Vector<GameDto>();
 	}
 
@@ -179,8 +185,9 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	}
 
 	@Override
-	public ProjectManager login(String firstName, String lastName,String password) {
-		return new ProjectManager(firstName,lastName);
+	public boolean login(String firstName, String lastName,String password) {
+		_promasiClient.sendMessage(new LoginRequest(firstName,lastName).toXML());
+		return true;
 	}
 
 	@Override

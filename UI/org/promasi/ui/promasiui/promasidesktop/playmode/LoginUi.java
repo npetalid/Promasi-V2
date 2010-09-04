@@ -139,31 +139,11 @@ public class LoginUi extends JFrame
         {
             LOGGER.info( "Logging for " + name + " " + lastName );
             // Create the company and assign it.
-            ProjectManager projectManager = _currentPlayMode.login(name, lastName, password);
-            
-            if(projectManager==null){
-                JOptionPane.showMessageDialog( this, ResourceManager.getString( LoginUi.class, "invalidInput", "text" ),
-                        ResourceManager.getString( LoginUi.class, "invalidInput", "title" ), JOptionPane.ERROR_MESSAGE );
-                return;
+            if(_currentPlayMode.login(name, lastName, password)){
+                // Show the story selector frame.
+                setVisible( false );
+                dispose( );
             }
-            
-            // Show the story selector frame.
-            setVisible( false );
-            dispose( );
-            
-            StorySelectorFrame storySelector;
-			try {
-				storySelector = new StorySelectorFrame( projectManager,_currentPlayMode );
-				storySelector.setVisible( true );
-			} catch (NullArgumentException e) {
-				// TODO mesage
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO message
-				e.printStackTrace();
-			}
-			
-           
         }
     }
 

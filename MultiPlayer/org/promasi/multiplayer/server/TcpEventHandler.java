@@ -33,8 +33,10 @@ public class TcpEventHandler implements ITcpEventHandler
 		{
 			throw new NullArgumentException("Wrong argument tcpClient==null");
 		}
+		
 		System.out.print("Connected \n");
 		_promasi.onConnect(tcpClient);
+		
 		return true;
 	}
 
@@ -107,6 +109,7 @@ public class TcpEventHandler implements ITcpEventHandler
 		{
 			System.out.print(e.getMessage());
 		}
+		
 		return true;
 	}
 }

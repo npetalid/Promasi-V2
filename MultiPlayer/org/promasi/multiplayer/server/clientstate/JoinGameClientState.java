@@ -75,13 +75,18 @@ public class JoinGameClientState extends AbstractClientState {
 			else if( object instanceof JoinGameRequest)
 			{
 				JoinGameRequest joinRequest=(JoinGameRequest)object;
-				Game game=_promasi.getGame(joinRequest.getGameId());
-				game.addPlayer(client);
+				if(!_promasi.joinGame(client, joinRequest.getGameId()))
+				{
+					//ToDo send failed response
+					return;
+				}
+				
 				if(!client.sendMessage(new JoinGameResponse().toXML()))
 				{
-					client.disonnect();
+					client.disconnect();
 				}
-				changeClientState(client,new WaitingGameClientState(_promasi,game));
+				
+				changeClientState(client,new WaitingGameClientState(_promasi,_promasi.getGame(joinRequest.getGameId())));
 			}
 			else if(object instanceof CreateNewGameRequest)
 			{
@@ -101,23 +106,23 @@ public class JoinGameClientState extends AbstractClientState {
 			else
 			{
 				client.sendMessage(new JoinGameResponse("Wrong protocol").toXML());
-				client.disonnect();
+				client.disconnect();
 			}
 		}
 		catch(ProtocolException e)
 		{
 			client.sendMessage(new WrongProtocolResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 		catch(NullArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 	}
 }

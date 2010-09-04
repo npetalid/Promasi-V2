@@ -49,6 +49,7 @@ public class GameMasterClientState extends AbstractClientState {
 		{
 			throw new NullArgumentException("Wrong argument game==null");
 		}
+		
 		_promasi=promasi;
 		_game=game;
 	}
@@ -67,6 +68,7 @@ public class GameMasterClientState extends AbstractClientState {
 		{
 			throw new NullArgumentException("Wrong argument client==null");
 		}
+		
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
@@ -79,23 +81,23 @@ public class GameMasterClientState extends AbstractClientState {
 			else
 			{
 				client.sendMessage(new WrongProtocolResponse().toXML());
-				client.disonnect();
+				client.disconnect();
 			}
 		}
 		catch(ProtocolException e)
 		{
 			client.sendMessage(new WrongProtocolResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 		catch(NullArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 	}
 

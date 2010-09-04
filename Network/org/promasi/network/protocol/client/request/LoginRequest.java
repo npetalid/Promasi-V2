@@ -20,92 +20,92 @@ public class LoginRequest  extends AbstractRequest
 	/**
 	 *
 	 */
-	public String _userName;
+	public String _fistName;
 
 	/**
 	 *
 	 */
-	public String _password;
+	public String _lastname;
 
 	/**
 	 * Default constructor.
 	 */
 	public LoginRequest()
 	{
-		_userName="username";
-		_password="password";
+		_fistName="FirstName";
+		_lastname="LastName";
 	}
 	/**
 	 *
-	 * @param userName
-	 * @param password
+	 * @param firstName
+	 * @param lastName
 	 * @throws NullArgumentException
 	 */
-	public LoginRequest(String userName,String password)throws NullArgumentException
+	public LoginRequest(String firstName,String lastName)throws NullArgumentException
 	{
-		if(userName==null)
+		if(firstName==null)
 		{
 			throw new NullArgumentException("Wrong argument userName==null");
 		}
 
-		if(password==null)
+		if(lastName==null)
 		{
 			throw new NullArgumentException("Wrong argument userName==null");
 		}
 		
-		_userName=userName;
-		_password=password;
+		_fistName=firstName;
+		_lastname=lastName;
 	}
 
 	/**
 	 * UserName getter.
 	 * @return
 	 */
-	public String getUserName()
+	public String getFistName()
 	{
-		return _userName;
+		return _fistName;
 	}
 
 	/**
 	 * Password getter.
 	 * @return
 	 */
-	public String getPassword()
+	public String getLastName()
 	{
-		return _password;
+		return _lastname;
 	}
 
 	/**
 	 *
-	 * @param userName
+	 * @param firstName
 	 * @throws NullArgumentException
 	 */
-	public void setUserName(String userName)throws NullArgumentException,IllegalArgumentException
+	public void setFirstName(String firstName)throws NullArgumentException,IllegalArgumentException
 	{
-		if(userName==null)
+		if(firstName==null)
 		{
 			throw new NullArgumentException("Wrong argument userName==null");
 		}
 
-		if(userName.isEmpty())
+		if(firstName.isEmpty())
 		{
 			throw new IllegalArgumentException("Wrong argument userName.isEmpty()");
 		}
-		_userName=userName;
+		_fistName=firstName;
 	}
 
 	/**
 	 *
-	 * @param password
+	 * @param lastName
 	 * @throws NullArgumentException
 	 */
-	public void setPassword(String password)throws NullArgumentException
+	public void setLastName(String lastName)throws NullArgumentException
 	{
-		if(password==null)
+		if(lastName==null)
 		{
 			throw new NullArgumentException("Wrong argument password==null");
 		}
 
-		_password=password;
+		_lastname=lastName;
 	}
 }

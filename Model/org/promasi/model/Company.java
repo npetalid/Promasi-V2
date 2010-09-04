@@ -212,9 +212,7 @@ public class Company implements ICloneable<Company>, Serializable
      */
     public void setBoss ( Boss boss )
     {
-        Person oldValue = Cloner.clone( _boss );
         _boss = boss;
-        _changeSupport.firePropertyChange( BOSS_PROPERTY, oldValue, _boss );
     }
 
     /**
@@ -231,9 +229,7 @@ public class Company implements ICloneable<Company>, Serializable
      */
     public void setProjectManager ( ProjectManager projectManager )
     {
-        Person oldValue = Cloner.clone( _projectManager );
         _projectManager = projectManager;
-        _changeSupport.firePropertyChange( PROJECT_MANAGER_PROPERTY, oldValue, _projectManager );
     }
 
     /**
@@ -250,9 +246,7 @@ public class Company implements ICloneable<Company>, Serializable
      */
     public void setAccountant ( Accountant accountant )
     {
-        Person oldValue = Cloner.clone( _accountant );
         _accountant = accountant;
-        _changeSupport.firePropertyChange( ACCOUNTANT_PROPERTY, oldValue, _accountant );
     }
 
     /**
@@ -269,9 +263,7 @@ public class Company implements ICloneable<Company>, Serializable
      */
     public void setAdministrator ( Administrator administrator )
     {
-        Person oldValue = Cloner.clone( _administrator );
         _administrator = administrator;
-        _changeSupport.firePropertyChange( ADMINISTRATOR_PROPERTY, oldValue, _administrator );
     }
 
     /**

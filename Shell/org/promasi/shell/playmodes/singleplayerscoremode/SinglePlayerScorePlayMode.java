@@ -2,6 +2,7 @@ package org.promasi.shell.playmodes.singleplayerscoremode;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Hashtable;
@@ -36,6 +37,7 @@ import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.EventBindi
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ExternalEquationBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.OutputVariableBinding;
 import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
+import org.promasi.ui.promasiui.promasidesktop.playmode.StorySelectorFrame;
 
 
 /**
@@ -345,8 +347,20 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	}
 	
 	@Override
-	public ProjectManager login(String firstName,String lastName,String password){
-		return new ProjectManager(firstName,lastName);
+	public boolean login(String firstName,String lastName,String password){
+		try {
+			ProjectManager projectManager=new ProjectManager(firstName,lastName);
+			StorySelectorFrame storySelector = new StorySelectorFrame( projectManager,this );
+			storySelector.setVisible( true );
+		} catch (NullArgumentException e) {
+			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override

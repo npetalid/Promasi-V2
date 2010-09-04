@@ -76,7 +76,7 @@ public interface IPlayMode
      * @param password
      * @return
      */
-    public ProjectManager login(String firstName,String lastName,String password);
+    public boolean login(String firstName,String lastName,String password);
     
     /**
      * 

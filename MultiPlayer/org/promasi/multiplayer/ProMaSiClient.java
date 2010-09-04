@@ -91,6 +91,11 @@ public class ProMaSiClient
 		return _clientId;
 	}
 
+	public synchronized TcpClient getTcpClient()
+	{
+		return _client;
+	}
+	
 	/**
 	 *
 	 * @param message
@@ -105,7 +110,7 @@ public class ProMaSiClient
 	 * This method will close the connection with current user and will terminate the receive thread.
 	 * @return true if the connection was successfully closed, false otherwise.
 	 */
-	public boolean disonnect()
+	public boolean disconnect()
 	{
 		return _client.disconnect();
 	}

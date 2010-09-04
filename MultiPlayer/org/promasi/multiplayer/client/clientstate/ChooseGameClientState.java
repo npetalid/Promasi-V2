@@ -10,11 +10,11 @@ import java.net.ProtocolException;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.network.protocol.client.request.GetGamesListRequest;
 import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 import org.promasi.network.protocol.server.request.UpdateGamesListRequest;
+import org.promasi.shell.IPlayMode;
 import org.promasi.shell.playmodes.multiplayermode.MultiPlayerScorePlayMode;
 
 /**
@@ -26,14 +26,14 @@ public class ChooseGameClientState extends AbstractClientState{
 	/**
 	 * 
 	 */
-	private MultiPlayerScorePlayMode _playMode;
+	private IPlayMode _playMode;
 	
 	/**
 	 * 
 	 * @param playMode
 	 * @throws NullArgumentException
 	 */
-	public ChooseGameClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException
+	public ChooseGameClientState(IPlayMode playMode)throws NullArgumentException
 	{
 		if( playMode==null )
 		{
@@ -64,44 +64,28 @@ public class ChooseGameClientState extends AbstractClientState{
 			if(object instanceof UpdateGamesListRequest)
 			{
 				UpdateGamesListRequest request=(UpdateGamesListRequest)object;
-				_playMode.updateGameList(request.getGames());
+				//_playMode.updateGameList(request.getGames());
 			}
 			else
 			{
 				client.sendMessage(new WrongProtocolResponse().toXML());
-				client.disonnect();
+				client.disconnect();
 			}
 		}
 		catch(ProtocolException e)
 		{
 			client.sendMessage(new WrongProtocolResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 		catch(NullArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
 		{
 			client.sendMessage(new InternalErrorResponse().toXML());
-			client.disonnect();
+			client.disconnect();
 		}
 	}
-	
-	/**
-	 * 
-	 * @param client
-	 * @return
-	 */
-	public boolean sendUpdateGamesListRequest(ProMaSiClient client)
-	{
-		if(client==null)
-		{
-			return false;
-		}
-		
-		return client.sendMessage(new GetGamesListRequest().toXML());
-	}
-
 }

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.promasi.protocol.dtos;
+package org.promasi.network.protocol.dtos;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
