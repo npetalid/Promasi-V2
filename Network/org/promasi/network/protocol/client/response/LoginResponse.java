@@ -3,8 +3,6 @@
  */
 package org.promasi.network.protocol.client.response;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.ProjectManager;
 
@@ -12,16 +10,21 @@ import org.promasi.model.ProjectManager;
  * @author m1cRo
  *
  */
-public class LoginResponse extends AbstractResponse implements Serializable {
-
+public class LoginResponse extends AbstractResponse
+{
 	/**
-	 *
+	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
-
 	private ProjectManager _projectManager;
 
+	/**
+	 * 
+	 */
+	public LoginResponse()
+	{
+	
+	}
+	
 	/**
 	 *
 	 * @param loginIsDone

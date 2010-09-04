@@ -31,6 +31,11 @@ public class GameModel implements Serializable
      * The running sd system.
      */
     private SdSystem _sdSystem;
+    
+    /**
+     * 
+     */
+    private String _gameDescription;
 	
     /**
      * 
@@ -122,5 +127,29 @@ public class GameModel implements Serializable
 		}
 		
 		_sdSystem=sdSystem;
+	}
+	
+	/**
+	 * 
+	 * @param gameDescription
+	 * @throws NullArgumentException
+	 */
+	public void setGameDescription(String gameDescription)throws NullArgumentException
+	{
+		if(gameDescription==null)
+		{
+			throw new NullArgumentException("Wrong argument gameDescription==null");
+		}
+		
+		_gameDescription=gameDescription;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String getGameDescription()
+	{
+		return _gameDescription;
 	}
 }

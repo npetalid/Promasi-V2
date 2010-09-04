@@ -8,16 +8,16 @@ package org.promasi.model;
  * @author eddiefullmetal
  * 
  */
-public class ProjectManager
-        extends Person
+public class ProjectManager extends Person
 {
 
-    /**
-     * The {@link Company} that the project manager works for.
-     */
-    private Company _workingCompany;
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Initializes the object.
      */
     public ProjectManager( )
@@ -31,22 +31,5 @@ public class ProjectManager
     public ProjectManager( String name, String lastName )
     {
         super( name, lastName );
-    }
-
-    /**
-     * @return The {@link #_workingCompany}.
-     */
-    public Company getWorkingCompany ( )
-    {
-        return _workingCompany;
-    }
-
-    /**
-     * @param company
-     *            The {@link #_workingCompany} to set.
-     */
-    public void setWorkingCompany ( Company company )
-    {
-        _workingCompany = company;
     }
 }

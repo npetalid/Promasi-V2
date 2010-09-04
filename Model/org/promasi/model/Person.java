@@ -1,10 +1,7 @@
 package org.promasi.model;
 
+import java.io.Serializable;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
-import org.promasi.utilities.ICloneable;
 
 
 /**
@@ -18,10 +15,14 @@ import org.promasi.utilities.ICloneable;
  * @author eddiefullmetal
  * 
  */
-public class Person
-        implements ICloneable<Person>
+public class Person implements Serializable
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The name of the person.
      */
     private String _name;
@@ -31,20 +32,14 @@ public class Person
      */
     private String _lastName;
 
-    /**
-     * The {@link PropertyChangeSupport} for this class.
-     */
-    private PropertyChangeSupport _changeSupport;
-
-    public static String NAME_PROPERTY = "name";
-    public static String LASTNAME_PROPERTY = "lastName";
+    public static final String NAME_PROPERTY = "name";
+    public static final String LASTNAME_PROPERTY = "lastName";
 
     /**
      * Initializes the object.
      */
     public Person( )
     {
-        _changeSupport = new PropertyChangeSupport( this );
     }
 
     /**
@@ -76,9 +71,7 @@ public class Person
      */
     public void setName ( String name )
     {
-        String oldValue = _name;
         _name = name;
-        _changeSupport.firePropertyChange( NAME_PROPERTY, oldValue, _name );
     }
 
     /**
@@ -95,59 +88,12 @@ public class Person
      */
     public void setLastName ( String lastName )
     {
-        String oldValue = _lastName;
         _lastName = lastName;
-        _changeSupport.firePropertyChange( LASTNAME_PROPERTY, oldValue, _lastName );
     }
 
     @Override
     public String toString ( )
     {
         return _lastName + " " + _name;
-    }
-
-    /**
-     * @param listener
-     *            The {@link PropertyChangeListener} to add.
-     */
-    public void addPropertyChangeListener ( PropertyChangeListener listener )
-    {
-        if ( listener != null )
-        {
-            _changeSupport.addPropertyChangeListener( listener );
-        }
-    }
-
-    /**
-     * @param listener
-     *            The {@link PropertyChangeListener} to remove.
-     */
-    public void removePropertyChangeListener ( PropertyChangeListener listener )
-    {
-        if ( listener != null )
-        {
-            _changeSupport.removePropertyChangeListener( listener );
-        }
-    }
-
-    /**
-     * @return the {@link #_changeSupport}.
-     */
-    protected PropertyChangeSupport getChangeSupport ( )
-    {
-        return _changeSupport;
-    }
-
-    @Override
-    public Person copy ( )
-    {
-        try
-        {
-            return (Person) clone( );
-        }
-        catch ( CloneNotSupportedException e )
-        {
-            return null;
-        }
     }
 }

@@ -11,10 +11,10 @@ import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.client.request.RequestBuilder;
+import org.promasi.network.protocol.client.request.RetreiveGameListRequest;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
+import org.promasi.network.protocol.client.response.RetreiveGameListResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
-import org.promasi.network.protocol.server.request.UpdateGamesListRequest;
-import org.promasi.shell.IPlayMode;
 import org.promasi.shell.playmodes.multiplayermode.MultiPlayerScorePlayMode;
 
 /**
@@ -26,14 +26,14 @@ public class ChooseGameClientState extends AbstractClientState{
 	/**
 	 * 
 	 */
-	private IPlayMode _playMode;
+	private MultiPlayerScorePlayMode _playMode;
 	
 	/**
 	 * 
 	 * @param playMode
 	 * @throws NullArgumentException
 	 */
-	public ChooseGameClientState(IPlayMode playMode)throws NullArgumentException
+	public ChooseGameClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException
 	{
 		if( playMode==null )
 		{
@@ -41,6 +41,16 @@ public class ChooseGameClientState extends AbstractClientState{
 		}
 		
 		_playMode=playMode;
+	}
+	
+	public boolean sendRetreiveGameListRequest(ProMaSiClient client)
+	{
+		if(client==null)
+		{
+			return false;
+		}
+		
+		return client.sendMessage(new RetreiveGameListRequest().toXML());
 	}
 	
 	/* (non-Javadoc)
@@ -61,10 +71,10 @@ public class ChooseGameClientState extends AbstractClientState{
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
-			if(object instanceof UpdateGamesListRequest)
+			if(object instanceof RetreiveGameListResponse)
 			{
-				UpdateGamesListRequest request=(UpdateGamesListRequest)object;
-				//_playMode.updateGameList(request.getGames());
+				RetreiveGameListResponse response=(RetreiveGameListResponse)object;
+				_playMode.updateGameList(response.getGames());
 			}
 			else
 			{

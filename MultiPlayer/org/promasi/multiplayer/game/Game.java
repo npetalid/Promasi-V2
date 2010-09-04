@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.network.protocol.dtos.GameDto;
 
 /**
  * @author m1cRo
@@ -33,8 +34,13 @@ public class Game
 	/**
 	 * 
 	 */
-	private String _gameModel;
-
+	private String _gameModelString;
+	
+	/**
+	 * 
+	 */
+	private GameModel _gameModel;
+	
 	/**
 	 *
 	 * @param gameId
@@ -42,7 +48,7 @@ public class Game
 	 * @param promasiModel
 	 * @throws NullArgumentException
 	 */
-	public Game(String gameId,ProMaSiClient gameMaster,String gameModel)throws NullArgumentException
+	public Game(String gameId,ProMaSiClient gameMaster,String gameModelString)throws NullArgumentException,IllegalArgumentException
 	{
 		if(gameId==null)
 		{
@@ -54,7 +60,7 @@ public class Game
 			throw new NullArgumentException("Wrong argument gameMaster==null");
 		}
 
-		if(gameModel==null)
+		if(gameModelString==null)
 		{
 			throw new NullArgumentException("Wrong argument promasiModel==null");
 		}
@@ -62,15 +68,16 @@ public class Game
 		_gameId=gameId;
 		_gameMaster=gameMaster;
 		_gameModels=new HashMap<ProMaSiClient,GameModel>();
-		_gameModel=gameModel;
-		_gameModels.put(gameMaster, new GameModel(gameModel));
+		_gameModel=new GameModel(gameModelString);
+		_gameModelString=gameModelString;
+		_gameModels.put( gameMaster, new GameModel(gameModelString) );
 	}
 
 	/**
 	 *
 	 * @return
 	 */
-	public String getGameId()
+	public synchronized String getGameId()
 	{
 		return _gameId;
 	}
@@ -81,29 +88,26 @@ public class Game
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public void addPlayer(ProMaSiClient player)throws NullArgumentException,IllegalArgumentException
+	public synchronized void addPlayer(ProMaSiClient player)throws NullArgumentException,IllegalArgumentException
 	{
 		if(player==null)
 		{
 			throw new NullArgumentException("Wrong argument playerId==null");
 		}
-		
-		synchronized(this)
+
+		if(_gameModels.containsKey(player) || _gameMaster.getClientId()==player.getClientId())
 		{
-			if(_gameModels.containsKey(player) || _gameMaster.getClientId()==player.getClientId())
-			{
-				throw new IllegalArgumentException("Wrong argument playerId is already in game");
-			}
-			
-			_gameModels.put(player, new GameModel(_gameModel)); //ToDo change GameModel.
+			throw new IllegalArgumentException("Wrong argument playerId is already in game");
 		}
+			
+		_gameModels.put(player, new GameModel(_gameModelString)); //ToDo change GameModel.
 	}
 
 	/**
 	 *
 	 * @return
 	 */
-	public ProMaSiClient getGameMaster()
+	public synchronized ProMaSiClient getGameMaster()
 	{
 		return _gameMaster;
 	}
@@ -113,7 +117,7 @@ public class Game
 	 * @param client
 	 * @return
 	 */
-	public boolean isGameMaster(ProMaSiClient client)
+	public synchronized boolean isGameMaster(ProMaSiClient client)
 	{
 		return client==_gameMaster;
 	}
@@ -123,23 +127,18 @@ public class Game
 	 * @param message
 	 * @return
 	 */
-	public boolean startGame(String message)
+	public synchronized boolean startGame(String message)
 	{
-		synchronized(this)
+		if(_gameModels.size()<2)
 		{
-			if(_gameModels.size()<2)
-			{
-				return false;
-			}
-			
-			for(Map.Entry<ProMaSiClient,GameModel> entry:_gameModels.entrySet())
-			{
-				entry.getKey().onReceiveData(message);
-			}
-			
-			
+			return false;
 		}
-		
+			
+		for(Map.Entry<ProMaSiClient,GameModel> entry:_gameModels.entrySet())
+		{
+			entry.getKey().onReceiveData(message);
+		}
+
 		return true;
 	}
 
@@ -148,12 +147,8 @@ public class Game
 	 * @param values
 	 * @return
 	 */
-	public HashMap<String,Double> setGameValues(HashMap<String,Double> values)
+	public synchronized HashMap<String,Double> setGameValues(HashMap<String,Double> values)
 	{
-		synchronized(this)
-		{
-			//ToDo
-		}
 		return null;
 	}
 	
@@ -161,8 +156,17 @@ public class Game
 	 * 
 	 * @return
 	 */
-	public HashMap<String,Double> getGameValues()
+	public synchronized HashMap<String,Double> getGameValues()
 	{
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized GameDto getGameDto()
+	{
+		return new GameDto(_gameModel.getCompany(),_gameId,_gameModel.getGameDescription(),_gameModels.size());
 	}
 }

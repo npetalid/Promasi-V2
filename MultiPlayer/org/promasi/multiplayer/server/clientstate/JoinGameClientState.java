@@ -4,7 +4,6 @@
 package org.promasi.multiplayer.server.clientstate;
 
 import java.net.ProtocolException;
-import java.util.LinkedList;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
@@ -14,13 +13,12 @@ import org.promasi.multiplayer.server.ProMaSi;
 import org.promasi.network.protocol.client.request.CreateNewGameRequest;
 import org.promasi.network.protocol.client.request.JoinGameRequest;
 import org.promasi.network.protocol.client.request.RequestBuilder;
-import org.promasi.network.protocol.client.request.RetreiveGamesRequest;
+import org.promasi.network.protocol.client.request.RetreiveGameListRequest;
 import org.promasi.network.protocol.client.response.CreateNewGameResponse;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.JoinGameResponse;
-import org.promasi.network.protocol.client.response.RetreiveGamesResponse;
+import org.promasi.network.protocol.client.response.RetreiveGameListResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
-
 /**
  * @author m1cRo
  *
@@ -66,10 +64,9 @@ public class JoinGameClientState extends AbstractClientState {
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
-			if(object instanceof RetreiveGamesRequest)
+			if(object instanceof RetreiveGameListRequest)
 			{
-				LinkedList<String> gameList=_promasi.retreiveGames();
-				RetreiveGamesResponse response=new RetreiveGamesResponse(gameList);
+				RetreiveGameListResponse response=new RetreiveGameListResponse(_promasi.retreiveGames());
 				client.sendMessage(response.toXML());
 			}
 			else if( object instanceof JoinGameRequest)
@@ -105,7 +102,7 @@ public class JoinGameClientState extends AbstractClientState {
 			}
 			else
 			{
-				client.sendMessage(new JoinGameResponse("Wrong protocol").toXML());
+				client.sendMessage(new WrongProtocolResponse().toXML());
 				client.disconnect();
 			}
 		}

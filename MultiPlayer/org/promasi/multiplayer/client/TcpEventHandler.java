@@ -41,8 +41,7 @@ public class TcpEventHandler implements ITcpEventHandler {
 			throw new NullArgumentException("Wrong argument line==null");
 		}
 		
-		_promasiClient.onReceiveData(line);
-		return false;
+		return _promasiClient.onReceiveData(line);
 	}
 
 	/* (non-Javadoc)
@@ -67,8 +66,7 @@ public class TcpEventHandler implements ITcpEventHandler {
 	 * @see org.promasi.network.tcp.ITcpEventHandler#onConnectionError(org.promasi.network.tcp.TcpClient)
 	 */
 	@Override
-	public void onConnectionError(TcpClient tcpClient)
-			throws NullArgumentException {
+	public void onConnectionError(TcpClient tcpClient) throws NullArgumentException {
 		// TODO Auto-generated method stub
 
 	}

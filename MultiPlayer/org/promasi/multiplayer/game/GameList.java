@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.network.protocol.dtos.GameDto;
 
 
 /**
@@ -110,14 +111,15 @@ public class GameList
 	 *
 	 * @return
 	 */
-	public LinkedList<String> retreiveGames()
+	public LinkedList<GameDto> retreiveGames()
 	{
-		LinkedList<String> result=new LinkedList<String>();
+		LinkedList<GameDto> result=new LinkedList<GameDto>();
 		synchronized(this)
 		{
 			for(Game game : _gameList.values())
 			{
-				result.push(game.getGameId());
+				GameDto gameDto=game.getGameDto();
+				result.add(gameDto);
 			}
 		}
 		return result;

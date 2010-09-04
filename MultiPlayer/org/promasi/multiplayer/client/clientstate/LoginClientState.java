@@ -7,18 +7,16 @@ import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.ProjectManager;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.multiplayer.server.clientstate.JoinGameClientState;
-import org.promasi.network.protocol.client.request.LoginRequest;
 import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.LoginResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
-import org.promasi.shell.IPlayMode;
+import org.promasi.shell.playmodes.multiplayermode.MultiPlayerScorePlayMode;
 import org.promasi.ui.promasiui.promasidesktop.playmode.StorySelectorFrame;
 
 public class LoginClientState extends AbstractClientState {
 	
-	IPlayMode _currentPlayMode;
+	MultiPlayerScorePlayMode _currentPlayMode;
 	
 	/**
 	 * 
@@ -26,7 +24,7 @@ public class LoginClientState extends AbstractClientState {
 	 * @param projectManager
 	 * @throws NullArgumentException
 	 */
-	public LoginClientState(IPlayMode playMode)throws NullArgumentException{
+	public LoginClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException{
 		if(playMode==null)
 		{
 			throw new NullArgumentException("Wrong argument playMode==null");
@@ -62,8 +60,15 @@ public class LoginClientState extends AbstractClientState {
 						StorySelectorFrame storySelector = new StorySelectorFrame( projectManager,_currentPlayMode );
 						storySelector.setVisible( true );
 						
-						changeClientState(client,new ChooseGameClientState(_currentPlayMode));
-						client.sendMessage(new LoginResponse(projectManager).toXML());
+						ChooseGameClientState chooseGameClientState=new ChooseGameClientState(_currentPlayMode);
+						changeClientState(client,chooseGameClientState);
+						if(!chooseGameClientState.sendRetreiveGameListRequest(client))
+						{
+							client.sendMessage(new InternalErrorResponse().toXML());
+							client.disconnect();
+						}
+						
+						
 						
 					} catch (NullArgumentException e) {
 						e.printStackTrace();

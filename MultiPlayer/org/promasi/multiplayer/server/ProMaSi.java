@@ -5,7 +5,7 @@ package org.promasi.multiplayer.server;
 
 import java.net.ProtocolException;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
@@ -13,6 +13,7 @@ import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
 import org.promasi.multiplayer.game.GameList;
 import org.promasi.multiplayer.server.clientstate.LoginClientState;
+import org.promasi.network.protocol.dtos.GameDto;
 import org.promasi.network.tcp.TcpClient;
 
 /**
@@ -182,7 +183,7 @@ public class ProMaSi
 	 *
 	 * @return
 	 */
-	public LinkedList<String> retreiveGames()
+	public List<GameDto> retreiveGames()
 	{
 		return _gameList.retreiveGames();
 	}

@@ -455,7 +455,6 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
             LOGGER.info( "Selected story:" + story );
             Company company = story.getCompany( );
             company.setProjectManager( projectManager );
-            projectManager.setWorkingCompany( company );
             _shell.setCompany( company );
             setCurrentStory( story );
             

@@ -3,6 +3,8 @@
  */
 package org.promasi.network.protocol.dtos;
 
+import java.io.Serializable;
+
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
 
@@ -10,8 +12,13 @@ import org.promasi.model.Company;
  * @author m1cRo
  *
  */
-public class GameDto 
+public class GameDto implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 
 	 */
@@ -41,7 +48,7 @@ public class GameDto
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public GameDto(Company company,String name,int numberOfPlayers)throws NullArgumentException,IllegalArgumentException
+	public GameDto(Company company,String name,String gameDescription,int numberOfPlayers)throws NullArgumentException,IllegalArgumentException
 	{
 		if(company==null)
 		{
@@ -51,6 +58,11 @@ public class GameDto
 		if(name==null)
 		{
 			throw new NullArgumentException("Wrong argument name==null");
+		}
+		
+		if(gameDescription==null)
+		{
+			throw new NullArgumentException("Wrong argument gameDescription==null");
 		}
 		
 		if(numberOfPlayers<0)
