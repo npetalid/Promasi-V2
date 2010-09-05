@@ -50,7 +50,7 @@ public class ChooseGameClientState extends AbstractClientState{
 			return false;
 		}
 		
-		return client.sendMessage(new RetreiveGameListRequest().toXML());
+		return client.sendMessage(new RetreiveGameListRequest().toProtocolString());
 	}
 	
 	/* (non-Javadoc)
@@ -78,23 +78,23 @@ public class ChooseGameClientState extends AbstractClientState{
 			}
 			else
 			{
-				client.sendMessage(new WrongProtocolResponse().toXML());
+				client.sendMessage(new WrongProtocolResponse().toProtocolString());
 				client.disconnect();
 			}
 		}
 		catch(ProtocolException e)
 		{
-			client.sendMessage(new WrongProtocolResponse().toXML());
+			client.sendMessage(new WrongProtocolResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(NullArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 	}

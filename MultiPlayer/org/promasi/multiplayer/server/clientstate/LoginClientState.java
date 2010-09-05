@@ -67,27 +67,27 @@ public class LoginClientState extends AbstractClientState
 				changeClientState(client,new JoinGameClientState(_promasi));
 				ProjectManager projectManager=new ProjectManager(loginRequest.getFistName(),loginRequest.getLastName());
 				LoginResponse loginResponse=new LoginResponse(projectManager);
-				client.sendMessage(loginResponse.toXML());
+				client.sendMessage(loginResponse.toProtocolString());
 			}
 			else
 			{
-				client.sendMessage(new WrongProtocolResponse().toXML());
+				client.sendMessage(new WrongProtocolResponse().toProtocolString());
 				client.disconnect();
 			}
 		}
 		catch(ProtocolException e)
 		{
-			client.sendMessage(new WrongProtocolResponse().toXML());
+			client.sendMessage(new WrongProtocolResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(NullArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 	}

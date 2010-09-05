@@ -50,6 +50,7 @@ public class CreateNewGameRequest extends AbstractRequest
 		{
 			throw new NullArgumentException("Wrong argument gameModel==null");
 		}
+		
 		_gameId=gameId;
 		_gameModel=gameModel;
 	}

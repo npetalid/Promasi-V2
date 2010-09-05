@@ -77,11 +77,11 @@ public class PlayingGameClientState extends AbstractClientState {
 				HashMap<String,Double> invalidValues=_game.setGameValues(request.getValues());
 				if(invalidValues==null)
 				{
-					client.sendMessage(new SetGameValuesResponse().toXML());
+					client.sendMessage(new SetGameValuesResponse().toProtocolString());
 				}
 				else
 				{
-					client.sendMessage(new SetGameValuesResponse(invalidValues).toXML());
+					client.sendMessage(new SetGameValuesResponse(invalidValues).toProtocolString());
 				}
 			}
 			else if(object instanceof GetGameStatsRequest)
@@ -95,17 +95,17 @@ public class PlayingGameClientState extends AbstractClientState {
 		}
 		catch(ProtocolException e)
 		{
-			client.sendMessage(new WrongProtocolResponse().toXML());
+			client.sendMessage(new WrongProtocolResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(NullArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 	}

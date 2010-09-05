@@ -64,7 +64,7 @@ public class LoginClientState extends AbstractClientState {
 						changeClientState(client,chooseGameClientState);
 						if(!chooseGameClientState.sendRetreiveGameListRequest(client))
 						{
-							client.sendMessage(new InternalErrorResponse().toXML());
+							client.sendMessage(new InternalErrorResponse().toProtocolString());
 							client.disconnect();
 						}
 						
@@ -79,23 +79,23 @@ public class LoginClientState extends AbstractClientState {
 			}
 			else
 			{
-				client.sendMessage(new WrongProtocolResponse().toXML());
+				client.sendMessage(new WrongProtocolResponse().toProtocolString());
 				client.disconnect();
 			}
 		}
 		catch(ProtocolException e)
 		{
-			client.sendMessage(new WrongProtocolResponse().toXML());
+			client.sendMessage(new WrongProtocolResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(NullArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 	}

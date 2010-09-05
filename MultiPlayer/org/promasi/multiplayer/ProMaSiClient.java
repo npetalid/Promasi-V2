@@ -3,11 +3,16 @@
  */
 package org.promasi.multiplayer;
 
+import java.io.IOException;
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.server.clientstate.IClientState;
 import org.promasi.network.tcp.TcpClient;
+import org.w3c.tools.codec.Base64Encoder;
+
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 /**
  * @author m1cRo
@@ -59,10 +64,36 @@ public class ProMaSiClient
 	 */
 	public boolean onReceiveData(String recData)
 	{
-		_clientState.onReceive(this, recData);
+		try 
+		{
+			byte[] recBytes=new BASE64Decoder().decodeBuffer(recData);
+			System.out.print("Decoded to - "+new String(recBytes)+"\n");
+			_clientState.onReceive(this, new String(recBytes));
+		} 
+		catch (IOException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		catch(NullArgumentException e)
+		{
+			return false;
+		}
+		
+		
 		return true;
 	}
 
+	/**
+	 *
+	 * @param message
+	 * @return true if message was sent, false otherwise.
+	 */
+	public boolean sendMessage(String message)
+	{
+		return _client.sendMessage(message);
+	}
+	
 	/**
 	 *
 	 * @param clientState
@@ -94,16 +125,6 @@ public class ProMaSiClient
 	public synchronized TcpClient getTcpClient()
 	{
 		return _client;
-	}
-	
-	/**
-	 *
-	 * @param message
-	 * @return true if message was sent, false otherwise.
-	 */
-	public boolean sendMessage(String message)
-	{
-		return _client.sendMessage(message);
 	}
 
 	/**

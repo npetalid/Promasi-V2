@@ -11,7 +11,6 @@ import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.promasi.ui.promasiui.promasidesktop.PlayModeSelectorFrame;
-
 import com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel;
 
 

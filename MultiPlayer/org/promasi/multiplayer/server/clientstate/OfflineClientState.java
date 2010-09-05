@@ -39,17 +39,17 @@ public class OfflineClientState extends AbstractClientState {
 		}
 		catch(ProtocolException e)
 		{
-			client.sendMessage(new WrongProtocolResponse().toXML());
+			client.sendMessage(new WrongProtocolResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(NullArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 	}

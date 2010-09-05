@@ -185,7 +185,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 
 	@Override
 	public boolean login(String firstName, String lastName,String password) {
-		_promasiClient.sendMessage(new LoginRequest(firstName,lastName).toXML());
+		_promasiClient.sendMessage(new LoginRequest(firstName,lastName).toProtocolString());
 		return true;
 	}
 

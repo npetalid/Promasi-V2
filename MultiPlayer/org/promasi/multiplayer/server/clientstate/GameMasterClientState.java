@@ -76,27 +76,27 @@ public class GameMasterClientState extends AbstractClientState {
 			{
 				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameId()));
 				_game.startGame("Game started");
-				client.sendMessage(new StartGameResponse(_game.getGameId()).toXML());
+				client.sendMessage(new StartGameResponse(_game.getGameId()).toProtocolString());
 			}
 			else
 			{
-				client.sendMessage(new WrongProtocolResponse().toXML());
+				client.sendMessage(new WrongProtocolResponse().toProtocolString());
 				client.disconnect();
 			}
 		}
 		catch(ProtocolException e)
 		{
-			client.sendMessage(new WrongProtocolResponse().toXML());
+			client.sendMessage(new WrongProtocolResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(NullArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 	}

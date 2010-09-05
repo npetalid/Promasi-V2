@@ -67,7 +67,7 @@ public class JoinGameClientState extends AbstractClientState {
 			if(object instanceof RetreiveGameListRequest)
 			{
 				RetreiveGameListResponse response=new RetreiveGameListResponse(_promasi.retreiveGames());
-				client.sendMessage(response.toXML());
+				client.sendMessage(response.toProtocolString());
 			}
 			else if( object instanceof JoinGameRequest)
 			{
@@ -78,7 +78,7 @@ public class JoinGameClientState extends AbstractClientState {
 					return;
 				}
 				
-				if(!client.sendMessage(new JoinGameResponse().toXML()))
+				if(!client.sendMessage(new JoinGameResponse().toProtocolString()))
 				{
 					client.disconnect();
 				}
@@ -92,33 +92,33 @@ public class JoinGameClientState extends AbstractClientState {
 				try
 				{
 					_promasi.createNewGame(game);
-					client.sendMessage(new CreateNewGameResponse(true).toXML());
+					client.sendMessage(new CreateNewGameResponse(true).toProtocolString());
 					changeClientState(client,new GameMasterClientState(_promasi,game));
 				}
 				catch(IllegalArgumentException e)
 				{
-					client.sendMessage(new CreateNewGameResponse(false).toXML());
+					client.sendMessage(new CreateNewGameResponse(false).toProtocolString());
 				}
 			}
 			else
 			{
-				client.sendMessage(new WrongProtocolResponse().toXML());
+				client.sendMessage(new WrongProtocolResponse().toProtocolString());
 				client.disconnect();
 			}
 		}
 		catch(ProtocolException e)
 		{
-			client.sendMessage(new WrongProtocolResponse().toXML());
+			client.sendMessage(new WrongProtocolResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(NullArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
 		{
-			client.sendMessage(new InternalErrorResponse().toXML());
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
 		}
 	}
