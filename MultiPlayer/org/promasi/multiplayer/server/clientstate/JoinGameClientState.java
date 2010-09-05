@@ -88,7 +88,7 @@ public class JoinGameClientState extends AbstractClientState {
 			else if(object instanceof CreateNewGameRequest)
 			{
 				CreateNewGameRequest request=(CreateNewGameRequest)object;
-				Game game=new Game(request.getGameId(),client,request.getGameModel().toXML());
+				Game game=new Game(request.getGameId(),client,request.getGameModel());
 				try
 				{
 					_promasi.createNewGame(game);

@@ -19,6 +19,7 @@ public class RequestBuilder
 	public static Object buildRequest(String message)throws ProtocolException,NullArgumentException
 	{
 		XMLDecoder decoder=new XMLDecoder(new ByteArrayInputStream(message.getBytes()));
+		
 		try
 		{
 			Object object=decoder.readObject();

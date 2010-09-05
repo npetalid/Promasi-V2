@@ -10,6 +10,7 @@ import java.io.Serializable;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.core.SdSystem;
 import org.promasi.model.Company;
+import org.w3c.tools.codec.Base64Encoder;
 
 /**
  * @author m1cRo
@@ -39,48 +40,24 @@ public class GameModel implements Serializable
 	
     /**
      * 
-     * @param xmlModel
-     * @throws NullArgumentException
-     * @throws IllegalArgumentException
      */
-	public GameModel(String xmlModel)throws NullArgumentException,IllegalArgumentException
+    public GameModel()
+    {
+    	
+    }
+    
+	/**
+	 * 
+	 */
+	public synchronized boolean executeStep()
 	{
-		if(xmlModel==null)
+		if(_sdSystem==null)
 		{
-			throw new NullArgumentException("Wrong argument xmlModel==null");
-		}
-
-		if(xmlModel.isEmpty())
-		{
-			throw new IllegalArgumentException("Wrong argument xmlModel.isEmpty()");
-		}
-	}
-
-	
-	public String toXML()
-	{
-		ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
-		XMLEncoder xmlEncoder=new XMLEncoder(outputStream);
-		xmlEncoder.writeObject(this);
-		xmlEncoder.close();
-		String temp=outputStream.toString();
-		String result=new String("");
-		for(int i=0;i<temp.length();i++)
-		{
-			char ch=temp.charAt(i);
-			if(ch!='\n' && ch!='\r')
-			{
-				result=result+ch;
-			}
+			return false;
 		}
 		
-		return result;
-	}
-	
-	
-	public void executeStep()
-	{
 		_sdSystem.executeStep();
+		return true;
 	}
 	
 	/**
@@ -151,5 +128,18 @@ public class GameModel implements Serializable
 	public String getGameDescription()
 	{
 		return _gameDescription;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public String toXmlString()
+	{
+		ByteArrayOutputStream outputStream=new ByteArrayOutputStream();
+		XMLEncoder xmlEncoder=new XMLEncoder(outputStream);
+		xmlEncoder.writeObject(this);
+		xmlEncoder.close();
+		return outputStream.toString();
 	}
 }

@@ -3,6 +3,8 @@
  */
 package org.promasi.multiplayer.game;
 
+import java.beans.XMLDecoder;
+import java.io.ByteArrayInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +16,7 @@ import org.promasi.network.protocol.dtos.GameDto;
  * @author m1cRo
  *
  */
-public class Game
+public class Game implements Runnable
 {
 	/**
 	 *
@@ -30,16 +32,21 @@ public class Game
 	 *
 	 */
 	private Map<ProMaSiClient,GameModel> _gameModels;
-
-	/**
-	 * 
-	 */
-	private String _gameModelString;
 	
 	/**
 	 * 
 	 */
 	private GameModel _gameModel;
+	
+	/**
+	 * 
+	 */
+	private Thread _gameThread;
+	
+	/**
+	 * 
+	 */
+	private boolean _isRunning;
 	
 	/**
 	 *
@@ -48,7 +55,7 @@ public class Game
 	 * @param promasiModel
 	 * @throws NullArgumentException
 	 */
-	public Game(String gameId,ProMaSiClient gameMaster,String gameModelString)throws NullArgumentException,IllegalArgumentException
+	public Game(String gameId,ProMaSiClient gameMaster,GameModel gameModel)throws NullArgumentException,IllegalArgumentException
 	{
 		if(gameId==null)
 		{
@@ -60,17 +67,16 @@ public class Game
 			throw new NullArgumentException("Wrong argument gameMaster==null");
 		}
 
-		if(gameModelString==null)
+		if(gameModel==null)
 		{
-			throw new NullArgumentException("Wrong argument promasiModel==null");
+			throw new NullArgumentException("Wrong argument gameModel==null");
 		}
 		
+		_isRunning=false;
 		_gameId=gameId;
 		_gameMaster=gameMaster;
 		_gameModels=new HashMap<ProMaSiClient,GameModel>();
-		_gameModel=new GameModel(gameModelString);
-		_gameModelString=gameModelString;
-		_gameModels.put( gameMaster, new GameModel(gameModelString) );
+		_gameModel=gameModel;
 	}
 
 	/**
@@ -83,12 +89,21 @@ public class Game
 	}
 
 	/**
+	 * @return 
+	 * 
+	 */
+	public synchronized boolean isRunning()
+	{
+		return _isRunning;
+	}
+	
+	/**
 	 *
 	 * @param playerId
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public synchronized void addPlayer(ProMaSiClient player)throws NullArgumentException,IllegalArgumentException
+	public synchronized boolean addPlayer(ProMaSiClient player)throws NullArgumentException,IllegalArgumentException
 	{
 		if(player==null)
 		{
@@ -99,8 +114,17 @@ public class Game
 		{
 			throw new IllegalArgumentException("Wrong argument playerId is already in game");
 		}
-			
-		_gameModels.put(player, new GameModel(_gameModelString)); //ToDo change GameModel.
+		
+		if(_isRunning)
+		{
+			return false;
+		}
+		
+		//Convert to xml and back to clone object.
+		XMLDecoder decoder=new XMLDecoder(new ByteArrayInputStream(_gameModel.toXmlString().getBytes()));
+		GameModel gameModel=(GameModel) decoder.readObject();
+		_gameModels.put(player, gameModel);
+		return true;
 	}
 
 	/**
@@ -139,9 +163,28 @@ public class Game
 			entry.getKey().onReceiveData(message);
 		}
 
+		_isRunning=true;
+		_gameThread=new Thread(this);
+		_gameThread.start();
 		return true;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized boolean stopGame()
+	{
+		if(!_isRunning)
+		{
+			return false;
+		}
+		
+		_isRunning=false;
+		
+		return true;
+	}
+	
 	/**
 	 * 
 	 * @param values
@@ -168,5 +211,27 @@ public class Game
 	public synchronized GameDto getGameDto()
 	{
 		return new GameDto(_gameModel.getCompany(),_gameId,_gameModel.getGameDescription(),_gameModels.size());
+	}
+
+	@Override
+	public void run() 
+	{
+		while(_isRunning)
+		{
+			try 
+			{
+				for(Map.Entry<ProMaSiClient,GameModel> entry:_gameModels.entrySet())
+				{
+					entry.getValue().executeStep();
+				}
+				
+				Thread.sleep(100);
+			} 
+			catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }
