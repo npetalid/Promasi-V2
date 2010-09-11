@@ -34,7 +34,11 @@ public class ClockPanel
         implements ActionListener, IClockListener
 {
 
-    private JXMonthView _calendar;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JXMonthView _calendar;
     private JButton _slowButton;
     private JButton _normalButton;
     private JButton _fastButton;

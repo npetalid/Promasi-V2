@@ -45,6 +45,11 @@ public class ProjectInfoButton
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The current project.
      */
     private Project _currentProject;

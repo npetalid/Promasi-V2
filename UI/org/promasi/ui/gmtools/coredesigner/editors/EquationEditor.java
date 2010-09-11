@@ -41,6 +41,11 @@ public class EquationEditor
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link SdObjectDecorator} to edit the equation for.
      */
     private SdObjectDecorator _sdObject;

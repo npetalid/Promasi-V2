@@ -27,6 +27,11 @@ public abstract class AbstractSdObjectFig
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link SdObjectDecorator} that this panel represents.
      */
     private SdObjectDecorator _sdObject;

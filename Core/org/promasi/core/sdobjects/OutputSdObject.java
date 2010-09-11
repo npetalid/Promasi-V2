@@ -16,6 +16,11 @@ public class OutputSdObject
         extends AbstractSdObject
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Initializes the object.
      *
      * @param key

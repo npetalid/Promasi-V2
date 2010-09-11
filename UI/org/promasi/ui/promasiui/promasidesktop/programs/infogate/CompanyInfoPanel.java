@@ -30,6 +30,11 @@ public class CompanyInfoPanel
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * A {@link JLabel} that displays the name of the company.
      */
     private JLabel _companyNameLabel;

@@ -16,6 +16,11 @@ public class VariableSdObject
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Initializes the object.
      * 
      * @param key

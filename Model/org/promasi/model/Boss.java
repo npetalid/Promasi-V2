@@ -12,6 +12,10 @@ public class Boss
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * The {@link Company} that the boss owns.
      */
     private Company _workingCompany;

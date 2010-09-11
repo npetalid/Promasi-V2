@@ -29,6 +29,11 @@ public class ProjectInfoPanel
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * A {@link JLabel} that shows the name of the {@link #_project}.
      */
     private JLabel _projectNameLabel;

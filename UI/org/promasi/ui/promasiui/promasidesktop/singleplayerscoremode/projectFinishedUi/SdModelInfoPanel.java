@@ -47,6 +47,11 @@ public class SdModelInfoPanel
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link IStatePersister} of the project.
      */
     private IStatePersister _statePersister;

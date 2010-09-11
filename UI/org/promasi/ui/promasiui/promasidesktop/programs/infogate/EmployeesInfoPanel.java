@@ -29,6 +29,11 @@ public class EmployeesInfoPanel
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * A {@link JList} that shows all the hired employees.
      */
     private JList _employeeList;

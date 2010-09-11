@@ -20,6 +20,11 @@ public class VariableSdObjectFig
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Initializes the object.
      * 
      * @param sdObject

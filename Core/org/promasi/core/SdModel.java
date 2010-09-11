@@ -10,8 +10,6 @@ import java.util.Vector;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.promasi.communication.ICommunicator;
-import org.promasi.core.sdobjects.AbstractSdObject;
-import org.promasi.core.sdobjects.OutputSdObject;
 import org.promasi.utilities.ErrorBuilder;
 
 
@@ -27,6 +25,11 @@ public class SdModel
         implements Serializable
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * A {@link Hashtable} that contains all the {@link ISdObject}s of the
      * model. The key of the {@link Hashtable} is the {@link ISdObject#getKey()}
      * value.

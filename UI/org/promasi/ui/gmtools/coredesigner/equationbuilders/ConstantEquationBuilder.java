@@ -30,6 +30,11 @@ public class ConstantEquationBuilder
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The value of the {@link ConstantEquation}.
      */
     private JSpinner _valueSpinner;

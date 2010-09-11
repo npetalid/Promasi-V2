@@ -30,8 +30,7 @@ public class MaxFunction
     }
 
     @Override
-    public void run ( Stack stack )
-            throws ParseException
+    public void run ( Stack stack ) throws ParseException
     {
         double var1 = (Double) stack.pop( );
         double var2 = (Double) stack.pop( );

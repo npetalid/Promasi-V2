@@ -11,7 +11,6 @@ import org.nfunk.jep.Node;
 import org.nfunk.jep.ParseException;
 import org.nfunk.jep.SymbolTable;
 import org.nfunk.jep.Variable;
-import org.promasi.communication.Communicator;
 import org.promasi.communication.ICommunicator;
 import org.promasi.core.EquationType;
 import org.promasi.core.IEquation;
@@ -35,6 +34,11 @@ public class CalculatedEquation
         implements IEquation, Serializable
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link JEP} expression.
      */
     private String _equationString;
@@ -115,7 +119,7 @@ public class CalculatedEquation
             // Get a list with all the undeclared variables. Those variable are
             // one of the dependency objects of the _context.
             SymbolTable symTable = jep.getSymbolTable( );
-            Collection coll = symTable.values( );
+            Collection<?> coll = symTable.values( );
             // Get the value of each variable. The Computational sequence
             // ensures that the value will be up to date.
             for ( Object object : coll )

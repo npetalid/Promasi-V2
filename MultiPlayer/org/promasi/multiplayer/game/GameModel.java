@@ -10,7 +10,6 @@ import java.io.Serializable;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.core.SdSystem;
 import org.promasi.model.Company;
-import org.w3c.tools.codec.Base64Encoder;
 
 /**
  * @author m1cRo

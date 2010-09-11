@@ -36,6 +36,11 @@ public class TaskSelector
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * A {@link JList} that contains all available {@link Task}s .
      */
     private JList _tasksList;

@@ -43,6 +43,11 @@ public class CalculatedEquationBuilder
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The Context of the {@link CalculatedEquation}.
      */
     private SdObjectDecorator _sdObject;

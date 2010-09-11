@@ -50,6 +50,11 @@ public class LookupEquationBuilder
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link SdObjectDecorator} to get the dependencies from.
      */
     private SdObjectDecorator _sdObject;

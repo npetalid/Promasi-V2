@@ -29,6 +29,11 @@ public class ExternalEquationBuilder
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link ISdObject} to use as a context for the
      * {@link ExternalEquation}.
      */

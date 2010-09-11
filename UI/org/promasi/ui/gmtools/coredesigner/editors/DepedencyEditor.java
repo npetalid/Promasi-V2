@@ -33,6 +33,11 @@ public class DepedencyEditor
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link SdObjectDecorator} to edit the dependencies.
      */
     private SdObjectDecorator _sdObject;

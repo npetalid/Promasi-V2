@@ -53,6 +53,11 @@ public class PropertyPanel
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link SdObjectDecorator} that this properties panel is displaying.
      */
     private SdObjectDecorator _sdObject;

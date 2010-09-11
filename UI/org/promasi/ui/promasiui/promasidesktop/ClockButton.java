@@ -29,6 +29,11 @@ public class ClockButton
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Initializes the object.
      */
     public ClockButton( )

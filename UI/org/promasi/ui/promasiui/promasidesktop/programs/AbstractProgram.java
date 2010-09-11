@@ -26,6 +26,11 @@ public abstract class AbstractProgram
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The name of the program.
      */
     private String _name;

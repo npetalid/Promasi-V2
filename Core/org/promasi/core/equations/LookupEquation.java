@@ -35,6 +35,11 @@ public class LookupEquation
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * All the x points.
      */
     private double[] _xValues;

@@ -13,6 +13,10 @@ public class Administrator
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * The {@link Company} that the administrator works for.
      */
     private Company _workingCompany;

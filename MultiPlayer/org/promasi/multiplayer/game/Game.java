@@ -3,14 +3,15 @@
  */
 package org.promasi.multiplayer.game;
 
-import java.beans.XMLDecoder;
-import java.io.ByteArrayInputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.dtos.GameDto;
+
 
 /**
  * @author m1cRo
@@ -120,10 +121,20 @@ public class Game implements Runnable
 			return false;
 		}
 		
+		try {
+			GameModel newModel=(GameModel) BeanUtils.cloneBean(_gameModel);
+			_gameModels.put(player, newModel);
+		} catch (IllegalAccessException e) {
+			return false;
+		} catch (InstantiationException e) {
+			return false;
+		} catch (InvocationTargetException e) {
+			return false;
+		} catch (NoSuchMethodException e) {
+			return false;
+		}
 		//Convert to xml and back to clone object.
-		XMLDecoder decoder=new XMLDecoder(new ByteArrayInputStream(_gameModel.toXmlString().getBytes()));
-		GameModel gameModel=(GameModel) decoder.readObject();
-		_gameModels.put(player, gameModel);
+		
 		return true;
 	}
 

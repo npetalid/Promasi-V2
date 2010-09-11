@@ -24,6 +24,11 @@ public class Accountant
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link Company} that the accountant works for.
      */
     private Company _workingCompany;

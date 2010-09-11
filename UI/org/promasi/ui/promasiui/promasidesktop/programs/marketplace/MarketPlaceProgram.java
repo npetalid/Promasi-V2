@@ -36,6 +36,11 @@ public class MarketPlaceProgram
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link JList} that contains all the available employees.
      */
     private JList _employeeList;

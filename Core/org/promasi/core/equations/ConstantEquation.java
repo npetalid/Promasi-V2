@@ -21,6 +21,10 @@ public class ConstantEquation
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * The value of the constant equation.
      */
     private Double _value;

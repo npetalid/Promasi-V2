@@ -34,6 +34,11 @@ public abstract class AbstractSdObject
         implements ISdObject, Serializable
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link SdObjectType} of the {@link ISdObject} object.
      */
     private SdObjectType _type;

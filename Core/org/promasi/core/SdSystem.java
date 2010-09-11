@@ -25,8 +25,12 @@ import org.promasi.utilities.ErrorBuilder;
  */
 public class SdSystem implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /**
+	/**
      * The {@link SdModel} of the system.
      */
     private SdModel _model;

@@ -16,6 +16,11 @@ public class FlowSdObject
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Initializes the object.
      * 
      * @param key

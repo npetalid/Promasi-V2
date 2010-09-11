@@ -38,6 +38,11 @@ public class EventEditor
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The {@link SdObjectDecorator} to edit the events.
      */
     private SdObjectDecorator _sdObject;

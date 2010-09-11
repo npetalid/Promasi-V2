@@ -265,8 +265,7 @@ public final class StoriesPool
      * @throws IntrospectionException
      * @throws SAXException
      */
-    private static void loadProjectFile ( Story story, File prjFile )
-            throws ZipException, IOException, IntrospectionException, SAXException
+    private static void loadProjectFile ( Story story, File prjFile ) throws ZipException, IOException, IntrospectionException, SAXException
     {
         LOGGER.info( "Loading project from file " + prjFile.getName( ) );
 

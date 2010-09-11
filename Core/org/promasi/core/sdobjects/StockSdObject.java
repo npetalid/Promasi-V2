@@ -17,6 +17,11 @@ public class StockSdObject
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The previous value of the Stock object.
      */
     private Double _previousValue;
