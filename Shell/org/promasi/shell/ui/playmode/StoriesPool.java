@@ -1,4 +1,4 @@
-package org.promasi.shell.playmodes.singleplayerscoremode;
+package org.promasi.shell.ui.playmode;
 
 
 import java.beans.IntrospectionException;
@@ -33,6 +33,8 @@ import org.promasi.model.Employee;
 import org.promasi.model.EmployeeProperty;
 import org.promasi.model.Project;
 import org.promasi.model.Task;
+import org.promasi.shell.playmodes.singleplayerscoremode.DifficultyLevel;
+import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.EventBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ExternalEquationBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.OutputVariableBinding;
@@ -190,6 +192,7 @@ public final class StoriesPool
             {
                 LOGGER.warn( "Could not find " + EMPLOYEES_NAME + " in " + file.getName( ), e );
             }
+            
             // If the info file was found continue.
             if ( infoFile != null )
             {

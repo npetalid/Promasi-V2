@@ -16,7 +16,7 @@ public class RetreiveGameListResponse extends AbstractResponse {
 	/**
 	 * 
 	 */
-	private List<GameDto> _gameList;
+	private List<GameDto> _games;
 	
 	/**
 	 * 
@@ -37,7 +37,7 @@ public class RetreiveGameListResponse extends AbstractResponse {
 			throw new NullArgumentException("Wrong argument gameList==null");
 		}
 		
-		_gameList=gameList;
+		_games=gameList;
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class RetreiveGameListResponse extends AbstractResponse {
 	 * @return
 	 */
 	public List<GameDto> getGames() {
-		return _gameList;
+		return _games;
 	}
 	
 	/**
@@ -60,6 +60,6 @@ public class RetreiveGameListResponse extends AbstractResponse {
 			throw new NullArgumentException("Wrong argument games==null");
 		}
 		
-		_gameList=games;
+		_games=games;
 	}
 }

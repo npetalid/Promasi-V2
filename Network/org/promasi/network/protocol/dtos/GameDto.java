@@ -41,6 +41,14 @@ public class GameDto implements Serializable
 	
 	/**
 	 * 
+	 */
+	public GameDto()
+	{
+		
+	}
+	
+	/**
+	 * 
 	 * @param company
 	 * @param sdModel
 	 * @param name
@@ -70,6 +78,7 @@ public class GameDto implements Serializable
 			throw new NullArgumentException("Wrong argument numberOfPlayers<0");
 		}
 		
+		_gameDescription=gameDescription;
 		_company=company;
 		_name=name;
 		_numberOfPlayers=numberOfPlayers;
@@ -125,6 +134,30 @@ public class GameDto implements Serializable
 	
 	/**
 	 * 
+	 * @param numberOfPlayers
+	 * @throws IllegalArgumentException
+	 */
+	public synchronized void setNunmberOfPlayers(int numberOfPlayers)throws IllegalArgumentException
+	{
+		/*if(numberOfPlayers<0)
+		{
+			throw new NullArgumentException("Wrong argument numberOfPlayers<0");
+		}*/
+		
+		_numberOfPlayers=numberOfPlayers;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized int getNumberOfPlayers()
+	{
+		return _numberOfPlayers;
+	}
+	
+	/**
+	 * 
 	 * @param gameDescription
 	 * @throws NullArgumentException
 	 */
@@ -147,27 +180,4 @@ public class GameDto implements Serializable
 		return _gameDescription;
 	}
 	
-	/**
-	 * 
-	 * @param numberOfPlayers
-	 * @throws IllegalArgumentException
-	 */
-	public synchronized void setName(int numberOfPlayers)throws IllegalArgumentException
-	{
-		if(numberOfPlayers<0)
-		{
-			throw new NullArgumentException("Wrong argument numberOfPlayers<0");
-		}
-		
-		_numberOfPlayers=numberOfPlayers;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public int getNumberOfPlayers()
-	{
-		return _numberOfPlayers;
-	}
 }

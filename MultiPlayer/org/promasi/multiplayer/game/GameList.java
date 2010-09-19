@@ -23,6 +23,9 @@ public class GameList
 	 */
 	private Map<String,Game> _gameList;
 
+	/**
+	 * 
+	 */
 	private Map<ProMaSiClient,Game> _players;
 
 	/**
@@ -152,6 +155,7 @@ public class GameList
 		{
 			return false;
 		}
+		
 		synchronized(this)
 		{
 			if(!_gameList.containsKey(gameId))
@@ -163,6 +167,7 @@ public class GameList
 			//ToDo add user.
 			_players.put(client, game);
 		}
+		
 		return true;
 	}
 }

@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.multiplayer.server;
+package org.promasi.multiplayer;
 
 import java.net.ProtocolException;
 import java.util.HashMap;
@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
 import org.promasi.multiplayer.game.GameList;
+import org.promasi.multiplayer.server.UserManager;
 import org.promasi.multiplayer.server.clientstate.LoginClientState;
 import org.promasi.network.protocol.dtos.GameDto;
 import org.promasi.network.tcp.TcpClient;
@@ -30,7 +30,7 @@ public class ProMaSi
 	/**
 	 *
 	 */
-	private GameList _gameList;
+	private GameList _games;
 
 	/**
 	 *
@@ -44,7 +44,7 @@ public class ProMaSi
 	{
 		_clients=new HashMap<TcpClient,ProMaSiClient>();
 		_userManager=new UserManager();
-		_gameList=new GameList();
+		_games=new GameList();
 	}
 
 	/**
@@ -88,6 +88,7 @@ public class ProMaSi
 		{
 			throw new NullArgumentException("Wrong argument client");
 		}
+		
 		ProMaSiClient promasiClient=new ProMaSiClient(client,new LoginClientState(this));
 		synchronized(_clients)
 		{
@@ -114,7 +115,9 @@ public class ProMaSi
 			{
 				throw new IllegalArgumentException("IllegalArgument client");
 			}
+			
 			ProMaSiClient promasiClient=_clients.get(client);
+			
 			try
 			{
 				_userManager.removeUser(promasiClient.getClientId());
@@ -146,7 +149,9 @@ public class ProMaSi
 			{
 				throw new IllegalArgumentException("IllegalArgument client");
 			}
+			
 			ProMaSiClient promasiClient=_clients.get(client);
+			
 			try
 			{
 				_userManager.removeUser(promasiClient.getClientId());
@@ -155,6 +160,7 @@ public class ProMaSi
 			{
 
 			}
+			
 			_clients.remove(client);
 		}
 	}
@@ -183,9 +189,9 @@ public class ProMaSi
 	 *
 	 * @return
 	 */
-	public List<GameDto> retreiveGames()
+	public synchronized List<GameDto> retreiveGames()
 	{
-		return _gameList.retreiveGames();
+		return _games.retreiveGames();
 	}
 
 	/**
@@ -195,9 +201,9 @@ public class ProMaSi
 	 * @throws IllegalArgumentException
 	 * @throws NullArgumentException
 	 */
-	public Game getGame(String gameId)throws IllegalArgumentException,NullArgumentException
+	public synchronized Game getGame(String gameId)throws IllegalArgumentException,NullArgumentException
 	{
-		return _gameList.getGame(gameId);
+		return _games.getGame(gameId);
 	}
 
 	/**
@@ -206,13 +212,13 @@ public class ProMaSi
 	 * @throws IllegalArgumentException
 	 * @throws NullArgumentException
 	 */
-	public void createNewGame(Game game)throws IllegalArgumentException,NullArgumentException
+	public synchronized void createNewGame(Game game)throws IllegalArgumentException,NullArgumentException
 	{
-		_gameList.addNewGame(game);
+		_games.addNewGame(game);
 	}
 	
 	public synchronized boolean joinGame(ProMaSiClient client,String gameId)
 	{
-		return _gameList.joinGame(client, gameId);
+		return _games.joinGame(client, gameId);
 	}
 }

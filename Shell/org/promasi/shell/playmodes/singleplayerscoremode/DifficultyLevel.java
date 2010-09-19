@@ -1,5 +1,7 @@
 package org.promasi.shell.playmodes.singleplayerscoremode;
 
+import org.promasi.shell.ui.playmode.Story;
+
 
 /**
  * 

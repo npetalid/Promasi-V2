@@ -13,9 +13,11 @@ import java.util.Vector;
 import javax.naming.ConfigurationException;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.communication.Communicator;
 import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
+import org.promasi.model.Company;
 import org.promasi.model.Employee;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
@@ -25,6 +27,8 @@ import org.promasi.multiplayer.client.TcpEventHandler;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
+import org.promasi.shell.ui.playmode.Story;
+import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.network.protocol.client.request.LoginRequest;
 import org.promasi.network.protocol.dtos.GameDto;
 import org.promasi.network.tcp.TcpClient;
@@ -267,7 +271,36 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 			throw new NullArgumentException("Wrong argument projectManager==null");
 		}
 		
-		return false;
+		 GameDto game=_games.get(gameId);
+	     if ( game != null )
+	     {
+	        Company company = game.getCompany();
+	        company.setProjectManager( projectManager );
+	        _shell.setCompany( company );
+	            
+	        try
+	        {
+	        	ICommunicator communicator=new Communicator();
+	        	communicator.setMainReceiver( _shell.getModelMessageReceiver());
+	            	
+	        	_shell.setCurrentPlayMode(this);
+	        	DesktopMainFrame mainFrame = new DesktopMainFrame(_shell);
+	        	mainFrame.showMainFrame( );
+	        	mainFrame.registerCommunicator(communicator);
+	        	_shell.start();
+	        }
+	        catch ( ConfigurationException e )
+	        {
+	        	e.printStackTrace( );
+	        	return false;
+	        }
+	     }
+	     else
+	     {
+	    	 return false;
+	     }
+	        
+		return true;
 	}
 
 }

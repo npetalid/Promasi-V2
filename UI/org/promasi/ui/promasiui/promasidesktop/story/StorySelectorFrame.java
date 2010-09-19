@@ -1,4 +1,4 @@
-package org.promasi.ui.promasiui.promasidesktop.playmode;
+package org.promasi.ui.promasiui.promasidesktop.story;
 
 
 import java.awt.event.ActionEvent;
@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 
 import org.promasi.model.ProjectManager;
 import org.promasi.shell.IPlayMode;
-import org.promasi.shell.playmodes.singleplayerscoremode.Story;
+import org.promasi.shell.ui.playmode.Story;
 
 import org.promasi.ui.promasiui.promasidesktop.PlayModeSelectorFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
@@ -167,20 +167,23 @@ public class StorySelectorFrame extends JFrame implements Runnable
     private void selectionChanged ( )
     {
     	int gameId=_storiesList.getSelectedIndex();
-        _playModeNameLabel.setText( _currentPlayMode.getGameDescription(gameId));
-        try
-        {
-        	URL gameInfo=_currentPlayMode.getGameInfo(gameId);
-        	if(gameInfo!=null)
-        	{
-        		_descriptionText.setPage( _currentPlayMode.getGameInfo(gameId) );
-        	}
-        }
-        catch ( Exception e )
-        {
-            LOGGER.error( "Could not load url", e );
-            _descriptionText.setText( ResourceManager.getString( StorySelectorFrame.class, "descriptionText", "errorMessage" ) );
-        }
+    	if(gameId>=0)
+    	{
+            _playModeNameLabel.setText( _currentPlayMode.getGameDescription(gameId));
+            try
+            {
+            	URL gameInfo=_currentPlayMode.getGameInfo(gameId);
+            	if( gameInfo!=null && _currentPlayMode.getGameInfo(gameId)!=null )
+            	{
+            		_descriptionText.setPage( _currentPlayMode.getGameInfo( gameId) );
+            	}
+            }
+            catch ( Exception e )
+            {
+                LOGGER.error( "Could not load url", e );
+                _descriptionText.setText( ResourceManager.getString( StorySelectorFrame.class, "descriptionText", "errorMessage" ) );
+            }	
+    	}
     }
 
     /**
@@ -246,7 +249,7 @@ public class StorySelectorFrame extends JFrame implements Runnable
 		    
 		    try 
 		    {
-				Thread.sleep(5000);
+				Thread.sleep(1000);
 			} 
 		    catch (InterruptedException e) 
 		    {

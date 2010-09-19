@@ -1,4 +1,4 @@
-package org.promasi.ui.promasiui.promasidesktop.playmode;
+package org.promasi.ui.promasiui.promasidesktop.story;
 
 
 import java.awt.EventQueue;

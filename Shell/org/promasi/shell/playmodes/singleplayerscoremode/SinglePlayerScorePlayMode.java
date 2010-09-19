@@ -36,8 +36,10 @@ import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ActionBind
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.EventBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ExternalEquationBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.OutputVariableBinding;
+import org.promasi.shell.ui.playmode.StoriesPool;
+import org.promasi.shell.ui.playmode.Story;
 import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
-import org.promasi.ui.promasiui.promasidesktop.playmode.StorySelectorFrame;
+import org.promasi.ui.promasiui.promasidesktop.story.StorySelectorFrame;
 
 
 /**

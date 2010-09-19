@@ -1,4 +1,4 @@
-package org.promasi.shell.playmodes.singleplayerscoremode;
+package org.promasi.shell.ui.playmode;
 
 
 import java.io.File;
@@ -20,6 +20,7 @@ import org.promasi.model.Boss;
 import org.promasi.model.Company;
 import org.promasi.model.Employee;
 import org.promasi.model.Project;
+import org.promasi.shell.playmodes.singleplayerscoremode.DifficultyLevel;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.EventBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ExternalEquationBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.OutputVariableBinding;
@@ -152,6 +153,7 @@ public class Story implements IValidatable
             LOGGER.error( ErrorBuilder.generateNullArgumentError( "addProject", "project" ) );
             throw new NullArgumentException( "project" );
         }
+        
         _projects.add( project );
     }
 
@@ -555,22 +557,27 @@ public class Story implements IValidatable
         {
             return false;
         }
+        
         if ( StringUtils.isBlank( _name ) )
         {
             return false;
         }
+        
         if ( _boss == null || _administrator == null || _accountant == null )
         {
             return false;
         }
+        
         if ( _projects.size( ) == 0 || _projectModelRelations.size( ) == 0 )
         {
             return false;
         }
+        
         if ( _projectModelRelations.size( ) != _projects.size( ) )
         {
             return false;
         }
+        
         return true;
     }
 
