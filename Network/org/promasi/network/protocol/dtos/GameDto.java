@@ -17,27 +17,38 @@ public class GameDto implements Serializable
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-
+	public static final String CONST_DEFAULT_GAME_DESCRIPTION="Game description";
+	
+	
 	/**
 	 * 
 	 */
-	private Company _company;
+	private static final long serialVersionUID = 1L;
+
+	
+	/**
+	 * 
+	 */
+	private CompanyDto _company;
+	
 	
 	/**
 	 * 
 	 */
 	private String _name;
 	
+	
 	/**
 	 * 
 	 */
 	private String _gameDescription;
 	
+	
 	/**
 	 * 
 	 */
 	private int _numberOfPlayers;
+	
 	
 	/**
 	 * 
@@ -56,7 +67,7 @@ public class GameDto implements Serializable
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public GameDto(Company company,String name,String gameDescription,int numberOfPlayers)throws NullArgumentException,IllegalArgumentException
+	public GameDto(CompanyDto company,String name,String gameDescription,int numberOfPlayers)throws NullArgumentException,IllegalArgumentException
 	{
 		if(company==null)
 		{
@@ -89,7 +100,7 @@ public class GameDto implements Serializable
 	 * @param company
 	 * @throws NullArgumentException
 	 */
-	public synchronized void setCompany(Company company)throws NullArgumentException
+	public synchronized void setCompany(CompanyDto company)throws NullArgumentException
 	{
 		if(company==null)
 		{
@@ -103,7 +114,7 @@ public class GameDto implements Serializable
 	 * 
 	 * @return
 	 */
-	public synchronized Company getCompany()
+	public synchronized CompanyDto getCompany()
 	{
 		return _company;
 	}
@@ -123,6 +134,7 @@ public class GameDto implements Serializable
 		_name=name;
 	}
 	
+	
 	/**
 	 * 
 	 * @return
@@ -139,10 +151,10 @@ public class GameDto implements Serializable
 	 */
 	public synchronized void setNunmberOfPlayers(int numberOfPlayers)throws IllegalArgumentException
 	{
-		/*if(numberOfPlayers<0)
+		if(numberOfPlayers<0)
 		{
-			throw new NullArgumentException("Wrong argument numberOfPlayers<0");
-		}*/
+			throw new IllegalArgumentException("Wrong argument numberOfPlayers<0");
+		}
 		
 		_numberOfPlayers=numberOfPlayers;
 	}

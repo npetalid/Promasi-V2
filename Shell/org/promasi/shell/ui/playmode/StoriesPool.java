@@ -238,6 +238,7 @@ public final class StoriesPool
                         File prjFile = file.listFiles( (FileFilter) new NameFileFilter( projectFileName + ".prj" ) )[0];
                         loadProjectFile( story, prjFile );
                     }
+                    
                     if ( story.isValid( ) )
                     {
                         ALL_STORIES.add( story );

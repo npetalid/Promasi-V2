@@ -9,7 +9,9 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.model.Company;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.network.protocol.dtos.CompanyDto;
 import org.promasi.network.protocol.dtos.GameDto;
 
 
@@ -221,7 +223,9 @@ public class Game implements Runnable
 	 */
 	public synchronized GameDto getGameDto()
 	{
-		return new GameDto(_gameModel.getCompany(),_gameId,_gameModel.getGameDescription(),_gameModels.size());
+		Company company=_gameModel.getCompany();
+		CompanyDto companyDto=new CompanyDto(company.getName(),company.getStartTime(),company.getEndTime(),company.getDescription());
+		return new GameDto(companyDto,_gameId,_gameModel.getGameDescription(),_gameModels.size());
 	}
 
 	@Override
