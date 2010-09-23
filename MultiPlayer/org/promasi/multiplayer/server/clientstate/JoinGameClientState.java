@@ -23,7 +23,6 @@ import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.JoinGameResponse;
 import org.promasi.network.protocol.client.response.RetreiveGameListResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
-import org.promasi.network.protocol.dtos.CompanyDto;
 import org.promasi.network.protocol.dtos.GameDto;
 import org.promasi.shell.ui.playmode.StoriesPool;
 import org.promasi.shell.ui.playmode.Story;
@@ -82,9 +81,8 @@ public class JoinGameClientState extends AbstractClientState {
 					Company currentCompany=currentStory.getCompany();
 					currentCompany.setBoss(currentStory.getBoss());
 					currentCompany.setAccountant(currentStory.getAccountant());
-					Company company=currentStory.getCompany();
-					CompanyDto companyDto=new CompanyDto(company.getName(),company.getStartTime(),company.getEndTime(),company.getDescription());	
-					gameList.add(new GameDto(companyDto,"NewGame","Description",1));
+					Company company=currentStory.getCompany();	
+					gameList.add(new GameDto(company,"NewGame","Description",1));
 					RetreiveGameListResponse response=new RetreiveGameListResponse(gameList/*_promasi.retreiveGames()*/);
 					client.sendMessage(response.toProtocolString());
 				}

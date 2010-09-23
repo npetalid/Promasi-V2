@@ -290,9 +290,9 @@ public final class StoriesPool
         BeanReader projectReader = new BeanReader( );
         projectReader.registerBeanClass( Project.class );
         projectReader.addRule( "Project/relativeStartDate", new DateAddRule( story.getStartDate( ).toLocalDateTime(
-                story.getCompany( ).getStartTime( ) ), true ) );
+                story.getCompany( ).getStartTimeAsLocalTime( ) ), true ) );
         projectReader.addRule( "Project/relativeEndDate", new DateAddRule(
-                story.getStartDate( ).toLocalDateTime( story.getCompany( ).getEndTime( ) ), false ) );
+                story.getStartDate( ).toLocalDateTime( story.getCompany( ).getEndTimeAsLocalTime( ) ), false ) );
         projectReader.registerBeanClass( "Project/tasks/Task", Task.class );
         projectReader.addSetNext( "Project/tasks/Task", "addTask", "org.promasi.model.Task" );
         Project project = (Project) projectReader.parse( zipFile.getInputStream( projectXml ) );

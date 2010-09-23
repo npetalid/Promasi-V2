@@ -29,7 +29,7 @@ public class GameDto implements Serializable
 	/**
 	 * 
 	 */
-	private CompanyDto _company;
+	private Company _company;
 	
 	
 	/**
@@ -67,7 +67,7 @@ public class GameDto implements Serializable
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public GameDto(CompanyDto company,String name,String gameDescription,int numberOfPlayers)throws NullArgumentException,IllegalArgumentException
+	public GameDto(Company company,String name,String gameDescription,int numberOfPlayers)throws NullArgumentException,IllegalArgumentException
 	{
 		if(company==null)
 		{
@@ -100,7 +100,7 @@ public class GameDto implements Serializable
 	 * @param company
 	 * @throws NullArgumentException
 	 */
-	public synchronized void setCompany(CompanyDto company)throws NullArgumentException
+	public synchronized void setCompany(Company company)throws NullArgumentException
 	{
 		if(company==null)
 		{
@@ -114,7 +114,7 @@ public class GameDto implements Serializable
 	 * 
 	 * @return
 	 */
-	public synchronized CompanyDto getCompany()
+	public synchronized Company getCompany()
 	{
 		return _company;
 	}

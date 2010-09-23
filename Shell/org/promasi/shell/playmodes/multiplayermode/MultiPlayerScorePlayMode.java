@@ -30,7 +30,6 @@ import org.promasi.shell.Shell;
 import org.promasi.shell.ui.playmode.Story;
 import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.network.protocol.client.request.LoginRequest;
-import org.promasi.network.protocol.dtos.CompanyDto;
 import org.promasi.network.protocol.dtos.GameDto;
 import org.promasi.network.tcp.TcpClient;
 
@@ -275,7 +274,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		 GameDto game=_games.get(gameId);
 	     if ( game != null )
 	     {
-	        CompanyDto company = game.getCompany();
+	        Company company = game.getCompany();
 	        //company.setProjectManager( projectManager );
 	        //_shell.setCompany( company );
 	            

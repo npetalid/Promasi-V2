@@ -228,7 +228,7 @@ public final class Shell
             {
                 for ( int i = 0; i < days; i++ )
                 {
-                    Clock.getInstance( ).performDayChange( _company.getStartTime( ) );
+                    Clock.getInstance( ).performDayChange( _company.getStartTimeAsLocalTime( ) );
                 }
             }
         }

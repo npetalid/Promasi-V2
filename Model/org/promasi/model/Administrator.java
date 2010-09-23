@@ -1,5 +1,7 @@
 package org.promasi.model;
 
+import java.io.Serializable;
+
 
 /**
  * 
@@ -8,8 +10,7 @@ package org.promasi.model;
  * @author eddiefullmetal
  * 
  */
-public class Administrator
-        extends Person
+public class Administrator extends Person implements Serializable
 {
 
     /**

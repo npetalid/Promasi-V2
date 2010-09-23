@@ -432,15 +432,15 @@ public class PlannerProgram
             TaskSchedule schedule = taskSchedule.getReferencedScheduled( );
             if ( schedule == null )
             {
-                schedule = new TaskSchedule( taskSchedule.getStartDate( ).toDateTime( _shell.getCompany( ).getStartTime( ) ),
-                        taskSchedule.getEndDate( ).toDateTime( _shell.getCompany( ).getEndTime( ) ) );
+                schedule = new TaskSchedule( taskSchedule.getStartDate( ).toDateTime( _shell.getCompany( ).getStartTimeAsLocalTime( ) ),
+                        taskSchedule.getEndDate( ).toDateTime( _shell.getCompany( ).getEndTimeAsLocalTime( ) ) );
                 taskSchedule.setReferencedScheduled( schedule );
                 taskSchedule.getParentTask( ).addTaskSchedule( schedule );
             }
             else
             {
-                schedule.setStartDate( taskSchedule.getStartDate( ).toDateTime( _shell.getCompany( ).getStartTime( ) ) );
-                schedule.setEndDate( taskSchedule.getEndDate( ).toDateTime( _shell.getCompany( ).getEndTime( ) ) );
+                schedule.setStartDate( taskSchedule.getStartDate( ).toDateTime( _shell.getCompany( ).getStartTimeAsLocalTime( ) ) );
+                schedule.setEndDate( taskSchedule.getEndDate( ).toDateTime( _shell.getCompany( ).getEndTimeAsLocalTime( ) ) );
             }
             Team team = new Team( );
             for ( EmployeeTeamData teamData : taskSchedule.getResources( ) )

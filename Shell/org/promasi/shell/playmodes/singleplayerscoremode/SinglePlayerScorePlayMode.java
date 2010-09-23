@@ -177,7 +177,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
         company.setAccountant( _currentStory.getAccountant( ) );
         company.setAdministrator( _currentStory.getAdministrator( ) );
         Clock.getInstance( ).addListener( this );
-        Clock.getInstance( ).setCurrentDateTime( _currentStory.getStartDate( ).toDateTime( company.getStartTime( ) ).toMutableDateTime( ) );
+        Clock.getInstance( ).setCurrentDateTime( _currentStory.getStartDate( ).toDateTime( company.getStartTimeAsLocalTime( ) ).toMutableDateTime( ) );
         Clock.getInstance( ).start( );
         company.assignProject(_currentStory.getNextProject( ));
     }
@@ -217,7 +217,10 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	    		double total = company.getAccountant( ).calculateDailySalaries( );
 	    		LOGGER.info( "Paying employees " + total );
 	    		Project currentProject = _currentStory.getCurrentProject( );
-	    		currentProject.setBudget( currentProject.getBudget( ) - total );
+	    		if(currentProject!=null){
+	    			currentProject.setBudget( currentProject.getBudget( ) - total );
+	    		}
+	    		
 	    		Message message = new Message( );
 	    		message.setSender( company.getAccountant( ) );
 	    		message.setRecipient( company.getProjectManager( ) );
@@ -230,10 +233,10 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	    	{
 	    		int currentHourOfDay = Clock.getInstance( ).getCurrentDateTime( ).getHourOfDay( );
 	    		Company company = _shell.getCompany( );
-	    		int companyEndHour = company.getEndTime( ).getHourOfDay( );
+	    		int companyEndHour = company.getEndTimeAsLocalTime( ).getHourOfDay( );
 	    		if ( currentHourOfDay >= companyEndHour )
 	    		{
-	                    Clock.getInstance( ).performDayChange( company.getStartTime( ) );
+	                    Clock.getInstance( ).performDayChange( company.getStartTimeAsLocalTime( ) );
 	    		}
 	    	}
         }

@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalTime;
 import org.promasi.utilities.ICloneable;
@@ -86,12 +87,12 @@ public class Company implements ICloneable<Company>, Serializable
     /**
      * The time that the company starts working.
      */
-    private LocalTime _startTime;
+    private String _startTime;
 
     /**
      * The time that the company stops working.
      */
-    private LocalTime _endTime;
+    private String _endTime;
 
     /**
      * The {@link PropertyChangeSupport} for this class.
@@ -127,6 +128,8 @@ public class Company implements ICloneable<Company>, Serializable
         _employees = new Vector<Employee>( );
         _notifier = new Notifier( );
         _messagingServer = new MessagingServer( );
+		_startTime=new LocalTime().toString();
+		_endTime=new LocalTime().toString();
     }
 
     /**
@@ -154,13 +157,20 @@ public class Company implements ICloneable<Company>, Serializable
      * @param name
      *            The {@link #_name} to set.
      */
-    public void setName ( String name )
+    public void setName ( String name )throws NullArgumentException
     {
+    	if(name==null){
+    		throw new NullArgumentException("Wrong argument name==null");
+    	}
+    	
         String oldValue = _name;
         _name = name;
-        _changeSupport.firePropertyChange( NAME_PROPERTY, oldValue, _name );
+        if(_changeSupport!=null){
+        	 _changeSupport.firePropertyChange( NAME_PROPERTY, oldValue, _name );
+        }
     }
 
+    
     /**
      * @return the {@link #_description}.
      */
@@ -169,6 +179,7 @@ public class Company implements ICloneable<Company>, Serializable
         return _description;
     }
 
+    
     /**
      * @param description
      *            the {@link #_description} to set.
@@ -178,6 +189,7 @@ public class Company implements ICloneable<Company>, Serializable
         _description = description;
     }
 
+    
     /**
      * @return The {@link #_prestigePoints}.
      */
@@ -186,6 +198,7 @@ public class Company implements ICloneable<Company>, Serializable
         return _prestigePoints;
     }
 
+    
     /**
      * @param prestigePoints
      *            The {@link #_prestigePoints} to set.
@@ -197,6 +210,7 @@ public class Company implements ICloneable<Company>, Serializable
         _changeSupport.firePropertyChange( PRESTIGE_POINTS_PROPERTY, oldValue, _prestigePoints );
     }
 
+    
     /**
      * @return The {@link #_boss}.
      */
@@ -205,6 +219,7 @@ public class Company implements ICloneable<Company>, Serializable
         return _boss;
     }
 
+    
     /**
      * @param boss
      *            The {@link #_boss} to set.
@@ -214,6 +229,7 @@ public class Company implements ICloneable<Company>, Serializable
         _boss = boss;
     }
 
+    
     /**
      * @return The {@link #_projectManager}.
      */
@@ -222,6 +238,7 @@ public class Company implements ICloneable<Company>, Serializable
         return _projectManager;
     }
 
+    
     /**
      * @param projectManager
      *            The {@link #_projectManager} to set.
@@ -231,6 +248,7 @@ public class Company implements ICloneable<Company>, Serializable
         _projectManager = projectManager;
     }
 
+    
     /**
      * @return The {@link #_accountant}.
      */
@@ -239,6 +257,7 @@ public class Company implements ICloneable<Company>, Serializable
         return _accountant;
     }
 
+    
     /**
      * @param accountant
      *            The {@link #_accountant} to set.
@@ -248,6 +267,7 @@ public class Company implements ICloneable<Company>, Serializable
         _accountant = accountant;
     }
 
+    
     /**
      * @return The {@link #_administrator}.
      */
@@ -256,6 +276,7 @@ public class Company implements ICloneable<Company>, Serializable
         return _administrator;
     }
 
+    
     /**
      * @param administrator
      *            The {@link #_administrator} to set.
@@ -265,6 +286,7 @@ public class Company implements ICloneable<Company>, Serializable
         _administrator = administrator;
     }
 
+    
     /**
      * @return The {@link #_employees}. The list cannot be modified.
      */
@@ -273,6 +295,7 @@ public class Company implements ICloneable<Company>, Serializable
         return Collections.unmodifiableList( _employees );
     }
 
+    
     /**
      * @param employee
      *            The {@link Employee} to add to the {@link #_employees}.
@@ -284,6 +307,7 @@ public class Company implements ICloneable<Company>, Serializable
         _changeSupport.firePropertyChange( EMPLOYEES_PROPERTY, oldValue, Collections.unmodifiableList( _employees ) );
     }
 
+    
     /**
      * @param employees
      *            The {@link #_employees} to set.
@@ -295,6 +319,7 @@ public class Company implements ICloneable<Company>, Serializable
         _changeSupport.firePropertyChange( EMPLOYEES_PROPERTY, oldValue, Collections.unmodifiableList( _employees ) );
     }
 
+    
     /**
      * @return the {@link #_messagingServer}
      */
@@ -303,6 +328,7 @@ public class Company implements ICloneable<Company>, Serializable
         return _messagingServer;
     }
 
+    
     /**
      * @return the {@link #_notifier}
      */
@@ -311,6 +337,7 @@ public class Company implements ICloneable<Company>, Serializable
         return _notifier;
     }
 
+    
     /**
      * @return The {@link #_currentProject}.
      */
@@ -319,6 +346,7 @@ public class Company implements ICloneable<Company>, Serializable
         return _currentProject;
     }
 
+    
     /**
      * @param project
      *            The {@link #_currentProject} to set.
@@ -327,28 +355,85 @@ public class Company implements ICloneable<Company>, Serializable
     {
         Project oldValue = _currentProject;
         _currentProject = project;
-        _changeSupport.firePropertyChange( CURRENT_PROJECT_PROPERTY, oldValue, _currentProject );
+        if(_changeSupport!=null){
+        	 _changeSupport.firePropertyChange( CURRENT_PROJECT_PROPERTY, oldValue, _currentProject );
+        }
     }
 
+    
     /**
      * @return the {@link #_startTime}.
      */
-    public LocalTime getStartTime ( )
+    public LocalTime getStartTimeAsLocalTime ( )
+    {
+        return new LocalTime(_startTime);
+    }
+
+    
+    /**
+     * @return the {@link #_startTime}.
+     */
+    public String getStartTime( )
     {
         return _startTime;
     }
-
+    
+    
     /**
      * @param startTime
      *            the {@link #_startTime} to set.
      */
     public void setStartTime ( LocalTime startTime )
     {
-        LocalTime oldValue = _startTime;
-        _startTime = startTime;
-        _changeSupport.firePropertyChange( START_TIME_PROPERTY, oldValue, _startTime );
+        LocalTime oldValue = new LocalTime(_startTime);
+        _startTime = startTime.toString();
+        if(_changeSupport!=null){
+        	_changeSupport.firePropertyChange( START_TIME_PROPERTY, oldValue, _startTime );
+        }
+       
     }
 
+
+	/**
+	 * 
+	 * @param startTime
+	 * @throws NullArgumentException
+	 * @throws IllegalArgumentException
+	 */
+	public synchronized void setStartTime(String startTime)throws NullArgumentException,IllegalArgumentException{
+		if(startTime==null){
+			throw new NullArgumentException("Wrong argument startTime==null");
+		}
+		
+		String tempString=new LocalTime(startTime).toString();
+		if(startTime.equals(tempString)){
+			_startTime=tempString;
+		}else{
+			throw new IllegalArgumentException("Wrong argument startTime");
+		}
+	}
+	
+	
+	/**
+	 * 
+	 * @param endTime
+	 * @throws NullArgumentException
+	 * @throws IllegalArgumentException
+	 */
+	public synchronized void setEndTime(String endTime)throws NullArgumentException,IllegalArgumentException{
+		if(endTime==null){
+			throw new NullArgumentException("Wrong argument startTime==null");
+		}
+		
+		String tempString=new LocalTime(endTime).toString();
+		if(endTime.equals(tempString)){
+			_endTime=endTime;
+		}else{
+			throw new IllegalArgumentException("Wrong argument endTime");
+		}
+	}
+	
+	
     /**
      * @return the {@link #_workingDays}.
      */
@@ -357,6 +442,7 @@ public class Company implements ICloneable<Company>, Serializable
         return _workingDays;
     }
 
+    
     /**
      * @param workingDays
      *            the {@link #_workingDays} to set.
@@ -365,28 +451,48 @@ public class Company implements ICloneable<Company>, Serializable
     {
         int oldValue = _workingDays;
         _workingDays = workingDays;
-        _changeSupport.firePropertyChange( WORKING_DAYS_PROPERTY, oldValue, _workingDays );
+        if(_changeSupport!=null){
+        	_changeSupport.firePropertyChange( WORKING_DAYS_PROPERTY, oldValue, _workingDays );
+        }
+        
     }
 
+    
     /**
      * @return the {@link #_endTime}.
      */
-    public LocalTime getEndTime ( )
+    public LocalTime getEndTimeAsLocalTime ( )
     {
-        return _endTime;
+        return new LocalTime(_endTime);
     }
 
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized String getEndTime(){
+		return _endTime;
+	}
+    
+    
     /**
      * @param endTime
      *            the {@link #_endTime} to set.
      */
-    public void setEndTime ( LocalTime endTime )
+    public void setEndTime ( LocalTime endTime )throws NullArgumentException
     {
-        LocalTime oldValue = _endTime;
-        _endTime = endTime;
-        _changeSupport.firePropertyChange( END_TIME_PROPERTY, oldValue, _endTime );
+    	if(endTime==null){
+    		throw new NullArgumentException("Wrong argument endTime==null");
+    	}
+    	
+        LocalTime oldValue = new LocalTime(_endTime);
+        _endTime = endTime.toString();
+        if(_changeSupport!=null){
+        	_changeSupport.firePropertyChange( END_TIME_PROPERTY, oldValue, _endTime );
+        }
     }
 
+    
     /**
      * Assigns a {@link Project} to this {@link Company}, and notifies the
      * {@link Notifier}.
@@ -397,33 +503,38 @@ public class Company implements ICloneable<Company>, Serializable
     public void assignProject ( Project project )
     {
         setCurrentProject( project );
-        _notifier.projectAssigned( project );
+        if(_notifier!=null){
+        	 _notifier.projectAssigned( project );
+        }
     }
 
+    
     /**
      * @param listener
      *            The {@link PropertyChangeListener} to add.
      */
     public void addPropertyChangeListener ( PropertyChangeListener listener )
     {
-        if ( listener != null )
+        if ( listener != null && _changeSupport!=null)
         {
             _changeSupport.addPropertyChangeListener( listener );
         }
     }
 
+    
     /**
      * @param listener
      *            The {@link PropertyChangeListener} to remove.
      */
     public void removePropertyChangeListener ( PropertyChangeListener listener )
     {
-        if ( listener != null )
+        if ( listener != null && _changeSupport!=null)
         {
             _changeSupport.removePropertyChangeListener( listener );
         }
     }
 
+    
     /**
      * @return the {@link #_changeSupport}.
      */
@@ -432,6 +543,7 @@ public class Company implements ICloneable<Company>, Serializable
         return _changeSupport;
     }
 
+    
     @Override
     public Company copy ( )
     {
