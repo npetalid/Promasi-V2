@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalTime;
 import org.promasi.utilities.ICloneable;
 
@@ -124,10 +123,13 @@ public class Company implements ICloneable<Company>, Serializable
     {
         _changeSupport = new PropertyChangeSupport( this );
         _prestigePoints = 0.0d;
-        _name = StringUtils.EMPTY;
+        _name = new String(NAME_PROPERTY);
         _employees = new Vector<Employee>( );
         _notifier = new Notifier( );
         _messagingServer = new MessagingServer( );
+        _boss=new Boss();
+        _administrator=new Administrator();
+        _accountant=new Accountant();
 		_startTime=new LocalTime().toString();
 		_endTime=new LocalTime().toString();
     }
@@ -139,9 +141,14 @@ public class Company implements ICloneable<Company>, Serializable
      * @param name
      *            The {@link #_name} to set.
      */
-    public Company( String name )
+    public Company( String name )throws NullArgumentException
     {
         this( );
+        if(name==null)
+        {
+        	throw new NullArgumentException("Wrong argument name==null");
+        }
+        
         _name = name;
     }
 
@@ -281,7 +288,7 @@ public class Company implements ICloneable<Company>, Serializable
      * @param administrator
      *            The {@link #_administrator} to set.
      */
-    public void setAdministrator ( Administrator administrator )
+    public void setAdministrator( Administrator administrator )
     {
         _administrator = administrator;
     }
@@ -292,7 +299,7 @@ public class Company implements ICloneable<Company>, Serializable
      */
     public List<Employee> getEmployees ( )
     {
-        return Collections.unmodifiableList( _employees );
+        return _employees;
     }
 
     
@@ -465,6 +472,7 @@ public class Company implements ICloneable<Company>, Serializable
     {
         return new LocalTime(_endTime);
     }
+    
 
 	/**
 	 * 

@@ -1,5 +1,7 @@
 package org.promasi.model;
 
+import org.apache.commons.lang.NullArgumentException;
+
 
 /**
  * 
@@ -27,7 +29,8 @@ public class EmployeeProperty
      */
     public EmployeeProperty( )
     {
-
+    	_name=new String();
+    	_value=0.0;
     }
 
     /**
@@ -36,9 +39,14 @@ public class EmployeeProperty
      * @param name
      * @param value
      */
-    public EmployeeProperty( String name, Double value )
+    public EmployeeProperty( String name, Double value )throws NullArgumentException
     {
         super( );
+        if(name==null)
+        {
+        	throw new NullArgumentException("Wrong argument name==null");
+        }
+        
         _name = name;
         _value = value;
     }
@@ -55,8 +63,13 @@ public class EmployeeProperty
      * @param name
      *            the {@link #_name} to set.
      */
-    public void setName ( String name )
+    public void setName ( String name )throws NullArgumentException
     {
+    	if(name==null)
+    	{
+    		throw new NullArgumentException("Wrong argument name==null");
+    	}
+    	
         _name = name;
     }
 

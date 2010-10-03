@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.List;
-import java.util.LinkedList;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.naming.ConfigurationException;
@@ -19,6 +19,7 @@ import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
 import org.promasi.model.Company;
 import org.promasi.model.Employee;
+import org.promasi.model.MarketPlace;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
 import org.promasi.multiplayer.ProMaSiClient;
@@ -27,7 +28,6 @@ import org.promasi.multiplayer.client.TcpEventHandler;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
-import org.promasi.shell.ui.playmode.Story;
 import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.network.protocol.client.request.LoginRequest;
 import org.promasi.network.protocol.dtos.GameDto;
@@ -52,7 +52,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	/**
 	 * 
 	 */
-	private List<Employee> _employees;
+	private MarketPlace _marketPlace;
 	
 	/**
 	 * 
@@ -92,12 +92,13 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 			throw new NullArgumentException("MultiplayerScorePlayMode wrong arguments");
 		}
 		
-		_employees=new LinkedList<Employee>();
+		_marketPlace=new MarketPlace();
 		TcpClient tcpClient=new TcpClient(_hostname,_port);
 		
 		_promasiClient=new ProMaSiClient( tcpClient,new LoginClientState(this));
 		tcpClient.registerTcpEventHandler(new TcpEventHandler(_promasiClient));
 		_games=new Vector<GameDto>();
+		_shell=shell;
 	}
 
 	/* (non-Javadoc)
@@ -129,9 +130,8 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	 * @see org.promasi.shell.IPlayMode#getAllEmployees()
 	 */
 	@Override
-	public List<Employee> getAllEmployees() {
-		// TODO Auto-generated method stub
-		return null;
+	public Map<Integer,Employee> getAllEmployees() {
+		return _marketPlace.getAvailableEmployees();
 	}
 
 	/* (non-Javadoc)
@@ -163,13 +163,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 
 	@Override
 	public void employeeHired(Employee employee){
-		for( Employee empl : _employees){
-			if(empl.equals(employee)){
-				return;
-			}
-		}
 		
-		_employees.add(employee);
 	}
 
 	@Override
@@ -204,11 +198,16 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
         return getName( );
     }
 
+    /**
+     * 
+     * @param stories
+     */
     public synchronized void updateGameList(final List<GameDto> stories )
     {
     	_games.clear();
     	_games.addAll(stories);
     }
+    
     
 	@Override
 	public synchronized List<String> getGamesList(){
@@ -221,6 +220,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		return gameList;
 	}
 
+	
 	@Override
 	public String getGameDescription(int gameId) throws IllegalArgumentException
 	{
@@ -247,6 +247,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		}
 	}
 
+	
 	@Override
 	public URL getGameInfo(int gameId)throws IllegalArgumentException 
 	{
@@ -257,6 +258,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		
 		return null;
 	}
+	
 
 	@Override
 	public boolean play(int gameId, ProjectManager projectManager)throws IllegalArgumentException,NullArgumentException
@@ -275,8 +277,8 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	     if ( game != null )
 	     {
 	        Company company = game.getCompany();
-	        //company.setProjectManager( projectManager );
-	        //_shell.setCompany( company );
+	        company.setProjectManager( projectManager );
+	        _shell.setCompany( company );
 	            
 	        try
 	        {

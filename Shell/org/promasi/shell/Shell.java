@@ -2,6 +2,7 @@ package org.promasi.shell;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import javax.naming.ConfigurationException;
@@ -132,7 +133,7 @@ public final class Shell
     /**
      * @return All the available employees in the system(Hired and Free).
      */
-    public List<Employee> getAllEmployees ( )
+    public Map<Integer,Employee> getAllEmployees ( )
     {
         return _currentPlayMode.getAllEmployees( );
     }

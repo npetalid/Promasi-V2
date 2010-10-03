@@ -7,6 +7,11 @@ import java.io.Serializable;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
+import org.promasi.model.Employee;
+import org.promasi.model.MarketPlace;
+
+import java.util.Vector;
+import java.util.List;
 
 /**
  * @author m1cRo
@@ -37,12 +42,13 @@ public class GameDto implements Serializable
 	 */
 	private String _name;
 	
-	
 	/**
 	 * 
 	 */
 	private String _gameDescription;
 	
+	
+	private MarketPlace _marketPlace;
 	
 	/**
 	 * 
@@ -55,7 +61,10 @@ public class GameDto implements Serializable
 	 */
 	public GameDto()
 	{
-		
+		_marketPlace=new MarketPlace();
+		_company=new Company();
+		_numberOfPlayers=0;
+		_gameDescription=new String("New game");
 	}
 	
 	/**
@@ -67,7 +76,7 @@ public class GameDto implements Serializable
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public GameDto(Company company,String name,String gameDescription,int numberOfPlayers)throws NullArgumentException,IllegalArgumentException
+	public GameDto(Company company,String name,String gameDescription,int numberOfPlayers,MarketPlace marketPlace)throws NullArgumentException,IllegalArgumentException
 	{
 		if(company==null)
 		{
@@ -89,10 +98,16 @@ public class GameDto implements Serializable
 			throw new NullArgumentException("Wrong argument numberOfPlayers<0");
 		}
 		
+		if(marketPlace==null)
+		{
+			throw new NullArgumentException("Wrong argument employees==null");
+		}
+		
 		_gameDescription=gameDescription;
 		_company=company;
 		_name=name;
 		_numberOfPlayers=numberOfPlayers;
+		_marketPlace=marketPlace;
 	}
 	
 	/**
@@ -192,4 +207,27 @@ public class GameDto implements Serializable
 		return _gameDescription;
 	}
 	
+	/**
+	 * 
+	 * @param marketPlace
+	 * @throws NullArgumentException
+	 */
+	public synchronized void setMarketPlace(MarketPlace marketPlace)throws NullArgumentException
+	{
+		if(marketPlace==null)
+		{
+			throw new NullArgumentException("Wrong argument employees==null");
+		}
+		
+		_marketPlace=marketPlace;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized MarketPlace getMarketPlace()
+	{
+		return _marketPlace;
+	}
 }

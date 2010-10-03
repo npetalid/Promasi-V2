@@ -20,26 +20,29 @@ public class Employee extends Person
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
 	/**
      * The salary of the employee.
      */
     private double _salary;
 
+    
     /**
      * The CV of the employee.
      */
     private String _curriculumVitae;
-
-    /**
-     * The {@link Company} that the employee works for.
-     */
-    private Company _workingCompany;
+    
 
     /**
      * all the {@link EmployeeProperty} of the employee.
      */
     private List<EmployeeProperty> _properties;
 
+    /**
+     * 
+     */
+    boolean _isHired;
+    
     /**
      * Initializes the object.
      */
@@ -49,6 +52,7 @@ public class Employee extends Person
         _properties = new Vector<EmployeeProperty>( );
     }
 
+    
     /**
      * @return The {@link #_salary}.
      */
@@ -57,6 +61,7 @@ public class Employee extends Person
         return _salary;
     }
 
+    
     /**
      * @param salary
      *            The {@link #_salary}.
@@ -66,6 +71,7 @@ public class Employee extends Person
         _salary = salary;
     }
 
+    
     /**
      * @return The {@link #_curriculumVitae}.
      */
@@ -82,32 +88,24 @@ public class Employee extends Person
     {
         _curriculumVitae = curriculumVitae;
     }
-
-    /**
-     * @return The {@link #_workingCompany}.
-     */
-    public Company getWorkingCompany ( )
-    {
-        return _workingCompany;
-    }
-
-    /**
-     * @param company
-     *            The {@link #_workingCompany} to set.
-     */
-    public void setWorkingCompany ( Company company )
-    {
-        _workingCompany = company;
-    }
+    
 
     /**
      * @return If the employee is hired.
      */
-    public boolean isHired ( )
+    public synchronized boolean isHired ( )
     {
-        return _workingCompany != null;
+        return _isHired;
     }
 
+    /**
+     * 
+     */
+    public synchronized void discharge()
+    {
+    	_isHired=false;
+    }
+    
     /**
      * @return the {@link #_properties}.
      */
@@ -133,6 +131,17 @@ public class Employee extends Person
     public void addProperty ( EmployeeProperty property )
     {
         _properties.add( property );
+    }
+    
+    
+    public synchronized boolean hireEmployee()
+    {
+    	if(_isHired){
+    		return false;
+    	}else{
+    		_isHired=true;
+    		return true;
+    	}
     }
 
 }

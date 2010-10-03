@@ -161,12 +161,13 @@ public class Accountant
             DateTime currentDateTime = Clock.getInstance( ).getCurrentDateTime( ).toDateTime( );
             EmployeeAccountingData accountingData = new EmployeeAccountingData( employee, currentDateTime );
             addEmployeeAccountingData( accountingData );
-            employee.setWorkingCompany( _workingCompany );
-            // Add the employee to the company employees.
-            _workingCompany.addEmployee( employee );
-            // Notify.
-            _workingCompany.getNotifier( ).employeeHired( employee );
-            LOGGER.info( "Employee " + employee + " hired at " + currentDateTime.toString( ) );
+            if(employee.hireEmployee()){
+                // Add the employee to the company employees.
+                _workingCompany.addEmployee( employee );
+                // Notify.
+                _workingCompany.getNotifier( ).employeeHired( employee );
+                LOGGER.info( "Employee " + employee + " hired at " + currentDateTime.toString( ) );
+            }
         }
     }
 

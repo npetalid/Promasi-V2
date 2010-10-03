@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.joda.time.LocalDate;
 import org.promasi.model.Company;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSi;
@@ -78,11 +77,15 @@ public class JoinGameClientState extends AbstractClientState {
 				if(stories.size()>0)
 				{
 					Story currentStory=stories.get(0);
-					Company currentCompany=currentStory.getCompany();
-					currentCompany.setBoss(currentStory.getBoss());
-					currentCompany.setAccountant(currentStory.getAccountant());
-					Company company=currentStory.getCompany();	
-					gameList.add(new GameDto(company,"NewGame","Description",1));
+					Company company=currentStory.getCompany();
+					company.setBoss(currentStory.getBoss());
+					company.setAccountant(currentStory.getAccountant());
+					company.setAdministrator(currentStory.getAdministrator());
+					
+					//------------------------------- TEST -------------------------------------
+					gameList.add(new GameDto(company,"NewGame","Description",1,currentStory.getMarketPlace() ) );
+					//------------------------------- TEST -------------------------------------
+					
 					RetreiveGameListResponse response=new RetreiveGameListResponse(gameList/*_promasi.retreiveGames()*/);
 					client.sendMessage(response.toProtocolString());
 				}

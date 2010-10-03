@@ -4,6 +4,9 @@ package org.promasi.ui.promasiui.promasidesktop.programs.marketplace;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -72,7 +75,13 @@ public class MarketPlaceProgram
      */
     private void initializeComponents ( )
     {
-        _employeeList = new JList( _shell.getAllEmployees( ).toArray( ) );
+    	List<Employee> employees=new Vector<Employee>();
+    	for(Map.Entry<Integer, Employee> entry : _shell.getAllEmployees().entrySet())
+    	{
+    		employees.add(entry.getValue());
+    	}
+    	
+        _employeeList = new JList(employees.toArray());
         _employeeList.setCellRenderer( new MarketPlaceEmployeeListRenderer( ) );
         // Due to nimbus look and feel if this is not done the empty space from
         // the list will be white.

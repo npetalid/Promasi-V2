@@ -4,6 +4,7 @@ package org.promasi.shell;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
@@ -48,7 +49,7 @@ public interface IPlayMode
     /**
      * @return All the available employees in the system(Hired and Free).
      */
-    List<Employee> getAllEmployees ( );
+    Map<Integer,Employee> getAllEmployees ( );
 
     /**
      * @param project

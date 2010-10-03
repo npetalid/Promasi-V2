@@ -183,9 +183,9 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     }
 
     @Override
-    public List<Employee> getAllEmployees ( )
+    public Map<Integer, Employee> getAllEmployees ( )
     {
-        return _currentStory.getEmployees( );
+        return _currentStory.getMarketPlace( ).getAvailableEmployees();
     }
 
     @Override

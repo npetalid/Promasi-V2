@@ -1,6 +1,8 @@
 package org.promasi.shell.ui.playmode;
 
 
+import java.beans.XMLEncoder;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -18,7 +20,7 @@ import org.promasi.model.Accountant;
 import org.promasi.model.Administrator;
 import org.promasi.model.Boss;
 import org.promasi.model.Company;
-import org.promasi.model.Employee;
+import org.promasi.model.MarketPlace;
 import org.promasi.model.Project;
 import org.promasi.shell.playmodes.singleplayerscoremode.DifficultyLevel;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.EventBinding;
@@ -26,6 +28,7 @@ import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ExternalEq
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.OutputVariableBinding;
 import org.promasi.utilities.ErrorBuilder;
 import org.promasi.utilities.IValidatable;
+import org.w3c.tools.codec.Base64Encoder;
 
 
 /**
@@ -95,9 +98,9 @@ public class Story implements IValidatable
     private LocalDate _startDate;
 
     /**
-     * All the available employees for the current story.
+     * 
      */
-    private List<Employee> _employees;
+    private MarketPlace _marketPlace;
 
     /**
      * The current {@link Project}. This value is changed when the
@@ -131,7 +134,7 @@ public class Story implements IValidatable
         _projectOutputVariableBindings = new Hashtable<Project, List<OutputVariableBinding>>( );
         _projectExternalEquationBindings = new Hashtable<Project, List<ExternalEquationBinding>>( );
         _projectEventBindings = new Hashtable<Project, List<EventBinding>>( );
-        _employees = new Vector<Employee>( );
+        _marketPlace=new MarketPlace();
     }
 
     /**
@@ -335,9 +338,9 @@ public class Story implements IValidatable
     /**
      * @return the {@link #_employees}.
      */
-    public List<Employee> getEmployees ( )
+    public MarketPlace getMarketPlace ( )
     {
-        return _employees;
+        return _marketPlace;
     }
 
     /**
@@ -345,13 +348,14 @@ public class Story implements IValidatable
      *            the {@link #_employees} to set. If a null parameter is passed
      *            an empty {@link Vector} is created.
      */
-    public void setEmployees ( List<Employee> employees )
+    public void setMarketPlace ( MarketPlace marketPlace )throws NullArgumentException
     {
-        if ( employees == null )
+        if ( marketPlace == null )
         {
-            employees = new Vector<Employee>( );
+            throw new NullArgumentException("Wrong argument marketPlace==null");
         }
-        _employees = employees;
+        
+        _marketPlace=marketPlace;
     }
 
     /**

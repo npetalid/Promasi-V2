@@ -167,7 +167,7 @@ public final class StoriesPool
                         digester.addSetNext( "ListOfEmployees/Employee/property", "addProperty", EmployeeProperty.class.getName( ) );
                         digester.addSetNext( "ListOfEmployees/Employee", "add", Employee.class.getName( ) );
 
-                        story.setEmployees( (List<Employee>) digester.parse( employeesFile ) );
+                        story.setMarketPlace( (List<Employee>) digester.parse( employeesFile ) );
                     }
                     catch ( IOException e )
                     {

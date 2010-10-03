@@ -2,6 +2,8 @@ package org.promasi.model;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.NullArgumentException;
+
 
 
 /**
@@ -40,6 +42,8 @@ public class Person implements Serializable
      */
     public Person( )
     {
+    	_name=new String(NAME_PROPERTY);
+    	_lastName=new String(LASTNAME_PROPERTY);
     }
 
     /**
@@ -50,9 +54,19 @@ public class Person implements Serializable
      * @param lastName
      *            The {@link #_lastName} to set.
      */
-    public Person( String name, String lastName )
+    public Person( String name, String lastName )throws NullArgumentException
     {
         this( );
+        if(name==null)
+        {
+        	throw new NullArgumentException("Wrong argument name==null");
+        }
+        
+        if(lastName==null)
+        {
+        	throw new NullArgumentException("Wrong argument lastName==null");
+        }
+        
         _name = name;
         _lastName = lastName;
     }
