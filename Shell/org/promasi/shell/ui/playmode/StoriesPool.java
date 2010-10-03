@@ -8,6 +8,8 @@ import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -31,6 +33,7 @@ import org.promasi.model.Boss;
 import org.promasi.model.Company;
 import org.promasi.model.Employee;
 import org.promasi.model.EmployeeProperty;
+import org.promasi.model.MarketPlace;
 import org.promasi.model.Project;
 import org.promasi.model.Task;
 import org.promasi.shell.playmodes.singleplayerscoremode.DifficultyLevel;
@@ -167,7 +170,16 @@ public final class StoriesPool
                         digester.addSetNext( "ListOfEmployees/Employee/property", "addProperty", EmployeeProperty.class.getName( ) );
                         digester.addSetNext( "ListOfEmployees/Employee", "add", Employee.class.getName( ) );
 
-                        story.setMarketPlace( (List<Employee>) digester.parse( employeesFile ) );
+                        List<Employee> employeesList=(List<Employee>) digester.parse( employeesFile );
+                        Map<Integer, Employee> employees=new TreeMap<Integer,Employee>();
+                        Integer i=0;
+                        for(Employee employee : employeesList)
+                        {
+                        	employees.put(i, employee);
+                        	i=i+1;
+                        }
+                        
+                        story.setMarketPlace(new MarketPlace(employees));
                     }
                     catch ( IOException e )
                     {

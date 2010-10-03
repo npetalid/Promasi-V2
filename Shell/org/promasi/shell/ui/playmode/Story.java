@@ -1,8 +1,5 @@
 package org.promasi.shell.ui.playmode;
 
-
-import java.beans.XMLEncoder;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -28,7 +25,6 @@ import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ExternalEq
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.OutputVariableBinding;
 import org.promasi.utilities.ErrorBuilder;
 import org.promasi.utilities.IValidatable;
-import org.w3c.tools.codec.Base64Encoder;
 
 
 /**
@@ -286,8 +282,13 @@ public class Story implements IValidatable
      * @param name
      *            the {@link #_name} to set.
      */
-    public void setName ( String name )
+    public void setName ( String name )throws NullArgumentException
     {
+    	if(name==null)
+    	{
+    		throw new NullArgumentException("Wrong argument name==null");
+    	}
+    	
         _name = name;
     }
 
@@ -303,8 +304,13 @@ public class Story implements IValidatable
      * @param startDate
      *            the {@link #_startDate} to set.
      */
-    public void setStartDate ( LocalDate startDate )
+    public void setStartDate ( LocalDate startDate )throws NullArgumentException
     {
+    	if(startDate==null)
+    	{
+    		throw new NullArgumentException("Wrong argument startDate==null");
+    	}
+    	
         _startDate = startDate;
     }
 
