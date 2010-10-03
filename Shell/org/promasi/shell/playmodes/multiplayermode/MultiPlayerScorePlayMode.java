@@ -22,6 +22,7 @@ import org.promasi.model.Employee;
 import org.promasi.model.MarketPlace;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
+import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.client.clientstate.LoginClientState;
 import org.promasi.multiplayer.client.TcpEventHandler;
@@ -30,7 +31,6 @@ import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
 import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.network.protocol.client.request.LoginRequest;
-import org.promasi.network.protocol.dtos.GameDto;
 import org.promasi.network.tcp.TcpClient;
 
 /**
@@ -67,7 +67,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	/**
 	 * 
 	 */
-	private List<GameDto> _games;
+	private List<GameStory> _games;
 	
 	/**
 	 * 
@@ -97,7 +97,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		
 		_promasiClient=new ProMaSiClient( tcpClient,new LoginClientState(this));
 		tcpClient.registerTcpEventHandler(new TcpEventHandler(_promasiClient));
-		_games=new Vector<GameDto>();
+		_games=new Vector<GameStory>();
 		_shell=shell;
 	}
 
@@ -202,7 +202,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
      * 
      * @param stories
      */
-    public synchronized void updateGameList(final List<GameDto> stories )
+    public synchronized void updateGameList(final List<GameStory> stories )
     {
     	_games.clear();
     	_games.addAll(stories);
@@ -212,7 +212,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	@Override
 	public synchronized List<String> getGamesList(){
 		Vector<String> gameList=new Vector<String>();
-		for(GameDto game : _games)
+		for(GameStory game : _games)
 		{
 			gameList.add(game.getName());
 		}
@@ -231,7 +231,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		
 		if(gameId<_games.size())
 		{
-			GameDto game=_games.get(gameId);
+			GameStory game=_games.get(gameId);
 			if(game!=null)
 			{
 				return game.getName();
@@ -273,13 +273,14 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 			throw new NullArgumentException("Wrong argument projectManager==null");
 		}
 		
-		 GameDto game=_games.get(gameId);
+		 GameStory game=_games.get(gameId);
 	     if ( game != null )
 	     {
+	    	 //------------------------------TEST----------------------------------
 	        Company company = game.getCompany();
 	        company.setProjectManager( projectManager );
 	        _shell.setCompany( company );
-	            
+	        _marketPlace=game.getMarketPlace();    
 	        try
 	        {
 	        	ICommunicator communicator=new Communicator();
@@ -296,13 +297,15 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	        	e.printStackTrace( );
 	        	return false;
 	        }
+	        
+	        //------------------------------TEST----------------------------------
 	     }
 	     else
 	     {
 	    	 return false;
 	     }
 	        
-		return true;
+	     return true;
 	}
 
 }

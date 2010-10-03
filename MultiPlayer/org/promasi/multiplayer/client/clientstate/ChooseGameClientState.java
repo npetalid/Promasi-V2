@@ -13,6 +13,7 @@ import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.request.RetreiveGameListRequest;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
+import org.promasi.network.protocol.client.response.JoinGameResponse;
 import org.promasi.network.protocol.client.response.RetreiveGameListResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 import org.promasi.shell.playmodes.multiplayermode.MultiPlayerScorePlayMode;
@@ -27,6 +28,7 @@ public class ChooseGameClientState extends AbstractClientState{
 	 * 
 	 */
 	private MultiPlayerScorePlayMode _playMode;
+	
 	
 	/**
 	 * 
@@ -43,6 +45,12 @@ public class ChooseGameClientState extends AbstractClientState{
 		_playMode=playMode;
 	}
 	
+	
+	/**
+	 * 
+	 * @param client
+	 * @return
+	 */
 	public boolean sendRetreiveGameListRequest(ProMaSiClient client)
 	{
 		if(client==null)
@@ -75,6 +83,10 @@ public class ChooseGameClientState extends AbstractClientState{
 			{
 				RetreiveGameListResponse response=(RetreiveGameListResponse)object;
 				_playMode.updateGameList(response.getGames());
+			}
+			else if(object instanceof JoinGameResponse)
+			{
+				changeClientState( client, new WaitingGameClientState( _playMode,((JoinGameResponse)object).getGameStory() ) );
 			}
 			else
 			{

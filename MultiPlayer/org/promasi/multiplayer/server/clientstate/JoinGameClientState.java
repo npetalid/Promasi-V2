@@ -10,6 +10,7 @@ import java.util.Vector;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
 import org.promasi.multiplayer.AbstractClientState;
+import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSi;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
@@ -22,7 +23,6 @@ import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.JoinGameResponse;
 import org.promasi.network.protocol.client.response.RetreiveGameListResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
-import org.promasi.network.protocol.dtos.GameDto;
 import org.promasi.shell.ui.playmode.StoriesPool;
 import org.promasi.shell.ui.playmode.Story;
 /**
@@ -72,7 +72,7 @@ public class JoinGameClientState extends AbstractClientState {
 			Object object=RequestBuilder.buildRequest(recData);
 			if(object instanceof RetreiveGameListRequest)
 			{
-				List<GameDto> gameList=new Vector<GameDto>();
+				List<GameStory> gameList=new Vector<GameStory>();
 				List<Story> stories=StoriesPool.getAllStories();
 				if(stories.size()>0)
 				{
@@ -83,13 +83,12 @@ public class JoinGameClientState extends AbstractClientState {
 					company.setAdministrator(currentStory.getAdministrator());
 					
 					//------------------------------- TEST -------------------------------------
-					gameList.add(new GameDto(company,"NewGame","Description",1,currentStory.getMarketPlace() ) );
+					gameList.add(new GameStory(company,"NewGame","Description",1,currentStory.getMarketPlace() ) );
 					//------------------------------- TEST -------------------------------------
 					
 					RetreiveGameListResponse response=new RetreiveGameListResponse(gameList/*_promasi.retreiveGames()*/);
 					client.sendMessage(response.toProtocolString());
 				}
-
 			}
 			else if( object instanceof JoinGameRequest)
 			{

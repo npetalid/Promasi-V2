@@ -4,6 +4,7 @@
 package org.promasi.network.protocol.client.response;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.multiplayer.GameStory;
 
 /**
  * @author m1cRo
@@ -11,10 +12,15 @@ import org.apache.commons.lang.NullArgumentException;
  */
 public class JoinGameResponse extends AbstractResponse {
 	/**
+	 * 
+	 */
+	private GameStory _gameStory;
+	/**
 	 *
 	 */
 	private String _responseString;
 
+	
 	/**
 	 *
 	 */
@@ -23,17 +29,25 @@ public class JoinGameResponse extends AbstractResponse {
     	_responseString=null;
     }
 
+    
 	/**
 	 *
 	 * @param responseString
 	 * @throws NullArgumentException
 	 */
-	public JoinGameResponse(String responseString)throws NullArgumentException
+	public JoinGameResponse(GameStory gameStory, String responseString)throws NullArgumentException
 	{
 		if(responseString==null)
 		{
 			throw new NullArgumentException("Wrong argument responseString==null");
 		}
+		
+		if(gameStory==null)
+		{
+			throw new NullArgumentException("Wrong argument gameStory==null");
+		}
+		
+		_gameStory=gameStory;
 		_responseString=responseString;
 	}
 
@@ -46,6 +60,7 @@ public class JoinGameResponse extends AbstractResponse {
 		return _responseString;
 	}
 
+	
 	/**
 	 *
 	 * @param responseString
@@ -60,6 +75,11 @@ public class JoinGameResponse extends AbstractResponse {
 		_responseString=responseString;
 	}
 
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean isJoinSuccessed()
 	{
 		if(_responseString!=null)
@@ -67,5 +87,15 @@ public class JoinGameResponse extends AbstractResponse {
 			return false;
 		}
 		return true;
+	}
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public GameStory getGameStory()
+	{
+		return _gameStory;
 	}
 }

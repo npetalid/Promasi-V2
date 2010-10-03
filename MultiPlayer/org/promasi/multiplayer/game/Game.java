@@ -11,11 +11,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
 import org.promasi.model.MarketPlace;
+import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.network.protocol.dtos.GameDto;
-
-import java.util.Vector;
-import org.promasi.model.Employee;
 
 
 /**
@@ -224,10 +221,10 @@ public class Game implements Runnable
 	 * 
 	 * @return
 	 */
-	public synchronized GameDto getGameDto()
+	public synchronized GameStory getGameDto()
 	{
 		Company company=_gameModel.getCompany();
-		return new GameDto(company,_gameId,_gameModel.getGameDescription(),_gameModels.size(),new MarketPlace());
+		return new GameStory(company,_gameId,_gameModel.getGameDescription(),_gameModels.size(),new MarketPlace());
 	}
 
 	@Override

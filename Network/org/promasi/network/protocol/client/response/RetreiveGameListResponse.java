@@ -6,7 +6,7 @@ package org.promasi.network.protocol.client.response;
 import java.util.List;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.network.protocol.dtos.GameDto;
+import org.promasi.multiplayer.GameStory;
 
 /**
  * @author m1cRo
@@ -16,7 +16,7 @@ public class RetreiveGameListResponse extends AbstractResponse {
 	/**
 	 * 
 	 */
-	private List<GameDto> _games;
+	private List<GameStory> _games;
 	
 	/**
 	 * 
@@ -30,7 +30,7 @@ public class RetreiveGameListResponse extends AbstractResponse {
 	 * @param gameList 
 	 * 
 	 */
-	public RetreiveGameListResponse(List<GameDto> gameList)throws NullArgumentException
+	public RetreiveGameListResponse(List<GameStory> gameList)throws NullArgumentException
 	{
 		if(gameList==null)
 		{
@@ -44,7 +44,7 @@ public class RetreiveGameListResponse extends AbstractResponse {
 	 * 
 	 * @return
 	 */
-	public List<GameDto> getGames() {
+	public List<GameStory> getGames() {
 		return _games;
 	}
 	
@@ -53,7 +53,7 @@ public class RetreiveGameListResponse extends AbstractResponse {
 	 * @param games
 	 * @throws NullArgumentException
 	 */
-	public void setGames(List<GameDto> games)throws NullArgumentException
+	public void setGames(List<GameStory> games)throws NullArgumentException
 	{
 		if(games==null)
 		{

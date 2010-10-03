@@ -1,23 +1,19 @@
 /**
  * 
  */
-package org.promasi.network.protocol.dtos;
+package org.promasi.multiplayer;
 
 import java.io.Serializable;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
-import org.promasi.model.Employee;
 import org.promasi.model.MarketPlace;
-
-import java.util.Vector;
-import java.util.List;
 
 /**
  * @author m1cRo
  *
  */
-public class GameDto implements Serializable
+public class GameStory implements Serializable
 {
 	/**
 	 * 
@@ -47,7 +43,9 @@ public class GameDto implements Serializable
 	 */
 	private String _gameDescription;
 	
-	
+	/**
+	 * 
+	 */
 	private MarketPlace _marketPlace;
 	
 	/**
@@ -59,7 +57,7 @@ public class GameDto implements Serializable
 	/**
 	 * 
 	 */
-	public GameDto()
+	public GameStory()
 	{
 		_marketPlace=new MarketPlace();
 		_company=new Company();
@@ -76,7 +74,7 @@ public class GameDto implements Serializable
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public GameDto(Company company,String name,String gameDescription,int numberOfPlayers,MarketPlace marketPlace)throws NullArgumentException,IllegalArgumentException
+	public GameStory(Company company,String name,String gameDescription,int numberOfPlayers,MarketPlace marketPlace)throws NullArgumentException,IllegalArgumentException
 	{
 		if(company==null)
 		{

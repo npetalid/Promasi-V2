@@ -8,8 +8,8 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.network.protocol.dtos.GameDto;
 
 
 /**
@@ -114,14 +114,14 @@ public class GameList
 	 *
 	 * @return
 	 */
-	public LinkedList<GameDto> retreiveGames()
+	public LinkedList<GameStory> retreiveGames()
 	{
-		LinkedList<GameDto> result=new LinkedList<GameDto>();
+		LinkedList<GameStory> result=new LinkedList<GameStory>();
 		synchronized(this)
 		{
 			for(Game game : _gameList.values())
 			{
-				GameDto gameDto=game.getGameDto();
+				GameStory gameDto=game.getGameDto();
 				result.add(gameDto);
 			}
 		}
