@@ -4,8 +4,11 @@
 package org.promasi.multiplayer.server.clientstate;
 
 import java.net.ProtocolException;
+import java.util.List;
+
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
+import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSi;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
@@ -74,16 +77,19 @@ public class JoinGameClientState extends AbstractClientState {
 				JoinGameRequest joinRequest=(JoinGameRequest)object;
 				if(!_promasi.joinGame(client, joinRequest.getGameId()))
 				{
-					//ToDo send failed response
-					return;
+					//---------------------------TEST------------------------
+					List<GameStory> gameStory=_promasi.retreiveGames();
+					JoinGameResponse response=new JoinGameResponse(gameStory.get(0),"GOGOGO");
+					if(!client.sendMessage(response.toProtocolString() ) )
+					{
+						client.disconnect();
+					}
+					
+					//---------------------------TEST------------------------
+				}else{
+					changeClientState(client,new WaitingGameClientState(_promasi,_promasi.getGame(joinRequest.getGameId())));
 				}
 				
-				if(!client.sendMessage(new JoinGameResponse().toProtocolString()))
-				{
-					client.disconnect();
-				}
-				
-				changeClientState(client,new WaitingGameClientState(_promasi,_promasi.getGame(joinRequest.getGameId())));
 			}
 			else if(object instanceof CreateNewGameRequest)
 			{

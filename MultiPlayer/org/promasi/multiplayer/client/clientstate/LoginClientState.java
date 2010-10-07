@@ -60,7 +60,7 @@ public class LoginClientState extends AbstractClientState {
 						StorySelectorFrame storySelector = new StorySelectorFrame( projectManager,_currentPlayMode );
 						storySelector.setVisible( true );
 						
-						ChooseGameClientState chooseGameClientState=new ChooseGameClientState(_currentPlayMode);
+						JoinGameClientState chooseGameClientState=new JoinGameClientState(_currentPlayMode);
 						changeClientState(client,chooseGameClientState);
 						if(!chooseGameClientState.sendRetreiveGameListRequest(client))
 						{

@@ -15,6 +15,7 @@ public class JoinGameResponse extends AbstractResponse {
 	 * 
 	 */
 	private GameStory _gameStory;
+	
 	/**
 	 *
 	 */
@@ -26,6 +27,7 @@ public class JoinGameResponse extends AbstractResponse {
 	 */
     public JoinGameResponse()
     {
+    	_gameStory=new GameStory();
     	_responseString=null;
     }
 
@@ -55,7 +57,7 @@ public class JoinGameResponse extends AbstractResponse {
 	 *
 	 * @return
 	 */
-	public String getResponseString()
+	public synchronized String getResponseString()
 	{
 		return _responseString;
 	}
@@ -66,21 +68,37 @@ public class JoinGameResponse extends AbstractResponse {
 	 * @param responseString
 	 * @throws NullArgumentException
 	 */
-	public void SetResponseString(String responseString)throws NullArgumentException
+	public synchronized void SetResponseString(String responseString)throws NullArgumentException
 	{
 		if(responseString==null)
 		{
 			throw new NullArgumentException("Wrong argument responseString==null");
 		}
+		
 		_responseString=responseString;
 	}
 
+	/**
+	 * 
+	 * @param gameStory
+	 * @throws NullArgumentException
+	 */
+	public synchronized void setGameStory(GameStory gameStory)throws NullArgumentException
+	{
+		if(gameStory==null)
+		{
+			throw new NullArgumentException("Wrong argument responseString==null");
+		}
+		
+		_gameStory=gameStory;
+	}
+	
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public boolean isJoinSuccessed()
+	public synchronized boolean isJoinSuccessed()
 	{
 		if(_responseString!=null)
 		{
@@ -94,7 +112,7 @@ public class JoinGameResponse extends AbstractResponse {
 	 * 
 	 * @return
 	 */
-	public GameStory getGameStory()
+	public synchronized GameStory getGameStory()
 	{
 		return _gameStory;
 	}

@@ -22,7 +22,7 @@ import org.promasi.shell.playmodes.multiplayermode.MultiPlayerScorePlayMode;
  * @author m1cRo
  *
  */
-public class ChooseGameClientState extends AbstractClientState{
+public class JoinGameClientState extends AbstractClientState{
 
 	/**
 	 * 
@@ -35,7 +35,7 @@ public class ChooseGameClientState extends AbstractClientState{
 	 * @param playMode
 	 * @throws NullArgumentException
 	 */
-	public ChooseGameClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException
+	public JoinGameClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException
 	{
 		if( playMode==null )
 		{
@@ -86,7 +86,8 @@ public class ChooseGameClientState extends AbstractClientState{
 			}
 			else if(object instanceof JoinGameResponse)
 			{
-				changeClientState( client, new WaitingGameClientState( _playMode,((JoinGameResponse)object).getGameStory() ) );
+				JoinGameResponse joinResponse=(JoinGameResponse)object;
+				changeClientState( client, new WaitingGameClientState( _playMode,joinResponse.getGameStory() ) );
 			}
 			else
 			{
