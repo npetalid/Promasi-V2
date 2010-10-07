@@ -10,7 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.game.Game;
-import org.promasi.multiplayer.game.GameList;
+import org.promasi.multiplayer.game.GamesPool;
 import org.promasi.multiplayer.server.UserManager;
 import org.promasi.multiplayer.server.clientstate.LoginClientState;
 import org.promasi.network.tcp.TcpClient;
@@ -29,7 +29,7 @@ public class ProMaSi
 	/**
 	 *
 	 */
-	private GameList _games;
+	private GamesPool _games;
 
 	/**
 	 *
@@ -43,7 +43,7 @@ public class ProMaSi
 	{
 		_clients=new HashMap<TcpClient,ProMaSiClient>();
 		_userManager=new UserManager();
-		_games=new GameList();
+		_games=new GamesPool();
 	}
 
 	/**
@@ -211,9 +211,19 @@ public class ProMaSi
 	 * @throws IllegalArgumentException
 	 * @throws NullArgumentException
 	 */
-	public synchronized void createNewGame(Game game)throws IllegalArgumentException,NullArgumentException
+	public synchronized void createNewGame(String gameId,Game game)throws IllegalArgumentException,NullArgumentException
 	{
-		_games.addNewGame(game);
+		if(gameId==null)
+		{
+			throw new NullArgumentException("Wrong argument gameId==null");
+		}
+		
+		if(game==null)
+		{
+			throw new NullArgumentException("Wrong argument game==null");
+		}
+		
+		_games.addNewGame(gameId,game);
 	}
 	
 	public synchronized boolean joinGame(ProMaSiClient client,String gameId)

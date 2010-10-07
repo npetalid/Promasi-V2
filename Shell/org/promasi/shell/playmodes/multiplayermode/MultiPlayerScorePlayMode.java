@@ -13,11 +13,9 @@ import java.util.Vector;
 import javax.naming.ConfigurationException;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.communication.Communicator;
 import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
-import org.promasi.model.Company;
 import org.promasi.model.Employee;
 import org.promasi.model.MarketPlace;
 import org.promasi.model.Project;
@@ -29,7 +27,7 @@ import org.promasi.multiplayer.client.TcpEventHandler;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
-import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
+import org.promasi.network.protocol.client.request.JoinGameRequest;
 import org.promasi.network.protocol.client.request.LoginRequest;
 import org.promasi.network.tcp.TcpClient;
 
@@ -63,6 +61,11 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	 * 
 	 */
 	private Shell _shell;
+	
+	/**"
+	 * 
+	 */
+	private ProjectManager _projectManager;
 	
 	/**
 	 * 
@@ -99,6 +102,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		tcpClient.registerTcpEventHandler(new TcpEventHandler(_promasiClient));
 		_games=new Vector<GameStory>();
 		_shell=shell;
+		_projectManager=new ProjectManager();
 	}
 
 	/* (non-Javadoc)
@@ -214,7 +218,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		Vector<String> gameList=new Vector<String>();
 		for(GameStory game : _games)
 		{
-			gameList.add(game.getName());
+			gameList.add(game.getGameId());
 		}
 		
 		return gameList;
@@ -234,7 +238,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 			GameStory game=_games.get(gameId);
 			if(game!=null)
 			{
-				return game.getName();
+				return game.getGameId();
 			}
 			else
 			{
@@ -276,29 +280,8 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		 GameStory game=_games.get(gameId);
 	     if ( game != null )
 	     {
-	    	 //------------------------------TEST----------------------------------
-	        Company company = game.getCompany();
-	        company.setProjectManager( projectManager );
-	        _shell.setCompany( company );
-	        _marketPlace=game.getMarketPlace();    
-	        try
-	        {
-	        	ICommunicator communicator=new Communicator();
-	        	communicator.setMainReceiver( _shell.getModelMessageReceiver());
-	            	
-	        	_shell.setCurrentPlayMode(this);
-	        	DesktopMainFrame mainFrame = new DesktopMainFrame(_shell);
-	        	mainFrame.showMainFrame( );
-	        	mainFrame.registerCommunicator(communicator);
-	        	_shell.start();
-	        }
-	        catch ( ConfigurationException e )
-	        {
-	        	e.printStackTrace( );
-	        	return false;
-	        }
-	        
-	        //------------------------------TEST----------------------------------
+			 JoinGameRequest request=new JoinGameRequest(game.getGameId());
+			 _promasiClient.sendMessage(request.toProtocolString());
 	     }
 	     else
 	     {
@@ -306,6 +289,69 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	     }
 	        
 	     return true;
+	}
+	
+	
+	/**
+	 * 
+	 * @param projectManager
+	 * @return
+	 */
+	public synchronized boolean setProjectManager(ProjectManager projectManager) 
+	{
+		if(projectManager==null)
+		{
+			return false;
+		}
+		
+		_projectManager=projectManager;
+		return true;
+	}
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized ProjectManager getProjectManager()
+	{
+		return _projectManager;
+	}
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized MarketPlace getMarketPlace()
+	{
+		return _marketPlace;
+	}
+	
+	
+	/**
+	 * 
+	 * @param marketPlace
+	 * @throws NullArgumentException
+	 */
+	public synchronized void setMarketPlace(MarketPlace marketPlace)throws NullArgumentException
+	{
+		if(marketPlace==null)
+		{
+			throw new NullArgumentException("Wrong argument marketPlace==null");
+		}
+		
+		_marketPlace=marketPlace;
+	}
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Shell getShell()
+	{
+		return _shell;
 	}
 
 }

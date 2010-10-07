@@ -73,8 +73,8 @@ public class WaitingGameClientState extends AbstractClientState {
 			Object object=RequestBuilder.buildRequest(recData);
 			if(object instanceof StartGameRequest)
 			{
-				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameId()));
-				client.sendMessage(new StartGameResponse(_game.getGameId()).toProtocolString());
+				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameStory()));
+				client.sendMessage(new StartGameResponse(_game.getGameStory()).toProtocolString());
 			}
 			else
 			{

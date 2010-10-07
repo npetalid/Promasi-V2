@@ -9,10 +9,8 @@ import java.net.ProtocolException;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.server.clientstate.IClientState;
 import org.promasi.network.tcp.TcpClient;
-import org.w3c.tools.codec.Base64Encoder;
 
 import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 /**
  * @author m1cRo
@@ -121,7 +119,11 @@ public class ProMaSiClient
 	{
 		return _clientId;
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public synchronized TcpClient getTcpClient()
 	{
 		return _client;

@@ -38,6 +38,16 @@ public class GameModel implements Serializable
     /**
      * 
      */
+    public GameModel()
+    {
+    	_company=new Company();
+    	_sdSystem=new SdSystem();
+    	_gameDescription=new String();
+    }
+    
+    /**
+     * 
+     */
     public GameModel(Company company,SdSystem sdSystem,String gameDescription)throws NullArgumentException{
     	if(company==null){
     		throw new NullArgumentException("Wrong argument company==null");

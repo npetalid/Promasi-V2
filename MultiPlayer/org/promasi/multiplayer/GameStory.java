@@ -36,7 +36,7 @@ public class GameStory implements Serializable
 	/**
 	 * 
 	 */
-	private String _name;
+	private String _gameId;
 	
 	/**
 	 * 
@@ -69,21 +69,21 @@ public class GameStory implements Serializable
 	 * 
 	 * @param company
 	 * @param sdModel
-	 * @param name
+	 * @param gameId
 	 * @param numberOfPlayers
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public GameStory(Company company,String name,String gameDescription,int numberOfPlayers,MarketPlace marketPlace)throws NullArgumentException,IllegalArgumentException
+	public GameStory(Company company,String gameId,String gameDescription,int numberOfPlayers,MarketPlace marketPlace)throws NullArgumentException,IllegalArgumentException
 	{
 		if(company==null)
 		{
 			throw new NullArgumentException("Wrong argument company==null");
 		}
 		
-		if(name==null)
+		if(gameId==null)
 		{
-			throw new NullArgumentException("Wrong argument name==null");
+			throw new NullArgumentException("Wrong argument gameId==null");
 		}
 		
 		if(gameDescription==null)
@@ -103,7 +103,7 @@ public class GameStory implements Serializable
 		
 		_gameDescription=gameDescription;
 		_company=company;
-		_name=name;
+		_gameId=gameId;
 		_numberOfPlayers=numberOfPlayers;
 		_marketPlace=marketPlace;
 	}
@@ -134,17 +134,17 @@ public class GameStory implements Serializable
 	
 	/**
 	 * 
-	 * @param name
+	 * @param gameId
 	 * @throws NullArgumentException
 	 */
-	public synchronized void setName(String name)throws NullArgumentException
+	public synchronized void setGameId(String gameId)throws NullArgumentException
 	{
-		if(name==null)
+		if(gameId==null)
 		{
-			throw new NullArgumentException("Wrong argument name==null");
+			throw new NullArgumentException("Wrong argument gameId==null");
 		}
 		
-		_name=name;
+		_gameId=gameId;
 	}
 	
 	
@@ -152,9 +152,9 @@ public class GameStory implements Serializable
 	 * 
 	 * @return
 	 */
-	public synchronized String getName()
+	public synchronized String getGameId()
 	{
-		return _name;
+		return _gameId;
 	}
 	
 	/**

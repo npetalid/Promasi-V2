@@ -9,8 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.model.Company;
-import org.promasi.model.MarketPlace;
 import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSiClient;
 
@@ -22,9 +20,9 @@ import org.promasi.multiplayer.ProMaSiClient;
 public class Game implements Runnable
 {
 	/**
-	 *
+	 * 
 	 */
-	private String _gameId;
+	GameStory _gameStory;
 
 	/**
 	 *
@@ -58,13 +56,8 @@ public class Game implements Runnable
 	 * @param promasiModel
 	 * @throws NullArgumentException
 	 */
-	public Game(String gameId,ProMaSiClient gameMaster,GameModel gameModel)throws NullArgumentException,IllegalArgumentException
+	public Game(ProMaSiClient gameMaster,GameModel gameModel,GameStory gameStory)throws NullArgumentException,IllegalArgumentException
 	{
-		if(gameId==null)
-		{
-			throw new NullArgumentException("Wrong argument gameId==null");
-		}
-
 		if(gameMaster==null)
 		{
 			throw new NullArgumentException("Wrong argument gameMaster==null");
@@ -75,20 +68,16 @@ public class Game implements Runnable
 			throw new NullArgumentException("Wrong argument gameModel==null");
 		}
 		
+		if(gameStory==null)
+		{
+			throw new NullArgumentException("Wrong argument gameModel==null");
+		}
+		
+		_gameStory=gameStory;
 		_isRunning=false;
-		_gameId=gameId;
 		_gameMaster=gameMaster;
 		_gameModels=new HashMap<ProMaSiClient,GameModel>();
 		_gameModel=gameModel;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public synchronized String getGameId()
-	{
-		return _gameId;
 	}
 
 	/**
@@ -221,10 +210,9 @@ public class Game implements Runnable
 	 * 
 	 * @return
 	 */
-	public synchronized GameStory getGameDto()
+	public synchronized GameStory getGameStory()
 	{
-		Company company=_gameModel.getCompany();
-		return new GameStory(company,_gameId,_gameModel.getGameDescription(),_gameModels.size(),new MarketPlace());
+		return _gameStory;
 	}
 
 	@Override

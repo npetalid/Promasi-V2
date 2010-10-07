@@ -22,6 +22,14 @@ public class JoinGameRequest extends AbstractRequest
 	private String _gameId;
 
 	/**
+	 * 
+	 */
+	public JoinGameRequest()
+	{
+		_gameId=new String();
+	}
+	
+	/**
 	 *
 	 * @param gameId
 	 * @throws NullArgumentException
@@ -37,6 +45,7 @@ public class JoinGameRequest extends AbstractRequest
 		{
 			throw new IllegalArgumentException("Wrong argument gameId.isEmpty()");
 		}
+		
 		_gameId=gameId;
 	}
 

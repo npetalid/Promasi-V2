@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
+import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSi;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
@@ -37,19 +38,20 @@ public class PlayingGameClientState extends AbstractClientState {
 	/**
 	 *
 	 */
-	public PlayingGameClientState(ProMaSi promasi,String gameId)throws IllegalArgumentException,NullArgumentException
+	public PlayingGameClientState(ProMaSi promasi,GameStory gameStory)throws IllegalArgumentException,NullArgumentException
 	{
 		if(promasi==null)
 		{
 			throw new NullArgumentException("Wrong argument promasi==null");
 		}
 
-		if(gameId==null)
+		if(gameStory==null)
 		{
-			throw new NullArgumentException("Wrong argument promasi==null");
+			throw new NullArgumentException("Wrong argument gameStory==null");
 		}
+		
 		_promasi=promasi;
-		_game=_promasi.getGame(gameId);
+		_game=_promasi.getGame(gameStory.getGameId());
 	}
 
 	/* (non-Javadoc)

@@ -4,6 +4,7 @@
 package org.promasi.network.protocol.client.response;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.multiplayer.GameStory;
 
 /**
  * @author m1cRo
@@ -14,26 +15,14 @@ public class StartGameResponse extends AbstractResponse
 	/**
 	 * 
 	 */
-	private String _gameId;
+	private GameStory _gameStory;
 	
 	/**
 	 * 
-	 * @param gameId
-	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
 	 */
-	public StartGameResponse(String gameId)throws NullArgumentException,IllegalArgumentException
+	StartGameResponse()
 	{
-		if(gameId==null)
-		{
-			throw new NullArgumentException("Wrong argument gameId==null");
-		}
-		
-		if(gameId.isEmpty())
-		{
-			throw new IllegalArgumentException("Wrong argument gameId.isEmtpy()");
-		}
-		_gameId=gameId;
+		_gameStory=new GameStory();
 	}
 	
 	/**
@@ -42,26 +31,38 @@ public class StartGameResponse extends AbstractResponse
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public void setGameId(String gameId)throws NullArgumentException,IllegalArgumentException
+	public StartGameResponse(GameStory gameStory)throws NullArgumentException
 	{
-		if(gameId==null)
+		if(gameStory==null)
 		{
-			throw new NullArgumentException("Wrong argument gameId==null");
+			throw new NullArgumentException("Wrong argument gameStory==null");
 		}
 		
-		if(gameId.isEmpty())
+		_gameStory=gameStory;
+	}
+	
+	/**
+	 * 
+	 * @param gameId
+	 * @throws NullArgumentException
+	 * @throws IllegalArgumentException
+	 */
+	public synchronized void setGameStory(GameStory gameStory)throws NullArgumentException
+	{
+		if(gameStory==null)
 		{
-			throw new IllegalArgumentException("Wrong argument gameId.isEmtpy()");
+			throw new NullArgumentException("Wrong argument gameStory==null");
 		}
-		_gameId=gameId;
+		
+		_gameStory=gameStory;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public String getGameId()
+	public synchronized GameStory getGameStory()
 	{
-		return _gameId;
+		return _gameStory;
 	}
 }

@@ -3,9 +3,15 @@
  */
 package org.promasi.multiplayer.client.clientstate;
 
+import javax.naming.ConfigurationException;
+
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.communication.Communicator;
+import org.promasi.communication.ICommunicator;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.shell.Shell;
+import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 
 /**
  * @author m1cRo
@@ -13,6 +19,32 @@ import org.promasi.multiplayer.ProMaSiClient;
  */
 public class PlayingGameClientState extends AbstractClientState {
 
+	/**
+	 * 
+	 */
+	private DesktopMainFrame _mainFrame;
+	
+	/**
+	 * 
+	 * @param shell
+	 * @throws NullArgumentException
+	 * @throws ConfigurationException
+	 */
+	public PlayingGameClientState(Shell shell)throws NullArgumentException, ConfigurationException
+	{
+		if(shell==null)
+		{
+			throw new NullArgumentException("Wrong argument shell==null");
+		}
+		
+    	ICommunicator communicator=new Communicator();
+    	communicator.setMainReceiver( shell.getModelMessageReceiver());
+		_mainFrame=new DesktopMainFrame(shell);
+		_mainFrame.showMainFrame( );
+		_mainFrame.registerCommunicator(communicator);
+    	shell.start();
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.promasi.multiplayer.server.clientstate.IClientState#onReceive(org.promasi.multiplayer.ProMaSiClient, java.lang.String)
 	 */
