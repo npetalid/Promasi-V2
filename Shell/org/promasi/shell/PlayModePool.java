@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.shell.playmodes.multiplayermode.MultiPlayerScorePlayMode;
+import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
 import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
 
 /**

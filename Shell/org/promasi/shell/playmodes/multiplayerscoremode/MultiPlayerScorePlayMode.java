@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.promasi.shell.playmodes.multiplayermode;
+package org.promasi.shell.playmodes.multiplayerscoremode;
 
 import java.io.IOException;
 import java.net.URL;
@@ -24,9 +24,13 @@ import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.client.clientstate.LoginClientState;
 import org.promasi.multiplayer.client.TcpEventHandler;
+import org.promasi.multiplayer.server.clientstate.GameMasterClientState;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
+import org.promasi.ui.promasiui.multiplayer.MakeGameForm;
+import org.promasi.ui.promasiui.promasidesktop.story.GameMasterForm;
+import org.promasi.network.protocol.client.request.CreateNewGameRequest;
 import org.promasi.network.protocol.client.request.JoinGameRequest;
 import org.promasi.network.protocol.client.request.LoginRequest;
 import org.promasi.network.tcp.TcpClient;
@@ -221,6 +225,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 			gameList.add(game.getGameId());
 		}
 		
+		gameList.add(new String("New Game"));
 		return gameList;
 	}
 
@@ -247,7 +252,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		}
 		else
 		{
-			throw new  IllegalArgumentException("Wrong argument gameId");
+			return new String("Create new Game");
 		}
 	}
 
@@ -277,17 +282,25 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 			throw new NullArgumentException("Wrong argument projectManager==null");
 		}
 		
-		 GameStory game=_games.get(gameId);
-	     if ( game != null )
-	     {
-			 JoinGameRequest request=new JoinGameRequest(game.getGameId());
-			 _promasiClient.sendMessage(request.toProtocolString());
-	     }
-	     else
-	     {
-	    	 return false;
-	     }
-	        
+		if(_games.size()==gameId)
+		{
+	    	 MakeGameForm makeGameForm=new MakeGameForm(_promasiClient);
+	    	 makeGameForm.setVisible(true);
+		}
+		else if(gameId<_games.size())
+		{
+			 GameStory game=_games.get(gameId);
+		     if ( game != null )
+		     {
+				 JoinGameRequest request=new JoinGameRequest(game.getGameId());
+				 _promasiClient.sendMessage(request.toProtocolString());
+		     }
+		     else
+		     {
+		    	 return false;
+		     }
+		}
+		
 	     return true;
 	}
 	

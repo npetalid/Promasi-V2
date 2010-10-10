@@ -3,12 +3,19 @@ package org.promasi.ui.promasiui.multiplayer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JScrollPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import net.miginfocom.layout.CC;
+import net.miginfocom.layout.LC;
+import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
@@ -16,6 +23,7 @@ import org.promasi.network.protocol.client.request.StartGameRequest;
 import org.promasi.shell.ui.playmode.Story;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.ui.promasiui.promasidesktop.story.StorySelectorFrame;
+import org.promasi.utilities.ui.ScreenUtils;
 
 public class MakeGameForm extends JFrame {
 
@@ -45,6 +53,11 @@ public class MakeGameForm extends JFrame {
     private JLabel _playModeNameLabel;
     
 	/**
+     * A list that contains all the stories.
+     */
+    private JList _storiesList;
+    
+	/**
 	 * 
 	 * @param client
 	 * @throws NullArgumentException
@@ -56,20 +69,60 @@ public class MakeGameForm extends JFrame {
 			throw new NullArgumentException("Wrong argument client==null");
 		}
 		
-		_createGameButton=new JButton( "StartGame" );
-		_createGameButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				_client.sendMessage(new StartGameRequest().toProtocolString());
-			}
-		});
-		
-		add( _createGameButton, new CC( ).skip( 1 ).alignX( "right" ) );
-		
-        setTitle( "Make Game" );
+
+        setTitle( ResourceManager.getString( StorySelectorFrame.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		
+        final double sizePercentage = 0.4d;
+        setSize( ScreenUtils.sizeForPercentage( sizePercentage, sizePercentage ) );
+        ScreenUtils.centerInScreen( this );
+        
+        _storiesList = new JList( );
+        _storiesList.getSelectionModel( ).addListSelectionListener( new ListSelectionListener( )
+        {
+            @Override
+            public void valueChanged ( ListSelectionEvent e )
+            {
+                selectionChanged( );
+            }
+
+        } );
+        
+        _storiesList.setBorder( BorderFactory.createTitledBorder( "Create new game" ) );
+        _createGameButton = new JButton( "Play" );
+        _createGameButton.addActionListener( new ActionListener( )
+        {
+
+            @Override
+            public void actionPerformed ( ActionEvent e )
+            {
+               
+            }
+
+        } );
+        
+        _playModeNameLabel = new JLabel( );
+        _descriptionText = new JEditorPane( );
+        _descriptionText.setContentType( "text/html" );
+        _descriptionText.setEditable( false );
+        
+        setLayout( new MigLayout( new LC( ).fill( ) ) );
+        add( new JScrollPane( _storiesList ), new CC( ).spanY( ).growY( ).minWidth( "150px" ) );
+        add( _playModeNameLabel, new CC( ).split( 2 ).flowY( ).alignX( "center" ) );
+        add( _descriptionText, new CC( ).grow( ).wrap( ) );
+        add( _createGameButton, new CC( ) );
+        
 		_client=client;
 	}
+	
+	
+
+    /**
+     * Called when the selection of the {@link #_storiesList} changes. It shows
+     * information for the selected play mode.
+     */
+    private void selectionChanged ( )
+    {
+    	int gameId=_storiesList.getSelectedIndex();
+    	
+    }
 }

@@ -18,7 +18,7 @@ import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.request.StartGameRequest;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
-import org.promasi.shell.playmodes.multiplayermode.MultiPlayerScorePlayMode;
+import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
 import org.promasi.ui.promasiui.multiplayer.WaitingForGameForm;
 
 /**
