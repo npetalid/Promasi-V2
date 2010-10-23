@@ -4,15 +4,12 @@
 package org.promasi.multiplayer.game;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.core.SdModel;
 import org.promasi.core.SdSystem;
 import org.promasi.model.Company;
-import org.promasi.model.Project;
+import org.promasi.shell.ui.Story.Story;
 
 /**
  * @author m1cRo
@@ -25,77 +22,35 @@ public class GameModel implements Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-     * The current {@link Company} of this game model.
-     */
-	private Company _company;
-
     /**
      * The running sd system.
      */
-    private SdSystem _sdSystem;
-    
-    /**
-     * 
-     */
-    private String _gameDescription;
+    private Story _gameStory;
     
     /**
      * 
      */
     public GameModel()
     {
-    	_company=new Company();
-    	_sdSystem=new SdSystem();
-    	_gameDescription=new String();
+    	_gameStory=new Story();
     }
     
     /**
      * 
      */
-    public GameModel(Company company,SdSystem sdSystem,String gameDescription)throws NullArgumentException{
-    	if(company==null){
-    		throw new NullArgumentException("Wrong argument company==null");
+    public GameModel(Story gameStory)throws NullArgumentException{
+    	if(gameStory==null){
+    		throw new NullArgumentException("Wrong argument gameStory==null");
     	}
     	
-    	if(sdSystem==null){
-    		throw new NullArgumentException("Wrong argument sdSystem==null");
-    	}
-    	
-    	if(gameDescription==null){
-    		throw new NullArgumentException("Wrong argument gameDescription==null");
-    	}
-    	
-    	_company=company;
-    	_sdSystem=sdSystem;
-    	_gameDescription=gameDescription;
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    public String getGameDescription(){
-    	return _gameDescription;
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    public Company getCompany(){
-    	return _company;
+    	_gameStory=gameStory;
     }
     
 	/**
 	 * 
 	 */
 	public synchronized boolean executeStep(){
-		if(_sdSystem==null){
-			return false;
-		}
-		
-		_sdSystem.executeStep();
+
 		return true;
 	}
 }

@@ -56,7 +56,7 @@ public class Game implements Runnable
 	 * @param promasiModel
 	 * @throws NullArgumentException
 	 */
-	public Game(ProMaSiClient gameMaster,GameModel gameModel,Story gameStory)throws NullArgumentException,IllegalArgumentException
+	public Game(ProMaSiClient gameMaster,GameModel gameModel)throws NullArgumentException,IllegalArgumentException
 	{
 		if(gameMaster==null)
 		{
@@ -68,12 +68,6 @@ public class Game implements Runnable
 			throw new NullArgumentException("Wrong argument gameModel==null");
 		}
 		
-		if(gameStory==null)
-		{
-			throw new NullArgumentException("Wrong argument gameModel==null");
-		}
-		
-		_gameStory=gameStory;
 		_isRunning=false;
 		_gameMaster=gameMaster;
 		_gameModels=new HashMap<ProMaSiClient,GameModel>();

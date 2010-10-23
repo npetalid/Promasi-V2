@@ -1,8 +1,5 @@
 package org.promasi.shell;
 
-
-
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -29,14 +26,14 @@ public interface IPlayMode
     /**
      * @return The name of the play mode.
      */
-    String getName ( );
+	public String getName ( );
 
     /**
      * @return The description of the play mode. The description can be in HTML
      *         format.
      *
      */
-    String getDescription ( );
+    public String getDescription ( );
 
     /**
      * Starts the play mode.
@@ -49,20 +46,20 @@ public interface IPlayMode
     /**
      * @return All the available employees in the system(Hired and Free).
      */
-    Map<Integer,Employee> getAllEmployees ( );
+    public Map<Integer,Employee> getAllEmployees ( );
 
     /**
      * @param project
      * @return The {@link SdModel} that is associated with the specified
      *         {@link Project}.
      */
-    SdModel getModelForProject ( Project project );
+    public SdModel getModelForProject ( Project project );
 
     /**
      * @param project
      * @return The {@link IStatePersister} for the specified project.
      */
-    IStatePersister getPersisterForProject ( Project project );
+    public IStatePersister getPersisterForProject ( Project project );
 
     /**
      *

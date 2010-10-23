@@ -11,6 +11,7 @@ import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSi;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
+import org.promasi.multiplayer.game.GameModel;
 import org.promasi.network.protocol.client.request.CreateNewGameRequest;
 import org.promasi.network.protocol.client.request.JoinGameRequest;
 import org.promasi.network.protocol.client.request.RequestBuilder;
@@ -93,18 +94,18 @@ public class JoinGameClientState extends AbstractClientState {
 			}
 			else if(object instanceof CreateNewGameRequest)
 			{
-				/*CreateNewGameRequest request=(CreateNewGameRequest)object;
-				Game game=new Game(client,request.getGameModel(),request.getGameStory());
+				CreateNewGameRequest request=(CreateNewGameRequest)object;
+				Game game=new Game(client,new GameModel(request.getGameStory()));
 				try
 				{
-					_promasi.createNewGame(request.getGameId(),game);
+					_promasi.createNewGame(request.getGameStory().getName(),game);
 					client.sendMessage(new CreateNewGameResponse(true).toProtocolString());
 					changeClientState(client,new GameMasterClientState(_promasi,game));
 				}
 				catch(IllegalArgumentException e)
 				{
 					client.sendMessage(new CreateNewGameResponse(false).toProtocolString());
-				}*/
+				}
 			}
 			else
 			{
