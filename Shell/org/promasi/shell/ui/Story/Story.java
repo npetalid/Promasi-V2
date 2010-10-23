@@ -1,6 +1,5 @@
-package org.promasi.shell.ui.playmode;
+package org.promasi.shell.ui.Story;
 
-import java.io.File;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,13 +40,13 @@ public class Story implements IValidatable
     /**
      * The {@link Queue} with all the projects that the story has.
      */
-    private final Queue<Project> _projects;
-
+    private Queue<Project> _projects;
+    
     /**
      * Each {@link Project} which {@link SdModel} needs.
      */
     private Map<Project, SdModel> _projectModelRelations;
-
+    
     /**
      * Each {@link Project} which {@link OutputVariableBinding}s needs.
      */
@@ -108,7 +107,7 @@ public class Story implements IValidatable
      * File that contains the description of the {@link Story}. Must be an HTML
      * file.
      */
-    private File _infoFile;
+    private String _infoString;
 
     /**
      * The name of the story.
@@ -131,8 +130,30 @@ public class Story implements IValidatable
         _projectExternalEquationBindings = new Hashtable<Project, List<ExternalEquationBinding>>( );
         _projectEventBindings = new Hashtable<Project, List<EventBinding>>( );
         _marketPlace=new MarketPlace();
+        _infoString=new String();
     }
 
+    /**
+     * 
+     * @return
+     */
+    public Map<Project, SdModel> getProjectModelRelations(){
+    	return _projectModelRelations;
+    }
+    
+    /**
+     * 
+     * @param projectModelRelations
+     */
+    public void setProjectModelRelations(Map<Project, SdModel> projectModelRelations){
+    	if(projectModelRelations==null){
+    		throw new NullArgumentException("Wrong argument projectModelRelations==null");
+    	}
+    	
+    	_projectModelRelations=projectModelRelations;
+    }
+    
+    
     /**
      * 
      * Adds the specified project to the {@link #_projects} with the last key as
@@ -164,6 +185,20 @@ public class Story implements IValidatable
         return _projects;
     }
 
+    /**
+     * 
+     * @param projects
+     * @throws NullArgumentException
+     */
+    public void setProjects(Queue<Project> projects)throws NullArgumentException
+    {
+    	if(projects==null){
+    		throw new NullArgumentException("Wrong argument projects==null");
+    	}
+    	
+    	_projects=projects;
+    }
+    
     /**
      * Also modifies the {@link #_currentProject}.
      * 
@@ -257,17 +292,22 @@ public class Story implements IValidatable
      * @param infoFile
      *            the {@link #_infoFile} to set.
      */
-    public void setInfoFile ( File infoFile )
+    public void setInfoString ( String infoString )throws NullArgumentException
     {
-        _infoFile = infoFile;
+    	if(infoString==null)
+    	{
+    		throw new NullArgumentException("Wrong argument infoString==null");
+    	}
+    	
+        _infoString = infoString;
     }
 
     /**
      * @return the {@link #_infoFile}.
      */
-    public File getInfoFile ( )
+    public String getInfoString ( )
     {
-        return _infoFile;
+        return _infoString;
     }
 
     /**
@@ -340,6 +380,7 @@ public class Story implements IValidatable
     {
         return _projectModelRelations.get( project );
     }
+    
 
     /**
      * @return the {@link #_employees}.
@@ -394,6 +435,7 @@ public class Story implements IValidatable
         {
             variableBindings = new Vector<OutputVariableBinding>( );
         }
+        
         variableBindings.add( variableBinding );
     }
 
@@ -415,6 +457,7 @@ public class Story implements IValidatable
         {
             _projectOutputVariableBindings.remove( project );
         }
+        
         _projectOutputVariableBindings.put( project, variableBindings );
     }
 
@@ -448,6 +491,7 @@ public class Story implements IValidatable
         {
             equationBindings = new Vector<ExternalEquationBinding>( );
         }
+        
         equationBindings.add( equationBinding );
     }
 
@@ -469,6 +513,7 @@ public class Story implements IValidatable
         {
             _projectExternalEquationBindings.remove( project );
         }
+        
         _projectExternalEquationBindings.put( project, variableBindings );
     }
 
@@ -501,6 +546,7 @@ public class Story implements IValidatable
         {
             eventBindings = new Vector<EventBinding>( );
         }
+        
         eventBindings.add( eventBinding );
     }
 
@@ -522,6 +568,7 @@ public class Story implements IValidatable
         {
             _projectEventBindings.remove( project );
         }
+        
         _projectEventBindings.put( project, eventBindings );
     }
 
@@ -543,6 +590,7 @@ public class Story implements IValidatable
         {
             _projectModelRelations.remove( project );
         }
+        
         _projectModelRelations.put( project, model );
     }
 

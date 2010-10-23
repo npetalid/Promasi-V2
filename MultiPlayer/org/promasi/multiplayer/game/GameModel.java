@@ -4,10 +4,15 @@
 package org.promasi.multiplayer.game;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.core.SdModel;
 import org.promasi.core.SdSystem;
 import org.promasi.model.Company;
+import org.promasi.model.Project;
 
 /**
  * @author m1cRo
@@ -34,7 +39,7 @@ public class GameModel implements Serializable
      * 
      */
     private String _gameDescription;
-	
+    
     /**
      * 
      */

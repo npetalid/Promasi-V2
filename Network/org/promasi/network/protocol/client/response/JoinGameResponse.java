@@ -4,7 +4,7 @@
 package org.promasi.network.protocol.client.response;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.multiplayer.GameStory;
+import org.promasi.shell.ui.Story.Story;
 
 /**
  * @author m1cRo
@@ -14,7 +14,7 @@ public class JoinGameResponse extends AbstractResponse {
 	/**
 	 * 
 	 */
-	private GameStory _gameStory;
+	private Story _gameStory;
 	
 	/**
 	 *
@@ -27,8 +27,8 @@ public class JoinGameResponse extends AbstractResponse {
 	 */
     public JoinGameResponse()
     {
-    	_gameStory=new GameStory();
-    	_responseString=null;
+    	_gameStory=new Story();
+    	_responseString=new String();
     }
 
     
@@ -37,7 +37,7 @@ public class JoinGameResponse extends AbstractResponse {
 	 * @param responseString
 	 * @throws NullArgumentException
 	 */
-	public JoinGameResponse(GameStory gameStory, String responseString)throws NullArgumentException
+	public JoinGameResponse(Story gameStory, String responseString)throws NullArgumentException
 	{
 		if(responseString==null)
 		{
@@ -83,7 +83,7 @@ public class JoinGameResponse extends AbstractResponse {
 	 * @param gameStory
 	 * @throws NullArgumentException
 	 */
-	public synchronized void setGameStory(GameStory gameStory)throws NullArgumentException
+	public synchronized void setGameStory(Story gameStory)throws NullArgumentException
 	{
 		if(gameStory==null)
 		{
@@ -112,7 +112,7 @@ public class JoinGameResponse extends AbstractResponse {
 	 * 
 	 * @return
 	 */
-	public synchronized GameStory getGameStory()
+	public synchronized Story getGameStory()
 	{
 		return _gameStory;
 	}

@@ -13,6 +13,7 @@ import javax.swing.ListCellRenderer;
 import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
+import org.promasi.utilities.ui.Base64ImageHTMLFactoryKit;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXPanel;
@@ -28,8 +29,7 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
  * @author eddiefullmetal
  * 
  */
-public class MarketPlaceEmployeeListRenderer
-        implements ListCellRenderer
+public class MarketPlaceEmployeeListRenderer implements ListCellRenderer
 {
 
     /**
@@ -71,6 +71,8 @@ public class MarketPlaceEmployeeListRenderer
         _panel.setBorder( BorderFactory.createEtchedBorder( ) );
         // Setup curriculumVitaeText
         _curriculumVitaeText = new JEditorPane( );
+        Base64ImageHTMLFactoryKit htmlEditorKit=new Base64ImageHTMLFactoryKit();
+        _curriculumVitaeText.setEditorKitForContentType("text/html", htmlEditorKit);
         _curriculumVitaeText.setContentType( "text/html" );
         _curriculumVitaeText.setEditable( false );
         // Setup salaryLabel
@@ -116,6 +118,7 @@ public class MarketPlaceEmployeeListRenderer
                 _salaryLabel.setForeground( list.getForeground( ) );
                 _panel.setBackground( list.getBackground( ) );
             }
+            
             return _panel;
         }
         else

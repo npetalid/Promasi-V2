@@ -12,13 +12,13 @@ import org.promasi.communication.Communicator;
 import org.promasi.communication.ICommunicator;
 import org.promasi.model.Company;
 import org.promasi.multiplayer.AbstractClientState;
-import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.request.StartGameRequest;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
+import org.promasi.shell.ui.Story.Story;
 import org.promasi.ui.promasiui.multiplayer.WaitingForGameForm;
 
 /**
@@ -43,7 +43,7 @@ public class WaitingGameClientState extends AbstractClientState {
 	 * @param gameStory
 	 * @throws NullArgumentException
 	 */
-	public WaitingGameClientState(MultiPlayerScorePlayMode playMode, GameStory gameStory)throws NullArgumentException
+	public WaitingGameClientState(MultiPlayerScorePlayMode playMode, Story gameStory)throws NullArgumentException
 	{
 		if( playMode==null )
 		{

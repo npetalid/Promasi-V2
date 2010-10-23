@@ -4,7 +4,7 @@
 package org.promasi.network.protocol.client.request;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.multiplayer.GameStory;
+import org.promasi.shell.ui.Story.Story;
 
 
 /**
@@ -17,7 +17,7 @@ public class StartGameRequest extends AbstractRequest
 	/**
 	 * 
 	 */
-	GameStory _gameStory;
+	Story _gameStory;
 	
 	/**
 	 *
@@ -29,7 +29,7 @@ public class StartGameRequest extends AbstractRequest
 	 */
 	public StartGameRequest()
 	{
-		_gameStory=new GameStory();
+		_gameStory=new Story();
 	}
 	
 	
@@ -38,7 +38,7 @@ public class StartGameRequest extends AbstractRequest
 	 * @param gameStory
 	 * @throws NullArgumentException
 	 */
-	public StartGameRequest(GameStory gameStory)throws NullArgumentException
+	public StartGameRequest(Story gameStory)throws NullArgumentException
 	{
 		if(gameStory==null)
 		{
@@ -53,7 +53,7 @@ public class StartGameRequest extends AbstractRequest
 	 * 
 	 * @return
 	 */
-	public synchronized GameStory getGameStory()
+	public synchronized Story getGameStory()
 	{
 		return _gameStory;
 	}
@@ -64,7 +64,7 @@ public class StartGameRequest extends AbstractRequest
 	 * @param gameStory
 	 * @throws NullArgumentException
 	 */
-	public synchronized void setGameStory(GameStory gameStory)throws NullArgumentException
+	public synchronized void setGameStory(Story gameStory)throws NullArgumentException
 	{
 		if(gameStory==null)
 		{

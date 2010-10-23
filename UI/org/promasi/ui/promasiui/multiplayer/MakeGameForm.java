@@ -2,6 +2,8 @@ package org.promasi.ui.promasiui.multiplayer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -19,11 +21,13 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.network.protocol.client.request.StartGameRequest;
-import org.promasi.shell.ui.playmode.Story;
+import org.promasi.network.protocol.client.request.CreateNewGameRequest;
+import org.promasi.shell.ui.Story.StoriesPool;
+import org.promasi.shell.ui.Story.Story;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.ui.promasiui.promasidesktop.story.StorySelectorFrame;
 import org.promasi.utilities.ui.ScreenUtils;
+
 
 public class MakeGameForm extends JFrame {
 
@@ -57,6 +61,11 @@ public class MakeGameForm extends JFrame {
      */
     private JList _storiesList;
     
+    /**
+     * 
+     */
+    private List<Story> _stories;
+    
 	/**
 	 * 
 	 * @param client
@@ -89,17 +98,7 @@ public class MakeGameForm extends JFrame {
         
         _storiesList.setBorder( BorderFactory.createTitledBorder( "Create new game" ) );
         _createGameButton = new JButton( "Play" );
-        _createGameButton.addActionListener( new ActionListener( )
-        {
 
-            @Override
-            public void actionPerformed ( ActionEvent e )
-            {
-               
-            }
-
-        } );
-        
         _playModeNameLabel = new JLabel( );
         _descriptionText = new JEditorPane( );
         _descriptionText.setContentType( "text/html" );
@@ -110,6 +109,31 @@ public class MakeGameForm extends JFrame {
         add( _playModeNameLabel, new CC( ).split( 2 ).flowY( ).alignX( "center" ) );
         add( _descriptionText, new CC( ).grow( ).wrap( ) );
         add( _createGameButton, new CC( ) );
+        
+        _stories=StoriesPool.getAllStories();
+        _storiesList.setListData(_stories.toArray());
+        
+        _createGameButton.addActionListener( new ActionListener( )
+        {
+
+            @Override
+            public void actionPerformed ( ActionEvent e )
+            {
+              	int gameId=_storiesList.getSelectedIndex();
+            	if(gameId>=0)
+            	{
+            		Story currentStory=_stories.get(gameId);
+            		CreateNewGameRequest request=new CreateNewGameRequest(currentStory);
+            		_client.sendMessage(request.toProtocolString());
+            	}
+            	else
+            	{
+            		
+            	}
+            	
+            }
+
+        } );
         
 		_client=client;
 	}
@@ -123,6 +147,23 @@ public class MakeGameForm extends JFrame {
     private void selectionChanged ( )
     {
     	int gameId=_storiesList.getSelectedIndex();
+    	if(gameId>=0)
+    	{
+    		Story currentStory=_stories.get(gameId);
+            _playModeNameLabel.setText(currentStory.getName());
+            try
+            {
+            	String gameInfo=currentStory.getInfoString();
+            	if( gameInfo!=null)
+            	{
+            		_descriptionText.setText(gameInfo);
+            	}
+            }
+            catch ( Exception e )
+            {
+
+            }	
+    	}
     	
     }
 }

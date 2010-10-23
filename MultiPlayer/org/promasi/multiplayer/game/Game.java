@@ -9,8 +9,8 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.shell.ui.Story.Story;
 
 
 /**
@@ -22,7 +22,7 @@ public class Game implements Runnable
 	/**
 	 * 
 	 */
-	GameStory _gameStory;
+	Story _gameStory;
 
 	/**
 	 *
@@ -56,7 +56,7 @@ public class Game implements Runnable
 	 * @param promasiModel
 	 * @throws NullArgumentException
 	 */
-	public Game(ProMaSiClient gameMaster,GameModel gameModel,GameStory gameStory)throws NullArgumentException,IllegalArgumentException
+	public Game(ProMaSiClient gameMaster,GameModel gameModel,Story gameStory)throws NullArgumentException,IllegalArgumentException
 	{
 		if(gameMaster==null)
 		{
@@ -210,7 +210,7 @@ public class Game implements Runnable
 	 * 
 	 * @return
 	 */
-	public synchronized GameStory getGameStory()
+	public synchronized Story getGameStory()
 	{
 		return _gameStory;
 	}

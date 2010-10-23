@@ -36,8 +36,8 @@ import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ActionBind
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.EventBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ExternalEquationBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.OutputVariableBinding;
-import org.promasi.shell.ui.playmode.StoriesPool;
-import org.promasi.shell.ui.playmode.Story;
+import org.promasi.shell.ui.Story.StoriesPool;
+import org.promasi.shell.ui.Story.Story;
 import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.story.StorySelectorFrame;
 
@@ -410,7 +410,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	}
 
 	@Override
-	public synchronized URL getGameInfo(int gameId) throws IllegalArgumentException
+	public synchronized String getGameInfo(int gameId) throws IllegalArgumentException
 	{
 		if(gameId<0)
 		{
@@ -422,13 +422,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 			Story story=_stories.get(gameId);
 			if(story!=null)
 			{
-				try {
-					return story.getInfoFile().toURI().toURL();
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					throw new IllegalArgumentException("Wrong argument gameId");
-				}
+				return story.getInfoString();
 			}
 			else
 			{

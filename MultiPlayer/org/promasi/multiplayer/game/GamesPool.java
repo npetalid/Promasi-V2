@@ -10,10 +10,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
-import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.shell.ui.playmode.StoriesPool;
-import org.promasi.shell.ui.playmode.Story;
+import org.promasi.shell.ui.Story.StoriesPool;
+import org.promasi.shell.ui.Story.Story;
 
 
 /**
@@ -115,26 +114,21 @@ public class GamesPool
 	 *
 	 * @return
 	 */
-	public synchronized LinkedList<GameStory> retreiveGames()
+	public synchronized LinkedList<Story> retreiveGames()
 	{
 
 		
-		LinkedList<GameStory> result=new LinkedList<GameStory>();
+		LinkedList<Story> result=new LinkedList<Story>();
 		for(Game game : _gameList.values())
 		{
-			GameStory gameStory=game.getGameStory();
+			Story gameStory=game.getGameStory();
 			result.add(gameStory);
 		}
 
 		List<Story> stories=StoriesPool.getAllStories();
 		for(Story story : stories)
 		{
-			Company newCompany=story.getCompany();
-			newCompany.setAccountant(story.getAccountant());
-			newCompany.setBoss(story.getBoss());
-			newCompany.setAdministrator(story.getAdministrator());
-			GameStory gameStory=new GameStory(story.getCompany(),story.getName(),story.getName(),0,story.getMarketPlace());
-			result.add(gameStory);
+			result.add(story);
 		}
 		
 		return result;

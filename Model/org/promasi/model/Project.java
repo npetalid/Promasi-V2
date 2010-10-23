@@ -245,7 +245,7 @@ public class Project
      */
     public List<Task> getTasks ( )
     {
-        return Collections.unmodifiableList( _tasks );
+        return  _tasks;
     }
 
     /**

@@ -14,6 +14,7 @@ import org.promasi.multiplayer.game.GamesPool;
 import org.promasi.multiplayer.server.UserManager;
 import org.promasi.multiplayer.server.clientstate.LoginClientState;
 import org.promasi.network.tcp.TcpClient;
+import org.promasi.shell.ui.Story.Story;
 
 /**
  * @author m1cRo
@@ -188,7 +189,7 @@ public class ProMaSi
 	 *
 	 * @return
 	 */
-	public synchronized List<GameStory> retreiveGames()
+	public synchronized List<Story> retreiveGames()
 	{
 		return _games.retreiveGames();
 	}

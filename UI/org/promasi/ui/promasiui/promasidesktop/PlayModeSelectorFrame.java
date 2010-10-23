@@ -24,7 +24,6 @@ import org.promasi.shell.IPlayMode;
 import org.promasi.shell.PlayModePool;
 import org.promasi.shell.Shell;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
-import org.promasi.ui.promasiui.promasidesktop.story.LoginUi;
 import org.promasi.utilities.ui.ScreenUtils;
 
 

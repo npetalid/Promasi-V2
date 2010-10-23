@@ -103,7 +103,7 @@ public interface IPlayMode
 	 * @param gameId
 	 * @return
 	 */
-	public URL getGameInfo(int gameId)throws IllegalArgumentException;
+	public String getGameInfo(int gameId)throws IllegalArgumentException;
 	
 	/**
 	 * 

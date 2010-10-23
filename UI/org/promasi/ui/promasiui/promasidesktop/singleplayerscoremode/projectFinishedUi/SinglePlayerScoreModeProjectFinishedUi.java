@@ -23,7 +23,6 @@ import org.promasi.core.SdSystem;
 import org.promasi.model.Project;
 import org.promasi.shell.Shell;
 import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
-import org.promasi.shell.ui.playmode.IProjectFinishedUi;
 import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.programs.infogate.ProjectInfoPanel;
 import org.promasi.ui.promasiui.promasidesktop.programs.planner.PlannerProgram;
@@ -41,7 +40,7 @@ import org.promasi.utilities.ui.SwingCreator;
  */
 public class SinglePlayerScoreModeProjectFinishedUi
         extends JPanel
-        implements IProjectFinishedUi, Runnable
+        implements Runnable
 {
 
     /**
@@ -260,7 +259,6 @@ public class SinglePlayerScoreModeProjectFinishedUi
         return _systemInfoPanel;
     }
 
-    @Override
     public void showUi ( Project finishedProject )
     {
         _project = finishedProject;

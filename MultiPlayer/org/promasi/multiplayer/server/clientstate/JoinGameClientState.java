@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
-import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSi;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
@@ -21,6 +20,7 @@ import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.JoinGameResponse;
 import org.promasi.network.protocol.client.response.RetreiveGameListResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
+import org.promasi.shell.ui.Story.Story;
 
 /**
  * @author m1cRo
@@ -78,7 +78,7 @@ public class JoinGameClientState extends AbstractClientState {
 				if(!_promasi.joinGame(client, joinRequest.getGameId()))
 				{
 					//---------------------------TEST------------------------
-					List<GameStory> gameStory=_promasi.retreiveGames();
+					List<Story> gameStory=_promasi.retreiveGames();
 					JoinGameResponse response=new JoinGameResponse(gameStory.get(0),"GOGOGO");
 					if(!client.sendMessage(response.toProtocolString() ) )
 					{
@@ -93,7 +93,7 @@ public class JoinGameClientState extends AbstractClientState {
 			}
 			else if(object instanceof CreateNewGameRequest)
 			{
-				CreateNewGameRequest request=(CreateNewGameRequest)object;
+				/*CreateNewGameRequest request=(CreateNewGameRequest)object;
 				Game game=new Game(client,request.getGameModel(),request.getGameStory());
 				try
 				{
@@ -104,7 +104,7 @@ public class JoinGameClientState extends AbstractClientState {
 				catch(IllegalArgumentException e)
 				{
 					client.sendMessage(new CreateNewGameResponse(false).toProtocolString());
-				}
+				}*/
 			}
 			else
 			{

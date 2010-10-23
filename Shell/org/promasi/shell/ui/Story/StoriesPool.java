@@ -1,4 +1,4 @@
-package org.promasi.shell.ui.playmode;
+package org.promasi.shell.ui.Story;
 
 
 import java.beans.IntrospectionException;
@@ -140,12 +140,8 @@ public final class StoriesPool
             story.setName( file.getName( ) );
             LOGGER.info( "Loading story " + story );
             // Load the info file.
-            File infoFile = null;
             try
             {
-                infoFile = file.listFiles( (FileFilter) new NameFileFilter( INFO_NAME ) )[0];
-                story.setInfoFile( infoFile );
-
                 File employeesFile = file.listFiles( (FileFilter) new NameFileFilter( EMPLOYEES_NAME ) )[0];
                 if ( !employeesFile.exists( ) )
                 {
@@ -205,66 +201,68 @@ public final class StoriesPool
                 LOGGER.warn( "Could not find " + EMPLOYEES_NAME + " in " + file.getName( ), e );
             }
             
-            // If the info file was found continue.
-            if ( infoFile != null )
+            try
             {
-                try
-                {
-                    File storyXmlFile = file.listFiles( (FileFilter) new NameFileFilter( STORY_NAME ) )[0];
-                    XMLConfiguration storyConfiguration = new XMLConfiguration( storyXmlFile );
+            	File storyXmlFile = file.listFiles( (FileFilter) new NameFileFilter( STORY_NAME ) )[0];
+               	XMLConfiguration storyConfiguration = new XMLConfiguration( );
+               	storyConfiguration.setDelimiterParsingDisabled(true);
+               	storyConfiguration.load(storyXmlFile);
 
-                    // Load the company
-                    Company company = new Company( storyConfiguration.getString( "Company.Name" ) );
-                    company.setStartTime( new LocalTime( storyConfiguration.getString( "Company.StartTime" ) ) );
-                    company.setEndTime( new LocalTime( storyConfiguration.getString( "Company.EndTime" ) ) );
-                    company.setDescription( storyConfiguration.getString( "Company.Description" ) );
-                    story.setCompany( company );
+              	// Load the company
+             	Company company = new Company( storyConfiguration.getString( "Company.Name" ) );
+              	company.setStartTime( new LocalTime( storyConfiguration.getString( "Company.StartTime" ) ) );
+             	company.setEndTime( new LocalTime( storyConfiguration.getString( "Company.EndTime" ) ) );
+             	company.setDescription( storyConfiguration.getString( "Company.Description" ) );
+            	story.setCompany( company );
 
-                    // Load the persons
-                    Boss boss = new Boss( );
-                    boss.setName( storyConfiguration.getString( "Persons.Boss.Name" ) );
-                    boss.setLastName( storyConfiguration.getString( "Persons.Boss.LastName" ) );
-                    boss.setWorkingCompany( company );
-                    story.setBoss( boss );
+               	// Load the persons
+               	Boss boss = new Boss( );
+            	boss.setName( storyConfiguration.getString( "Persons.Boss.Name" ) );
+              	boss.setLastName( storyConfiguration.getString( "Persons.Boss.LastName" ) );
+              	boss.setWorkingCompany( company );
+            	story.setBoss( boss );
 
-                    // Load the Administrator
-                    Administrator administrator = new Administrator( );
-                    administrator.setName( storyConfiguration.getString( "Persons.Administrator.Name" ) );
-                    administrator.setLastName( storyConfiguration.getString( "Persons.Administrator.LastName" ) );
-                    administrator.setWorkingCompany( company );
-                    story.setAdministrator( administrator );
+             	// Load the Administrator
+            	Administrator administrator = new Administrator( );
+             	administrator.setName( storyConfiguration.getString( "Persons.Administrator.Name" ) );
+             	administrator.setLastName( storyConfiguration.getString( "Persons.Administrator.LastName" ) );
+               	administrator.setWorkingCompany( company );
+              	story.setAdministrator( administrator );
 
-                    // Load the Accountant
-                    Accountant accountant = new Accountant( );
-                    accountant.setName( storyConfiguration.getString( "Persons.Accountant.Name" ) );
-                    accountant.setLastName( storyConfiguration.getString( "Persons.Accountant.LastName" ) );
-                    accountant.setWorkingCompany( company );
-                    story.setAccountant( accountant );
-                    // -----------------------------------
-
-                    story.setDifficultyLevel( DifficultyLevel.valueOf( storyConfiguration.getString( "DifficultyLevel" ) ) );
-                    story.setStartDate( new LocalDate( storyConfiguration.getString( "StartDate" ) ) );
-                    String[] projects = storyConfiguration.getStringArray( "Projects.Project" );
-                    for ( String projectFileName : projects )
-                    {
-                        File prjFile = file.listFiles( (FileFilter) new NameFileFilter( projectFileName + ".prj" ) )[0];
-                        loadProjectFile( story, prjFile );
-                    }
+               	// Load the Accountant
+              	Accountant accountant = new Accountant( );
+             	accountant.setName( storyConfiguration.getString( "Persons.Accountant.Name" ) );
+             	accountant.setLastName( storyConfiguration.getString( "Persons.Accountant.LastName" ) );
+            	accountant.setWorkingCompany( company );
+              	story.setAccountant( accountant );
+              	// -----------------------------------
+              	
+              	// Load game information
+              	String infoString=new String(storyConfiguration.getString("StoryInfo"));
+              	story.setInfoString(infoString);
+              	
+              	story.setDifficultyLevel( DifficultyLevel.valueOf( storyConfiguration.getString( "DifficultyLevel" ) ) );
+              	story.setStartDate( new LocalDate( storyConfiguration.getString( "StartDate" ) ) );
+             	String[] projects = storyConfiguration.getStringArray( "Projects.Project" );
+            	for ( String projectFileName : projects )
+              	{
+                	File prjFile = file.listFiles( (FileFilter) new NameFileFilter( projectFileName + ".prj" ) )[0];
+                	loadProjectFile( story, prjFile );
+                }
                     
-                    if ( story.isValid( ) )
-                    {
-                        ALL_STORIES.add( story );
-                    }
-                    else
-                    {
+             	if ( story.isValid( ) )
+              	{
+                	ALL_STORIES.add( story );
+              	}
+             	else
+             	{
                         LOGGER.warn( "Invalid story." );
-                    }
-                }
-                catch ( Exception e )
-                {
-                    LOGGER.warn( "Could not load " + file.getName( ), e );
-                }
-            }
+             	}
+           }
+           catch ( Exception e )
+           {
+        	   LOGGER.warn( "Could not load " + file.getName( ), e );
+           }
         }
     }
 

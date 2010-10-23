@@ -26,7 +26,7 @@ import org.apache.log4j.Logger;
 
 import org.promasi.model.ProjectManager;
 import org.promasi.shell.IPlayMode;
-import org.promasi.shell.ui.playmode.Story;
+import org.promasi.shell.ui.Story.Story;
 
 import org.promasi.ui.promasiui.promasidesktop.PlayModeSelectorFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
@@ -172,10 +172,10 @@ public class StorySelectorFrame extends JFrame implements Runnable
             _playModeNameLabel.setText( _currentPlayMode.getGameDescription(gameId));
             try
             {
-            	URL gameInfo=_currentPlayMode.getGameInfo(gameId);
+            	String gameInfo=_currentPlayMode.getGameInfo(gameId);
             	if( gameInfo!=null && _currentPlayMode.getGameInfo(gameId)!=null )
             	{
-            		_descriptionText.setPage( _currentPlayMode.getGameInfo( gameId) );
+            		_descriptionText.setText( _currentPlayMode.getGameInfo( gameId) );
             	}
             }
             catch ( Exception e )

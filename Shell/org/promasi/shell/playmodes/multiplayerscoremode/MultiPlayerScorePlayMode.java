@@ -20,17 +20,14 @@ import org.promasi.model.Employee;
 import org.promasi.model.MarketPlace;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
-import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.client.clientstate.LoginClientState;
 import org.promasi.multiplayer.client.TcpEventHandler;
-import org.promasi.multiplayer.server.clientstate.GameMasterClientState;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
+import org.promasi.shell.ui.Story.Story;
 import org.promasi.ui.promasiui.multiplayer.MakeGameForm;
-import org.promasi.ui.promasiui.promasidesktop.story.GameMasterForm;
-import org.promasi.network.protocol.client.request.CreateNewGameRequest;
 import org.promasi.network.protocol.client.request.JoinGameRequest;
 import org.promasi.network.protocol.client.request.LoginRequest;
 import org.promasi.network.tcp.TcpClient;
@@ -74,7 +71,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	/**
 	 * 
 	 */
-	private List<GameStory> _games;
+	private List<Story> _games;
 	
 	/**
 	 * 
@@ -104,7 +101,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		
 		_promasiClient=new ProMaSiClient( tcpClient,new LoginClientState(this));
 		tcpClient.registerTcpEventHandler(new TcpEventHandler(_promasiClient));
-		_games=new Vector<GameStory>();
+		_games=new Vector<Story>();
 		_shell=shell;
 		_projectManager=new ProjectManager();
 	}
@@ -210,7 +207,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
      * 
      * @param stories
      */
-    public synchronized void updateGameList(final List<GameStory> stories )
+    public synchronized void updateGameList(final List<Story> stories )
     {
     	_games.clear();
     	_games.addAll(stories);
@@ -220,9 +217,9 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	@Override
 	public synchronized List<String> getGamesList(){
 		Vector<String> gameList=new Vector<String>();
-		for(GameStory game : _games)
+		for(Story game : _games)
 		{
-			gameList.add(game.getGameId());
+			gameList.add(game.getName());
 		}
 		
 		gameList.add(new String("New Game"));
@@ -240,10 +237,10 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		
 		if(gameId<_games.size())
 		{
-			GameStory game=_games.get(gameId);
+			Story game=_games.get(gameId);
 			if(game!=null)
 			{
-				return game.getGameId();
+				return game.getName();
 			}
 			else
 			{
@@ -258,14 +255,29 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 
 	
 	@Override
-	public URL getGameInfo(int gameId)throws IllegalArgumentException 
+	public String getGameInfo(int gameId)throws IllegalArgumentException 
 	{
 		if(gameId<0)
 		{
 			throw new IllegalArgumentException("Wrong argument gameId<0");
 		}
 		
-		return null;
+		if(gameId<_games.size())
+		{
+			Story game=_games.get(gameId);
+			if(game!=null)
+			{
+				return game.getInfoString();
+			}
+			else
+			{
+				throw new  IllegalArgumentException("Wrong argument gameId");
+			}
+		}
+		else
+		{
+			return new String("Create new Game");
+		}
 	}
 	
 
@@ -289,10 +301,10 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		}
 		else if(gameId<_games.size())
 		{
-			 GameStory game=_games.get(gameId);
+			 Story game=_games.get(gameId);
 		     if ( game != null )
 		     {
-				 JoinGameRequest request=new JoinGameRequest(game.getGameId());
+				 JoinGameRequest request=new JoinGameRequest(game.getName());
 				 _promasiClient.sendMessage(request.toProtocolString());
 		     }
 		     else

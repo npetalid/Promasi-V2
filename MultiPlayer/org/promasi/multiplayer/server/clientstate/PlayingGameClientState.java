@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
-import org.promasi.multiplayer.GameStory;
 import org.promasi.multiplayer.ProMaSi;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
@@ -18,6 +17,7 @@ import org.promasi.network.protocol.client.request.SetGameValuesRequest;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.SetGameValuesResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
+import org.promasi.shell.ui.Story.Story;
 
 /**
  * @author m1cRo
@@ -38,7 +38,7 @@ public class PlayingGameClientState extends AbstractClientState {
 	/**
 	 *
 	 */
-	public PlayingGameClientState(ProMaSi promasi,GameStory gameStory)throws IllegalArgumentException,NullArgumentException
+	public PlayingGameClientState(ProMaSi promasi,Story gameStory)throws IllegalArgumentException,NullArgumentException
 	{
 		if(promasi==null)
 		{
@@ -51,7 +51,7 @@ public class PlayingGameClientState extends AbstractClientState {
 		}
 		
 		_promasi=promasi;
-		_game=_promasi.getGame(gameStory.getGameId());
+		_game=_promasi.getGame(gameStory.getName());
 	}
 
 	/* (non-Javadoc)
