@@ -28,7 +28,6 @@ public class WaitingForGameForm extends JFrame {
         setSize( ScreenUtils.sizeForPercentage( sizePercentage, sizePercentage ) );
         ScreenUtils.centerInScreen( this );
 		setTitle("Waiting for other players");
-        setTitle( "Make Game" );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 	}
 }

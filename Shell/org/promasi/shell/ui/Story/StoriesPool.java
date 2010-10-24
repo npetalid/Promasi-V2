@@ -156,13 +156,13 @@ public final class StoriesPool
                         Digester digester = new Digester( );
                         digester.addObjectCreate( "ListOfEmployees", Vector.class );
                         digester.addObjectCreate( "ListOfEmployees/Employee", Employee.class );
-                        digester.addBeanPropertySetter( "ListOfEmployees/Employee/name", "name" );
+                        digester.addBeanPropertySetter( "ListOfEmployees/Employee/name", "firstName" );
                         digester.addBeanPropertySetter( "ListOfEmployees/Employee/lastName", "lastName" );
                         digester.addBeanPropertySetter( "ListOfEmployees/Employee/salary", "salary" );
                         digester.addBeanPropertySetter( "ListOfEmployees/Employee/curriculumVitae", "curriculumVitae" );
                         digester.addObjectCreate( "ListOfEmployees/Employee/property", EmployeeProperty.class );
                         digester.addBeanPropertySetter( "ListOfEmployees/Employee/property", "value" );
-                        digester.addSetProperties( "ListOfEmployees/Employee/property", "name", "name" );
+                        digester.addSetProperties( "ListOfEmployees/Employee/property", "firstName", "name" );
                         digester.addSetNext( "ListOfEmployees/Employee/property", "addProperty", EmployeeProperty.class.getName( ) );
                         digester.addSetNext( "ListOfEmployees/Employee", "add", Employee.class.getName( ) );
 

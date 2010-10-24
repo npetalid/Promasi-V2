@@ -10,14 +10,14 @@ import org.promasi.network.protocol.client.response.CreateNewGameResponse;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
-import org.promasi.ui.promasiui.multiplayer.MakeGameForm;
+import org.promasi.ui.promasiui.multiplayer.CreateGameForm;
 
 public class GameMasterClientState extends AbstractClientState {
 
 	/**
 	 * 
 	 */
-	MakeGameForm _makeGameForm;
+	private CreateGameForm _createGamefrom;
 	
 	/**
 	 * 
@@ -41,8 +41,8 @@ public class GameMasterClientState extends AbstractClientState {
 			throw new NullArgumentException("Wrong argument client=null");
 		}
 		
-		_makeGameForm=new MakeGameForm(client);
-		_makeGameForm.setVisible(true);
+		_createGamefrom=new CreateGameForm(client);
+		_createGamefrom.setVisible(true);
 		_playMode=playMode;
 	}
 
@@ -53,9 +53,9 @@ public class GameMasterClientState extends AbstractClientState {
 			Object object=RequestBuilder.buildRequest(recData);
 			if(object instanceof CreateNewGameResponse)
 			{
-				changeClientState(client, new WaitingGameClientState(_playMode));
-				_makeGameForm.setVisible(false);
-				_makeGameForm.dispose();
+				CreateNewGameResponse response=(CreateNewGameResponse)object;
+				_createGamefrom.setVisible(false);
+				changeClientState(client, new WaitingForPlayersClientState(_playMode, response.getGameStory(),client));				
 			}
 			else
 			{

@@ -88,11 +88,12 @@ public class JoinGameClientState extends AbstractClientState{
 			}
 			else if(object instanceof JoinGameResponse)
 			{
-				changeClientState( client, new WaitingGameClientState( _playMode ) );
+				JoinGameResponse response=(JoinGameResponse)object;
+				changeClientState( client, new WaitingGameClientState( _playMode, response.getGameStory()) );
 			}
 			else if(object instanceof ChooseGameMasterStateResponse)
 			{
-				changeClientState(client, new GameMasterClientState(_playMode,client));
+				changeClientState(client, new GameMasterClientState(_playMode, client));
 			}
 			else
 			{

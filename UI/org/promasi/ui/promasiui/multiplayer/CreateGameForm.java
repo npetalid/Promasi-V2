@@ -28,7 +28,7 @@ import org.promasi.ui.promasiui.promasidesktop.story.StorySelectorFrame;
 import org.promasi.utilities.ui.ScreenUtils;
 
 
-public class MakeGameForm extends JFrame {
+public class CreateGameForm extends JFrame {
 
 	/**
 	 * 
@@ -70,7 +70,7 @@ public class MakeGameForm extends JFrame {
 	 * @param client
 	 * @throws NullArgumentException
 	 */
-	public MakeGameForm(ProMaSiClient client)throws NullArgumentException
+	public CreateGameForm(ProMaSiClient client)throws NullArgumentException
 	{
 		if(client==null)
 		{
@@ -96,7 +96,7 @@ public class MakeGameForm extends JFrame {
         } );
         
         _storiesList.setBorder( BorderFactory.createTitledBorder( "Create new game" ) );
-        _createGameButton = new JButton( "Play" );
+        _createGameButton = new JButton( "Create" );
 
         _playModeNameLabel = new JLabel( );
         _descriptionText = new JEditorPane( );

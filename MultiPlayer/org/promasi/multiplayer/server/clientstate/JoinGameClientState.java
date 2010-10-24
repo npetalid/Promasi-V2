@@ -4,7 +4,6 @@
 package org.promasi.multiplayer.server.clientstate;
 
 import java.net.ProtocolException;
-import java.util.List;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
@@ -20,7 +19,6 @@ import org.promasi.network.protocol.client.response.JoinGameFailedResponse;
 import org.promasi.network.protocol.client.response.JoinGameResponse;
 import org.promasi.network.protocol.client.response.RetreiveGameListResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
-import org.promasi.shell.ui.Story.Story;
 
 /**
  * @author m1cRo
@@ -79,6 +77,7 @@ public class JoinGameClientState extends AbstractClientState {
 				{
 					client.sendMessage(new JoinGameFailedResponse().toProtocolString());
 				}else{
+					client.sendMessage(new JoinGameResponse(_promasi.getGame(joinRequest.getGameId()).getGameStory()).toProtocolString());
 					changeClientState(client,new WaitingGameClientState(_promasi,_promasi.getGame(joinRequest.getGameId())));
 				}
 				

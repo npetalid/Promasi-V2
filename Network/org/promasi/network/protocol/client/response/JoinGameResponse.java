@@ -11,6 +11,7 @@ import org.promasi.shell.ui.Story.Story;
  *
  */
 public class JoinGameResponse extends AbstractResponse {
+
 	/**
 	 * 
 	 */
@@ -19,101 +20,48 @@ public class JoinGameResponse extends AbstractResponse {
 	/**
 	 *
 	 */
-	private String _responseString;
-
-	
-	/**
-	 *
-	 */
     public JoinGameResponse()
     {
     	_gameStory=new Story();
-    	_responseString=new String();
     }
-
     
-	/**
-	 *
-	 * @param responseString
-	 * @throws NullArgumentException
-	 */
-	public JoinGameResponse(Story gameStory, String responseString)throws NullArgumentException
-	{
-		if(responseString==null)
-		{
-			throw new NullArgumentException("Wrong argument responseString==null");
-		}
-		
-		if(gameStory==null)
-		{
-			throw new NullArgumentException("Wrong argument gameStory==null");
-		}
-		
-		_gameStory=gameStory;
-		_responseString=responseString;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public synchronized String getResponseString()
-	{
-		return _responseString;
-	}
-
-	
-	/**
-	 *
-	 * @param responseString
-	 * @throws NullArgumentException
-	 */
-	public synchronized void SetResponseString(String responseString)throws NullArgumentException
-	{
-		if(responseString==null)
-		{
-			throw new NullArgumentException("Wrong argument responseString==null");
-		}
-		
-		_responseString=responseString;
-	}
-
-	/**
-	 * 
-	 * @param gameStory
-	 * @throws NullArgumentException
-	 */
-	public synchronized void setGameStory(Story gameStory)throws NullArgumentException
-	{
-		if(gameStory==null)
-		{
-			throw new NullArgumentException("Wrong argument responseString==null");
-		}
-		
-		_gameStory=gameStory;
-	}
-	
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public synchronized boolean isJoinSuccessed()
-	{
-		if(_responseString!=null)
-		{
-			return false;
-		}
-		return true;
-	}
-	
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public synchronized Story getGameStory()
-	{
-		return _gameStory;
-	}
+    /**
+     * 
+     * @param gameStory
+     * @throws NullArgumentException
+     */
+    public JoinGameResponse(Story gameStory)throws NullArgumentException
+    {
+    	if(gameStory==null)
+    	{
+    		throw new NullArgumentException("Wrong argument gameStory==null");
+    	}
+    	
+    	_gameStory=gameStory;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public Story getGameStory()
+    {
+    	return _gameStory;
+    }
+    
+    /**
+     * 
+     * @param gameStory
+     * @throws NullArgumentException
+     */
+    public void setGameStory(Story gameStory)throws NullArgumentException
+    {
+    	if(gameStory==null)
+    	{
+    		throw new NullArgumentException("Wrong argument gameStory==null");
+    	}
+    	
+    	_gameStory=gameStory;
+    }
+    
 }

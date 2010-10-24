@@ -20,7 +20,7 @@ public class StartGameResponse extends AbstractResponse
 	/**
 	 * 
 	 */
-	StartGameResponse()
+	public StartGameResponse()
 	{
 		_gameStory=new Story();
 	}
