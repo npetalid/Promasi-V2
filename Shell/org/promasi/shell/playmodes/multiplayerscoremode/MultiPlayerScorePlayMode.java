@@ -26,7 +26,7 @@ import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
 import org.promasi.shell.ui.Story.Story;
-import org.promasi.ui.promasiui.multiplayer.MakeGameForm;
+import org.promasi.network.protocol.client.request.ChooseGameMasterStateRequest;
 import org.promasi.network.protocol.client.request.JoinGameRequest;
 import org.promasi.network.protocol.client.request.LoginRequest;
 import org.promasi.network.tcp.TcpClient;
@@ -295,8 +295,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		
 		if(_games.size()==gameId)
 		{
-	    	 MakeGameForm makeGameForm=new MakeGameForm(_promasiClient);
-	    	 makeGameForm.setVisible(true);
+	    	_promasiClient.sendMessage(new ChooseGameMasterStateRequest().toProtocolString());
 		}
 		else if(gameId<_games.size())
 		{

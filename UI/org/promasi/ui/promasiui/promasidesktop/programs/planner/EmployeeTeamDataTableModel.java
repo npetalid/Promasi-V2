@@ -90,7 +90,7 @@ public class EmployeeTeamDataTableModel
         EmployeeTeamData teamData = _data.get( rowIndex );
         if ( columnIndex == 0 )
         {
-            return teamData.getEmployee( ).getLastName( ) + " - " + teamData.getEmployee( ).getName( );
+            return teamData.getEmployee( ).getLastName( ) + " - " + teamData.getEmployee( ).getFirstName( );
         }
         else if ( columnIndex == 1 )
         {

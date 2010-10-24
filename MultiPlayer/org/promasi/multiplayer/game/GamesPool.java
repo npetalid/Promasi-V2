@@ -116,19 +116,11 @@ public class GamesPool
 	 */
 	public synchronized LinkedList<Story> retreiveGames()
 	{
-
-		
 		LinkedList<Story> result=new LinkedList<Story>();
 		for(Game game : _gameList.values())
 		{
 			Story gameStory=game.getGameStory();
 			result.add(gameStory);
-		}
-
-		List<Story> stories=StoriesPool.getAllStories();
-		for(Story story : stories)
-		{
-			result.add(story);
 		}
 		
 		return result;

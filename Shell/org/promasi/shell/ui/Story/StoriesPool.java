@@ -217,21 +217,21 @@ public final class StoriesPool
 
                	// Load the persons
                	Boss boss = new Boss( );
-            	boss.setName( storyConfiguration.getString( "Persons.Boss.Name" ) );
+            	boss.setFirstName( storyConfiguration.getString( "Persons.Boss.Name" ) );
               	boss.setLastName( storyConfiguration.getString( "Persons.Boss.LastName" ) );
               	boss.setWorkingCompany( company );
             	story.setBoss( boss );
 
              	// Load the Administrator
             	Administrator administrator = new Administrator( );
-             	administrator.setName( storyConfiguration.getString( "Persons.Administrator.Name" ) );
+             	administrator.setFirstName( storyConfiguration.getString( "Persons.Administrator.Name" ) );
              	administrator.setLastName( storyConfiguration.getString( "Persons.Administrator.LastName" ) );
                	administrator.setWorkingCompany( company );
               	story.setAdministrator( administrator );
 
                	// Load the Accountant
               	Accountant accountant = new Accountant( );
-             	accountant.setName( storyConfiguration.getString( "Persons.Accountant.Name" ) );
+             	accountant.setFirstName( storyConfiguration.getString( "Persons.Accountant.Name" ) );
              	accountant.setLastName( storyConfiguration.getString( "Persons.Accountant.LastName" ) );
             	accountant.setWorkingCompany( company );
               	story.setAccountant( accountant );

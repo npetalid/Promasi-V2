@@ -10,8 +10,10 @@ import java.net.ProtocolException;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.multiplayer.client.clientstate.GameMasterClientState;
 import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.request.RetreiveGameListRequest;
+import org.promasi.network.protocol.client.response.ChooseGameMasterStateResponse;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.JoinGameResponse;
 import org.promasi.network.protocol.client.response.RetreiveGameListResponse;
@@ -86,8 +88,11 @@ public class JoinGameClientState extends AbstractClientState{
 			}
 			else if(object instanceof JoinGameResponse)
 			{
-				JoinGameResponse joinResponse=(JoinGameResponse)object;
-				changeClientState( client, new WaitingGameClientState( _playMode,joinResponse.getGameStory() ) );
+				changeClientState( client, new WaitingGameClientState( _playMode ) );
+			}
+			else if(object instanceof ChooseGameMasterStateResponse)
+			{
+				changeClientState(client, new GameMasterClientState(_playMode,client));
 			}
 			else
 			{

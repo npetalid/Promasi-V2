@@ -27,14 +27,14 @@ public class Person implements Serializable
 	/**
      * The name of the person.
      */
-    private String _name;
+    private String _firstName;
 
     /**
      * The last name of the person.
      */
     private String _lastName;
 
-    public static final String NAME_PROPERTY = "name";
+    public static final String NAME_PROPERTY = "firstName";
     public static final String LASTNAME_PROPERTY = "lastName";
 
     /**
@@ -42,22 +42,22 @@ public class Person implements Serializable
      */
     public Person( )
     {
-    	_name=new String(NAME_PROPERTY);
+    	_firstName=new String(NAME_PROPERTY);
     	_lastName=new String(LASTNAME_PROPERTY);
     }
 
     /**
      * Initializes the object.
      * 
-     * @param name
-     *            The {@link #_name} to set.
+     * @param firstName
+     *            The {@link #_firstName} to set.
      * @param lastName
      *            The {@link #_lastName} to set.
      */
-    public Person( String name, String lastName )throws NullArgumentException
+    public Person( String firstName, String lastName )throws NullArgumentException
     {
         this( );
-        if(name==null)
+        if(firstName==null)
         {
         	throw new NullArgumentException("Wrong argument name==null");
         }
@@ -67,25 +67,25 @@ public class Person implements Serializable
         	throw new NullArgumentException("Wrong argument lastName==null");
         }
         
-        _name = name;
+        _firstName = firstName;
         _lastName = lastName;
     }
 
     /**
-     * @return The {@link #_name}.
+     * @return The {@link #_firstName}.
      */
-    public String getName ( )
+    public String getFirstName ( )
     {
-        return _name;
+        return _firstName;
     }
 
     /**
      * @param name
-     *            The {@link #_name} to set.
+     *            The {@link #_firstName} to set.
      */
-    public void setName ( String name )
+    public void setFirstName ( String name )
     {
-        _name = name;
+        _firstName = name;
     }
 
     /**
@@ -108,6 +108,6 @@ public class Person implements Serializable
     @Override
     public String toString ( )
     {
-        return _lastName + " " + _name;
+        return _lastName + " " + _firstName;
     }
 }

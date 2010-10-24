@@ -2,7 +2,6 @@ package org.promasi.ui.promasiui.multiplayer;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.URL;
 import java.util.List;
 
 import javax.swing.BorderFactory;

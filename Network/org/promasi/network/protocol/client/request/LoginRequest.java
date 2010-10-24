@@ -20,21 +20,22 @@ public class LoginRequest  extends AbstractRequest
 	/**
 	 *
 	 */
-	public String _fistName;
+	public String _firstName;
 
 	/**
 	 *
 	 */
-	public String _lastname;
+	public String _lastName;
 
 	/**
 	 * Default constructor.
 	 */
 	public LoginRequest()
 	{
-		_fistName="FirstName";
-		_lastname="LastName";
+		_firstName=new String("FirstName");
+		_lastName=new String("LastName");
 	}
+	
 	/**
 	 *
 	 * @param firstName
@@ -45,34 +46,34 @@ public class LoginRequest  extends AbstractRequest
 	{
 		if(firstName==null)
 		{
-			throw new NullArgumentException("Wrong argument userName==null");
+			throw new NullArgumentException("Wrong argument firstName==null");
 		}
 
 		if(lastName==null)
 		{
-			throw new NullArgumentException("Wrong argument userName==null");
+			throw new NullArgumentException("Wrong argument lastName==null");
 		}
 		
-		_fistName=firstName;
-		_lastname=lastName;
+		_firstName=firstName;
+		_lastName=lastName;
 	}
 
 	/**
 	 * UserName getter.
 	 * @return
 	 */
-	public String getFistName()
+	public String getFirstName()
 	{
-		return _fistName;
+		return _firstName;
 	}
 
 	/**
-	 * Password getter.
+	 * LastName getter.
 	 * @return
 	 */
 	public String getLastName()
 	{
-		return _lastname;
+		return _lastName;
 	}
 
 	/**
@@ -84,14 +85,10 @@ public class LoginRequest  extends AbstractRequest
 	{
 		if(firstName==null)
 		{
-			throw new NullArgumentException("Wrong argument userName==null");
+			throw new NullArgumentException("Wrong argument firstName==null");
 		}
-
-		if(firstName.isEmpty())
-		{
-			throw new IllegalArgumentException("Wrong argument userName.isEmpty()");
-		}
-		_fistName=firstName;
+		
+		_firstName=firstName;
 	}
 
 	/**
@@ -103,9 +100,9 @@ public class LoginRequest  extends AbstractRequest
 	{
 		if(lastName==null)
 		{
-			throw new NullArgumentException("Wrong argument password==null");
+			throw new NullArgumentException("Wrong argument lastName==null");
 		}
 
-		_lastname=lastName;
+		_lastName=lastName;
 	}
 }

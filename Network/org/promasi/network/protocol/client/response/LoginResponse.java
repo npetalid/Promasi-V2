@@ -22,7 +22,7 @@ public class LoginResponse extends AbstractResponse
 	 */
 	public LoginResponse()
 	{
-	
+		_projectManager=new ProjectManager();
 	}
 	
 	/**

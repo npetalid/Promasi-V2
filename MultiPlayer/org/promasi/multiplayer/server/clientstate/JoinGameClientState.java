@@ -10,14 +10,13 @@ import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSi;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.multiplayer.game.Game;
-import org.promasi.multiplayer.game.GameModel;
-import org.promasi.network.protocol.client.request.CreateNewGameRequest;
+import org.promasi.network.protocol.client.request.ChooseGameMasterStateRequest;
 import org.promasi.network.protocol.client.request.JoinGameRequest;
 import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.request.RetreiveGameListRequest;
-import org.promasi.network.protocol.client.response.CreateNewGameResponse;
+import org.promasi.network.protocol.client.response.ChooseGameMasterStateResponse;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
+import org.promasi.network.protocol.client.response.JoinGameFailedResponse;
 import org.promasi.network.protocol.client.response.JoinGameResponse;
 import org.promasi.network.protocol.client.response.RetreiveGameListResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
@@ -78,34 +77,16 @@ public class JoinGameClientState extends AbstractClientState {
 				JoinGameRequest joinRequest=(JoinGameRequest)object;
 				if(!_promasi.joinGame(client, joinRequest.getGameId()))
 				{
-					//---------------------------TEST------------------------
-					List<Story> gameStory=_promasi.retreiveGames();
-					JoinGameResponse response=new JoinGameResponse(gameStory.get(0),"GOGOGO");
-					if(!client.sendMessage(response.toProtocolString() ) )
-					{
-						client.disconnect();
-					}
-					
-					//---------------------------TEST------------------------
+					client.sendMessage(new JoinGameFailedResponse().toProtocolString());
 				}else{
 					changeClientState(client,new WaitingGameClientState(_promasi,_promasi.getGame(joinRequest.getGameId())));
 				}
 				
 			}
-			else if(object instanceof CreateNewGameRequest)
+			else if( object instanceof ChooseGameMasterStateRequest)
 			{
-				CreateNewGameRequest request=(CreateNewGameRequest)object;
-				Game game=new Game(client,new GameModel(request.getGameStory()));
-				try
-				{
-					_promasi.createNewGame(request.getGameStory().getName(),game);
-					client.sendMessage(new CreateNewGameResponse(true).toProtocolString());
-					changeClientState(client,new GameMasterClientState(_promasi,game));
-				}
-				catch(IllegalArgumentException e)
-				{
-					client.sendMessage(new CreateNewGameResponse(false).toProtocolString());
-				}
+				client.sendMessage(new ChooseGameMasterStateResponse().toProtocolString());
+				changeClientState(client, new GameMasterClientState(_promasi));
 			}
 			else
 			{

@@ -30,20 +30,21 @@ public class GameModel implements Serializable
     /**
      * 
      */
-    public GameModel()
-    {
-    	_gameStory=new Story();
-    }
-    
-    /**
-     * 
-     */
     public GameModel(Story gameStory)throws NullArgumentException{
     	if(gameStory==null){
     		throw new NullArgumentException("Wrong argument gameStory==null");
     	}
     	
     	_gameStory=gameStory;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public Story getGameStory()
+    {
+    	return _gameStory;
     }
     
 	/**

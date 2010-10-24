@@ -18,7 +18,6 @@ import org.promasi.network.protocol.client.request.StartGameRequest;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
-import org.promasi.shell.ui.Story.Story;
 import org.promasi.ui.promasiui.multiplayer.WaitingForGameForm;
 
 /**
@@ -43,16 +42,11 @@ public class WaitingGameClientState extends AbstractClientState {
 	 * @param gameStory
 	 * @throws NullArgumentException
 	 */
-	public WaitingGameClientState(MultiPlayerScorePlayMode playMode, Story gameStory)throws NullArgumentException
+	public WaitingGameClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException
 	{
 		if( playMode==null )
 		{
 			throw new NullArgumentException("Wrong argument playMode==null");
-		}
-		
-		if(gameStory==null)
-		{
-			throw new NullArgumentException("Wrong argument gameStory==null");
 		}
 		
 		_form=new WaitingForGameForm();

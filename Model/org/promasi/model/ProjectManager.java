@@ -28,8 +28,8 @@ public class ProjectManager extends Person
     /**
      * Initializes the object. Calls the {@link Person#Person(String, String)}.
      */
-    public ProjectManager( String name, String lastName )
+    public ProjectManager( String firstName, String lastName )
     {
-        super( name, lastName );
+        super( firstName, lastName );
     }
 }

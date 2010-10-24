@@ -3,6 +3,7 @@
  */
 package org.promasi.network.protocol.client.response;
 
+
 /**
  * @author m1cRo
  *
@@ -10,34 +11,9 @@ package org.promasi.network.protocol.client.response;
 public class CreateNewGameResponse extends AbstractResponse {
 
 	/**
-	 *
+	 * 
 	 */
-	private boolean _result;
-
-	/**
-	 *
-	 * @param result
-	 */
-	public CreateNewGameResponse(boolean result)
+	public CreateNewGameResponse()
 	{
-		_result=result;
-	}
-
-	/**
-	 *
-	 * @param result
-	 */
-	public void SetResult(boolean result)
-	{
-		_result=result;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public boolean GetResult()
-	{
-		return _result;
 	}
 }

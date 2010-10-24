@@ -10,10 +10,11 @@ import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSi;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
+import org.promasi.multiplayer.game.GameModel;
+import org.promasi.network.protocol.client.request.CreateNewGameRequest;
 import org.promasi.network.protocol.client.request.RequestBuilder;
-import org.promasi.network.protocol.client.request.StartGameRequest;
+import org.promasi.network.protocol.client.response.CreateNewGameResponse;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
-import org.promasi.network.protocol.client.response.StartGameResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 
 /**
@@ -27,10 +28,6 @@ public class GameMasterClientState extends AbstractClientState {
 	 */
 	private ProMaSi _promasi;
 
-	/**
-	 *
-	 */
-	private Game _game;
 
 	/**
 	 *
@@ -38,20 +35,14 @@ public class GameMasterClientState extends AbstractClientState {
 	 * @param game
 	 * @throws NullArgumentException
 	 */
-	public GameMasterClientState(ProMaSi promasi,Game game)throws NullArgumentException
+	public GameMasterClientState(ProMaSi promasi)throws NullArgumentException
 	{
 		if(promasi==null)
 		{
 			throw new NullArgumentException("Wrong argument promasi==null");
 		}
-
-		if(game==null)
-		{
-			throw new NullArgumentException("Wrong argument game==null");
-		}
 		
 		_promasi=promasi;
-		_game=game;
 	}
 
 	/* (non-Javadoc)
@@ -72,11 +63,20 @@ public class GameMasterClientState extends AbstractClientState {
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
-			if(object instanceof StartGameRequest)
+			if(object instanceof CreateNewGameRequest)
 			{
-				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameStory()));
-				_game.startGame("Game started");
-				client.sendMessage(new StartGameResponse(_game.getGameStory()).toProtocolString());
+				CreateNewGameRequest request=(CreateNewGameRequest)object;
+				Game game=new Game(client,new GameModel(request.getGameStory()));
+				try
+				{
+					_promasi.createNewGame(request.getGameStory().getName(),game);
+					client.sendMessage(new CreateNewGameResponse().toProtocolString());
+					changeClientState(client,new WaitingGameClientState(_promasi,game));
+				}
+				catch(IllegalArgumentException e)
+				{
+					//client.sendMessage(new CreateNewGameResponse(false).toProtocolString());
+				}
 			}
 			else
 			{

@@ -20,11 +20,6 @@ import org.promasi.shell.ui.Story.Story;
 public class Game implements Runnable
 {
 	/**
-	 * 
-	 */
-	Story _gameStory;
-
-	/**
 	 *
 	 */
 	private ProMaSiClient _gameMaster;
@@ -206,7 +201,7 @@ public class Game implements Runnable
 	 */
 	public synchronized Story getGameStory()
 	{
-		return _gameStory;
+		return _gameModel.getGameStory();
 	}
 
 	@Override

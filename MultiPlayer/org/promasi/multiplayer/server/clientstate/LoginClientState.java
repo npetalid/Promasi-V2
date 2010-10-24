@@ -62,10 +62,10 @@ public class LoginClientState extends AbstractClientState
 			if(object instanceof LoginRequest)
 			{
 				LoginRequest loginRequest=(LoginRequest)object;
-				client.setClientId(loginRequest.getFistName());
+				client.setClientId(loginRequest.getFirstName());
 				_promasi.addUser(client);
 				changeClientState(client,new JoinGameClientState(_promasi));
-				ProjectManager projectManager=new ProjectManager(loginRequest.getFistName(),loginRequest.getLastName());
+				ProjectManager projectManager=new ProjectManager(loginRequest.getFirstName(),loginRequest.getLastName());
 				LoginResponse loginResponse=new LoginResponse(projectManager);
 				client.sendMessage(loginResponse.toProtocolString());
 			}
