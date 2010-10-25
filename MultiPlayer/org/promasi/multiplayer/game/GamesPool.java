@@ -161,7 +161,7 @@ public class GamesPool
 		}
 
 		Game game=_gameList.get(gameId);
-			//ToDo add user.
+		game.addPlayer(client);
 		_players.put(client, game);
 		
 		return true;

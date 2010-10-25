@@ -62,11 +62,6 @@ public final class StoriesPool
     private static final String STORIES_FOLDER = SinglePlayerScorePlayMode.RELATIVE_DATA_DIRECTORY + File.separator + "Stories";
 
     /**
-     * The name of the story info file.
-     */
-    private static final String INFO_NAME = "info.html";
-
-    /**
      * The name of the story XML file.
      */
     private static final String STORY_NAME = "story.xml";
@@ -193,7 +188,7 @@ public final class StoriesPool
             }
             catch ( ArrayIndexOutOfBoundsException e )
             {
-                LOGGER.warn( "Could not find " + INFO_NAME + " in " + file.getName( ), e );
+                LOGGER.warn( "Could not find " + " in " + file.getName( ), e );
             }
             catch ( FileNotFoundException e )
 

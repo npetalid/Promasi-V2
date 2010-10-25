@@ -5,12 +5,16 @@ package org.promasi.multiplayer.game;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.network.protocol.client.request.StartGameRequest;
 import org.promasi.shell.ui.Story.Story;
+
 
 
 /**
@@ -102,7 +106,8 @@ public class Game implements Runnable
 		}
 		
 		try {
-			GameModel newModel=(GameModel) BeanUtils.cloneBean(_gameModel);
+			Story clonedStory=(Story)BeanUtils.cloneBean(_gameModel.getGameStory());
+			GameModel newModel=new GameModel(clonedStory);
 			_gameModels.put(player, newModel);
 		} catch (IllegalAccessException e) {
 			return false;
@@ -138,20 +143,35 @@ public class Game implements Runnable
 	}
 
 	/**
+	 * 
+	 * @return
+	 */
+	public synchronized List<ProMaSiClient> getGameClients()
+	{
+		List<ProMaSiClient> result=new Vector<ProMaSiClient>();
+		for(Map.Entry<ProMaSiClient,GameModel> entry:_gameModels.entrySet())
+		{
+			result.add(entry.getKey());
+		}
+		
+		return result;
+	}
+	
+	/**
 	 *
 	 * @param message
 	 * @return
 	 */
-	public synchronized boolean startGame(String message)
+	public synchronized boolean startGame()
 	{
-		if(_gameModels.size()<2)
-		{
-			return false;
-		}
+		//if(_gameModels.size()<2)
+		//{
+		//	return false;
+		//}
 			
-		for(Map.Entry<ProMaSiClient,GameModel> entry:_gameModels.entrySet())
+		for(Map.Entry<ProMaSiClient, GameModel> curEntry : _gameModels.entrySet())
 		{
-			entry.getKey().onReceiveData(message);
+			curEntry.getKey().sendMessage(new StartGameRequest().toProtocolString());
 		}
 
 		_isRunning=true;

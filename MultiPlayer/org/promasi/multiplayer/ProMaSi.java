@@ -227,6 +227,12 @@ public class ProMaSi
 		_games.addNewGame(gameId,game);
 	}
 	
+	/**
+	 * 
+	 * @param client
+	 * @param gameId
+	 * @return
+	 */
 	public synchronized boolean joinGame(ProMaSiClient client,String gameId)
 	{
 		return _games.joinGame(client, gameId);

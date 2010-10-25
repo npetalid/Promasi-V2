@@ -35,8 +35,11 @@ public class WaitingGameClientState extends AbstractClientState {
 	/**
 	 * 
 	 */
-	private WaitingForGameForm _form;
+	private WaitingForGameForm _waitingForm;
 	
+	/**
+	 * 
+	 */
 	private Story _gameStory;
 	
 	/**
@@ -57,8 +60,8 @@ public class WaitingGameClientState extends AbstractClientState {
 			throw new NullArgumentException("Wrong argument gameStory==null");
 		}
 		
-		_form=new WaitingForGameForm();
-		_form.setVisible(true);
+		_waitingForm=new WaitingForGameForm();
+		_waitingForm.setVisible(true);
 		_playMode=playMode;
 		_gameStory=gameStory;
 	}
@@ -94,6 +97,7 @@ public class WaitingGameClientState extends AbstractClientState {
 		            	
 		        _playMode.getShell().setCurrentPlayMode(_playMode);
 				changeClientState( client, new PlayingGameClientState(_playMode.getShell()) );
+				_waitingForm.setVisible(false);
 			}
 			else
 			{

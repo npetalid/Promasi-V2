@@ -13,8 +13,8 @@ import org.promasi.multiplayer.game.Game;
 import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.request.StartGameRequest;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
-import org.promasi.network.protocol.client.response.StartGameResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
+
 
 /**
  * @author m1cRo
@@ -73,7 +73,6 @@ public class WaitingGameClientState extends AbstractClientState {
 			if(object instanceof StartGameRequest)
 			{
 				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameStory()));
-				client.sendMessage(new StartGameResponse(_game.getGameStory()).toProtocolString());
 			}
 			else
 			{
