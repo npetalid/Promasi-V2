@@ -74,7 +74,7 @@ public class CreateGameFrame extends JFrame {
 		setLayout( new MigLayout( new LC( ).fillX( ) ) );
 		add( _label, new CC( ).growX( ).wrap( ) );
 		add( _gameIdField, new CC( ).growX( ).wrap( ) );
-		add( _createGameButton, new CC( ).growX( ).wrap( ) );
+		add( _createGameButton, new CC( ).growY().wrap() );
 		
 		setSize( 300, 200 );
 		_createGameButton.addActionListener(new ActionListener( )

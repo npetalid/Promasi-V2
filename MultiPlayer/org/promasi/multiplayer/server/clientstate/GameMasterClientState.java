@@ -76,6 +76,7 @@ public class GameMasterClientState extends AbstractClientState {
 						Game game=new Game(client,new GameModel(story));
 						try
 						{
+							story.setName(request.getGameName());
 							_promasi.createNewGame(request.getGameName(),game);
 							client.sendMessage(new CreateNewGameResponse().toProtocolString());
 							changeClientState(client,new WaitingForPlayersClientState(_promasi,game));
