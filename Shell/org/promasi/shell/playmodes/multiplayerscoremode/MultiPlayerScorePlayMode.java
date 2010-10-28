@@ -225,7 +225,6 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 			gameList.add(entry.getKey());
 		}
 		
-		gameList.add(new String("New Game"));
 		return gameList;
 	}
 
