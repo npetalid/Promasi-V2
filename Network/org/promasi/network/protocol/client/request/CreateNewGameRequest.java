@@ -4,7 +4,6 @@
 package org.promasi.network.protocol.client.request;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.shell.ui.Story.Story;
 
 /**
  * @author m1cRo
@@ -20,14 +19,20 @@ public class CreateNewGameRequest extends AbstractRequest
 	/**
 	 * 
 	 */
-	private Story _gameStory;
+	private String _storyId;
     
+	/**
+	 * 
+	 */
+	private String _gameName;
+	
 	/**
 	 * 
 	 */
 	public CreateNewGameRequest()
 	{
-		_gameStory=null;
+		_storyId=new String();
+		_gameName=new String();
 	}
 	
 	/**
@@ -37,23 +42,29 @@ public class CreateNewGameRequest extends AbstractRequest
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public CreateNewGameRequest(Story gameStory)throws NullArgumentException,IllegalArgumentException
+	public CreateNewGameRequest(String storyId, String gameName)throws NullArgumentException,IllegalArgumentException
 	{
-		if(gameStory==null)
+		if(storyId==null)
 		{
-			throw new NullArgumentException("Wrong argument gameStory==null");
+			throw new NullArgumentException("Wrong argument storyId==null");
+		}
+		
+		if(gameName==null)
+		{
+			throw new NullArgumentException("Wrong argument gameName==null");
 		}
 
-		_gameStory=gameStory;
+		_storyId=storyId;
+		_gameName=gameName;
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public synchronized Story getGameStory()
+	public synchronized String getStoryId()
 	{
-		return _gameStory;
+		return _storyId;
 	}
 	
 	/**
@@ -61,13 +72,37 @@ public class CreateNewGameRequest extends AbstractRequest
 	 * @param gameStory
 	 * @throws NullArgumentException
 	 */
-	public synchronized void setGameStory(Story gameStory)throws NullArgumentException
+	public synchronized void setStoryId(String storyId)throws NullArgumentException
 	{
-		if(gameStory==null)
+		if(storyId==null)
 		{
-			throw new NullArgumentException("Wrong argument gameStory==null");
+			throw new NullArgumentException("Wrong argument storyId==null");
 		}
 		
-		_gameStory=gameStory;
+		_storyId=storyId;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized String getGameName()
+	{
+		return _gameName;
+	}
+	
+	/**
+	 * 
+	 * @param gameName
+	 * @throws NullArgumentException
+	 */
+	public synchronized void setGameName(String gameName)throws NullArgumentException
+	{
+		if(gameName==null)
+		{
+			throw new NullArgumentException("Wrong argument gameName==null");
+		}
+		
+		_gameName=gameName;
 	}
 }

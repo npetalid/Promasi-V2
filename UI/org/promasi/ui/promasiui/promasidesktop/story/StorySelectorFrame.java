@@ -4,7 +4,6 @@ package org.promasi.ui.promasiui.promasidesktop.story;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -26,7 +25,7 @@ import org.apache.log4j.Logger;
 
 import org.promasi.model.ProjectManager;
 import org.promasi.shell.IPlayMode;
-import org.promasi.shell.ui.Story.Story;
+import org.promasi.shell.Story.Story;
 
 import org.promasi.ui.promasiui.promasidesktop.PlayModeSelectorFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
@@ -166,10 +165,10 @@ public class StorySelectorFrame extends JFrame implements Runnable
      */
     private void selectionChanged ( )
     {
-    	int gameId=_storiesList.getSelectedIndex();
-    	if(gameId>=0)
+    	String gameId=(String)_storiesList.getSelectedValue();
+    	if(gameId!=null)
     	{
-            _playModeNameLabel.setText( _currentPlayMode.getGameDescription(gameId));
+            _playModeNameLabel.setText( gameId );
             try
             {
             	String gameInfo=_currentPlayMode.getGameInfo(gameId);
@@ -191,8 +190,8 @@ public class StorySelectorFrame extends JFrame implements Runnable
      */
     private synchronized void play ( )
     {
-    	int selectedIndex=_storiesList.getSelectedIndex();
-    	if(selectedIndex>=0)
+    	String selectedIndex=(String)_storiesList.getSelectedValue();
+    	if(selectedIndex!=null)
     	{
     		try
     		{

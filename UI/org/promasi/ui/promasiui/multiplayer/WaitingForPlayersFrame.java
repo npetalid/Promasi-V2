@@ -15,7 +15,7 @@ import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.client.request.StartGameRequest;
 import org.promasi.utilities.ui.ScreenUtils;
 
-public class WaitingForPlayersForm extends JFrame{
+public class WaitingForPlayersFrame extends JFrame{
 
 	/**
 	 * 
@@ -35,7 +35,7 @@ public class WaitingForPlayersForm extends JFrame{
 	/**
 	 * 
 	 */
-	public WaitingForPlayersForm(ProMaSiClient client)throws NullArgumentException
+	public WaitingForPlayersFrame(ProMaSiClient client)throws NullArgumentException
 	{
 		if(client==null)
 		{
@@ -58,6 +58,7 @@ public class WaitingForPlayersForm extends JFrame{
             public void actionPerformed ( ActionEvent e )
             {
                _client.sendMessage(new StartGameRequest().toProtocolString());
+               setVisible(false);
             }
         } );
         

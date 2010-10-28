@@ -4,6 +4,7 @@
 package org.promasi.multiplayer.server.clientstate;
 
 import java.net.ProtocolException;
+import java.util.List;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
@@ -16,6 +17,8 @@ import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.response.CreateNewGameResponse;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
+import org.promasi.shell.Story.StoriesPool;
+import org.promasi.shell.Story.Story;
 
 /**
  * @author m1cRo
@@ -66,16 +69,22 @@ public class GameMasterClientState extends AbstractClientState {
 			if(object instanceof CreateNewGameRequest)
 			{
 				CreateNewGameRequest request=(CreateNewGameRequest)object;
-				Game game=new Game(client,new GameModel(request.getGameStory()));
-				try
+				List<Story> stories=StoriesPool.getAllStories();
+				for(Story story : stories)
 				{
-					_promasi.createNewGame(request.getGameStory().getName(),game);
-					client.sendMessage(new CreateNewGameResponse(request.getGameStory()).toProtocolString());
-					changeClientState(client,new WaitingForPlayersClientState(_promasi,game));
-				}
-				catch(IllegalArgumentException e)
-				{
-					//client.sendMessage(new CreateNewGameResponse(false).toProtocolString());
+					if(story.getName().compareTo(request.getStoryId())==0){
+						Game game=new Game(client,new GameModel(story));
+						try
+						{
+							_promasi.createNewGame(request.getGameName(),game);
+							client.sendMessage(new CreateNewGameResponse().toProtocolString());
+							changeClientState(client,new WaitingForPlayersClientState(_promasi,game));
+						}
+						catch(IllegalArgumentException e)
+						{
+						//	//client.sendMessage(new CreateNewGameResponse(false).toProtocolString());
+						}
+					}
 				}
 			}
 			else

@@ -5,14 +5,11 @@ package org.promasi.multiplayer.game;
 
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.model.Company;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.shell.ui.Story.StoriesPool;
-import org.promasi.shell.ui.Story.Story;
+import org.promasi.shell.Story.Story;
 
 
 /**

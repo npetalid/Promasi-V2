@@ -1,4 +1,4 @@
-package org.promasi.shell.ui.Story;
+package org.promasi.shell.Story;
 
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -153,6 +153,77 @@ public class Story implements IValidatable
     	_projectModelRelations=projectModelRelations;
     }
     
+    /**
+     * 
+     * @return
+     */
+    public Map<Project, List<OutputVariableBinding> > getProjectOutputVariableBindings()
+    {
+    	return _projectOutputVariableBindings;
+    }
+    
+    /**
+     * 
+     * @param bindings
+     * @throws NullArgumentException
+     */
+    public void setProjectOutputVariableBindings(Map<Project, List<OutputVariableBinding> > bindings)throws NullArgumentException
+    {
+    	if(bindings==null)
+    	{
+    		throw new NullArgumentException("Wrong argument bindings==null");
+    	}
+    	
+    	_projectOutputVariableBindings=bindings;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public Map< Project, List<ExternalEquationBinding> > getProjectExternalEquationBindings()
+    {
+    	return _projectExternalEquationBindings;
+    }
+    
+    /**
+     * 
+     * @param bindings
+     * @throws NullArgumentException
+     */
+    public void setProjectExternalEquationBindings(Map< Project, List<ExternalEquationBinding> > bindings)throws NullArgumentException
+    {
+    	if(bindings==null)
+    	{
+    		throw new NullArgumentException("Wrong argument bindings==null");
+    	}
+    	
+    	_projectExternalEquationBindings=bindings;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public Map<Project, List<EventBinding>> getProjectEventBindins()
+    {
+    	return _projectEventBindings;
+    }
+    
+    /**
+     * 
+     * @param bindings
+     * @throws NullArgumentException
+     */
+    public void setProjectEventBindings(Map<Project, List<EventBinding>> bindings)throws NullArgumentException
+    {
+    	if(bindings==null)
+    	{
+    		throw new NullArgumentException("Wrong argument bindings==null");
+    	}
+    	
+    	_projectEventBindings=bindings;
+    }
     
     /**
      * 

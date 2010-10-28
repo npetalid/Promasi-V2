@@ -3,11 +3,10 @@ package org.promasi.shell.playmodes.singleplayerscoremode;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.naming.ConfigurationException;
@@ -31,13 +30,13 @@ import org.promasi.model.ProjectManager;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
+import org.promasi.shell.Story.StoriesPool;
+import org.promasi.shell.Story.Story;
 import org.promasi.shell.model.actions.IModelAction;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ActionBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.EventBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ExternalEquationBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.OutputVariableBinding;
-import org.promasi.shell.ui.Story.StoriesPool;
-import org.promasi.shell.ui.Story.Story;
 import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.story.StorySelectorFrame;
 
@@ -56,7 +55,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	/**
 	 * 
 	 */
-	List<Story> _stories;
+	Map<String,Story> _stories;
 	
     /**
      * The current {@link Story} of this play mode.
@@ -112,7 +111,12 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     	_shell=shell;
     	_shell.addListener( this );
         _projectPersisters = new Hashtable<Project, IStatePersister>( );
-        _stories=StoriesPool.getAllStories( );
+        _stories=new TreeMap<String,Story>();
+        List<Story> stories=StoriesPool.getAllStories( );
+        for(Story story : stories)
+        {
+        	_stories.put(story.getName(), story);
+        }
     }
 
     @Override
@@ -377,57 +381,25 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	@Override
 	public synchronized List<String> getGamesList() {
 		Vector<String> stories=new Vector<String>();
-		for(Story story : _stories)
+		for(Map.Entry<String, Story> entry : _stories.entrySet())
 		{
-			stories.add(story.getName());
+			stories.add(entry.getKey());
 		}
 		
 		return stories;
 	}
 
 	@Override
-	public synchronized String getGameDescription(int gameId) throws IllegalArgumentException
+	public synchronized String getGameInfo(String gameId) throws IllegalArgumentException, NullArgumentException
 	{
-		if(gameId<0)
+		if(gameId==null)
 		{
-			throw new IllegalArgumentException("Wrong argument gameId<0");
+			throw new NullArgumentException("Wrong argument gameId==null");
 		}
 		
-		if(gameId<_stories.size())
+		if(_stories.containsKey(gameId))
 		{
-			Story story=_stories.get(gameId);
-			if(story!=null)
-			{
-				return story.getName();
-			}
-			else
-			{
-				throw new IllegalArgumentException("Wrong argument gameId");
-			}
-		}
-		
-		throw new IllegalArgumentException("Wrong argument gameId");
-	}
-
-	@Override
-	public synchronized String getGameInfo(int gameId) throws IllegalArgumentException
-	{
-		if(gameId<0)
-		{
-			throw new IllegalArgumentException("Wrong argument gameId<0");
-		}
-		
-		if(gameId<_stories.size())
-		{
-			Story story=_stories.get(gameId);
-			if(story!=null)
-			{
-				return story.getInfoString();
-			}
-			else
-			{
-				throw new IllegalArgumentException("Wrong argument gameId");
-			}
+			return _stories.get(gameId).getInfoString();
 		}
 		else
 		{
@@ -436,11 +408,11 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	}
 
 	@Override
-	public synchronized boolean play(int gameId , ProjectManager projectManager)throws IllegalArgumentException,NullArgumentException
+	public synchronized boolean play(String gameId , ProjectManager projectManager)throws IllegalArgumentException,NullArgumentException
 	{
-		if(gameId<0)
+		if(gameId==null)
 		{
-			throw new IllegalArgumentException("Wrong argument gameId<0");
+			throw new NullArgumentException("Wrong argument gameId==0");
 		}
 		
 		if(projectManager==null)

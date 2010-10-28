@@ -1,4 +1,4 @@
-package org.promasi.shell.ui.Story;
+package org.promasi.shell.Story;
 
 
 import java.beans.IntrospectionException;
@@ -313,8 +313,7 @@ public final class StoriesPool
         outputVariableBindingsReader.registerBeanClass( "CoreModelBindings/OutputVariables", Vector.class );
         outputVariableBindingsReader.registerBeanClass( "CoreModelBindings/OutputVariables/OutputVariable", OutputVariableBinding.class );
         outputVariableBindingsReader.addSetNext( "CoreModelBindings/OutputVariables/OutputVariable", "add", OutputVariableBinding.class.getName( ) );
-        List<OutputVariableBinding> variableBindings = (List<OutputVariableBinding>) outputVariableBindingsReader.parse( zipFile
-                .getInputStream( coreModelBindingsXml ) );
+        List<OutputVariableBinding> variableBindings = (List<OutputVariableBinding>) outputVariableBindingsReader.parse( zipFile.getInputStream( coreModelBindingsXml ) );
         story.setOutputVariableBindings( project, variableBindings );
 
         // Parse the external equation bindings
@@ -323,8 +322,7 @@ public final class StoriesPool
         externalEquationBindingsReader.registerBeanClass( "CoreModelBindings/ExternalEquations/ExternalEquation", ExternalEquationBinding.class );
         externalEquationBindingsReader.addSetNext( "CoreModelBindings/ExternalEquations/ExternalEquation", "add", ExternalEquationBinding.class
                 .getName( ) );
-        List<ExternalEquationBinding> externalBindings = (List<ExternalEquationBinding>) externalEquationBindingsReader.parse( zipFile
-                .getInputStream( coreModelBindingsXml ) );
+        List<ExternalEquationBinding> externalBindings = (List<ExternalEquationBinding>) externalEquationBindingsReader.parse( zipFile.getInputStream( coreModelBindingsXml ) );
         story.setExternalEquationBindings( project, externalBindings );
 
         // Parse all the event bindings.

@@ -3,6 +3,8 @@ package org.promasi.ui.promasiui.multiplayer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,15 +22,13 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.network.protocol.client.request.CreateNewGameRequest;
-import org.promasi.shell.ui.Story.StoriesPool;
-import org.promasi.shell.ui.Story.Story;
+import org.promasi.shell.Story.Story;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.ui.promasiui.promasidesktop.story.StorySelectorFrame;
 import org.promasi.utilities.ui.ScreenUtils;
 
 
-public class CreateGameForm extends JFrame {
+public class ChooseStoryFrame extends JFrame {
 
 	/**
 	 * 
@@ -63,21 +63,35 @@ public class CreateGameForm extends JFrame {
     /**
      * 
      */
-    private List<Story> _stories;
+    private Map<String,String> _availableGames;
     
 	/**
 	 * 
 	 * @param client
 	 * @throws NullArgumentException
 	 */
-	public CreateGameForm(ProMaSiClient client)throws NullArgumentException
+	public ChooseStoryFrame(ProMaSiClient client, Map<String, String> availableGames)throws NullArgumentException
 	{
 		if(client==null)
 		{
 			throw new NullArgumentException("Wrong argument client==null");
 		}
 		
+		if(availableGames==null)
+		{
+			throw new NullArgumentException("Wrong argument stories==null");
+		}
+		
+		for(Map.Entry<String, String> entry : availableGames.entrySet())
+		{
+			if(entry.getKey()==null || entry.getValue()==null)
+			{
+				throw new IllegalArgumentException("Wrong argument stories contains null");
+			}
+		}
 
+		_availableGames=availableGames;
+		
         setTitle( ResourceManager.getString( StorySelectorFrame.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         final double sizePercentage = 0.4d;
@@ -109,9 +123,13 @@ public class CreateGameForm extends JFrame {
         add( _descriptionText, new CC( ).grow( ).wrap( ) );
         add( _createGameButton, new CC( ) );
         
-        _stories=StoriesPool.getAllStories();
-        _storiesList.setListData(_stories.toArray());
+        List<String> stories=new Vector<String>();
+        for(Map.Entry<String, String> entry : availableGames.entrySet())
+        {
+        	stories.add(entry.getKey());
+        }
         
+        _storiesList.setListData(stories.toArray());
         _createGameButton.addActionListener( new ActionListener( )
         {
 
@@ -121,9 +139,12 @@ public class CreateGameForm extends JFrame {
               	int gameId=_storiesList.getSelectedIndex();
             	if(gameId>=0)
             	{
-            		Story currentStory=_stories.get(gameId);
-            		CreateNewGameRequest request=new CreateNewGameRequest(currentStory);
+            		CreateGameFrame createGameForm=new CreateGameFrame(_client, (String)_storiesList.getSelectedValue());
+            		createGameForm.setVisible(true);
+            		setVisible(false);
+            		/*CreateNewGameRequest request=new CreateNewGameRequest(currentStory);
             		_client.sendMessage(request.toProtocolString());
+            		setVisible(false);*/
             	}
             	else
             	{
@@ -138,30 +159,17 @@ public class CreateGameForm extends JFrame {
 	}
 	
 	
-
     /**
      * Called when the selection of the {@link #_storiesList} changes. It shows
      * information for the selected play mode.
      */
     private void selectionChanged ( )
     {
-    	int gameId=_storiesList.getSelectedIndex();
-    	if(gameId>=0)
+    	if(_storiesList.getSelectedIndex()>=0)
     	{
-    		Story currentStory=_stories.get(gameId);
-            _playModeNameLabel.setText(currentStory.getName());
-            try
-            {
-            	String gameInfo=currentStory.getInfoString();
-            	if( gameInfo!=null)
-            	{
-            		_descriptionText.setText(gameInfo);
-            	}
-            }
-            catch ( Exception e )
-            {
-
-            }	
+    		String storyDescription=_availableGames.get(_storiesList.getSelectedValue());
+            _playModeNameLabel.setText((String)_storiesList.getSelectedValue());
+            _descriptionText.setText(storyDescription);
     	}
     	
     }

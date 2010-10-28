@@ -4,6 +4,9 @@
 package org.promasi.multiplayer.server.clientstate;
 
 import java.net.ProtocolException;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
@@ -19,6 +22,9 @@ import org.promasi.network.protocol.client.response.JoinGameFailedResponse;
 import org.promasi.network.protocol.client.response.JoinGameResponse;
 import org.promasi.network.protocol.client.response.RetreiveGameListResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
+import org.promasi.shell.Story.StoriesPool;
+import org.promasi.shell.Story.Story;
+
 
 /**
  * @author m1cRo
@@ -67,7 +73,14 @@ public class JoinGameClientState extends AbstractClientState {
 			Object object=RequestBuilder.buildRequest(recData);
 			if(object instanceof RetreiveGameListRequest)
 			{
-				RetreiveGameListResponse response=new RetreiveGameListResponse(_promasi.retreiveGames());
+				List<Story> games=_promasi.retreiveGames();
+				Map<String,String> gameList=new TreeMap<String,String>();
+				for(Story story : games)
+				{
+					gameList.put(story.getName(), story.getInfoString());
+				}
+				
+				RetreiveGameListResponse response=new RetreiveGameListResponse(gameList);
 				client.sendMessage(response.toProtocolString());
 			}
 			else if( object instanceof JoinGameRequest)
@@ -77,14 +90,21 @@ public class JoinGameClientState extends AbstractClientState {
 				{
 					client.sendMessage(new JoinGameFailedResponse().toProtocolString());
 				}else{
-					client.sendMessage(new JoinGameResponse(_promasi.getGame(joinRequest.getGameId()).getGameStory()).toProtocolString());
+					client.sendMessage(new JoinGameResponse().toProtocolString());
 					changeClientState(client,new WaitingGameClientState(_promasi,_promasi.getGame(joinRequest.getGameId())));
 				}
 				
 			}
 			else if( object instanceof ChooseGameMasterStateRequest)
 			{
-				client.sendMessage(new ChooseGameMasterStateResponse().toProtocolString());
+				List<Story> stories=StoriesPool.getAllStories();
+				Map<String,String> availableGames=new TreeMap<String,String>();
+				for(Story story : stories)
+				{
+					availableGames.put(story.getName(), story.getInfoString());
+				}
+				
+				client.sendMessage(new ChooseGameMasterStateResponse(availableGames).toProtocolString());
 				changeClientState(client, new GameMasterClientState(_promasi));
 			}
 			else

@@ -1,6 +1,7 @@
 package org.promasi.multiplayer.client.clientstate;
 
 import java.net.ProtocolException;
+import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
@@ -10,14 +11,14 @@ import org.promasi.network.protocol.client.response.CreateNewGameResponse;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
-import org.promasi.ui.promasiui.multiplayer.CreateGameForm;
+import org.promasi.ui.promasiui.multiplayer.ChooseStoryFrame;
 
 public class GameMasterClientState extends AbstractClientState {
 
 	/**
 	 * 
 	 */
-	private CreateGameForm _createGamefrom;
+	private ChooseStoryFrame _createGamefrom;
 	
 	/**
 	 * 
@@ -29,7 +30,7 @@ public class GameMasterClientState extends AbstractClientState {
 	 * @param playMode
 	 * @throws NullArgumentException
 	 */
-	public GameMasterClientState(MultiPlayerScorePlayMode playMode, ProMaSiClient client)throws NullArgumentException
+	public GameMasterClientState(MultiPlayerScorePlayMode playMode, ProMaSiClient client, Map<String, String> availableGames)throws NullArgumentException
 	{
 		if( playMode==null )
 		{
@@ -41,7 +42,12 @@ public class GameMasterClientState extends AbstractClientState {
 			throw new NullArgumentException("Wrong argument client=null");
 		}
 		
-		_createGamefrom=new CreateGameForm(client);
+		if(availableGames==null)
+		{
+			throw new NullArgumentException("Wrong argument availableGames==null");
+		}
+		
+		_createGamefrom=new ChooseStoryFrame(client,availableGames);
 		_createGamefrom.setVisible(true);
 		_playMode=playMode;
 	}
@@ -53,12 +59,11 @@ public class GameMasterClientState extends AbstractClientState {
 			Object object=RequestBuilder.buildRequest(recData);
 			if(object instanceof CreateNewGameResponse)
 			{
-				CreateNewGameResponse response=(CreateNewGameResponse)object;
-				_createGamefrom.setVisible(false);
-				changeClientState(client, new WaitingForPlayersClientState(_playMode, response.getGameStory(),client));				
+				changeClientState(client, new WaitingForPlayersClientState(_playMode,client));				
 			}
 			else
 			{
+				_createGamefrom.setVisible(true);
 				client.sendMessage(new WrongProtocolResponse().toProtocolString());
 				client.disconnect();
 			}

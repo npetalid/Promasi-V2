@@ -12,10 +12,11 @@ import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.LoginResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
-import org.promasi.ui.promasiui.promasidesktop.story.StorySelectorFrame;
 
 public class LoginClientState extends AbstractClientState {
-	
+	/**
+	 * 
+	 */
 	MultiPlayerScorePlayMode _currentPlayMode;
 	
 	/**
@@ -57,10 +58,7 @@ public class LoginClientState extends AbstractClientState {
 				if(projectManager!=null)
 				{
 					try {
-						StorySelectorFrame storySelector = new StorySelectorFrame( projectManager,_currentPlayMode );
-						storySelector.setVisible( true );
-						
-						JoinGameClientState chooseGameClientState=new JoinGameClientState(_currentPlayMode);
+						JoinGameClientState chooseGameClientState=new JoinGameClientState(_currentPlayMode,projectManager);
 						changeClientState(client,chooseGameClientState);
 						if(!chooseGameClientState.sendRetreiveGameListRequest(client))
 						{

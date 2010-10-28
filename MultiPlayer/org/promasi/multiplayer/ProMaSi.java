@@ -14,7 +14,7 @@ import org.promasi.multiplayer.game.GamesPool;
 import org.promasi.multiplayer.server.UserManager;
 import org.promasi.multiplayer.server.clientstate.LoginClientState;
 import org.promasi.network.tcp.TcpClient;
-import org.promasi.shell.ui.Story.Story;
+import org.promasi.shell.Story.Story;
 
 /**
  * @author m1cRo

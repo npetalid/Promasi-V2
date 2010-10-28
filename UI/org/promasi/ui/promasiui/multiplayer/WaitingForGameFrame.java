@@ -12,7 +12,7 @@ import org.promasi.utilities.ui.ScreenUtils;
  * @author m1cRo
  *
  */
-public class WaitingForGameForm extends JFrame {
+public class WaitingForGameFrame extends JFrame {
 
 	/**
 	 * 
@@ -22,7 +22,7 @@ public class WaitingForGameForm extends JFrame {
 	/**
 	 * 
 	 */
-	public WaitingForGameForm()
+	public WaitingForGameFrame()
 	{
 		final double sizePercentage = 0.4d;
         setSize( ScreenUtils.sizeForPercentage( sizePercentage, sizePercentage ) );

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.naming.ConfigurationException;
@@ -25,7 +26,6 @@ import org.promasi.multiplayer.client.TcpEventHandler;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
-import org.promasi.shell.ui.Story.Story;
 import org.promasi.network.protocol.client.request.ChooseGameMasterStateRequest;
 import org.promasi.network.protocol.client.request.JoinGameRequest;
 import org.promasi.network.protocol.client.request.LoginRequest;
@@ -70,7 +70,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	/**
 	 * 
 	 */
-	private List<Story> _games;
+	private Map<String,String> _stories;
 	
 	/**
 	 * 
@@ -100,7 +100,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		
 		_promasiClient=new ProMaSiClient( tcpClient,new LoginClientState(this));
 		tcpClient.registerTcpEventHandler(new TcpEventHandler(_promasiClient));
-		_games=new Vector<Story>();
+		_stories=new TreeMap<String,String>();
 		_shell=shell;
 		_projectManager=new ProjectManager();
 	}
@@ -206,19 +206,23 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
      * 
      * @param stories
      */
-    public synchronized void updateGameList(final List<Story> stories )
+    public synchronized void updateGameList(final Map<String,String> stories )throws NullArgumentException
     {
-    	_games.clear();
-    	_games.addAll(stories);
+    	if(stories==null)
+    	{
+    		throw new NullArgumentException("Wrong argument stories==null");
+    	}
+    	
+    	_stories=stories;
     }
     
     
 	@Override
 	public synchronized List<String> getGamesList(){
 		Vector<String> gameList=new Vector<String>();
-		for(Story game : _games)
+		for(Map.Entry<String, String> entry : _stories.entrySet())
 		{
-			gameList.add(game.getName());
+			gameList.add(entry.getKey());
 		}
 		
 		gameList.add(new String("New Game"));
@@ -227,65 +231,30 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 
 	
 	@Override
-	public String getGameDescription(int gameId) throws IllegalArgumentException
+	public String getGameInfo(String gameId)throws NullArgumentException,IllegalArgumentException 
 	{
-		if(gameId<0)
+		if(gameId==null)
 		{
-			throw new IllegalArgumentException("Wrong argument gameId<0");
+			throw new NullArgumentException("Wrong argument gameId==null");
 		}
 		
-		if(gameId<_games.size())
+		if(_stories.containsKey(gameId))
 		{
-			Story game=_games.get(gameId);
-			if(game!=null)
-			{
-				return game.getName();
-			}
-			else
-			{
-				throw new  IllegalArgumentException("Wrong argument gameId");
-			}
+			return _stories.get(gameId);
 		}
 		else
 		{
-			return new String("Create new Game");
-		}
-	}
-
-	
-	@Override
-	public String getGameInfo(int gameId)throws IllegalArgumentException 
-	{
-		if(gameId<0)
-		{
-			throw new IllegalArgumentException("Wrong argument gameId<0");
-		}
-		
-		if(gameId<_games.size())
-		{
-			Story game=_games.get(gameId);
-			if(game!=null)
-			{
-				return game.getInfoString();
-			}
-			else
-			{
-				throw new  IllegalArgumentException("Wrong argument gameId");
-			}
-		}
-		else
-		{
-			return new String("Create new Game");
+			throw new IllegalArgumentException("Wrong argument gameId");
 		}
 	}
 	
 
 	@Override
-	public boolean play(int gameId, ProjectManager projectManager)throws IllegalArgumentException,NullArgumentException
+	public boolean play(String gameId, ProjectManager projectManager)throws IllegalArgumentException,NullArgumentException
 	{
-		if(gameId<0)
+		if(gameId==null)
 		{
-			throw new IllegalArgumentException("Wrong argument gameId<0");
+			throw new NullArgumentException("Wrong argument gameId==null");
 		}
 		
 		if(projectManager==null)
@@ -293,25 +262,23 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 			throw new NullArgumentException("Wrong argument projectManager==null");
 		}
 		
-		if(_games.size()==gameId)
+		if(_stories.containsKey(gameId))
 		{
-	    	_promasiClient.sendMessage(new ChooseGameMasterStateRequest().toProtocolString());
+			JoinGameRequest request=new JoinGameRequest(gameId);
+			_promasiClient.sendMessage(request.toProtocolString());
 		}
-		else if(gameId<_games.size())
+		else
 		{
-			 Story game=_games.get(gameId);
-		     if ( game != null )
-		     {
-				 JoinGameRequest request=new JoinGameRequest(game.getName());
-				 _promasiClient.sendMessage(request.toProtocolString());
-		     }
-		     else
-		     {
-		    	 return false;
-		     }
+			return false;
 		}
 		
 	     return true;
+	}
+	
+	public synchronized void createGame(ProjectManager projectManager)
+	{
+		ChooseGameMasterStateRequest request=new ChooseGameMasterStateRequest();
+		_promasiClient.sendMessage(request.toProtocolString());
 	}
 	
 	

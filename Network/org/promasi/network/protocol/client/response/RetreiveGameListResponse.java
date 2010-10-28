@@ -3,10 +3,11 @@
  */
 package org.promasi.network.protocol.client.response;
 
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.shell.ui.Story.Story;
+
 
 /**
  * @author m1cRo
@@ -16,7 +17,7 @@ public class RetreiveGameListResponse extends AbstractResponse {
 	/**
 	 * 
 	 */
-	private List<Story> _games;
+	private Map<String, String> _games;
 	
 	/**
 	 * 
@@ -24,13 +25,14 @@ public class RetreiveGameListResponse extends AbstractResponse {
 	public RetreiveGameListResponse()
 	{
 		super();
+		_games=new TreeMap<String,String>();
 	}
 	
 	/**
 	 * @param gameList 
 	 * 
 	 */
-	public RetreiveGameListResponse(List<Story> gameList)throws NullArgumentException
+	public RetreiveGameListResponse(Map<String,String> gameList)throws NullArgumentException
 	{
 		if(gameList==null)
 		{
@@ -44,7 +46,7 @@ public class RetreiveGameListResponse extends AbstractResponse {
 	 * 
 	 * @return
 	 */
-	public List<Story> getGames() {
+	public Map<String,String> getGames() {
 		return _games;
 	}
 	
@@ -53,7 +55,7 @@ public class RetreiveGameListResponse extends AbstractResponse {
 	 * @param games
 	 * @throws NullArgumentException
 	 */
-	public void setGames(List<Story> games)throws NullArgumentException
+	public void setGames(Map<String,String> games)throws NullArgumentException
 	{
 		if(games==null)
 		{

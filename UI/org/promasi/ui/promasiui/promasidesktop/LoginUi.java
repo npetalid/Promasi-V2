@@ -138,7 +138,6 @@ public class LoginUi extends JFrame
             LOGGER.info( "Logging for " + name + " " + lastName );
             // Create the company and assign it.
             if(_currentPlayMode.login(name, lastName, password)){
-                // Show the story selector frame.
                 setVisible( false );
                 dispose( );
             }

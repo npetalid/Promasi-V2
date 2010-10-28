@@ -4,7 +4,6 @@
 package org.promasi.server;
 import java.io.File;
 
-import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.promasi.multiplayer.server.TcpEventHandler;
 import org.promasi.network.tcp.TcpServer;

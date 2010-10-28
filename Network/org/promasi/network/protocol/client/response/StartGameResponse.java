@@ -4,7 +4,8 @@
 package org.promasi.network.protocol.client.response;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.shell.ui.Story.Story;
+import org.promasi.model.Company;
+import org.promasi.model.MarketPlace;
 
 /**
  * @author m1cRo
@@ -15,14 +16,20 @@ public class StartGameResponse extends AbstractResponse
 	/**
 	 * 
 	 */
-	private Story _gameStory;
+	private Company _company;
+	
+	/**
+	 * 
+	 */
+	private MarketPlace _marketPlace;
 	
 	/**
 	 * 
 	 */
 	public StartGameResponse()
 	{
-		_gameStory=new Story();
+		_company=new Company();
+		_marketPlace=new MarketPlace();
 	}
 	
 	/**
@@ -31,38 +38,67 @@ public class StartGameResponse extends AbstractResponse
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public StartGameResponse(Story gameStory)throws NullArgumentException
+	public StartGameResponse(Company company, MarketPlace marketPlace)throws NullArgumentException
 	{
-		if(gameStory==null)
+		if(company==null)
 		{
-			throw new NullArgumentException("Wrong argument gameStory==null");
+			throw new NullArgumentException("Wrong argument company==null");
 		}
 		
-		_gameStory=gameStory;
+		if(marketPlace==null)
+		{
+			throw new NullArgumentException("Wrong argument marketPlace==null");
+		}
+		
+		_marketPlace=marketPlace;
+		_company=company;
 	}
 	
 	/**
 	 * 
-	 * @param gameId
+	 * @param company
 	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
 	 */
-	public synchronized void setGameStory(Story gameStory)throws NullArgumentException
+	public synchronized void setCompany(Company company)throws NullArgumentException
 	{
-		if(gameStory==null)
+		if(company==null)
 		{
-			throw new NullArgumentException("Wrong argument gameStory==null");
+			throw new NullArgumentException("Wrong argument company==null");
 		}
 		
-		_gameStory=gameStory;
+		_company=company;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public synchronized Story getGameStory()
+	public synchronized Company getCompany()
 	{
-		return _gameStory;
+		return _company;
+	}
+	
+	/**
+	 * 
+	 * @param marketPlace
+	 * @throws NullArgumentException
+	 */
+	public synchronized void setMarketPlace(MarketPlace marketPlace)throws NullArgumentException
+	{
+		if(marketPlace==null)
+		{
+			throw new NullArgumentException("Wrong argument marketPlace==null");
+		}
+		
+		_marketPlace=marketPlace;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized MarketPlace getMarketPlace()
+	{
+		return _marketPlace;
 	}
 }

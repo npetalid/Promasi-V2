@@ -17,7 +17,7 @@ import org.promasi.network.protocol.client.request.SetGameValuesRequest;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.SetGameValuesResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
-import org.promasi.shell.ui.Story.Story;
+import org.promasi.shell.Story.Story;
 
 /**
  * @author m1cRo

@@ -15,8 +15,7 @@ import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.StartGameResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
-import org.promasi.shell.ui.Story.Story;
-import org.promasi.ui.promasiui.multiplayer.WaitingForPlayersForm;
+import org.promasi.ui.promasiui.multiplayer.WaitingForPlayersFrame;
 
 /**
  * 
@@ -33,28 +32,18 @@ public class WaitingForPlayersClientState extends AbstractClientState {
 	/**
 	 * 
 	 */
-	private Story _gameStory;
-	
-	/**
-	 * 
-	 */
-	WaitingForPlayersForm _waitingForm;
+	WaitingForPlayersFrame _waitingForm;
 	
 	/**
 	 * 
 	 * @param playMode
 	 * @throws NullArgumentException
 	 */
-	public WaitingForPlayersClientState(MultiPlayerScorePlayMode playMode, Story gameStory, ProMaSiClient client)throws NullArgumentException
+	public WaitingForPlayersClientState(MultiPlayerScorePlayMode playMode, ProMaSiClient client)throws NullArgumentException
 	{
 		if(playMode==null)
 		{
 			throw new NullArgumentException("Wrong argument playMode==null");
-		}
-		
-		if(gameStory==null)
-		{
-			throw new NullArgumentException("Wrong argument gameStory==null");
 		}
 		
 		if(client==null)
@@ -62,9 +51,8 @@ public class WaitingForPlayersClientState extends AbstractClientState {
 			throw new NullArgumentException("Wrong argument client==null");
 		}
 		
-		_waitingForm=new WaitingForPlayersForm(client);
+		_waitingForm=new WaitingForPlayersFrame(client);
 		_waitingForm.setVisible(true);
-		_gameStory=gameStory;
 		_playMode=playMode;
 	}
 	
@@ -85,10 +73,11 @@ public class WaitingForPlayersClientState extends AbstractClientState {
 			Object object=RequestBuilder.buildRequest(recData);
 			if(object instanceof StartGameResponse)
 			{	
-				Company company = _gameStory.getCompany();
+				StartGameResponse response=(StartGameResponse)object;
+				Company company = response.getCompany();
 		        company.setProjectManager( _playMode.getProjectManager());
 		        _playMode.getShell().setCompany( company );
-		        _playMode.setMarketPlace(_gameStory.getMarketPlace());
+		        _playMode.setMarketPlace(response.getMarketPlace());
   
 		        ICommunicator communicator=new Communicator();
 		        communicator.setMainReceiver( _playMode.getShell().getModelMessageReceiver());

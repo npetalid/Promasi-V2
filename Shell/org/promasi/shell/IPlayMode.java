@@ -93,19 +93,12 @@ public interface IPlayMode
 	 * @param gameId
 	 * @return
 	 */
-	public String getGameDescription(int gameId)throws IllegalArgumentException;
+	public String getGameInfo(String gameId)throws IllegalArgumentException;
 	
 	/**
 	 * 
 	 * @param gameId
 	 * @return
 	 */
-	public String getGameInfo(int gameId)throws IllegalArgumentException;
-	
-	/**
-	 * 
-	 * @param gameId
-	 * @return
-	 */
-	public boolean play(int gameId , ProjectManager projectManager)throws IllegalArgumentException,NullArgumentException;
+	public boolean play(String gameId , ProjectManager projectManager)throws IllegalArgumentException,NullArgumentException;
 }

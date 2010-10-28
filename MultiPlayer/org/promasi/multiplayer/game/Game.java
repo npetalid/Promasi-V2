@@ -13,7 +13,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.client.request.StartGameRequest;
-import org.promasi.shell.ui.Story.Story;
+import org.promasi.shell.Story.Story;
 
 
 
