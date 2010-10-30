@@ -20,26 +20,18 @@ public class LoginClientState extends AbstractClientState {
 	 */
 	private MultiPlayerScorePlayMode _currentPlayMode;
 	
-	private Shell _shell;
-	
 	/**
 	 * 
 	 * @param client
 	 * @param projectManager
 	 * @throws NullArgumentException
 	 */
-	public LoginClientState(Shell shell, MultiPlayerScorePlayMode playMode)throws NullArgumentException{
+	public LoginClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException{
 		if(playMode==null)
 		{
 			throw new NullArgumentException("Wrong argument playMode==null");
 		}
-		
-		if(shell==null)
-		{
-			throw new NullArgumentException("Wrong argument shell==null");
-		}
-		
-		_shell=shell;
+
 		_currentPlayMode=playMode;
 	}
 	
@@ -67,7 +59,7 @@ public class LoginClientState extends AbstractClientState {
 				if(projectManager!=null)
 				{
 					try {
-						JoinGameClientState chooseGameClientState=new JoinGameClientState(_shell, _currentPlayMode,projectManager);
+						JoinGameClientState chooseGameClientState=new JoinGameClientState(_currentPlayMode,projectManager);
 						changeClientState(client,chooseGameClientState);
 						if(!chooseGameClientState.sendRetreiveGameListRequest(client))
 						{

@@ -13,11 +13,13 @@ import java.util.Vector;
 import javax.naming.ConfigurationException;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.communication.ICommunicator;
+import org.promasi.communication.IMessageReceiver;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
+import org.promasi.model.Company;
 import org.promasi.model.Employee;
 import org.promasi.model.MarketPlace;
+import org.promasi.model.Message;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
 import org.promasi.multiplayer.ProMaSiClient;
@@ -25,7 +27,6 @@ import org.promasi.multiplayer.client.clientstate.LoginClientState;
 import org.promasi.multiplayer.client.TcpEventHandler;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
-import org.promasi.shell.Shell;
 import org.promasi.network.protocol.client.request.ChooseGameMasterStateRequest;
 import org.promasi.network.protocol.client.request.JoinGameRequest;
 import org.promasi.network.protocol.client.request.LoginRequest;
@@ -85,15 +86,11 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	 * @throws UnknownHostException
 	 * @throws IOException
 	 */
-	public MultiPlayerScorePlayMode(Shell shell) throws NullArgumentException, IllegalArgumentException, UnknownHostException, IOException{
-		if(shell==null){
-			throw new NullArgumentException("MultiplayerScorePlayMode wrong arguments");
-		}
-		
+	public MultiPlayerScorePlayMode() throws NullArgumentException, IllegalArgumentException, UnknownHostException, IOException{
 		_marketPlace=new MarketPlace();
 		TcpClient tcpClient=new TcpClient(_hostname,_port);
 		
-		_promasiClient=new ProMaSiClient( tcpClient,new LoginClientState(shell, this));
+		_promasiClient=new ProMaSiClient( tcpClient,new LoginClientState(this));
 		tcpClient.registerTcpEventHandler(new TcpEventHandler(_promasiClient));
 		_stories=new TreeMap<String,String>();
 		_projectManager=new ProjectManager();
@@ -148,15 +145,6 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	public IStatePersister getPersisterForProject(Project project) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.promasi.shell.IPlayMode#registerCommunicator(org.promasi.communication.ICommunicator)
-	 */
-	@Override
-	public void registerCommunicator(ICommunicator communicator) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -325,6 +313,31 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		}
 		
 		_marketPlace=marketPlace;
+	}
+
+	@Override
+	public void sendMail(Message message) throws NullArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setMessageModelReceiver(IMessageReceiver messageReceiver)
+			throws NullArgumentException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Company getCompany() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addListener(IShellListener listener) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

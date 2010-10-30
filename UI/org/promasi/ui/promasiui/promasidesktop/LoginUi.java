@@ -20,7 +20,6 @@ import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.promasi.shell.IPlayMode;
-import org.promasi.shell.Shell;
 import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 import org.promasi.utilities.ui.ScreenUtils;
@@ -73,9 +72,9 @@ public class LoginUi extends JFrame
     /**
      * Initializes the object.
      */
-    public LoginUi(Shell shell,IPlayMode playMode )throws NullArgumentException,IllegalArgumentException
+    public LoginUi(IPlayMode playMode )throws NullArgumentException,IllegalArgumentException
     {
-    	if(shell==null || playMode==null)
+    	if(playMode==null)
     	{
     		throw new NullArgumentException("Wrong arguments");
     	}

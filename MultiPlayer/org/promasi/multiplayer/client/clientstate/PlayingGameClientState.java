@@ -8,12 +8,11 @@ import javax.naming.ConfigurationException;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.communication.Communicator;
 import org.promasi.communication.ICommunicator;
-import org.promasi.model.Company;
-import org.promasi.model.MarketPlace;
-import org.promasi.model.ProjectManager;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.shell.Shell;
+import org.promasi.shell.model.communication.ModelMessageReceiver;
+import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
 import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 
 /**
@@ -33,23 +32,20 @@ public class PlayingGameClientState extends AbstractClientState {
 	 * @throws NullArgumentException
 	 * @throws ConfigurationException
 	 */
-	public PlayingGameClientState(Shell shell, Company company, MarketPlace marketPlace, ProjectManager projectManager)throws NullArgumentException, ConfigurationException
+	public PlayingGameClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException, ConfigurationException
 	{
-		if(shell==null)
+		if(playMode==null)
 		{
-			throw new NullArgumentException("Wrong argument shell==null");
+			throw new NullArgumentException("Wrong argument playMode==null");
 		}
 
     	ICommunicator communicator=new Communicator();
-    	communicator.setMainReceiver(  shell.getModelMessageReceiver() );
+    	communicator.setMainReceiver(  new ModelMessageReceiver() );
     	
-        shell.setCompany( company );
-        company.setProjectManager( projectManager);
-    	
+    	Shell shell = new Shell(playMode);
 		_mainFrame=new DesktopMainFrame(shell);
 		_mainFrame.showMainFrame( );
-		_mainFrame.registerCommunicator(communicator);
-    	shell.start();
+		playMode.start();
 	}
 	
 	/* (non-Javadoc)

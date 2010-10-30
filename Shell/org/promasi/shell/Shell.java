@@ -3,26 +3,19 @@ package org.promasi.shell;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import javax.naming.ConfigurationException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
-import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
 import org.promasi.model.Clock;
 import org.promasi.model.Company;
 import org.promasi.model.Employee;
-import org.promasi.model.INotifierListener;
-import org.promasi.model.ITimerTask;
-import org.promasi.model.MarketPlace;
 import org.promasi.model.Message;
 import org.promasi.model.Project;
-import org.promasi.model.Timer;
 import org.promasi.shell.model.communication.JXPathResolver;
-import org.promasi.shell.model.communication.ModelMessageReceiver;
 import org.promasi.shell.model.communication.ResolverFactory;
 
 /**
@@ -33,29 +26,12 @@ import org.promasi.shell.model.communication.ResolverFactory;
  *
  */
 public final class Shell
-        implements INotifierListener
 {
 
     /**
      * The current {@link IPlayMode}.
      */
     private IPlayMode _currentPlayMode;
-
-    /**
-     * The company of the user(project manager).
-     */
-    private Company _company;
-
-
-    /**
-     * All the registered {@link IShellListener}s.
-     */
-    private List<IShellListener> _listeners;
-
-    /**
-     * The current model message receiver.
-     */
-    private ModelMessageReceiver _modelMessageReceiver;
 
     /**
      * Default logger for this class.
@@ -65,28 +41,16 @@ public final class Shell
     /**
      * Initializes the object.
      */
-    public Shell( )
+    public Shell(IPlayMode playMode )throws NullArgumentException
     {
-        _listeners = new Vector<IShellListener>( );
-        _modelMessageReceiver=new ModelMessageReceiver();
-    }
-
-    /**
-     *
-     * Sets the {@link #_currentPlayMode} and initializes the play mode.
-     *
-     * @param currentPlayMode
-     *            the {@link #_currentPlayMode} to set.
-     * @throws NullArgumentException
-     */
-    public void setCurrentPlayMode ( IPlayMode currentPlayMode ) throws NullArgumentException
-    {
-    	if(currentPlayMode==null)
+    	if(playMode==null)
     	{
-    		throw new NullArgumentException("Wrong argument currentPlayMode==null");
+    		throw new NullArgumentException("Wrong argument playMode==null");
     	}
     	
-        _currentPlayMode = currentPlayMode;
+        ResolverFactory.registerResolver( new JXPathResolver( ) );
+        
+        _currentPlayMode=playMode;
     }
 
     /**
@@ -115,35 +79,9 @@ public final class Shell
      */
     public Company getCompany()
     {
-    	return _company;
+    	return _currentPlayMode.getCompany();
     }
-    
-    /**
-     *
-     * Sets the {@link #_company} and the context of the
-     * {@link ModelMessageReceiver}.
-     *
-     * @param company
-     *            the {@link #_company} to set.
-     */
-    public void setCompany ( Company company )
-    {
-        _company = company;
-        // Initialize model objects.
-        _modelMessageReceiver.setContext( company );
-        ResolverFactory.registerResolver( new JXPathResolver( ) );
-        _company.getNotifier( ).addListener( this );
-    }
-
-    /**
-     * 
-     * @param marketPlace
-     */
-    public void setMarketPlace(MarketPlace marketPlace)
-    {
-    	_currentPlayMode.setMarketPlace(marketPlace);
-    }
-    
+ 
     
     /**
      * Shows the {@link IMainFrame} and starts the play mode.
@@ -168,7 +106,7 @@ public final class Shell
      */
     public List<Employee> getHiredEmployees ( )
     {
-        return _company.getEmployees( );
+        return _currentPlayMode.getCompany().getEmployees( );
     }
 
     /**
@@ -176,7 +114,7 @@ public final class Shell
      */
     public Project getCurrentProject ( )
     {
-        return _company.getCurrentProject( );
+        return _currentPlayMode.getCompany().getCurrentProject( );
     }
 
     /**
@@ -188,7 +126,7 @@ public final class Shell
     public void hireEmployee ( Employee employee )
     {
         LOGGER.info( "Hiring employee " + employee );
-        _company.getAccountant( ).hireEmployee( employee );
+        _currentPlayMode.getCompany().getAccountant( ).hireEmployee( employee );
     }
 
     /**
@@ -196,45 +134,7 @@ public final class Shell
      */
     public void addListener ( IShellListener listener )
     {
-        if ( !_listeners.contains( listener ) )
-        {
-            _listeners.add( listener );
-        }
-    }
-
-    /**
-    *
-    * @param communicator
-    */
-   public void registerCommunicator(ICommunicator communicator)
-   {
-	   _currentPlayMode.registerCommunicator(communicator);
-   }
-
-    /**
-     * Start a timer to notify all the {@link IShellListener}s when the start
-     * date of the project has come.
-     */
-    @Override
-    public void projectAssigned ( Project project )
-    {
-        ProjectStartTimerTask startTask = new ProjectStartTimerTask( project );
-        startTask.start( );
-        ProjectEndTimerTask endTask = new ProjectEndTimerTask( project );
-        endTask.start( );
-        for ( IShellListener listener : _listeners )
-        {
-            listener.projectAssigned( project );
-        }
-    }
-
-    @Override
-    public void employeeHired ( Employee employee )
-    {
-        for ( IShellListener listener : _listeners )
-        {
-            listener.employeeHired( employee );
-        }
+        _currentPlayMode.addListener(listener);
     }
 
     /**
@@ -244,7 +144,7 @@ public final class Shell
      */
     public void jumpToProjectDate ( )
     {
-        Project project = _company.getCurrentProject( );
+        Project project = _currentPlayMode.getCompany().getCurrentProject( );
         if ( project != null )
         {
             LOGGER.info( "Moving to project date " + project.getStartDate( ) );
@@ -254,7 +154,7 @@ public final class Shell
             {
                 for ( int i = 0; i < days; i++ )
                 {
-                    Clock.getInstance( ).performDayChange( _company.getStartTimeAsLocalTime( ) );
+                    Clock.getInstance( ).performDayChange( _currentPlayMode.getCompany().getStartTimeAsLocalTime( ) );
                 }
             }
         }
@@ -266,107 +166,6 @@ public final class Shell
      */
     public void sendMail ( Message message )
     {
-        _company.getMessagingServer( ).sendMessage( message );
+    	_currentPlayMode.getCompany().getMessagingServer( ).sendMessage( message );
     }
-
-    /**
-     *
-     * @return
-     */
-    public ModelMessageReceiver getModelMessageReceiver()
-    {
-    	return _modelMessageReceiver;
-    }
-
-    /**
-     * Class used only by the {@link Shell} to schedule the project start time.
-     */
-    private  class ProjectStartTimerTask implements ITimerTask  {
-
-        /**
-         * The {@link Project}.
-         */
-        private Project _project;
-
-        /**
-         * Initializes the object.
-         */
-        public ProjectStartTimerTask( Project project )
-        {
-            _project = project;
-        }
-
-        public void start ( )
-        {
-            Timer.getInstance( ).scheduleTask( this, _project.getStartDate( ).toLocalDateTime( ) );
-        }
-
-        @Override
-        public void runTimerTask ( )
-        {
-            // Notify all listeners.
-            for ( IShellListener listener : _listeners )
-            {
-                listener.projectStarted( _project );
-            }
-        }
-
-
-        @Override
-        public String toString ( )
-        {
-            return "ProjectStartTimerTask on project :" + _project;
-        }
-    }
-
-    /**
-     * Class used only by the {@link Shell} to schedule the project end time.
-     */
-    public class ProjectEndTimerTask implements ITimerTask{
-
-        /**
-         * The {@link Project}.
-         */
-        private Project _project;
-
-        /**
-         * Initializes the object.
-         */
-        public ProjectEndTimerTask( Project project )
-        {
-            _project = project;
-        }
-
-        public void start ( )
-        {
-            Timer.getInstance( ).scheduleTask( this, _project.getEndDate( ).toLocalDateTime( ) );
-        }
-
-        @Override
-        public void runTimerTask ( )
-        {
-            LOGGER.info( "Project " + _project + " is finished..." );
-            _company.setCurrentProject( null );
-            // Notify all listeners.
-            for ( IShellListener listener : _listeners )
-            {
-                listener.projectFinished( _project );
-            }
-        }
-
-        /**
-         * @return the {@link #_project}.
-         */
-        public Project getProject ( )
-        {
-            return _project;
-        }
-
-        @Override
-        public String toString ( )
-        {
-            return "ProjectEndTimerTask on project :" + _project;
-        }
-    }
-
 }

@@ -66,8 +66,8 @@ public class EmployeeMailModelAction
         Message message = new Message( );
         message.setBody( _message );
         message.setTitle( _title );
-        message.setRecipient( company.getProjectManager( ) );
-        message.setSender( employee );
+        message.setRecipient(  company.getProjectManager( )  );
+        message.setSender(  employee );
 
         _shell.sendMail( message );
     }

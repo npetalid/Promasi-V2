@@ -9,7 +9,6 @@ import org.promasi.model.ITimerTask;
 import org.promasi.model.Timer;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
-import org.promasi.shell.Shell.ProjectEndTimerTask;
 
 
 /**
@@ -46,7 +45,7 @@ public class ProjectStopModelAction
     {
         LOGGER.info( "Firing ProjectStopAction" );
         // Get the ProjectEndTimerTask from the clock
-        Set<ITimerTask> timerTasks = Timer.getInstance( ).getScheduledTasks( );
+       /* Set<ITimerTask> timerTasks = Timer.getInstance( ).getScheduledTasks( );
         for ( ITimerTask timerTask : timerTasks )
         {
             if ( timerTask instanceof Shell.ProjectEndTimerTask )
@@ -60,7 +59,7 @@ public class ProjectStopModelAction
                     Timer.getInstance( ).unScheduleTask( endTimerTask );
                 }
             }
-        }
+        }*/
     }
 
     @Override

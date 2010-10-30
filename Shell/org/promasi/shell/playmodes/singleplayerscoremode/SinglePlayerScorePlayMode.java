@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DurationFieldType;
 import org.promasi.communication.Communicator;
 import org.promasi.communication.ICommunicator;
+import org.promasi.communication.IMessageReceiver;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
 import org.promasi.core.SdSystem;
@@ -24,16 +25,20 @@ import org.promasi.model.Clock;
 import org.promasi.model.Company;
 import org.promasi.model.Employee;
 import org.promasi.model.IClockListener;
+import org.promasi.model.INotifierListener;
+import org.promasi.model.ITimerTask;
 import org.promasi.model.MarketPlace;
 import org.promasi.model.Message;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
+import org.promasi.model.Timer;
 import org.promasi.shell.IPlayMode;
 import org.promasi.shell.IShellListener;
 import org.promasi.shell.Shell;
 import org.promasi.shell.Story.StoriesPool;
 import org.promasi.shell.Story.Story;
 import org.promasi.shell.model.actions.IModelAction;
+import org.promasi.shell.model.communication.ModelMessageReceiver;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ActionBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.EventBinding;
 import org.promasi.shell.playmodes.singleplayerscoremode.corebindings.ExternalEquationBinding;
@@ -51,12 +56,17 @@ import org.promasi.ui.promasiui.promasidesktop.story.StorySelectorFrame;
  * @author eddiefullmetal
  *
  */
-public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, IShellListener
+public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, IShellListener, INotifierListener
 {
 	/**
 	 * 
 	 */
 	public Map<String,Story> _stories;
+	
+    /**
+     * All the registered {@link IShellListener}s.
+     */
+    private List<IShellListener> _listeners;
 	
     /**
      * The current {@link Story} of this play mode.
@@ -76,6 +86,11 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     /**
      * 
      */
+    private ModelMessageReceiver _modelMessageReceiver;
+    
+    /**
+     * 
+     */
     private ICommunicator _systemCommunicator;
     
     /**
@@ -87,11 +102,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
      * Keeps an {@link IStatePersister} for each {@link Project}.
      */
     private Map<Project, IStatePersister> _projectPersisters;
-    
-    /**
-     * The current system shell.
-     */
-    private Shell _shell;
+
 
     /**
      * Default logger for this class.
@@ -101,16 +112,9 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     /**
      * Initializes the object.
      */
-    public SinglePlayerScorePlayMode( Shell shell )throws NullArgumentException
+    public SinglePlayerScorePlayMode(  )
     {
-    	if(shell==null)
-    	{
-    		throw new NullArgumentException("Wrong argument shell==null");
-    	}
-
     	_lockObject = new Object( );
-    	_shell=shell;
-    	_shell.addListener( this );
         _projectPersisters = new Hashtable<Project, IStatePersister>( );
         _stories=new TreeMap<String,Story>();
         List<Story> stories=StoriesPool.getAllStories( );
@@ -118,8 +122,23 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
         {
         	_stories.put(story.getName(), story);
         }
+        
+        _systemCommunicator=new Communicator();
+        _listeners = new Vector<IShellListener>( );
+        _modelMessageReceiver=new ModelMessageReceiver();
     }
 
+    /**
+     * Adds the {@link IShellListener} to the {@link #_listeners}.
+     */
+    public void addListener ( IShellListener listener )
+    {
+        if ( !_listeners.contains( listener ) )
+        {
+            _listeners.add( listener );
+        }
+    }
+    
     @Override
     public String getDescription ( )
     {
@@ -143,9 +162,15 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
      * @param currentStory
      *            the {@link #_currentStory} to set.
      */
-    public void setCurrentStory ( Story currentStory )
+    public void setCurrentStory ( Story story )
     {
-        _currentStory = currentStory;
+    	if(story==null)
+    	{
+    		throw new NullArgumentException("Wrong argumen story==null");
+    	}
+        _currentStory = story;
+        _modelMessageReceiver.setContext(_currentStory.getCompany());
+        _currentStory.getCompany().getNotifier().addListener(this);
     }
 
     /**
@@ -171,13 +196,14 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     @Override
     public void start ( ) throws ConfigurationException
     {
-        Company company = _shell.getCompany( );
+        Company company = _currentStory.getCompany( );
         if ( _currentStory == null || !_currentStory.isValid( ) )
         {
             LOGGER.error( "No story is selected or story is not properly configured." );
             throw new ConfigurationException( "No story is selected or story is not properly configured." );
         }
         
+        _currentStory.getCompany().getNotifier().addListener(this);
         company.setBoss( _currentStory.getBoss( ) );
         company.setAccountant( _currentStory.getAccountant( ) );
         company.setAdministrator( _currentStory.getAdministrator( ) );
@@ -185,6 +211,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
         Clock.getInstance( ).setCurrentDateTime( _currentStory.getStartDate( ).toDateTime( company.getStartTimeAsLocalTime( ) ).toMutableDateTime( ) );
         Clock.getInstance( ).start( );
         company.assignProject(_currentStory.getNextProject( ));
+      
     }
 
     @Override
@@ -196,14 +223,23 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     @Override
     public void projectAssigned ( Project project )
     {
-        Company company = _shell.getCompany( );
+        Company company = _currentStory.getCompany( );
         Message message = new Message( );
         message.setSender( company.getBoss( ) );
         message.setRecipient( company.getProjectManager( ) );
         message.setTitle( "New project." );
         Project currentProject = company.getCurrentProject( );
         message.setBody( currentProject.getDescription( ) );
-        _shell.sendMail( message );
+        sendMail(message);
+        
+        ProjectStartTimerTask startTask = new ProjectStartTimerTask( project );
+        startTask.start( );
+        ProjectEndTimerTask endTask = new ProjectEndTimerTask( project );
+        endTask.start( );
+        for ( IShellListener listener : _listeners )
+        {
+            listener.projectAssigned( project );
+        }
     }
 
     @Override
@@ -231,7 +267,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	    		message.setRecipient( company.getProjectManager( ) );
 	    		message.setTitle( "Payments" );
 	    		message.setBody( "Total payments : " + total );
-	    		_shell.sendMail( message );
+	    		sendMail(message);
 	    	}
 	            
 	    	if ( changedTypes.contains( DurationFieldType.hours( ) ) )
@@ -248,7 +284,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     }
 
     @Override
-    public void projectStarted ( Project project )
+    public synchronized void projectStarted ( Project project )
     {
         synchronized ( _lockObject )
         {
@@ -257,17 +293,17 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	    	if ( project.equals( _currentStory.getCurrentProject( ) ) )
 	    	{
 	    		// set up the mode message receiver.
-	    		_shell.getModelMessageReceiver().clearAll( );
+	    		_modelMessageReceiver.clearAll( );
 	    		List<OutputVariableBinding> variableBindings = _currentStory.getOutputVariableBindings( project );
 	    		for ( OutputVariableBinding outputVariableBinding : variableBindings )
 	    		{
-	    			_shell.getModelMessageReceiver().addValueSentData( outputVariableBinding.getSdObjectKey( ),outputVariableBinding.getModelXPath( ) );
+	    			_modelMessageReceiver.addValueSentData( outputVariableBinding.getSdObjectKey( ),outputVariableBinding.getModelXPath( ) );
 	    		}
 	                
 	    		List<ExternalEquationBinding> externalBindings = _currentStory.getExternalEquationBindings( project );
 	    		for ( ExternalEquationBinding externalEquationBinding : externalBindings )
 	    		{
-	    			_shell.getModelMessageReceiver().addValueRequestedData( externalEquationBinding.getSdObjectKey( ),externalEquationBinding.getModelXPath( ) );
+	    			_modelMessageReceiver.addValueRequestedData( externalEquationBinding.getSdObjectKey( ),externalEquationBinding.getModelXPath( ) );
 	    		}
 	                
 	    		List<EventBinding> eventBindings = _currentStory.getEventBindings( project );
@@ -287,7 +323,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	                        
 	    				if ( action.isValid( ) )
 	    				{
-	    					_shell.getModelMessageReceiver().addEventAction( eventBinding.getEventName( ), eventBinding.getSdObjectKey( ), action );
+	    					_modelMessageReceiver.addEventAction( eventBinding.getEventName( ), eventBinding.getSdObjectKey( ), action );
 	    				}
 	    				else
 	    				{
@@ -306,6 +342,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	    		_currentSdSystem = new SdSystem( );
 	    		_currentSdSystem.initialize( model.getSdObjects( ) );
 	    		// Register the system communicator
+	    		_systemCommunicator.setMainReceiver(_modelMessageReceiver);
 	    		_currentSdSystem.registerCommunicator(_systemCommunicator);
 	    		// Register the persister.
 	    		IStatePersister persister = new MemoryStatePersister( );
@@ -336,6 +373,13 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	    		company.setPrestigePoints( company.getPrestigePoints( ) + project.getPrestigePoints( ) );
 	    		// Assign the next project
 	    		company.assignProject( nextProject );
+	    		SdModel sdModel=_currentStory.getModel(nextProject);
+	    		_currentSdSystem=new SdSystem();
+	    		_currentSdSystem.initialize(sdModel.getSdObjects());
+	    		IStatePersister persister = new MemoryStatePersister( );
+	    		_projectPersisters.put( project, persister );
+	    		_currentSdSystem.registerStatePersister( persister );
+	    		_currentSdSystem.executeStep( );
 	    	}
         }
     }
@@ -343,19 +387,12 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     @Override
     public void employeeHired(Employee employee)
     {
-  
+        for ( IShellListener listener : _listeners )
+        {
+            listener.employeeHired( employee );
+        }
     }
 
-	@Override
-	public void registerCommunicator(ICommunicator communicator)
-	{
-		_systemCommunicator=communicator;
-		if(_currentSdSystem!=null)
-		{
-			_currentSdSystem.registerCommunicator(communicator);
-		}
-	}
-	
 	@Override
 	public boolean login(String firstName,String lastName,String password){
 		try {
@@ -424,28 +461,18 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
         Story story = _stories.get(gameId);
         if ( story != null )
         {
-            LOGGER.info( "Selected story:" + story );
-            Company company = story.getCompany( );
-            company.setProjectManager( projectManager );
-            _shell.setCompany( company );
-            setCurrentStory( story );
-            
-            try
-            {
-            	ICommunicator communicator=new Communicator();
-            	communicator.setMainReceiver( _shell.getModelMessageReceiver());
-            	
-                _shell.setCurrentPlayMode(this);
-                DesktopMainFrame mainFrame = new DesktopMainFrame(_shell);
-                mainFrame.showMainFrame( );
-                mainFrame.registerCommunicator(communicator);
-                _shell.start();
-            }
-            catch ( ConfigurationException e )
-            {
-                e.printStackTrace( );
-                return false;
-            }
+        	 try {
+	            LOGGER.info( "Selected story:" + story );
+	            Company company = story.getCompany( );
+	            company.setProjectManager( projectManager );
+	            setCurrentStory( story );
+	            Shell shell=new Shell(this);
+	            DesktopMainFrame mainFrame = new DesktopMainFrame(shell);
+	            mainFrame.showMainFrame( );
+				shell.start();
+			} catch (ConfigurationException e) {
+				return false;
+			}
         }
         else
         {
@@ -456,9 +483,122 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	}
 
 	@Override
-	public void setMarketPlace(MarketPlace marketPlace)
-			throws NullArgumentException {
-		// TODO Auto-generated method stub
-		
+	public void sendMail(Message message) 
+	{
+		_currentStory.getCompany().getMessagingServer( ).sendMessage( message );
 	}
+
+	@Override
+	public void setMessageModelReceiver(IMessageReceiver messageReceiver)throws NullArgumentException 
+	{
+		_systemCommunicator.setMainReceiver(messageReceiver);		
+	}
+
+	@Override
+	public Company getCompany() {
+		return _currentStory.getCompany();
+	}
+
+	@Override
+	public MarketPlace getMarketPlace() {
+		return _currentStory.getMarketPlace();
+	}
+	
+	
+	
+	 /**
+     * Class used only by the {@link Shell} to schedule the project start time.
+     */
+    private  class ProjectStartTimerTask implements ITimerTask  {
+
+        /**
+         * The {@link Project}.
+         */
+        private Project _project;
+
+        /**
+         * Initializes the object.
+         */
+        public ProjectStartTimerTask( Project project )
+        {
+            _project = project;
+        }
+
+        public void start ( )
+        {
+            Timer.getInstance( ).scheduleTask( this, _project.getStartDate( ).toLocalDateTime( ) );
+        }
+
+        @Override
+        public void runTimerTask ( )
+        {
+            // Notify all listeners.
+            for ( IShellListener listener : _listeners )
+            {
+                listener.projectStarted( _project );
+            }
+            
+            projectStarted(_project);
+        }
+
+
+        @Override
+        public String toString ( )
+        {
+            return "ProjectStartTimerTask on project :" + _project;
+        }
+    }
+
+    /**
+     * Class used only by the {@link Shell} to schedule the project end time.
+     */
+    public class ProjectEndTimerTask implements ITimerTask{
+
+        /**
+         * The {@link Project}.
+         */
+        private Project _project;
+
+        /**
+         * Initializes the object.
+         */
+        public ProjectEndTimerTask( Project project )
+        {
+            _project = project;
+        }
+
+        public void start ( )
+        {
+            Timer.getInstance( ).scheduleTask( this, _project.getEndDate( ).toLocalDateTime( ) );
+        }
+
+        @Override
+        public void runTimerTask ( )
+        {
+            LOGGER.info( "Project " + _project + " is finished..." );
+            _currentStory.getCompany().setCurrentProject( null );
+            // Notify all listeners.
+            for ( IShellListener listener : _listeners )
+            {
+                listener.projectFinished( _project );
+            }
+            
+            projectFinished(_project);
+        }
+
+        /**
+         * @return the {@link #_project}.
+         */
+        public Project getProject ( )
+        {
+            return _project;
+        }
+
+        @Override
+        public String toString ( )
+        {
+            return "ProjectEndTimerTask on project :" + _project;
+        }
+    }
+    
 }

@@ -28,12 +28,7 @@ public class WaitingGameClientState extends AbstractClientState {
 	 * 
 	 */
 	private MultiPlayerScorePlayMode _playMode;
-	
-	/**
-	 * 
-	 */
-	private Shell _shell;
-	
+
 	/**
 	 * 
 	 */
@@ -45,22 +40,16 @@ public class WaitingGameClientState extends AbstractClientState {
 	 * @param gameStory
 	 * @throws NullArgumentException
 	 */
-	public WaitingGameClientState(Shell shell,MultiPlayerScorePlayMode playMode)throws NullArgumentException
+	public WaitingGameClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException
 	{
 		if( playMode==null )
 		{
 			throw new NullArgumentException("Wrong argument playMode==null");
 		}
-		
-		if(shell==null)
-		{
-			throw new NullArgumentException("Wrong argument shell==null");
-		}
 
 		_waitingForm=new WaitingForGameFrame();
 		_waitingForm.setVisible(true);
 		_playMode=playMode;
-		_shell=shell;
 	}
 	
 	
@@ -85,8 +74,8 @@ public class WaitingGameClientState extends AbstractClientState {
 			if(object instanceof StartGameRequest)
 			{	
 				StartGameRequest request=(StartGameRequest)object;
-		        _shell.setCurrentPlayMode(_playMode);
-				changeClientState( client, new PlayingGameClientState(_shell, request.getCompany(), request.getMarketPlace(), _playMode.getProjectManager() ) );
+				Shell shell=new Shell(_playMode);
+				changeClientState( client, new PlayingGameClientState(_playMode) );
 				_waitingForm.setVisible(false);
 			}
 			else

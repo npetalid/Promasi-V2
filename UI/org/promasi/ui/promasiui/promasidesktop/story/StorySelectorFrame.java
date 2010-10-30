@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 
 import org.promasi.model.ProjectManager;
 import org.promasi.shell.IPlayMode;
+import org.promasi.shell.Shell;
 import org.promasi.shell.Story.Story;
 
 import org.promasi.ui.promasiui.promasidesktop.PlayModeSelectorFrame;
@@ -195,7 +196,7 @@ public class StorySelectorFrame extends JFrame implements Runnable
     	{
     		try
     		{
-        		if(_currentPlayMode.play(selectedIndex,_projectManager))
+        		if(_currentPlayMode.play(selectedIndex, _projectManager))
         		{
         			_stopUpdating=true;
                     setVisible( false );

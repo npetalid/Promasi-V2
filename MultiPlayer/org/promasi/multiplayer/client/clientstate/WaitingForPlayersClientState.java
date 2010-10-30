@@ -30,19 +30,14 @@ public class WaitingForPlayersClientState extends AbstractClientState {
 	/**
 	 * 
 	 */
-	private Shell _shell;
-	
-	/**
-	 * 
-	 */
-	WaitingForPlayersFrame _waitingForm;
+	private WaitingForPlayersFrame _waitingForm;
 	
 	/**
 	 * 
 	 * @param playMode
 	 * @throws NullArgumentException
 	 */
-	public WaitingForPlayersClientState(Shell shell, MultiPlayerScorePlayMode playMode, ProMaSiClient client)throws NullArgumentException
+	public WaitingForPlayersClientState( MultiPlayerScorePlayMode playMode, ProMaSiClient client)throws NullArgumentException
 	{
 		if(playMode==null)
 		{
@@ -53,13 +48,7 @@ public class WaitingForPlayersClientState extends AbstractClientState {
 		{
 			throw new NullArgumentException("Wrong argument client==null");
 		}
-		
-		if(shell==null)
-		{
-			throw new NullArgumentException("Wrong argument shell==null");
-		}
-		
-		_shell=shell;
+
 		_waitingForm=new WaitingForPlayersFrame(client);
 		_waitingForm.setVisible(true);
 		_playMode=playMode;
@@ -83,8 +72,8 @@ public class WaitingForPlayersClientState extends AbstractClientState {
 			if(object instanceof StartGameResponse)
 			{	
 				StartGameResponse response=(StartGameResponse)object;
-		        _shell.setCurrentPlayMode(_playMode);
-				changeClientState( client, new PlayingGameClientState(_shell, response.getCompany(), response.getMarketPlace(), _playMode.getProjectManager() ) );
+				Shell shell=new Shell(_playMode);
+				changeClientState( client, new PlayingGameClientState(_playMode ) );
 				_waitingForm.setVisible(false);
 			}
 			else

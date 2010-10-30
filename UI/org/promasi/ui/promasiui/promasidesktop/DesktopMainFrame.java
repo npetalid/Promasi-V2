@@ -143,14 +143,6 @@ public class DesktopMainFrame extends JFrame implements IToolbarListener,IShellL
         }
     }
 
-
-	public void registerCommunicator(ICommunicator communicator) {
-		synchronized(this)
-		{
-			_shell.registerCommunicator(communicator);
-		}
-	}
-
 	@Override
 	public void projectStarted(Project project) {
 		// TODO Auto-generated method stub

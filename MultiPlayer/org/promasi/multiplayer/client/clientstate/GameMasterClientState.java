@@ -20,11 +20,7 @@ public class GameMasterClientState extends AbstractClientState {
 	 * 
 	 */
 	private ChooseStoryFrame _createGamefrom;
-	
-	/**
-	 * 
-	 */
-	private Shell _shell;
+
 	
 	/**
 	 * 
@@ -36,7 +32,7 @@ public class GameMasterClientState extends AbstractClientState {
 	 * @param playMode
 	 * @throws NullArgumentException
 	 */
-	public GameMasterClientState(Shell shell, MultiPlayerScorePlayMode playMode, ProMaSiClient client, Map<String, String> availableGames)throws NullArgumentException
+	public GameMasterClientState(MultiPlayerScorePlayMode playMode, ProMaSiClient client, Map<String, String> availableGames)throws NullArgumentException
 	{
 		if( playMode==null )
 		{
@@ -52,13 +48,7 @@ public class GameMasterClientState extends AbstractClientState {
 		{
 			throw new NullArgumentException("Wrong argument availableGames==null");
 		}
-		
-		if(shell==null)
-		{
-			throw new NullArgumentException("Wrong argument shell==null");
-		}
-		
-		_shell=shell;
+
 		_createGamefrom=new ChooseStoryFrame(client,availableGames);
 		_createGamefrom.setVisible(true);
 		_playMode=playMode;
@@ -71,7 +61,7 @@ public class GameMasterClientState extends AbstractClientState {
 			Object object=RequestBuilder.buildRequest(recData);
 			if(object instanceof CreateNewGameResponse)
 			{
-				changeClientState(client, new WaitingForPlayersClientState(_shell, _playMode,client));				
+				changeClientState(client, new WaitingForPlayersClientState(_playMode,client));				
 			}
 			else
 			{

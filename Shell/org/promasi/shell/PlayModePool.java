@@ -28,19 +28,14 @@ public final class PlayModePool
     /**
      * Initializes the object.
      */
-    public PlayModePool(Shell shell)throws NullArgumentException, IllegalArgumentException
+    public PlayModePool()throws NullArgumentException, IllegalArgumentException
     {
-    	if( shell==null)
-    	{
-    		throw new NullArgumentException("Wrong argument");
-    	}
-
         _playModes = new Vector<IPlayMode>( );
         
-        registerPlayMode( new SinglePlayerScorePlayMode(shell));
+        registerPlayMode( new SinglePlayerScorePlayMode());
         
         try {
-			registerPlayMode( new MultiPlayerScorePlayMode(shell) );
+			registerPlayMode( new MultiPlayerScorePlayMode() );
 		} 
         catch (UnknownHostException e) {
 			e.printStackTrace();

@@ -62,11 +62,6 @@ public class PlayModeSelectorFrame extends JFrame
     private JButton _playButton;
 
     /**
-     * 
-     */
-    private Shell _shell;
-
-    /**
      * Default logger for this class.
      */
     private static final Logger LOGGER = Logger.getLogger( PlayModeSelectorFrame.class );
@@ -76,14 +71,13 @@ public class PlayModeSelectorFrame extends JFrame
      */
     public PlayModeSelectorFrame()
     {
-    	_shell=new Shell();
         LOGGER.info( "Selecting play mode" );
         setTitle( ResourceManager.getString( PlayModeSelectorFrame.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( ScreenUtils.sizeForPercentage( 0.5d, 0.5d ) );
         ScreenUtils.centerInScreen( this );
         
-        _playModesList = new JList( new PlayModePool(_shell ).getPlayModes().toArray() );
+        _playModesList = new JList( new PlayModePool( ).getPlayModes().toArray() );
         _playModesList.getSelectionModel( ).addListSelectionListener( new ListSelectionListener( )
         {
             @Override
@@ -141,7 +135,7 @@ public class PlayModeSelectorFrame extends JFrame
             LOGGER.info( "Selected " + playMode.toString( ) );
             setVisible( false );
             
-            LoginUi loginUi=new LoginUi(_shell,playMode);
+            LoginUi loginUi=new LoginUi(playMode);
             loginUi.showUi();
         }
         else

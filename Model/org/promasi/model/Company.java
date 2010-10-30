@@ -541,7 +541,6 @@ public class Company implements ICloneable<Company>, Serializable
             _changeSupport.removePropertyChangeListener( listener );
         }
     }
-
     
     /**
      * @return the {@link #_changeSupport}.

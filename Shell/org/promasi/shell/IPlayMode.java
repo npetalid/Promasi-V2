@@ -6,11 +6,13 @@ import java.util.Map;
 import javax.naming.ConfigurationException;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.communication.ICommunicator;
+import org.promasi.communication.IMessageReceiver;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
+import org.promasi.model.Company;
 import org.promasi.model.Employee;
 import org.promasi.model.MarketPlace;
+import org.promasi.model.Message;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
 
@@ -61,12 +63,6 @@ public interface IPlayMode
      * @return The {@link IStatePersister} for the specified project.
      */
     public IStatePersister getPersisterForProject ( Project project );
-
-    /**
-     *
-     * @param communicator
-     */
-    public void registerCommunicator(ICommunicator communicator);
     
     /**
      * 
@@ -105,8 +101,28 @@ public interface IPlayMode
 	
 	/**
 	 * 
-	 * @param marketPlace
+	 * @param message
+	 */
+	public void sendMail ( Message message )throws NullArgumentException;
+	
+	/**
+	 * 
+	 * @param messageReceiver
 	 * @throws NullArgumentException
 	 */
-	public void setMarketPlace(MarketPlace marketPlace)throws NullArgumentException;
+	public void setMessageModelReceiver(IMessageReceiver messageReceiver)throws NullArgumentException;
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Company getCompany();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public MarketPlace getMarketPlace();
+	
+	public void addListener ( IShellListener listener );
 }
