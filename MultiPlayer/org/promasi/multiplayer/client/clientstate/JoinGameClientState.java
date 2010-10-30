@@ -20,6 +20,7 @@ import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.JoinGameResponse;
 import org.promasi.network.protocol.client.response.RetreiveGameListResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
+import org.promasi.shell.Shell;
 import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
 import org.promasi.ui.promasiui.multiplayer.GameSelectorFrame;
 
@@ -37,6 +38,11 @@ public class JoinGameClientState extends AbstractClientState{
 	/**
 	 * 
 	 */
+	private Shell _shell;
+	
+	/**
+	 * 
+	 */
 	private GameSelectorFrame _gameSelectorFrame;
 	
 	/**
@@ -45,16 +51,21 @@ public class JoinGameClientState extends AbstractClientState{
 	 * @throws NullArgumentException
 	 * @throws IOException 
 	 */
-	public JoinGameClientState(MultiPlayerScorePlayMode playMode, ProjectManager projectManager)throws NullArgumentException, IOException
+	public JoinGameClientState(Shell shell, MultiPlayerScorePlayMode playMode, ProjectManager projectManager)throws NullArgumentException, IOException
 	{
 		if( playMode==null )
 		{
 			throw new NullArgumentException("Wrong argument playMode=null");
 		}
 		
+		if(shell==null)
+		{
+			throw new NullArgumentException("Wrong argument shell==null");
+		}
+		
+		_shell=shell;
 		_gameSelectorFrame = new GameSelectorFrame( projectManager,playMode );
 		_gameSelectorFrame.setVisible( true );
-		
 		_playMode=playMode;
 	}
 	
@@ -99,14 +110,14 @@ public class JoinGameClientState extends AbstractClientState{
 			}
 			else if(object instanceof JoinGameResponse)
 			{
-				changeClientState( client, new WaitingGameClientState( _playMode) );
+				changeClientState( client, new WaitingGameClientState(_shell, _playMode) );
 				_gameSelectorFrame.setVisible(false);
 				_gameSelectorFrame.dispose();
 			}
 			else if(object instanceof ChooseGameMasterStateResponse)
 			{
 				ChooseGameMasterStateResponse response=(ChooseGameMasterStateResponse)object;
-				changeClientState(client, new GameMasterClientState(_playMode, client,response.getAvailableGames()));
+				changeClientState(client, new GameMasterClientState(_shell, _playMode, client,response.getAvailableGames()));
 				_gameSelectorFrame.setVisible(false);
 				_gameSelectorFrame.dispose();
 			}

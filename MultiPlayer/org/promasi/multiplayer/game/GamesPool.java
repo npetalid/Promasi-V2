@@ -4,12 +4,12 @@
 package org.promasi.multiplayer.game;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.shell.Story.Story;
+
 
 
 /**
@@ -111,13 +111,12 @@ public class GamesPool
 	 *
 	 * @return
 	 */
-	public synchronized LinkedList<Story> retreiveGames()
+	public synchronized Map<String,String> retreiveGames()
 	{
-		LinkedList<Story> result=new LinkedList<Story>();
+		Map<String,String>result=new TreeMap<String,String>();
 		for(Game game : _gameList.values())
 		{
-			Story gameStory=game.getGameStory();
-			result.add(gameStory);
+			result.put(game.getName(), game.getDescription());
 		}
 		
 		return result;
@@ -158,7 +157,7 @@ public class GamesPool
 		}
 
 		Game game=_gameList.get(gameId);
-		game.addPlayer(client);
+		game.joinGame(client);
 		_players.put(client, game);
 		
 		return true;

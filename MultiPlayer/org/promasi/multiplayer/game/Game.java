@@ -5,12 +5,12 @@ package org.promasi.multiplayer.game;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.model.Company;
+import org.promasi.model.MarketPlace;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.client.request.StartGameRequest;
 import org.promasi.shell.Story.Story;
@@ -74,6 +74,50 @@ public class Game implements Runnable
 	}
 
 	/**
+	 * 
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws InvocationTargetException
+	 * @throws NoSuchMethodException
+	 */
+	public Company getCompany() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException
+	{
+		return _gameModel.getCompany();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws IllegalAccessException
+	 * @throws InstantiationException
+	 * @throws InvocationTargetException
+	 * @throws NoSuchMethodException
+	 */
+	public MarketPlace getMarketPlace() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException
+	{
+		return _gameModel.getMarketPlace();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized String getName()
+	{
+		return _gameModel.getName();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public synchronized String getDescription()
+	{
+		return _gameModel.getDescription();
+	}
+	
+	/**
 	 * @return 
 	 * 
 	 */
@@ -88,7 +132,7 @@ public class Game implements Runnable
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public synchronized boolean addPlayer(ProMaSiClient player)throws NullArgumentException,IllegalArgumentException
+	public synchronized GameModel joinGame(ProMaSiClient player)throws NullArgumentException,IllegalArgumentException
 	{
 		if(player==null)
 		{
@@ -102,34 +146,23 @@ public class Game implements Runnable
 		
 		if(_isRunning)
 		{
-			return false;
+			return null;
 		}
 		
 		try {
 			Story clonedStory=(Story)BeanUtils.cloneBean(_gameModel.getGameStory());
 			GameModel newModel=new GameModel(clonedStory);
 			_gameModels.put(player, newModel);
+			return newModel;
 		} catch (IllegalAccessException e) {
-			return false;
+			return null;
 		} catch (InstantiationException e) {
-			return false;
+			return null;
 		} catch (InvocationTargetException e) {
-			return false;
+			return null;
 		} catch (NoSuchMethodException e) {
-			return false;
+			return null;
 		}
-		//Convert to xml and back to clone object.
-		
-		return true;
-	}
-
-	/**
-	 *
-	 * @return
-	 */
-	public synchronized ProMaSiClient getGameMaster()
-	{
-		return _gameMaster;
 	}
 
 	/**
@@ -140,21 +173,6 @@ public class Game implements Runnable
 	public synchronized boolean isGameMaster(ProMaSiClient client)
 	{
 		return client==_gameMaster;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public synchronized List<ProMaSiClient> getGameClients()
-	{
-		List<ProMaSiClient> result=new Vector<ProMaSiClient>();
-		for(Map.Entry<ProMaSiClient,GameModel> entry:_gameModels.entrySet())
-		{
-			result.add(entry.getKey());
-		}
-		
-		return result;
 	}
 	
 	/**
@@ -194,34 +212,6 @@ public class Game implements Runnable
 		_isRunning=false;
 		
 		return true;
-	}
-	
-	/**
-	 * 
-	 * @param values
-	 * @return
-	 */
-	public synchronized HashMap<String,Double> setGameValues(HashMap<String,Double> values)
-	{
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public synchronized HashMap<String,Double> getGameValues()
-	{
-		return null;
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public synchronized Story getGameStory()
-	{
-		return _gameModel.getGameStory();
 	}
 
 	@Override

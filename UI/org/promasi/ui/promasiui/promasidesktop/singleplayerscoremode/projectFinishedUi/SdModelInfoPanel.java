@@ -165,8 +165,8 @@ public class SdModelInfoPanel
      */
     public void setProject ( Project project )
     {
-        SdModel model = _shell.getCurrentPlayMode( ).getModelForProject( project );
-        _statePersister = _shell.getCurrentPlayMode( ).getPersisterForProject( project );
+        SdModel model = _shell.getModelForProject( project );
+        _statePersister = _shell.getPersisterForProject( project );
         _sdObjectList.setModel( new SdObjectListModel( model ) );
     }
 

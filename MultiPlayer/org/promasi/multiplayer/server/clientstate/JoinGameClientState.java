@@ -73,14 +73,7 @@ public class JoinGameClientState extends AbstractClientState {
 			Object object=RequestBuilder.buildRequest(recData);
 			if(object instanceof RetreiveGameListRequest)
 			{
-				List<Story> games=_promasi.retreiveGames();
-				Map<String,String> gameList=new TreeMap<String,String>();
-				for(Story story : games)
-				{
-					gameList.put(story.getName(), story.getInfoString());
-				}
-				
-				RetreiveGameListResponse response=new RetreiveGameListResponse(gameList);
+				RetreiveGameListResponse response=new RetreiveGameListResponse(_promasi.retreiveGames());
 				client.sendMessage(response.toProtocolString());
 			}
 			else if( object instanceof JoinGameRequest)
@@ -91,7 +84,7 @@ public class JoinGameClientState extends AbstractClientState {
 					client.sendMessage(new JoinGameFailedResponse().toProtocolString());
 				}else{
 					client.sendMessage(new JoinGameResponse().toProtocolString());
-					changeClientState(client,new WaitingGameClientState(_promasi,_promasi.getGame(joinRequest.getGameId())));
+					changeClientState(client,new WaitingGameClientState(_promasi.getGame(joinRequest.getGameId())));
 				}
 				
 			}

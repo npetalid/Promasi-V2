@@ -189,7 +189,7 @@ public class ProMaSi
 	 *
 	 * @return
 	 */
-	public synchronized List<Story> retreiveGames()
+	public synchronized Map<String,String> retreiveGames()
 	{
 		return _games.retreiveGames();
 	}

@@ -10,11 +10,14 @@ import javax.naming.ConfigurationException;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.promasi.communication.ICommunicator;
+import org.promasi.core.IStatePersister;
+import org.promasi.core.SdModel;
 import org.promasi.model.Clock;
 import org.promasi.model.Company;
 import org.promasi.model.Employee;
 import org.promasi.model.INotifierListener;
 import org.promasi.model.ITimerTask;
+import org.promasi.model.MarketPlace;
 import org.promasi.model.Message;
 import org.promasi.model.Project;
 import org.promasi.model.Timer;
@@ -68,15 +71,6 @@ public final class Shell
         _modelMessageReceiver=new ModelMessageReceiver();
     }
 
-
-    /**
-     * @return the {@link #_currentPlayMode}.
-     */
-    public IPlayMode getCurrentPlayMode ( )
-    {
-        return _currentPlayMode;
-    }
-
     /**
      *
      * Sets the {@link #_currentPlayMode} and initializes the play mode.
@@ -96,13 +90,34 @@ public final class Shell
     }
 
     /**
-     * @return the {@link #_company}.
+     * 
+     * @param project
+     * @return
      */
-    public Company getCompany ( )
+    public SdModel getModelForProject(Project project)
     {
-        return _company;
+    	return _currentPlayMode.getModelForProject(project);
     }
-
+    
+    /**
+     * 
+     * @param project
+     * @return
+     */
+    public IStatePersister getPersisterForProject(Project project)
+    {
+    	return _currentPlayMode.getPersisterForProject(project);
+    }
+ 
+    /**
+     * 
+     * @return
+     */
+    public Company getCompany()
+    {
+    	return _company;
+    }
+    
     /**
      *
      * Sets the {@link #_company} and the context of the
@@ -120,6 +135,16 @@ public final class Shell
         _company.getNotifier( ).addListener( this );
     }
 
+    /**
+     * 
+     * @param marketPlace
+     */
+    public void setMarketPlace(MarketPlace marketPlace)
+    {
+    	_currentPlayMode.setMarketPlace(marketPlace);
+    }
+    
+    
     /**
      * Shows the {@link IMainFrame} and starts the play mode.
      *

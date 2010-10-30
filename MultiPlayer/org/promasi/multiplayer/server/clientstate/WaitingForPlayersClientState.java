@@ -1,5 +1,6 @@
 package org.promasi.multiplayer.server.clientstate;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
@@ -15,11 +16,6 @@ import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 
 public class WaitingForPlayersClientState extends AbstractClientState 
 {
-	/**
-	 * 
-	 */
-	ProMaSi _promasi;
-	
 	/**
 	 * 
 	 */
@@ -43,7 +39,6 @@ public class WaitingForPlayersClientState extends AbstractClientState
 		}
 		
 		_game=game;
-		_promasi=promasi;
 	}
 	
 	@Override
@@ -63,8 +58,8 @@ public class WaitingForPlayersClientState extends AbstractClientState
 			if(object instanceof StartGameRequest)
 			{
 				_game.startGame();
-				client.sendMessage(new StartGameResponse(_game.getGameStory().getCompany(), _game.getGameStory().getMarketPlace()).toProtocolString());
-				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameStory()));
+				client.sendMessage( new StartGameResponse(_game.getCompany(), _game.getMarketPlace()).toProtocolString() );
+				changeClientState( client,new PlayingGameClientState( _game ) );
 			}
 			else
 			{
@@ -86,8 +81,19 @@ public class WaitingForPlayersClientState extends AbstractClientState
 		{
 			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();
+		}	
+		catch (IllegalAccessException e) {
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
+			client.disconnect();
+		} catch (InstantiationException e) {
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
+			client.disconnect();
+		} catch (InvocationTargetException e) {
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
+			client.disconnect();
+		} catch (NoSuchMethodException e) {
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
+			client.disconnect();
 		}
-
 	}
-
 }

@@ -11,13 +11,16 @@ import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.LoginResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
+import org.promasi.shell.Shell;
 import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
 
 public class LoginClientState extends AbstractClientState {
 	/**
 	 * 
 	 */
-	MultiPlayerScorePlayMode _currentPlayMode;
+	private MultiPlayerScorePlayMode _currentPlayMode;
+	
+	private Shell _shell;
 	
 	/**
 	 * 
@@ -25,12 +28,18 @@ public class LoginClientState extends AbstractClientState {
 	 * @param projectManager
 	 * @throws NullArgumentException
 	 */
-	public LoginClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException{
+	public LoginClientState(Shell shell, MultiPlayerScorePlayMode playMode)throws NullArgumentException{
 		if(playMode==null)
 		{
 			throw new NullArgumentException("Wrong argument playMode==null");
 		}
 		
+		if(shell==null)
+		{
+			throw new NullArgumentException("Wrong argument shell==null");
+		}
+		
+		_shell=shell;
 		_currentPlayMode=playMode;
 	}
 	
@@ -58,7 +67,7 @@ public class LoginClientState extends AbstractClientState {
 				if(projectManager!=null)
 				{
 					try {
-						JoinGameClientState chooseGameClientState=new JoinGameClientState(_currentPlayMode,projectManager);
+						JoinGameClientState chooseGameClientState=new JoinGameClientState(_shell, _currentPlayMode,projectManager);
 						changeClientState(client,chooseGameClientState);
 						if(!chooseGameClientState.sendRetreiveGameListRequest(client))
 						{

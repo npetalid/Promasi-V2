@@ -24,6 +24,7 @@ import org.promasi.model.Clock;
 import org.promasi.model.Company;
 import org.promasi.model.Employee;
 import org.promasi.model.IClockListener;
+import org.promasi.model.MarketPlace;
 import org.promasi.model.Message;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
@@ -55,7 +56,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	/**
 	 * 
 	 */
-	Map<String,Story> _stories;
+	public Map<String,Story> _stories;
 	
     /**
      * The current {@link Story} of this play mode.
@@ -195,7 +196,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     @Override
     public void projectAssigned ( Project project )
     {
-        Company company = _currentStory.getCompany( );
+        Company company = _shell.getCompany( );
         Message message = new Message( );
         message.setSender( company.getBoss( ) );
         message.setRecipient( company.getProjectManager( ) );
@@ -236,7 +237,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	    	if ( changedTypes.contains( DurationFieldType.hours( ) ) )
 	    	{
 	    		int currentHourOfDay = Clock.getInstance( ).getCurrentDateTime( ).getHourOfDay( );
-	    		Company company = _shell.getCompany( );
+	    		Company company = _currentStory.getCompany( );
 	    		int companyEndHour = company.getEndTimeAsLocalTime( ).getHourOfDay( );
 	    		if ( currentHourOfDay >= companyEndHour )
 	    		{
@@ -326,7 +327,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
         synchronized ( _lockObject )
         {
 	    	_currentSdSystem = null;
-	    	Company company = _shell.getCompany( );
+	    	Company company = _currentStory.getCompany( );
 	    	Project nextProject = _currentStory.getNextProject( );
 	    	if ( nextProject != null )
 	    	{
@@ -452,5 +453,12 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
         }
         
 		return true;
+	}
+
+	@Override
+	public void setMarketPlace(MarketPlace marketPlace)
+			throws NullArgumentException {
+		// TODO Auto-generated method stub
+		
 	}
 }

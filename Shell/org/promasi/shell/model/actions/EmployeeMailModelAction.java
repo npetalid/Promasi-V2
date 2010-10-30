@@ -38,6 +38,9 @@ public class EmployeeMailModelAction
      */
     private String _title;
 
+    /**
+     * 
+     */
     private Shell _shell;
 
     /**
@@ -50,6 +53,7 @@ public class EmployeeMailModelAction
     	{
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
+    	
     	_shell=shell;
     }
 

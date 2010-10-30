@@ -7,7 +7,6 @@ import java.net.ProtocolException;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.AbstractClientState;
-import org.promasi.multiplayer.ProMaSi;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
 import org.promasi.network.protocol.client.request.RequestBuilder;
@@ -24,11 +23,6 @@ public class WaitingGameClientState extends AbstractClientState {
 	/**
 	 *
 	 */
-	private ProMaSi _promasi;
-
-	/**
-	 *
-	 */
 	private Game _game;
 
 	/**
@@ -37,19 +31,13 @@ public class WaitingGameClientState extends AbstractClientState {
 	 * @param game
 	 * @throws NullArgumentException
 	 */
-	public WaitingGameClientState(ProMaSi promasi,Game game)throws NullArgumentException
+	public WaitingGameClientState(Game game)throws NullArgumentException
 	{
-		if(promasi==null)
-		{
-			throw new NullArgumentException("Wrong argument promasi==null");
-		}
-
 		if(game==null)
 		{
 			throw new NullArgumentException("Wrong argument game==null");
 		}
 		
-		_promasi=promasi;
 		_game=game;
 	}
 
@@ -72,8 +60,8 @@ public class WaitingGameClientState extends AbstractClientState {
 			Object object=RequestBuilder.buildRequest(recData);
 			if(object instanceof StartGameRequest)
 			{
-				changeClientState(client,new PlayingGameClientState(_promasi,_game.getGameStory()));
-			}
+				changeClientState(client,new PlayingGameClientState( _game ) );
+			} 
 			else
 			{
 				client.sendMessage(new WrongProtocolResponse().toProtocolString());

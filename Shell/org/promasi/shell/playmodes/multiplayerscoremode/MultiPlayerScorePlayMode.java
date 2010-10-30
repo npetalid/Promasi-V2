@@ -56,13 +56,8 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	 * 
 	 */
 	private ProMaSiClient _promasiClient;
-	
+
 	/**
-	 * 
-	 */
-	private Shell _shell;
-	
-	/**"
 	 * 
 	 */
 	private ProjectManager _projectManager;
@@ -98,10 +93,9 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		_marketPlace=new MarketPlace();
 		TcpClient tcpClient=new TcpClient(_hostname,_port);
 		
-		_promasiClient=new ProMaSiClient( tcpClient,new LoginClientState(this));
+		_promasiClient=new ProMaSiClient( tcpClient,new LoginClientState(shell, this));
 		tcpClient.registerTcpEventHandler(new TcpEventHandler(_promasiClient));
 		_stories=new TreeMap<String,String>();
-		_shell=shell;
 		_projectManager=new ProjectManager();
 	}
 
@@ -331,16 +325,6 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		}
 		
 		_marketPlace=marketPlace;
-	}
-	
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public Shell getShell()
-	{
-		return _shell;
 	}
 
 }

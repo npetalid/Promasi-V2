@@ -5,15 +5,13 @@ import java.net.ProtocolException;
 import javax.naming.ConfigurationException;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.communication.Communicator;
-import org.promasi.communication.ICommunicator;
-import org.promasi.model.Company;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.StartGameResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
+import org.promasi.shell.Shell;
 import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
 import org.promasi.ui.promasiui.multiplayer.WaitingForPlayersFrame;
 
@@ -32,6 +30,11 @@ public class WaitingForPlayersClientState extends AbstractClientState {
 	/**
 	 * 
 	 */
+	private Shell _shell;
+	
+	/**
+	 * 
+	 */
 	WaitingForPlayersFrame _waitingForm;
 	
 	/**
@@ -39,7 +42,7 @@ public class WaitingForPlayersClientState extends AbstractClientState {
 	 * @param playMode
 	 * @throws NullArgumentException
 	 */
-	public WaitingForPlayersClientState(MultiPlayerScorePlayMode playMode, ProMaSiClient client)throws NullArgumentException
+	public WaitingForPlayersClientState(Shell shell, MultiPlayerScorePlayMode playMode, ProMaSiClient client)throws NullArgumentException
 	{
 		if(playMode==null)
 		{
@@ -51,6 +54,12 @@ public class WaitingForPlayersClientState extends AbstractClientState {
 			throw new NullArgumentException("Wrong argument client==null");
 		}
 		
+		if(shell==null)
+		{
+			throw new NullArgumentException("Wrong argument shell==null");
+		}
+		
+		_shell=shell;
 		_waitingForm=new WaitingForPlayersFrame(client);
 		_waitingForm.setVisible(true);
 		_playMode=playMode;
@@ -74,18 +83,9 @@ public class WaitingForPlayersClientState extends AbstractClientState {
 			if(object instanceof StartGameResponse)
 			{	
 				StartGameResponse response=(StartGameResponse)object;
-				Company company = response.getCompany();
-		        company.setProjectManager( _playMode.getProjectManager());
-		        _playMode.getShell().setCompany( company );
-		        _playMode.setMarketPlace(response.getMarketPlace());
-  
-		        ICommunicator communicator=new Communicator();
-		        communicator.setMainReceiver( _playMode.getShell().getModelMessageReceiver());
-		            	
-		        _playMode.getShell().setCurrentPlayMode(_playMode);
-		        _waitingForm.setVisible(false);
-		        _waitingForm.dispose();
-				changeClientState( client, new PlayingGameClientState(_playMode.getShell()) );
+		        _shell.setCurrentPlayMode(_playMode);
+				changeClientState( client, new PlayingGameClientState(_shell, response.getCompany(), response.getMarketPlace(), _playMode.getProjectManager() ) );
+				_waitingForm.setVisible(false);
 			}
 			else
 			{

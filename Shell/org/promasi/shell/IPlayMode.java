@@ -10,6 +10,7 @@ import org.promasi.communication.ICommunicator;
 import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
 import org.promasi.model.Employee;
+import org.promasi.model.MarketPlace;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
 
@@ -101,4 +102,11 @@ public interface IPlayMode
 	 * @return
 	 */
 	public boolean play(String gameId , ProjectManager projectManager)throws IllegalArgumentException,NullArgumentException;
+	
+	/**
+	 * 
+	 * @param marketPlace
+	 * @throws NullArgumentException
+	 */
+	public void setMarketPlace(MarketPlace marketPlace)throws NullArgumentException;
 }

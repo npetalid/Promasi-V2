@@ -8,6 +8,9 @@ import javax.naming.ConfigurationException;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.communication.Communicator;
 import org.promasi.communication.ICommunicator;
+import org.promasi.model.Company;
+import org.promasi.model.MarketPlace;
+import org.promasi.model.ProjectManager;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.shell.Shell;
@@ -30,15 +33,19 @@ public class PlayingGameClientState extends AbstractClientState {
 	 * @throws NullArgumentException
 	 * @throws ConfigurationException
 	 */
-	public PlayingGameClientState(Shell shell)throws NullArgumentException, ConfigurationException
+	public PlayingGameClientState(Shell shell, Company company, MarketPlace marketPlace, ProjectManager projectManager)throws NullArgumentException, ConfigurationException
 	{
 		if(shell==null)
 		{
 			throw new NullArgumentException("Wrong argument shell==null");
 		}
-		
+
     	ICommunicator communicator=new Communicator();
-    	communicator.setMainReceiver( shell.getModelMessageReceiver());
+    	communicator.setMainReceiver(  shell.getModelMessageReceiver() );
+    	
+        shell.setCompany( company );
+        company.setProjectManager( projectManager);
+    	
 		_mainFrame=new DesktopMainFrame(shell);
 		_mainFrame.showMainFrame( );
 		_mainFrame.registerCommunicator(communicator);
