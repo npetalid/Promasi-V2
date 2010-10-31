@@ -124,5 +124,5 @@ public interface IPlayMode
 	 */
 	public MarketPlace getMarketPlace();
 	
-	public void addListener ( IShellListener listener );
+	public void addListener ( IPlayModeListener listener );
 }

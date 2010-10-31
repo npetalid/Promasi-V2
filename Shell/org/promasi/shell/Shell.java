@@ -130,9 +130,9 @@ public final class Shell
     }
 
     /**
-     * Adds the {@link IShellListener} to the {@link #_listeners}.
+     * Adds the {@link IPlayModeListener} to the {@link #_listeners}.
      */
-    public void addListener ( IShellListener listener )
+    public void addListener ( IPlayModeListener listener )
     {
         _currentPlayMode.addListener(listener);
     }

@@ -13,8 +13,8 @@ import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.request.StartGameRequest;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
+import org.promasi.network.protocol.client.response.StartGameResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
-import org.promasi.shell.Shell;
 import org.promasi.shell.playmodes.multiplayerscoremode.MultiPlayerScorePlayMode;
 import org.promasi.ui.promasiui.multiplayer.WaitingForGameFrame;
 
@@ -74,9 +74,11 @@ public class WaitingGameClientState extends AbstractClientState {
 			if(object instanceof StartGameRequest)
 			{	
 				StartGameRequest request=(StartGameRequest)object;
-				Shell shell=new Shell(_playMode);
-				changeClientState( client, new PlayingGameClientState(_playMode) );
+				changeClientState( client, new PlayingGameClientState(request.getCompany(), request.getMarketPlace(), _playMode) );
 				_waitingForm.setVisible(false);
+				_waitingForm.dispose();
+				StartGameResponse response=new StartGameResponse(request.getCompany(), request.getMarketPlace());
+				client.sendMessage(response.toProtocolString());
 			}
 			else
 			{

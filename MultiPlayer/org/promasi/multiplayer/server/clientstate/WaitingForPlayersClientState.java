@@ -58,8 +58,8 @@ public class WaitingForPlayersClientState extends AbstractClientState
 			if(object instanceof StartGameRequest)
 			{
 				_game.startGame();
-				client.sendMessage( new StartGameResponse(_game.getCompany(), _game.getMarketPlace()).toProtocolString() );
 				changeClientState( client,new PlayingGameClientState( _game ) );
+				client.sendMessage( new StartGameResponse(_game.getCompany(), _game.getMarketPlace()).toProtocolString() );
 			}
 			else
 			{

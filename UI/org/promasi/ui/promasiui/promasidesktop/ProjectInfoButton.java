@@ -23,7 +23,7 @@ import org.promasi.model.Clock;
 import org.promasi.model.Employee;
 import org.promasi.model.IClockListener;
 import org.promasi.model.Project;
-import org.promasi.shell.IShellListener;
+import org.promasi.shell.IPlayModeListener;
 import org.promasi.shell.Shell;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
@@ -41,7 +41,7 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
  */
 public class ProjectInfoButton
         extends JButton
-        implements IShellListener, MouseListener, IClockListener
+        implements IPlayModeListener, MouseListener, IClockListener
 {
 
     /**

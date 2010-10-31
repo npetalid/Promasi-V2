@@ -7,7 +7,7 @@ import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.promasi.model.ITimerTask;
 import org.promasi.model.Timer;
-import org.promasi.shell.IShellListener;
+import org.promasi.shell.IPlayModeListener;
 import org.promasi.shell.Shell;
 
 
@@ -16,7 +16,7 @@ import org.promasi.shell.Shell;
  * An {@link IModelAction} that immediately stops the current project. Basically
  * runs the {@link ProjectEndTimerTask} from the {@link Timer} and removes it.
  * This will make the {@link Shell} to fire the
- * {@link IShellListener#projectFinished(org.promasi.model.Project)}
+ * {@link IPlayModeListener#projectFinished(org.promasi.model.Project)}
  *
  * @author eddiefullmetal
  *

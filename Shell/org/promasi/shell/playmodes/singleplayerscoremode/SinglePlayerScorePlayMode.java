@@ -33,7 +33,7 @@ import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
 import org.promasi.model.Timer;
 import org.promasi.shell.IPlayMode;
-import org.promasi.shell.IShellListener;
+import org.promasi.shell.IPlayModeListener;
 import org.promasi.shell.Shell;
 import org.promasi.shell.Story.StoriesPool;
 import org.promasi.shell.Story.Story;
@@ -56,7 +56,7 @@ import org.promasi.ui.promasiui.promasidesktop.story.StorySelectorFrame;
  * @author eddiefullmetal
  *
  */
-public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, IShellListener, INotifierListener
+public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, IPlayModeListener, INotifierListener
 {
 	/**
 	 * 
@@ -64,9 +64,9 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
 	public Map<String,Story> _stories;
 	
     /**
-     * All the registered {@link IShellListener}s.
+     * All the registered {@link IPlayModeListener}s.
      */
-    private List<IShellListener> _listeners;
+    private List<IPlayModeListener> _listeners;
 	
     /**
      * The current {@link Story} of this play mode.
@@ -124,14 +124,14 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
         }
         
         _systemCommunicator=new Communicator();
-        _listeners = new Vector<IShellListener>( );
+        _listeners = new Vector<IPlayModeListener>( );
         _modelMessageReceiver=new ModelMessageReceiver();
     }
 
     /**
-     * Adds the {@link IShellListener} to the {@link #_listeners}.
+     * Adds the {@link IPlayModeListener} to the {@link #_listeners}.
      */
-    public void addListener ( IShellListener listener )
+    public void addListener ( IPlayModeListener listener )
     {
         if ( !_listeners.contains( listener ) )
         {
@@ -236,7 +236,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
         startTask.start( );
         ProjectEndTimerTask endTask = new ProjectEndTimerTask( project );
         endTask.start( );
-        for ( IShellListener listener : _listeners )
+        for ( IPlayModeListener listener : _listeners )
         {
             listener.projectAssigned( project );
         }
@@ -387,7 +387,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
     @Override
     public void employeeHired(Employee employee)
     {
-        for ( IShellListener listener : _listeners )
+        for ( IPlayModeListener listener : _listeners )
         {
             listener.employeeHired( employee );
         }
@@ -533,7 +533,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
         public void runTimerTask ( )
         {
             // Notify all listeners.
-            for ( IShellListener listener : _listeners )
+            for ( IPlayModeListener listener : _listeners )
             {
                 listener.projectStarted( _project );
             }
@@ -578,7 +578,7 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, ISh
             LOGGER.info( "Project " + _project + " is finished..." );
             _currentStory.getCompany().setCurrentProject( null );
             // Notify all listeners.
-            for ( IShellListener listener : _listeners )
+            for ( IPlayModeListener listener : _listeners )
             {
                 listener.projectFinished( _project );
             }

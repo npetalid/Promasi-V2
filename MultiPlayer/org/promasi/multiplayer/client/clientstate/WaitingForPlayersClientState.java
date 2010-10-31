@@ -72,8 +72,7 @@ public class WaitingForPlayersClientState extends AbstractClientState {
 			if(object instanceof StartGameResponse)
 			{	
 				StartGameResponse response=(StartGameResponse)object;
-				Shell shell=new Shell(_playMode);
-				changeClientState( client, new PlayingGameClientState(_playMode ) );
+				changeClientState( client, new PlayingGameClientState(response.getCompany(), response.getMarketPlace(), _playMode ) );
 				_waitingForm.setVisible(false);
 			}
 			else

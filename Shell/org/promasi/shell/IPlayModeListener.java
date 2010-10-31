@@ -12,7 +12,7 @@ import org.promasi.model.Project;
  * @author eddiefullmetal
  * 
  */
-public interface IShellListener
+public interface IPlayModeListener
 {
 
     /**

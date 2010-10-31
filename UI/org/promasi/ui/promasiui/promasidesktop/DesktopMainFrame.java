@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 import org.promasi.communication.ICommunicator;
 import org.promasi.model.Employee;
 import org.promasi.model.Project;
-import org.promasi.shell.IShellListener;
+import org.promasi.shell.IPlayModeListener;
 import org.promasi.shell.Shell;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
 import org.promasi.ui.promasiui.promasidesktop.singleplayerscoremode.projectFinishedUi.SinglePlayerScoreModeProjectFinishedUi;
@@ -31,7 +31,7 @@ import org.promasi.utilities.ui.ScreenUtils;
  * @author eddiefullmetal
  *
  */
-public class DesktopMainFrame extends JFrame implements IToolbarListener,IShellListener
+public class DesktopMainFrame extends JFrame implements IToolbarListener,IPlayModeListener
 {
 
     /**

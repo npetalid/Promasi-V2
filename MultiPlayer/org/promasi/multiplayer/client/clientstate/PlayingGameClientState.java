@@ -8,6 +8,8 @@ import javax.naming.ConfigurationException;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.communication.Communicator;
 import org.promasi.communication.ICommunicator;
+import org.promasi.model.Company;
+import org.promasi.model.MarketPlace;
 import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.shell.Shell;
@@ -32,13 +34,33 @@ public class PlayingGameClientState extends AbstractClientState {
 	 * @throws NullArgumentException
 	 * @throws ConfigurationException
 	 */
-	public PlayingGameClientState(MultiPlayerScorePlayMode playMode)throws NullArgumentException, ConfigurationException
+	public PlayingGameClientState(Company company, MarketPlace marketPlace, MultiPlayerScorePlayMode playMode)throws NullArgumentException, ConfigurationException
 	{
 		if(playMode==null)
 		{
 			throw new NullArgumentException("Wrong argument playMode==null");
 		}
 
+		if(company==null)
+		{
+			throw new NullArgumentException("Wrong argument company==null");
+		}
+		
+		if(marketPlace==null)
+		{
+			throw new NullArgumentException("Wrong argument marketPlace==null");
+		}
+		
+		if(!playMode.setCompany(company))
+		{
+			throw new ConfigurationException("Playmode configuration failed");
+		}
+		
+		if(!playMode.setMarketPlace(marketPlace))
+		{
+			throw new ConfigurationException("Playmode configuration failed");
+		}
+		
     	ICommunicator communicator=new Communicator();
     	communicator.setMainReceiver(  new ModelMessageReceiver() );
     	

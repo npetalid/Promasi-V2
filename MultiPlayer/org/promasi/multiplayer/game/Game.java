@@ -189,7 +189,19 @@ public class Game implements Runnable
 			
 		for(Map.Entry<ProMaSiClient, GameModel> curEntry : _gameModels.entrySet())
 		{
-			curEntry.getKey().sendMessage(new StartGameRequest().toProtocolString());
+			try {
+				curEntry.getKey().sendMessage(new StartGameRequest(_gameModel.getCompany(), _gameModel.getMarketPlace() ).toProtocolString());
+			} catch (NullArgumentException e) {
+				return false;
+			} catch (IllegalAccessException e) {
+				return false;
+			} catch (InstantiationException e) {
+				return false;
+			} catch (InvocationTargetException e) {
+				return false;
+			} catch (NoSuchMethodException e) {
+				return false;
+			}
 		}
 
 		_isRunning=true;

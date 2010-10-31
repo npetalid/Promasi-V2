@@ -26,7 +26,7 @@ import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.client.clientstate.LoginClientState;
 import org.promasi.multiplayer.client.TcpEventHandler;
 import org.promasi.shell.IPlayMode;
-import org.promasi.shell.IShellListener;
+import org.promasi.shell.IPlayModeListener;
 import org.promasi.network.protocol.client.request.ChooseGameMasterStateRequest;
 import org.promasi.network.protocol.client.request.JoinGameRequest;
 import org.promasi.network.protocol.client.request.LoginRequest;
@@ -36,7 +36,7 @@ import org.promasi.network.tcp.TcpClient;
  * @author m1cRo
  *
  */
-public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
+public class MultiPlayerScorePlayMode implements IPlayMode,IPlayModeListener {
 
 	/**
 	 * Current play mode name
@@ -47,6 +47,11 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 	 * 
 	 */
 	private static final String _playmodeDescription="Myltiplayer mode description";
+	
+	/**
+	 * 
+	 */
+	private Company _company;
 	
 	/**
 	 * 
@@ -94,6 +99,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		tcpClient.registerTcpEventHandler(new TcpEventHandler(_promasiClient));
 		_stories=new TreeMap<String,String>();
 		_projectManager=new ProjectManager();
+		_company=new Company();
 	}
 
 	/* (non-Javadoc)
@@ -279,40 +285,36 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 		return true;
 	}
 	
-	
 	/**
 	 * 
+	 * @param company
 	 * @return
 	 */
-	public synchronized ProjectManager getProjectManager()
+	public synchronized boolean setCompany(Company company)
 	{
-		return _projectManager;
+		if(company==null)
+		{
+			return false;
+		}
+		
+		_company=company;
+		return true;
 	}
-	
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public synchronized MarketPlace getMarketPlace()
-	{
-		return _marketPlace;
-	}
-	
 	
 	/**
 	 * 
 	 * @param marketPlace
-	 * @throws NullArgumentException
+	 * @return
 	 */
-	public synchronized void setMarketPlace(MarketPlace marketPlace)throws NullArgumentException
+	public synchronized boolean setMarketPlace(MarketPlace marketPlace)
 	{
 		if(marketPlace==null)
 		{
-			throw new NullArgumentException("Wrong argument marketPlace==null");
+			return false;
 		}
 		
 		_marketPlace=marketPlace;
+		return true;
 	}
 
 	@Override
@@ -330,14 +332,18 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IShellListener {
 
 	@Override
 	public Company getCompany() {
-		// TODO Auto-generated method stub
-		return null;
+		return _company;
 	}
 
 	@Override
-	public void addListener(IShellListener listener) {
+	public void addListener(IPlayModeListener listener) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public MarketPlace getMarketPlace() {
+		return _marketPlace;
 	}
 
 }

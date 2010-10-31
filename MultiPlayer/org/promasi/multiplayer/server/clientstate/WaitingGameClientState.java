@@ -10,8 +10,8 @@ import org.promasi.multiplayer.AbstractClientState;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
 import org.promasi.network.protocol.client.request.RequestBuilder;
-import org.promasi.network.protocol.client.request.StartGameRequest;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
+import org.promasi.network.protocol.client.response.StartGameResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 
 
@@ -58,7 +58,7 @@ public class WaitingGameClientState extends AbstractClientState {
 		try
 		{
 			Object object=RequestBuilder.buildRequest(recData);
-			if(object instanceof StartGameRequest)
+			if(object instanceof StartGameResponse)
 			{
 				changeClientState(client,new PlayingGameClientState( _game ) );
 			} 
