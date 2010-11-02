@@ -10,10 +10,8 @@ package org.promasi.network.protocol.client.request;
  */
 public class RetreiveGamesRequest extends AbstractRequest
 {
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-
+	public RetreiveGamesRequest()
+	{
+		
+	}
 }

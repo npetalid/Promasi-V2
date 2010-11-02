@@ -11,7 +11,7 @@ import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.multiplayer.game.Game;
 import org.promasi.network.protocol.client.request.RequestBuilder;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
-import org.promasi.network.protocol.client.response.StartGameResponse;
+import org.promasi.network.protocol.server.response.StartGameResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
 
 

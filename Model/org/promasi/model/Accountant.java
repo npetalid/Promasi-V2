@@ -19,20 +19,18 @@ import org.promasi.utilities.ErrorBuilder;
  * @author eddiefullmetal
  * 
  */
-public class Accountant
-        extends Person
+public class Accountant extends Person
 {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	/**
      * The {@link Company} that the accountant works for.
      */
     private Company _workingCompany;
 
+    /**
+     * 
+     */
+    public static final String CONST_ACCOUNTANT_PERSON_ID="ACCOUNTANT";
+    
     /**
      * The {@link EmployeeAccountingData} that are kept for every hired
      * employee.
@@ -49,25 +47,16 @@ public class Accountant
      */
     public Accountant( )
     {
-        super( );
-        init( );
+        super("", "", CONST_ACCOUNTANT_PERSON_ID );
+        _employeeAccountingData = new Hashtable<Employee, EmployeeAccountingData>( );
     }
 
     /**
      * Initializes the object. Calls the {@link Person#Person(String, String)}.
      */
-    public Accountant( String name, String lastName )
+    public Accountant( String name, String lastName )throws NullArgumentException
     {
-        super( name, lastName );
-        init( );
-    }
-
-    /**
-     * Initializes the object.
-     */
-    private void init ( )
-    {
-        _employeeAccountingData = new Hashtable<Employee, EmployeeAccountingData>( );
+        super( name, lastName,CONST_ACCOUNTANT_PERSON_ID);
     }
 
     /**
@@ -96,28 +85,6 @@ public class Accountant
     }
 
     /**
-     * @param accountingData
-     *            The {@link EmployeeAccountingData} to add to the
-     *            {@link #_employeeAccountingData}.
-     * 
-     * @throws NullArgumentException
-     */
-    public void addEmployeeAccountingData ( EmployeeAccountingData accountingData )
-            throws NullArgumentException
-    {
-        if ( accountingData == null )
-        {
-            LOGGER.error( ErrorBuilder.generateNullArgumentError( "addEmployeeAccountingData", "accountingData" ) );
-            throw new NullArgumentException( "accountingData" );
-        }
-
-        if ( _employeeAccountingData.containsKey( accountingData.getEmployee( ) ) )
-        {
-            _employeeAccountingData.put( accountingData.getEmployee( ), accountingData );
-        }
-    }
-
-    /**
      * @param employeeAccountingData
      *            The {@link #_employeeAccountingData} to set.
      */
@@ -139,6 +106,16 @@ public class Accountant
     }
 
     /**
+     * 
+     * @param employee
+     * @return
+     */
+    public boolean isEmployeeHired(Employee employee)
+    {
+    	return _employeeAccountingData.containsKey(employee);
+    }
+    
+    /**
      * Hires the employee if not already employed.
      * 
      * @param employee
@@ -146,29 +123,30 @@ public class Accountant
      * 
      * @throws NullArgumentException
      */
-    public void hireEmployee ( Employee employee )
-            throws NullArgumentException
+    public boolean hireEmployee ( Employee employee ) throws NullArgumentException
     {
         if ( employee == null )
         {
             LOGGER.error( ErrorBuilder.generateNullArgumentError( "hireEmployee", "employee" ) );
-            throw new NullArgumentException( "employee" );
+            throw new NullArgumentException( "Wrong argument employee==null" );
         }
 
-        if ( !_employeeAccountingData.containsKey( employee ) )
-        {
-            // Create the EmployeeAccountingData.
-            DateTime currentDateTime = Clock.getInstance( ).getCurrentDateTime( ).toDateTime( );
-            EmployeeAccountingData accountingData = new EmployeeAccountingData( employee, currentDateTime );
-            addEmployeeAccountingData( accountingData );
-            if(employee.hireEmployee()){
-                // Add the employee to the company employees.
-                _workingCompany.addEmployee( employee );
-                // Notify.
-                _workingCompany.getNotifier( ).employeeHired( employee );
-                LOGGER.info( "Employee " + employee + " hired at " + currentDateTime.toString( ) );
-            }
+        // Create the EmployeeAccountingData.
+        DateTime currentDateTime = Clock.getInstance( ).getCurrentDateTime( ).toDateTime( );
+        EmployeeAccountingData accountingData = new EmployeeAccountingData( employee, currentDateTime );
+        
+        if(!_employeeAccountingData.contains(employee)){
+        	_employeeAccountingData.put(employee, accountingData);
+        	// Add the employee to the company employees.
+        	_workingCompany.addEmployee( employee );
+        	// Notify.
+        	_workingCompany.getNotifier( ).employeeHired( employee );
+        	LOGGER.info( "Employee " + employee + " hired at " + currentDateTime.toString( ) );
+        }else{
+            return false;
         }
+        
+        return true;
     }
 
     /**

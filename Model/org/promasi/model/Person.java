@@ -1,7 +1,5 @@
 package org.promasi.model;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.NullArgumentException;
 
 
@@ -17,7 +15,7 @@ import org.apache.commons.lang.NullArgumentException;
  * @author eddiefullmetal
  * 
  */
-public class Person implements Serializable
+public class Person
 {
     /**
 	 * 
@@ -34,6 +32,11 @@ public class Person implements Serializable
      */
     private String _lastName;
 
+    /**
+     * 
+     */
+    private String _personId;
+    
     public static final String NAME_PROPERTY = "firstName";
     public static final String LASTNAME_PROPERTY = "lastName";
 
@@ -44,6 +47,7 @@ public class Person implements Serializable
     {
     	_firstName=new String(NAME_PROPERTY);
     	_lastName=new String(LASTNAME_PROPERTY);
+    	_personId=new String();
     }
 
     /**
@@ -54,7 +58,7 @@ public class Person implements Serializable
      * @param lastName
      *            The {@link #_lastName} to set.
      */
-    public Person( String firstName, String lastName )throws NullArgumentException
+    public Person( String firstName, String lastName, String personId )throws NullArgumentException
     {
         this( );
         if(firstName==null)
@@ -67,8 +71,14 @@ public class Person implements Serializable
         	throw new NullArgumentException("Wrong argument lastName==null");
         }
         
+        if(personId==null)
+        {
+        	throw new NullArgumentException("Wrong argument personId==null");
+        }
+        
         _firstName = firstName;
         _lastName = lastName;
+        _personId=personId;
     }
 
     /**
@@ -83,11 +93,39 @@ public class Person implements Serializable
      * @param name
      *            The {@link #_firstName} to set.
      */
-    public void setFirstName ( String name )
+    public void setFirstName ( String firstName )throws NullArgumentException
     {
-        _firstName = name;
+    	if(firstName==null)
+    	{
+    		throw new NullArgumentException("Wrong argument firstName==null");
+    	}
+        _firstName = firstName;
     }
 
+    /**
+     * 
+     * @param personId
+     * @throws NullArgumentException
+     */
+    public void setPersonId(String personId)throws NullArgumentException
+    {
+    	if(personId==null)
+    	{
+    		throw new NullArgumentException("Wrong argument personId==null");
+    	}
+    	
+    	_personId=personId;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public String getPersonId()
+    {
+    	return _personId;
+    }
+    
     /**
      * @return The {@link #_lastName}.
      */
@@ -100,8 +138,13 @@ public class Person implements Serializable
      * @param lastName
      *            The {@link #_lastName} to set.
      */
-    public void setLastName ( String lastName )
+    public void setLastName ( String lastName )throws NullArgumentException
     {
+    	if(lastName==null)
+    	{
+    		throw new NullArgumentException("Wrong argument lastName==null");
+    	}
+    	
         _lastName = lastName;
     }
 

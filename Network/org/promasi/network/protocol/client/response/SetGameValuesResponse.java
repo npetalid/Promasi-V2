@@ -11,12 +11,8 @@ import org.apache.commons.lang.NullArgumentException;
  * @author m1cRo
  *
  */
-public class SetGameValuesResponse extends AbstractResponse {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class SetGameValuesResponse extends AbstractResponse 
+{
 	/**
 	 *
 	 */

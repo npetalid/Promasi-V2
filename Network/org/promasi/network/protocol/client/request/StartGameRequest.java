@@ -15,11 +15,6 @@ import org.promasi.model.MarketPlace;
 public class StartGameRequest extends AbstractRequest
 {
 	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	/**
 	 * 
 	 */
 	private Company _company;

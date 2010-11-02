@@ -1,7 +1,6 @@
 package org.promasi.shell;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
@@ -11,7 +10,6 @@ import org.promasi.core.IStatePersister;
 import org.promasi.core.SdModel;
 import org.promasi.model.Company;
 import org.promasi.model.Employee;
-import org.promasi.model.MarketPlace;
 import org.promasi.model.Message;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
@@ -49,7 +47,7 @@ public interface IPlayMode
     /**
      * @return All the available employees in the system(Hired and Free).
      */
-    public Map<Integer,Employee> getAllEmployees ( );
+    public List<Employee> getAllEmployees ( );
 
     /**
      * @param project
@@ -90,7 +88,7 @@ public interface IPlayMode
 	 * @param gameId
 	 * @return
 	 */
-	public String getGameInfo(String gameId)throws IllegalArgumentException;
+	public String getGameInfo(String gameId)throws IllegalArgumentException,NullArgumentException;
 	
 	/**
 	 * 
@@ -120,9 +118,19 @@ public interface IPlayMode
 	
 	/**
 	 * 
+	 * @param listener
+	 */
+	public void addListener ( IPlayModeListener listener )throws NullArgumentException;
+	
+	/**
+	 * 
+	 * @param employee
+	 */
+	public boolean hireEmployee(Employee employee);;
+	
+	/**
+	 * 
 	 * @return
 	 */
-	public MarketPlace getMarketPlace();
-	
-	public void addListener ( IPlayModeListener listener );
+	public boolean isEmployeeHired(Employee employee)throws NullArgumentException;
 }

@@ -14,9 +14,11 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXPanel;
 import org.promasi.model.Employee;
+import org.promasi.shell.Shell;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
@@ -53,11 +55,26 @@ public class MarketPlaceEmployeeListRenderer implements ListCellRenderer
     private JLabel _salaryLabel;
 
     /**
+     * 
+     */
+    private Shell _shell;
+    
+    /**
      * A label that shows the company that the employee is working for if he is
      * hired.
      */
     private JLabel _workingForLabel;
 
+    public MarketPlaceEmployeeListRenderer(Shell shell)throws NullArgumentException
+    {
+    	if(shell==null)
+    	{
+    		throw new NullArgumentException("Wrong argument shell==null");
+    	}
+    	
+    	_shell=shell;
+    }
+    
     /**
      * Creates the {@link #_panel}. It always creates a new object, sharing the
      * object does not provide the good results.
@@ -92,9 +109,8 @@ public class MarketPlaceEmployeeListRenderer implements ListCellRenderer
             // Assign the values for the specific employee.
             Employee employee = (Employee) value;
             _curriculumVitaeText.setText( employee.getCurriculumVitae( ) );
-            _salaryLabel.setText( ResourceManager.getString( MarketPlaceEmployeeListRenderer.class, "salaryText" ) + " "
-                    + String.valueOf( employee.getSalary( ) ) );
-            if ( employee.isHired( ) )
+            _salaryLabel.setText( ResourceManager.getString( MarketPlaceEmployeeListRenderer.class, "salaryText" ) + " "  + String.valueOf( employee.getSalary( ) ) );
+            if ( _shell.isEmployeeHired(employee))
             {
                 _workingForLabel.setText( ResourceManager.getString( MarketPlaceEmployeeListRenderer.class, "workingForYourTeamText" ) );
             }

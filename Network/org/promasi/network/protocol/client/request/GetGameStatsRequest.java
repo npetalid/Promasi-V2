@@ -9,7 +9,7 @@ import org.apache.commons.lang.NullArgumentException;
  * @author m1cRo
  *
  */
-public class GetGameStatsRequest
+public class GetGameStatsRequest extends AbstractRequest
 {
 	/**
 	 *

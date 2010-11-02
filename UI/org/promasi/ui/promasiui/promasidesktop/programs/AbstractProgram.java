@@ -20,9 +20,7 @@ import org.promasi.ui.promasiui.promasidesktop.DesktopToolbar;
  * @author eddiefullmetal
  * 
  */
-public abstract class AbstractProgram
-        extends JPanel
-        implements InternalFrameListener
+public abstract class AbstractProgram  extends JPanel implements InternalFrameListener
 {
 
     /**

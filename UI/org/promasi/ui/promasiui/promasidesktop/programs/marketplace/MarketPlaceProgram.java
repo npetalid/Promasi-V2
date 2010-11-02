@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Map;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
@@ -20,6 +18,8 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Employee;
+import org.promasi.model.Project;
+import org.promasi.shell.IPlayModeListener;
 import org.promasi.shell.Shell;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
@@ -34,11 +34,9 @@ import com.jidesoft.swing.JideButton;
  * @author eddiefullmetal
  *
  */
-public class MarketPlaceProgram
-        extends AbstractProgram
+public class MarketPlaceProgram extends AbstractProgram implements IPlayModeListener
 {
-
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
@@ -53,6 +51,9 @@ public class MarketPlaceProgram
      */
     private JideButton _hireButton;
 
+    /**
+     * 
+     */
     private Shell _shell;
 
     /**
@@ -68,6 +69,7 @@ public class MarketPlaceProgram
         _shell=shell;
         initializeComponents( );
         initializeLayout( );
+        _shell.addListener(this);
     }
 
     /**
@@ -75,14 +77,9 @@ public class MarketPlaceProgram
      */
     private void initializeComponents ( )
     {
-    	List<Employee> employees=new Vector<Employee>();
-    	for(Map.Entry<Integer, Employee> entry : _shell.getAllEmployees().entrySet())
-    	{
-    		employees.add(entry.getValue());
-    	}
-    	
+    	List<Employee> employees=_shell.getAllEmployees();
         _employeeList = new JList(employees.toArray());
-        _employeeList.setCellRenderer( new MarketPlaceEmployeeListRenderer( ) );
+        _employeeList.setCellRenderer( new MarketPlaceEmployeeListRenderer( _shell  ) );
         // Due to nimbus look and feel if this is not done the empty space from
         // the list will be white.
         Color backgroundColor = getBackground( );
@@ -121,12 +118,9 @@ public class MarketPlaceProgram
         Employee employee = (Employee) _employeeList.getSelectedValue( );
         if ( employee != null )
         {
-            if ( !employee.isHired( ) )
+            if ( !_shell.isEmployeeHired(employee))
             {
             	_shell.hireEmployee( employee );
-                invalidate( );
-                repaint( );
-                validate( );
             }
             else
             {
@@ -158,5 +152,30 @@ public class MarketPlaceProgram
     {
 
     }
+
+	@Override
+	public void projectStarted(Project project) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void projectFinished(Project project) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void projectAssigned(Project project) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void employeeHired(Employee employee) {
+        invalidate( );
+        repaint( );
+        validate( );
+	}
 
 }

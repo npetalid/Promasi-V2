@@ -16,6 +16,7 @@ import org.promasi.model.Accountant;
 import org.promasi.model.Administrator;
 import org.promasi.model.Boss;
 import org.promasi.model.Company;
+import org.promasi.model.Employee;
 import org.promasi.model.MarketPlace;
 import org.promasi.model.Project;
 import org.promasi.shell.playmodes.singleplayerscoremode.DifficultyLevel;
@@ -122,14 +123,14 @@ public class Story implements IValidatable
     /**
      * Initializes the object.
      */
-    public Story( )
+    public Story(  )
     {
         _projects = new LinkedList<Project>( );
         _projectModelRelations = new Hashtable<Project, SdModel>( );
         _projectOutputVariableBindings = new Hashtable<Project, List<OutputVariableBinding>>( );
         _projectExternalEquationBindings = new Hashtable<Project, List<ExternalEquationBinding>>( );
         _projectEventBindings = new Hashtable<Project, List<EventBinding>>( );
-        _marketPlace=new MarketPlace();
+        _marketPlace=new MarketPlace( new Vector<Employee>() );
         _infoString=new String();
     }
 

@@ -2,7 +2,6 @@ package org.promasi.shell;
 
 
 import java.util.List;
-import java.util.Map;
 
 import javax.naming.ConfigurationException;
 
@@ -96,7 +95,7 @@ public final class Shell
     /**
      * @return All the available employees in the system(Hired and Free).
      */
-    public Map<Integer,Employee> getAllEmployees ( )
+    public List<Employee> getAllEmployees ( )
     {
         return _currentPlayMode.getAllEmployees( );
     }
@@ -123,10 +122,10 @@ public final class Shell
      * @param employee
      *            The {@link Employee} to hire.
      */
-    public void hireEmployee ( Employee employee )
+    public boolean hireEmployee ( Employee employee )
     {
         LOGGER.info( "Hiring employee " + employee );
-        _currentPlayMode.getCompany().getAccountant( ).hireEmployee( employee );
+       return  _currentPlayMode.hireEmployee(employee);
     }
 
     /**
@@ -137,6 +136,16 @@ public final class Shell
         _currentPlayMode.addListener(listener);
     }
 
+    /**
+     * 
+     * @param employee
+     * @return
+     */
+    public boolean isEmployeeHired(Employee employee)
+    {
+    	return _currentPlayMode.isEmployeeHired(employee);
+    }
+    
     /**
      * Moves the {@link Clock} to the start date of the current project. If no
      * current project is available or the project has already started the

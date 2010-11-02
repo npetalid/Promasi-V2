@@ -15,11 +15,6 @@ public class LoginRequest  extends AbstractRequest
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 *
-	 */
 	public String _firstName;
 
 	/**

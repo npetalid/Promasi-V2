@@ -8,8 +8,6 @@ import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -153,6 +151,7 @@ public final class StoriesPool
                         digester.addObjectCreate( "ListOfEmployees/Employee", Employee.class );
                         digester.addBeanPropertySetter( "ListOfEmployees/Employee/name", "firstName" );
                         digester.addBeanPropertySetter( "ListOfEmployees/Employee/lastName", "lastName" );
+                        digester.addBeanPropertySetter( "ListOfEmployees/Employee/personId", "personId" );
                         digester.addBeanPropertySetter( "ListOfEmployees/Employee/salary", "salary" );
                         digester.addBeanPropertySetter( "ListOfEmployees/Employee/curriculumVitae", "curriculumVitae" );
                         digester.addObjectCreate( "ListOfEmployees/Employee/property", EmployeeProperty.class );
@@ -160,17 +159,8 @@ public final class StoriesPool
                         digester.addSetProperties( "ListOfEmployees/Employee/property", "firstName", "name" );
                         digester.addSetNext( "ListOfEmployees/Employee/property", "addProperty", EmployeeProperty.class.getName( ) );
                         digester.addSetNext( "ListOfEmployees/Employee", "add", Employee.class.getName( ) );
-
-                        List<Employee> employeesList=(List<Employee>) digester.parse( employeesFile );
-                        Map<Integer, Employee> employees=new TreeMap<Integer,Employee>();
-                        Integer i=0;
-                        for(Employee employee : employeesList)
-                        {
-                        	employees.put(i, employee);
-                        	i=i+1;
-                        }
                         
-                        story.setMarketPlace(new MarketPlace(employees));
+                        story.setMarketPlace(new MarketPlace((List<Employee>) digester.parse( employeesFile )));
                     }
                     catch ( IOException e )
                     {

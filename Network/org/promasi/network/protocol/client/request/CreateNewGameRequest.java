@@ -12,11 +12,6 @@ import org.apache.commons.lang.NullArgumentException;
 public class CreateNewGameRequest extends AbstractRequest
 {
 	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * 
 	 */
 	private String _storyId;

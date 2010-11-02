@@ -1,5 +1,7 @@
 package org.promasi.model;
 
+import org.apache.commons.lang.NullArgumentException;
+
 
 /**
  * 
@@ -11,7 +13,7 @@ package org.promasi.model;
 public class ProjectManager extends Person
 {
 
-
+	public static final String CONST_PROJECT_MANAGER_PERSON_ID="PROJECT_MANAGER";
     /**
 	 * 
 	 */
@@ -28,8 +30,8 @@ public class ProjectManager extends Person
     /**
      * Initializes the object. Calls the {@link Person#Person(String, String)}.
      */
-    public ProjectManager( String firstName, String lastName )
+    public ProjectManager( String firstName, String lastName )throws NullArgumentException
     {
-        super( firstName, lastName );
+        super( firstName, lastName, CONST_PROJECT_MANAGER_PERSON_ID);
     }
 }

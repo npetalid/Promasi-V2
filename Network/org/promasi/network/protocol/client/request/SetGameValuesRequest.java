@@ -4,6 +4,7 @@
 package org.promasi.network.protocol.client.request;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.lang.NullArgumentException;
 
@@ -11,18 +12,17 @@ import org.apache.commons.lang.NullArgumentException;
  * @author m1cRo
  *
  */
-public class SetGameValuesRequest extends AbstractRequest {
-
+public class SetGameValuesRequest extends AbstractRequest 
+{
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 1L;
+	private Map<String,Double> _values;
 
-	/**
-	 *
-	 */
-	private HashMap<String,Double> _values;
-
+	public SetGameValuesRequest()
+	{
+		_values=new HashMap<String, Double>();
+	}
 	/**
 	 *
 	 * @param values
@@ -48,7 +48,7 @@ public class SetGameValuesRequest extends AbstractRequest {
 	 *
 	 * @return
 	 */
-	public HashMap<String,Double> getValues()
+	public synchronized Map<String,Double> getValues()
 	{
 		return _values;
 	}
@@ -59,7 +59,7 @@ public class SetGameValuesRequest extends AbstractRequest {
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public void setValues(HashMap<String,Double> values)throws NullArgumentException,IllegalArgumentException
+	public synchronized void setValues(HashMap<String,Double> values)throws NullArgumentException,IllegalArgumentException
 	{
 		if(values==null)
 		{

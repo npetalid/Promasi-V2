@@ -9,5 +9,8 @@ package org.promasi.network.protocol.client.response;
  */
 public class InternalErrorResponse extends AbstractResponse
 {
-
+	 public InternalErrorResponse()
+	 {
+		 
+	 }
 }

@@ -2,6 +2,8 @@ package org.promasi.model;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.NullArgumentException;
+
 
 /**
  * 
@@ -23,12 +25,14 @@ public class Administrator extends Person implements Serializable
      */
     private Company _workingCompany;
 
+    public static final String CONST_ADMIN_PRESON_ID="ADMIN";
+    
     /**
      * Initializes the object.
      */
     public Administrator( )
     {
-        super( );
+        super("", "", CONST_ADMIN_PRESON_ID );
     }
 
     /**
@@ -37,9 +41,9 @@ public class Administrator extends Person implements Serializable
      * @param name
      * @param lastName
      */
-    public Administrator( String name, String lastName )
+    public Administrator( String name, String lastName )throws NullArgumentException
     {
-        super( name, lastName );
+        super( name, lastName, CONST_ADMIN_PRESON_ID );
     }
 
     /**

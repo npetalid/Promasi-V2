@@ -3,6 +3,7 @@
  */
 package org.promasi.multiplayer.server.clientstate;
 
+import java.lang.reflect.InvocationTargetException;
 import java.net.ProtocolException;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import org.promasi.multiplayer.game.Game;
 import org.promasi.multiplayer.game.GameModel;
 import org.promasi.network.protocol.client.request.CreateNewGameRequest;
 import org.promasi.network.protocol.client.request.RequestBuilder;
+import org.promasi.network.protocol.client.response.CreateNewGameFailedResponse;
 import org.promasi.network.protocol.client.response.CreateNewGameResponse;
 import org.promasi.network.protocol.client.response.InternalErrorResponse;
 import org.promasi.network.protocol.client.response.WrongProtocolResponse;
@@ -73,7 +75,9 @@ public class GameMasterClientState extends AbstractClientState {
 				for(Story story : stories)
 				{
 					if(story.getName().compareTo(request.getStoryId())==0){
-						Game game=new Game(client,new GameModel(story));
+						Game game;
+						game = new Game(client,new GameModel(story));
+						
 						try
 						{
 							story.setName(request.getGameName());
@@ -83,7 +87,7 @@ public class GameMasterClientState extends AbstractClientState {
 						}
 						catch(IllegalArgumentException e)
 						{
-						//	//client.sendMessage(new CreateNewGameResponse(false).toProtocolString());
+							client.sendMessage(new CreateNewGameFailedResponse().toProtocolString());
 						}
 					}
 				}
@@ -105,6 +109,26 @@ public class GameMasterClientState extends AbstractClientState {
 			client.disconnect();
 		}
 		catch(IllegalArgumentException e)
+		{
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
+			client.disconnect();
+		}
+		catch (IllegalAccessException e) 
+		{
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
+			client.disconnect();
+		} 
+		catch (InstantiationException e)
+		{
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
+			client.disconnect();
+		} 
+		catch (InvocationTargetException e) 
+		{
+			client.sendMessage(new InternalErrorResponse().toProtocolString());
+			client.disconnect();
+		} 
+		catch (NoSuchMethodException e) 
 		{
 			client.sendMessage(new InternalErrorResponse().toProtocolString());
 			client.disconnect();

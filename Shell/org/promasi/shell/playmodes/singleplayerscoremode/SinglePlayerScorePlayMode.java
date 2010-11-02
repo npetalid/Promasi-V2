@@ -27,7 +27,6 @@ import org.promasi.model.Employee;
 import org.promasi.model.IClockListener;
 import org.promasi.model.INotifierListener;
 import org.promasi.model.ITimerTask;
-import org.promasi.model.MarketPlace;
 import org.promasi.model.Message;
 import org.promasi.model.Project;
 import org.promasi.model.ProjectManager;
@@ -215,9 +214,9 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, IPl
     }
 
     @Override
-    public Map<Integer, Employee> getAllEmployees ( )
+    public List<Employee> getAllEmployees ( )
     {
-        return _currentStory.getMarketPlace( ).getAvailableEmployees();
+        return _currentStory.getMarketPlace( ).getAllEmployees();
     }
 
     @Override
@@ -498,13 +497,6 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, IPl
 	public Company getCompany() {
 		return _currentStory.getCompany();
 	}
-
-	@Override
-	public MarketPlace getMarketPlace() {
-		return _currentStory.getMarketPlace();
-	}
-	
-	
 	
 	 /**
      * Class used only by the {@link Shell} to schedule the project start time.
@@ -600,5 +592,25 @@ public class SinglePlayerScorePlayMode implements IPlayMode, IClockListener, IPl
             return "ProjectEndTimerTask on project :" + _project;
         }
     }
+
+	@Override
+	public boolean hireEmployee(Employee employee) {
+		if(employee==null)
+		{
+			return false;
+		}
+		
+		return _currentStory.getCompany().hireEmployee(employee);
+	}
+
+	@Override
+	public boolean isEmployeeHired(Employee employee) throws NullArgumentException{
+		if(employee==null)
+		{
+			throw new NullArgumentException("Wrong argument employee==null");
+		}
+		
+		return _currentStory.getCompany().isEmployeeHired(employee);
+	}
     
 }

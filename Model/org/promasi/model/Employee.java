@@ -37,11 +37,6 @@ public class Employee extends Person
      * all the {@link EmployeeProperty} of the employee.
      */
     private List<EmployeeProperty> _properties;
-
-    /**
-     * 
-     */
-    boolean _isHired;
     
     /**
      * Initializes the object.
@@ -89,23 +84,6 @@ public class Employee extends Person
         _curriculumVitae = curriculumVitae;
     }
     
-
-    /**
-     * @return If the employee is hired.
-     */
-    public synchronized boolean isHired ( )
-    {
-        return _isHired;
-    }
-
-    /**
-     * 
-     */
-    public synchronized void discharge()
-    {
-    	_isHired=false;
-    }
-    
     /**
      * @return the {@link #_properties}.
      */
@@ -131,17 +109,6 @@ public class Employee extends Person
     public void addProperty ( EmployeeProperty property )
     {
         _properties.add( property );
-    }
-    
-    
-    public synchronized boolean hireEmployee()
-    {
-    	if(_isHired){
-    		return false;
-    	}else{
-    		_isHired=true;
-    		return true;
-    	}
     }
 
 }

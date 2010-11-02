@@ -12,6 +12,7 @@ import org.apache.commons.lang.NullArgumentException;
 import org.promasi.model.Company;
 import org.promasi.model.MarketPlace;
 import org.promasi.multiplayer.ProMaSiClient;
+import org.promasi.multiplayer.server.MarketPlaceEventHandler;
 import org.promasi.network.protocol.client.request.StartGameRequest;
 import org.promasi.shell.Story.Story;
 
@@ -36,7 +37,12 @@ public class Game implements Runnable
 	/**
 	 * 
 	 */
-	private GameModel _gameModel;
+	private GameModel _gameModelPrototype;
+	
+	/**
+	 * 
+	 */
+	private MarketPlace _sharedMarketPlace;
 	
 	/**
 	 * 
@@ -54,8 +60,12 @@ public class Game implements Runnable
 	 * @param gameMaster
 	 * @param promasiModel
 	 * @throws NullArgumentException
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws InstantiationException 
+	 * @throws IllegalAccessException 
 	 */
-	public Game(ProMaSiClient gameMaster,GameModel gameModel)throws NullArgumentException,IllegalArgumentException
+	public Game(ProMaSiClient gameMaster,GameModel gameModel)throws NullArgumentException,IllegalArgumentException, IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException
 	{
 		if(gameMaster==null)
 		{
@@ -70,7 +80,9 @@ public class Game implements Runnable
 		_isRunning=false;
 		_gameMaster=gameMaster;
 		_gameModels=new HashMap<ProMaSiClient,GameModel>();
-		_gameModel=gameModel;
+		_gameModelPrototype=gameModel;
+		_sharedMarketPlace=_gameModelPrototype.getMarketPlace();
+		_sharedMarketPlace.registerEventHandler(new MarketPlaceEventHandler(_gameModels));
 	}
 
 	/**
@@ -83,7 +95,7 @@ public class Game implements Runnable
 	 */
 	public Company getCompany() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException
 	{
-		return _gameModel.getCompany();
+		return _gameModelPrototype.getCompany();
 	}
 	
 	/**
@@ -96,7 +108,7 @@ public class Game implements Runnable
 	 */
 	public MarketPlace getMarketPlace() throws IllegalAccessException, InstantiationException, InvocationTargetException, NoSuchMethodException
 	{
-		return _gameModel.getMarketPlace();
+		return _gameModelPrototype.getMarketPlace();
 	}
 	
 	/**
@@ -105,7 +117,7 @@ public class Game implements Runnable
 	 */
 	public synchronized String getName()
 	{
-		return _gameModel.getName();
+		return _gameModelPrototype.getName();
 	}
 	
 	/**
@@ -114,7 +126,7 @@ public class Game implements Runnable
 	 */
 	public synchronized String getDescription()
 	{
-		return _gameModel.getDescription();
+		return _gameModelPrototype.getDescription();
 	}
 	
 	/**
@@ -150,7 +162,7 @@ public class Game implements Runnable
 		}
 		
 		try {
-			Story clonedStory=(Story)BeanUtils.cloneBean(_gameModel.getGameStory());
+			Story clonedStory=(Story)BeanUtils.cloneBean(_gameModelPrototype.getGameStory());
 			GameModel newModel=new GameModel(clonedStory);
 			_gameModels.put(player, newModel);
 			return newModel;
@@ -181,16 +193,11 @@ public class Game implements Runnable
 	 * @return
 	 */
 	public synchronized boolean startGame()
-	{
-		//if(_gameModels.size()<2)
-		//{
-		//	return false;
-		//}
-			
+	{			
 		for(Map.Entry<ProMaSiClient, GameModel> curEntry : _gameModels.entrySet())
 		{
 			try {
-				curEntry.getKey().sendMessage(new StartGameRequest(_gameModel.getCompany(), _gameModel.getMarketPlace() ).toProtocolString());
+				curEntry.getKey().sendMessage(new StartGameRequest(_gameModelPrototype.getCompany(), _gameModelPrototype.getMarketPlace() ).toProtocolString());
 			} catch (NullArgumentException e) {
 				return false;
 			} catch (IllegalAccessException e) {
@@ -245,6 +252,5 @@ public class Game implements Runnable
 				e.printStackTrace();
 			}
 		}
-		
 	}
 }

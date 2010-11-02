@@ -3,6 +3,7 @@
 	<Employee>
 		<name>Robert</name>
 		<lastName>Marsh</lastName>
+		<personId>x00000</personId>
 		<property name="developer">8</property>
 		<property name="designer">9</property>
 		<property name="tester">2</property>
@@ -14,6 +15,7 @@
 	<Employee>
 		<name>Samuel</name>
 		<lastName>Garcia</lastName>
+		<personId>x00001</personId>
 		<property name="developer">5</property>
 		<property name="designer">2</property>
 		<property name="tester">7</property>
@@ -25,6 +27,7 @@
 	<Employee>
 		<name>James</name>
 		<lastName>Rowland</lastName>
+		<personId>x00002</personId>
 		<property name="developer">4</property>
 		<property name="designer">1</property>
 		<property name="tester">10</property>

@@ -1,16 +1,13 @@
 package org.promasi.model;
 
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Vector;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.joda.time.LocalTime;
-import org.promasi.utilities.ICloneable;
 
 
 /**
@@ -20,13 +17,8 @@ import org.promasi.utilities.ICloneable;
  * @author eddiefullmetal
  * 
  */
-public class Company implements ICloneable<Company>, Serializable
+public class Company
 {
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	/**
      * The name of the company.
      */
@@ -541,29 +533,23 @@ public class Company implements ICloneable<Company>, Serializable
             _changeSupport.removePropertyChangeListener( listener );
         }
     }
-    
-    /**
-     * @return the {@link #_changeSupport}.
-     */
-    protected PropertyChangeSupport getChangeSupport ( )
-    {
-        return _changeSupport;
-    }
 
-    
-    @Override
-    public Company copy ( )
+    /**
+     * 
+     * @param employee
+     */
+    public boolean hireEmployee(Employee employee)
     {
-        try
-        {
-            return (Company) clone( );
-        }
-        catch ( CloneNotSupportedException e )
-        {
-            // Not going to happen since the class supports the clonable
-            // interface.
-            return null;
-        }
+    	return _accountant.hireEmployee(employee);
     }
-    
+  
+    /**
+     * 
+     * @param employee
+     * @return
+     */
+    public boolean isEmployeeHired(Employee employee)
+    {
+    	return _accountant.isEmployeeHired(employee);
+    }
 }

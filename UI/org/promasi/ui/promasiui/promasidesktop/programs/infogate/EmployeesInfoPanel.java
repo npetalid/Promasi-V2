@@ -44,6 +44,11 @@ public class EmployeesInfoPanel
     private Company _company;
 
     /**
+     * 
+     */
+    private Shell _shell;
+    
+    /**
      * Initializes the object.
      *
      */
@@ -55,6 +60,7 @@ public class EmployeesInfoPanel
     	}
         _company = shell.getCompany( );
         _company.addPropertyChangeListener( this );
+        _shell=shell;
         setLayout( new MigLayout( new LC( ).fill( ) ) );
         add( new JScrollPane( getEmployeeList( ) ), new CC( ).grow( ) );
     }
@@ -67,7 +73,7 @@ public class EmployeesInfoPanel
         if ( _employeeList == null )
         {
             _employeeList = new JList( _company.getEmployees( ).toArray( ) );
-            _employeeList.setCellRenderer( new MarketPlaceEmployeeListRenderer( ) );
+            _employeeList.setCellRenderer( new MarketPlaceEmployeeListRenderer(  _shell ) );
         }
         return _employeeList;
     }

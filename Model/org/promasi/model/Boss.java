@@ -1,5 +1,7 @@
 package org.promasi.model;
 
+import org.apache.commons.lang.NullArgumentException;
+
 
 /**
  * Represents the Boss of the company. Responsible for assigning a project.
@@ -20,20 +22,22 @@ public class Boss
      */
     private Company _workingCompany;
 
+    public static final String CONST_BOSS_PERSON_ID="BOSS";
+    
     /**
      * Initializes the object.
      */
     public Boss( )
     {
-        super( );
+        super("","",CONST_BOSS_PERSON_ID );
     }
 
     /**
      * Initializes the object. Calls the {@link Person#Person(String, String)}.
      */
-    public Boss( String name, String lastName )
+    public Boss( String name, String lastName )throws NullArgumentException
     {
-        super( name, lastName );
+        super( name, lastName, CONST_BOSS_PERSON_ID);
     }
 
     /**

@@ -5,7 +5,6 @@ package org.promasi.network.protocol.client.request;
 
 import java.beans.XMLEncoder;
 import java.io.ByteArrayOutputStream;
-import java.io.Serializable;
 
 import org.w3c.tools.codec.Base64Encoder;
 
@@ -13,13 +12,8 @@ import org.w3c.tools.codec.Base64Encoder;
  * @author m1cRo
  *
  */
-public abstract class  AbstractRequest implements Serializable
+public abstract class  AbstractRequest
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 *
 	 * @return

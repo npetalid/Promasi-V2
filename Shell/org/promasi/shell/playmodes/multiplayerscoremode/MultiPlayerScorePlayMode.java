@@ -92,7 +92,7 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IPlayModeListener {
 	 * @throws IOException
 	 */
 	public MultiPlayerScorePlayMode() throws NullArgumentException, IllegalArgumentException, UnknownHostException, IOException{
-		_marketPlace=new MarketPlace();
+		_marketPlace=new MarketPlace( new Vector<Employee>() );
 		TcpClient tcpClient=new TcpClient(_hostname,_port);
 		
 		_promasiClient=new ProMaSiClient( tcpClient,new LoginClientState(this));
@@ -131,8 +131,8 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IPlayModeListener {
 	 * @see org.promasi.shell.IPlayMode#getAllEmployees()
 	 */
 	@Override
-	public Map<Integer,Employee> getAllEmployees() {
-		return _marketPlace.getAvailableEmployees();
+	public List<Employee> getAllEmployees() {
+		return _marketPlace.getAllEmployees();
 	}
 
 	/* (non-Javadoc)
@@ -342,8 +342,16 @@ public class MultiPlayerScorePlayMode implements IPlayMode,IPlayModeListener {
 	}
 
 	@Override
-	public MarketPlace getMarketPlace() {
-		return _marketPlace;
+	public boolean hireEmployee(Employee employee) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isEmployeeHired(Employee employee)
+			throws NullArgumentException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

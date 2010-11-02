@@ -8,6 +8,6 @@ package org.promasi.model;
  *
  */
 public interface IMarketPlaceEventHandler {
-	void hireEmployee(Integer employeeId);
-	void dischargeEmployee(Integer employeeId);
+	void hireEmployee(Employee employee);
+	void dischargeEmployee(Employee employee);
 }
