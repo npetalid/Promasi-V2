@@ -69,6 +69,11 @@ public class DesktopToolbar extends JToolBar implements ActionListener
     private JPanel _quickLaunchPanel;
 
     /**
+     * 
+     */
+    private IGame _game;
+    
+    /**
      * Initializes the object.
      */
     public DesktopToolbar(DesktopMainFrame mainFrame,IGame game )throws NullArgumentException
@@ -83,16 +88,17 @@ public class DesktopToolbar extends JToolBar implements ActionListener
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
     	
+    	_game=game;
         _quickLaunchButtons = new Hashtable<JButton, AbstractProgram>( );
         _listeners = new Vector<IToolbarListener>( );
         setFloatable( false );
         setBorder( BorderFactory.createEtchedBorder( ) );
         initializeComponents(game );
         initializeLayout( );
-        addQuickLaunch( new EvolutionBirdProgram( game ) );
-        addQuickLaunch( new MarketPlaceProgram( game ) );
-        addQuickLaunch( new PlannerProgram(mainFrame, game ) );
-        addQuickLaunch( new InfoGateProgram( game ) );
+        addQuickLaunch( new EvolutionBirdProgram( _game ) );
+        addQuickLaunch( new MarketPlaceProgram( _game ) );
+        addQuickLaunch( new PlannerProgram(mainFrame, _game ) );
+        //addQuickLaunch( new InfoGateProgram( _game ) );
     }
 
     /**
@@ -105,11 +111,11 @@ public class DesktopToolbar extends JToolBar implements ActionListener
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
     	
-        _clock = new ClockButton( );
+        _clock = new ClockButton( _game );
         _quickLaunchPanel = new JPanel( );
         _quickLaunchPanel.setBorder( BorderFactory.createEmptyBorder( ) );
         _quickLaunchPanel.setLayout( new MigLayout( new LC( ) ) );
-        _projectInfoButton = new ProjectInfoButton( game );
+        _projectInfoButton = new ProjectInfoButton( _game );
     }
 
     /**

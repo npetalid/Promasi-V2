@@ -24,12 +24,8 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
-import org.promasi.model.EmployeeTeamData;
-import org.promasi.model.Project;
-import org.promasi.model.Task;
-import org.promasi.model.TaskSchedule;
-import org.promasi.model.Team;
-import org.promasi.shell.Shell;
+import org.promasi.game.IGame;
+import org.promasi.game.project.SerializableProject;
 import org.promasi.ui.promasiui.promasidesktop.DesktopMainFrame;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
@@ -43,9 +39,7 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
  * @author eddiefullmetal
  *
  */
-public class PlannerProgram
-        extends AbstractProgram
-        implements ActionListener, TableModelListener
+public class PlannerProgram extends AbstractProgram implements ActionListener, TableModelListener
 {
 
     /**
@@ -112,7 +106,10 @@ public class PlannerProgram
 
     private DesktopMainFrame _mainFrame;
     
-    private Shell _shell;
+    /**
+     * 
+     */
+    private IGame _game;
 
     /**
      * All the created task schedules.
@@ -132,7 +129,7 @@ public class PlannerProgram
     /**
      * Initializes the object.
      */
-    public PlannerProgram(DesktopMainFrame mainFrame,Shell shell )throws NullArgumentException
+    public PlannerProgram(DesktopMainFrame mainFrame,IGame game )throws NullArgumentException
     {
         super( "planner", "Planner, Schedule tasks" );
         
@@ -141,13 +138,13 @@ public class PlannerProgram
         	throw new NullArgumentException("Wrong argument mainFrame==null");
         }
         
-        if(shell==null)
+        if(game==null)
         {
-        	throw new NullArgumentException("Wrong argument shell==null");
+        	throw new NullArgumentException("Wrong argument game==null");
         }
         
         _mainFrame=mainFrame;
-        _shell=shell;
+        _game=game;
         _taskSchedules = new Vector<GanttTaskSchedule>( );
         _schedulesToRemove = new Vector<GanttTaskSchedule>( );
         initializeComponents( );
@@ -253,7 +250,7 @@ public class PlannerProgram
     @Override
     public void opened ( )
     {
-        Project project = _shell.getCurrentProject( );
+        /*Project project = _shell.getCurrentProject( );
         if ( project != null )
         {
             _editor.setStartDate( project.getStartDate( ).toLocalDate( ) );
@@ -264,14 +261,14 @@ public class PlannerProgram
         {
             JOptionPane.showMessageDialog( this, ResourceManager.getString( PlannerProgram.class, "noProject", "text" ), ResourceManager.getString(
                     PlannerProgram.class, "noProject", "title" ), JOptionPane.WARNING_MESSAGE );
-        }
+        }*/
     }
 
     @Override
     public void actionPerformed ( ActionEvent e )
     {
         // Do the appropriate action depending on the button clicked.
-        if ( e.getSource( ).equals( _zoomInButton ) )
+       /*if ( e.getSource( ).equals( _zoomInButton ) )
         {
             _editor.changeZoomLevel( _editor.getCurrentZoomLevel( ) - 1 );
             _editor.repaint( );
@@ -359,7 +356,7 @@ public class PlannerProgram
         {
             _zoomInButton.setEnabled( true );
         }
-        _tasksTable.setRowHeight( _editor.getRowHeight( ) );
+        _tasksTable.setRowHeight( _editor.getRowHeight( ) );*/
     }
 
     @Override
@@ -387,9 +384,9 @@ public class PlannerProgram
      *
      * @param project
      */
-    public void loadFromProject ( Project project )
+    public void loadFromProject ( SerializableProject project )
     {
-        _taskSchedules.clear( );
+        /*_taskSchedules.clear( );
         _editor.clear( );
         _tasksTable.setModel( new GanttTaskScheduleTableModel( _taskSchedules ) );
         _editor.setStartDate( project.getStartDate( ).toLocalDate( ) );
@@ -408,7 +405,7 @@ public class PlannerProgram
                 _editor.repaint( );
                 _tasksTable.repaint( );
             }
-        }
+        }*/
         initializeLayout( );
     }
 
@@ -418,7 +415,7 @@ public class PlannerProgram
     private void applyGantt ( )
     {
         LOGGER.info( "Applying changes from gantt to project." );
-        for ( GanttTaskSchedule taskSchedule : _schedulesToRemove )
+        /*for ( GanttTaskSchedule taskSchedule : _schedulesToRemove )
         {
             TaskSchedule scheduleToRemove = taskSchedule.getReferencedScheduled( );
             if ( scheduleToRemove != null )
@@ -449,6 +446,6 @@ public class PlannerProgram
             }
             schedule.setTeam( team );
             LOGGER.info( "Added/Edited " + schedule + " to/from " + taskSchedule.getParentTask( ) );
-        }
+        }*/
     }
 }

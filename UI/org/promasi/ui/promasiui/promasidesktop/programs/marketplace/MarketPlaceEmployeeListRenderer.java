@@ -17,8 +17,8 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXPanel;
-import org.promasi.model.Employee;
-import org.promasi.shell.Shell;
+import org.promasi.game.IGame;
+import org.promasi.game.company.SerializableEmployee;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
@@ -57,7 +57,7 @@ public class MarketPlaceEmployeeListRenderer implements ListCellRenderer
     /**
      * 
      */
-    private Shell _shell;
+    private IGame _game;
     
     /**
      * A label that shows the company that the employee is working for if he is
@@ -65,14 +65,14 @@ public class MarketPlaceEmployeeListRenderer implements ListCellRenderer
      */
     private JLabel _workingForLabel;
 
-    public MarketPlaceEmployeeListRenderer(Shell shell)throws NullArgumentException
+    public MarketPlaceEmployeeListRenderer(IGame game)throws NullArgumentException
     {
-    	if(shell==null)
+    	if(game==null)
     	{
-    		throw new NullArgumentException("Wrong argument shell==null");
+    		throw new NullArgumentException("Wrong argument game==null");
     	}
     	
-    	_shell=shell;
+    	_game=game;
     }
     
     /**
@@ -103,14 +103,14 @@ public class MarketPlaceEmployeeListRenderer implements ListCellRenderer
     @Override
     public Component getListCellRendererComponent ( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
     {
-        if ( value instanceof Employee )
+        if ( value instanceof SerializableEmployee )
         {
             buildPanel( );
             // Assign the values for the specific employee.
-            Employee employee = (Employee) value;
+            SerializableEmployee employee = (SerializableEmployee) value;
             _curriculumVitaeText.setText( employee.getCurriculumVitae( ) );
             _salaryLabel.setText( ResourceManager.getString( MarketPlaceEmployeeListRenderer.class, "salaryText" ) + " "  + String.valueOf( employee.getSalary( ) ) );
-            if ( _shell.isEmployeeHired(employee))
+            if ( !_game.isEmployeeAvailable(employee) )
             {
                 _workingForLabel.setText( ResourceManager.getString( MarketPlaceEmployeeListRenderer.class, "workingForYourTeamText" ) );
             }

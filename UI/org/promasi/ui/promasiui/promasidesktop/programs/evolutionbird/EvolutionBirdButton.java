@@ -15,7 +15,7 @@ import javax.swing.SwingConstants;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.promasi.model.Message;
+import org.promasi.ui.promasiui.promasidesktop.Message;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
@@ -27,9 +27,7 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
  * @author eddiefullmetal
  * 
  */
-public class EvolutionBirdButton
-        extends JButton
-        implements Runnable
+public class EvolutionBirdButton extends JButton implements Runnable
 {
 
     /**

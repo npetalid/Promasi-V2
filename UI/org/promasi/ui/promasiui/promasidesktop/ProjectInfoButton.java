@@ -19,12 +19,8 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.joda.time.DurationFieldType;
-import org.promasi.model.Clock;
-import org.promasi.model.Employee;
-import org.promasi.model.IClockListener;
-import org.promasi.model.Project;
-import org.promasi.shell.IPlayModeListener;
-import org.promasi.shell.Shell;
+import org.promasi.game.IGame;
+import org.promasi.game.project.SerializableProject;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
@@ -39,9 +35,7 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
  * @author eddiefullmetal
  *
  */
-public class ProjectInfoButton
-        extends JButton
-        implements IPlayModeListener, MouseListener, IClockListener
+public class ProjectInfoButton extends JButton implements MouseListener
 {
 
     /**
@@ -52,7 +46,7 @@ public class ProjectInfoButton
 	/**
      * The current project.
      */
-    private Project _currentProject;
+    private SerializableProject _currentProject;
 
     /**
      * Label that displays how much time is left before the project will start
@@ -85,20 +79,19 @@ public class ProjectInfoButton
      * Initializes the object.
      *
      */
-    public ProjectInfoButton(Shell shell )throws NullArgumentException
+    public ProjectInfoButton(IGame game )throws NullArgumentException
     {
-    	if(shell==null)
+    	if(game==null)
     	{
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
         _lockObject = new Object( );
         _projectHasStarted = false;
         addMouseListener( this );
-        shell.addListener( this );
-        Clock.getInstance( ).addListener( this );
+
         setIcon( ResourceManager.getIcon( "projectInfo" ) );
         setFocusable( false );
-        initializeComponents(shell );
+        initializeComponents(game );
     }
 
     /**
@@ -116,9 +109,9 @@ public class ProjectInfoButton
     /**
      * Initializes the components.
      */
-    private void initializeComponents (final Shell shell )throws NullArgumentException
+    private void initializeComponents (final IGame game )throws NullArgumentException
     {
-    	if(shell==null)
+    	if(game==null)
     	{
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
@@ -130,14 +123,13 @@ public class ProjectInfoButton
             @Override
             public void actionPerformed ( ActionEvent e )
             {
-                shell.jumpToProjectDate( );
+            	//game.jumpToProjectDate( );
             }
 
         } );
     }
 
-    @Override
-    public void projectStarted ( Project project )
+    public void projectStarted ( SerializableProject project )
     {
         synchronized ( _lockObject )
         {
@@ -155,116 +147,33 @@ public class ProjectInfoButton
         }
     }
 
-    @Override
-    public void projectFinished ( Project project )
-    {
-        synchronized ( _lockObject )
-        {
-            _currentProject = null;
-            _projectHasStarted = false;
-            EventQueue.invokeLater( new Runnable( )
-            {
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
-                @Override
-                public void run ( )
-                {
-                    _jumpToProject.setEnabled( false );
-                }
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
-            } );
-        }
-    }
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    @Override
-    public void employeeHired ( Employee employee )
-    {
-    }
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 
-    @Override
-    public void projectAssigned ( Project project )
-    {
-        synchronized ( _lockObject )
-        {
-            _currentProject = project;
-            EventQueue.invokeLater( new Runnable( )
-            {
-
-                @Override
-                public void run ( )
-                {
-                    initializePopup( );
-                    _jumpToProject.setEnabled( true );
-                }
-
-            } );
-        }
-    }
-
-    @Override
-    public void mouseClicked ( MouseEvent e )
-    {
-        if ( _popUpInfo != null && _currentProject != null )
-        {
-            if ( !_popUpInfo.isVisible( ) )
-            {
-                _popUpInfo.show( this, getWidth( ) - _popUpInfo.getPreferredSize( ).width, getHeight( ) );
-            }
-            else
-            {
-                _popUpInfo.setVisible( false );
-            }
-        }
-    }
-
-    @Override
-    public void mouseEntered ( MouseEvent e )
-    {
-    }
-
-    @Override
-    public void mouseExited ( MouseEvent e )
-    {
-    }
-
-    @Override
-    public void mousePressed ( MouseEvent e )
-    {
-    }
-
-    @Override
-    public void mouseReleased ( MouseEvent e )
-    {
-    }
-
-    @Override
-    public void ticked ( List<DurationFieldType> changedTypes )
-    {
-        synchronized ( _lockObject )
-        {
-            if ( _currentProject != null )
-            {
-                EventQueue.invokeLater( new Runnable( )
-                {
-
-                    @Override
-                    public void run ( )
-                    {
-                        if ( !_projectHasStarted )
-                        {
-                            int days = _currentProject.getStartDate( ).getDayOfYear( ) - Clock.getInstance( ).getCurrentDateTime( ).getDayOfYear( );
-                            _remainingTimeLabel.setText( String.valueOf( days ) + " "
-                                    + ResourceManager.getString( ProjectInfoButton.class, "remainingTimeToStart" ) );
-                        }
-                        else
-                        {
-                            int days = _currentProject.getEndDate( ).getDayOfYear( ) - Clock.getInstance( ).getCurrentDateTime( ).getDayOfYear( );
-                            _remainingTimeLabel.setText( String.valueOf( days ) + " "
-                                    + ResourceManager.getString( ProjectInfoButton.class, "remainingTimeToEnd" ) );
-                        }
-                    }
-
-                } );
-            }
-        }
-    }
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }

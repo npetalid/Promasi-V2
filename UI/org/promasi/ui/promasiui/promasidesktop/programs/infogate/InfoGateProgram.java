@@ -9,6 +9,7 @@ import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.promasi.game.IGame;
 import org.promasi.model.Company;
 import org.promasi.model.Project;
 import org.promasi.shell.Shell;
@@ -24,8 +25,7 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
  * @author eddiefullmetal
  *
  */
-public class InfoGateProgram
-        extends AbstractProgram
+public class InfoGateProgram extends AbstractProgram
 {
 
     /**
@@ -51,19 +51,22 @@ public class InfoGateProgram
      */
     private JTabbedPane _tabbedPane;
 
-    private Shell _shell;
+    /**
+     * 
+     */
+    private IGame _game;
 
     /**
      * Initializes the object.
      */
-    public InfoGateProgram(Shell shell )throws NullArgumentException
+    public InfoGateProgram(IGame game )throws NullArgumentException
     {
         super( "infoGate", "InfoGate, view information" );
-        if(shell==null)
+        if(game==null)
         {
         	throw new NullArgumentException("Wrong argument shell==null");
         }
-        _shell=shell;
+        _game=game;
         initializeComponents( );
         initializeLayout( );
     }
@@ -74,8 +77,8 @@ public class InfoGateProgram
     private void initializeComponents ( )
     {
         _projectInfoPanel = new ProjectInfoPanel( );
-        _companyInfoPanel = new CompanyInfoPanel(_shell );
-        _employeesInfoPanel = new EmployeesInfoPanel(_shell );
+        _companyInfoPanel = new CompanyInfoPanel(_game );
+        //_employeesInfoPanel = new EmployeesInfoPanel(_game );
 
         _tabbedPane = new JTabbedPane( );
         _tabbedPane.addTab( ResourceManager.getString( InfoGateProgram.class, "companyInfo" ), _companyInfoPanel );
@@ -108,7 +111,7 @@ public class InfoGateProgram
     @Override
     public void opened ( )
     {
-        Project currentProject = _shell.getCurrentProject( );
+       /*Project currentProject = _shell.getCurrentProject( );
         if ( currentProject != null )
         {
             _tabbedPane.setEnabledAt( 1, true );
@@ -119,6 +122,6 @@ public class InfoGateProgram
             _tabbedPane.setSelectedIndex( 0 );
         }
 
-        _projectInfoPanel.setProject( currentProject );
+        _projectInfoPanel.setProject( currentProject );*/
     }
 }

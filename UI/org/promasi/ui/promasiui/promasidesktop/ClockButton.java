@@ -1,18 +1,21 @@
 package org.promasi.ui.promasiui.promasidesktop;
 
-
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.joda.time.DateTime;
-import org.joda.time.DurationFieldType;
-import org.promasi.model.Clock;
-import org.promasi.model.IClockListener;
+import org.promasi.game.IGame;
+import org.promasi.game.IGameEventHandler;
+import org.promasi.game.company.SerializableCompany;
+import org.promasi.game.company.SerializableEmployee;
+import org.promasi.game.company.SerializableEmployeeTask;
+import org.promasi.game.marketplace.SerializableMarketPlace;
+import org.promasi.game.project.SerializableProject;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
@@ -23,11 +26,15 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
  * @author eddiefullmetal
  * 
  */
-public class ClockButton
-        extends JButton
-        implements IClockListener, Runnable, ActionListener
+public class ClockButton extends JButton implements IGameEventHandler, ActionListener, Runnable
 {
-
+	/**
+	 * 
+	 */
+	private IGame _game;
+	
+	private DateTime _currentDateTime;
+	
     /**
 	 * 
 	 */
@@ -36,40 +43,94 @@ public class ClockButton
 	/**
      * Initializes the object.
      */
-    public ClockButton( )
+    public ClockButton( IGame game )throws NullArgumentException
     {
+    	if(game==null){
+    		throw new NullArgumentException("Wrong argument game==null");
+    	}
+    	
         setIcon( ResourceManager.getIcon( "clock" ) );
         addActionListener( this );
-        Clock.getInstance( ).addListener( this );
         setFocusPainted( false );
-    }
-
-    /**
-     * Invokes this runnable on the event queue. This method is not called from
-     * the UI.
-     */
-    @Override
-    public void ticked ( List<DurationFieldType> changedTypes )
-    {
-        EventQueue.invokeLater( this );
-    }
-
-    /**
-     * Updates the text of the button to match the date of the {@link Clock}.
-     * The date is parsed to string using the EEEE MMMM dd, HH:mm format.
-     */
-    @Override
-    public void run ( )
-    {
-        DateTime currentDate = Clock.getInstance( ).getCurrentDateTime( );
-        setText( ResourceManager.formatDetailedDateAndTime( currentDate ) );
+        _game=game;
+        _game.registerGameEventHandler(this);
     }
 
     @Override
     public void actionPerformed ( ActionEvent e )
     {
         JPopupMenu menu = new JPopupMenu( );
-        menu.add( new ClockPanel( ) );
+        menu.add( new ClockPanel( _game ) );
         menu.show( this, getWidth( ) - menu.getPreferredSize( ).width, getHeight( ) );
     }
+
+	@Override
+	public void projectAssigned(SerializableCompany company,
+			SerializableProject project, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void projectFinished(SerializableCompany company,
+			SerializableProject project, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void employeeHired(SerializableMarketPlace marketPlace,
+			SerializableCompany company, SerializableEmployee employee,
+			DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void employeeTaskAttached(SerializableCompany company,
+			SerializableEmployee employee, SerializableEmployeeTask employeeTask) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void employeeTaskDetached(SerializableMarketPlace marketPlace,
+			SerializableCompany company, SerializableEmployee employee,
+			SerializableEmployeeTask employeeTask) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPay(SerializableCompany company,
+			SerializableEmployee employee, Double salary, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void companyIsInsolvent(SerializableCompany company,
+			DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onExecuteStep(SerializableCompany company,
+			SerializableProject assignedProject, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTick(DateTime dateTime) {
+		EventQueue.invokeLater( this );  
+	}
+
+	@Override
+	public void run() {
+		if(_currentDateTime!=null){
+			setText( _currentDateTime.toString() );	
+		}
+	}
 }

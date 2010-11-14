@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -15,10 +14,16 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.apache.commons.lang.NullArgumentException;
 import org.jdesktop.swingx.JXMonthView;
-import org.joda.time.DurationFieldType;
-import org.promasi.model.Clock;
-import org.promasi.model.IClockListener;
+import org.joda.time.DateTime;
+import org.promasi.game.IGame;
+import org.promasi.game.IGameEventHandler;
+import org.promasi.game.company.SerializableCompany;
+import org.promasi.game.company.SerializableEmployee;
+import org.promasi.game.company.SerializableEmployeeTask;
+import org.promasi.game.marketplace.SerializableMarketPlace;
+import org.promasi.game.project.SerializableProject;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
@@ -29,9 +34,7 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
  * @author eddiefullmetal
  * 
  */
-public class ClockPanel
-        extends JPanel
-        implements ActionListener, IClockListener
+public class ClockPanel extends JPanel implements ActionListener, IGameEventHandler
 {
 
     /**
@@ -42,13 +45,19 @@ public class ClockPanel
     private JButton _slowButton;
     private JButton _normalButton;
     private JButton _fastButton;
+    private IGame _game;
 
     /**
      * Initializes the object.
      */
-    public ClockPanel( )
+    public ClockPanel( IGame game )throws NullArgumentException
     {
-        Clock.getInstance( ).addListener( this );
+    	if(game==null){
+    		throw new NullArgumentException("Wrong argument game==null");
+    	}
+    	
+    	_game=game;
+    	_game.registerGameEventHandler(this);
         initializeComponents( );
         initializeLayout( );
     }
@@ -58,7 +67,7 @@ public class ClockPanel
      */
     private void initializeComponents ( )
     {
-        Date currentDate = Clock.getInstance( ).getCurrentDateTime( ).toDate( );
+        Date currentDate = _game.getSystemDateTime().toDate();
         _calendar = new JXMonthView( );
         _calendar.setFirstDisplayedDay( currentDate );
         _calendar.setTraversable( true );
@@ -92,24 +101,15 @@ public class ClockPanel
     {
         if ( e.getSource( ).equals( _slowButton ) )
         {
-            Clock.getInstance( ).setSpeed( 3000 );
+        	_game.setGameSpeed(3000);
         }
         else if ( e.getSource( ).equals( _normalButton ) )
         {
-            Clock.getInstance( ).setSpeed( 1000 );
+            _game.setGameSpeed(1000);
         }
         else if ( e.getSource( ).equals( _fastButton ) )
         {
-            Clock.getInstance( ).setSpeed( 100 );
-        }
-    }
-
-    @Override
-    public void ticked ( List<DurationFieldType> changedTypes )
-    {
-        if ( changedTypes.contains( DurationFieldType.days( ) ) )
-        {
-            _calendar.setFlaggedDates( Clock.getInstance( ).getCurrentDateTime( ).toDate( ) );
+            _game.setGameSpeed(100);
         }
     }
 
@@ -117,6 +117,69 @@ public class ClockPanel
     public void removeNotify ( )
     {
         super.removeNotify( );
-        Clock.getInstance( ).removeListener( this );
+        _game.removeGameEventHandler(this);
     }
+
+	@Override
+	public void projectAssigned(SerializableCompany company,
+			SerializableProject project, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void projectFinished(SerializableCompany company,
+			SerializableProject project, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void employeeHired(SerializableMarketPlace marketPlace,
+			SerializableCompany company, SerializableEmployee employee,
+			DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void employeeTaskAttached(SerializableCompany company,
+			SerializableEmployee employee, SerializableEmployeeTask employeeTask) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void employeeTaskDetached(SerializableMarketPlace marketPlace,
+			SerializableCompany company, SerializableEmployee employee,
+			SerializableEmployeeTask employeeTask) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPay(SerializableCompany company,
+			SerializableEmployee employee, Double salary, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void companyIsInsolvent(SerializableCompany company,
+			DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onExecuteStep(SerializableCompany company,
+			SerializableProject assignedProject, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTick(DateTime dateTime) {
+		 _calendar.setFlaggedDates( dateTime.toDate( ) );
+	}
 }

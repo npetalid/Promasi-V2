@@ -23,9 +23,7 @@ import org.promasi.ui.promasiui.promasidesktop.programs.marketplace.MarketPlaceE
  *
  * @author eddiefullmetal
  */
-public class EmployeesInfoPanel
-        extends JPanel
-        implements PropertyChangeListener
+public class EmployeesInfoPanel extends JPanel implements PropertyChangeListener
 {
 
     /**

@@ -4,6 +4,7 @@ package org.promasi.ui.promasiui.promasidesktop.programs.marketplace;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -17,6 +18,15 @@ import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.joda.time.DateTime;
+import org.promasi.game.IGame;
+import org.promasi.game.IGameEventHandler;
+import org.promasi.game.company.SerializableCompany;
+import org.promasi.game.company.SerializableEmployee;
+import org.promasi.game.company.SerializableEmployeeTask;
+import org.promasi.game.marketplace.SerializableMarketPlace;
+import org.promasi.game.project.SerializableProject;
+import org.promasi.sdsystem.serialization.SerializationException;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
@@ -30,7 +40,7 @@ import com.jidesoft.swing.JideButton;
  * @author eddiefullmetal
  *
  */
-public class MarketPlaceProgram extends AbstractProgram implements IPlayModeListener
+public class MarketPlaceProgram extends AbstractProgram implements IGameEventHandler
 {
 	/**
 	 * 
@@ -50,32 +60,39 @@ public class MarketPlaceProgram extends AbstractProgram implements IPlayModeList
     /**
      * 
      */
-    private Shell _shell;
+    private IGame _game;
 
     /**
      * Initializes the object.
      */
-    public MarketPlaceProgram(Shell shell )throws NullArgumentException
+    public MarketPlaceProgram(IGame game )throws NullArgumentException
     {
         super( "marketplace", "Marketplace, browse and hire employees" );
-        if(shell==null)
+        if(game==null)
         {
         	throw new NullArgumentException("Wrong argument shell==null");
         }
-        _shell=shell;
+        _game=game;
         initializeComponents( );
         initializeLayout( );
-        _shell.addListener(this);
+        game.registerGameEventHandler(this);
     }
 
     /**
      * Initializes the components.
+     * @throws SerializationException 
      */
     private void initializeComponents ( )
     {
-    	List<Employee> employees=_shell.getAllEmployees();
+    	List<SerializableEmployee> employees=new LinkedList<SerializableEmployee>();
+    	try{
+    		employees=_game.getAllEmployees();
+    	}catch(SerializationException e){
+    		
+    	}
+    	
         _employeeList = new JList(employees.toArray());
-        _employeeList.setCellRenderer( new MarketPlaceEmployeeListRenderer( _shell  ) );
+        _employeeList.setCellRenderer( new MarketPlaceEmployeeListRenderer( _game  ) );
         // Due to nimbus look and feel if this is not done the empty space from
         // the list will be white.
         Color backgroundColor = getBackground( );
@@ -111,12 +128,23 @@ public class MarketPlaceProgram extends AbstractProgram implements IPlayModeList
      */
     private void hireEmployee ( )
     {
-        Employee employee = (Employee) _employeeList.getSelectedValue( );
+    	SerializableEmployee employee = (SerializableEmployee) _employeeList.getSelectedValue( );
         if ( employee != null )
         {
-            if ( !_shell.isEmployeeHired(employee))
+            if ( _game.isEmployeeAvailable(employee))
             {
-            	_shell.hireEmployee( employee );
+            	try {
+					_game.hireEmployee( employee );
+				} catch (NullArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (SerializationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
             else
             {
@@ -150,28 +178,67 @@ public class MarketPlaceProgram extends AbstractProgram implements IPlayModeList
     }
 
 	@Override
-	public void projectStarted(Project project) {
+	public void projectAssigned(SerializableCompany company,
+			SerializableProject project, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void projectFinished(Project project) {
+	public void projectFinished(SerializableCompany company,
+			SerializableProject project, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void projectAssigned(Project project) {
+	public void employeeHired(SerializableMarketPlace marketPlace,
+			SerializableCompany company, SerializableEmployee employee,
+			DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void employeeHired(Employee employee) {
-        invalidate( );
-        repaint( );
-        validate( );
+	public void employeeTaskAttached(SerializableCompany company,
+			SerializableEmployee employee, SerializableEmployeeTask employeeTask) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void employeeTaskDetached(SerializableMarketPlace marketPlace,
+			SerializableCompany company, SerializableEmployee employee,
+			SerializableEmployeeTask employeeTask) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPay(SerializableCompany company,
+			SerializableEmployee employee, Double salary, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void companyIsInsolvent(SerializableCompany company,
+			DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onExecuteStep(SerializableCompany company,
+			SerializableProject assignedProject, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTick(DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

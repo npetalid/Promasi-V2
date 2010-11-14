@@ -1,8 +1,6 @@
 package org.promasi.ui.promasiui.promasidesktop.programs.infogate;
 
 
-import java.awt.Font;
-
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -12,11 +10,8 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
-import org.apache.commons.lang.StringUtils;
-import org.promasi.model.Company;
-import org.promasi.shell.Shell;
+import org.promasi.game.IGame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
-import org.promasi.utilities.ui.SwingCreator;
 
 
 /**
@@ -25,8 +20,7 @@ import org.promasi.utilities.ui.SwingCreator;
  * @author eddiefullmetal
  *
  */
-public class CompanyInfoPanel
-        extends JPanel
+public class CompanyInfoPanel extends JPanel
 {
 
     /**
@@ -61,9 +55,9 @@ public class CompanyInfoPanel
      * Initializes the object.
      *
      */
-    public CompanyInfoPanel(Shell shell )
+    public CompanyInfoPanel(IGame game )
     {
-        _controller = new CompanyInfoPanelController( this,shell );
+        //_controller = new CompanyInfoPanelController( this,game );
         initialize( );
     }
 
@@ -76,7 +70,7 @@ public class CompanyInfoPanel
         add( getCompanyNameLabel( ), new CC( ).spanX( ).alignX( "leading" ).wrap( ) );
         add( new JLabel( ResourceManager.getString( CompanyInfoPanel.class, "numberOfEmployees" ) ), new CC( ).split( 2 ) );
         add( getNumberOfEmployeesLabel( ), new CC( ).wrap( ) );
-        add( SwingCreator.createLabel( ResourceManager.getString( CompanyInfoPanel.class, "descriptionText" ), Font.BOLD ), new CC( ).wrap( ) );
+        //add( SwingCreator.createLabel( ResourceManager.getString( CompanyInfoPanel.class, "descriptionText" ), Font.BOLD ), new CC( ).wrap( ) );
         add( new JScrollPane( getCompanyDescription( ) ), new CC( ).grow( ).spanX( ) );
     }
 
@@ -99,7 +93,7 @@ public class CompanyInfoPanel
     {
         if ( _companyNameLabel == null )
         {
-            _companyNameLabel = SwingCreator.createLabel( StringUtils.EMPTY, 14, Font.BOLD );
+            //_companyNameLabel = SwingCreator.createLabel( StringUtils.EMPTY, 14, Font.BOLD );
         }
         return _companyNameLabel;
     }

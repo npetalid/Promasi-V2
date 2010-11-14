@@ -28,7 +28,6 @@ import org.apache.commons.lang.NullArgumentException;
 import org.apache.log4j.Logger;
 
 import org.promasi.game.IGame;
-import org.promasi.gui.IGamesFrameEventHandler;
 import org.promasi.ui.utilities.ScreenUtils;
 
 
@@ -89,7 +88,7 @@ public class GamesFrame extends JFrame
     public GamesFrame()
     {
     	LOGGER.info( "Selecting story..." );
-    	
+    	_eventHandlers=new LinkedList<IGamesFrameEventHandler>();
         setTitle( "Available games" );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         final double sizePercentage = 0.4d;
@@ -115,7 +114,7 @@ public class GamesFrame extends JFrame
             @Override
             public void actionPerformed ( ActionEvent e )
             {
-                play( );
+                play();
             }
 
         } );
@@ -132,6 +131,7 @@ public class GamesFrame extends JFrame
         add( _playButton, new CC( ) );
         
         _games=new TreeMap<String, IGame>();
+        
     }
 
     /**
