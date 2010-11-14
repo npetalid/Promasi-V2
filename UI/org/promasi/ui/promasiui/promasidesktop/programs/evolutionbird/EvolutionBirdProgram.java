@@ -18,10 +18,8 @@ import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.model.Company;
-import org.promasi.model.Message;
-import org.promasi.model.MessagingServer;
-import org.promasi.shell.Shell;
+import org.promasi.game.IGame;
+import org.promasi.ui.promasiui.promasidesktop.Message;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
@@ -58,19 +56,23 @@ public class EvolutionBirdProgram
      */
     private List<Message> _readMessages;
 
-    private Shell _shell;
+    /**
+     * 
+     */
+    private IGame _game;
 
     /**
      * Initializes the object.
      */
-    public EvolutionBirdProgram(Shell shell )throws NullArgumentException
+    public EvolutionBirdProgram(IGame game )throws NullArgumentException
     {
     	 super( "evolutionBird", "Evolution bird, mail client" );
-    	if(shell==null)
+    	if(game==null)
     	{
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
-    	_shell=shell;
+    	
+    	_game=game;
         _readMessages = new Vector<Message>( );
         initializeComponents( );
         initializeLayout( );
@@ -118,7 +120,7 @@ public class EvolutionBirdProgram
      */
     public void readMessages ( )
     {
-        Company company = _shell.getCompany( );
+        Company company = _game.getCompany( );
         MessagingServer messagingServer = company.getMessagingServer( );
         List<Message> messages = messagingServer.getMessages( company.getProjectManager( ) );
         _messageTable.setModel( new MessageTableModel( messages ) );

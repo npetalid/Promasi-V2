@@ -13,7 +13,7 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.client.request.StartGameRequest;
-import org.promasi.utilities.ui.ScreenUtils;
+import org.promasi.ui.utilities.ScreenUtils;
 
 public class WaitingForPlayersFrame extends JFrame{
 

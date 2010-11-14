@@ -19,7 +19,7 @@ import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.shell.Shell;
+import org.promasi.game.IGame;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
 import org.promasi.ui.promasiui.promasidesktop.programs.evolutionbird.EvolutionBirdProgram;
 import org.promasi.ui.promasiui.promasidesktop.programs.infogate.InfoGateProgram;
@@ -35,9 +35,7 @@ import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
  * @author eddiefullmetal
  *
  */
-public class DesktopToolbar
-        extends JToolBar
-        implements ActionListener
+public class DesktopToolbar extends JToolBar implements ActionListener
 {
 
     /**
@@ -73,14 +71,14 @@ public class DesktopToolbar
     /**
      * Initializes the object.
      */
-    public DesktopToolbar(DesktopMainFrame mainFrame,Shell shell )throws NullArgumentException
+    public DesktopToolbar(DesktopMainFrame mainFrame,IGame game )throws NullArgumentException
     {
     	if(mainFrame==null)
     	{
     		throw new NullArgumentException("Wrong argument mainFrame==null");
     	}
     	
-    	if(shell==null)
+    	if(game==null)
     	{
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
@@ -89,28 +87,29 @@ public class DesktopToolbar
         _listeners = new Vector<IToolbarListener>( );
         setFloatable( false );
         setBorder( BorderFactory.createEtchedBorder( ) );
-        initializeComponents(shell );
+        initializeComponents(game );
         initializeLayout( );
-        addQuickLaunch( new EvolutionBirdProgram(shell ) );
-        addQuickLaunch( new MarketPlaceProgram(shell ) );
-        addQuickLaunch( new PlannerProgram(mainFrame,shell ) );
-        addQuickLaunch( new InfoGateProgram(shell) );
+        addQuickLaunch( new EvolutionBirdProgram( game ) );
+        addQuickLaunch( new MarketPlaceProgram( game ) );
+        addQuickLaunch( new PlannerProgram(mainFrame, game ) );
+        addQuickLaunch( new InfoGateProgram( game ) );
     }
 
     /**
      * Initializes the components.
      */
-    private void initializeComponents (Shell shell )throws NullArgumentException
+    private void initializeComponents (IGame game )throws NullArgumentException
     {
-    	if(shell==null)
+    	if(game==null)
     	{
     		throw new NullArgumentException("Wrong argument shell==null");
     	}
+    	
         _clock = new ClockButton( );
         _quickLaunchPanel = new JPanel( );
         _quickLaunchPanel.setBorder( BorderFactory.createEmptyBorder( ) );
         _quickLaunchPanel.setLayout( new MigLayout( new LC( ) ) );
-        _projectInfoButton = new ProjectInfoButton(shell );
+        _projectInfoButton = new ProjectInfoButton( game );
     }
 
     /**

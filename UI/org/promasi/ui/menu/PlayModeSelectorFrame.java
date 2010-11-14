@@ -1,8 +1,10 @@
-package org.promasi.ui.promasiui.promasidesktop;
+package org.promasi.ui.menu;
 
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,11 +22,11 @@ import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.log4j.Logger;
-import org.promasi.shell.IPlayMode;
-import org.promasi.shell.PlayModePool;
-import org.promasi.shell.Shell;
-import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
-import org.promasi.utilities.ui.ScreenUtils;
+import org.promasi.multiplayer.MultiPlayerPlayMode;
+import org.promasi.playmode.IPlayMode;
+import org.promasi.playmode.singleplayer.SinglePlayerPlayMode;
+import org.promasi.ui.utilities.ScreenUtils;
+
 
 
 /**
@@ -60,6 +62,16 @@ public class PlayModeSelectorFrame extends JFrame
      * The play button that starts the game.
      */
     private JButton _playButton;
+    
+    /**
+     * 
+     */
+    private IPlayMode _singlePlayerPlayMode;
+    
+    /**
+     * 
+     */
+    private IPlayMode _multiPlayerPlayMode;
 
     /**
      * Default logger for this class.
@@ -71,13 +83,19 @@ public class PlayModeSelectorFrame extends JFrame
      */
     public PlayModeSelectorFrame()
     {
-        LOGGER.info( "Selecting play mode" );
-        setTitle( ResourceManager.getString( PlayModeSelectorFrame.class, "title" ) );
+        LOGGER.info( "Selecting PlayMode" );
+        setTitle( "Select PlayMode" );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( ScreenUtils.sizeForPercentage( 0.5d, 0.5d ) );
         ScreenUtils.centerInScreen( this );
         
-        _playModesList = new JList( new PlayModePool( ).getPlayModes().toArray() );
+        List<String> playModes=new LinkedList<String>();
+        _singlePlayerPlayMode=new SinglePlayerPlayMode();
+        _multiPlayerPlayMode=new MultiPlayerPlayMode();
+        playModes.add(_singlePlayerPlayMode.getName());
+        playModes.add(_multiPlayerPlayMode.getName());
+        
+        _playModesList = new JList( playModes.toArray() );
         _playModesList.getSelectionModel( ).addListSelectionListener( new ListSelectionListener( )
         {
             @Override
@@ -88,8 +106,8 @@ public class PlayModeSelectorFrame extends JFrame
 
         } );
         
-        _playModesList.setBorder( BorderFactory.createTitledBorder( ResourceManager.getString( PlayModeSelectorFrame.class, "playModesList","borderTitle" ) ) );
-        _playButton = new JButton( ResourceManager.getString( PlayModeSelectorFrame.class, "playButton", "text" ) );
+        _playModesList.setBorder( BorderFactory.createTitledBorder( "PlayMode" ) );
+        _playButton = new JButton( "Play" );
         _playButton.addActionListener( new ActionListener( )
         {
 
@@ -119,9 +137,16 @@ public class PlayModeSelectorFrame extends JFrame
      */
     private void selectionChanged ( )
     {
-        IPlayMode playMode = (IPlayMode) _playModesList.getSelectedValue( );
-        _playModeNameLabel.setText( playMode.getName( ) );
-        _descriptionText.setText( playMode.getDescription( ) );
+        String playModeName =  _playModesList.getSelectedValue( ).toString();
+        if(playModeName!=null){
+            _playModeNameLabel.setText( playModeName );
+            
+            if( playModeName.equals(_singlePlayerPlayMode.getName()) ){
+            	_descriptionText.setText( _singlePlayerPlayMode.getDescription( ) );
+            }else if( playModeName.equals( _multiPlayerPlayMode.getName() ) ){
+            	_descriptionText.setText( _multiPlayerPlayMode.getDescription( ) );
+            }
+        }
     }
 
     /**
@@ -129,19 +154,27 @@ public class PlayModeSelectorFrame extends JFrame
      */
     private void play ( )
     {
-        IPlayMode playMode = (IPlayMode) _playModesList.getSelectedValue( );
-        if ( playMode != null )
+    	
+        String playModeName = _playModesList.getSelectedValue( ).toString();
+        if ( playModeName != null )
         {
-            LOGGER.info( "Selected " + playMode.toString( ) );
-            setVisible( false );
+            _playModeNameLabel.setText( playModeName );
             
-            LoginUi loginUi=new LoginUi(playMode);
-            loginUi.showUi();
+            if( playModeName.equals(_singlePlayerPlayMode.getName()) ){
+            	setVisible(false);
+            	dispose();
+            	_singlePlayerPlayMode.play();
+            }else if( playModeName.equals( _multiPlayerPlayMode.getName() ) ){
+            	setVisible(false);
+            	dispose();
+            	_multiPlayerPlayMode.play();
+            }
+            LOGGER.info( "Selected " + playModeName );
+            setVisible( false );
         }
         else
         {
-            JOptionPane.showMessageDialog( this, ResourceManager.getString( PlayModeSelectorFrame.class, "noSelectedPlayMode", "text" ),
-                    ResourceManager.getString( PlayModeSelectorFrame.class, "noSelectedPlayMode", "title" ), JOptionPane.ERROR_MESSAGE );
+            JOptionPane.showMessageDialog( this, "PlayMode not selected","Please Select your PlayMode first", JOptionPane.ERROR_MESSAGE );
         }
     }
 }

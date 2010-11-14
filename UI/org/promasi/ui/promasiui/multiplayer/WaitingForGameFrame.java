@@ -6,7 +6,8 @@ package org.promasi.ui.promasiui.multiplayer;
 
 import javax.swing.JFrame;
 
-import org.promasi.utilities.ui.ScreenUtils;
+import org.promasi.ui.utilities.ScreenUtils;
+
 
 /**
  * @author m1cRo

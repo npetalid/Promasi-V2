@@ -15,7 +15,7 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.client.request.CreateNewGameRequest;
-import org.promasi.utilities.ui.ScreenUtils;
+import org.promasi.ui.utilities.ScreenUtils;
 
 public class CreateGameFrame extends JFrame {
 

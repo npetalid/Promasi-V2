@@ -17,10 +17,6 @@ import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
-import org.promasi.model.Employee;
-import org.promasi.model.Project;
-import org.promasi.shell.IPlayModeListener;
-import org.promasi.shell.Shell;
 import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 

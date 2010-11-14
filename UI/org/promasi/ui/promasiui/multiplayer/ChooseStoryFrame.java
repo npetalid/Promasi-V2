@@ -22,10 +22,9 @@ import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
-import org.promasi.shell.Story.Story;
+import org.promasi.ui.menu.GamesFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
-import org.promasi.ui.promasiui.promasidesktop.story.StorySelectorFrame;
-import org.promasi.utilities.ui.ScreenUtils;
+import org.promasi.ui.utilities.ScreenUtils;
 
 
 public class ChooseStoryFrame extends JFrame {
@@ -92,7 +91,7 @@ public class ChooseStoryFrame extends JFrame {
 
 		_availableGames=availableGames;
 		
-        setTitle( ResourceManager.getString( StorySelectorFrame.class, "title" ) );
+        setTitle( ResourceManager.getString( GamesFrame.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         final double sizePercentage = 0.4d;
         setSize( ScreenUtils.sizeForPercentage( sizePercentage, sizePercentage ) );

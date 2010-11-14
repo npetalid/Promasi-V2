@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.promasi.ui.promasiui.promasidesktop.story;
+package org.promasi.ui.menu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,13 +16,13 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang.NullArgumentException;
 import org.promasi.multiplayer.ProMaSiClient;
 import org.promasi.network.protocol.client.request.StartGameRequest;
-import org.promasi.utilities.ui.ScreenUtils;
+import org.promasi.ui.utilities.ScreenUtils;
 
 /**
  * @author m1cRo
  *
  */
-public class GameMasterForm extends JFrame {
+public class GameMasterFrame extends JFrame {
 
 	/**
 	 * 
@@ -44,7 +44,7 @@ public class GameMasterForm extends JFrame {
 	 * @param client
 	 * @throws NullArgumentException
 	 */
-	public GameMasterForm(ProMaSiClient client)throws NullArgumentException
+	public GameMasterFrame(ProMaSiClient client)throws NullArgumentException
 	{
 		if(client==null)
 		{

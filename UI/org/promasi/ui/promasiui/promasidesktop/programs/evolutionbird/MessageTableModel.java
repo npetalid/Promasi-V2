@@ -12,7 +12,7 @@ import javax.swing.table.TableModel;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.promasi.model.Message;
+import org.promasi.ui.promasiui.promasidesktop.Message;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
@@ -101,8 +101,9 @@ public class MessageTableModel
         }
         else if ( columnIndex == 2 )
         {
-            return ResourceManager.formatDateAndTime( message.getDateSent( ) );
+            return ResourceManager.formatDateAndTime( message.getDate( ) );
         }
+        
         return StringUtils.EMPTY;
     }
 
