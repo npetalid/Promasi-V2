@@ -2,13 +2,14 @@ package org.promasi.ui.promasiui.promasidesktop.programs.marketplace;
 
 
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
+import javax.swing.JInternalFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -24,11 +25,8 @@ import org.promasi.game.IGameEventHandler;
 import org.promasi.game.company.SerializableCompany;
 import org.promasi.game.company.SerializableEmployee;
 import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.marketplace.SerializableMarketPlace;
 import org.promasi.game.project.SerializableProject;
 import org.promasi.sdsystem.serialization.SerializationException;
-import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
-import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 import com.jidesoft.swing.JideButton;
 
@@ -40,7 +38,7 @@ import com.jidesoft.swing.JideButton;
  * @author eddiefullmetal
  *
  */
-public class MarketPlaceProgram extends AbstractProgram implements IGameEventHandler
+public class MarketPlaceFrame extends JInternalFrame implements IGameEventHandler
 {
 	/**
 	 * 
@@ -65,25 +63,16 @@ public class MarketPlaceProgram extends AbstractProgram implements IGameEventHan
     /**
      * Initializes the object.
      */
-    public MarketPlaceProgram(IGame game )throws NullArgumentException
+    public MarketPlaceFrame(IGame game )throws NullArgumentException
     {
-        super( "marketplace", "Marketplace, browse and hire employees" );
+    	super("MarketPlace", true, true, true, true);
         if(game==null)
         {
         	throw new NullArgumentException("Wrong argument shell==null");
         }
+        
         _game=game;
-        initializeComponents( );
-        initializeLayout( );
-        game.registerGameEventHandler(this);
-    }
-
-    /**
-     * Initializes the components.
-     * @throws SerializationException 
-     */
-    private void initializeComponents ( )
-    {
+        
     	List<SerializableEmployee> employees=new LinkedList<SerializableEmployee>();
     	try{
     		employees=_game.getAllEmployees();
@@ -98,83 +87,46 @@ public class MarketPlaceProgram extends AbstractProgram implements IGameEventHan
         Color backgroundColor = getBackground( );
         _employeeList.setBackground( new Color( backgroundColor.getRed( ), backgroundColor.getGreen( ), backgroundColor.getBlue( ) ) );
         // Create the hireButton.
-        _hireButton = new JideButton( ResourceManager.getString( MarketPlaceProgram.class, "hireButton", "text" ) );
-        _hireButton.addActionListener( new ActionListener( )
-        {
-
+        _hireButton = new JideButton( "Hire employee" );
+        _hireButton.addActionListener( new ActionListener( ){
             @Override
-            public void actionPerformed ( ActionEvent e )
-            {
+            public void actionPerformed ( ActionEvent e ){
                 hireEmployee( );
             }
 
         } );
-    }
-
-    /**
-     * Initializes the layout.
-     */
-    private void initializeLayout ( )
-    {
+        
         setLayout( new MigLayout( new LC( ).fillX( ) ) );
         JScrollPane scrollPane = new JScrollPane( _employeeList );
         scrollPane.setBorder( BorderFactory.createEmptyBorder( ) );
         add( _hireButton, new CC( ).alignX( "center" ).wrap( ) );
         add( scrollPane, new CC( ).growX( ).alignX( "center" ) );
+        
+        game.registerGameEventHandler(this);
     }
 
     /**
      * Hires the selected employee from the {@link #_employeeList}.
      */
-    private void hireEmployee ( )
-    {
+    private void hireEmployee ( ){
     	SerializableEmployee employee = (SerializableEmployee) _employeeList.getSelectedValue( );
-        if ( employee != null )
-        {
-            if ( _game.isEmployeeAvailable(employee))
-            {
+        if ( employee != null ){
+            if ( _game.isEmployeeAvailable(employee)){
             	try {
 					_game.hireEmployee( employee );
 				} catch (NullArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//Logger
 				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//Logger
 				} catch (SerializationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//Logger
 				}
+            }else{
+                JOptionPane.showMessageDialog( this,"Employee already hired", "Warning", JOptionPane.WARNING_MESSAGE );
             }
-            else
-            {
-                JOptionPane.showMessageDialog( this, ResourceManager.getString( MarketPlaceProgram.class, "employeeAlreadyHired", "text" ),
-                        ResourceManager.getString( MarketPlaceProgram.class, "employeeAlreadyHired", "title" ), JOptionPane.WARNING_MESSAGE );
-            }
+        }else{
+            JOptionPane.showMessageDialog( this, "Select employee first", "Warning" , JOptionPane.WARNING_MESSAGE );
         }
-        else
-        {
-            JOptionPane.showMessageDialog( this, ResourceManager.getString( MarketPlaceProgram.class, "noSelectedEmployee", "text" ), ResourceManager
-                    .getString( MarketPlaceProgram.class, "noSelectedEmployee", "title" ), JOptionPane.WARNING_MESSAGE );
-        }
-    }
-
-    @Override
-    public void closed ( )
-    {
-
-    }
-
-    @Override
-    public Icon getIcon ( )
-    {
-        return ResourceManager.getIcon( getName( ) );
-    }
-
-    @Override
-    public void opened ( )
-    {
-
     }
 
 	@Override
@@ -191,13 +143,6 @@ public class MarketPlaceProgram extends AbstractProgram implements IGameEventHan
 		
 	}
 
-	@Override
-	public void employeeHired(SerializableMarketPlace marketPlace,
-			SerializableCompany company, SerializableEmployee employee,
-			DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void employeeTaskAttached(SerializableCompany company,
@@ -206,13 +151,6 @@ public class MarketPlaceProgram extends AbstractProgram implements IGameEventHan
 		
 	}
 
-	@Override
-	public void employeeTaskDetached(SerializableMarketPlace marketPlace,
-			SerializableCompany company, SerializableEmployee employee,
-			SerializableEmployeeTask employeeTask) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void onPay(SerializableCompany company,
@@ -241,4 +179,28 @@ public class MarketPlaceProgram extends AbstractProgram implements IGameEventHan
 		
 	}
 
+	@Override
+	public void employeeHired(
+			org.promasi.game.company.SerializableMarketPlace marketPlace,
+			SerializableCompany company, SerializableEmployee employee,
+			DateTime dateTime) {
+		
+
+        EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+		        invalidate( );
+		        repaint( );
+		        validate( );	    
+			}
+		});
+	}
+
+	@Override
+	public void employeeTaskDetached(
+			org.promasi.game.company.SerializableMarketPlace marketPlace,
+			SerializableCompany company, SerializableEmployee employee,
+			SerializableEmployeeTask employeeTask) {
+		// TODO Auto-generated method stub
+	}
 }

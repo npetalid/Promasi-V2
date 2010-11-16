@@ -19,13 +19,12 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.company.SerializableEmployee;
-import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
 
 /**
  * 
  * A {@link ListCellRenderer} responsible for rendering an employee for the
- * {@link MarketPlaceProgram}.
+ * {@link MarketPlaceFrame}.
  * 
  * @author eddiefullmetal
  * 
@@ -109,14 +108,14 @@ public class MarketPlaceEmployeeListRenderer implements ListCellRenderer
             // Assign the values for the specific employee.
             SerializableEmployee employee = (SerializableEmployee) value;
             _curriculumVitaeText.setText( employee.getCurriculumVitae( ) );
-            _salaryLabel.setText( ResourceManager.getString( MarketPlaceEmployeeListRenderer.class, "salaryText" ) + " "  + String.valueOf( employee.getSalary( ) ) );
+            _salaryLabel.setText( "Salary " + String.valueOf( employee.getSalary( ) ) );
             if ( !_game.isEmployeeAvailable(employee) )
             {
-                _workingForLabel.setText( ResourceManager.getString( MarketPlaceEmployeeListRenderer.class, "workingForYourTeamText" ) );
+                _workingForLabel.setText( "Working For Your Team" );
             }
             else
             {
-                _workingForLabel.setText( ResourceManager.getString( MarketPlaceEmployeeListRenderer.class, "unemployedText" ) );
+                _workingForLabel.setText( "Free" );
             }
             // Set the colors depending if the value is selected.
             if ( isSelected )
