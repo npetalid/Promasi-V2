@@ -1,15 +1,15 @@
 package org.promasi.ui.promasiui.promasidesktop;
 
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
@@ -19,29 +19,53 @@ import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
 import org.apache.commons.lang.NullArgumentException;
+import org.joda.time.DateTime;
 import org.promasi.game.IGame;
-import org.promasi.ui.promasiui.promasidesktop.programs.AbstractProgram;
-import org.promasi.ui.promasiui.promasidesktop.programs.evolutionbird.EvolutionBirdProgram;
-import org.promasi.ui.promasiui.promasidesktop.programs.infogate.InfoGateProgram;
-import org.promasi.ui.promasiui.promasidesktop.programs.marketplace.MarketPlaceProgram;
-import org.promasi.ui.promasiui.promasidesktop.programs.planner.PlannerProgram;
+import org.promasi.game.IGameEventHandler;
+import org.promasi.game.company.SerializableCompany;
+import org.promasi.game.company.SerializableEmployee;
+import org.promasi.game.company.SerializableEmployeeTask;
+import org.promasi.game.company.SerializableMarketPlace;
+import org.promasi.game.project.SerializableProject;
+
+import org.promasi.ui.promasiui.promasidesktop.programs.marketplace.MarketPlaceFrame;
+import org.promasi.ui.promasiui.promasidesktop.programsi.planner.PlannerFrame;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
+import org.promasi.utilities.file.RootDirectory;
 
 
 /**
- *
- * The main toolbar of the {@link DesktopMainFrame}.
- *
- * @author eddiefullmetal
+ * 
+ * @author m1cRo
  *
  */
-public class DesktopToolbar extends JToolBar implements ActionListener
+public class DesktopToolbar extends JToolBar implements IGameEventHandler
 {
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 
+	 */
+	public static final int CONST_INTERNALFRAME_POS_X=0;
+	
+	/**
+	 * 
+	 */
+	public static final int CONST_INTERNALFRAME_POS_Y=0;
+	
+	/**
+	 * 
+	 */
+	public static final int CONST_INTERNALFRAME_WIDTH=800;
+	
+	/**
+	 * 
+	 */
+	public static final int CONST_INTERNALFRAME_HIGH=600;
 
 	/**
      * The {@link ClockButton}.
@@ -54,15 +78,20 @@ public class DesktopToolbar extends JToolBar implements ActionListener
     private ProjectInfoButton _projectInfoButton;
 
     /**
-     * A Map that keeps a button->application name relationship.
+     * 
      */
-    private Map<JButton, AbstractProgram> _quickLaunchButtons;
-
+    private JButton _messagesButton;
+    
     /**
-     * All the {@link IToolbarListener}s.
+     * 
      */
-    private List<IToolbarListener> _listeners;
-
+    private JButton _plannerButton;
+    
+    /**
+     * 
+     */
+    private JButton _marketPlaceButton;
+    
     /**
      * The panel that contains all the quick launch buttons.
      */
@@ -71,58 +100,63 @@ public class DesktopToolbar extends JToolBar implements ActionListener
     /**
      * 
      */
+    private JDesktopPane _parentPane;
+    
+    /**
+     * 
+     */
+    private MarketPlaceFrame _marketPlaceFrame;
+    
+    /**
+     * 
+     */
+    private SerializableProject _assignedProject;
+    
+    /**
+     * 
+     */
+    private DateTime _projectAssigneDate;
+    
+    /**
+     * 
+     */
     private IGame _game;
     
     /**
      * Initializes the object.
+     * @throws IOException 
      */
-    public DesktopToolbar(DesktopMainFrame mainFrame,IGame game )throws NullArgumentException
+    public DesktopToolbar(JDesktopPane parentPane,IGame game )throws NullArgumentException
     {
-    	if(mainFrame==null)
+    	if(parentPane==null)
     	{
-    		throw new NullArgumentException("Wrong argument mainFrame==null");
+    		throw new NullArgumentException("Wrong argument parentPane==null");
     	}
     	
     	if(game==null)
     	{
-    		throw new NullArgumentException("Wrong argument shell==null");
+    		throw new NullArgumentException("Wrong argument game==null");
     	}
     	
     	_game=game;
-        _quickLaunchButtons = new Hashtable<JButton, AbstractProgram>( );
-        _listeners = new Vector<IToolbarListener>( );
-        setFloatable( false );
-        setBorder( BorderFactory.createEtchedBorder( ) );
-        initializeComponents(game );
-        initializeLayout( );
-        addQuickLaunch( new EvolutionBirdProgram( _game ) );
-        addQuickLaunch( new MarketPlaceProgram( _game ) );
-        addQuickLaunch( new PlannerProgram(mainFrame, _game ) );
-        //addQuickLaunch( new InfoGateProgram( _game ) );
-    }
-
-    /**
-     * Initializes the components.
-     */
-    private void initializeComponents (IGame game )throws NullArgumentException
-    {
-    	if(game==null)
-    	{
-    		throw new NullArgumentException("Wrong argument shell==null");
-    	}
-    	
+    	_game.registerGameEventHandler(this);
+    	_parentPane=parentPane;
+        
         _clock = new ClockButton( _game );
         _quickLaunchPanel = new JPanel( );
         _quickLaunchPanel.setBorder( BorderFactory.createEmptyBorder( ) );
         _quickLaunchPanel.setLayout( new MigLayout( new LC( ) ) );
         _projectInfoButton = new ProjectInfoButton( _game );
-    }
+        
+		setupMessageTools();
+		setupMarketPlaceTools();
+		setupPlannerTools();
+        
+        setFloatable( false );
+        setBorder( BorderFactory.createEtchedBorder( ) );
 
-    /**
-     * Initializes the layout.
-     */
-    private void initializeLayout ( )
-    {
+        //addQuickLaunch( new InfoGateProgram( _game ) );
+        
         setLayout( new MigLayout( new LC( ).fill( ) ) );
         add( new JLabel( ResourceManager.getString( DesktopToolbar.class, "quickLaunch" ) ), new CC( ).dockWest( ) );
         add( new ExitButton( ), new CC( ).dockEast( ) );
@@ -132,53 +166,140 @@ public class DesktopToolbar extends JToolBar implements ActionListener
     }
 
     /**
-     * Adds a button to the quick launch.
-     *
-     * @param program
-     *            The {@link AbstractProgram}.
+     * 
      */
-    public void addQuickLaunch ( AbstractProgram program )
-    {
-        JButton button = program.getButton( );
-        button.addActionListener( this );
-        _quickLaunchButtons.put( button, program );
-        _quickLaunchPanel.add( button, new CC( ) );
+    private void setupMessageTools() {
+    	_messagesButton=new JButton();
+    	try{
+    		Icon icon=new ImageIcon(RootDirectory.getInstance().getResourcesPath()+File.separator+"message.png");
+    		_messagesButton.setIcon(icon);
+    	}catch (IOException e) {
+			//Logger
+		}
+    	
+    	_quickLaunchPanel.add( _messagesButton, new CC( ) );
     }
-
+    
     /**
-     * @param listener
-     *            The listener to add to the {@link #_listeners}.
+     * 
      */
-    public void addListener ( IToolbarListener listener )
-    {
-        if ( !_listeners.contains( listener ) )
-        {
-            _listeners.add( listener );
-        }
+    private void setupMarketPlaceTools(){
+        _marketPlaceButton=new JButton();
+        _marketPlaceFrame=new MarketPlaceFrame(_game );
+        _marketPlaceButton.addActionListener(new ActionListener() {		
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				_parentPane.add(_marketPlaceFrame,JDesktopPane.LEFT_ALIGNMENT);
+				_marketPlaceFrame.setVisible(true);
+				_marketPlaceFrame.setBounds(CONST_INTERNALFRAME_POS_X, CONST_INTERNALFRAME_POS_Y,CONST_INTERNALFRAME_WIDTH,CONST_INTERNALFRAME_HIGH);
+				_marketPlaceFrame.toFront();
+			}
+		});
+        
+		try {
+			Icon icon = new ImageIcon(RootDirectory.getInstance().getResourcesPath()+File.separator+"marketplace.png");
+			_marketPlaceButton.setIcon(icon);
+		} catch (IOException e) {
+			//Logger
+		}
+		
+		_quickLaunchPanel.add( _marketPlaceButton, new CC());
     }
+    
+    private void setupPlannerTools(){
+        _plannerButton=new JButton();
 
+        _plannerButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				openPlannerFrame();
+			}
+		});
+        
+		try {
+			Icon icon = new ImageIcon(RootDirectory.getInstance().getResourcesPath()+File.separator+"planner.png");
+			_plannerButton.setIcon(icon);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+        _quickLaunchPanel.add( _plannerButton, new CC());
+    }
+    
     /**
-     * @param listener
-     *            The listener to remove from the {@link #_listeners}.
+     * 
      */
-    public void removeListener ( IToolbarListener listener )
-    {
-        if ( _listeners.contains( listener ) )
-        {
-            _listeners.remove( listener );
-        }
+    private synchronized void openPlannerFrame(){
+    	if(_assignedProject!=null && _projectAssigneDate!=null){
+    		PlannerFrame plannerFrame=new PlannerFrame(_parentPane, _game, _assignedProject,_projectAssigneDate);
+    		_parentPane.add(plannerFrame,JDesktopPane.LEFT_ALIGNMENT);
+    		plannerFrame.setVisible(true);
+    		plannerFrame.setBounds(CONST_INTERNALFRAME_POS_X, CONST_INTERNALFRAME_POS_Y,CONST_INTERNALFRAME_WIDTH,CONST_INTERNALFRAME_HIGH);
+    		plannerFrame.toFront();
+    	}
     }
 
-    @Override
-    public void actionPerformed ( ActionEvent e )
-    {
-        AbstractProgram program = _quickLaunchButtons.get( e.getSource( ) );
-        if ( program != null )
-        {
-            for ( IToolbarListener listener : _listeners )
-            {
-                listener.quickLauchButtonClicked( program );
-            }
-        }
-    }
+	@Override
+	public synchronized void projectAssigned(SerializableCompany company, SerializableProject project, DateTime dateTime) {
+		_assignedProject=project;
+		_projectAssigneDate=dateTime;
+	}
+
+	@Override
+	public synchronized void projectFinished(SerializableCompany company, SerializableProject project, DateTime dateTime) {
+		_assignedProject=null;
+		_projectAssigneDate=null;
+	}
+
+	@Override
+	public void employeeHired(SerializableMarketPlace marketPlace,
+			SerializableCompany company, SerializableEmployee employee,
+			DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void employeeTaskAttached(SerializableCompany company,
+			SerializableEmployee employee, SerializableEmployeeTask employeeTask) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void employeeTaskDetached(SerializableMarketPlace marketPlace,
+			SerializableCompany company, SerializableEmployee employee,
+			SerializableEmployeeTask employeeTask) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPay(SerializableCompany company,
+			SerializableEmployee employee, Double salary, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void companyIsInsolvent(SerializableCompany company,
+			DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onExecuteStep(SerializableCompany company,
+			SerializableProject assignedProject, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTick(DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+    
 }

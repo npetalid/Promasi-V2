@@ -22,7 +22,7 @@ import org.promasi.game.IGameEventHandler;
 import org.promasi.game.company.SerializableCompany;
 import org.promasi.game.company.SerializableEmployee;
 import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.marketplace.SerializableMarketPlace;
+import org.promasi.game.company.SerializableMarketPlace;
 import org.promasi.game.project.SerializableProject;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 

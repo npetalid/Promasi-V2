@@ -3,6 +3,7 @@ package org.promasi.ui.promasiui.promasidesktop;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
@@ -14,7 +15,7 @@ import org.promasi.game.IGameEventHandler;
 import org.promasi.game.company.SerializableCompany;
 import org.promasi.game.company.SerializableEmployee;
 import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.marketplace.SerializableMarketPlace;
+import org.promasi.game.company.SerializableMarketPlace;
 import org.promasi.game.project.SerializableProject;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
 
@@ -33,6 +34,9 @@ public class ClockButton extends JButton implements IGameEventHandler, ActionLis
 	 */
 	private IGame _game;
 	
+	/**
+	 * 
+	 */
 	private DateTime _currentDateTime;
 	
     /**
@@ -124,13 +128,18 @@ public class ClockButton extends JButton implements IGameEventHandler, ActionLis
 
 	@Override
 	public void onTick(DateTime dateTime) {
+		_currentDateTime=dateTime;
 		EventQueue.invokeLater( this );  
 	}
 
 	@Override
 	public void run() {
 		if(_currentDateTime!=null){
-			setText( _currentDateTime.toString() );	
+			int hours=_currentDateTime.getHourOfDay();
+			int minutes=_currentDateTime.getMinuteOfHour();
+			int seconds=_currentDateTime.getSecondOfMinute();
+			DecimalFormat decFormat = new DecimalFormat("00");
+			setText( decFormat.format(hours)+":"+decFormat.format(minutes)+":"+decFormat.format(seconds));	
 		}
 	}
 }

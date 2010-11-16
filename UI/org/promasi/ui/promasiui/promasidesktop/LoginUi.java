@@ -19,11 +19,8 @@ import net.miginfocom.swing.MigLayout;
 import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.promasi.shell.IPlayMode;
-import org.promasi.shell.playmodes.singleplayerscoremode.SinglePlayerScorePlayMode;
 import org.promasi.ui.promasiui.promasidesktop.resources.ResourceManager;
-import org.promasi.utilities.ui.ScreenUtils;
-
+import org.promasi.ui.utilities.ScreenUtils;
 
 /**
  *
@@ -58,11 +55,6 @@ public class LoginUi extends JFrame
      * The OK button.
      */
     private JButton _okButton;
-    
-    /**
-     * 
-     */
-    IPlayMode _currentPlayMode;
 
     /**
      * Default logger for this class.
@@ -72,14 +64,10 @@ public class LoginUi extends JFrame
     /**
      * Initializes the object.
      */
-    public LoginUi(IPlayMode playMode )throws NullArgumentException,IllegalArgumentException
+    public LoginUi()throws NullArgumentException,IllegalArgumentException
     {
-    	if(playMode==null)
-    	{
-    		throw new NullArgumentException("Wrong arguments");
-    	}
+
     	
-    	_currentPlayMode=playMode;
         setTitle( ResourceManager.getString( LoginUi.class, "title" ) );
         setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         setSize( ScreenUtils.sizeForPercentage( 0.15d, 0.15d ) );
@@ -88,10 +76,6 @@ public class LoginUi extends JFrame
         _nameField = new JTextField( );
         _lastNameField = new JTextField( );
         _okButton = new JButton( "Login" );
-        
-        if(_currentPlayMode.needPasswordToLogin()){
-        	_passwordField=new JPasswordField();
-        }
         
         setLayout( new MigLayout( new LC( ).fillX( ) ) );
         add( new JLabel( "Name" ), new CC( ) );
@@ -136,10 +120,8 @@ public class LoginUi extends JFrame
         {
             LOGGER.info( "Logging for " + name + " " + lastName );
             // Create the company and assign it.
-            if(_currentPlayMode.login(name, lastName, password)){
-                setVisible( false );
-                dispose( );
-            }
+            setVisible( false );
+            dispose( );
         }
     }
 
