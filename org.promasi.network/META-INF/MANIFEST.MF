@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Network
+Bundle-SymbolicName: org.promasi.network
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.promasi.network.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.promasi.utilities;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: org.promasi.network,
+ org.promasi.network.tcp
