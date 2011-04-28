@@ -31,7 +31,7 @@ public class SdSystem
 	/**
 	 * 
 	 */
-	public static Pattern CONST_ALPHABET_PATTERN = Pattern.compile("[A-Z0-9a-z]+");
+	public static final Pattern CONST_ALPHABET_PATTERN = Pattern.compile("[A-Z0-9a-z]+");
 	
 	/**
 	 * 
