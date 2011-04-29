@@ -31,8 +31,6 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.grouplayout.GroupLayout;
-import org.eclipse.swt.layout.grouplayout.LayoutStyle;
 
 /**
  * 

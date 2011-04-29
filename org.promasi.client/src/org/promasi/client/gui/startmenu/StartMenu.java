@@ -199,7 +199,9 @@ public class StartMenu extends Composite {
 		_progressBar.setSelection(progress);
 	}
 	
-
+	/**
+	 * 
+	 */
 	public void close(){
 		_marketPlaceComposite.dispose();
 		_schedulerComposite.dispose();

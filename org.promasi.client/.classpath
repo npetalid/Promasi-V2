@@ -11,6 +11,6 @@
 	<classpathentry kind="lib" path="Libs/SWT/swing2swt.jar"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="lib" path="Libs/SWT/swt-grouplayout.jar"/>
-	<classpathentry kind="lib" path="Libs/SWT/swt_win32.jar"/>
+	<classpathentry kind="lib" path="Libs/SWT/swt_linux.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
