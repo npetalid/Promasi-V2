@@ -9,11 +9,16 @@ import java.util.TreeMap;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
-
+/**
+ * 
+ * @author m1cRo
+ * Represent the project on PROMASI
+ * simulation model.
+ */
 public class Project
 {
 	/**
-	 * 
+	 * The main task name.
 	 */
 	public static final String CONST_DEPLOY_TASK_NAME="DEPLOY";
 	
@@ -33,27 +38,28 @@ public class Project
     protected int _projectDuration;
 
 	/**
-     * 
+     * The difficulty level of current project.
      */
     protected double _difficultyLevel;
     
     /**
-     * 
+     * Overall project complete in percents.
      */
     protected double _overallProgress;
     
     /**
-     * 
+     * The current execution step.
      */
     private int _currentStep;
     
     /**
-     * 
+     * Bridges needed to link the
+     * different projects tasks.
      */
     protected List<TaskBridge> _taskBridges;
     
     /**
-     * 
+     * Amount received after project accomplished.
      */
     protected double _projectPrice;
     
