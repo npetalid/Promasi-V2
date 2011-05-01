@@ -135,6 +135,7 @@ public class WaitingGameClientState extends AbstractClientState implements IWait
 				ChooseGameClientState clientState=new ChooseGameClientState(client, _shell, new HashMap<String,String>());
 				client.sendMessage(new GameCanceledResponse().serialize());
 				changeClientState(client, clientState);
+				_waitingGameDialog.close();
 			}else if(object instanceof UpdateGameListRequest){
 			}else if(object instanceof LeaveGameResponse){
 				changeClientState(client, new ChooseGameClientState(client, _shell, new HashMap<String,String>()));
