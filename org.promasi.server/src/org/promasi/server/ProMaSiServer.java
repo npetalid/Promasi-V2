@@ -328,7 +328,7 @@ public class ProMaSiServer implements ITcpServerListener
 	 * @param gameId
 	 * @throws NullArgumentException
 	 */
-	public synchronized void cancelGame(String gameId) throws NullArgumentException{
+	public synchronized boolean cancelGame(String gameId) throws NullArgumentException{
 		if(gameId==null){
 			throw new NullArgumentException("Wrong argument gameId==null");
 		}
@@ -345,7 +345,12 @@ public class ProMaSiServer implements ITcpServerListener
 			if(_clients.containsKey(game.getGameOwnerId())){
 				_clients.get(game.getGameOwnerId()).sendMessage(new CancelGameResponse().serialize());
 			}
+		}else{
+			return false;
 		}
+		
+		_availableGames.remove(gameId);
+		return true;
 	}
 	
 	/**
