@@ -5,8 +5,8 @@ Bundle-SymbolicName: org.promasi.game
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.promasi.game.Activator
 Require-Bundle: org.eclipse.core.runtime,
- org.promasi.sdsystem;bundle-version="1.0.0",
- org.promasi.utilities;bundle-version="1.0.0"
+ org.promasi.utilities;bundle-version="1.0.0",
+ org.promasi.sdsystem;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.promasi.game,
