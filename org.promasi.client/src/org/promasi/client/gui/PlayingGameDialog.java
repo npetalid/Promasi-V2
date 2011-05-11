@@ -581,7 +581,9 @@ public class PlayingGameDialog extends Dialog
 				public void run() {
 					if(_company!=null && _marketPlace!=null){
 						try {
-							_marketPlaceDialog.updateMarketPlaceDialog(_company, _marketPlace);
+							if(_marketPlaceDialog!=null){
+								_marketPlaceDialog.updateMarketPlaceDialog(_company, _marketPlace);
+							}
 						} catch (SerializationException e) {
 							//Logger
 						} catch (NullArgumentException e) {
@@ -609,7 +611,9 @@ public class PlayingGameDialog extends Dialog
 				public void run() {
 					if(_company!=null && _marketPlace!=null){
 						try {
-							_marketPlaceDialog.updateMarketPlaceDialog(_company, _marketPlace);
+							if(_marketPlaceDialog!=null){
+								_marketPlaceDialog.updateMarketPlaceDialog(_company, _marketPlace);
+							}
 						} catch (SerializationException e) {
 							//Logger
 						} catch (NullArgumentException e) {
