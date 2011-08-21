@@ -17,7 +17,7 @@ import org.promasi.utilities.exceptions.NullArgumentException;
 public class TcpServer
 {
 	/**
-	 *
+	 * Server socket.
 	 */
 	private ServerSocket _serverSocket;
 
