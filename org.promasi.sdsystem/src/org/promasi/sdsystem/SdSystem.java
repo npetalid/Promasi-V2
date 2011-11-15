@@ -256,15 +256,13 @@ public class SdSystem
 	 * 
 	 * @return
 	 */
-	public Map< String, Double > getOutputValues(){
-		Map<String, Double> outputs=new TreeMap<String, Double>();
+	public Map< String, Double > getSystemValues(){
+		Map<String, Double> values=new TreeMap<String, Double>();
 		for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
-			if(entry.getValue() instanceof InputSdObject){
-				outputs.put(entry.getKey(), entry.getValue().getValue());
-			}
+			values.put(entry.getKey(), entry.getValue().getValue());
 		}
 		
-		return outputs;
+		return values;
 	}
 
 	/**

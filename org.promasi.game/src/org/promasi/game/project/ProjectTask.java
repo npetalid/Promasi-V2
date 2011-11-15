@@ -100,7 +100,7 @@ public class ProjectTask
         _sdSystemBridges=new LinkedList<SdSystemBridge>();
         
         try {
-			_progress=_progressEquation.calculateEquation(sdSystem.getOutputValues());
+			_progress=_progressEquation.calculateEquation(sdSystem.getSystemValues());
 		} catch (IllegalArgumentException e) {
 			throw new GameException(e.toString()); 
 		} catch (NullArgumentException e) {
@@ -181,7 +181,7 @@ public class ProjectTask
         	}
             
             _sdSystem.executeStep();
-            _progress=_progressEquation.calculateEquation( _sdSystem.getOutputValues() );
+            _progress=_progressEquation.calculateEquation( _sdSystem.getSystemValues() );
             _history.put(currentStep, _progress);
         	
     		for(Map.Entry<String, Double> entry : _employeeSkills.entrySet()){
