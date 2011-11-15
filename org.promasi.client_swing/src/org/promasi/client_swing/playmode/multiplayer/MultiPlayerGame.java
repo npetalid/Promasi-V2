@@ -42,13 +42,13 @@ public class MultiPlayerGame implements IGame {
 	}
 
 	@Override
-	public boolean addListener(IClientGameListener listener)throws GameException {
+	public boolean addListener(IClientGameListener listener) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean removeListener(IClientGameListener listener)throws GameException {
+	public boolean removeListener(IClientGameListener listener) {
 		// TODO Auto-generated method stub
 		return false;
 	}

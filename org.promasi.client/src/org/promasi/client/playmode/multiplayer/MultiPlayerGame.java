@@ -96,8 +96,7 @@ public class MultiPlayerGame implements IGame
 	 * @see org.promasi.game.IGame#addListener(org.promasi.game.singleplayer.ISinglePlayerGameListener)
 	 */
 	@Override
-	public boolean addListener(IClientGameListener listener)
-			throws GameException {
+	public boolean addListener(IClientGameListener listener){
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -106,8 +105,7 @@ public class MultiPlayerGame implements IGame
 	 * @see org.promasi.game.IGame#removeListener(org.promasi.game.singleplayer.ISinglePlayerGameListener)
 	 */
 	@Override
-	public boolean removeListener(IClientGameListener listener)
-			throws GameException {
+	public boolean removeListener(IClientGameListener listener) {
 		// TODO Auto-generated method stub
 		return false;
 	}

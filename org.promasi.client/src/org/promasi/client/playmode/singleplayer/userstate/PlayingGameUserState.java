@@ -18,7 +18,6 @@ import org.promasi.client.gui.IDialogListener;
 import org.promasi.client.gui.PlayingGameDialog;
 import org.promasi.client.playmode.IPlayMode;
 import org.promasi.client.playmode.singleplayer.AbstractUserState;
-import org.promasi.game.GameException;
 import org.promasi.game.IGame;
 import org.promasi.game.SerializableGameModel;
 import org.promasi.game.company.SerializableCompany;
@@ -71,12 +70,7 @@ public class PlayingGameUserState extends AbstractUserState implements IUserStat
 		_frame=new PlayingGameDialog(shell, 0, game);
 		_frame.registerGamesDialogListener(this);
 		_game=game;
-		try {
-			_game.addListener(this);
-		} catch (GameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		_game.addListener(this);
 	}
 
 	@Override

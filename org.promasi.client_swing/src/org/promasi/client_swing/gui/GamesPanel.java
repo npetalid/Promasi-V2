@@ -151,7 +151,12 @@ public class GamesPanel extends JPanel implements IGamesServerListener {
 
 	@Override
 	public void onJoinGame(IGame game) {
-		_mainFrame.changePanel(new PromasiGamePanel(game));
-		_mainFrame.maximize();
+		try {
+			_mainFrame.changePanel(new LoadingPanel(_mainFrame,game));
+			_mainFrame.maximize();
+		} catch (GuiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

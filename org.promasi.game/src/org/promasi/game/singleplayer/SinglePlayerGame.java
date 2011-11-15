@@ -6,6 +6,8 @@ package org.promasi.game.singleplayer;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.joda.time.DateTime;
 import org.promasi.game.GameException;
@@ -46,6 +48,11 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	/**
 	 * 
 	 */
+	private Lock _lockObject;
+	
+	/**
+	 * 
+	 */
 	private List<IClientGameListener> _listeners;
 	
 	/**
@@ -58,6 +65,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 			throw new GameException("Wrong argument gameModel==null");
 		}
 		
+		_lockObject = new ReentrantLock();
 		_gameModel=gameModel;
 		_isRunning=false;
 		_listeners=new LinkedList<IClientGameListener>();
@@ -80,8 +88,9 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public synchronized void hireEmployee(String employeeId) throws GameException {
+	public void hireEmployee(String employeeId) throws GameException {
 		try {
+			_lockObject.lock();
 			_gameModel.hireEmployee(employeeId);
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
@@ -92,12 +101,15 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		} catch (SerializationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			_lockObject.unlock();
 		}
 	}
 
 	@Override
-	public synchronized void dischargeEmployee(String employeeId)throws GameException {
+	public void dischargeEmployee(String employeeId)throws GameException {
 		try {
+			_lockObject.lock();
 			_gameModel.dischargeEmployee(employeeId);
 		} catch (IllegalArgumentException e) {
 			throw new GameException(e.toString());
@@ -105,86 +117,102 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 			throw new GameException(e.toString());
 		} catch (SerializationException e) {
 			throw new GameException(e.toString());
+		}finally{
+			_lockObject.unlock();
 		}
 	}
 
 	@Override
-	public synchronized boolean assignTasks(String employeeId, List<SerializableEmployeeTask> employeeTasks) {
-		return _gameModel.assignTasks(employeeId, employeeTasks);
+	public boolean assignTasks(String employeeId, List<SerializableEmployeeTask> employeeTasks) {
+		boolean result = false;
+		try
+		{
+			_lockObject.lock();
+			result =_gameModel.assignTasks(employeeId, employeeTasks);
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
 	}
 
 	@Override
-	public synchronized boolean addListener(IClientGameListener listener)throws GameException {
-		if(listener==null){
-			throw new GameException("Wrong argument listener==null");
+	public boolean addListener(IClientGameListener listener) {
+		boolean result = false;
+		try{
+			_lockObject.lock();
+			if(listener!=null){
+				if(!_listeners.contains(listener)){
+					result =_listeners.add(listener);
+				}
+			}
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		if(_listeners.contains(listener)){
-			return false;
-		}
-		
-		_listeners.add(listener);
-		return true;
+
+		return result;
 	}
 
 	@Override
-	public synchronized boolean removeListener(IClientGameListener listener) throws GameException {
-		if(listener==null){
-			throw new GameException("Wrong argument listener==null");
+	public boolean removeListener(IClientGameListener listener) {
+		boolean result = false;
+		try{
+			_lockObject.lock();
+			if(listener!=null){
+				if( _listeners.contains(listener) ){
+					result =_listeners.remove(listener);
+				}
+			}
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		if(!_listeners.contains(listener)){
-			return false;
-		}
-		
-		_listeners.remove(listener);
-		return true;
+
+		return result;
 	}
 
 	@Override
-	public synchronized boolean executeGameStep(Date currentDateTime) throws GameException {
+	public boolean executeGameStep(Date currentDateTime) throws GameException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public synchronized boolean startGame() {
-		if(!_isRunning){
-			for(IClientGameListener listener : _listeners){
-				try {
-					listener.gameStarted(this, _gameModel.getSerializableGameModel(), _systemClock.getCurrentDateTime());
-				} catch (SerializationException e) {
-					_isRunning=false;
-					_systemClock.stop();
-					return false;
-				}
+	public boolean startGame() {
+		try{
+			_lockObject.lock();
+			if(!_isRunning){
+				_systemClock.start();	
 			}
-			
-			_systemClock.start();
-			_isRunning=true;
-			
-			for(IClientGameListener listener : _listeners){
-				try {
-					listener.gameStarted(this, _gameModel.getSerializableGameModel(), _systemClock.getCurrentDateTime());
-				} catch (SerializationException e) {
-					//Logger
-				}
-			}
+		}finally{
+			_lockObject.unlock();
 		}
-	
+
 		return true;
 	}
 	
 	@Override
-	public synchronized boolean setGameSpeed(int newSpeed) {
-		_systemClock.setDelay(newSpeed);
+	public boolean setGameSpeed(int newSpeed) {
+		try{
+			_lockObject.lock();
+			_systemClock.setDelay(newSpeed);
+		}finally{
+			_lockObject.unlock();
+		}
+		
 		return true;
 	}
 
 	@Override
-	public synchronized boolean stopGame() {
-		_systemClock.stop();
-		_isRunning=false;
+	public boolean stopGame() {
+		try{
+			_lockObject.lock();
+			_systemClock.stop();
+			_isRunning=false;
+			
+		}finally{
+			_lockObject.unlock();
+		}
+
 		return true;
 	}
 	
@@ -247,11 +275,28 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 
 	@Override
 	public void onTick(DateTime dateTime) {
-		for( IClientGameListener gameEventHandler : _listeners){
-			gameEventHandler.onTick(this, dateTime);
+		try{
+			_lockObject.lock();
+			if( !_isRunning ){
+				_isRunning = true;
+			}
+			
+			for(IClientGameListener listener : _listeners){	
+				try {
+					listener.gameStarted(this, _gameModel.getSerializableGameModel(), _systemClock.getCurrentDateTime());
+				} catch (SerializationException e) {
+					_systemClock.stop();
+				}
+			}
+			
+			for( IClientGameListener gameEventHandler : _listeners){
+				gameEventHandler.onTick(this, dateTime);
+			}
+			
+			_gameModel.executeGameStep(dateTime);
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		_gameModel.executeGameStep(dateTime);
 	}
 
 	@Override

@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.client_swing.playmode.IGamesServer;
 import org.promasi.client_swing.playmode.IGamesServerListener;
@@ -30,12 +32,18 @@ public class SinglePlayerGamesServer implements IGamesServer {
 	/**
 	 * 
 	 */
+	private Lock _lockObject;
+	
+	/**
+	 * 
+	 */
 	private List<IGame> _games;
 	
 	/**
 	 * 
 	 */
 	public SinglePlayerGamesServer( String gamesFolder )throws IOException{
+		_lockObject=new ReentrantLock();
 		_games = new LinkedList<IGame>();
 		File file=new File(gamesFolder);
 		if(file.isDirectory()){
@@ -68,12 +76,15 @@ public class SinglePlayerGamesServer implements IGamesServer {
 	@Override
 	public boolean registerGamesServerListener(IGamesServerListener listener) {
 		boolean result = false;
-		synchronized (this) {
+		try{
+			_lockObject.lock();
 			if( listener != null ){
 				_listener = listener;
 				result = true;
 			}
 			
+		}finally{
+			_lockObject.unlock();
 		}
 		
 		return result;
@@ -81,10 +92,13 @@ public class SinglePlayerGamesServer implements IGamesServer {
 
 	@Override
 	public boolean joinGame( IGame game ) {
-		synchronized(this){
+		try{
+			_lockObject.lock();
 			if( _listener != null ){
 				_listener.onJoinGame(game);
 			}
+		}finally{
+			_lockObject.unlock();
 		}
 
 		return false;

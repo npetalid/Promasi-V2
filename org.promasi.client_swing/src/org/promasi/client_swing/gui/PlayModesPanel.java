@@ -59,8 +59,12 @@ public class PlayModesPanel extends JPanel {
 	/**
 	 * 
 	 */
-	public PlayModesPanel( IMainFrame listener ){
+	public PlayModesPanel( IMainFrame listener )throws GuiException{
 		super();
+		if( listener == null ){
+			throw new GuiException("Wrong argument listener == null");
+		}
+		
 		_mainFrame = listener;
 		DefaultListModel<IPlayMode> listModel = new DefaultListModel<IPlayMode>();
 		listModel.addElement( new SinglePlayerPlayMode() );

@@ -2,6 +2,8 @@ package org.promasi.utilities.clock;
 
 import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.joda.time.DateTime;
 
@@ -30,7 +32,7 @@ public final class Clock implements Runnable
     /**
      * Object used for locking.
      */
-    private Object _lockObject;
+    private Lock _lockObject;
 
     /**
      * All the {@link IClockListener}s.
@@ -62,7 +64,7 @@ public final class Clock implements Runnable
         _clockThread = new Thread( this, THREAD_NAME );
         _isRunning = false;
         _speed = DEFAULT_SPEED;
-        _lockObject = new Object( );
+        _lockObject = new ReentrantLock( );
         _currentDateTime = new DateTime();
     }
 
@@ -81,20 +83,23 @@ public final class Clock implements Runnable
      */
     public boolean addListener ( IClockListener listener )
     {
-    	synchronized(_lockObject){
-        	if(listener==null)
+    	boolean result = false;
+    	try{
+    		_lockObject.lock();
+        	if(listener!=null)
         	{
-        		return false;
+                if ( !_listeners.contains( listener ) )
+                {
+                  result = _listeners.add( listener );
+                  
+                }
         	}
 
-            if ( !_listeners.contains( listener ) )
-            {
-              _listeners.add( listener );
-            }
-            
+    	}finally{
+    		_lockObject.unlock();
     	}
 
-        return true;
+        return result;
     }
 
     /**
@@ -104,44 +109,41 @@ public final class Clock implements Runnable
      */
     public boolean removeListener ( IClockListener listener )
     {
-    	synchronized(_lockObject){
-        	if(listener==null)
+    	boolean result = false;
+    	try{
+    		_lockObject.lock();
+        	if(listener != null)
         	{
-        		return false;
+                 if ( _listeners.contains( listener ) ){
+                    result = _listeners.remove( listener );
+                 }
         	}
-
-            if ( _listeners.contains( listener ) ){
-               _listeners.remove( listener );
-            }else{
-            	return false;
-            }	
+    	}finally{
+    		_lockObject.unlock();
     	}
 
-        return true;
+        return result;
     }
 
     @Override
-    public void run ( )
-    {
-        while ( _isRunning )
-        {
-            synchronized ( _lockObject )
-            {
+    public void run ( ){
+        while ( _isRunning ) {
+            try{
+            	_lockObject.lock();
                 _currentDateTime=_currentDateTime.plusHours(1);
             	for(IClockListener listener : _listeners){
             		listener.onTick(_currentDateTime);
             	}
-            }
-            
-            // Do not sleep inside the synchronized block.
-            try
-            {
-                Thread.sleep( _speed );
-            }
-            catch ( InterruptedException e )
-            {
-                // Just warn no one is going to interrupt this thread.
-                //LOGGER.warn( "An InterruptedException occured while the clock was waiting.", e );
+            	
+                // Do not sleep inside the synchronized block.
+                try{
+                    Thread.sleep( _speed );
+                } catch ( InterruptedException e ){
+                    // Just warn no one is going to interrupt this thread.
+                    //LOGGER.warn( "An InterruptedException occured while the clock was waiting.", e );
+                }
+            }finally{
+            	_lockObject.unlock();
             }
         }
     }
@@ -149,15 +151,16 @@ public final class Clock implements Runnable
     /**
      * Starts the clock.
      */
-    public void start ( )
-    {
-    	synchronized(_lockObject){
+    public void start ( ){
+    	try{
+    		_lockObject.lock();
             //LOGGER.info( "Starting clock..." );
-            if ( !_clockThread.isAlive( ) )
-            {
+            if ( !_clockThread.isAlive( ) ){
                 _isRunning = true;
                 _clockThread.start( );
             }
+    	}finally{
+    		_lockObject.unlock();
     	}
     }
 
@@ -167,8 +170,11 @@ public final class Clock implements Runnable
      */
     public void setDelay ( int speed )
     {
-    	synchronized(_lockObject){
+    	try{
+    		_lockObject.lock();
     		_speed = speed;
+    	}finally{
+    		_lockObject.unlock();
     	}
     }
 
@@ -177,8 +183,11 @@ public final class Clock implements Runnable
      */
     public void stop ( )
     {
-        synchronized(_lockObject){
+        try{
+        	_lockObject.lock();
         	_isRunning = false;
+        }finally{
+        	_lockObject.unlock();
         }
     }
 }

@@ -8,7 +8,6 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import org.joda.time.DateTime;
-import org.promasi.game.GameException;
 import org.promasi.game.IGame;
 import org.promasi.game.SerializableGameModel;
 import org.promasi.game.company.SerializableCompany;
@@ -37,14 +36,13 @@ public class PromasiGamePanel extends JPanel implements IClientGameListener {
 	/**
 	 * 
 	 */
-	public PromasiGamePanel( IGame game ){
-		_game = game;
-		try {
-			_game.addListener(this);
-		} catch (GameException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public PromasiGamePanel( IGame game )throws GuiException{
+		if( game == null ){
+			throw new GuiException("Wrong argument game == null");
 		}
+		
+		_game = game;
+		_game.addListener(this);
 	}
 
 	@Override

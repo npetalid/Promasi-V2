@@ -53,12 +53,12 @@ public interface IGame
 	 * @param gameEventHandler
 	 * @throws NullArgumentException
 	 */
-	public boolean addListener(final IClientGameListener listener)throws GameException;
+	public boolean addListener(final IClientGameListener listener);
 	
 	/*
 	 * 
 	 */
-	public boolean removeListener(final IClientGameListener listener)throws GameException;
+	public boolean removeListener(final IClientGameListener listener);
 	
 	/**
 	 * 
