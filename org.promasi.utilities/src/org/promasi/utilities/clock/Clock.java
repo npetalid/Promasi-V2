@@ -12,7 +12,7 @@ import org.joda.time.DateTime;
  * @author m1cRo
  *
  */
-public final class Clock implements Runnable
+public final class Clock
 {
     /**
      * The Current date time of the clock.
@@ -61,7 +61,30 @@ public final class Clock implements Runnable
     public Clock( )
     {
         _listeners = new Vector<IClockListener>( );
-        _clockThread = new Thread( this, THREAD_NAME );
+        _clockThread = new Thread( new Runnable() {
+			
+			@Override
+			public void run() {
+				while ( _isRunning ) {
+		            try{
+		            	_lockObject.lock();
+		                _currentDateTime=_currentDateTime.plusHours(1);
+		            	for(IClockListener listener : _listeners){
+		            		listener.onTick(_currentDateTime);
+		            	}
+		            	
+		            	 Thread.sleep( _speed );
+		            }catch ( InterruptedException e ){
+		                // Just warn no one is going to interrupt this thread.
+		                //LOGGER.warn( "An InterruptedException occured while the clock was waiting.", e );
+		            }finally{
+		            	_lockObject.unlock();
+		            }
+		        }
+				
+			}
+		}, THREAD_NAME );
+        
         _isRunning = false;
         _speed = DEFAULT_SPEED;
         _lockObject = new ReentrantLock( );
@@ -74,7 +97,14 @@ public final class Clock implements Runnable
      */
     public DateTime getCurrentDateTime ( )
     {
-    	return _currentDateTime.toDateTime( );
+    	DateTime result = new DateTime();
+    	try{
+    		_lockObject.lock();
+        	result = _currentDateTime.toDateTime( );
+    	}finally{
+    		_lockObject.unlock();
+    	}
+    	return result;
     }
 
     /**
@@ -109,43 +139,20 @@ public final class Clock implements Runnable
      */
     public boolean removeListener ( IClockListener listener )
     {
-    	boolean result = false;
-    	try{
-    		_lockObject.lock();
-        	if(listener != null)
-        	{
-                 if ( _listeners.contains( listener ) ){
-                    result = _listeners.remove( listener );
-                 }
-        	}
-    	}finally{
-    		_lockObject.unlock();
-    	}
+		boolean result = false;
+		try{
+			_lockObject.lock();
+			if(listener != null)
+			{
+			     if ( _listeners.contains( listener ) ){
+			        result = _listeners.remove( listener );
+			     }
+			}
+		}finally{
+			_lockObject.unlock();
+		}
 
         return result;
-    }
-
-    @Override
-    public void run ( ){
-        while ( _isRunning ) {
-            try{
-            	_lockObject.lock();
-                _currentDateTime=_currentDateTime.plusHours(1);
-            	for(IClockListener listener : _listeners){
-            		listener.onTick(_currentDateTime);
-            	}
-            	
-                // Do not sleep inside the synchronized block.
-                try{
-                    Thread.sleep( _speed );
-                } catch ( InterruptedException e ){
-                    // Just warn no one is going to interrupt this thread.
-                    //LOGGER.warn( "An InterruptedException occured while the clock was waiting.", e );
-                }
-            }finally{
-            	_lockObject.unlock();
-            }
-        }
     }
 
     /**

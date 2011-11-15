@@ -171,7 +171,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public boolean executeGameStep(Date currentDateTime) throws GameException {
+	public boolean executeGameStep(Date currentDateTime) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -279,13 +279,12 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 			_lockObject.lock();
 			if( !_isRunning ){
 				_isRunning = true;
-			}
-			
-			for(IClientGameListener listener : _listeners){	
-				try {
-					listener.gameStarted(this, _gameModel.getSerializableGameModel(), _systemClock.getCurrentDateTime());
-				} catch (SerializationException e) {
-					_systemClock.stop();
+				for( IClientGameListener listener : _listeners ){	
+					try {
+						listener.gameStarted(this, _gameModel.getSerializableGameModel(), _systemClock.getCurrentDateTime() );
+					} catch (SerializationException e) {
+						_systemClock.stop();
+					}
 				}
 			}
 			
@@ -301,13 +300,18 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 
 	@Override
 	public void gameFinished(GameModel gameModel, SerializableCompany company) {
-		for( IClientGameListener gameEventHandler : _listeners){
-			try {
-				gameEventHandler.gameFinished(this, gameModel.getSerializableGameModel(),company);
-			} catch (SerializationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try{
+			_lockObject.lock();
+			for( IClientGameListener gameEventHandler : _listeners){
+				try {
+					gameEventHandler.gameFinished(this, gameModel.getSerializableGameModel(),company);
+				} catch (SerializationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+		}finally{
+			_lockObject.unlock();
 		}
 	}
 }

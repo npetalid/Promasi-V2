@@ -153,7 +153,6 @@ public class GamesPanel extends JPanel implements IGamesServerListener {
 	public void onJoinGame(IGame game) {
 		try {
 			_mainFrame.changePanel(new LoadingPanel(_mainFrame,game));
-			_mainFrame.maximize();
 		} catch (GuiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
