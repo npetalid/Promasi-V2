@@ -183,9 +183,9 @@ public class Company implements IEmployeeListener
      * 
      * @param listener
      */
-    public synchronized boolean addListener(ICompanyListener listener)throws NullArgumentException{
+    public synchronized boolean addListener(ICompanyListener listener){
     	if(listener==null){
-    		throw new NullArgumentException("Wrong argument companyEventHandler==null");
+    		return false;
     	}
     	
     	if(!_companyListeners.contains(listener)){

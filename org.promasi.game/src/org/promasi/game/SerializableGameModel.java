@@ -121,7 +121,7 @@ public class SerializableGameModel
 			return new GameModel(_gameName, _gameDescription, _marketPlace.getMarketPlace(), _company.getCompany(), projects);
 		} catch (IllegalArgumentException e) {
 			throw new SerializationException("Serialization failed because " + e.getMessage());
-		} catch (NullArgumentException e) {
+		} catch (GameException e) {
 			throw new SerializationException("Serialization failed because " + e.getMessage());
 		}
 	}

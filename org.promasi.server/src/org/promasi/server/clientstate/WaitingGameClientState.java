@@ -233,11 +233,7 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 
 	@Override
 	public void onDisconnect(ProMaSiClient client) {
-		try {
-			_game.leaveGame(_clientId);
-		} catch (NullArgumentException e) {
-			//Logger
-		}
+		_game.leaveGame(_clientId);
 	}
 
 	@Override
@@ -248,11 +244,7 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
-		try {
-			_game.leaveGame(_clientId);
-		} catch (NullArgumentException e) {
-			//Logger
-		}
+		_game.leaveGame(_clientId);
 	}
 
 	@Override

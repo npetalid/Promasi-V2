@@ -75,25 +75,25 @@ public class GameModel implements ICompanyListener
 	 * @throws IllegalArgumentException
 	 * @throws NullArgumentException
 	 */
-	public GameModel(final String gameName, final String gameDescription, final MarketPlace marketPlace, final Company company,final Queue<Project> projects)throws IllegalArgumentException, NullArgumentException{
+	public GameModel(final String gameName, final String gameDescription, final MarketPlace marketPlace, final Company company,final Queue<Project> projects)throws GameException{
 		if(company==null){
-			throw new NullArgumentException("Wrong argument company==null");
+			throw new GameException("Wrong argument company==null");
 		}
 
 		if(marketPlace==null){
-			throw new NullArgumentException("Wrong argument marketPlace==null");
+			throw new GameException("Wrong argument marketPlace==null");
 		}
 		
 		if(projects==null){
-			throw new NullArgumentException("Wrong argument projects==null");
+			throw new GameException("Wrong argument projects==null");
 		}
 		
 		if(gameName==null){
-			throw new NullArgumentException("Wrong argument gameName==null");
+			throw new GameException("Wrong argument gameName==null");
 		}
 		
 		if(gameDescription==null){
-			throw new NullArgumentException("Wrong argument gameDescription==null");
+			throw new GameException("Wrong argument gameDescription==null");
 		}
 		
 		if(projects.isEmpty()){
@@ -231,9 +231,9 @@ public class GameModel implements ICompanyListener
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public synchronized boolean removeGameModelListener(IGameModelListener listener)throws NullArgumentException {
+	public synchronized boolean removeGameModelListener(IGameModelListener listener) {
 		if(listener==null){
-			throw new NullArgumentException("Wrong argument listener==null");
+			return false;
 		}
 		
 		if(_listeners.contains(listener)){
@@ -251,9 +251,9 @@ public class GameModel implements ICompanyListener
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public synchronized boolean addListener(IGameModelListener listener)throws NullArgumentException {
+	public synchronized boolean addListener(IGameModelListener listener) {
 		if(listener==null){
-			throw new NullArgumentException("Wrong argument gameEventHandler==null");
+			return false;
 		}
 		
 		if( !_listeners.contains(listener) ){
@@ -271,7 +271,7 @@ public class GameModel implements ICompanyListener
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean executeGameStep(DateTime currentDateTime) throws NullArgumentException {
+	public boolean executeGameStep(DateTime currentDateTime) {
 		try{
 			if( !_company.hasAssignedProject() && _projects.size()>0){
 				Project project=_projects.poll();

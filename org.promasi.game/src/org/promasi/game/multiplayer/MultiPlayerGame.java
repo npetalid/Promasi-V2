@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import java.util.Vector;
 
 import org.joda.time.DateTime;
+import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.IGameModelListener;
 import org.promasi.game.SerializableGameModel;
@@ -89,25 +90,25 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public MultiPlayerGame(final String clientId, final String gameName, final String gameDescription, final MarketPlace marketPlace, final Company company,final Queue<Project> projects)throws NullArgumentException, IllegalArgumentException{
+	public MultiPlayerGame(final String clientId, final String gameName, final String gameDescription, final MarketPlace marketPlace, final Company company,final Queue<Project> projects)throws GameException{
 		if(company==null){
-			throw new NullArgumentException("Wrong argument company==null");
+			throw new GameException("Wrong argument company==null");
 		}
 
 		if(marketPlace==null){
-			throw new NullArgumentException("Wrong argument marketPlace==null");
+			throw new GameException("Wrong argument marketPlace==null");
 		}
 		
 		if(projects==null){
-			throw new NullArgumentException("Wrong argument projects==null");
+			throw new GameException("Wrong argument projects==null");
 		}
 		
 		if(gameName==null){
-			throw new NullArgumentException("Wrong argument gameName==null");
+			throw new GameException("Wrong argument gameName==null");
 		}
 		
 		if(gameDescription==null){
-			throw new NullArgumentException("Wrong argument gameDescription==null");
+			throw new GameException("Wrong argument gameDescription==null");
 		}
 		
 		if(projects.isEmpty()){
@@ -115,7 +116,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		}
 		
 		if(clientId==null){
-			throw new NullArgumentException("Wrong argument client==null");
+			throw new GameException("Wrong argument client==null");
 		}
 		
 		GameModel gameModel=new GameModel(gameName,gameDescription,marketPlace,company,projects);
@@ -298,11 +299,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	public void onTick(DateTime dateTime) {
 		synchronized(_lockObject){
 			for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
-				try {
-					entry.getValue().executeGameStep(_systemClock.getCurrentDateTime());
-				} catch (NullArgumentException e) {
-					//Logger
-				}
+				entry.getValue().executeGameStep(_systemClock.getCurrentDateTime());
 			}
 			
 			for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
@@ -341,7 +338,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 				for(IServerGameListener listener : _listeners){
 					listener.playersListUpdated(this, playersList);
 				}
-			} catch (IllegalArgumentException e) {
+			} catch (GameException e) {
 				return false;
 			} catch (SerializationException e) {
 				return false;
@@ -354,10 +351,10 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	/**
 	 * 
 	 */
-	public boolean leaveGame(final String clientId)throws NullArgumentException{
+	public boolean leaveGame(final String clientId){
 		synchronized(_lockObject){
 			if(clientId==null){
-				throw new NullArgumentException("Wrong argument client==null");
+				return false;
 			}
 			
 			if(!_gameModels.containsKey(clientId)){
@@ -375,7 +372,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 			for(IServerGameListener listener : _listeners){
 				listener.playersListUpdated(this, playersList);
 			}
-			
+					
 			return true;
 		}
 	}

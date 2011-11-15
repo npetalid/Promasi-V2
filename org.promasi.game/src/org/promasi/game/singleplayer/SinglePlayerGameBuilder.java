@@ -140,7 +140,7 @@ public class SinglePlayerGameBuilder
 			_game=new GameModel(gameName, gameInfo, marketPlace, company, projects);
 		} catch (IllegalArgumentException e) {
 			throw new GameException("Wrong gameFolderPath");
-		} catch (NullArgumentException e) {
+		} catch (GameException e) {
 			throw new GameException("Wrong gameFolderPath");
 		}
 	}

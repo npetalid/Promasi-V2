@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import org.promasi.game.GameException;
 import org.promasi.game.SerializableGameModel;
 import org.promasi.game.company.SerializableCompany;
 import org.promasi.game.company.SerializableMarketPlace;
@@ -142,6 +143,9 @@ public class ChooseGameClientState extends AbstractClientState
 			client.sendMessage(new InternalErrorResponse().serialize());
 			client.disconnect();
 		}catch(SerializationException e){
+			client.sendMessage(new InternalErrorResponse().serialize());
+			client.disconnect();
+		}catch(GameException e){
 			client.sendMessage(new InternalErrorResponse().serialize());
 			client.disconnect();
 		}

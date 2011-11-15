@@ -63,10 +63,9 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		_listeners=new LinkedList<IClientGameListener>();
 		_systemClock=new Clock();
 		_systemClock.addListener(this);
-		try {
-			_gameModel.addListener(this);
-		} catch (NullArgumentException e) {
-			throw new GameException(e.toString());
+		if(!_gameModel.addListener(this) )
+		{
+			throw new GameException("SystemClock addListener failed");
 		}
 	}
 
@@ -252,11 +251,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 			gameEventHandler.onTick(this, dateTime);
 		}
 		
-		try {
-			_gameModel.executeGameStep(dateTime);
-		} catch (NullArgumentException e) {
-			//Logger
-		}
+		_gameModel.executeGameStep(dateTime);
 	}
 
 	@Override

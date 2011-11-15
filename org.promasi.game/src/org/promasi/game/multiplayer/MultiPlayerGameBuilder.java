@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.regex.Pattern;
 
+import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.MarketPlace;
@@ -61,21 +62,21 @@ public class MultiPlayerGameBuilder {
 	 * @throws NullArgumentException
 	 * @throws IOException 
 	 */
-	public MultiPlayerGameBuilder(final String gameFolderPath)throws NullArgumentException, IllegalArgumentException, IOException{
+	public MultiPlayerGameBuilder(final String gameFolderPath)throws GameException, IOException{
 		if(gameFolderPath==null){
-			throw new NullArgumentException("Wrong argument gameFolderPath==null");
+			throw new GameException("Wrong argument gameFolderPath==null");
 		}
 		
 		String separator=RootDirectory.getInstance().getSeparator();
 		
 		File gameFile=new File(gameFolderPath);
 		if(!gameFile.isDirectory()){
-			throw new IllegalArgumentException("Wrong argument gameFolder is not an Directory");
+			throw new GameException("Wrong argument gameFolder is not an Directory");
 		}
 		
 		String tokens[]=gameFolderPath.split(Pattern.quote(separator));
 		if(tokens.length==0){
-			throw new IllegalArgumentException("Wrong gameFolderPath");
+			throw new GameException("Wrong gameFolderPath");
 		}
 		
 		String gameName=tokens[tokens.length-1];
