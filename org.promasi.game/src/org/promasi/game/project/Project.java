@@ -206,7 +206,6 @@ public class Project
     	
     	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
     		System.out.print(String.format("\n\nExecuting ProjectTask : %s\n", entry.getKey()) );
-    		entry.getValue().executeTask(_currentStep);
     	}
     	
     	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
@@ -215,7 +214,7 @@ public class Project
 
     	ProjectTask overallProject=_projectTasks.get(CONST_DEPLOY_TASK_NAME);
     	_overallProgress=overallProject.getProgress();
-    	_currentStep++;
+    	_currentStep++;	
     	return true;
     }
     
@@ -266,14 +265,12 @@ public class Project
     public synchronized boolean isExpired(){
     	ProjectTask mainTask=_projectTasks.get(CONST_DEPLOY_TASK_NAME);
     	try {
-			if(mainTask.getOutput(ProjectTask.CONST_PROGRESS_SDOBJECT_NAME)>=100){
+			if(mainTask.getProgress()>=100){
 				return true;
 			}
 		} catch (IllegalArgumentException e) {
 			return true;
-		} catch (NullArgumentException e) {
-			return true;
-		}
+		} 
     	
     	if(_currentStep>=_projectDuration){
     		return true;

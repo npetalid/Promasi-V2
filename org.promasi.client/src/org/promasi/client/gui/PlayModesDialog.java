@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.List;
 import org.eclipse.swt.widgets.Shell;
 import org.promasi.client.playmode.multiplayer.MultiPlayerPlayMode;
 import org.promasi.client.playmode.singleplayer.SinglePlayerPlayMode;
+import org.promasi.network.tcp.NetworkException;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.FormData;
@@ -160,6 +161,8 @@ public class PlayModesDialog extends Dialog {
 					} catch (UnknownHostException e) {
 						_shell.open();
 					} catch (IOException e) {
+						//Logger
+					} catch (NetworkException e) {
 						//Logger
 					}
 				}

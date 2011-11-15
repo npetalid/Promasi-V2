@@ -3,8 +3,9 @@ package org.promasi.game.project;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.promasi.game.GameException;
 import org.promasi.sdsystem.SerializableSdSystem;
-import org.promasi.utilities.exceptions.NullArgumentException;
+import org.promasi.sdsystem.serialization.ISerializableEquation;
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -38,6 +39,11 @@ public class SerializableProjectTask extends SerializableObject
     /**
      * 
      */
+    private ISerializableEquation _progressEquation;
+    
+    /**
+     * 
+     */
     private SerializableSdSystem _sdSystem;
     
     /**
@@ -49,16 +55,16 @@ public class SerializableProjectTask extends SerializableObject
 	/**
 	 * 
 	 * @param projectTask
-	 * @throws NullArgumentException
 	 * @throws SerializationException 
 	 */
-	protected SerializableProjectTask(final ProjectTask projectTask)throws NullArgumentException, SerializationException{
+	protected SerializableProjectTask(ProjectTask projectTask) throws SerializationException{
 		if(projectTask==null){
-			throw new NullArgumentException("Wrong argument projectTask==null");
+			throw new SerializationException("Wrong argument projectTask==null");
 		}
 		
 		_sdSystem=projectTask._sdSystem.getSerializableSdSystem();
 		_name=projectTask._name;
+		_progressEquation=projectTask._progressEquation.getSerializableEquation();
 		_description=projectTask._description;
 		setHistory(new TreeMap<Integer, Double>(projectTask._history));
 		setProgress(projectTask._progress);
@@ -82,11 +88,13 @@ public class SerializableProjectTask extends SerializableObject
 			throw new SerializationException("Serialization failed because property _sdSystem is null");
 		}
 		
+		if(_progressEquation==null){
+			throw new SerializationException("Serialization failed because property SerializationException is null");
+		}
+		
 		try{
-			return new ProjectTask(_name, _description, _sdSystem.getSdSystem());
-		}catch(NullArgumentException e){
-			throw new SerializationException("Serialization failed because :"+e.getMessage());
-		}catch(IllegalArgumentException e){
+			return new ProjectTask(_name, _description, _sdSystem.getSdSystem(), _progressEquation.getEquation());
+		}catch(GameException e){
 			throw new SerializationException("Serialization failed because :"+e.getMessage());
 		}
 	}
@@ -149,6 +157,22 @@ public class SerializableProjectTask extends SerializableObject
 	 */
 	public double getProgress() {
 		return _progress;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ISerializableEquation getProgressEquation(){
+		return _progressEquation;
+	}
+	
+	/**
+	 * 
+	 * @param progressEquation
+	 */
+	public void setProgressEquation( ISerializableEquation progressEquation ){
+		_progressEquation = progressEquation;
 	}
 
 	/**

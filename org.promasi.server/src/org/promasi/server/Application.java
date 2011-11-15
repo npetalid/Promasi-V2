@@ -11,6 +11,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.naming.ConfigurationException;
+
+import org.promasi.network.tcp.NetworkException;
 import org.promasi.utilities.file.RootDirectory;
 
 /**
@@ -41,6 +43,9 @@ public class Application {
 	            PrintWriter out = new PrintWriter(new FileWriter(RootDirectory.getInstance().getRootDirectory()+CONST_SERVER_SETTINGS_FILE_NAME));
 	            out.print(settings.serialize());
 	            out.close();
+			} catch (NetworkException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block

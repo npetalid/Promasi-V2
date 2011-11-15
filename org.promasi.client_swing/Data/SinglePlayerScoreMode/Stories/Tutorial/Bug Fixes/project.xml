@@ -1,0 +1,25 @@
+<Project>
+	<name>Bug Fixes(Training)</name>
+	<description>&lt;h2&gt;Welcome to UBM&lt;/h2&gt;&lt;br&gt;Since this is your first day here you must first start&lt;br&gt;to learn using our tools.&lt;p&gt;As you already know you are going to work remotely from your house.&lt;p&gt;What you see is a virtual machine with Promasi installed, Promasi is our custom OS&lt;br&gt;The OS contains all the necessary tools in order to do your job.&lt;br&gt;&lt;p&gt;All of our programs can be found in the Quick Launch menu.&lt;br&gt;Here is a short description of every program we have:&lt;br&gt;&lt;ul&gt;&lt;li&gt;&lt;b&gt;Evolution Bird:&lt;/b&gt; The evolution bird is used in order to read mails.&lt;br&gt;All of the communication is done through mail.&lt;br&gt;When the evolution bird is closed it will notify you if you have any new messages.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Market place:&lt;/b&gt; In the market place you can hire employees.&lt;br&gt;You are free to hire any employee you want. The market place has only employees that we have approved&lt;br&gt;and are already working in the company. If you decide to hire one, he will be immediately transfered&lt;br&gt;to your team. If an employee is transfered to your team, his salary is going to be taken off the budget of&lt;br&gt;your current project.&lt;/li&gt;&lt;li&gt;&lt;b&gt;Planner :&lt;/b&gt; With planner you can assign tasks to your employees. &lt;li&gt;&lt;b&gt;Infogate :&lt;/b&gt; Infogate provides information about UBM and your current project.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;When we assign a project to you normally we give you 1-2 days in order to prepare for the project.&lt;p&gt;&lt;h3&gt;Promasi BugFixes&lt;/h3&gt;&lt;p&gt;When we hire a new project manager we normally give him a couple of bug fixes to our promasi OS&lt;br&gt;or other internal products in order to train him. The following bugs have been assigned to you :&lt;ul&gt;&lt;li&gt;&lt;b&gt;312 :&lt;/b&gt; Low priority bug, fairly easy.&lt;/li&gt;&lt;li&gt;&lt;b&gt;313 :&lt;/b&gt; Low priority bug, but it might affect other systems needs testing.&lt;/ul&gt;&lt;p&gt; You have 1 day to prepare your team , and 4 days to finish the bug fixes.&lt;p&gt;&lt;b&gt;Good Luck !&lt;/b&gt;</description>
+	<budget>1000</budget>
+	<relativeStartDate>1</relativeStartDate>
+	<relativeEndDate>3</relativeEndDate>
+	<tasks>
+		<Task>
+			<name>Bug 312: Fix</name>		
+			<description>Start working on bug 312.</description>
+		</Task>
+		<Task>
+			<name>Bug 312: Test</name>		
+			<description>Test the bug 312</description>
+		</Task>
+		<Task>
+			<name>Bug 313: Fix</name>		
+			<description>Start working on bug 313.</description>
+		</Task>
+		<Task>
+			<name>Bug 313: Test</name>		
+			<description>Test the bug 313</description>
+		</Task>
+	</tasks>
+</Project>

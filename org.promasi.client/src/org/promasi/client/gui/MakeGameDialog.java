@@ -16,6 +16,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.widgets.Button;
 import org.promasi.client.playmode.multiplayer.MultiPlayerPlayMode;
+import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.singleplayer.SinglePlayerGameBuilder;
 import org.promasi.utilities.exceptions.NullArgumentException;
@@ -212,9 +213,7 @@ public class MakeGameDialog extends Dialog
 						SinglePlayerGameBuilder builder;
 						builder = new SinglePlayerGameBuilder(uri+RootDirectory.getInstance().getSeparator()+gamesFolders[i]);
 						games.put(gamesFolders[i],builder.getGame() );
-					}catch(IllegalArgumentException e){
-						//Logger
-					}catch(NullArgumentException e){
+					}catch(GameException e){
 						//Logger
 					}
 				}

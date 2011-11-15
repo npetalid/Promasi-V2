@@ -51,7 +51,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	/**
 	 * 
 	 */
-	private List<IMultiPlayerGameListener> _listeners;
+	private List<IServerGameListener> _listeners;
 	
 	/**
 	 * 
@@ -131,7 +131,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		_finishedGames=new TreeMap<String, SerializableGameModel>();
 		gameModel.addListener(this);
 		_gameModels.put(clientId, gameModel);
-		_listeners=new LinkedList<IMultiPlayerGameListener>();
+		_listeners=new LinkedList<IServerGameListener>();
 		_isRunning=false;
 		_systemClock=new Clock();
 		_systemClock.addListener(this);
@@ -226,7 +226,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	 * @see org.promasi.game.IGame#registerGameEventHandler(org.promasi.game.IGameListener)
 	 */
 	@Override
-	public boolean addListener(IMultiPlayerGameListener listener)throws NullArgumentException {
+	public boolean addListener(IServerGameListener listener)throws NullArgumentException {
 		synchronized(_lockObject){
 			if(listener==null){
 				throw new NullArgumentException("Wrong argument listener==null");
@@ -245,7 +245,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	 * @see org.promasi.game.IGame#removeGameEventHandler(org.promasi.game.IGameListener)
 	 */
 	@Override
-	public boolean removeListener(IMultiPlayerGameListener listener)throws NullArgumentException {
+	public boolean removeListener(IServerGameListener listener)throws NullArgumentException {
 		synchronized(_lockObject){
 			if(listener==null){
 				throw new NullArgumentException("Wrong argument listener==null");
@@ -277,9 +277,9 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 			_systemClock.start();
 			_isRunning=true;
 			
-			LinkedList<IMultiPlayerGameListener> listeners=new LinkedList<IMultiPlayerGameListener>(_listeners);
+			LinkedList<IServerGameListener> listeners=new LinkedList<IServerGameListener>(_listeners);
 			for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
-				for(IMultiPlayerGameListener listener : listeners){
+				for(IServerGameListener listener : listeners){
 					try {
 						listener.gameStarted(entry.getKey(), this, entry.getValue().getSerializableGameModel() , _systemClock.getCurrentDateTime());
 					} catch (SerializationException e) {
@@ -306,7 +306,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 			}
 			
 			for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
-				for(IMultiPlayerGameListener listener : _listeners){
+				for(IServerGameListener listener : _listeners){
 					listener.onTick(entry.getKey(), this, dateTime);
 				}
 			}	
@@ -338,7 +338,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 					playersList.add(entry.getKey());
 				}
 				
-				for(IMultiPlayerGameListener listener : _listeners){
+				for(IServerGameListener listener : _listeners){
 					listener.playersListUpdated(this, playersList);
 				}
 			} catch (IllegalArgumentException e) {
@@ -372,7 +372,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 				playersList.add(entry.getKey());
 			}
 			
-			for(IMultiPlayerGameListener listener : _listeners){
+			for(IServerGameListener listener : _listeners){
 				listener.playersListUpdated(this, playersList);
 			}
 			
@@ -417,7 +417,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 			}
 			
 			if(_gameModels.containsKey(clientId)){
-				for(IMultiPlayerGameListener listener : _listeners){
+				for(IServerGameListener listener : _listeners){
 					listener.messageSent(clientId, this, message);
 				}
 			}
@@ -431,7 +431,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	public void projectAssigned(GameModel game, SerializableCompany company, SerializableProject project) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			if(entry.getValue()==game){
-				for(IMultiPlayerGameListener listener : _listeners){
+				for(IServerGameListener listener : _listeners){
 					listener.projectAssigned(entry.getKey(), this, company, project, _systemClock.getCurrentDateTime());
 				}
 			}
@@ -443,7 +443,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	public void projectFinished(GameModel game, SerializableCompany company,SerializableProject project) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			if(entry.getValue()==game){
-				for(IMultiPlayerGameListener listener : _listeners){
+				for(IServerGameListener listener : _listeners){
 					listener.projectFinished(entry.getKey(), this, company, project, _systemClock.getCurrentDateTime());
 				}
 			}
@@ -455,7 +455,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	@Override
 	public void employeeHired(GameModel game,SerializableMarketPlace marketPlace, SerializableCompany company, SerializableEmployee employee) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
-			for(IMultiPlayerGameListener listener : _listeners){
+			for(IServerGameListener listener : _listeners){
 				try{
 					SerializableGameModel gameModel=entry.getValue().getSerializableGameModel();
 					SerializableMarketPlace sMarketPlace=gameModel.getMarketPlace();
@@ -474,7 +474,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 			SerializableMarketPlace marketPlace, SerializableCompany company,
 			SerializableEmployee employee) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
-			for(IMultiPlayerGameListener listener : _listeners){
+			for(IServerGameListener listener : _listeners){
 				try{
 					SerializableGameModel gameModel=entry.getValue().getSerializableGameModel();
 					SerializableMarketPlace sMarketPlace=gameModel.getMarketPlace();
@@ -515,7 +515,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	public void onExecuteStep(GameModel game, SerializableCompany company, SerializableProject assignedProject) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			if(entry.getValue()==game){
-				for(IMultiPlayerGameListener listener : _listeners){
+				for(IServerGameListener listener : _listeners){
 					listener.onExecuteStep(entry.getKey(), this, company, assignedProject, _systemClock.getCurrentDateTime());
 				}
 			}
@@ -544,7 +544,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		}
 		
 		if(_finishedGames.size()==_gameModels.size()){
-			for(IMultiPlayerGameListener listener : _listeners){
+			for(IServerGameListener listener : _listeners){
 				listener.gameFinished(_finishedGames);
 			}
 		}

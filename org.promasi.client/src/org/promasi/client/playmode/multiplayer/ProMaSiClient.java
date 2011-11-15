@@ -6,6 +6,7 @@ package org.promasi.client.playmode.multiplayer;
 
 import org.apache.commons.codec.binary.Base64;
 import org.promasi.network.tcp.ITcpClientListener;
+import org.promasi.network.tcp.NetworkException;
 import org.promasi.network.tcp.TcpClient;
 import org.promasi.utilities.exceptions.NullArgumentException;
 
@@ -29,8 +30,9 @@ public class ProMaSiClient implements ITcpClientListener
 	 * 
 	 * @param client
 	 * @throws NullArgumentException
+	 * @throws NetworkException 
 	 */
-	public ProMaSiClient(TcpClient client,IClientState clientState)throws NullArgumentException{
+	public ProMaSiClient(TcpClient client,IClientState clientState)throws NullArgumentException, NetworkException{
 		if(client==null){
 			throw new NullArgumentException("Wrong client argument");
 		}

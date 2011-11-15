@@ -1,0 +1,109 @@
+<CoreModelBindings>
+	<OutputVariables>
+		<OutputVariable>
+			<sdObjectKey>bug312Progress</sdObjectKey>
+			<modelXPath>currentProject/tasks[name='Bug 312: Fix']/percentageCompleted</modelXPath>
+		</OutputVariable>
+		<OutputVariable>
+			<sdObjectKey>projectProgress</sdObjectKey>
+			<modelXPath>currentProject/percentageCompleted</modelXPath>
+		</OutputVariable>
+		<OutputVariable>
+			<sdObjectKey>projectPrestigePoints</sdObjectKey>
+			<modelXPath>currentProject/prestigePoints</modelXPath>
+		</OutputVariable>
+	</OutputVariables>
+	<ExternalEquations>
+		<ExternalEquation>
+			<sdObjectKey>sumDeveloperFix312</sdObjectKey>
+			<modelXPath>sum(currentProject/tasks[name='Bug 312: Fix']/currentSchedule/team/assignedEmployees/properties[name='developer']/value)</modelXPath>
+		</ExternalEquation>
+		<ExternalEquation>
+			<sdObjectKey>sumTeamplayerFix312</sdObjectKey>
+			<modelXPath>sum(currentProject/tasks[name='Bug 312: Fix']/currentSchedule/team/assignedEmployees/properties[name='teamplayer']/value)</modelXPath>
+		</ExternalEquation>
+		<ExternalEquation>
+			<sdObjectKey>workingEmployeesFix312</sdObjectKey>
+			<modelXPath>count(currentProject/tasks[name='Bug 312: Fix']/currentSchedule/team/assignedEmployees)</modelXPath>
+		</ExternalEquation>
+
+		<ExternalEquation>
+			<sdObjectKey>sumTesterTest312</sdObjectKey>
+			<modelXPath>sum(currentProject/tasks[name='Bug 312: Test']/currentSchedule/team/assignedEmployees/properties[name='tester']/value)</modelXPath>
+		</ExternalEquation>	
+		<ExternalEquation>
+			<sdObjectKey>sumTeamplayerTest312</sdObjectKey>
+			<modelXPath>sum(currentProject/tasks[name='Bug 312: Test']/currentSchedule/team/assignedEmployees/properties[name='teamplayer']/value)</modelXPath>
+		</ExternalEquation>
+		<ExternalEquation>
+			<sdObjectKey>workingEmployeesTest312</sdObjectKey>
+			<modelXPath>count(currentProject/tasks[name='Bug 312: Test']/currentSchedule/team/assignedEmployees)</modelXPath>
+		</ExternalEquation>	
+
+		<ExternalEquation>
+			<sdObjectKey>sumDeveloperFix313</sdObjectKey>
+			<modelXPath>sum(currentProject/tasks[name='Bug 313: Fix']/currentSchedule/team/assignedEmployees/properties[name='developer']/value)</modelXPath>
+		</ExternalEquation>
+		<ExternalEquation>
+			<sdObjectKey>sumTeamplayerFix313</sdObjectKey>
+			<modelXPath>sum(currentProject/tasks[name='Bug 313: Fix']/currentSchedule/team/assignedEmployees/properties[name='teamplayer']/value)</modelXPath>
+		</ExternalEquation>
+		<ExternalEquation>
+			<sdObjectKey>workingEmployeesFix313</sdObjectKey>
+			<modelXPath>count(currentProject/tasks[name='Bug 313: Fix']/currentSchedule/team/assignedEmployees)</modelXPath>
+		</ExternalEquation>
+		<ExternalEquation>
+			<sdObjectKey>sumUbmProductKnowledgeFix313</sdObjectKey>
+			<modelXPath>sum(currentProject/tasks[name='Bug 313: Fix']/currentSchedule/team/assignedEmployees/properties[name='ubmOtherProductKnowledge']/value)</modelXPath>
+		</ExternalEquation>
+
+		<ExternalEquation>
+			<sdObjectKey>sumTesterTest313</sdObjectKey>
+			<modelXPath>sum(currentProject/tasks[name='Bug 313: Test']/currentSchedule/team/assignedEmployees/properties[name='tester']/value)</modelXPath>
+		</ExternalEquation>
+		<ExternalEquation>
+			<sdObjectKey>sumTeamplayerTest313</sdObjectKey>
+			<modelXPath>sum(currentProject/tasks[name='Bug 313: Test']/currentSchedule/team/assignedEmployees/properties[name='teamplayer']/value)</modelXPath>
+		</ExternalEquation>
+		<ExternalEquation>
+			<sdObjectKey>workingEmployeesTest313</sdObjectKey>
+			<modelXPath>count(currentProject/tasks[name='Bug 313: Test']/currentSchedule/team/assignedEmployees)</modelXPath>
+		</ExternalEquation>
+		<ExternalEquation>
+			<sdObjectKey>sumUbmProductKnowledgeTest313</sdObjectKey>
+			<modelXPath>sum(currentProject/tasks[name='Bug 313: Test']/currentSchedule/team/assignedEmployees/properties[name='ubmOtherProductKnowledge']/value)</modelXPath>
+		</ExternalEquation>
+
+		<ExternalEquation>
+			<sdObjectKey>currentProjectBudget</sdObjectKey>
+			<modelXPath>currentProject/budget</modelXPath>
+		</ExternalEquation>
+	</ExternalEquations>
+	<Events>
+		<Event>
+			<sdObjectKey>bug312Progress</sdObjectKey>
+			<eventName>bug312Finished</eventName>
+			<actionBinding>
+				<actionClassName>org.promasi.shell.model.actions.BossMailModelAction</actionClassName>
+				<parameter name="message">I seems that you have finished with bug 312.</parameter>
+				<parameter name="title">Bug 312 finished!</parameter>
+			</actionBinding>
+		</Event>
+		<Event>
+			<sdObjectKey>bug313Progress</sdObjectKey>
+			<eventName>bug313Finished</eventName>
+			<actionBinding>
+				<actionClassName>org.promasi.shell.model.actions.BossMailModelAction</actionClassName>
+				<parameter name="message">I seems that you have finished with bug 313.</parameter>
+				<parameter name="title">Bug 313 finished!</parameter>
+			</actionBinding>
+		</Event>
+		<Event>
+			<sdObjectKey>projectProgress</sdObjectKey>
+			<eventName>projectFinished</eventName>
+			<actionBinding>
+				<actionClassName>org.promasi.shell.model.actions.ProjectStopAction</actionClassName>
+			</actionBinding>
+		</Event>
+	</Events>
+</CoreModelBindings>

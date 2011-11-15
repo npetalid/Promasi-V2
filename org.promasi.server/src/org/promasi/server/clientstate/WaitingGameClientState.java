@@ -15,7 +15,7 @@ import org.promasi.game.company.SerializableEmployee;
 import org.promasi.game.company.SerializableEmployeeTask;
 import org.promasi.game.company.SerializableMarketPlace;
 import org.promasi.game.multiplayer.IMultiPlayerGame;
-import org.promasi.game.multiplayer.IMultiPlayerGameListener;
+import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.SerializableProject;
 import org.promasi.protocol.messages.GameCanceledResponse;
@@ -35,7 +35,7 @@ import org.promasi.utilities.exceptions.NullArgumentException;
  * @author m1cRo
  *
  */
-public class WaitingGameClientState extends AbstractClientState implements IMultiPlayerGameListener
+public class WaitingGameClientState extends AbstractClientState implements IServerGameListener
 {
 	/**
 	 * 

@@ -1,0 +1,36 @@
+<Story>
+	<DifficultyLevel>Novice</DifficultyLevel>
+	<StartDate>2008-04-08</StartDate>
+	<Projects>
+		<Project>Bug Fixes</Project>
+	</Projects>
+	<Company>
+		<Name>UBM</Name>
+		<StartTime>09:00</StartTime>
+		<EndTime>17:00</EndTime>
+		<Description>&lt;b&gt;UBM&lt;/b&gt;&lt;p&gt;Unlimited Business Machines is a multinational computer technology.&lt;br&gt;The company has been known through most of its recent history as the world's&lt;br&gt;largest computer company.With over 600.000 employees worldwide.&lt;br&gt;UBM is the largest and most profitable information technology employer in the world.</Description>
+	</Company>
+	<Persons>
+		<Boss>
+			<Name>Chandler</Name>
+			<LastName>Bing</LastName>
+		</Boss>
+		<Administrator>
+			<Name>Ross</Name>
+			<LastName>Geler</LastName>
+		</Administrator>
+		<Accountant>
+			<Name>Andrian</Name>
+			<LastName>Green</LastName>
+		</Accountant>	
+	</Persons>
+	
+	<StoryInfo>
+	      &lt;p&gt;You just finished your masters degree&lt;br&gt;
+	      and after months of job hunting you finally&lt;br&gt;
+	      found a job in &lt;i&gt;UBM&lt;/i&gt; as a project manager.&lt;br&gt;
+	      This is your first job so you got lots of stuff to learn...&lt;br&gt;
+	      &lt;br&gt;
+	      &lt;B&gt;Good Luck.&lt;/B&gt;
+	</StoryInfo>
+</Story>

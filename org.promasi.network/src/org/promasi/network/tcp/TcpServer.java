@@ -17,7 +17,7 @@ import org.promasi.utilities.exceptions.NullArgumentException;
 public class TcpServer
 {
 	/**
-	 * Server socket.
+	 *
 	 */
 	private ServerSocket _serverSocket;
 
@@ -62,10 +62,10 @@ public class TcpServer
 	 *
 	 * @param tcpEventHandler
 	 */
-	public synchronized boolean addListener(ITcpServerListener listener)throws NullArgumentException
+	public synchronized boolean addListener(ITcpServerListener listener)throws NetworkException
 	{
 		if(listener==null){
-			throw new NullArgumentException("Wrong argument listener==null");
+			throw new NetworkException("Wrong argument listener==null");
 		}
 		
 		_listeners.add(listener);
@@ -102,7 +102,9 @@ public class TcpServer
 								}	
 							}
 						}catch(IOException e){
-								//Logger
+							//Logger
+						}catch(NetworkException e){
+							//Logger
 						}	
 					}
 				}

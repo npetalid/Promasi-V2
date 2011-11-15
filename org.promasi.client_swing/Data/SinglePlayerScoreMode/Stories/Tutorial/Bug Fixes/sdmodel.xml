@@ -1,0 +1,1583 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_10" class="java.beans.XMLDecoder"> 
+ <object class="org.promasi.core.SdModel"> 
+  <void property="sdObjects"> 
+   <void method="add"> 
+    <object id="StockSdObject0" class="org.promasi.core.sdobjects.StockSdObject"> 
+     <void property="dependencies"> 
+      <void method="add"> 
+       <object id="FlowSdObject0" class="org.promasi.core.sdobjects.FlowSdObject"> 
+        <void property="dependencies"> 
+         <void method="add"> 
+          <object id="VariableSdObject0" class="org.promasi.core.sdobjects.VariableSdObject"> 
+           <void property="dependencies"> 
+            <void method="add"> 
+             <object id="VariableSdObject1" class="org.promasi.core.sdobjects.VariableSdObject"> 
+              <void property="equation"> 
+               <object class="org.promasi.core.equations.ExternalEquation"> 
+                <void property="context"> 
+                 <object idref="VariableSdObject1"/> 
+                </void> 
+               </object> 
+              </void> 
+              <void property="key"> 
+               <string>sumDeveloperFix312</string> 
+              </void> 
+              <void property="properties"> 
+               <void method="put"> 
+                <string>designerY</string> 
+                <int>152</int> 
+               </void> 
+               <void method="put"> 
+                <string>designerX</string> 
+                <int>136</int> 
+               </void> 
+              </void> 
+             </object> 
+            </void> 
+            <void method="add"> 
+             <object id="VariableSdObject2" class="org.promasi.core.sdobjects.VariableSdObject"> 
+              <void property="equation"> 
+               <object class="org.promasi.core.equations.ExternalEquation"> 
+                <void property="context"> 
+                 <object idref="VariableSdObject2"/> 
+                </void> 
+               </object> 
+              </void> 
+              <void property="key"> 
+               <string>workingEmployeesFix312</string> 
+              </void> 
+              <void property="properties"> 
+               <void method="put"> 
+                <string>designerY</string> 
+                <int>152</int> 
+               </void> 
+               <void method="put"> 
+                <string>designerX</string> 
+                <int>352</int> 
+               </void> 
+              </void> 
+             </object> 
+            </void> 
+           </void> 
+           <void property="equation"> 
+            <object class="org.promasi.core.equations.CalculatedEquation"> 
+             <void property="context"> 
+              <object idref="VariableSdObject0"/> 
+             </void> 
+             <void property="equationString"> 
+              <string>sumDeveloperFix312/workingEmployeesFix312</string> 
+             </void> 
+            </object> 
+           </void> 
+           <void property="key"> 
+            <string>averageDeveloperFix312</string> 
+           </void> 
+           <void property="properties"> 
+            <void method="put"> 
+             <string>designerY</string> 
+             <int>312</int> 
+            </void> 
+            <void method="put"> 
+             <string>designerX</string> 
+             <int>232</int> 
+            </void> 
+           </void> 
+          </object> 
+         </void> 
+         <void method="add"> 
+          <object id="VariableSdObject3" class="org.promasi.core.sdobjects.VariableSdObject"> 
+           <void property="dependencies"> 
+            <void method="add"> 
+             <object id="VariableSdObject4" class="org.promasi.core.sdobjects.VariableSdObject"> 
+              <void property="equation"> 
+               <object class="org.promasi.core.equations.ExternalEquation"> 
+                <void property="context"> 
+                 <object idref="VariableSdObject4"/> 
+                </void> 
+               </object> 
+              </void> 
+              <void property="key"> 
+               <string>sumTeamplayerFix312</string> 
+              </void> 
+              <void property="properties"> 
+               <void method="put"> 
+                <string>designerY</string> 
+                <int>152</int> 
+               </void> 
+               <void method="put"> 
+                <string>designerX</string> 
+                <int>568</int> 
+               </void> 
+              </void> 
+             </object> 
+            </void> 
+            <void method="add"> 
+             <object idref="VariableSdObject2"/> 
+            </void> 
+           </void> 
+           <void property="equation"> 
+            <object class="org.promasi.core.equations.CalculatedEquation"> 
+             <void property="context"> 
+              <object idref="VariableSdObject3"/> 
+             </void> 
+             <void property="equationString"> 
+              <string>sumTeamplayerFix312/workingEmployeesFix312</string> 
+             </void> 
+            </object> 
+           </void> 
+           <void property="key"> 
+            <string>averageTeamplayerFix312</string> 
+           </void> 
+           <void property="properties"> 
+            <void method="put"> 
+             <string>designerY</string> 
+             <int>312</int> 
+            </void> 
+            <void method="put"> 
+             <string>designerX</string> 
+             <int>472</int> 
+            </void> 
+           </void> 
+          </object> 
+         </void> 
+        </void> 
+        <void property="equation"> 
+         <object class="org.promasi.core.equations.CalculatedEquation"> 
+          <void property="context"> 
+           <object idref="FlowSdObject0"/> 
+          </void> 
+          <void property="equationString"> 
+           <string>(averageDeveloperFix312*0.7)+(averageTeamplayerFix312*0.3)</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void property="info"> 
+         <object class="org.promasi.core.SdObjectInfo"> 
+          <void property="description"> 
+           <string>The amount of work that is accomplished every step for bug 312.</string> 
+          </void> 
+          <void property="hint"> 
+           <string></string> 
+          </void> 
+         </object> 
+        </void> 
+        <void property="key"> 
+         <string>workAccomplishment312</string> 
+        </void> 
+        <void property="properties"> 
+         <void method="put"> 
+          <string>designerY</string> 
+          <int>472</int> 
+         </void> 
+         <void method="put"> 
+          <string>designerX</string> 
+          <int>672</int> 
+         </void> 
+        </void> 
+       </object> 
+      </void> 
+      <void method="add"> 
+       <object id="FlowSdObject1" class="org.promasi.core.sdobjects.FlowSdObject"> 
+        <void property="dependencies"> 
+         <void method="add"> 
+          <object id="VariableSdObject5" class="org.promasi.core.sdobjects.VariableSdObject"> 
+           <void property="dependencies"> 
+            <void method="add"> 
+             <object id="VariableSdObject6" class="org.promasi.core.sdobjects.VariableSdObject"> 
+              <void property="equation"> 
+               <object class="org.promasi.core.equations.ExternalEquation"> 
+                <void property="context"> 
+                 <object idref="VariableSdObject6"/> 
+                </void> 
+               </object> 
+              </void> 
+              <void property="key"> 
+               <string>sumTesterTest312</string> 
+              </void> 
+              <void property="properties"> 
+               <void method="put"> 
+                <string>designerY</string> 
+                <int>512</int> 
+               </void> 
+               <void method="put"> 
+                <string>designerX</string> 
+                <int>424</int> 
+               </void> 
+              </void> 
+             </object> 
+            </void> 
+            <void method="add"> 
+             <object id="VariableSdObject7" class="org.promasi.core.sdobjects.VariableSdObject"> 
+              <void property="equation"> 
+               <object class="org.promasi.core.equations.ExternalEquation"> 
+                <void property="context"> 
+                 <object idref="VariableSdObject7"/> 
+                </void> 
+               </object> 
+              </void> 
+              <void property="key"> 
+               <string>workingEmployeesTest312</string> 
+              </void> 
+              <void property="properties"> 
+               <void method="put"> 
+                <string>designerY</string> 
+                <int>512</int> 
+               </void> 
+               <void method="put"> 
+                <string>designerX</string> 
+                <int>216</int> 
+               </void> 
+              </void> 
+             </object> 
+            </void> 
+           </void> 
+           <void property="equation"> 
+            <object class="org.promasi.core.equations.CalculatedEquation"> 
+             <void property="context"> 
+              <object idref="VariableSdObject5"/> 
+             </void> 
+             <void property="equationString"> 
+              <string>sumTesterTest312/workingEmployeesTest312</string> 
+             </void> 
+            </object> 
+           </void> 
+           <void property="key"> 
+            <string>averageTesterTest312</string> 
+           </void> 
+           <void property="properties"> 
+            <void method="put"> 
+             <string>designerY</string> 
+             <int>656</int> 
+            </void> 
+            <void method="put"> 
+             <string>designerX</string> 
+             <int>312</int> 
+            </void> 
+           </void> 
+          </object> 
+         </void> 
+         <void method="add"> 
+          <object id="VariableSdObject8" class="org.promasi.core.sdobjects.VariableSdObject"> 
+           <void property="dependencies"> 
+            <void method="add"> 
+             <object id="VariableSdObject9" class="org.promasi.core.sdobjects.VariableSdObject"> 
+              <void property="equation"> 
+               <object class="org.promasi.core.equations.ExternalEquation"> 
+                <void property="context"> 
+                 <object idref="VariableSdObject9"/> 
+                </void> 
+               </object> 
+              </void> 
+              <void property="key"> 
+               <string>sumTeamplayerTest312</string> 
+              </void> 
+              <void property="properties"> 
+               <void method="put"> 
+                <string>designerY</string> 
+                <int>512</int> 
+               </void> 
+               <void method="put"> 
+                <string>designerX</string> 
+                <int>8</int> 
+               </void> 
+              </void> 
+             </object> 
+            </void> 
+            <void method="add"> 
+             <object idref="VariableSdObject7"/> 
+            </void> 
+           </void> 
+           <void property="equation"> 
+            <object class="org.promasi.core.equations.CalculatedEquation"> 
+             <void property="context"> 
+              <object idref="VariableSdObject8"/> 
+             </void> 
+             <void property="equationString"> 
+              <string>sumTeamplayerTest312/workingEmployeesTest312</string> 
+             </void> 
+            </object> 
+           </void> 
+           <void property="key"> 
+            <string>averageTeamplayerTest312</string> 
+           </void> 
+           <void property="properties"> 
+            <void method="put"> 
+             <string>designerY</string> 
+             <int>656</int> 
+            </void> 
+            <void method="put"> 
+             <string>designerX</string> 
+             <int>96</int> 
+            </void> 
+           </void> 
+          </object> 
+         </void> 
+        </void> 
+        <void property="equation"> 
+         <object class="org.promasi.core.equations.CalculatedEquation"> 
+          <void property="context"> 
+           <object idref="FlowSdObject1"/> 
+          </void> 
+          <void property="equationString"> 
+           <string>if((10-((averageTesterTest312*0.5)+(averageTeamplayerTest312*0.5)))&gt;0,(10-((averageTesterTest312*0.5)+(averageTeamplayerTest312*0.5))),0)</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void property="info"> 
+         <object class="org.promasi.core.SdObjectInfo"> 
+          <void property="description"> 
+           <string>How many errors were created during the fix due to lack of skill.</string> 
+          </void> 
+          <void property="hint"> 
+           <string></string> 
+          </void> 
+         </object> 
+        </void> 
+        <void property="key"> 
+         <string>errorDiscovery312</string> 
+        </void> 
+        <void property="properties"> 
+         <void method="put"> 
+          <string>designerY</string> 
+          <int>832</int> 
+         </void> 
+         <void method="put"> 
+          <string>designerX</string> 
+          <int>336</int> 
+         </void> 
+        </void> 
+       </object> 
+      </void> 
+     </void> 
+     <void property="equation"> 
+      <object class="org.promasi.core.equations.CalculatedEquation"> 
+       <void property="context"> 
+        <object idref="StockSdObject0"/> 
+       </void> 
+       <void property="equationString"> 
+        <string>if(workToDo312&gt;0,-(workAccomplishment312-errorDiscovery312),0)</string> 
+       </void> 
+      </object> 
+     </void> 
+     <void property="info"> 
+      <object class="org.promasi.core.SdObjectInfo"> 
+       <void property="description"> 
+        <string>The work that has to be done in order to complete bug 312.</string> 
+       </void> 
+       <void property="hint"> 
+        <string></string> 
+       </void> 
+      </object> 
+     </void> 
+     <void property="key"> 
+      <string>workToDo312</string> 
+     </void> 
+     <void property="properties"> 
+      <void method="put"> 
+       <string>designerY</string> 
+       <int>656</int> 
+      </void> 
+      <void method="put"> 
+       <string>designerX</string> 
+       <int>792</int> 
+      </void> 
+     </void> 
+     <void property="value"> 
+      <double>1000.0</double> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object idref="FlowSdObject0"/> 
+   </void> 
+   <void method="add"> 
+    <object id="StockSdObject1" class="org.promasi.core.sdobjects.StockSdObject"> 
+     <void property="dependencies"> 
+      <void method="add"> 
+       <object idref="FlowSdObject0"/> 
+      </void> 
+      <void method="add"> 
+       <object idref="FlowSdObject1"/> 
+      </void> 
+     </void> 
+     <void property="equation"> 
+      <object class="org.promasi.core.equations.CalculatedEquation"> 
+       <void property="context"> 
+        <object idref="StockSdObject1"/> 
+       </void> 
+       <void property="equationString"> 
+        <string>if(workDone312&lt;0,workAccomplishment312-errorDiscovery312,0)</string> 
+       </void> 
+      </object> 
+     </void> 
+     <void property="info"> 
+      <object class="org.promasi.core.SdObjectInfo"> 
+       <void property="description"> 
+        <string>The work that is finished in bug 312.</string> 
+       </void> 
+       <void property="hint"> 
+        <string>Put good developers to work on the task.</string> 
+       </void> 
+      </object> 
+     </void> 
+     <void property="key"> 
+      <string>workDone312</string> 
+     </void> 
+     <void property="properties"> 
+      <void method="put"> 
+       <string>designerY</string> 
+       <int>656</int> 
+      </void> 
+      <void method="put"> 
+       <string>designerX</string> 
+       <int>552</int> 
+      </void> 
+     </void> 
+     <void property="value"> 
+      <double>-1000.0</double> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject1"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject2"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject4"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject0"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject3"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="FlowSdObject1"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject6"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject5"/> 
+   </void> 
+   <void method="add"> 
+    <object id="OutputSdObject0" class="org.promasi.core.sdobjects.OutputSdObject"> 
+     <void property="dependencies"> 
+      <void method="add"> 
+       <object idref="StockSdObject0"/> 
+      </void> 
+     </void> 
+     <void property="equation"> 
+      <object class="org.promasi.core.equations.CalculatedEquation"> 
+       <void property="context"> 
+        <object idref="OutputSdObject0"/> 
+       </void> 
+       <void property="equationString"> 
+        <string>(1000-workToDo312)/1000</string> 
+       </void> 
+      </object> 
+     </void> 
+     <void property="events"> 
+      <void method="add"> 
+       <object class="org.promasi.core.Event"> 
+        <void property="context"> 
+         <object idref="OutputSdObject0"/> 
+        </void> 
+        <void property="equation"> 
+         <object class="org.promasi.core.equations.CalculatedEquation"> 
+          <void property="context"> 
+           <object idref="OutputSdObject0"/> 
+          </void> 
+          <void property="equationString"> 
+           <string>if(bug312Progress&gt;=1,1,0)</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void property="name"> 
+         <string>bug312Finished</string> 
+        </void> 
+       </object> 
+      </void> 
+     </void> 
+     <void property="info"> 
+      <object class="org.promasi.core.SdObjectInfo"> 
+       <void property="description"> 
+        <string>The progress of bug 312.</string> 
+       </void> 
+       <void property="hint"> 
+        <string></string> 
+       </void> 
+      </object> 
+     </void> 
+     <void property="key"> 
+      <string>bug312Progress</string> 
+     </void> 
+     <void property="properties"> 
+      <void method="put"> 
+       <string>designerY</string> 
+       <int>872</int> 
+      </void> 
+      <void method="put"> 
+       <string>designerX</string> 
+       <int>800</int> 
+      </void> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object id="OutputSdObject1" class="org.promasi.core.sdobjects.OutputSdObject"> 
+     <void property="dependencies"> 
+      <void method="add"> 
+       <object idref="OutputSdObject0"/> 
+      </void> 
+      <void method="add"> 
+       <object id="VariableSdObject10" class="org.promasi.core.sdobjects.VariableSdObject"> 
+        <void property="dependencies"> 
+         <void method="add"> 
+          <object id="OutputSdObject2" class="org.promasi.core.sdobjects.OutputSdObject"> 
+           <void property="dependencies"> 
+            <void method="add"> 
+             <object id="StockSdObject2" class="org.promasi.core.sdobjects.StockSdObject"> 
+              <void property="dependencies"> 
+               <void method="add"> 
+                <object id="FlowSdObject2" class="org.promasi.core.sdobjects.FlowSdObject"> 
+                 <void property="dependencies"> 
+                  <void method="add"> 
+                   <object id="VariableSdObject11" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                    <void property="dependencies"> 
+                     <void method="add"> 
+                      <object id="VariableSdObject12" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                       <void property="equation"> 
+                        <object class="org.promasi.core.equations.ExternalEquation"> 
+                         <void property="context"> 
+                          <object idref="VariableSdObject12"/> 
+                         </void> 
+                        </object> 
+                       </void> 
+                       <void property="key"> 
+                        <string>sumUbmProductKnowledgeFix313</string> 
+                       </void> 
+                       <void property="properties"> 
+                        <void method="put"> 
+                         <string>designerY</string> 
+                         <int>152</int> 
+                        </void> 
+                        <void method="put"> 
+                         <string>designerX</string> 
+                         <int>1648</int> 
+                        </void> 
+                       </void> 
+                      </object> 
+                     </void> 
+                     <void method="add"> 
+                      <object id="VariableSdObject13" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                       <void property="equation"> 
+                        <object class="org.promasi.core.equations.ExternalEquation"> 
+                         <void property="context"> 
+                          <object idref="VariableSdObject13"/> 
+                         </void> 
+                        </object> 
+                       </void> 
+                       <void property="key"> 
+                        <string>workingEmployeesFix313</string> 
+                       </void> 
+                       <void property="properties"> 
+                        <void method="put"> 
+                         <string>designerY</string> 
+                         <int>152</int> 
+                        </void> 
+                        <void method="put"> 
+                         <string>designerX</string> 
+                         <int>1424</int> 
+                        </void> 
+                       </void> 
+                      </object> 
+                     </void> 
+                    </void> 
+                    <void property="equation"> 
+                     <object class="org.promasi.core.equations.CalculatedEquation"> 
+                      <void property="context"> 
+                       <object idref="VariableSdObject11"/> 
+                      </void> 
+                      <void property="equationString"> 
+                       <string>sumUbmProductKnowledgeFix313/workingEmployeesFix313</string> 
+                      </void> 
+                     </object> 
+                    </void> 
+                    <void property="key"> 
+                     <string>averageUbmProductKnowledgeFix313</string> 
+                    </void> 
+                    <void property="properties"> 
+                     <void method="put"> 
+                      <string>designerY</string> 
+                      <int>320</int> 
+                     </void> 
+                     <void method="put"> 
+                      <string>designerX</string> 
+                      <int>1544</int> 
+                     </void> 
+                    </void> 
+                   </object> 
+                  </void> 
+                  <void method="add"> 
+                   <object id="VariableSdObject14" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                    <void property="dependencies"> 
+                     <void method="add"> 
+                      <object id="VariableSdObject15" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                       <void property="equation"> 
+                        <object class="org.promasi.core.equations.ExternalEquation"> 
+                         <void property="context"> 
+                          <object idref="VariableSdObject15"/> 
+                         </void> 
+                        </object> 
+                       </void> 
+                       <void property="key"> 
+                        <string>sumDeveloperFix313</string> 
+                       </void> 
+                       <void property="properties"> 
+                        <void method="put"> 
+                         <string>designerY</string> 
+                         <int>152</int> 
+                        </void> 
+                        <void method="put"> 
+                         <string>designerX</string> 
+                         <int>1200</int> 
+                        </void> 
+                       </void> 
+                      </object> 
+                     </void> 
+                     <void method="add"> 
+                      <object idref="VariableSdObject13"/> 
+                     </void> 
+                    </void> 
+                    <void property="equation"> 
+                     <object class="org.promasi.core.equations.CalculatedEquation"> 
+                      <void property="context"> 
+                       <object idref="VariableSdObject14"/> 
+                      </void> 
+                      <void property="equationString"> 
+                       <string>sumDeveloperFix313/workingEmployeesFix313</string> 
+                      </void> 
+                     </object> 
+                    </void> 
+                    <void property="key"> 
+                     <string>averageDeveloperFix313</string> 
+                    </void> 
+                    <void property="properties"> 
+                     <void method="put"> 
+                      <string>designerY</string> 
+                      <int>320</int> 
+                     </void> 
+                     <void method="put"> 
+                      <string>designerX</string> 
+                      <int>1304</int> 
+                     </void> 
+                    </void> 
+                   </object> 
+                  </void> 
+                  <void method="add"> 
+                   <object id="VariableSdObject16" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                    <void property="dependencies"> 
+                     <void method="add"> 
+                      <object id="VariableSdObject17" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                       <void property="equation"> 
+                        <object class="org.promasi.core.equations.ExternalEquation"> 
+                         <void property="context"> 
+                          <object idref="VariableSdObject17"/> 
+                         </void> 
+                        </object> 
+                       </void> 
+                       <void property="key"> 
+                        <string>sumTeamplayerFix313</string> 
+                       </void> 
+                       <void property="properties"> 
+                        <void method="put"> 
+                         <string>designerY</string> 
+                         <int>152</int> 
+                        </void> 
+                        <void method="put"> 
+                         <string>designerX</string> 
+                         <int>1880</int> 
+                        </void> 
+                       </void> 
+                      </object> 
+                     </void> 
+                     <void method="add"> 
+                      <object idref="VariableSdObject13"/> 
+                     </void> 
+                    </void> 
+                    <void property="equation"> 
+                     <object class="org.promasi.core.equations.CalculatedEquation"> 
+                      <void property="context"> 
+                       <object idref="VariableSdObject16"/> 
+                      </void> 
+                      <void property="equationString"> 
+                       <string>sumTeamplayerFix313/workingEmployeesFix313</string> 
+                      </void> 
+                     </object> 
+                    </void> 
+                    <void property="key"> 
+                     <string>averageTeamplayerFix313</string> 
+                    </void> 
+                    <void property="properties"> 
+                     <void method="put"> 
+                      <string>designerY</string> 
+                      <int>320</int> 
+                     </void> 
+                     <void method="put"> 
+                      <string>designerX</string> 
+                      <int>1792</int> 
+                     </void> 
+                    </void> 
+                   </object> 
+                  </void> 
+                 </void> 
+                 <void property="equation"> 
+                  <object class="org.promasi.core.equations.CalculatedEquation"> 
+                   <void property="context"> 
+                    <object idref="FlowSdObject2"/> 
+                   </void> 
+                   <void property="equationString"> 
+                    <string>(averageUbmProductKnowledgeFix313*0.3)+(averageDeveloperFix313*0.5)+(averageTeamplayerFix313*0.2)</string> 
+                   </void> 
+                  </object> 
+                 </void> 
+                 <void property="info"> 
+                  <object class="org.promasi.core.SdObjectInfo"> 
+                   <void property="description"> 
+                    <string>The amount of work that is accomplished every step for bug 313.</string> 
+                   </void> 
+                   <void property="hint"> 
+                    <string></string> 
+                   </void> 
+                  </object> 
+                 </void> 
+                 <void property="key"> 
+                  <string>workAccomplishment313</string> 
+                 </void> 
+                 <void property="properties"> 
+                  <void method="put"> 
+                   <string>designerY</string> 
+                   <int>488</int> 
+                  </void> 
+                  <void method="put"> 
+                   <string>designerX</string> 
+                   <int>1744</int> 
+                  </void> 
+                 </void> 
+                </object> 
+               </void> 
+               <void method="add"> 
+                <object id="FlowSdObject3" class="org.promasi.core.sdobjects.FlowSdObject"> 
+                 <void property="dependencies"> 
+                  <void method="add"> 
+                   <object idref="VariableSdObject11"/> 
+                  </void> 
+                  <void method="add"> 
+                   <object idref="VariableSdObject14"/> 
+                  </void> 
+                 </void> 
+                 <void property="equation"> 
+                  <object class="org.promasi.core.equations.CalculatedEquation"> 
+                   <void property="context"> 
+                    <object idref="FlowSdObject3"/> 
+                   </void> 
+                   <void property="equationString"> 
+                    <string>(averageUbmProductKnowledgeFix313*0.7)+(averageDeveloperFix313*0.3)</string> 
+                   </void> 
+                  </object> 
+                 </void> 
+                 <void property="info"> 
+                  <object class="org.promasi.core.SdObjectInfo"> 
+                   <void property="description"> 
+                    <string>The errors that were created in other systems due to the lack of knowledge in other umb products.</string> 
+                   </void> 
+                   <void property="hint"> 
+                    <string></string> 
+                   </void> 
+                  </object> 
+                 </void> 
+                 <void property="key"> 
+                  <string>errorsInOtherSystems313</string> 
+                 </void> 
+                 <void property="properties"> 
+                  <void method="put"> 
+                   <string>designerY</string> 
+                   <int>488</int> 
+                  </void> 
+                  <void method="put"> 
+                   <string>designerX</string> 
+                   <int>1432</int> 
+                  </void> 
+                 </void> 
+                </object> 
+               </void> 
+              </void> 
+              <void property="equation"> 
+               <object class="org.promasi.core.equations.CalculatedEquation"> 
+                <void property="context"> 
+                 <object idref="StockSdObject2"/> 
+                </void> 
+                <void property="equationString"> 
+                 <string>if(workToDo313&gt;0,-(workAccomplishment313-errorsInOtherSystems313),0)</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void property="info"> 
+               <object class="org.promasi.core.SdObjectInfo"> 
+                <void property="description"> 
+                 <string>The work that has to be done in order to complete bug 313.</string> 
+                </void> 
+                <void property="hint"> 
+                 <string></string> 
+                </void> 
+               </object> 
+              </void> 
+              <void property="key"> 
+               <string>workToDo313</string> 
+              </void> 
+              <void property="properties"> 
+               <void method="put"> 
+                <string>designerY</string> 
+                <int>680</int> 
+               </void> 
+               <void method="put"> 
+                <string>designerX</string> 
+                <int>1856</int> 
+               </void> 
+              </void> 
+              <void property="value"> 
+               <double>2000.0</double> 
+              </void> 
+             </object> 
+            </void> 
+           </void> 
+           <void property="equation"> 
+            <object class="org.promasi.core.equations.CalculatedEquation"> 
+             <void property="context"> 
+              <object idref="OutputSdObject2"/> 
+             </void> 
+             <void property="equationString"> 
+              <string>(2000-workToDo313)/2000</string> 
+             </void> 
+            </object> 
+           </void> 
+           <void property="key"> 
+            <string>bug313FixProgress</string> 
+           </void> 
+           <void property="properties"> 
+            <void method="put"> 
+             <string>designerY</string> 
+             <int>864</int> 
+            </void> 
+            <void method="put"> 
+             <string>designerX</string> 
+             <int>1752</int> 
+            </void> 
+           </void> 
+          </object> 
+         </void> 
+         <void method="add"> 
+          <object id="OutputSdObject3" class="org.promasi.core.sdobjects.OutputSdObject"> 
+           <void property="dependencies"> 
+            <void method="add"> 
+             <object id="StockSdObject3" class="org.promasi.core.sdobjects.StockSdObject"> 
+              <void property="dependencies"> 
+               <void method="add"> 
+                <object id="FlowSdObject4" class="org.promasi.core.sdobjects.FlowSdObject"> 
+                 <void property="dependencies"> 
+                  <void method="add"> 
+                   <object id="VariableSdObject18" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                    <void property="dependencies"> 
+                     <void method="add"> 
+                      <object id="VariableSdObject19" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                       <void property="equation"> 
+                        <object class="org.promasi.core.equations.ExternalEquation"> 
+                         <void property="context"> 
+                          <object idref="VariableSdObject19"/> 
+                         </void> 
+                        </object> 
+                       </void> 
+                       <void property="key"> 
+                        <string>sumTesterTest313</string> 
+                       </void> 
+                       <void property="properties"> 
+                        <void method="put"> 
+                         <string>designerY</string> 
+                         <int>152</int> 
+                        </void> 
+                        <void method="put"> 
+                         <string>designerX</string> 
+                         <int>2208</int> 
+                        </void> 
+                       </void> 
+                      </object> 
+                     </void> 
+                     <void method="add"> 
+                      <object id="VariableSdObject20" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                       <void property="equation"> 
+                        <object class="org.promasi.core.equations.ExternalEquation"> 
+                         <void property="context"> 
+                          <object idref="VariableSdObject20"/> 
+                         </void> 
+                        </object> 
+                       </void> 
+                       <void property="key"> 
+                        <string>workingEmployeesTest313</string> 
+                       </void> 
+                       <void property="properties"> 
+                        <void method="put"> 
+                         <string>designerY</string> 
+                         <int>152</int> 
+                        </void> 
+                        <void method="put"> 
+                         <string>designerX</string> 
+                         <int>2424</int> 
+                        </void> 
+                       </void> 
+                      </object> 
+                     </void> 
+                    </void> 
+                    <void property="equation"> 
+                     <object class="org.promasi.core.equations.CalculatedEquation"> 
+                      <void property="context"> 
+                       <object idref="VariableSdObject18"/> 
+                      </void> 
+                      <void property="equationString"> 
+                       <string>sumTesterTest313/workingEmployeesTest313</string> 
+                      </void> 
+                     </object> 
+                    </void> 
+                    <void property="key"> 
+                     <string>averageTesterTest313</string> 
+                    </void> 
+                    <void property="properties"> 
+                     <void method="put"> 
+                      <string>designerY</string> 
+                      <int>320</int> 
+                     </void> 
+                     <void method="put"> 
+                      <string>designerX</string> 
+                      <int>2320</int> 
+                     </void> 
+                    </void> 
+                   </object> 
+                  </void> 
+                  <void method="add"> 
+                   <object id="VariableSdObject21" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                    <void property="dependencies"> 
+                     <void method="add"> 
+                      <object id="VariableSdObject22" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                       <void property="equation"> 
+                        <object class="org.promasi.core.equations.ExternalEquation"> 
+                         <void property="context"> 
+                          <object idref="VariableSdObject22"/> 
+                         </void> 
+                        </object> 
+                       </void> 
+                       <void property="key"> 
+                        <string>sumTeamplayerTest313</string> 
+                       </void> 
+                       <void property="properties"> 
+                        <void method="put"> 
+                         <string>designerY</string> 
+                         <int>152</int> 
+                        </void> 
+                        <void method="put"> 
+                         <string>designerX</string> 
+                         <int>2640</int> 
+                        </void> 
+                       </void> 
+                      </object> 
+                     </void> 
+                     <void method="add"> 
+                      <object idref="VariableSdObject20"/> 
+                     </void> 
+                    </void> 
+                    <void property="equation"> 
+                     <object class="org.promasi.core.equations.CalculatedEquation"> 
+                      <void property="context"> 
+                       <object idref="VariableSdObject21"/> 
+                      </void> 
+                      <void property="equationString"> 
+                       <string>sumTeamplayerTest313/workingEmployeesTest313</string> 
+                      </void> 
+                     </object> 
+                    </void> 
+                    <void property="key"> 
+                     <string>averageTeamplayerTest313</string> 
+                    </void> 
+                    <void property="properties"> 
+                     <void method="put"> 
+                      <string>designerY</string> 
+                      <int>320</int> 
+                     </void> 
+                     <void method="put"> 
+                      <string>designerX</string> 
+                      <int>2536</int> 
+                     </void> 
+                    </void> 
+                   </object> 
+                  </void> 
+                  <void method="add"> 
+                   <object id="VariableSdObject23" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                    <void property="dependencies"> 
+                     <void method="add"> 
+                      <object idref="VariableSdObject20"/> 
+                     </void> 
+                     <void method="add"> 
+                      <object id="VariableSdObject24" class="org.promasi.core.sdobjects.VariableSdObject"> 
+                       <void property="equation"> 
+                        <object class="org.promasi.core.equations.ExternalEquation"> 
+                         <void property="context"> 
+                          <object idref="VariableSdObject24"/> 
+                         </void> 
+                        </object> 
+                       </void> 
+                       <void property="key"> 
+                        <string>sumUbmProductKnowledgeTest313</string> 
+                       </void> 
+                       <void property="properties"> 
+                        <void method="put"> 
+                         <string>designerY</string> 
+                         <int>152</int> 
+                        </void> 
+                        <void method="put"> 
+                         <string>designerX</string> 
+                         <int>2856</int> 
+                        </void> 
+                       </void> 
+                      </object> 
+                     </void> 
+                    </void> 
+                    <void property="equation"> 
+                     <object class="org.promasi.core.equations.CalculatedEquation"> 
+                      <void property="context"> 
+                       <object idref="VariableSdObject23"/> 
+                      </void> 
+                      <void property="equationString"> 
+                       <string>sumUbmProductKnowledgeTest313/workingEmployeesTest313</string> 
+                      </void> 
+                     </object> 
+                    </void> 
+                    <void property="key"> 
+                     <string>averageUbmProductKnowledgeTest313</string> 
+                    </void> 
+                    <void property="properties"> 
+                     <void method="put"> 
+                      <string>designerY</string> 
+                      <int>320</int> 
+                     </void> 
+                     <void method="put"> 
+                      <string>designerX</string> 
+                      <int>2752</int> 
+                     </void> 
+                    </void> 
+                   </object> 
+                  </void> 
+                 </void> 
+                 <void property="equation"> 
+                  <object class="org.promasi.core.equations.CalculatedEquation"> 
+                   <void property="context"> 
+                    <object idref="FlowSdObject4"/> 
+                   </void> 
+                   <void property="equationString"> 
+                    <string>(averageTesterTest313*0.4)+(averageTeamplayerTest313*0.1)+(averageUbmProductKnowledgeTest313*0.5)</string> 
+                   </void> 
+                  </object> 
+                 </void> 
+                 <void property="key"> 
+                  <string>testAccomplishment313</string> 
+                 </void> 
+                 <void property="properties"> 
+                  <void method="put"> 
+                   <string>designerY</string> 
+                   <int>512</int> 
+                  </void> 
+                  <void method="put"> 
+                   <string>designerX</string> 
+                   <int>2544</int> 
+                  </void> 
+                 </void> 
+                </object> 
+               </void> 
+              </void> 
+              <void property="equation"> 
+               <object class="org.promasi.core.equations.CalculatedEquation"> 
+                <void property="context"> 
+                 <object idref="StockSdObject3"/> 
+                </void> 
+                <void property="equationString"> 
+                 <string>if(testsToDoOtherSystems313&gt;0,-testAccomplishment313,0)</string> 
+                </void> 
+               </object> 
+              </void> 
+              <void property="key"> 
+               <string>testsToDoOtherSystems313</string> 
+              </void> 
+              <void property="properties"> 
+               <void method="put"> 
+                <string>designerY</string> 
+                <int>664</int> 
+               </void> 
+               <void method="put"> 
+                <string>designerX</string> 
+                <int>2688</int> 
+               </void> 
+              </void> 
+              <void property="value"> 
+               <double>1000.0</double> 
+              </void> 
+             </object> 
+            </void> 
+           </void> 
+           <void property="equation"> 
+            <object class="org.promasi.core.equations.CalculatedEquation"> 
+             <void property="context"> 
+              <object idref="OutputSdObject3"/> 
+             </void> 
+             <void property="equationString"> 
+              <string>(1000-testsToDoOtherSystems313)/1000</string> 
+             </void> 
+            </object> 
+           </void> 
+           <void property="key"> 
+            <string>bug313TestProgress</string> 
+           </void> 
+           <void property="properties"> 
+            <void method="put"> 
+             <string>designerY</string> 
+             <int>872</int> 
+            </void> 
+            <void method="put"> 
+             <string>designerX</string> 
+             <int>2688</int> 
+            </void> 
+           </void> 
+          </object> 
+         </void> 
+        </void> 
+        <void property="equation"> 
+         <object class="org.promasi.core.equations.CalculatedEquation"> 
+          <void property="context"> 
+           <object idref="VariableSdObject10"/> 
+          </void> 
+          <void property="equationString"> 
+           <string>(bug313FixProgress*0.5)+(bug313TestProgress*0.5)</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void property="events"> 
+         <void method="add"> 
+          <object class="org.promasi.core.Event"> 
+           <void property="context"> 
+            <object idref="VariableSdObject10"/> 
+           </void> 
+           <void property="equation"> 
+            <object class="org.promasi.core.equations.CalculatedEquation"> 
+             <void property="context"> 
+              <object idref="VariableSdObject10"/> 
+             </void> 
+             <void property="equationString"> 
+              <string>if(bug313Progress&gt;=1,1,0)</string> 
+             </void> 
+            </object> 
+           </void> 
+           <void property="name"> 
+            <string>bug313Finished</string> 
+           </void> 
+          </object> 
+         </void> 
+        </void> 
+        <void property="info"> 
+         <object class="org.promasi.core.SdObjectInfo"> 
+          <void property="description"> 
+           <string>The progress of bug313.</string> 
+          </void> 
+          <void property="hint"> 
+           <string></string> 
+          </void> 
+         </object> 
+        </void> 
+        <void property="key"> 
+         <string>bug313Progress</string> 
+        </void> 
+        <void property="properties"> 
+         <void method="put"> 
+          <string>designerY</string> 
+          <int>1104</int> 
+         </void> 
+         <void method="put"> 
+          <string>designerX</string> 
+          <int>2224</int> 
+         </void> 
+        </void> 
+       </object> 
+      </void> 
+     </void> 
+     <void property="equation"> 
+      <object class="org.promasi.core.equations.CalculatedEquation"> 
+       <void property="context"> 
+        <object idref="OutputSdObject1"/> 
+       </void> 
+       <void property="equationString"> 
+        <string>(bug312Progress*0.5)+(bug313Progress*0.5)</string> 
+       </void> 
+      </object> 
+     </void> 
+     <void property="events"> 
+      <void method="add"> 
+       <object class="org.promasi.core.Event"> 
+        <void property="context"> 
+         <object idref="OutputSdObject1"/> 
+        </void> 
+        <void property="equation"> 
+         <object class="org.promasi.core.equations.CalculatedEquation"> 
+          <void property="context"> 
+           <object idref="OutputSdObject1"/> 
+          </void> 
+          <void property="equationString"> 
+           <string>if(projectProgress&gt;=1,1,0)</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void property="name"> 
+         <string>projectFinished</string> 
+        </void> 
+       </object> 
+      </void> 
+     </void> 
+     <void property="key"> 
+      <string>projectProgress</string> 
+     </void> 
+     <void property="properties"> 
+      <void method="put"> 
+       <string>designerY</string> 
+       <int>1496</int> 
+      </void> 
+      <void method="put"> 
+       <string>designerX</string> 
+       <int>1616</int> 
+      </void> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject9"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject7"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject8"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject15"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject12"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject13"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject14"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject11"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="StockSdObject2"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="FlowSdObject2"/> 
+   </void> 
+   <void method="add"> 
+    <object id="StockSdObject4" class="org.promasi.core.sdobjects.StockSdObject"> 
+     <void property="dependencies"> 
+      <void method="add"> 
+       <object idref="FlowSdObject2"/> 
+      </void> 
+      <void method="add"> 
+       <object idref="FlowSdObject3"/> 
+      </void> 
+     </void> 
+     <void property="equation"> 
+      <object class="org.promasi.core.equations.CalculatedEquation"> 
+       <void property="context"> 
+        <object idref="StockSdObject4"/> 
+       </void> 
+       <void property="equationString"> 
+        <string>if(workDone313&lt;0,(workAccomplishment313-errorsInOtherSystems313),0)</string> 
+       </void> 
+      </object> 
+     </void> 
+     <void property="info"> 
+      <object class="org.promasi.core.SdObjectInfo"> 
+       <void property="description"> 
+        <string>The work that is finished in bug 313.</string> 
+       </void> 
+       <void property="hint"> 
+        <string>Put good developers to work on the task. The developers must also have a good knowledge on other ubm products since this bug affects other products.</string> 
+       </void> 
+      </object> 
+     </void> 
+     <void property="key"> 
+      <string>workDone313</string> 
+     </void> 
+     <void property="properties"> 
+      <void method="put"> 
+       <string>designerY</string> 
+       <int>680</int> 
+      </void> 
+      <void method="put"> 
+       <string>designerX</string> 
+       <int>1640</int> 
+      </void> 
+     </void> 
+     <void property="value"> 
+      <double>-2000.0</double> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject17"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject16"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="FlowSdObject3"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="StockSdObject3"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject19"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject20"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject22"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject24"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject18"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject21"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject23"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="FlowSdObject4"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="OutputSdObject2"/> 
+   </void> 
+   <void method="add"> 
+    <object id="StockSdObject5" class="org.promasi.core.sdobjects.StockSdObject"> 
+     <void property="dependencies"> 
+      <void method="add"> 
+       <object idref="FlowSdObject4"/> 
+      </void> 
+     </void> 
+     <void property="equation"> 
+      <object class="org.promasi.core.equations.CalculatedEquation"> 
+       <void property="context"> 
+        <object idref="StockSdObject5"/> 
+       </void> 
+       <void property="equationString"> 
+        <string>if(testsDone313&lt;0,testAccomplishment313,0)</string> 
+       </void> 
+      </object> 
+     </void> 
+     <void property="key"> 
+      <string>testsDone313</string> 
+     </void> 
+     <void property="properties"> 
+      <void method="put"> 
+       <string>designerY</string> 
+       <int>664</int> 
+      </void> 
+      <void method="put"> 
+       <string>designerX</string> 
+       <int>2400</int> 
+      </void> 
+     </void> 
+     <void property="value"> 
+      <double>-1000.0</double> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object idref="OutputSdObject3"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject10"/> 
+   </void> 
+   <void method="add"> 
+    <object id="OutputSdObject4" class="org.promasi.core.sdobjects.OutputSdObject"> 
+     <void property="dependencies"> 
+      <void method="add"> 
+       <object idref="OutputSdObject1"/> 
+      </void> 
+      <void method="add"> 
+       <object id="VariableSdObject25" class="org.promasi.core.sdobjects.VariableSdObject"> 
+        <void property="dependencies"> 
+         <void method="add"> 
+          <object id="VariableSdObject26" class="org.promasi.core.sdobjects.VariableSdObject"> 
+           <void property="dependencies"> 
+            <void method="add"> 
+             <object id="VariableSdObject27" class="org.promasi.core.sdobjects.VariableSdObject"> 
+              <void property="equation"> 
+               <object class="org.promasi.core.equations.ExternalEquation"> 
+                <void property="context"> 
+                 <object idref="VariableSdObject27"/> 
+                </void> 
+               </object> 
+              </void> 
+              <void property="key"> 
+               <string>currentProjectBudget</string> 
+              </void> 
+              <void property="properties"> 
+               <void method="put"> 
+                <string>designerY</string> 
+                <int>1496</int> 
+               </void> 
+               <void method="put"> 
+                <string>designerX</string> 
+                <int>1032</int> 
+               </void> 
+              </void> 
+             </object> 
+            </void> 
+           </void> 
+           <void property="equation"> 
+            <object class="org.promasi.core.equations.CalculatedEquation"> 
+             <void property="context"> 
+              <object idref="VariableSdObject26"/> 
+             </void> 
+             <void property="equationString"> 
+              <string>1000-currentProjectBudget</string> 
+             </void> 
+            </object> 
+           </void> 
+           <void property="key"> 
+            <string>moneySpent</string> 
+           </void> 
+           <void property="properties"> 
+            <void method="put"> 
+             <string>designerY</string> 
+             <int>1656</int> 
+            </void> 
+            <void method="put"> 
+             <string>designerX</string> 
+             <int>1032</int> 
+            </void> 
+           </void> 
+          </object> 
+         </void> 
+        </void> 
+        <void property="equation"> 
+         <object class="org.promasi.core.equations.LookupEquation"> 
+          <void property="XValues"> 
+           <array class="double" length="6"> 
+            <void index="1"> 
+             <double>250.0</double> 
+            </void> 
+            <void index="2"> 
+             <double>280.0</double> 
+            </void> 
+            <void index="3"> 
+             <double>300.0</double> 
+            </void> 
+            <void index="4"> 
+             <double>350.0</double> 
+            </void> 
+            <void index="5"> 
+             <double>490.0</double> 
+            </void> 
+           </array> 
+          </void> 
+          <void property="YValues"> 
+           <array class="double" length="6"> 
+            <void index="2"> 
+             <double>0.5</double> 
+            </void> 
+            <void index="3"> 
+             <double>1.0</double> 
+            </void> 
+            <void index="4"> 
+             <double>1.0</double> 
+            </void> 
+            <void index="5"> 
+             <double>0.7</double> 
+            </void> 
+           </array> 
+          </void> 
+          <void property="dependentObject"> 
+           <object idref="VariableSdObject26"/> 
+          </void> 
+         </object> 
+        </void> 
+        <void property="key"> 
+         <string>budgetPoints</string> 
+        </void> 
+        <void property="properties"> 
+         <void method="put"> 
+          <string>designerY</string> 
+          <int>1656</int> 
+         </void> 
+         <void method="put"> 
+          <string>designerX</string> 
+          <int>1304</int> 
+         </void> 
+        </void> 
+       </object> 
+      </void> 
+     </void> 
+     <void property="equation"> 
+      <object class="org.promasi.core.equations.CalculatedEquation"> 
+       <void property="context"> 
+        <object idref="OutputSdObject4"/> 
+       </void> 
+       <void property="equationString"> 
+        <string>((projectProgress*0.5)+(if(budgetPoints&gt;1,1,budgetPoints)*0.5))*10</string> 
+       </void> 
+      </object> 
+     </void> 
+     <void property="key"> 
+      <string>projectPrestigePoints</string> 
+     </void> 
+     <void property="properties"> 
+      <void method="put"> 
+       <string>designerY</string> 
+       <int>1656</int> 
+      </void> 
+      <void method="put"> 
+       <string>designerX</string> 
+       <int>1616</int> 
+      </void> 
+     </void> 
+    </object> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject27"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject26"/> 
+   </void> 
+   <void method="add"> 
+    <object idref="VariableSdObject25"/> 
+   </void> 
+  </void> 
+ </object> 
+</java> 

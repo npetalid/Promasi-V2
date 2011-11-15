@@ -84,9 +84,7 @@ public class SerializableSdSystem extends SerializableObject{
 		
 		try {
 			return new SdSystem(sdObjects);
-		} catch (IllegalArgumentException e) {
-			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
-		} catch (NullArgumentException e) {
+		} catch (SdSystemException e) {
 			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
 		}
 	}

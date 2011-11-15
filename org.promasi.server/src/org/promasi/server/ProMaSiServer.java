@@ -9,6 +9,7 @@ import javax.naming.ConfigurationException;
 import org.joda.time.DateTime;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.network.tcp.ITcpServerListener;
+import org.promasi.network.tcp.NetworkException;
 import org.promasi.network.tcp.TcpClient;
 import org.promasi.network.tcp.TcpServer;
 import org.promasi.protocol.messages.CancelGameResponse;
@@ -55,8 +56,9 @@ public class ProMaSiServer implements ITcpServerListener
 	 * 
 	 * @param portNumber
 	 * @throws IllegalArgumentException
+	 * @throws NetworkException 
 	 */
-	public ProMaSiServer(int portNumber)throws IllegalArgumentException, ConfigurationException{
+	public ProMaSiServer(int portNumber)throws IllegalArgumentException, ConfigurationException, NetworkException{
 		if(portNumber<0){
 			throw new IllegalArgumentException("Wrong argument portNumber==null");
 		}
@@ -64,7 +66,7 @@ public class ProMaSiServer implements ITcpServerListener
 		_server=new TcpServer();
 		try {
 			_server.addListener(this);
-		} catch (NullArgumentException e) {
+		} catch (NetworkException e) {
 			throw new ConfigurationException("TcpServer configuration failed");
 		}
 		if(!_server.start(portNumber)){
@@ -132,6 +134,9 @@ public class ProMaSiServer implements ITcpServerListener
 			_connectedClients.put(new DateTime(),pClient);
 		} catch (NullArgumentException e) {
 			//Logger
+		} catch (NetworkException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

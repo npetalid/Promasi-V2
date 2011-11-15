@@ -10,6 +10,7 @@ import org.promasi.client.gui.GamesDialog;
 import org.promasi.client.gui.IGamesDialogListener;
 import org.promasi.client.playmode.IPlayMode;
 import org.promasi.client.playmode.singleplayer.AbstractUserState;
+import org.promasi.game.GameException;
 import org.promasi.game.IGame;
 import org.promasi.game.singleplayer.SinglePlayerGame;
 import org.promasi.game.singleplayer.SinglePlayerGameBuilder;
@@ -76,7 +77,7 @@ public class ChooseGameUserState  extends AbstractUserState implements IUserStat
 						games.put(gamesFolders[i], new SinglePlayerGame(builder.getGame()) );
 					}catch(IllegalArgumentException e){
 						//Logger
-					}catch(NullArgumentException e){
+					}catch(GameException e){
 						//Logger
 					}
 				}

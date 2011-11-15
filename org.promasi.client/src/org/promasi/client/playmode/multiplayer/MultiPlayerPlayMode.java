@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.promasi.client.playmode.IPlayMode;
 import org.promasi.client.playmode.multiplayer.client.clientstate.LoginClientState;
 import org.promasi.client.playmode.singleplayer.userstate.IUserState;
+import org.promasi.network.tcp.NetworkException;
 import org.promasi.network.tcp.TcpClient;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.file.RootDirectory;
@@ -58,8 +59,9 @@ public class MultiPlayerPlayMode implements IPlayMode
 	 * @throws IOException 
 	 * @throws UnknownHostException 
 	 * @throws IllegalArgumentException 
+	 * @throws NetworkException 
 	 */
-	public MultiPlayerPlayMode(final Shell shell)throws NullArgumentException, IllegalArgumentException, UnknownHostException, IOException{
+	public MultiPlayerPlayMode(final Shell shell)throws NullArgumentException, IllegalArgumentException, UnknownHostException, IOException, NetworkException{
 		if(shell==null){
 			throw new NullArgumentException("Wrong argument parentShell==null");
 		}

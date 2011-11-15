@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.joda.time.LocalTime;
+import org.promasi.game.GameException;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.Employee;
 import org.promasi.game.company.MarketPlace;
@@ -18,6 +19,7 @@ import org.promasi.game.project.Project;
 import org.promasi.game.project.ProjectTask;
 import org.promasi.game.project.SerializableProject;
 import org.promasi.sdsystem.SdSystem;
+import org.promasi.sdsystem.SdSystemException;
 import org.promasi.sdsystem.sdobject.FlowSdObject;
 import org.promasi.sdsystem.sdobject.ISdObject;
 import org.promasi.sdsystem.sdobject.InputSdObject;
@@ -41,44 +43,38 @@ public class GameMaker {
 	        ISdObject flow=new FlowSdObject(new CalculatedEquation("developer"));
 	        ISdObject stock=new StockSdObject(new CalculatedEquation("flow"),0.0);
 	        ISdObject output=new OutputSdObject(new CalculatedEquation("stock"));
-	        ISdObject percCompleted=new OutputSdObject(new CalculatedEquation("50"));
 	        Map<String, ISdObject> sdObjects=new TreeMap<String, ISdObject>();
 	        sdObjects.put("developer", input);
 	        sdObjects.put("flow", flow);
 	        sdObjects.put("stock", stock);
 	        sdObjects.put("output", output);
-	        sdObjects.put(ProjectTask.CONST_PROGRESS_SDOBJECT_NAME, percCompleted);
 	        SdSystem sdSystem=new SdSystem(sdObjects);
-	        ProjectTask task1=new ProjectTask("Test1","Test1",sdSystem);
+	        ProjectTask task1=new ProjectTask("Test1","Test1",sdSystem, new CalculatedEquation("stock"));
 	        
 	        input=new InputSdObject();
 	        flow=new FlowSdObject(new CalculatedEquation("developer"));
 	        stock=new StockSdObject(new CalculatedEquation("flow"),0.0);
 	        output=new OutputSdObject(new CalculatedEquation("stock"));
-	        percCompleted=new OutputSdObject(new CalculatedEquation("50"));
 	        sdObjects=new TreeMap<String, ISdObject>();
 	        sdObjects.put("developer", input);
 	        sdObjects.put("flow", flow);
 	        sdObjects.put("stock", stock);
 	        sdObjects.put("output", output);
-	        sdObjects.put(ProjectTask.CONST_PROGRESS_SDOBJECT_NAME, percCompleted);
 	        sdSystem=new SdSystem(sdObjects);
-	        ProjectTask task2=new ProjectTask("Test2","Test2",sdSystem);
+	        ProjectTask task2=new ProjectTask("Test2","Test2",sdSystem,  new CalculatedEquation("stock"));
 	        sdObjects.clear();
 	                
 	        input=new InputSdObject();
 	        flow=new FlowSdObject(new CalculatedEquation("developer"));
 	        stock=new StockSdObject(new CalculatedEquation("flow"),0.0);
 	        output=new OutputSdObject(new CalculatedEquation("stock"));
-	        percCompleted=new OutputSdObject(new CalculatedEquation("time"));
 	        sdObjects=new TreeMap<String, ISdObject>();
 	        sdObjects.put("developer", input);
 	        sdObjects.put("flow", flow);
 	        sdObjects.put("stock", stock);
 	        sdObjects.put("output", output);
-	        sdObjects.put(ProjectTask.CONST_PROGRESS_SDOBJECT_NAME, percCompleted);
 	        sdSystem=new SdSystem(sdObjects);
-	        ProjectTask mainTask=new ProjectTask(Project.CONST_DEPLOY_TASK_NAME,Project.CONST_DEPLOY_TASK_NAME,sdSystem);
+	        ProjectTask mainTask=new ProjectTask(Project.CONST_DEPLOY_TASK_NAME,Project.CONST_DEPLOY_TASK_NAME,sdSystem,  new CalculatedEquation("stock"));
 	        sdObjects.clear();
 	        
 	        //task1.makeBridge("output", "developer", task2);
@@ -711,13 +707,16 @@ public class GameMaker {
             out.close();
                 
         } catch (NullArgumentException e1) {
-                e1.printStackTrace();
+            e1.printStackTrace();
         } catch (IllegalArgumentException e1) {
                 e1.printStackTrace();
         }catch (SerializationException e) {
-                e.printStackTrace();
-        } 
-        catch (IOException e) {
+            e.printStackTrace();
+        }catch( GameException e ){
+        	e.printStackTrace();
+        }catch( SdSystemException e){
+        	e.printStackTrace();
+        }catch (IOException e) {
 			e.printStackTrace();
 		}
 	}

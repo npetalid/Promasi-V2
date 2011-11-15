@@ -10,7 +10,7 @@ package org.promasi.game.multiplayer;
 import java.util.List;
 
 import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.multiplayer.IMultiPlayerGameListener;
+import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -82,7 +82,7 @@ public interface IMultiPlayerGame
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean addListener(final IMultiPlayerGameListener listener)throws NullArgumentException;
+	public boolean addListener(final IServerGameListener listener)throws NullArgumentException;
 	
 	/**
 	 * 
@@ -91,7 +91,7 @@ public interface IMultiPlayerGame
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean removeListener(final IMultiPlayerGameListener gameEventHandler)throws NullArgumentException;
+	public boolean removeListener(final IServerGameListener gameEventHandler)throws NullArgumentException;
 	
 	/**
 	 * 

@@ -1,10 +1,10 @@
 package org.promasi.game;
 
+import java.util.Date;
 import java.util.List;
 
-import org.joda.time.DateTime;
 import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.singleplayer.ISinglePlayerGameListener;
+import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -28,7 +28,7 @@ public interface IGame
 	 * @throws IllegalArgumentException
 	 * @throws SerializationException
 	 */
-	public void hireEmployee(final String employeeId)throws NullArgumentException, IllegalArgumentException, SerializationException;
+	public void hireEmployee(final String employeeId)throws GameException;
 	
 	/**
 	 * 
@@ -37,7 +37,7 @@ public interface IGame
 	 * @throws IllegalArgumentException
 	 * @throws SerializationException
 	 */
-	public void dischargeEmployee(final String employeeId)throws NullArgumentException, IllegalArgumentException, SerializationException;
+	public void dischargeEmployee(final String employeeId)throws GameException;
 	
 	/**
 	 * 
@@ -46,19 +46,19 @@ public interface IGame
 	 * @return
 	 * @throws NullArgumentException 
 	 */
-	public boolean assignTasks(final String employeeId, List<SerializableEmployeeTask> employeeTasks) throws NullArgumentException;
+	public boolean assignTasks(final String employeeId, List<SerializableEmployeeTask> employeeTasks) throws GameException;
 	
 	/**
 	 * 
 	 * @param gameEventHandler
 	 * @throws NullArgumentException
 	 */
-	public boolean addListener(final ISinglePlayerGameListener listener)throws NullArgumentException;
+	public boolean addListener(final IClientGameListener listener)throws GameException;
 	
 	/*
 	 * 
 	 */
-	public boolean removeListener(final ISinglePlayerGameListener listener)throws NullArgumentException;
+	public boolean removeListener(final IClientGameListener listener)throws GameException;
 	
 	/**
 	 * 
@@ -66,7 +66,7 @@ public interface IGame
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean executeGameStep(DateTime currentDateTime)throws NullArgumentException;
+	public boolean executeGameStep(Date currentDateTime)throws GameException;
 	
 	/**
 	 * 

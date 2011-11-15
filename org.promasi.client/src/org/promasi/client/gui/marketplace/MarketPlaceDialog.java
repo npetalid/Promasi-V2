@@ -11,6 +11,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Button;
+import org.promasi.game.GameException;
 import org.promasi.game.IGame;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.MarketPlace;
@@ -149,13 +150,7 @@ public class MarketPlaceDialog extends Dialog
 					if(_availableEmployees.containsKey(tableItem.getText(0))){
 						try {
 							_game.hireEmployee( tableItem.getText(0) );
-						} catch (IllegalArgumentException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (NullArgumentException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (SerializationException e) {
+						} catch (GameException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
@@ -252,13 +247,7 @@ public class MarketPlaceDialog extends Dialog
 					if(_hiredEmployees.containsKey(tableItem.getText(0))){
 						try {
 							_game.dischargeEmployee( tableItem.getText(0) );
-						} catch (IllegalArgumentException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (NullArgumentException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (SerializationException e) {
+						} catch (GameException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}

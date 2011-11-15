@@ -44,27 +44,27 @@ public class SdSystem
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public SdSystem( final Map<String, ISdObject> sdObjects)throws NullArgumentException, IllegalArgumentException{
+	public SdSystem( final Map<String, ISdObject> sdObjects)throws SdSystemException{
 		if(sdObjects==null){
-			throw new NullArgumentException("Wrong argument sdObjects==null");
+			throw new SdSystemException("Wrong argument sdObjects==null");
 		}
 		
 		if(sdObjects.isEmpty()){
-			throw new IllegalArgumentException("Wrong argument sdObjects is empty");
+			throw new SdSystemException("Wrong argument sdObjects is empty");
 		}
 		
 		if(sdObjects.containsKey(CONST_TIME_SDOBJECT_NAME)){
-			throw new IllegalArgumentException("Wrong argument sdObjects contains time");
+			throw new SdSystemException("Wrong argument sdObjects contains time");
 		}
 		
 		for(Map.Entry<String, ISdObject> entry : sdObjects.entrySet()){
 			if(entry.getKey()==null || entry.getValue()==null){
-				throw new IllegalArgumentException("Wrong argument sdObjects contains null");
+				throw new SdSystemException("Wrong argument sdObjects contains null");
 			}
 			
 			Matcher matcher=CONST_ALPHABET_PATTERN.matcher(entry.getKey());
 			if(!matcher.matches()){
-				throw new IllegalArgumentException("Wrong argument sdObjects contains invalid objectId");
+				throw new SdSystemException("Wrong argument sdObjects contains invalid objectId");
 			}
 		}
 		
@@ -73,7 +73,7 @@ public class SdSystem
 		
 		for(Map.Entry<String, ISdObject> entry : systemObjects.entrySet()){
 			if(!entry.getValue().executeStep(systemObjects)){
-				throw new IllegalArgumentException("Wrong argument sdObjects invalid system");
+				throw new SdSystemException("Wrong argument sdObjects invalid system");
 			}
 		}
 		
@@ -81,7 +81,7 @@ public class SdSystem
 		
 		for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
 			if(!entry.getValue().executeStep(_sdObjects)){
-				throw new IllegalArgumentException("Wrong argument sdObjects invalid system step execution failed");
+				throw new SdSystemException("Wrong argument sdObjects invalid system step execution failed");
 			}
 		}
 	}
@@ -131,14 +131,14 @@ public class SdSystem
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public synchronized boolean setInput(final String inputName, final Double value)throws NullArgumentException{
+	public synchronized boolean setInput(final String inputName, final Double value)throws SdSystemException{
 		if(inputName==null)
 		{
-			throw new NullArgumentException("Wrong argument inputName==null");
+			throw new SdSystemException("Wrong argument inputName==null");
 		}
 		
 		if(value==null){
-			throw new NullArgumentException("Wrong argument value==null");
+			throw new SdSystemException("Wrong argument value==null");
 		}
 		
 		if(_sdObjects.containsKey(inputName)){
@@ -163,13 +163,13 @@ public class SdSystem
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public synchronized Double getValue(final String sdObjectName)throws NullArgumentException, IllegalArgumentException{
+	public synchronized Double getValue(final String sdObjectName)throws SdSystemException{
 		if(sdObjectName==null){
-			throw new NullArgumentException("Wrong argument sdObjectName==null");
+			throw new SdSystemException("Wrong argument sdObjectName==null");
 		}
 		
 		if(!_sdObjects.containsKey(sdObjectName)){
-			throw new IllegalArgumentException("Wrong argument sdObjectName no in sdObjects list");
+			throw new SdSystemException("Wrong argument sdObjectName no in sdObjects list");
 		}
 		
 		return _sdObjects.get(sdObjectName).getValue();
@@ -196,20 +196,20 @@ public class SdSystem
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	protected InputSdObject getInput(String inputId)throws NullArgumentException, IllegalArgumentException{
+	protected InputSdObject getInput(String inputId)throws SdSystemException{
 		if(inputId==null){
-			throw new NullArgumentException("Wrong argument inputId==null");
+			throw new SdSystemException("Wrong argument inputId==null");
 		}
 		
 		if(!_sdObjects.containsKey(inputId)){
-			throw new IllegalArgumentException("Wrong argument inputId");
+			throw new SdSystemException("Wrong argument inputId");
 		}
 		
 		ISdObject sdObject=_sdObjects.get(inputId);
 		if(sdObject instanceof InputSdObject){
 			return (InputSdObject)sdObject;
 		}else{
-			throw new IllegalArgumentException("Wrong argument inputId");
+			throw new SdSystemException("Wrong argument inputId");
 		}
 	}
 
@@ -220,20 +220,20 @@ public class SdSystem
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	protected OutputSdObject getOutputSdObject(String outputId)throws NullArgumentException, IllegalArgumentException{
+	protected OutputSdObject getOutputSdObject(String outputId)throws SdSystemException{
 		if(outputId==null){
-			throw new NullArgumentException("Wrong argument outputId==null");
+			throw new SdSystemException("Wrong argument outputId==null");
 		}
 		
 		if(!_sdObjects.containsKey(outputId)){
-			throw new IllegalArgumentException("Wrong argument outputId");
+			throw new SdSystemException("Wrong argument outputId");
 		}
 		
 		ISdObject sdObject=_sdObjects.get(outputId);
 		if(sdObject instanceof OutputSdObject){
 			return (OutputSdObject)sdObject;
 		}else{
-			throw new IllegalArgumentException("Wrong argument outputId");
+			throw new SdSystemException("Wrong argument outputId");
 		}
 	}
 	
@@ -246,6 +246,21 @@ public class SdSystem
 		for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
 			if(entry.getValue() instanceof OutputSdObject){
 				outputs.add(entry.getKey());
+			}
+		}
+		
+		return outputs;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Map< String, Double > getOutputValues(){
+		Map<String, Double> outputs=new TreeMap<String, Double>();
+		for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
+			if(entry.getValue() instanceof InputSdObject){
+				outputs.put(entry.getKey(), entry.getValue().getValue());
 			}
 		}
 		
@@ -273,9 +288,9 @@ public class SdSystem
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean hasInput(String inputName) throws NullArgumentException {
+	public boolean hasInput(String inputName) throws SdSystemException {
 		if(inputName==null){
-			throw new NullArgumentException("Wrong argument inputName==null");
+			throw new SdSystemException("Wrong argument inputName==null");
 		}
 		
 		if(!_sdObjects.containsKey(inputName)){
@@ -295,9 +310,9 @@ public class SdSystem
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean hasOutput(String outputName) throws NullArgumentException {
+	public boolean hasOutput(String outputName) throws SdSystemException {
 		if(outputName==null){
-			throw new NullArgumentException("Wrong argument outputName==null");
+			throw new SdSystemException("Wrong argument outputName==null");
 		}
 		
 		if(!_sdObjects.containsKey(outputName)){

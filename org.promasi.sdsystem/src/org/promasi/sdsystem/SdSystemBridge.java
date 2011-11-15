@@ -100,7 +100,7 @@ public class SdSystemBridge
 	public boolean executeStep(){
 		try {
 			_inputSdObject.setValue( _outputSdObject.getValue() );
-		} catch (NullArgumentException e) {
+		} catch (SdSystemException e) {
 			return false;
 		}
 		

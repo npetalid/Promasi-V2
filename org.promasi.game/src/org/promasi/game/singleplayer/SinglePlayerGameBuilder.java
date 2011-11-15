@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.regex.Pattern;
 
+import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.MarketPlace;
@@ -65,12 +66,17 @@ public class SinglePlayerGameBuilder
 	 * @throws NullArgumentException
 	 * @throws IOException 
 	 */
-	public SinglePlayerGameBuilder(final String gameFolderPath)throws NullArgumentException, IllegalArgumentException, IOException{
+	public SinglePlayerGameBuilder(final String gameFolderPath)throws GameException{
 		if(gameFolderPath==null){
-			throw new NullArgumentException("Wrong argument gameFolderPath==null");
+			throw new GameException("Wrong argument gameFolderPath==null");
 		}
 		
-		String separator=RootDirectory.getInstance().getSeparator();
+		String separator;
+		try {
+			separator = RootDirectory.getInstance().getSeparator();
+		} catch (IOException e) {
+			throw new GameException(e.toString());
+		}
 		
 		File gameFile=new File(gameFolderPath);
 		if(!gameFile.isDirectory()){
@@ -104,31 +110,39 @@ public class SinglePlayerGameBuilder
 				}
 			}
 		}catch(SerializationException e){
-			throw new IllegalArgumentException("Wrong gameFolderPath");
+			throw new GameException("Wrong gameFolderPath");
 		}catch(IllegalArgumentException e){
-			throw new IllegalArgumentException("Wrong gameFolderPath");
+			throw new GameException("Wrong gameFolderPath");
 		}catch(FileNotFoundException e){
-			throw new IllegalArgumentException("Wrong gameFolderPath");
+			throw new GameException("Wrong gameFolderPath");
+		} catch (IOException e) {
+			throw new GameException("Wrong gameFolderPath");
 		}
 
 		
 		if(company==null){
-			throw new IllegalArgumentException("Wrong gameFolderPath");
+			throw new GameException("Wrong gameFolderPath");
 		}
 		
 		if(marketPlace==null){
-			throw new IllegalArgumentException("Wrong gameFolderPath");
+			throw new GameException("Wrong gameFolderPath");
 		}
 		
 		if(projects==null || projects.size()==0){
-			throw new IllegalArgumentException("Wrong gameFolderPath");
+			throw new GameException("Wrong gameFolderPath");
 		}
 		
 		if(gameInfo==null){
-			throw new IllegalArgumentException("Wrong gameFolderPath");
+			throw new GameException("Wrong gameFolderPath");
 		}
 		
-		_game=new GameModel(gameName, gameInfo, marketPlace, company, projects);
+		try {
+			_game=new GameModel(gameName, gameInfo, marketPlace, company, projects);
+		} catch (IllegalArgumentException e) {
+			throw new GameException("Wrong gameFolderPath");
+		} catch (NullArgumentException e) {
+			throw new GameException("Wrong gameFolderPath");
+		}
 	}
 
 	/**

@@ -62,33 +62,78 @@ public class TcpClient
 	 * @param portNumber
 	 * @throws IllegalArgumentException
 	 * @throws IOException
+	 * @throws NetworkException 
 	 */
-	public TcpClient(String hostname,int portNumber)throws NullArgumentException, IllegalArgumentException, IOException, UnknownHostException{
+	public TcpClient(String hostname,int portNumber)throws NetworkException{
 		if(hostname==null){
-			throw new NullArgumentException("Wrong argument hostname==null");
+			throw new NetworkException("Wrong argument hostname==null");
 		}
 		
 		if(portNumber<=0){
-			throw new IllegalArgumentException("Wrong argument portNumber<=0");
+			throw new NetworkException("Wrong argument portNumber<=0");
 		}
 		
-		_clientSocket=new Socket(hostname,portNumber);
-		_socketStreamReader=new BufferedReader(new InputStreamReader(_clientSocket.getInputStream()));
-		_socketStreamWriter=new BufferedWriter(new OutputStreamWriter(_clientSocket.getOutputStream()));
-		_isConnected=true;
-		_listeners=new LinkedList<ITcpClientListener>();
-		_lockObject=new Object();
-		
-		_recvThread=new Thread(new Runnable() {
+		try {
+			_clientSocket=new Socket(hostname,portNumber);
+			_socketStreamReader=new BufferedReader(new InputStreamReader(_clientSocket.getInputStream()));
+			_socketStreamWriter=new BufferedWriter(new OutputStreamWriter(_clientSocket.getOutputStream()));
+			_isConnected=true;
+			_listeners=new LinkedList<ITcpClientListener>();
+			_lockObject=new Object();
 			
-			@Override
-			public void run() {
-				connectionLoop();
-				_isConnected=false;
-			}
-		});
-		
+			_recvThread=new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					connectionLoop();
+					_isConnected=false;
+				}
+			});
+			
+		} catch (UnknownHostException e) {
+			throw new NetworkException(e.toString());
+		} catch (IOException e) {
+			throw new NetworkException(e.toString());
+		}
+
 		_recvThread.start();
+	}
+	
+	/**
+	 *
+	 * @param socket
+	 * @throws IllegalArgumentException
+	 * @throws IOException
+	 * @throws NetworkException 
+	 */
+	public TcpClient(Socket socket) throws NetworkException
+	{
+		if(socket==null){
+			throw new NetworkException("Wrong socket==null");
+		}
+		
+		_clientSocket=socket;
+		try {
+			_socketStreamReader=new BufferedReader(new InputStreamReader(_clientSocket.getInputStream()));
+			_socketStreamWriter=new BufferedWriter(new OutputStreamWriter(_clientSocket.getOutputStream()));
+			_isConnected=true;
+			_listeners=new LinkedList<ITcpClientListener>();
+			_lockObject=new Object();
+			
+			_recvThread=new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					connectionLoop();
+					_isConnected=false;
+				}
+			});
+			
+			_recvThread.start();
+		} catch (IOException e) {
+			throw new NetworkException(e.toString());
+		}
+
 	}
 	
 	/**
@@ -134,37 +179,6 @@ public class TcpClient
 			}
 		}
 	}
-	
-	/**
-	 *
-	 * @param socket
-	 * @throws IllegalArgumentException
-	 * @throws IOException
-	 */
-	public TcpClient(Socket socket) throws IllegalArgumentException, IOException
-	{
-		if(socket==null){
-			throw new IllegalArgumentException("Wrong socket==null");
-		}
-		
-		_clientSocket=socket;
-		_socketStreamReader=new BufferedReader(new InputStreamReader(_clientSocket.getInputStream()));
-		_socketStreamWriter=new BufferedWriter(new OutputStreamWriter(_clientSocket.getOutputStream()));
-		_isConnected=true;
-		_listeners=new LinkedList<ITcpClientListener>();
-		_lockObject=new Object();
-		
-		_recvThread=new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				connectionLoop();
-				_isConnected=false;
-			}
-		});
-		
-		_recvThread.start();
-	}
 
 	/**
 	 *
@@ -179,10 +193,10 @@ public class TcpClient
 	 *
 	 * @param tcpEventHandler
 	 */
-	public boolean addListener(ITcpClientListener listener)throws NullArgumentException
+	public boolean addListener(ITcpClientListener listener)throws NetworkException
 	{
 		if(listener==null){
-			throw new NullArgumentException("Wrong argument listener==null");
+			throw new NetworkException("Wrong argument listener==null");
 		}
 		
 		synchronized(_lockObject){

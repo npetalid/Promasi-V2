@@ -18,6 +18,7 @@ import org.promasi.client.gui.IDialogListener;
 import org.promasi.client.gui.PlayingGameDialog;
 import org.promasi.client.playmode.IPlayMode;
 import org.promasi.client.playmode.singleplayer.AbstractUserState;
+import org.promasi.game.GameException;
 import org.promasi.game.IGame;
 import org.promasi.game.SerializableGameModel;
 import org.promasi.game.company.SerializableCompany;
@@ -25,14 +26,14 @@ import org.promasi.game.company.SerializableEmployee;
 import org.promasi.game.company.SerializableEmployeeTask;
 import org.promasi.game.company.SerializableMarketPlace;
 import org.promasi.game.project.SerializableProject;
-import org.promasi.game.singleplayer.ISinglePlayerGameListener;
+import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
 
 /**
  * @author m1cRo
  *
  */
-public class PlayingGameUserState extends AbstractUserState implements IUserState , IDialogListener, ISinglePlayerGameListener
+public class PlayingGameUserState extends AbstractUserState implements IUserState , IDialogListener, IClientGameListener
 {
 	/**
 	 * 
@@ -70,7 +71,12 @@ public class PlayingGameUserState extends AbstractUserState implements IUserStat
 		_frame=new PlayingGameDialog(shell, 0, game);
 		_frame.registerGamesDialogListener(this);
 		_game=game;
-		_game.addListener(this);
+		try {
+			_game.addListener(this);
+		} catch (GameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

@@ -3,10 +3,12 @@
  */
 package org.promasi.game.singleplayer;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.IGame;
 import org.promasi.game.IGameModelListener;
@@ -44,40 +46,67 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	/**
 	 * 
 	 */
-	private List<ISinglePlayerGameListener> _listeners;
+	private List<IClientGameListener> _listeners;
 	
 	/**
 	 * 
 	 * @param gameModel
 	 * @throws NullArgumentException
 	 */
-	public SinglePlayerGame(GameModel gameModel)throws NullArgumentException{
+	public SinglePlayerGame(GameModel gameModel)throws GameException{
 		if(gameModel==null){
-			throw new NullArgumentException("Wrong argument gameModel==null");
+			throw new GameException("Wrong argument gameModel==null");
 		}
 		
 		_gameModel=gameModel;
 		_isRunning=false;
-		_listeners=new LinkedList<ISinglePlayerGameListener>();
+		_listeners=new LinkedList<IClientGameListener>();
 		_systemClock=new Clock();
 		_systemClock.addListener(this);
-		_gameModel.addListener(this);
+		try {
+			_gameModel.addListener(this);
+		} catch (NullArgumentException e) {
+			throw new GameException(e.toString());
+		}
 	}
 
 	@Override
 	public String getGameDescription() {
 		return _gameModel.getGameDescription();
 	}
-
+	
 	@Override
-	public synchronized void hireEmployee(String employeeId) throws NullArgumentException,IllegalArgumentException, SerializationException {
-		_gameModel.hireEmployee(employeeId);
+	public String toString(){
+		return _gameModel.getName();
 	}
 
 	@Override
-	public synchronized void dischargeEmployee(String employeeId)throws NullArgumentException, IllegalArgumentException,SerializationException {
-		_gameModel.dischargeEmployee(employeeId);
-		
+	public synchronized void hireEmployee(String employeeId) throws GameException {
+		try {
+			_gameModel.hireEmployee(employeeId);
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NullArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SerializationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public synchronized void dischargeEmployee(String employeeId)throws GameException {
+		try {
+			_gameModel.dischargeEmployee(employeeId);
+		} catch (IllegalArgumentException e) {
+			throw new GameException(e.toString());
+		} catch (NullArgumentException e) {
+			throw new GameException(e.toString());
+		} catch (SerializationException e) {
+			throw new GameException(e.toString());
+		}
 	}
 
 	@Override
@@ -86,9 +115,9 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public synchronized boolean addListener(ISinglePlayerGameListener listener)throws NullArgumentException {
+	public synchronized boolean addListener(IClientGameListener listener)throws GameException {
 		if(listener==null){
-			throw new NullArgumentException("Wrong argument listener==null");
+			throw new GameException("Wrong argument listener==null");
 		}
 		
 		if(_listeners.contains(listener)){
@@ -100,9 +129,9 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public synchronized boolean removeListener(ISinglePlayerGameListener listener) throws NullArgumentException {
+	public synchronized boolean removeListener(IClientGameListener listener) throws GameException {
 		if(listener==null){
-			throw new NullArgumentException("Wrong argument listener==null");
+			throw new GameException("Wrong argument listener==null");
 		}
 		
 		if(!_listeners.contains(listener)){
@@ -114,8 +143,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public synchronized boolean executeGameStep(DateTime currentDateTime)
-			throws NullArgumentException {
+	public synchronized boolean executeGameStep(Date currentDateTime) throws GameException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -123,7 +151,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	@Override
 	public synchronized boolean startGame() {
 		if(!_isRunning){
-			for(ISinglePlayerGameListener listener : _listeners){
+			for(IClientGameListener listener : _listeners){
 				try {
 					listener.gameStarted(this, _gameModel.getSerializableGameModel(), _systemClock.getCurrentDateTime());
 				} catch (SerializationException e) {
@@ -136,7 +164,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 			_systemClock.start();
 			_isRunning=true;
 			
-			for(ISinglePlayerGameListener listener : _listeners){
+			for(IClientGameListener listener : _listeners){
 				try {
 					listener.gameStarted(this, _gameModel.getSerializableGameModel(), _systemClock.getCurrentDateTime());
 				} catch (SerializationException e) {
@@ -164,63 +192,63 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 
 	@Override
 	public void projectAssigned(GameModel game, SerializableCompany company, SerializableProject project) {
-		for(ISinglePlayerGameListener listener : _listeners){
+		for(IClientGameListener listener : _listeners){
 			listener.projectAssigned(this, company, project, _systemClock.getCurrentDateTime());
 		}
 	}
 
 	@Override
 	public void projectFinished(GameModel game, SerializableCompany company,SerializableProject project) {
-		for(ISinglePlayerGameListener listener : _listeners){
+		for(IClientGameListener listener : _listeners){
 			listener.projectFinished(this, company, project, _systemClock.getCurrentDateTime());
 		}
 	}
 
 	@Override
 	public void employeeHired(GameModel game,SerializableMarketPlace marketPlace, SerializableCompany company,SerializableEmployee employee) {
-		for(ISinglePlayerGameListener listener : _listeners){
+		for(IClientGameListener listener : _listeners){
 			listener.employeeHired(this, marketPlace, company, employee, _systemClock.getCurrentDateTime());
 		}
 	}
 
 	@Override
 	public void employeeDischarged(GameModel game,SerializableMarketPlace marketPlace, SerializableCompany company,SerializableEmployee employee) {
-		for(ISinglePlayerGameListener listener : _listeners){
+		for(IClientGameListener listener : _listeners){
 			listener.employeeDischarged(this, marketPlace, company, employee, _systemClock.getCurrentDateTime());
 		}
 	}
 
 	@Override
 	public void employeeTasksAssigned(GameModel game,SerializableCompany company, SerializableEmployee employee,List<SerializableEmployeeTask> employeeTasks) {
-		for(ISinglePlayerGameListener listener : _listeners){
+		for(IClientGameListener listener : _listeners){
 			listener.employeeTasksAttached(this, company, employee, employeeTasks, _systemClock.getCurrentDateTime());
 		}
 	}
 
 	@Override
 	public void employeeTaskDetached(GameModel game,SerializableMarketPlace marketPlace, SerializableCompany company,SerializableEmployee employee, SerializableEmployeeTask employeeTask) {
-		for(ISinglePlayerGameListener listener : _listeners){
+		for(IClientGameListener listener : _listeners){
 			listener.employeeTaskDetached(this, marketPlace, company, employee, employeeTask, _systemClock.getCurrentDateTime());
 		}
 	}
 
 	@Override
 	public void companyIsInsolvent(GameModel game, SerializableCompany company) {
-		for(ISinglePlayerGameListener listener : _listeners){
+		for(IClientGameListener listener : _listeners){
 			listener.companyIsInsolvent(this, company, _systemClock.getCurrentDateTime());
 		}
 	}
 
 	@Override
 	public void onExecuteStep(GameModel game, SerializableCompany company,SerializableProject assignedProject) {
-		for(ISinglePlayerGameListener listener : _listeners){
+		for(IClientGameListener listener : _listeners){
 			listener.onExecuteStep(this, company, assignedProject, _systemClock.getCurrentDateTime());
 		}
 	}
 
 	@Override
 	public void onTick(DateTime dateTime) {
-		for( ISinglePlayerGameListener gameEventHandler : _listeners){
+		for( IClientGameListener gameEventHandler : _listeners){
 			gameEventHandler.onTick(this, dateTime);
 		}
 		
@@ -233,7 +261,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 
 	@Override
 	public void gameFinished(GameModel gameModel, SerializableCompany company) {
-		for( ISinglePlayerGameListener gameEventHandler : _listeners){
+		for( IClientGameListener gameEventHandler : _listeners){
 			try {
 				gameEventHandler.gameFinished(this, gameModel.getSerializableGameModel(),company);
 			} catch (SerializationException e) {

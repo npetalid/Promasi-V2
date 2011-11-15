@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListOfEmployees>
+	<Employee>
+		<name>Robert</name>
+		<lastName>Marsh</lastName>
+		<personId>x00000</personId>
+		<property name="developer">8</property>
+		<property name="designer">9</property>
+		<property name="tester">2</property>
+		<property name="ubmOtherProductKnowledge">1</property>
+		<property name="teamplayer">8</property>
+		<salary>1000.0</salary>
+		<curriculumVitae>&lt;table&gt;&lt;tr&gt;&lt;td rowspan="2"&gt;&lt;/td&gt;&lt;td&gt;&lt;h3&gt;Robert Marsh&lt;/h3&gt;&lt;hr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;An excellent developer he is working in UBM for only 1 year but he&lt;br&gt;has a 10 years experience as a developer and 5 years as a designer.&lt;br&gt;&lt;p&gt;Since he is new he is only taking jobs under new project managers. He &lt;br&gt;knows only how the promasi OS works. We wouldn't recommend him for testing&lt;br&gt;purposes, he is only putting effort on interesting things.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</curriculumVitae>
+	</Employee>
+	<Employee>
+		<name>Samuel</name>
+		<lastName>Garcia</lastName>
+		<personId>x00001</personId>
+		<property name="developer">5</property>
+		<property name="designer">2</property>
+		<property name="tester">7</property>
+		<property name="teamplayer">5</property>
+		<property name="ubmOtherProductKnowledge">1</property>
+		<salary>1200.0</salary>
+		<curriculumVitae>&lt;table&gt;&lt;tr&gt;&lt;td rowspan="2"&gt;&lt;/td&gt;&lt;td&gt;&lt;h3&gt;Samuel Garcia&lt;/h3&gt;&lt;hr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;He is working for UBM for a year, his skills as a coder are low&lt;br&gt;but he has a really good experience in testing. He worked as a tester&lt;br&gt;for 6 years. &lt;p&gt;Since he is new he is only working with new project managers,&lt;br&gt;he knows how promasi OS works and has tested it many times. He hasn't any knowledge&lt;br&gt;in our other products though.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</curriculumVitae>
+	</Employee>
+	<Employee>
+		<name>James</name>
+		<lastName>Rowland</lastName>
+		<personId>x00002</personId>
+		<property name="developer">4</property>
+		<property name="designer">1</property>
+		<property name="tester">10</property>
+		<property name="teamplayer">9</property>
+		<property name="ubmOtherProductKnowledge">8</property>
+		<salary>1500.0</salary>
+		<curriculumVitae>&lt;table&gt;&lt;tr&gt;&lt;td rowspan="2"&gt;&lt;/td&gt;&lt;td&gt;&lt;h3&gt;James Rowland&lt;/h3&gt;&lt;hr&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;He is working for UBM for 10 years, his skills as a coder are really low&lt;br&gt;he has only experience with scripting languages,&lt;br&gt;but he has a really good experience in testing.He worked as a tester&lt;br&gt; for 6 years before UBM.&lt;p&gt;He basically knows how to test almost every product in your department.&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</curriculumVitae>
+	</Employee>
+</ListOfEmployees>
+

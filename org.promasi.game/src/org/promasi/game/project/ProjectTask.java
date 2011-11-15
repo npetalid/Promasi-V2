@@ -6,8 +6,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.promasi.game.GameException;
 import org.promasi.sdsystem.SdSystem;
 import org.promasi.sdsystem.SdSystemBridge;
+import org.promasi.sdsystem.SdSystemException;
+import org.promasi.sdsystem.sdobject.equation.CalculationExeption;
+import org.promasi.sdsystem.sdobject.equation.IEquation;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -17,17 +21,7 @@ public class ProjectTask
 	/**
 	 * 
 	 */
-	public static final double CONST_PERCENTAGE_COMPLETE_MAX_VALUE=100.0;
-	
-	/**
-	 * 
-	 */
-	public static final String CONST_SUM_EMPLOYEES_INPUT_SDOBJECT_NAME="EmployeesNumber";
-	
-	/**
-	 * 
-	 */
-	public static final String CONST_PROGRESS_SDOBJECT_NAME="PROGRESS";
+	public static final double CONST_PROGRESS_MAX_VALUE=100.0;
 	
     /**
      * The name of the task.
@@ -67,38 +61,53 @@ public class ProjectTask
     /**
      * 
      */
+    protected IEquation _progressEquation;
+    
+    /**
+     * 
+     */
     private double _sumEmployees;
 
     /**
      * Initializes the object.
      */
-    public ProjectTask(final String taskName, final String description, final SdSystem sdSystem )throws NullArgumentException, IllegalArgumentException
+    public ProjectTask( String taskName, String description, SdSystem sdSystem, IEquation progressEquation )throws GameException
     {
         if(description==null)
         {
-        	throw new NullArgumentException("Wrong argument description==null");
+        	throw new GameException("Wrong argument description==null");
         }
         
         if(taskName==null)
         {
-        	throw new NullArgumentException("Wrong argument taskName==null");
+        	throw new GameException("Wrong argument taskName==null");
         }
         
         if(sdSystem==null){
-        	throw new NullArgumentException("Wrong argument sdSystem==null"); 
+        	throw new GameException("Wrong argument sdSystem==null"); 
         }
         
-        if(!sdSystem.hasOutput(CONST_PROGRESS_SDOBJECT_NAME)){
-        	throw new IllegalArgumentException("Wrong argument sdSystem does not contains output named " + CONST_PROGRESS_SDOBJECT_NAME);
+        if( progressEquation == null ){
+        	throw new GameException("Wrong argument progressEquationString==null");
         }
         
+        _progressEquation = progressEquation;
         _employeeSkills=new HashMap<String, Double>();
         _history=new TreeMap<Integer, Double>();
         _description=description;
         _name=taskName;
-        _progress=0;
         _sdSystem=sdSystem;
         _sdSystemBridges=new LinkedList<SdSystemBridge>();
+        
+        try {
+			_progress=_progressEquation.calculateEquation(sdSystem.getOutputValues());
+		} catch (IllegalArgumentException e) {
+			throw new GameException(e.toString()); 
+		} catch (NullArgumentException e) {
+			throw new GameException(e.toString()); 
+		} catch (CalculationExeption e) {
+			throw new GameException(e.toString()); 
+		}
     }
 
     /**
@@ -108,7 +117,7 @@ public class ProjectTask
      * @param inputProjectTask
      * @return
      */
-    protected synchronized boolean makeBridge(final String outputSdObjectId, final String inputSdObjectId, final ProjectTask inputProjectTask)throws NullArgumentException, IllegalArgumentException{
+    protected synchronized boolean makeBridge( String outputSdObjectId, String inputSdObjectId, ProjectTask inputProjectTask)throws NullArgumentException{
     	if(outputSdObjectId==null){
     		throw new NullArgumentException("Wrong argument outputSdObjectId==null");
     	}
@@ -156,7 +165,7 @@ public class ProjectTask
      * @return
      * @throws NullArgumentException
      */
-    public synchronized boolean executeTask(int currentStep)throws IllegalArgumentException
+    public synchronized boolean executeTask(int currentStep)throws SdSystemException
     {
     	try{
         	if(_sumEmployees<=0.0){
@@ -170,14 +179,11 @@ public class ProjectTask
         	for(Map.Entry<String, Double> entry : _employeeSkills.entrySet()){
         		_sdSystem.setInput(entry.getKey(), entry.getValue());
         	}
-        		
-            _sdSystem.setInput(CONST_SUM_EMPLOYEES_INPUT_SDOBJECT_NAME, _sumEmployees);
             
             _sdSystem.executeStep();
-            _progress=_sdSystem.getValue(CONST_PROGRESS_SDOBJECT_NAME);
+            _progress=_progressEquation.calculateEquation( _sdSystem.getOutputValues() );
             _history.put(currentStep, _progress);
         	
-        	_sdSystem.setInput(CONST_SUM_EMPLOYEES_INPUT_SDOBJECT_NAME, 0.0);
     		for(Map.Entry<String, Double> entry : _employeeSkills.entrySet()){
     			_sdSystem.setInput(entry.getKey(), 0.0);
     		}
@@ -188,7 +194,9 @@ public class ProjectTask
     		return false;
     	}catch(IllegalArgumentException e){
     		return false;
-    	}
+    	} catch (CalculationExeption e) {
+    		return false;
+		}
 
     	return true;
     }
@@ -209,11 +217,7 @@ public class ProjectTask
 	 * @throws NullArgumentException 
 	 */
 	public SerializableProjectTask getSerializableProjectTask()throws SerializationException{
-		try {
-			return new SerializableProjectTask(this);
-		} catch (NullArgumentException e) {
-			throw new SerializationException("Serialization failed because " + e.getMessage());
-		}
+		return new SerializableProjectTask(this);
 	}
 
 	/**
@@ -249,9 +253,9 @@ public class ProjectTask
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public synchronized Double getOutput(final String outputId)throws NullArgumentException, IllegalArgumentException{
+	public synchronized Double getOutput(final String outputId)throws SdSystemException{
 		if(outputId==null){
-			throw new NullArgumentException("Wrong argument outputId==null");
+			throw new SdSystemException("Wrong argument outputId==null");
 		}
 		
 		return _sdSystem.getValue(outputId);
@@ -279,9 +283,9 @@ public class ProjectTask
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean hasOutput(final String outputId)throws NullArgumentException{
+	public boolean hasOutput(final String outputId)throws SdSystemException{
 		if(outputId==null){
-			throw new NullArgumentException("Wrong argument outputId==null");
+			throw new SdSystemException("Wrong argument outputId==null");
 		}
 		
 		return _sdSystem.hasOutput(outputId);
@@ -292,18 +296,6 @@ public class ProjectTask
      * @return
      */
     public synchronized boolean isValidTask(){
-            Double value;
-			try {
-				value = _sdSystem.getValue(CONST_PROGRESS_SDOBJECT_NAME);
-	            if(value>=CONST_PERCENTAGE_COMPLETE_MAX_VALUE){
-	                    return false;
-	            }
-			} catch (IllegalArgumentException e) {
-				return false;
-			} catch (NullArgumentException e) {
-				return false;
-			}
-
-            return true;
+	    return _progress >= CONST_PROGRESS_MAX_VALUE;
     }
 }
