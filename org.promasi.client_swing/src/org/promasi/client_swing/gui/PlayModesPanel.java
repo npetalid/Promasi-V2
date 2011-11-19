@@ -39,7 +39,7 @@ public class PlayModesPanel extends JPanel {
 	/**
 	 * 
 	 */
-	private JList<IPlayMode> _playModesList;
+	private JList _playModesList;
 	
 	/**
 	 * 
@@ -66,11 +66,11 @@ public class PlayModesPanel extends JPanel {
 		}
 		
 		_mainFrame = listener;
-		DefaultListModel<IPlayMode> listModel = new DefaultListModel<IPlayMode>();
+		DefaultListModel listModel = new DefaultListModel();
 		listModel.addElement( new SinglePlayerPlayMode() );
 		listModel.addElement( new MultiPlayerPlayMode() );
 		
-		_playModesList = new JList<IPlayMode>(listModel);
+		_playModesList = new JList(listModel);
 		setLayout( new BorderLayout() );
 		_playModesList.setPreferredSize(new Dimension( CONST_PLAYMODES_LIST_WIDTH, 100 ));
 		add(_playModesList, BorderLayout.EAST);
@@ -79,7 +79,8 @@ public class PlayModesPanel extends JPanel {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				_playButton.setEnabled(true);
-				_infoPane.setText( _playModesList.getSelectedValue().getDescription() );
+				IPlayMode playMode = (IPlayMode)_playModesList.getSelectedValue();
+				_infoPane.setText( playMode.getDescription() );
 			}
 		});
 		
@@ -92,7 +93,8 @@ public class PlayModesPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				_playModesList.getSelectedValue().gotoNextPanel(_mainFrame);
+				IPlayMode playMode = (IPlayMode)_playModesList.getSelectedValue();
+				playMode.gotoNextPanel(_mainFrame);
 			}
 		});
 		

@@ -36,7 +36,7 @@ public class MainFrame extends JFrame implements IMainFrame {
 		}
 		
 		this.add(_panel, BorderLayout.CENTER);
-		this.revalidate();
+		this.validate();
 		this.repaint();
 	}
 

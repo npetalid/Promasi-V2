@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
+import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.client_swing.gui.desktop.taskbar.TaskBarPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.SerializableGameModel;
@@ -29,7 +30,7 @@ import org.promasi.utilities.file.RootDirectory;
  * @author alekstheod
  *
  */
-public class PromasiGamePanel extends JPanel implements IClientGameListener {
+public class PromasiGamePanel extends JPanel implements IClientGameListener , IDesktop{
 
 	/**
 	 * 
@@ -71,7 +72,7 @@ public class PromasiGamePanel extends JPanel implements IClientGameListener {
 		_game = game;
 		_game.addListener(this);
 		setLayout(new BorderLayout());
-		_taskBarPanel = new TaskBarPanel( username );
+		_taskBarPanel = new TaskBarPanel( username, this );
 		add( _taskBarPanel, BorderLayout.SOUTH );
 		try {
 			String imagePath = RootDirectory.getInstance().getImagesDirectory() + CONST_BG_IMAGE_NAME;

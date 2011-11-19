@@ -90,13 +90,13 @@ public class TaskBarPanel extends JPanel {
 
 		_startMenu = new JPopupMenu();
 		_startMenu.setLayout(new BorderLayout());
-		StartPanel startPanel = new StartPanel();
-		_startMenu.add(startPanel, BorderLayout.CENTER);
+		//StartPanel startPanel = new StartPanel();
+		//_startMenu.add(startPanel, BorderLayout.CENTER);
 		
-		JLabel usernameLabel = new JLabel(username);
-		usernameLabel.setPreferredSize( new Dimension( startPanel.getPreferredSize().width, 20  ) );
-		_startMenu.add( usernameLabel, BorderLayout.NORTH );
-		_desktop = desktop;
+		//JLabel usernameLabel = new JLabel(username);
+		//usernameLabel.setPreferredSize( new Dimension( startPanel.getPreferredSize().width, 20  ) );
+		//_startMenu.add( usernameLabel, BorderLayout.NORTH );
+		//_desktop = desktop;
 		
 	}
 	
