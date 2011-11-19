@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.promasi.client_swing.gui.taskbar;
+package org.promasi.client_swing.gui.desktop.taskbar;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,10 +19,12 @@ public class QuickIconsPanel extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	public static final int CONST_QUICK_ICONS_PANEL_WIDTH = 200;
+	
 	public QuickIconsPanel(){
 		super();
-		setBackground(Color.blue);
-		setPreferredSize(new Dimension(100,100));
+		setBackground(Color.gray);
+		setPreferredSize(new Dimension(CONST_QUICK_ICONS_PANEL_WIDTH,100));
 	}
 
 }

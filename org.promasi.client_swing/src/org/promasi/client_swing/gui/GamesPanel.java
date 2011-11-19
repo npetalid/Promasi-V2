@@ -70,12 +70,17 @@ public class GamesPanel extends JPanel implements IGamesServerListener {
 	 * 
 	 */
 	private Timer _timer;
+	
+	/**
+	 * 
+	 */
+	private String _username;
 
 	/**
 	 * @throws GuiException 
 	 * 
 	 */
-	public GamesPanel( IMainFrame mainFrame , IGamesServer gamesServer ) throws GuiException{
+	public GamesPanel( IMainFrame mainFrame , IGamesServer gamesServer, String username ) throws GuiException{
 		super();
 		
 		if( mainFrame == null ){
@@ -84,6 +89,10 @@ public class GamesPanel extends JPanel implements IGamesServerListener {
 		
 		if( gamesServer == null ){
 			throw new GuiException("Wrong argument gamesServer == null ");
+		}
+		
+		if( username == null || username.isEmpty() ){
+			throw new GuiException("Wrong argument username");
 		}
 		
 		_mainFrame = mainFrame;
@@ -131,7 +140,7 @@ public class GamesPanel extends JPanel implements IGamesServerListener {
 		_infoPane.setEditable(false);
 		_infoPane.setContentType("text/html" );
 		
-		
+		_username = username;
 		_gamesServer.registerGamesServerListener(this);
 		_timer = new Timer();
 		_timer.schedule(new TimerTask() {
@@ -152,7 +161,7 @@ public class GamesPanel extends JPanel implements IGamesServerListener {
 	@Override
 	public void onJoinGame(IGame game) {
 		try {
-			_mainFrame.changePanel(new LoadingPanel(_mainFrame,game));
+			_mainFrame.changePanel(new LoadingPanel(_mainFrame,game, _username));
 		} catch (GuiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

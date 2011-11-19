@@ -11,9 +11,10 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
-import org.promasi.client_swing.gui.taskbar.TaskBarPanel;
+import org.promasi.client_swing.gui.desktop.taskbar.TaskBarPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.SerializableGameModel;
 import org.promasi.game.company.SerializableCompany;
@@ -58,15 +59,19 @@ public class PromasiGamePanel extends JPanel implements IClientGameListener {
 	/**
 	 * 
 	 */
-	public PromasiGamePanel( IGame game )throws GuiException{
+	public PromasiGamePanel( IGame game, String username )throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
+		}
+		
+		if( username == null || username.isEmpty() ){
+			throw new GuiException("Wrong argument username");
 		}
 		
 		_game = game;
 		_game.addListener(this);
 		setLayout(new BorderLayout());
-		_taskBarPanel = new TaskBarPanel();
+		_taskBarPanel = new TaskBarPanel( username );
 		add( _taskBarPanel, BorderLayout.SOUTH );
 		try {
 			String imagePath = RootDirectory.getInstance().getImagesDirectory() + CONST_BG_IMAGE_NAME;
@@ -151,8 +156,13 @@ public class PromasiGamePanel extends JPanel implements IClientGameListener {
 	}
 
 	@Override
-	public void onTick(IGame game, DateTime dateTime) {
-		// TODO Auto-generated method stub
+	public void onTick(IGame game, final DateTime dateTime) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_taskBarPanel.updateTime(dateTime);
+			}
+		});
 		
 	}
 

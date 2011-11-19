@@ -30,6 +30,11 @@ public class SinglePlayerPlayMode implements IPlayMode {
 	/**
 	 * 
 	 */
+	public static final String CONST_SINGLEPLAYER_USERNAME = "Player";
+	
+	/**
+	 * 
+	 */
 	public static final String CONST_PLAYMODE_DESCRIPTION =	"The purpose of this play mode is to gather the highest score.<br>"
 															+ "You will play through various levels. On each level you will have to complete a project.<br>";
 	
@@ -48,7 +53,7 @@ public class SinglePlayerPlayMode implements IPlayMode {
         GamesPanel newPanel;
 		try {
 			SinglePlayerGamesServer server = new SinglePlayerGamesServer( getUri() );
-			newPanel = new GamesPanel(mainFrame, server );
+			newPanel = new GamesPanel(mainFrame, server, CONST_SINGLEPLAYER_USERNAME );
 			mainFrame.changePanel(newPanel);
 		} catch (GuiException e) {
 			//ToDo : error

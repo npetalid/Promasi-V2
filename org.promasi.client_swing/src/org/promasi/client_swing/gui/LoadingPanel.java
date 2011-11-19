@@ -38,13 +38,15 @@ public class LoadingPanel extends JPanel implements IClientGameListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private String _username;
+	
 	/**
 	 * 
 	 * @param mainFrame
 	 * @param game
 	 * @throws GuiException
 	 */
-	public LoadingPanel( IMainFrame mainFrame, IGame game )throws GuiException{
+	public LoadingPanel( IMainFrame mainFrame, IGame game, String username )throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
 		}
@@ -53,6 +55,11 @@ public class LoadingPanel extends JPanel implements IClientGameListener {
 			throw new GuiException("Wrong argument mainFrame == null");
 		}
 		
+		if( username == null || username.isEmpty() ){
+			throw new GuiException("Wrong argument username");
+		}
+		
+		_username = username;
 		_mainFrame = mainFrame;
 		_game = game;
 		_game.addListener(this);
@@ -68,7 +75,7 @@ public class LoadingPanel extends JPanel implements IClientGameListener {
 			@Override
 			public void run() {
 				try {
-					_mainFrame.changePanel(new PromasiGamePanel(_game));
+					_mainFrame.changePanel(new PromasiGamePanel(_game, _username));
 					_mainFrame.maximize();
 				} catch (GuiException e) {
 					// TODO Auto-generated catch block
