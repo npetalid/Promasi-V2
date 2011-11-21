@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="1.7.0_01" class="java.beans.XMLDecoder">
+<java version="1.6.0_23" class="java.beans.XMLDecoder">
  <object class="org.promasi.game.company.SerializableCompany">
   <void property="budget">
    <double>10000.0</double>
@@ -11,13 +11,13 @@
    <object class="java.util.TreeMap"/>
   </void>
   <void property="endTime">
-   <string>17:53:16.773</string>
+   <string>17:50:25.817</string>
   </void>
   <void property="name">
    <string>Test</string>
   </void>
   <void property="startTime">
-   <string>09:53:16.770</string>
+   <string>09:50:25.813</string>
   </void>
  </object>
 </java>

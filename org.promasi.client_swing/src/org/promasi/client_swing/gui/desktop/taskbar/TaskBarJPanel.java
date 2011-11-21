@@ -7,13 +7,18 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.IDesktop;
+import org.promasi.utilities.file.RootDirectory;
 
 /**
  * @author alekstheod
@@ -34,7 +39,12 @@ public class TaskBarJPanel extends JPanel {
 	/**
 	 * 
 	 */
-	private JButton _startMenuButton;
+	public static final String CONST_START_ICON = "startbutton.png";
+	
+	/**
+	 * 
+	 */
+	private JButton _startButton;
 	
 	/**
 	 * 
@@ -61,11 +71,18 @@ public class TaskBarJPanel extends JPanel {
 		}
 		
 		setPreferredSize( new Dimension( 100, CONST_TASKBAR_HEIGHT ) );
-		
 		setLayout(new BorderLayout());
-		_startMenuButton = new JButton("Start");
-		_startMenuButton.setPreferredSize(new Dimension(100,100));
-		_startMenuButton.addActionListener(new ActionListener() {
+		
+		try {
+			Icon startIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + CONST_START_ICON);
+			_startButton = new JButton("Start", startIcon);
+		} catch (IOException e1) {
+			_startButton = new JButton("Start");
+		}
+		
+		_startButton.setHorizontalTextPosition(SwingConstants.LEFT);
+		_startButton.setPreferredSize(new Dimension(100,100));
+		_startButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -73,7 +90,7 @@ public class TaskBarJPanel extends JPanel {
 			}
 		});
 		
-		add(_startMenuButton, BorderLayout.WEST);
+		add(_startButton, BorderLayout.WEST);
 		
 		JPanel iconsPanel = new JPanel();
 		iconsPanel.setLayout(new BorderLayout());

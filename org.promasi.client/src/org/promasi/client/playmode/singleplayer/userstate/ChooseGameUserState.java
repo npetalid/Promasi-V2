@@ -12,12 +12,14 @@ import org.promasi.client.playmode.IPlayMode;
 import org.promasi.client.playmode.singleplayer.AbstractUserState;
 import org.promasi.game.GameException;
 import org.promasi.game.IGame;
+import org.promasi.game.IGamesServer;
+import org.promasi.game.IGamesServerListener;
 import org.promasi.game.singleplayer.SinglePlayerGame;
 import org.promasi.game.singleplayer.SinglePlayerGameBuilder;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.file.RootDirectory;
 
-public class ChooseGameUserState  extends AbstractUserState implements IUserState,IGamesDialogListener
+public class ChooseGameUserState  extends AbstractUserState implements IUserState,IGamesDialogListener, IGamesServer
 {
 	/**
 	 * 
@@ -74,7 +76,7 @@ public class ChooseGameUserState  extends AbstractUserState implements IUserStat
 					try{
 						SinglePlayerGameBuilder builder;
 						builder = new SinglePlayerGameBuilder(uri+RootDirectory.getInstance().getSeparator()+gamesFolders[i]);
-						games.put(gamesFolders[i], new SinglePlayerGame(builder.getGame()) );
+						games.put(gamesFolders[i], new SinglePlayerGame(this, builder.getGame()) );
 					}catch(IllegalArgumentException e){
 						//Logger
 					}catch(GameException e){
@@ -138,6 +140,24 @@ public class ChooseGameUserState  extends AbstractUserState implements IUserStat
 	@Override
 	public void gamesDialogClosed(GamesDialog dialog) {
 		_shell.dispose();
+	}
+
+	@Override
+	public boolean requestGamesList() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean joinGame(IGame game) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean registerGamesServerListener(IGamesServerListener listener) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
