@@ -65,20 +65,24 @@ public final class Clock
 			
 			@Override
 			public void run() {
-				while ( _isRunning ) {
+				boolean running = true;
+				while ( running ) {
 		            try{
 		            	_lockObject.lock();
+		            	running = _isRunning;
 		                _currentDateTime=_currentDateTime.plusHours(1);
 		            	for(IClockListener listener : _listeners){
 		            		listener.onTick(_currentDateTime);
 		            	}
-		            	
+		            }finally{
+		            	_lockObject.unlock();
+		            }
+		            
+		            try{
 		            	 Thread.sleep( _speed );
 		            }catch ( InterruptedException e ){
 		                // Just warn no one is going to interrupt this thread.
 		                //LOGGER.warn( "An InterruptedException occured while the clock was waiting.", e );
-		            }finally{
-		            	_lockObject.unlock();
 		            }
 		        }
 				
@@ -121,7 +125,6 @@ public final class Clock
                 if ( !_listeners.contains( listener ) )
                 {
                   result = _listeners.add( listener );
-                  
                 }
         	}
 
@@ -142,8 +145,7 @@ public final class Clock
 		boolean result = false;
 		try{
 			_lockObject.lock();
-			if(listener != null)
-			{
+			if(listener != null){
 			     if ( _listeners.contains( listener ) ){
 			        result = _listeners.remove( listener );
 			     }
@@ -162,7 +164,7 @@ public final class Clock
     	try{
     		_lockObject.lock();
             //LOGGER.info( "Starting clock..." );
-            if ( !_clockThread.isAlive( ) ){
+            if ( !_isRunning ){
                 _isRunning = true;
                 _clockThread.start( );
             }
@@ -196,5 +198,27 @@ public final class Clock
         }finally{
         	_lockObject.unlock();
         }
+        
+        try {
+			_clockThread.join();
+		} catch (InterruptedException e) {
+			//TODO : log
+		}
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public boolean isActive(){
+    	boolean result = false;
+        try{
+        	_lockObject.lock();
+        	result = _clockThread.isAlive();
+        }finally{
+        	_lockObject.unlock();
+        }
+        
+        return result;
     }
 }

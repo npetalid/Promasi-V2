@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
+import org.promasi.client_swing.gui.desktop.PromasiDesktopJPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.SerializableGameModel;
 import org.promasi.game.company.SerializableCompany;
@@ -21,7 +22,7 @@ import org.promasi.game.singleplayer.IClientGameListener;
  * @author alekstheod
  *
  */
-public class LoadingPanel extends JPanel implements IClientGameListener {
+public class LoadingJPanel extends JPanel implements IClientGameListener {
 
 	/**
 	 * 
@@ -38,6 +39,9 @@ public class LoadingPanel extends JPanel implements IClientGameListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * 
+	 */
 	private String _username;
 	
 	/**
@@ -46,7 +50,7 @@ public class LoadingPanel extends JPanel implements IClientGameListener {
 	 * @param game
 	 * @throws GuiException
 	 */
-	public LoadingPanel( IMainFrame mainFrame, IGame game, String username )throws GuiException{
+	public LoadingJPanel( IMainFrame mainFrame, IGame game, String username )throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
 		}
@@ -64,7 +68,6 @@ public class LoadingPanel extends JPanel implements IClientGameListener {
 		_game = game;
 		_game.addListener(this);
 		_game.startGame();
-		
 	}
 
 	@Override
@@ -75,8 +78,7 @@ public class LoadingPanel extends JPanel implements IClientGameListener {
 			@Override
 			public void run() {
 				try {
-					_mainFrame.changePanel(new PromasiGamePanel(_game, _username));
-					_mainFrame.maximize();
+					_mainFrame.changePanel(new PromasiDesktopJPanel( _mainFrame, _game, _username));
 				} catch (GuiException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

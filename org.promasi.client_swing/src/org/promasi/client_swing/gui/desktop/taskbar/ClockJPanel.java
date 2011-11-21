@@ -19,7 +19,7 @@ import org.joda.time.DateTime;
  * @author alekstheod
  *
  */
-public class ClockPanel extends JPanel {
+public class ClockJPanel extends JPanel {
 
 	/**
 	 * 
@@ -39,7 +39,7 @@ public class ClockPanel extends JPanel {
 	/**
 	 * 
 	 */
-	public ClockPanel(){
+	public ClockJPanel(){
 		super();
 		setBackground( Color.gray );
 		setPreferredSize( new Dimension(CONST_CLOCK_PANEL_WIDTH, 100) );

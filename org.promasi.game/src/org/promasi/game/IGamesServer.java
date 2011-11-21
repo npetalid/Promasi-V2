@@ -1,9 +1,9 @@
 /**
  * 
  */
-package org.promasi.client_swing.playmode;
+package org.promasi.game;
 
-import org.promasi.game.IGame;
+import org.promasi.game.IGamesServerListener;
 
 /**
  * @author alekstheod

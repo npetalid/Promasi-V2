@@ -9,9 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 
 import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
@@ -21,7 +19,7 @@ import org.promasi.client_swing.gui.desktop.IDesktop;
  * @author alekstheod
  *
  */
-public class TaskBarPanel extends JPanel {
+public class TaskBarJPanel extends JPanel {
 
 	/**
 	 * 
@@ -41,26 +39,25 @@ public class TaskBarPanel extends JPanel {
 	/**
 	 * 
 	 */
-	public ClockPanel _clockPanel;
-	
-	/**
-	 * 
-	 */
-	private JPopupMenu _startMenu;
+	public ClockJPanel _clockPanel;
 	
 	/**
 	 * 
 	 */
 	private IDesktop _desktop;
-
+	
 	/**
 	 * 
 	 */
-	public TaskBarPanel( String username, IDesktop desktop )throws GuiException{
+	public TaskBarJPanel( String username, IDesktop desktop )throws GuiException{
 		super();
 		
 		if( username == null || username.isEmpty() ){
 			throw new GuiException("Wrong argument username");
+		}
+		
+		if( desktop == null ){
+			throw new GuiException("Wrong argument desktop == null");
 		}
 		
 		setPreferredSize( new Dimension( 100, CONST_TASKBAR_HEIGHT ) );
@@ -72,8 +69,7 @@ public class TaskBarPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				_startMenu.show(_startMenuButton , _startMenuButton.getX(), (int)(_startMenuButton.getY() - _startMenu.getPreferredSize().getHeight()) );
+				_desktop.showStartMenu();
 			}
 		});
 		
@@ -81,23 +77,13 @@ public class TaskBarPanel extends JPanel {
 		
 		JPanel iconsPanel = new JPanel();
 		iconsPanel.setLayout(new BorderLayout());
-		iconsPanel.setPreferredSize(new Dimension( ClockPanel.CONST_CLOCK_PANEL_WIDTH + QuickIconsPanel.CONST_QUICK_ICONS_PANEL_WIDTH, 100) );
-		_clockPanel = new ClockPanel();
+		iconsPanel.setPreferredSize(new Dimension( ClockJPanel.CONST_CLOCK_PANEL_WIDTH + QuickIconsJPanel.CONST_QUICK_ICONS_PANEL_WIDTH, 100) );
+		_clockPanel = new ClockJPanel();
 		iconsPanel.add(_clockPanel, BorderLayout.EAST);
-		iconsPanel.add(new QuickIconsPanel(), BorderLayout.CENTER);
+		iconsPanel.add(new QuickIconsJPanel(), BorderLayout.CENTER);
 		add(iconsPanel, BorderLayout.EAST);
 		
-
-		_startMenu = new JPopupMenu();
-		_startMenu.setLayout(new BorderLayout());
-		//StartPanel startPanel = new StartPanel();
-		//_startMenu.add(startPanel, BorderLayout.CENTER);
-		
-		//JLabel usernameLabel = new JLabel(username);
-		//usernameLabel.setPreferredSize( new Dimension( startPanel.getPreferredSize().width, 20  ) );
-		//_startMenu.add( usernameLabel, BorderLayout.NORTH );
-		//_desktop = desktop;
-		
+		_desktop = desktop;
 	}
 	
 	public void updateTime( DateTime dateTime ){

@@ -21,15 +21,15 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.promasi.client_swing.components.ExtendedJEditorPane;
-import org.promasi.client_swing.playmode.IGamesServer;
-import org.promasi.client_swing.playmode.IGamesServerListener;
 import org.promasi.game.IGame;
+import org.promasi.game.IGamesServer;
+import org.promasi.game.IGamesServerListener;
 
 /**
  * @author alekstheod
  *
  */
-public class GamesPanel extends JPanel implements IGamesServerListener {
+public class GamesJPanel extends JPanel implements IGamesServerListener {
 
 	/**
 	 * 
@@ -80,7 +80,7 @@ public class GamesPanel extends JPanel implements IGamesServerListener {
 	 * @throws GuiException 
 	 * 
 	 */
-	public GamesPanel( IMainFrame mainFrame , IGamesServer gamesServer, String username ) throws GuiException{
+	public GamesJPanel( IMainFrame mainFrame , IGamesServer gamesServer, String username ) throws GuiException{
 		super();
 		
 		if( mainFrame == null ){
@@ -162,7 +162,7 @@ public class GamesPanel extends JPanel implements IGamesServerListener {
 	@Override
 	public void onJoinGame(IGame game) {
 		try {
-			_mainFrame.changePanel(new LoadingPanel(_mainFrame,game, _username));
+			_mainFrame.changePanel(new LoadingJPanel(_mainFrame,game, _username));
 		} catch (GuiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

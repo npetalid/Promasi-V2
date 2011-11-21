@@ -1,21 +1,19 @@
 /**
  * 
  */
-package org.promasi.client_swing.gui;
+package org.promasi.client_swing.gui.desktop;
 
 import java.awt.BorderLayout;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.io.IOException;
 import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
-import org.promasi.client_swing.gui.desktop.IDesktop;
-import org.promasi.client_swing.gui.desktop.taskbar.TaskBarPanel;
+import org.promasi.client_swing.gui.GamesJPanel;
+import org.promasi.client_swing.gui.GuiException;
+import org.promasi.client_swing.gui.IMainFrame;
+import org.promasi.client_swing.gui.desktop.taskbar.TaskBarJPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.SerializableGameModel;
 import org.promasi.game.company.SerializableCompany;
@@ -24,13 +22,12 @@ import org.promasi.game.company.SerializableEmployeeTask;
 import org.promasi.game.company.SerializableMarketPlace;
 import org.promasi.game.project.SerializableProject;
 import org.promasi.game.singleplayer.IClientGameListener;
-import org.promasi.utilities.file.RootDirectory;
 
 /**
  * @author alekstheod
  *
  */
-public class PromasiGamePanel extends JPanel implements IClientGameListener , IDesktop{
+public class PromasiDesktopJPanel extends JPanel implements IClientGameListener , IDesktop{
 
 	/**
 	 * 
@@ -40,27 +37,32 @@ public class PromasiGamePanel extends JPanel implements IClientGameListener , ID
 	/**
 	 * 
 	 */
-	public static final String CONST_BG_IMAGE_NAME = "wallpaper.png";
-	
-	/**
-	 * 
-	 */
 	private IGame _game;
 	
 	/**
 	 * 
 	 */
-	private TaskBarPanel _taskBarPanel;
+	private TaskBarJPanel _taskBarPanel;
 	
 	/**
 	 * 
 	 */
-	private Image _bgImage;
+	private DesktopJPanel _desktop;
 	
 	/**
 	 * 
 	 */
-	public PromasiGamePanel( IGame game, String username )throws GuiException{
+	private IMainFrame _mainFrame;
+	
+	/**
+	 * 
+	 */
+	private String _username;
+	
+	/**
+	 * 
+	 */
+	public PromasiDesktopJPanel( IMainFrame mainFrame, IGame game, String username )throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
 		}
@@ -69,23 +71,20 @@ public class PromasiGamePanel extends JPanel implements IClientGameListener , ID
 			throw new GuiException("Wrong argument username");
 		}
 		
+		if( mainFrame == null ){
+			throw new GuiException("Wrong argument mainFrame == null");
+		}
+		
+		_username = username;
+		_mainFrame = mainFrame;
 		_game = game;
 		_game.addListener(this);
 		setLayout(new BorderLayout());
-		_taskBarPanel = new TaskBarPanel( username, this );
-		add( _taskBarPanel, BorderLayout.SOUTH );
-		try {
-			String imagePath = RootDirectory.getInstance().getImagesDirectory() + CONST_BG_IMAGE_NAME;
-			_bgImage = new ImageIcon(imagePath).getImage();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void paintComponent(Graphics graphics) {
-		graphics.drawImage(_bgImage, 0, 0, this.getBounds().width, this.getBounds().height, null);
+		_taskBarPanel = new TaskBarJPanel( username, this );
+		add( _taskBarPanel, BorderLayout.NORTH );
+		
+		_desktop = new DesktopJPanel( username , this );
+		add(_desktop);
 	}
 
 	@Override
@@ -169,7 +168,44 @@ public class PromasiGamePanel extends JPanel implements IClientGameListener , ID
 
 	@Override
 	public void gameFinished(IGame game, SerializableGameModel gameModel,
-			SerializableCompany company) {
+			SerializableCompany company) {	
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					_mainFrame.changePanel( new GamesJPanel(_mainFrame, _game.getGamesServer(), _username));
+				} catch (GuiException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	@Override
+	public void showStartMenu() {
+		_desktop.showStartMenu();
+	}
+
+	@Override
+	public void shutDown() {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					_game.stopGame();
+					_mainFrame.changePanel( new GamesJPanel(_mainFrame, _game.getGamesServer(), _username));
+				} catch (GuiException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	@Override
+	public void sleep() {
 		// TODO Auto-generated method stub
 		
 	}

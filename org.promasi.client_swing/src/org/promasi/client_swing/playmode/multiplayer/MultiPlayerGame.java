@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.promasi.game.GameException;
 import org.promasi.game.IGame;
+import org.promasi.game.IGamesServer;
 import org.promasi.game.company.SerializableEmployeeTask;
 import org.promasi.game.singleplayer.IClientGameListener;
 
@@ -75,6 +76,12 @@ public class MultiPlayerGame implements IGame {
 	public boolean setGameSpeed(int newSpeed) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public IGamesServer getGamesServer() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

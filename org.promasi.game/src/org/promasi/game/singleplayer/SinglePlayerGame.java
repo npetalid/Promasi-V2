@@ -14,6 +14,7 @@ import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.IGame;
 import org.promasi.game.IGameModelListener;
+import org.promasi.game.IGamesServer;
 import org.promasi.game.company.SerializableCompany;
 import org.promasi.game.company.SerializableEmployee;
 import org.promasi.game.company.SerializableEmployeeTask;
@@ -43,12 +44,17 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	/**
 	 * 
 	 */
-	private boolean _isRunning;
+	private IGamesServer _gamesServer;
 	
 	/**
 	 * 
 	 */
 	private Lock _lockObject;
+	
+	/**
+	 * 
+	 */
+	private boolean _isRunning;
 	
 	/**
 	 * 
@@ -60,14 +66,19 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	 * @param gameModel
 	 * @throws NullArgumentException
 	 */
-	public SinglePlayerGame(GameModel gameModel)throws GameException{
+	public SinglePlayerGame(IGamesServer gamesServer, GameModel gameModel)throws GameException{
 		if(gameModel==null){
 			throw new GameException("Wrong argument gameModel==null");
 		}
 		
+		if( gamesServer == null ){
+			throw new GameException("Wrong argument gamesServer==null");
+		}
+		
+		_isRunning = false;
+		_gamesServer = gamesServer;
 		_lockObject = new ReentrantLock();
 		_gameModel=gameModel;
-		_isRunning=false;
 		_listeners=new LinkedList<IClientGameListener>();
 		_systemClock=new Clock();
 		_systemClock.addListener(this);
@@ -180,7 +191,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	public boolean startGame() {
 		try{
 			_lockObject.lock();
-			if(!_isRunning){
+			if( !_systemClock.isActive() ){
 				_systemClock.start();	
 			}
 		}finally{
@@ -206,9 +217,8 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	public boolean stopGame() {
 		try{
 			_lockObject.lock();
+			_systemClock.removeListener(this);
 			_systemClock.stop();
-			_isRunning=false;
-			
 		}finally{
 			_lockObject.unlock();
 		}
@@ -313,5 +323,10 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		}finally{
 			_lockObject.unlock();
 		}
+	}
+
+	@Override
+	public IGamesServer getGamesServer() {
+		return _gamesServer;
 	}
 }

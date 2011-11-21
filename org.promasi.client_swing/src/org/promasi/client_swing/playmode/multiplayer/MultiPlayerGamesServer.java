@@ -3,9 +3,9 @@
  */
 package org.promasi.client_swing.playmode.multiplayer;
 
-import org.promasi.client_swing.playmode.IGamesServer;
-import org.promasi.client_swing.playmode.IGamesServerListener;
 import org.promasi.game.IGame;
+import org.promasi.game.IGamesServer;
+import org.promasi.game.IGamesServerListener;
 
 /**
  * @author alekstheod

@@ -25,7 +25,7 @@ import org.promasi.client_swing.playmode.singleplayer.SinglePlayerPlayMode;
  * @author alekstheod
  *
  */
-public class PlayModesPanel extends JPanel {
+public class PlayModesJPanel extends JPanel {
 	/**
 	 * 
 	 */
@@ -59,7 +59,7 @@ public class PlayModesPanel extends JPanel {
 	/**
 	 * 
 	 */
-	public PlayModesPanel( IMainFrame listener )throws GuiException{
+	public PlayModesJPanel( IMainFrame listener )throws GuiException{
 		super();
 		if( listener == null ){
 			throw new GuiException("Wrong argument listener == null");

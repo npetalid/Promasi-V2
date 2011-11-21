@@ -10,10 +10,10 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.promasi.client_swing.playmode.IGamesServer;
-import org.promasi.client_swing.playmode.IGamesServerListener;
 import org.promasi.game.GameException;
 import org.promasi.game.IGame;
+import org.promasi.game.IGamesServer;
+import org.promasi.game.IGamesServerListener;
 import org.promasi.game.singleplayer.SinglePlayerGame;
 import org.promasi.game.singleplayer.SinglePlayerGameBuilder;
 import org.promasi.utilities.file.RootDirectory;
@@ -37,26 +37,20 @@ public class SinglePlayerGamesServer implements IGamesServer {
 	/**
 	 * 
 	 */
-	private List<IGame> _games;
+	private File _gamesFolder;
 	
 	/**
 	 * 
 	 */
 	public SinglePlayerGamesServer( String gamesFolder )throws IOException{
+		if( gamesFolder == null ){
+			throw new IOException("");
+		}
+
 		_lockObject=new ReentrantLock();
-		_games = new LinkedList<IGame>();
-		File file=new File(gamesFolder);
-		if(file.isDirectory()){
-			String gamesFolders[]=file.list();
-			for(int i=0;i<gamesFolders.length;i++){
-				try{
-					SinglePlayerGameBuilder builder;
-					builder = new SinglePlayerGameBuilder( gamesFolder + RootDirectory.getInstance().getSeparator() + gamesFolders[i] );
-					_games.add( new SinglePlayerGame( builder.getGame() )  );
-				}catch (GameException e) {
-					// TODO Auto-generated catch block
-				}
-			}
+		_gamesFolder=new File(gamesFolder);
+		if(!_gamesFolder.isDirectory()){
+			throw new IOException("Wrong argument gamesFolder");
 		}
 	}
 
@@ -64,9 +58,26 @@ public class SinglePlayerGamesServer implements IGamesServer {
 	public boolean requestGamesList() {
 		boolean result = false;
 		synchronized( this ){
-			if( _listener != null ){
-				_listener.updateGamesList( _games );
+			try{
+				List<IGame> games = new LinkedList<IGame>();
+				String gamesFolders[]=_gamesFolder.list();
+				for(int i=0;i<gamesFolders.length;i++){
+					try{
+						SinglePlayerGameBuilder builder;
+						builder = new SinglePlayerGameBuilder( _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + gamesFolders[i] );
+						games.add( new SinglePlayerGame(this, builder.getGame() )  );
+					}catch (GameException e) {
+						// TODO Auto-generated catch block
+					}
+				}
+				
+				if( _listener != null ){
+					_listener.updateGamesList( games );
+				}	
+			}catch(IOException e){
+				
 			}
+
 		}
 		
 		return result;

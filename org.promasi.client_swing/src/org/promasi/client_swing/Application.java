@@ -15,7 +15,7 @@ import javax.swing.SwingUtilities;
 
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.MainFrame;
-import org.promasi.client_swing.gui.PlayModesPanel;
+import org.promasi.client_swing.gui.PlayModesJPanel;
 
 /**
  * @author alekstheod
@@ -42,7 +42,7 @@ public class Application {
 	 
 	                // "Pack" the window, making it "just big enough".
 	                mainFrame.pack();
-	 
+	                
 	                // Set the default close operation for the window, or else the
 	                // program won't exit when clicking close button
 	                //  (The default is HIDE_ON_CLOSE, which just makes the window
@@ -55,7 +55,7 @@ public class Application {
 	                mainFrame.setLayout(new BorderLayout());
 	                
 	        		JPanel panel;
-					panel = new PlayModesPanel( mainFrame );
+					panel = new PlayModesJPanel( mainFrame );
 	        		mainFrame.changePanel(panel);
 	                
 	                // Set the visibility as true, thereby displaying it

@@ -78,6 +78,12 @@ public interface IGame
 	 * 
 	 * @return
 	 */
+	public IGamesServer getGamesServer();
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public boolean stopGame();
 	
 	/**

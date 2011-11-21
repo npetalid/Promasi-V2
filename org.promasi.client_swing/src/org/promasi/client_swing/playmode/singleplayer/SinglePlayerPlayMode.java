@@ -5,7 +5,7 @@ package org.promasi.client_swing.playmode.singleplayer;
 
 import java.io.IOException;
 
-import org.promasi.client_swing.gui.GamesPanel;
+import org.promasi.client_swing.gui.GamesJPanel;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.IMainFrame;
 import org.promasi.client_swing.playmode.IPlayMode;
@@ -50,10 +50,10 @@ public class SinglePlayerPlayMode implements IPlayMode {
 
 	@Override
 	public void gotoNextPanel( IMainFrame mainFrame ) {
-        GamesPanel newPanel;
+        GamesJPanel newPanel;
 		try {
 			SinglePlayerGamesServer server = new SinglePlayerGamesServer( getUri() );
-			newPanel = new GamesPanel(mainFrame, server, CONST_SINGLEPLAYER_USERNAME );
+			newPanel = new GamesJPanel(mainFrame, server, CONST_SINGLEPLAYER_USERNAME );
 			mainFrame.changePanel(newPanel);
 		} catch (GuiException e) {
 			//ToDo : error
