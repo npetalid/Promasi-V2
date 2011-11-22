@@ -80,8 +80,8 @@ public class TaskBarJPanel extends JPanel {
 			_startButton = new JButton("Start");
 		}
 		
-		_startButton.setHorizontalTextPosition(SwingConstants.LEFT);
-		_startButton.setPreferredSize(new Dimension(100,100));
+		_startButton.setHorizontalAlignment(SwingConstants.LEFT);
+		_startButton.setPreferredSize(new Dimension(125,100));
 		_startButton.addActionListener(new ActionListener() {
 			
 			@Override

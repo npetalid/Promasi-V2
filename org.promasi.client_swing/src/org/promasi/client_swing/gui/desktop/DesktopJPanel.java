@@ -4,8 +4,10 @@
 package org.promasi.client_swing.gui.desktop;
 
 import java.awt.BorderLayout;
+import java.beans.PropertyVetoException;
 import java.util.List;
 
+import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -13,6 +15,7 @@ import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GamesJPanel;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.IMainFrame;
+import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
 import org.promasi.client_swing.gui.desktop.taskbar.TaskBarJPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.SerializableGameModel;
@@ -27,7 +30,7 @@ import org.promasi.game.singleplayer.IClientGameListener;
  * @author alekstheod
  *
  */
-public class PromasiDesktopJPanel extends JPanel implements IClientGameListener , IDesktop{
+public class DesktopJPanel extends JPanel implements IClientGameListener , IDesktop{
 
 	/**
 	 * 
@@ -47,7 +50,7 @@ public class PromasiDesktopJPanel extends JPanel implements IClientGameListener 
 	/**
 	 * 
 	 */
-	private DesktopJPanel _desktop;
+	private PromasiJDesktopPane _workspace;
 	
 	/**
 	 * 
@@ -62,7 +65,7 @@ public class PromasiDesktopJPanel extends JPanel implements IClientGameListener 
 	/**
 	 * 
 	 */
-	public PromasiDesktopJPanel( IMainFrame mainFrame, IGame game, String username )throws GuiException{
+	public DesktopJPanel( IMainFrame mainFrame, IGame game, String username )throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
 		}
@@ -83,8 +86,8 @@ public class PromasiDesktopJPanel extends JPanel implements IClientGameListener 
 		_taskBarPanel = new TaskBarJPanel( username, this );
 		add( _taskBarPanel, BorderLayout.NORTH );
 		
-		_desktop = new DesktopJPanel( username , this );
-		add(_desktop);
+		_workspace = new PromasiJDesktopPane( username , this );
+		add(_workspace);
 	}
 
 	@Override
@@ -173,6 +176,7 @@ public class PromasiDesktopJPanel extends JPanel implements IClientGameListener 
 			@Override
 			public void run() {
 				try {
+					_game.stopGame();
 					_mainFrame.changePanel( new GamesJPanel(_mainFrame, _game.getGamesServer(), _username));
 				} catch (GuiException e) {
 					// TODO Auto-generated catch block
@@ -184,7 +188,7 @@ public class PromasiDesktopJPanel extends JPanel implements IClientGameListener 
 
 	@Override
 	public void showStartMenu() {
-		_desktop.showStartMenu();
+		_workspace.showStartMenu();
 	}
 
 	@Override
@@ -208,6 +212,31 @@ public class PromasiDesktopJPanel extends JPanel implements IClientGameListener 
 	public void sleep() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void runApplication( ADesktopApplication application ) {
+		try {
+			if( application != null ){
+				boolean alreadyRunning = false;
+				JInternalFrame[] frames = _workspace.getAllFrames();
+				for (int i = 0; i < frames.length; i++) {
+					if( frames[i] == application ){
+						alreadyRunning = true;
+					}
+				 }
+				
+				if( !alreadyRunning ){
+					application.setBounds(_workspace.getWidth()/2 - 100, _workspace.getHeight()/2 - 100 , _workspace.getWidth()/2 + 100, _workspace.getHeight()/2 + 100 );
+					_workspace.add(application);
+					application.show();
+					application.setSelected(true);
+				}
+			}
+		} catch (PropertyVetoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

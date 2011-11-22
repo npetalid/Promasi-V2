@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
-import org.promasi.client_swing.gui.desktop.PromasiDesktopJPanel;
+import org.promasi.client_swing.gui.desktop.DesktopJPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.SerializableGameModel;
 import org.promasi.game.company.SerializableCompany;
@@ -78,7 +78,7 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 			@Override
 			public void run() {
 				try {
-					_mainFrame.changePanel(new PromasiDesktopJPanel( _mainFrame, _game, _username));
+					_mainFrame.changePanel(new DesktopJPanel( _mainFrame, _game, _username));
 				} catch (GuiException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
