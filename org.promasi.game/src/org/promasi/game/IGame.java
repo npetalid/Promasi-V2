@@ -3,6 +3,7 @@ package org.promasi.game;
 import java.util.Date;
 import java.util.List;
 
+import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.SerializableEmployeeTask;
 import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
@@ -42,11 +43,10 @@ public interface IGame
 	/**
 	 * 
 	 * @param employeeId
-	 * @param employeeTask
+	 * @param employeeTasks
 	 * @return
-	 * @throws NullArgumentException 
 	 */
-	public boolean assignTasks(final String employeeId, List<SerializableEmployeeTask> employeeTasks) throws GameException;
+	public boolean assignTasks(final String employeeId, List<SerializableEmployeeTask> employeeTasks);
 	
 	/**
 	 * 
@@ -55,10 +55,26 @@ public interface IGame
 	 */
 	public boolean addListener(final IClientGameListener listener);
 	
-	/*
+	/**
 	 * 
+	 * @param listener
+	 * @return
 	 */
 	public boolean removeListener(final IClientGameListener listener);
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean addCompanyListener( ICompanyListener listener );
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean removeCompanyListener( ICompanyListener listener );
 	
 	/**
 	 * 

@@ -11,11 +11,8 @@ import org.joda.time.DateTime;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.MarketPlace;
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableEmployee;
 import org.promasi.game.company.SerializableEmployeeTask;
 import org.promasi.game.project.Project;
-import org.promasi.game.project.SerializableProject;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -23,7 +20,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class GameModel implements ICompanyListener
+public class GameModel
 {
 	/**
 	 * 
@@ -103,7 +100,6 @@ public class GameModel implements ICompanyListener
 		_projects=projects;
 		_marketPlace=marketPlace;
 		_company=company;
-		_company.addListener(this);
 		_listeners=new LinkedList<IGameModelListener>();
 		_gameName=gameName;
 		_gameDescription=gameDescription;
@@ -121,62 +117,6 @@ public class GameModel implements ICompanyListener
 			return new SerializableGameModel(this);
 		} catch (NullArgumentException e) {
 			throw new SerializationException("Serialization failed because " + e.getMessage());
-		}
-	}
-	
-	@Override
-	public void projectAssigned(SerializableCompany company, SerializableProject project) {
-		for( IGameModelListener gameEventHandler : _listeners){
-			gameEventHandler.projectAssigned(this, company, project);
-		}
-	}
-
-	@Override
-	public void projectFinished(SerializableCompany company, SerializableProject project) {
-		for( IGameModelListener gameEventHandler : _listeners){
-			gameEventHandler.projectFinished(this,company, project);
-		}
-	}
-
-	@Override
-	public void employeeHired(SerializableCompany company, SerializableEmployee employee) throws SerializationException {
-		for( IGameModelListener gameEventHandler : _listeners){
-			gameEventHandler.employeeHired(this, _marketPlace.getSerializableMarketPlace(), company, employee);
-		}
-	}
-
-	@Override
-	public void employeeDischarged(SerializableCompany company,SerializableEmployee employee) throws SerializationException {
-		for( IGameModelListener gameEventHandler : _listeners){
-			gameEventHandler.employeeDischarged(this, _marketPlace.getSerializableMarketPlace(), company, employee);
-		}
-	}
-
-	@Override
-	public void companyIsInsolvent(SerializableCompany company, SerializableProject assignedProject) {
-		for( IGameModelListener gameEventHandler : _listeners){
-			gameEventHandler.companyIsInsolvent(this, company);
-		}
-	}
-	
-	@Override
-	public void onExecuteWorkingStep(SerializableCompany company, SerializableProject assignedProject) throws SerializationException {
-		for( IGameModelListener gameEventHandler : _listeners){
-			gameEventHandler.onExecuteStep(this, company, assignedProject);
-		}
-	}
-
-	@Override
-	public void employeeTasksAttached(SerializableCompany company, SerializableEmployee employee,List<SerializableEmployeeTask> employeeTasks) {
-		for( IGameModelListener gameEventHandler : _listeners){
-			gameEventHandler.employeeTasksAssigned(this, company, employee, employeeTasks);
-		}
-	}
-
-	@Override
-	public void employeeTaskDetached(SerializableCompany company, SerializableEmployee employee,SerializableEmployeeTask employeeTask) throws SerializationException {
-		for( IGameModelListener gameEventHandler : _listeners){
-			gameEventHandler.employeeTaskDetached(this, _marketPlace.getSerializableMarketPlace(), company, employee, employeeTask);
 		}
 	}
 
@@ -212,8 +152,6 @@ public class GameModel implements ICompanyListener
 			return _company.assignTasks(employeeId, employeeTasks);
 		} catch (IllegalArgumentException e) {
 			return false;
-		} catch (NullArgumentException e) {
-			return false;
 		}
 	}
 
@@ -225,6 +163,24 @@ public class GameModel implements ICompanyListener
 		return _gameDescription;
 	}
 
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean addCompanyListener( ICompanyListener listener ){
+		return _company.addListener(listener);
+	}
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean removeCompanyListener( ICompanyListener listener ){
+		return _company.removeListener(listener);
+	}
+	
 	/**
 	 * 
 	 * @param listener

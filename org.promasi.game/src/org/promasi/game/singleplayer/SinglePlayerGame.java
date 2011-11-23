@@ -15,6 +15,7 @@ import org.promasi.game.GameModel;
 import org.promasi.game.IGame;
 import org.promasi.game.IGameModelListener;
 import org.promasi.game.IGamesServer;
+import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.SerializableCompany;
 import org.promasi.game.company.SerializableEmployee;
 import org.promasi.game.company.SerializableEmployeeTask;
@@ -328,5 +329,15 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	@Override
 	public IGamesServer getGamesServer() {
 		return _gamesServer;
+	}
+
+	@Override
+	public boolean addCompanyListener(ICompanyListener listener) {
+		return _gameModel.addCompanyListener(listener);
+	}
+
+	@Override
+	public boolean removeCompanyListener(ICompanyListener listener) {
+		return _gameModel.removeCompanyListener(listener);
 	}
 }

@@ -20,7 +20,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Decorations;
 import org.eclipse.swt.widgets.List;
 import org.promasi.client.gui.company.Project;
-import org.promasi.game.GameException;
 import org.promasi.game.IGame;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.SerializableEmployeeTask;
@@ -364,11 +363,7 @@ public class SchedulerComposite extends Composite implements ITaskDialogListener
 		
 		// assign tasks
 		for(Entry<String, Vector<SerializableEmployeeTask>> entry : tasksPerEmployee.entrySet()){
-			try {
-				_game.assignTasks(entry.getKey(), entry.getValue());
-			} catch (GameException e) {
-				return false;
-			}
+			_game.assignTasks(entry.getKey(), entry.getValue());
 		}
 		
 		return true;

@@ -9,6 +9,7 @@ import java.util.List;
 import org.promasi.game.GameException;
 import org.promasi.game.IGame;
 import org.promasi.game.IGamesServer;
+import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.SerializableEmployeeTask;
 import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.protocol.messages.AssignEmployeeTasksRequest;
@@ -80,17 +81,14 @@ public class MultiPlayerGame implements IGame
 	 * @see org.promasi.game.IGame#assignTasks(java.lang.String, java.util.List)
 	 */
 	@Override
-	public boolean assignTasks(String employeeId, List<SerializableEmployeeTask> employeeTasks)throws GameException {
-		if(employeeId==null){
-			throw new GameException("Wrong argument employeeId==null");
+	public boolean assignTasks(String employeeId, List<SerializableEmployeeTask> employeeTasks) {
+		boolean result = false;
+		if(employeeId!=null && employeeTasks!=null){
+			_client.sendMessage(new AssignEmployeeTasksRequest(employeeId, employeeTasks).serialize());
+			result = true;
 		}
 		
-		if(employeeTasks==null){
-			throw new GameException("Wrong argument employeeTasks==null");
-		}
-		
-		_client.sendMessage(new AssignEmployeeTasksRequest(employeeId, employeeTasks).serialize());
-		return true;
+		return result;
 	}
 
 	/* (non-Javadoc)
@@ -153,4 +151,15 @@ public class MultiPlayerGame implements IGame
 		return null;
 	}
 
+	@Override
+	public boolean addCompanyListener(ICompanyListener listener) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeCompanyListener(ICompanyListener listener) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

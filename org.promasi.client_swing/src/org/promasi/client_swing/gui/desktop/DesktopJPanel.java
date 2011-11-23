@@ -238,5 +238,4 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 			e.printStackTrace();
 		}
 	}
-
 }

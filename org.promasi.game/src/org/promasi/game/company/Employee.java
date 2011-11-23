@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
@@ -61,6 +63,11 @@ public class Employee
     private Map<Integer ,EmployeeTask> _employeeTasks;
     
     /**
+     * 
+     */
+    private Lock _lockObject;
+    
+    /**
      * Initializes the object.
      */
     public Employee(String firstName, String lastName, String employeeId, String curriculumVitae, double salary,Map<String, Double> employeeSkills)throws NullArgumentException, IllegalArgumentException
@@ -98,6 +105,7 @@ public class Employee
         _curriculumVitae=curriculumVitae;
         _salary=salary;
         _employeeSkills=employeeSkills;
+        _lockObject = new ReentrantLock();
         _employeeTasks=new TreeMap<Integer, EmployeeTask>();
     }
 
@@ -158,53 +166,73 @@ public class Employee
      * @return
      * @throws SerializationException 
      */
-    public synchronized boolean assignTasks(List<EmployeeTask> employeeTasks)throws NullArgumentException, SerializationException{
-    	if(employeeTasks==null){
-    		throw new NullArgumentException("Wrong argument employeeTasks==null");
-    	}
+    public boolean assignTasks(List<EmployeeTask> employeeTasks){
+    	boolean result = false;
     	
-    	for(EmployeeTask task : employeeTasks){
-        	for(Map.Entry<Integer , EmployeeTask> entry: _employeeTasks.entrySet()){
-        		if( entry.getValue().conflictsWithTask(task) ){
-        			return false;
-        		}
-        	}
-    	}
-    	
-    	List<EmployeeTask> tmp=new LinkedList<EmployeeTask>(employeeTasks);
-    	for(EmployeeTask tmpTask : tmp){
-    		for(EmployeeTask employeeTask : employeeTasks){
-    			if(tmpTask!=employeeTask && tmpTask.conflictsWithTask(employeeTask)){
-    				throw new NullArgumentException("Wrong argument employeeTasks conflicts found");
-    			}
-    		}
-    	}
+    	try{
+    		_lockObject.lock();
+        	if(employeeTasks!=null){
+            	for(EmployeeTask task : employeeTasks){
+                	for(Map.Entry<Integer , EmployeeTask> entry: _employeeTasks.entrySet()){
+                		if( entry.getValue().conflictsWithTask(task) ){
+                			return false;
+                		}
+                	}
+            	}
+            	
+            	List<EmployeeTask> tmp=new LinkedList<EmployeeTask>(employeeTasks);
+            	for(EmployeeTask tmpTask : tmp){
+            		for(EmployeeTask employeeTask : employeeTasks){
+            			if(tmpTask!=employeeTask && tmpTask.conflictsWithTask(employeeTask)){
+            				return false;
+            			}
+            		}
+            	}
 
-    	List<SerializableEmployeeTask> serializableTasks=new LinkedList<SerializableEmployeeTask>();
-    	for(EmployeeTask task : employeeTasks){
-    		_employeeTasks.put(task.getFirstStep(), task);
-    		serializableTasks.add( task.getSerializableEmployeeTask() );
+            	List<SerializableEmployeeTask> serializableTasks=new LinkedList<SerializableEmployeeTask>();
+            	for(EmployeeTask task : employeeTasks){
+            		_employeeTasks.put(task.getFirstStep(), task);
+            		serializableTasks.add( task.getSerializableEmployeeTask() );
+            	}
+        		
+            	if(_employeeListener!=null){
+            		_employeeListener.taskAttached(getSerializableEmployee(), serializableTasks);
+            	}
+            	
+            	result = true;
+        	}
+    	}catch( SerializationException e){
+    		result = false;
+    	}finally{
+    		_lockObject.unlock();
     	}
-		
-    	if(_employeeListener!=null){
-    		_employeeListener.taskAttached(getSerializableEmployee(), serializableTasks);
-    	}
-    	
-		return true;
+	
+		return result;
     }
     
     /**
-     * @throws SerializationException 
      * 
+     * @return
      */
-    public synchronized void removeAllTasks() throws SerializationException{
-    	for(Map.Entry<Integer , EmployeeTask> entry : _employeeTasks.entrySet()){
-    		if(_employeeListener!=null){
-    			_employeeListener.taskDetached( getSerializableEmployee(), entry.getValue().getSerializableEmployeeTask() );
-    		}
+    public boolean removeAllTasks(){
+    	boolean result = false;
+    	try{
+    		_lockObject.lock();
+        	for(Map.Entry<Integer , EmployeeTask> entry : _employeeTasks.entrySet()){
+        		if(_employeeListener!=null){
+        			_employeeListener.taskDetached( getSerializableEmployee(), entry.getValue().getSerializableEmployeeTask() );
+        		}
+        	}
+        	
+        	_employeeTasks.clear();
+        	result = true;
+    	}catch (SerializationException e){
+    		result = false;
+    	}finally{
+    		_lockObject.unlock();
     	}
-    	
-    	_employeeTasks.clear();
+
+    	return result;
     }
     
     /**
@@ -237,32 +265,46 @@ public class Employee
      * 
      * @return
      */
-    public synchronized boolean  executeTasks(int currentStep)throws IllegalArgumentException{
-    	if(_employeeTasks.isEmpty()){
-    		return false;
-    	}
+    public boolean  executeTasks(int currentStep){
+    	boolean result = false;
     	
-    	Map<Integer, EmployeeTask> employeeTasks=new TreeMap<Integer, EmployeeTask> ();
-    	for(Map.Entry<Integer ,EmployeeTask> entry: _employeeTasks.entrySet()){
-    		try{
-    			entry.getValue().executeTask(_employeeSkills, currentStep);
-    			if(entry.getValue().isValid(currentStep)){
-    				employeeTasks.put(entry.getKey(), entry.getValue());
-    			}
-    		}catch(NullArgumentException e){
-    			return false;
-    		}
+    	try{
+    		_lockObject.lock();
+        	if(!_employeeTasks.isEmpty()){
+            	Map<Integer, EmployeeTask> employeeTasks=new TreeMap<Integer, EmployeeTask> ();
+            	for(Map.Entry<Integer ,EmployeeTask> entry: _employeeTasks.entrySet()){
+            		try{
+            			entry.getValue().executeTask(_employeeSkills, currentStep);
+            			if(entry.getValue().isValid(currentStep)){
+            				employeeTasks.put(entry.getKey(), entry.getValue());
+            			}
+            			
+            			result = true;
+            		}catch(NullArgumentException e){
+            			return false;
+            		}
+            	}
+            	
+            	_employeeTasks=employeeTasks;
+        	}
+        	
+    	}finally{
+    		_lockObject.unlock();
     	}
-    	
-    	_employeeTasks=employeeTasks;
-    	return true;
+
+    	return result;
     }
 
     /**
      * 
      * @param employeeEventHandler
      */
-    public synchronized void setListener(IEmployeeListener employeeEventHandler){
-    	_employeeListener=employeeEventHandler;
+    public void setListener(IEmployeeListener employeeEventHandler){
+    	try{
+    		_lockObject.lock();
+        	_employeeListener=employeeEventHandler;
+    	}finally{
+    		_lockObject.unlock();
+    	}
     }
 }

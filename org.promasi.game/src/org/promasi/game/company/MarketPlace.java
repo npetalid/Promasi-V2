@@ -6,6 +6,8 @@ package org.promasi.game.company;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
@@ -21,6 +23,11 @@ public class MarketPlace
 	 * 
 	 */
 	protected Map<String,Employee> _availabelEmployees;
+	
+	/**
+	 * 
+	 */
+	private Lock _lockObject;
 	
 	/**
 	 * 
@@ -41,6 +48,7 @@ public class MarketPlace
 			}
 		}
 		
+		_lockObject = new ReentrantLock();
 		_availabelEmployees=employees;
 	}
 	
@@ -49,12 +57,18 @@ public class MarketPlace
 	 * @return
 	 * @throws SerializationException
 	 */
-	public synchronized SerializableMarketPlace getSerializableMarketPlace()throws SerializationException{
+	public SerializableMarketPlace getSerializableMarketPlace()throws SerializationException{
+		SerializableMarketPlace result = null;
 		try {
-			return new SerializableMarketPlace(this);
+			_lockObject.lock();
+			result = new SerializableMarketPlace(this);
 		} catch (NullArgumentException e) {
 			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
+		} finally{
+			_lockObject.unlock();
 		}
+		
+		return result;
 	}
 	
 	/**
@@ -62,10 +76,16 @@ public class MarketPlace
 	 * @return
 	 * @throws SerializationException 
 	 */
-	public synchronized Map<String, SerializableEmployee> getAvailableEmployees() throws SerializationException{
-		Map<String, SerializableEmployee> employees=new TreeMap<String, SerializableEmployee>();
-		for(Map.Entry<String, Employee> entry : _availabelEmployees.entrySet()){
+	public Map<String, SerializableEmployee> getAvailableEmployees() throws SerializationException{
+		Map<String, SerializableEmployee> employees = new TreeMap<String, SerializableEmployee>();
+
+		try{
+			_lockObject.lock();		
+			for(Map.Entry<String, Employee> entry : _availabelEmployees.entrySet()){
 			employees.put(entry.getKey(), entry.getValue().getSerializableEmployee());
+		}
+		}finally{
+			_lockObject.unlock();
 		}
 		
 		return employees;
@@ -77,16 +97,19 @@ public class MarketPlace
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public synchronized boolean isEmployeeAvailable(final SerializableEmployee employee)throws NullArgumentException{
-		if(employee==null){
-			throw new NullArgumentException("Wrong argument employee==null");
-		}
+	public boolean isEmployeeAvailable(final SerializableEmployee employee){
+		boolean result = false;
 		
-		if( _availabelEmployees.containsKey( employee.getEmployeeId() ) ){
-			return true;
+		try{
+			_lockObject.lock();		
+			if( _availabelEmployees.containsKey( employee.getEmployeeId() ) ){
+				result = true;
+			}
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		return false;
+
+		return result;
 	}
 	
 	/**
@@ -123,46 +146,52 @@ public class MarketPlace
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public synchronized boolean dischargeEmployee(final Employee employee)throws NullArgumentException{
+	public boolean dischargeEmployee(final Employee employee){
+		boolean result = false;
 		try {
-			if(employee==null){
-				throw new NullArgumentException("Wrong argument employee==null");
+			if(employee!=null){
+				if( !_availabelEmployees.containsKey( employee.getEmployeeId() ) ){
+					employee.removeAllTasks();
+					_availabelEmployees.put(employee.getEmployeeId(), employee);
+					result = true;
+				}		
 			}
-			
-			if( _availabelEmployees.containsKey( employee.getEmployeeId() ) ){
-				return false;
-			}
-			
-			employee.removeAllTasks();
-			_availabelEmployees.put(employee.getEmployeeId(), employee);
-		} catch (SerializationException e) {
-			return false;
+		} finally{
+			_lockObject.unlock();
 		}
 		
-		return true;
+		return result;
 	}
 	
 	/**
 	 * 
 	 * @param employees
-	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
+	 * @return
 	 */
-	public synchronized void addEmployees(final List<Employee> employees)throws NullArgumentException, IllegalArgumentException{
-		if(employees==null){
-			throw new NullArgumentException("Wrong argument employees==null");
+	public boolean addEmployees(final List<Employee> employees){
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if( employees != null ){
+				
+				for(Employee employee : employees){
+					if( employee==null ){
+						throw new IllegalArgumentException("Wrong argument employees contains null");
+					}
+				}
+				
+				for(Employee employee : employees){
+					if( !_availabelEmployees.containsKey(employee.getEmployeeId() ) ){
+						_availabelEmployees.put(employee.getEmployeeId(), employee);
+					}
+				}
+			}
+			
+		}finally{
+			_lockObject.unlock();
 		}
 		
-		for(Employee employee : employees){
-			if( employee==null ){
-				throw new IllegalArgumentException("Wrong argument employees contains null");
-			}
-		}
-		
-		for(Employee employee : employees){
-			if( !_availabelEmployees.containsKey(employee.getEmployeeId() ) ){
-				_availabelEmployees.put(employee.getEmployeeId(), employee);
-			}
-		}
+		return result;
 	}
 }
