@@ -3,6 +3,8 @@ package org.promasi.server;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.naming.ConfigurationException;
 
@@ -50,6 +52,11 @@ public class ProMaSiServer implements ITcpServerListener
 	/**
 	 * 
 	 */
+	private Lock _lockObject;
+	
+	/**
+	 * 
+	 */
 	private Thread _loginCheckThread;
 	
 	/**
@@ -64,11 +71,10 @@ public class ProMaSiServer implements ITcpServerListener
 		}
 		
 		_server=new TcpServer();
-		try {
-			_server.addListener(this);
-		} catch (NetworkException e) {
+		if(!_server.addListener(this)){
 			throw new ConfigurationException("TcpServer configuration failed");
 		}
+
 		if(!_server.start(portNumber)){
 			throw new IllegalArgumentException("Wrong argument portNumber");
 		}
@@ -104,17 +110,18 @@ public class ProMaSiServer implements ITcpServerListener
 			}
 		});
 		
+		_lockObject = new ReentrantLock();
 		_availableGames=new TreeMap<String, MultiPlayerGame>();
 		_loginCheckThread.start();
 	}
 
 	@Override
-	public synchronized void serverStarted(int portNumber) {
+	public void serverStarted(int portNumber) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public synchronized void serverStopped() {
+	public void serverStopped() {
 		for(Map.Entry<String, ProMaSiClient> entry : _clients.entrySet()){
 			entry.getValue().disconnect();
 		}
@@ -128,7 +135,7 @@ public class ProMaSiServer implements ITcpServerListener
 	}
 
 	@Override
-	public synchronized void clientConnected(TcpClient client) {
+	public void clientConnected(TcpClient client) {
 		try {
 			ProMaSiClient pClient=new ProMaSiClient(client,new LoginClientState(this));
 			_connectedClients.put(new DateTime(),pClient);
@@ -141,19 +148,15 @@ public class ProMaSiServer implements ITcpServerListener
 	}
 
 	@Override
-	public synchronized void clientDisconnected( TcpClient client) {
+	public void clientDisconnected( TcpClient client) {
 		if(_connectedClients.containsKey(client)){
 			_connectedClients.remove(client);
 		}
 		
 		Map<String, ProMaSiClient> clients=new TreeMap<String, ProMaSiClient>();
 		for(Map.Entry<String, ProMaSiClient> entry : _clients.entrySet()){
-			try {
-				if(!entry.getValue().equals(client)){
-					clients.put(entry.getKey(), entry.getValue());
-				}
-			} catch (NullArgumentException e) {
-				//Logger
+			if(!entry.getValue().equals(client)){
+				clients.put(entry.getKey(), entry.getValue());
 			}
 		}
 	}
@@ -164,33 +167,34 @@ public class ProMaSiServer implements ITcpServerListener
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public synchronized boolean login(String userId, ProMaSiClient client)throws NullArgumentException{
-		if(userId==null){
-			throw new NullArgumentException("Wrong argument userId==null");
-		}
-		
-		if(client==null){
-			throw new NullArgumentException("Wrong argument client==null");
-		}
-		
-		if(_clients.containsKey(userId)){
-			return false;
-		}
-		
-		DateTime loginTime=null;
-		for(Map.Entry<DateTime, ProMaSiClient> entry : _connectedClients.entrySet()){
-			if(entry.getValue()==client){
-				loginTime=entry.getKey();
-				break;
+	public boolean login(String userId, ProMaSiClient client){
+		boolean result = false;
+		try{
+			_lockObject.lock();
+			if(userId!=null && client != null){
+				if(!_clients.containsKey(userId)){
+					DateTime loginTime=null;
+					for(Map.Entry<DateTime, ProMaSiClient> entry : _connectedClients.entrySet()){
+						if(entry.getValue()==client){
+							loginTime=entry.getKey();
+							break;
+						}
+					}
+					
+					if(loginTime!=null && _connectedClients.containsKey(loginTime)){
+						_connectedClients.remove(loginTime);
+					}
+					
+					_clients.put(userId, client);
+					result = true;
+				}
 			}
+		}finally{
+			_lockObject.unlock();
 		}
+
 		
-		if(loginTime!=null && _connectedClients.containsKey(loginTime)){
-			_connectedClients.remove(loginTime);
-		}
-		
-		_clients.put(userId, client);
-		return true;
+		return result;
 	}
 	
 	/**
@@ -198,84 +202,89 @@ public class ProMaSiServer implements ITcpServerListener
 	 * @param clientId
 	 * @param game
 	 * @return
-	 * @throws NullArgumentException
 	 */
-	public synchronized boolean createGame(String clientId, MultiPlayerGame game)throws NullArgumentException{
-		if(clientId==null){
-			throw new NullArgumentException("Wrong argument clientId==null");
-		}
+	public boolean createGame(String clientId, MultiPlayerGame game){
+		boolean result = false;
 		
-		if(game==null){
-			throw new NullArgumentException("Wrong argument game==null");
-		}
-		
-		if( _availableGames.containsKey(game.getGameName()) ) {
-			return false;
-		}
-		
-		_availableGames.put(game.getGameName(), game);
-		for(Map.Entry<String, ProMaSiClient> entry : _clients.entrySet()){
-			try{
-				sendUpdateGamesListRequest(entry.getValue());
-			}catch(NullArgumentException e){
-				//Logger
+		try{
+			_lockObject.lock();
+			if(clientId != null && game != null){
+				if( !_availableGames.containsKey(game.getGameName()) ) {
+					_availableGames.put(game.getGameName(), game);
+					for(Map.Entry<String, ProMaSiClient> entry : _clients.entrySet()){
+						result = sendUpdateGamesListRequest(entry.getValue());
+					}
+				}
 			}
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		return true;
+
+		return result;
 	}
 	
 	/**
 	 * 
 	 * @param clientId
 	 * @return
-	 * @throws NullArgumentException
 	 */
-	public synchronized boolean startGame(String clientId, String gameId)throws NullArgumentException{
-		if(clientId==null){
-			throw new NullArgumentException("Wrong argument clientId==null");
-		}
+	public boolean startGame(String clientId, String gameId){
+		boolean result = false;
 		
-		if(gameId==null){
-			throw new NullArgumentException("Wrong argument gameId==null");
-		}
-		
-		if(_availableGames.containsKey(gameId)){
-			if(!_availableGames.get(gameId).startGame(clientId)){
-				return false;
-			}
-			
-			_availableGames.remove(gameId);
-			for(Map.Entry<String, ProMaSiClient> entry : _clients.entrySet()){
-				try{
-					sendUpdateGamesListRequest(entry.getValue());
-				}catch(NullArgumentException e){
-					//Logger
+		try{
+			_lockObject.lock();
+			if( clientId != null && gameId != null){
+				if(_availableGames.containsKey(gameId)){
+					if(!_availableGames.get(gameId).startGame(clientId)){
+						return false;
+					}
+					
+					_availableGames.remove(gameId);
+					for(Map.Entry<String, ProMaSiClient> entry : _clients.entrySet()){
+						result = sendUpdateGamesListRequest(entry.getValue());
+					}
 				}
 			}
-		}else{
-			return false;
+		}catch( NullArgumentException e){
+			result = false;
+		}finally{
+			_lockObject.unlock();
+		}
+
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isRunning(){
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			result = _server.isRunning();;
+		}finally{
+			_lockObject.unlock();
 		}
 		
-		return true;
+		return result;
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public synchronized boolean isRunning(){
-		return _server.isRunning();
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public synchronized Map<String, String> getAvailableGames(){
+	public Map<String, String> getAvailableGames(){
 		Map<String, String> games=new TreeMap<String, String>();
-		for(Map.Entry<String, MultiPlayerGame> entry : _availableGames.entrySet()){
-			games.put(entry.getKey(), entry.getValue().getGameDescription());
+		
+		try{
+			_lockObject.lock();
+			for(Map.Entry<String, MultiPlayerGame> entry : _availableGames.entrySet()){
+				games.put(entry.getKey(), entry.getValue().getGameDescription());
+			}
+		}finally{
+			_lockObject.unlock();
 		}
 		
 		return games;
@@ -289,7 +298,7 @@ public class ProMaSiServer implements ITcpServerListener
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public synchronized MultiPlayerGame joinGame(String clientId, String gameId)throws NullArgumentException, IllegalArgumentException{
+	public MultiPlayerGame joinGame(String clientId, String gameId)throws NullArgumentException, IllegalArgumentException{
 		if(gameId==null){
 			throw new NullArgumentException("Wrong argument gameId==null");
 		}
@@ -298,34 +307,46 @@ public class ProMaSiServer implements ITcpServerListener
 			throw new NullArgumentException("Wrong argument clientId==null");
 		}
 		
-		if(!_clients.containsKey(clientId)){
-			throw new IllegalArgumentException("Wrong argument clientId");
-		}
-		
-		if(!_availableGames.containsKey(gameId)){
-			throw new NullArgumentException("Wrong argument gameId");
-		}
-		
-		if( _availableGames.get(gameId).joinGame(clientId) ) {
-			return _availableGames.get(gameId);
-		}else{
-			throw new IllegalArgumentException("Wrong argument gameId");
+		try{
+			_lockObject.lock();
+			if(!_clients.containsKey(clientId)){
+				throw new IllegalArgumentException("Wrong argument clientId");
+			}
+			
+			if(!_availableGames.containsKey(gameId)){
+				throw new NullArgumentException("Wrong argument gameId");
+			}
+			
+			if( _availableGames.get(gameId).joinGame(clientId) ) {
+				return _availableGames.get(gameId);
+			}else{
+				throw new IllegalArgumentException("Wrong argument gameId");
+			}
+		}finally{
+			_lockObject.unlock();
 		}
 	}
 	
 	
-	private void sendUpdateGamesListRequest(ProMaSiClient client)throws NullArgumentException{
-		if(client==null){
-			throw new NullArgumentException("Wrong argument client==null");
+	private boolean sendUpdateGamesListRequest(ProMaSiClient client){
+		boolean result = false;
+		try{
+			_lockObject.lock();
+			if(client!=null){
+				Map<String, String> gamesList=new TreeMap<String, String>();
+				for(Map.Entry<String, MultiPlayerGame> entry : _availableGames.entrySet()){
+					gamesList.put(entry.getKey(), entry.getValue().getGameDescription());
+				}
+				
+				UpdateGameListRequest request=new UpdateGameListRequest(gamesList);
+				result = client.sendMessage(request.serialize());
+			}
+			
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		Map<String, String> gamesList=new TreeMap<String, String>();
-		for(Map.Entry<String, MultiPlayerGame> entry : _availableGames.entrySet()){
-			gamesList.put(entry.getKey(), entry.getValue().getGameDescription());
-		}
-		
-		UpdateGameListRequest request=new UpdateGameListRequest(gamesList);
-		client.sendMessage(request.serialize());
+
+		return result;
 	}
 	
 	/**
@@ -333,57 +354,65 @@ public class ProMaSiServer implements ITcpServerListener
 	 * @param gameId
 	 * @throws NullArgumentException
 	 */
-	public synchronized boolean cancelGame(String gameId) throws NullArgumentException{
-		if(gameId==null){
-			throw new NullArgumentException("Wrong argument gameId==null");
-		}
+	public boolean cancelGame(String gameId){
+		boolean result = false;
 		
-		if(_availableGames.containsKey(gameId)){
-			MultiPlayerGame game=_availableGames.get(gameId);
-			List<String> gamePlayers=game.getGamePlayers();
-			for(String playerId : gamePlayers){
-				if(playerId!=game.getGameOwnerId() && _clients.containsKey(playerId)){
-					_clients.get(playerId).sendMessage(new GameCanceledRequest().serialize());
+		try{
+			_lockObject.lock();
+			if(gameId!=null){
+				if(_availableGames.containsKey(gameId)){
+					MultiPlayerGame game=_availableGames.get(gameId);
+					List<String> gamePlayers=game.getGamePlayers();
+					for(String playerId : gamePlayers){
+						if(playerId!=game.getGameOwnerId() && _clients.containsKey(playerId)){
+							_clients.get(playerId).sendMessage(new GameCanceledRequest().serialize());
+						}
+					}
+					
+					if(_clients.containsKey(game.getGameOwnerId())){
+						_clients.get(game.getGameOwnerId()).sendMessage(new CancelGameResponse().serialize());
+					}
 				}
 			}
 			
-			if(_clients.containsKey(game.getGameOwnerId())){
-				_clients.get(game.getGameOwnerId()).sendMessage(new CancelGameResponse().serialize());
-			}
-		}else{
-			return false;
+			_availableGames.remove(gameId);
+			result = true;
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		_availableGames.remove(gameId);
-		return true;
+
+		return result;
 	}
 	
 	/**
 	 * 
 	 * @param gameId
 	 * @param clientId
-	 * @throws NullArgumentException
 	 */
-	public synchronized void leaveGame(String gameId, String clientId) throws NullArgumentException{
-		if(gameId==null){
-			throw new NullArgumentException("Wrong argument gameId==null");
-		}
+	public boolean leaveGame(String gameId, String clientId){
+		boolean result = false;
 		
-		if(clientId==null){
-			throw new NullArgumentException("Wrong argument clientId==null");
-		}
-		
-		if(_availableGames.containsKey(gameId)){
-			List<String> gamePlayers=_availableGames.get(gameId).getGamePlayers();
-			if(gamePlayers.contains(clientId) && _clients.containsKey(clientId)){
-				_clients.get(clientId).sendMessage(new LeaveGameResponse().serialize());
-				gamePlayers.remove(clientId);
-				for(String player : gamePlayers){
-					if(_clients.containsKey(player)){
-						_clients.get(clientId).sendMessage(new UpdateGamePlayersListRequest(gamePlayers).serialize());
+		try{
+			_lockObject.lock();
+			if( gameId != null && clientId != null ){
+				if(_availableGames.containsKey(gameId)){
+					List<String> gamePlayers=_availableGames.get(gameId).getGamePlayers();
+					if(gamePlayers.contains(clientId) && _clients.containsKey(clientId)){
+						_clients.get(clientId).sendMessage(new LeaveGameResponse().serialize());
+						gamePlayers.remove(clientId);
+						for(String player : gamePlayers){
+							if(_clients.containsKey(player)){
+								result = _clients.get(clientId).sendMessage(new UpdateGamePlayersListRequest(gamePlayers).serialize());
+							}
+						}
 					}
 				}
 			}
+			
+		}finally{
+			_lockObject.unlock();
 		}
+
+		return result;
 	}
 }

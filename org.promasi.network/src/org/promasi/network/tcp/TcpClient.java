@@ -5,6 +5,8 @@ package org.promasi.network.tcp;
 import java.net.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -54,7 +56,7 @@ public class TcpClient
 	/**
 	 * 
 	 */
-	private Object _lockObject;
+	private Lock _lockObject;
 	
 	/**
 	 * 
@@ -79,7 +81,7 @@ public class TcpClient
 			_socketStreamWriter=new BufferedWriter(new OutputStreamWriter(_clientSocket.getOutputStream()));
 			_isConnected=true;
 			_listeners=new LinkedList<ITcpClientListener>();
-			_lockObject=new Object();
+			_lockObject=new ReentrantLock();
 			
 			_recvThread=new Thread(new Runnable() {
 				
@@ -118,7 +120,7 @@ public class TcpClient
 			_socketStreamWriter=new BufferedWriter(new OutputStreamWriter(_clientSocket.getOutputStream()));
 			_isConnected=true;
 			_listeners=new LinkedList<ITcpClientListener>();
-			_lockObject=new Object();
+			_lockObject=new ReentrantLock();
 			
 			_recvThread=new Thread(new Runnable() {
 				
@@ -142,20 +144,26 @@ public class TcpClient
 	private void connectionLoop(){
 		try
 		{
-			synchronized(_lockObject){
+			try{
+				_lockObject.lock();
 				for(ITcpClientListener listener : _listeners){
 					listener.onConnect();
 				}
+			}finally{
+				_lockObject.unlock();
 			}
 
 			String line=null;
 			do{
 				line=_socketStreamReader.readLine();
 				if( line != null){
-					synchronized(_lockObject){
+					try{
+						_lockObject.lock();
 						for(ITcpClientListener listener : _listeners){
 							listener.onReceive(line);
 						}	
+					}finally{
+						_lockObject.unlock();
 					}
 				}
 			}while(line!=null);
@@ -166,10 +174,13 @@ public class TcpClient
 			_clientSocket.shutdownOutput();
 			_clientSocket.close();
 			
-			synchronized(_lockObject){
+			try{
+				_lockObject.lock();
 				for(ITcpClientListener listener : _listeners){
 					listener.onDisconnect();
 				}
+			}finally{
+				_lockObject.unlock();
 			}
 		}catch(IOException e){
 			synchronized(_lockObject){
@@ -199,13 +210,16 @@ public class TcpClient
 			throw new NetworkException("Wrong argument listener==null");
 		}
 		
-		synchronized(_lockObject){
+		try{
+			_lockObject.lock();
 			if(_listeners.contains(listener)){
 				return false;
 			}else{
 				_listeners.add(listener);
 				return true;
 			}
+		}finally{
+			_lockObject.unlock();
 		}
 	}
 	
@@ -221,11 +235,14 @@ public class TcpClient
 			throw new NullArgumentException("Wrong argument listener==null");
 		}
 		
-		synchronized(_lockObject){
+		try{
+			_lockObject.lock();
 			if(_listeners.contains(listener)){
 				_listeners.remove(listener);
 				return true;
 			}
+		}finally{
+			_lockObject.unlock();
 		}
 	
 		return false;
@@ -238,6 +255,7 @@ public class TcpClient
 	public boolean disconnect()
 	{
 		try{
+			_lockObject.lock();
 			_socketStreamReader.close();
 			_socketStreamWriter.close();
 			_clientSocket.shutdownInput();
@@ -247,6 +265,8 @@ public class TcpClient
 		}catch(IOException e){
 			_isConnected=false;
 			return false;
+		}finally{
+			_lockObject.unlock();
 		}
 			
 		return true;
@@ -263,10 +283,13 @@ public class TcpClient
 		}
 
 		try{
+			_lockObject.lock();
 			_socketStreamWriter.write(message,0,message.length());
 			_socketStreamWriter.flush();
 		}catch(IOException e){
 			return false;
+		}finally{
+			_lockObject.unlock();
 		}
 		
 		return true;

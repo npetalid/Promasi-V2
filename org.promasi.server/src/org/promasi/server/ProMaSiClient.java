@@ -3,6 +3,9 @@
  */
 package org.promasi.server;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.apache.commons.codec.binary.Base64;
 import org.promasi.network.tcp.ITcpClientListener;
 import org.promasi.network.tcp.NetworkException;
@@ -24,6 +27,11 @@ public class ProMaSiClient implements ITcpClientListener
 	 *	Client states defined in the protocol logic.
 	 */
 	private IClientState _clientState;
+	
+	/**
+	 * 
+	 */
+	private Lock _lockObject;
 
 	/**
 	 * 
@@ -44,6 +52,7 @@ public class ProMaSiClient implements ITcpClientListener
 		_client.addListener(this);
 		_clientState=clientState; 
 		_clientState.onSetState(this);
+		_lockObject = new ReentrantLock();
 	}
 
 	/**
@@ -51,50 +60,73 @@ public class ProMaSiClient implements ITcpClientListener
 	 * @param message
 	 * @return true if message was sent, false otherwise.
 	 */
-	public synchronized boolean sendMessage(String message){
-		if(message==null){
-			return false;
-		}
+	public boolean sendMessage(String message){
+		boolean result = false;
 		
-		//System.out.print("Message "+message);
-		Base64 base64=new Base64();
-		byte data[]=base64.encode(message.getBytes());
-		String temp=new String(data);
-		String result=new String("");
-		for(int i=0;i<temp.length();i++)
-		{
-			char ch=temp.charAt(i);
-			if(ch!='\n' && ch!='\r')
-			{
-				result=result+ch;
+		try{
+			_lockObject.lock();
+			if(message !=null ){
+				//System.out.print("Message "+message);
+				Base64 base64=new Base64();
+				byte data[]=base64.encode(message.getBytes());
+				String temp=new String(data);
+				StringBuilder builder = new StringBuilder();
+				for(int i=0;i<temp.length();i++)
+				{
+					char ch=temp.charAt(i);
+					if(ch!='\n' && ch!='\r')
+					{
+						builder.append(ch);
+					}
+				}
+				
+				builder.append("\r\n");
+				//System.out.print("Encoded to "+result+"\n");
+				result = _client.sendMessage(builder.toString());
 			}
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		result=result+"\r\n";
-		//System.out.print("Encoded to "+result+"\n");
-		return _client.sendMessage(result);
+
+		return result;
 	}
 	
 	/**
 	 * 
 	 * @param clientState
-	 * @throws NullArgumentException
 	 */
-	protected synchronized void changeState(IClientState clientState)throws NullArgumentException{
-		if(clientState==null){
-			throw new NullArgumentException("Wrong argument clientState==null");
+	protected boolean changeState(IClientState clientState){
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if(clientState!=null){
+				_clientState=clientState;
+				_clientState.onSetState(this);
+				result = true;
+			}
+		}finally{
+			_lockObject.unlock();
 		}
 		
-		_clientState=clientState;
-		_clientState.onSetState(this);
+		return result;
 	}
 
 	/**
 	 * This method will close the connection with current user and will terminate the receive thread.
 	 * @return true if the connection was successfully closed, false otherwise.
 	 */
-	public synchronized boolean disconnect(){
-		return _client.disconnect();
+	public boolean disconnect(){
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			result = _client.disconnect();
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
 	}
 
 	@Override
@@ -127,14 +159,18 @@ public class ProMaSiClient implements ITcpClientListener
 	 * 
 	 * @param client
 	 * @return
-	 * @throws NullArgumentException
 	 */
-	public synchronized boolean equals(TcpClient client)throws NullArgumentException{
-		if(client==_client){
-			return true;
-		}
+	public boolean equals(TcpClient client){
+		boolean result = false;
 		
-		return false;
+		try{
+			_lockObject.lock();
+			result = (client == _client);
+		}finally{
+			_lockObject.unlock();
+		}
+	
+		return result;
 	}
 	
 }

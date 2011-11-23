@@ -6,9 +6,8 @@ import java.io.IOException;
 import java.net.*;
 import java.util.LinkedList;
 import java.util.List;
-
-import org.promasi.utilities.exceptions.NullArgumentException;
-
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author m1cRo
@@ -40,6 +39,11 @@ public class TcpServer
 	 *
 	 */
 	private boolean _listening;
+	
+	/**
+	 * 
+	 */
+	private Lock _lockObject;
 
 	/**
 	 * 
@@ -56,20 +60,27 @@ public class TcpServer
 		_listening=false;
 		_clients=new LinkedList<TcpClient>();
 		_listeners=new LinkedList<ITcpServerListener>();
+		_lockObject = new ReentrantLock();
 	}
 
 	/**
 	 *
 	 * @param tcpEventHandler
 	 */
-	public synchronized boolean addListener(ITcpServerListener listener)throws NetworkException
+	public boolean addListener(ITcpServerListener listener)
 	{
-		if(listener==null){
-			throw new NetworkException("Wrong argument listener==null");
+		boolean result = false;
+		try{
+			_lockObject.lock();
+			if(listener!=null){
+				result = _listeners.add(listener);
+			}
+			
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		_listeners.add(listener);
-		return true;
+
+		return result;
 	}
 
 
@@ -78,7 +89,7 @@ public class TcpServer
 	 * @param portNumber
 	 * @return
 	 */
-	public synchronized boolean start(int portNumber)
+	public boolean start(int portNumber)
 	{
 		if(_listening){
 			return false;
@@ -94,12 +105,15 @@ public class TcpServer
 					while(_listening){
 						try{
 							Socket clientSocket=_serverSocket.accept();
-							synchronized(TcpServer.this){
+							try{
+								_lockObject.lock();
 								TcpClient client=new TcpClient(clientSocket);
 								_clients.add(client);
 								for(ITcpServerListener listener : _listeners){
 									listener.clientConnected(client);
 								}	
+							}finally{
+								_lockObject.unlock();
 							}
 						}catch(IOException e){
 							//Logger
@@ -116,7 +130,8 @@ public class TcpServer
 				@Override
 				public void run() {
 					while(_listening){
-						synchronized(TcpServer.this){
+						try{
+							_lockObject.lock();
 							List<TcpClient> clients=new LinkedList<TcpClient>();
 							for(TcpClient client : _clients){
 								if(client.isConnected()){
@@ -133,6 +148,8 @@ public class TcpServer
 							}
 							
 							_clients=clients;
+						}finally{
+							_lockObject.unlock();
 						}
 					}
 				}
@@ -153,8 +170,9 @@ public class TcpServer
 	 * 
 	 * @return
 	 */
-	public synchronized boolean stop(){
+	public boolean stop(){
 		try{
+			_lockObject.lock();
 			_serverSocket.close();
 			_listening=false;
 			while(_acceptThread.isAlive() || _clientCheckThread.isAlive()){
@@ -173,6 +191,8 @@ public class TcpServer
 			_acceptThread=null;
 		}catch(IOException e){
 			return false;
+		}finally{
+			_lockObject.unlock();
 		}
 			
 		return true;
@@ -182,8 +202,17 @@ public class TcpServer
 	 * 
 	 * @return
 	 */
-	public synchronized boolean isRunning(){
-		return _listening;
+	public boolean isRunning(){
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			result = _listening;
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
 	}
 	
 }
