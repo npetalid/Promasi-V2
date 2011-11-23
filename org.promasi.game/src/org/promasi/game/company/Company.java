@@ -2,15 +2,13 @@ package org.promasi.game.company;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+import org.promasi.game.GameException;
 import org.promasi.game.project.Project;
-import org.promasi.game.project.ProjectTask;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -39,11 +37,11 @@ public class Company implements IEmployeeListener
      * Description about the company.
      */
     protected String _description;
-
+    
     /**
-     * All the hired employees of the company.
+     * 
      */
-    protected Map<String, Employee> _employees;
+    protected Department _itDepartment;
 
     /**
      * The time that the company starts working.
@@ -92,39 +90,37 @@ public class Company implements IEmployeeListener
      * @param startTime
      * @param endTime
      * @param budget
-     * @throws NullArgumentException
-     * @throws IllegalArgumentException
      */
-    public Company(	final String name,final String description,final LocalTime startTime,final LocalTime endTime,final double budget, final double prestigePoints)throws NullArgumentException, IllegalArgumentException
+    public Company( String name, String description, LocalTime startTime, LocalTime endTime, double budget, double prestigePoints)throws GameException
     {
     	if(name==null)
     	{
-    		throw new NullArgumentException("Wrong argument name==null");
+    		throw new GameException("Wrong argument name==null");
     	}
     	
     	if(description==null)
     	{
-    		throw new NullArgumentException("Wrong argumen description==null");
+    		throw new GameException("Wrong argumen description==null");
     	}
     	
     	if(startTime==null)
     	{
-    		throw new NullArgumentException("Wrong argument startTime==null");
+    		throw new GameException("Wrong argument startTime==null");
     	}
     	
     	if(endTime==null)
     	{
-    		throw new NullArgumentException("Wrong argument endTime");
+    		throw new GameException("Wrong argument endTime");
     	}
     	
     	if(startTime.equals(endTime) || startTime.isAfter(endTime))
     	{
-    		throw new IllegalArgumentException("Wrong argument startTime is equal or after endTime");
+    		throw new GameException("Wrong argument startTime is equal or after endTime");
     	}
     	
     	if(budget<=0)
     	{
-    		throw new IllegalArgumentException("Wrong argument budget<=0");
+    		throw new GameException("Wrong argument budget<=0");
     	}
     	
     	_lockObject = new ReentrantLock();
@@ -134,7 +130,7 @@ public class Company implements IEmployeeListener
 		_endTime=endTime;
 		_description=description;
 		_budget=budget;
-		_employees = new TreeMap<String, Employee>();
+		_itDepartment = new Department();
 		_lastPaymentDateTime=new DateTime();
 		_companyListeners=new LinkedList<ICompanyListener>();
     }
@@ -196,27 +192,6 @@ public class Company implements IEmployeeListener
     	}
     	
         return result;
-    }
-    
-    /**
-     * @return The {@link #_employees}. The list cannot be modified.
-     * @throws SerializationException 
-     */
-    public Map<String,SerializableEmployee> getEmployees ( ) throws SerializationException
-    {
-    	Map<String,SerializableEmployee> employees=new TreeMap<String, SerializableEmployee>();
-    	
-    	try{
-    		_lockObject.lock();
-        	for(Map.Entry<String, Employee> entry : _employees.entrySet())
-        	{
-        		employees.put(entry.getKey(), entry.getValue().getSerializableEmployee());
-        	}
-    	}finally{
-    		_lockObject.unlock();
-    	}
-
-        return employees;
     }
     
     /**
@@ -288,85 +263,6 @@ public class Company implements IEmployeeListener
 
         _assignedProject=project;
     }
-
-    /**
-     * 
-     * @param employee
-     * @throws SerializationException 
-     */
-    protected boolean hireEmployee(Employee employee) throws SerializationException
-    {
-       	boolean result = false;
-    	if(employee != null){
-        	try{
-        		_lockObject.lock();
-            	if( !_employees.containsKey( employee.getEmployeeId() ) ){
-                	_employees.put(employee.getEmployeeId(), employee);
-                	employee.setListener(this);
-                	
-                    for(ICompanyListener listener : _companyListeners){
-                    	listener.employeeHired(getSerializableCompany(),employee.getSerializableEmployee());
-                    }
-                    
-                    result = true;
-            	}
-        	}finally{
-        		_lockObject.unlock();
-        	}
-    	}
-    	
-    	return result;
-    }
-    
-    /**
-     * 
-     * @param employee
-     * @return
-     * @throws NullArgumentException
-     * @throws SerializationException 
-     */
-    public boolean dischargeEmployee(final String employeeId, final MarketPlace marketPlace)throws NullArgumentException,IllegalArgumentException, SerializationException{
-    	boolean result = false;
-    	if(employeeId!=null){
-        	if( _employees.containsKey(employeeId) ){
-            	try{
-            		_lockObject.lock();
-                	Employee currentEmployee=_employees.get(employeeId);
-                	_employees.remove(employeeId);
-                	currentEmployee.setListener(null);
-                	if(!marketPlace.dischargeEmployee(currentEmployee)){
-                        for(ICompanyListener listener : _companyListeners){
-                        	listener.employeeDischarged(getSerializableCompany(),currentEmployee.getSerializableEmployee());
-                        }
-                        
-                        result = true;
-                	}else{
-                			_employees.put(currentEmployee.getEmployeeId(), currentEmployee);
-                	}
-
-            	}finally{
-            		_lockObject.unlock();
-            	}
-        	}
-    	}
-    	
-    	return result;
-    }
-  
-    /**
-     * 
-     * @param employee
-     * @return
-     */
-    public boolean isEmployeeHired(Employee employee)
-    {
-    	if(_employees.containsKey(employee.getEmployeeId()) )
-    	{
-    		return true;
-    	}
-    	
-    	return false;
-    }
     
     /**
      * 
@@ -424,61 +320,46 @@ public class Company implements IEmployeeListener
             	if(currentTime.isBefore(_endTime) && currentTime.isAfter(_startTime) ){
             		if( _lastPaymentDateTime.plusDays(1).isBefore(currentDateTime))
                 	{
-                		for(Map.Entry<String, Employee> entry : _employees.entrySet()){
-                			_budget=_budget-entry.getValue().getSalary();
-                			if(_budget<0){
-                				if(_assignedProject!=null){
-                					_prestigePoints=_prestigePoints-_assignedProject.getPrestigePoints();
-                				}
-                				
-                				break;
-                			}
-                		}
+            			_budget=_budget-_itDepartment.calculateFees();
+            			if(_budget<0){
+            				if(_assignedProject!=null){
+            					_prestigePoints=_prestigePoints-_assignedProject.getPrestigePoints();
+            				}
+            				
+                    		if(_budget<0){
+                		        for(ICompanyListener listener : _companyListeners){
+                		        	listener.companyIsInsolvent(getSerializableCompany(), _assignedProject.getSerializableProject());
+                		        	_assignedProject=null;
+                		        }
+                		        
+                		        _itDepartment.dischargeEmployees( marketPlace );
+                    		}
+            			}
                 		
-                		if(_budget<0){
-            		        for(ICompanyListener listener : _companyListeners){
-            		        	listener.companyIsInsolvent(getSerializableCompany(), _assignedProject.getSerializableProject());
-            		        	_assignedProject=null;
-            		        }
-            		        
-            	    		
-            	    		for(Map.Entry<String, Employee> entry : _employees.entrySet()){
-            	    			entry.getValue().removeAllTasks();
-            	    			marketPlace.dischargeEmployee(entry.getValue());
-            	    		}
-            	    		
-            	    		_employees.clear();
-                		}
-
                 		_lastPaymentDateTime=currentDateTime;
                 	}
                 	
-                	if(_assignedProject==null){
-                		return false;
-                	}
-                	
                 	if(_assignedProject!=null){
-                    	for(Map.Entry<String, Employee> entry : _employees.entrySet()){
-                    		entry.getValue().executeTasks(_assignedProject.getCurrentStep());
-                    	}
+                    	 _itDepartment.executeWorkingStep(_assignedProject.getCurrentStep());
+                    	 
+                         for(ICompanyListener eventHandler : _companyListeners){
+                         	eventHandler.onExecuteWorkingStep(getSerializableCompany(), _assignedProject.getSerializableProject());
+                         }
+                         
+                         _assignedProject.executeStep();
+                         
+                     	 if(_assignedProject.isExpired()){
+                     		_prestigePoints=_prestigePoints+_assignedProject.getPrestigePoints();
+                     		_budget=_budget+_assignedProject.getProjectPrice();
+                     		
+                             for(ICompanyListener listener : _companyListeners){
+                             	listener.projectFinished(getSerializableCompany(), _assignedProject.getSerializableProject());
+                             }
+                             
+                     		_assignedProject=null;
+                     	}
                 	}
-                	
-                    for(ICompanyListener eventHandler : _companyListeners){
-                    	eventHandler.onExecuteWorkingStep(getSerializableCompany(), _assignedProject.getSerializableProject());
-                    }
-                    
-                    _assignedProject.executeStep();
-                    
-                	if(_assignedProject.isExpired()){
-                		_prestigePoints=_prestigePoints+_assignedProject.getPrestigePoints();
-                		_budget=_budget+_assignedProject.getProjectPrice();
-                		
-                        for(ICompanyListener listener : _companyListeners){
-                        	listener.projectFinished(getSerializableCompany(), _assignedProject.getSerializableProject());
-                        }
-                        
-                		_assignedProject=null;
-                	}
+
             	}
             	
             	result = true;
@@ -500,28 +381,29 @@ public class Company implements IEmployeeListener
     	
     	try{
     		_lockObject.lock();
-        	if(employeeId!=null && employeeTasks != null ){
-        		if(_assignedProject!=null){
-            		List<EmployeeTask> tasks=new  LinkedList<EmployeeTask>();
-            		try {
-        	    		for(SerializableEmployeeTask employeeTask : employeeTasks){
-        	        		String taskName=employeeTask.getProjectTaskName();
-        	    			ProjectTask projectTask=_assignedProject.getProjectTask(taskName);
-        	    			if(_employees.containsKey(employeeId)){
-            	    			EmployeeTask task=new EmployeeTask(projectTask,employeeTask.getFirstStep(),employeeTask.getLastStep());
-            	    			result = tasks.add(task);
-        	    			}
-        	    		}
-            		
-        	    		_employees.get(employeeId).removeAllTasks();
-        				result &= _employees.get( employeeId ).assignTasks(tasks);
-        			} catch (NullArgumentException e) {
-        				return false;
-        			} catch (IllegalArgumentException e) {
-        				return false;
-        			}
-            	}
+        	if( _assignedProject != null ){
+        		result = _itDepartment.assignTasks(employeeId, employeeTasks, _assignedProject.getProjectTasks() );
         	}
+    	}finally{
+    		_lockObject.unlock();
+    	}
+
+    	return result;
+    }
+    
+    /**
+     * 
+     * @param employee
+     * @return
+     */
+    public boolean hireEmployee( Employee employee ){
+    	boolean result = false;
+    	
+    	try{
+    		_lockObject.lock();
+    		result = _itDepartment.hireEmployee(employee);
+    	}catch(SerializationException e){
+    		result = false;
     	}finally{
     		_lockObject.unlock();
     	}
@@ -531,29 +413,45 @@ public class Company implements IEmployeeListener
     
     /**
      * 
+     * @param employeeId
+     * @param _marketPlace
+     * @return
+     */
+	public boolean dischargeEmployee(String employeeId, MarketPlace marketPlace) {
+    	boolean result = false;
+    	
+    	try{
+    		_lockObject.lock();
+    		result = _itDepartment.dischargeEmployee(employeeId, marketPlace);
+    	}finally{
+    		_lockObject.unlock();
+    	}
+    	
+    	return result;
+	}
+    
+    /**
+     * 
      * @return
      * @throws SerializationException
      */
     public SerializableCompany getSerializableCompany()throws SerializationException{
-    	try {
-			return new SerializableCompany(this);
-		} catch (NullArgumentException e) {
-			throw new SerializationException("Serialization failed because " + e.getMessage());
-		}
+		return new SerializableCompany(this);
     }
     
 	@Override
-	public synchronized void taskAttached(SerializableEmployee employee, List<SerializableEmployeeTask> employeeTasks) throws SerializationException {
+	public void taskAttached(SerializableEmployee employee, List<SerializableEmployeeTask> employeeTasks) throws SerializationException {
         for(ICompanyListener eventHandler : _companyListeners){
         	eventHandler.employeeTasksAttached(getSerializableCompany(), employee, employeeTasks);
         }
 	}
 
 	@Override
-	public synchronized void taskDetached(SerializableEmployee employee, SerializableEmployeeTask employeeTask) throws SerializationException {
+	public void taskDetached(SerializableEmployee employee, SerializableEmployeeTask employeeTask) throws SerializationException {
         for(ICompanyListener eventHandler : _companyListeners){
         	eventHandler.employeeTaskDetached(getSerializableCompany(),employee, employeeTask);
         }
 	}
+
 	
 }

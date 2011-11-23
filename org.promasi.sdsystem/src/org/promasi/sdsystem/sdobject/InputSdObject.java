@@ -5,7 +5,6 @@ package org.promasi.sdsystem.sdobject;
 
 import java.util.Map;
 
-import org.promasi.sdsystem.SdSystemException;
 import org.promasi.sdsystem.serialization.ISerializableSdObject;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
@@ -42,12 +41,12 @@ public class InputSdObject implements ISdObject
 	 * @param value
 	 * @throws NullArgumentException
 	 */
-	public synchronized void setValue(final Double value)throws SdSystemException{
-		if(value==null){
-			throw new SdSystemException("Wrong argument value==null");
+	public boolean setValue(final Double value){
+		if(value!=null){
+			_value=value;
 		}
 		
-		_value=value;
+		return true;
 	}
 
 	@Override

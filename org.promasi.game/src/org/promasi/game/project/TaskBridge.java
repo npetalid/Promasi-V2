@@ -5,6 +5,7 @@ package org.promasi.game.project;
 
 import java.util.Map;
 
+import org.promasi.game.GameException;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -44,25 +45,25 @@ public class TaskBridge
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public TaskBridge(String outputTaskName, String inputTaskName, String outputSdObjectId, String inputSdObjectId, Map<String,ProjectTask> tasks)throws NullArgumentException, IllegalArgumentException{
+	public TaskBridge(String outputTaskName, String inputTaskName, String outputSdObjectId, String inputSdObjectId, Map<String,ProjectTask> tasks)throws GameException{
 		if(outputTaskName==null){
-			throw new NullArgumentException("Wrong argument outputTaskName==null");
+			throw new GameException("Wrong argument outputTaskName==null");
 		}
 		
 		if(outputSdObjectId==null){
-			throw new NullArgumentException("Wrong argument outputSdObjectId==null");
+			throw new GameException("Wrong argument outputSdObjectId==null");
 		}
 		
 		if(inputTaskName==null){
-			throw new NullArgumentException("Wrong argument inputTaskname==null");
+			throw new GameException("Wrong argument inputTaskname==null");
 		}
 		
 		if(inputSdObjectId==null){
-			throw new NullArgumentException("Wrong argument inputSdObjectId==null");
+			throw new GameException("Wrong argument inputSdObjectId==null");
 		}
 		
 		if(tasks==null){
-			throw new NullArgumentException("Wrong argument tasks==null");
+			throw new GameException("Wrong argument tasks==null");
 		}
 		
 		if(!tasks.containsKey(inputTaskName)){

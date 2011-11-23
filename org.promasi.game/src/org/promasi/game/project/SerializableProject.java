@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.promasi.game.GameException;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
@@ -69,9 +70,9 @@ public class SerializableProject extends SerializableObject
 	 * @throws NullArgumentException
 	 * @throws SerializationException 
 	 */
-	protected SerializableProject(Project project)throws NullArgumentException, SerializationException{
+	protected SerializableProject(Project project)throws GameException, SerializationException{
 		if(project==null){
-			throw new NullArgumentException("Wrong argument project==null");
+			throw new GameException("Wrong argument project==null");
 		}
 		
         _name=project._name;

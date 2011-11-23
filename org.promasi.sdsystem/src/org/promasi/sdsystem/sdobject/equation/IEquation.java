@@ -22,5 +22,11 @@ public interface IEquation {
 	 * @throws CalculationExeption
 	 */
 	public Double calculateEquation(Map<String, Double> systemValues)throws NullArgumentException, IllegalArgumentException,CalculationExeption;
+	
+	/**
+	 * 
+	 * @return
+	 * @throws SerializationException
+	 */
 	public ISerializableEquation getSerializableEquation()throws SerializationException;
 }

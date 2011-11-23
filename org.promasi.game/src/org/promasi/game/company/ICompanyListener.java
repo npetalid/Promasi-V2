@@ -29,22 +29,6 @@ public interface ICompanyListener {
 	
 	/**
 	 * 
-	 * @param company
-	 * @param employee
-	 * @throws SerializationException
-	 */
-	public void employeeHired(final SerializableCompany company, final SerializableEmployee employee) throws SerializationException;
-	
-	/**
-	 * 
-	 * @param company
-	 * @param employee
-	 * @throws SerializationException
-	 */
-	public void employeeDischarged(final SerializableCompany company, final SerializableEmployee employee) throws SerializationException;
-	
-	/**
-	 * 
 	 */
 	public void companyIsInsolvent(final SerializableCompany company, final SerializableProject assignedProject);
 	

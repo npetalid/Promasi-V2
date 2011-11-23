@@ -5,6 +5,7 @@ package org.promasi.game.company;
 
 import java.util.Map;
 
+import org.promasi.game.GameException;
 import org.promasi.game.project.ProjectTask;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
@@ -38,21 +39,21 @@ public class EmployeeTask
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public EmployeeTask(ProjectTask projectTask,final int firstStep, final int lastStep)throws NullArgumentException, IllegalArgumentException
+	public EmployeeTask(ProjectTask projectTask,final int firstStep, final int lastStep)throws GameException
 	{
 		if(projectTask==null)
 		{
-			throw new NullArgumentException("Wrong argument projectTask==null");
+			throw new GameException("Wrong argument projectTask==null");
 		}
 		
 		if(firstStep<0)
 		{
-			throw new IllegalArgumentException("Wrong argument startStep < 0");
+			throw new GameException("Wrong argument startStep < 0");
 		}
 		
 		if(lastStep<=firstStep)
 		{
-			throw new IllegalArgumentException("Wrong argument endDate<=startStep");
+			throw new GameException("Wrong argument endDate<=startStep");
 		}
 		
 		_firstStep=firstStep;

@@ -2,6 +2,7 @@ package org.promasi.game.project;
 
 import java.util.Map;
 
+import org.promasi.game.GameException;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -85,9 +86,7 @@ public class SerializableTaskBridge
 			}
 			
 			return new TaskBridge(_outputTaskName, _inputTaskName, _outputSdObjectId, _inputSdObjectId, tasks);
-		} catch (IllegalArgumentException e) {
-			throw new SerializationException("Serialization failed because "+e.getMessage());
-		} catch (NullArgumentException e) {
+		} catch (GameException e) {
 			throw new SerializationException("Serialization failed because "+e.getMessage());
 		}
 	}

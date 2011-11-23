@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.GameException;
 import org.promasi.sdsystem.SdSystem;
@@ -66,6 +68,11 @@ public class ProjectTask
     /**
      * 
      */
+    private Lock _lockObject;
+    
+    /**
+     * 
+     */
     private double _sumEmployees;
 
     /**
@@ -99,6 +106,8 @@ public class ProjectTask
         _sdSystem=sdSystem;
         _sdSystemBridges=new LinkedList<SdSystemBridge>();
         
+        _lockObject = new ReentrantLock();
+        
         try {
 			_progress=_progressEquation.calculateEquation(sdSystem.getSystemValues());
 		} catch (IllegalArgumentException e) {
@@ -117,22 +126,23 @@ public class ProjectTask
      * @param inputProjectTask
      * @return
      */
-    protected synchronized boolean makeBridge( String outputSdObjectId, String inputSdObjectId, ProjectTask inputProjectTask)throws NullArgumentException{
-    	if(outputSdObjectId==null){
-    		throw new NullArgumentException("Wrong argument outputSdObjectId==null");
+    protected boolean makeBridge( String outputSdObjectId, String inputSdObjectId, ProjectTask inputProjectTask){
+    	boolean result = false;
+    	
+    	try{
+    		_lockObject.lock();
+        	if(outputSdObjectId != null && inputSdObjectId != null && inputProjectTask != null){
+            	SdSystemBridge bridge=new SdSystemBridge(outputSdObjectId, _sdSystem, inputSdObjectId, inputProjectTask._sdSystem);
+            	_sdSystemBridges.add(bridge);
+            	result = true;
+        	}
+    	}catch( SdSystemException e){
+    		result = false;
+    	}finally{
+    		_lockObject.unlock();
     	}
     	
-    	if(inputSdObjectId==null){
-    		throw new NullArgumentException("Wrong argument inputSdObjectId==null");
-    	}
-    	
-    	if(inputProjectTask==null){
-    		throw new NullArgumentException("Wrong argument inputProjectTask==null");
-    	}
-    	
-    	SdSystemBridge bridge=new SdSystemBridge(outputSdObjectId, _sdSystem, inputSdObjectId, inputProjectTask._sdSystem);
-    	_sdSystemBridges.add(bridge);
-    	return true;
+    	return result;
     }
     
     /**
@@ -165,9 +175,12 @@ public class ProjectTask
      * @return
      * @throws NullArgumentException
      */
-    public synchronized boolean executeTask(int currentStep)throws SdSystemException
+    public boolean executeTask(int currentStep)
     {
+    	boolean result = false;
+    	
     	try{
+    		_lockObject.lock();
         	if(_sumEmployees<=0.0){
         		_sumEmployees=1;
         	}
@@ -190,24 +203,35 @@ public class ProjectTask
         	
     		_employeeSkills.clear();
         	_sumEmployees=0;
+        	result = true;
     	}catch(NullArgumentException e){
-    		return false;
+    		result = false;
     	}catch(IllegalArgumentException e){
-    		return false;
+    		result = false;
     	} catch (CalculationExeption e) {
-    		return false;
+		}finally{
+			_lockObject.unlock();
 		}
 
-    	return true;
+    	return result;
     }
 	
     /**
      * 
      */
-    public synchronized void executeBridges(){
-    	for(SdSystemBridge bridge :_sdSystemBridges){
-    		bridge.executeStep();
+    public boolean executeBridges(){
+    	boolean result = true;
+    	
+    	try{
+    		_lockObject.lock();
+        	for(SdSystemBridge bridge :_sdSystemBridges){
+        		result &= bridge.executeStep();
+        	}
+    	}finally{
+    		_lockObject.unlock();
     	}
+
+    	return result;
     }
     
 	/**
@@ -224,26 +248,32 @@ public class ProjectTask
 	 * 
 	 * @param employeeSkills
 	 * @return
-	 * @throws NullArgumentException
 	 */
-	public synchronized boolean applyEmployeeSkills(Map<String, Double> employeeSkills)throws NullArgumentException {
-		if( employeeSkills==null){
-			throw new NullArgumentException("Wrong argument employeeSkills==null");
-		}
+	public boolean applyEmployeeSkills(Map<String, Double> employeeSkills){
+		boolean result = false;
 		
-		for(Map.Entry<String, Double> entry : employeeSkills.entrySet()){
-			if(entry.getKey()!=null && entry.getValue()!=null){
-				if(_employeeSkills.containsKey(entry.getKey())){
-					Double oldValue=_employeeSkills.get(entry.getKey());
-					_employeeSkills.put(entry.getKey(), entry.getValue()+oldValue);
-				}else{
-					_employeeSkills.put(entry.getKey(), entry.getValue());
+		try{
+			_lockObject.lock();
+			if( employeeSkills!=null){
+				for(Map.Entry<String, Double> entry : employeeSkills.entrySet()){
+					if(entry.getKey()!=null && entry.getValue()!=null){
+						if(_employeeSkills.containsKey(entry.getKey())){
+							Double oldValue=_employeeSkills.get(entry.getKey());
+							_employeeSkills.put(entry.getKey(), entry.getValue()+oldValue);
+						}else{
+							_employeeSkills.put(entry.getKey(), entry.getValue());
+						}
+					}
 				}
+				
+				_sumEmployees+=1;
+				result = true;
 			}
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		_sumEmployees+=1;
-		return true;
+
+		return result;
 	}
 	
 	/**
@@ -253,12 +283,17 @@ public class ProjectTask
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public synchronized Double getOutput(final String outputId)throws SdSystemException{
+	public Double getOutput(final String outputId)throws SdSystemException{
 		if(outputId==null){
 			throw new SdSystemException("Wrong argument outputId==null");
 		}
 		
-		return _sdSystem.getValue(outputId);
+		try{
+			_lockObject.lock();
+			return _sdSystem.getValue(outputId);
+		}finally{
+			_lockObject.unlock();
+		}
 	}
 	
 	/**
@@ -295,7 +330,12 @@ public class ProjectTask
      * 
      * @return
      */
-    public synchronized boolean isValidTask(){
-	    return _progress >= CONST_PROGRESS_MAX_VALUE;
+    public boolean isValidTask(){
+    	try{
+    		_lockObject.lock();
+    		return _progress >= CONST_PROGRESS_MAX_VALUE;
+    	}finally{
+    		_lockObject.unlock();
+    	}
     }
 }

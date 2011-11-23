@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,6 +39,11 @@ public class SdSystem
 	 * 
 	 */
 	protected Map<String, ISdObject> _sdObjects;
+	
+	/**
+	 * 
+	 */
+	private Lock _lockObject;
 	
 	/**
 	 * 
@@ -84,44 +91,48 @@ public class SdSystem
 				throw new SdSystemException("Wrong argument sdObjects invalid system step execution failed");
 			}
 		}
+		
+		_lockObject = new ReentrantLock();
 	}
 	
 	/**
 	 * 
 	 * @return
 	 */
-	public synchronized boolean executeStep(){
-		for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
-			if( entry.getValue() instanceof FlowSdObject){
-				if(!entry.getValue().executeStep(_sdObjects)){
-					return false;
+	public boolean executeStep(){
+		boolean result = true;
+		
+		try{
+			_lockObject.lock();
+			for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
+				if( entry.getValue() instanceof FlowSdObject){
+					result &= entry.getValue().executeStep(_sdObjects);
 				}
 			}
-		}
-		
-		for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
-			if(entry.getValue() instanceof StockSdObject ){
-				if(!entry.getValue().executeStep(_sdObjects)){
-					return false;
+			
+			for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
+				if(entry.getValue() instanceof StockSdObject ){
+					result &= entry.getValue().executeStep(_sdObjects);
 				}
 			}
-		}
-		
-		for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
-			if(entry.getValue() instanceof OutputSdObject ){
-				if(!entry.getValue().executeStep(_sdObjects)){
-					return false;
+			
+			for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
+				if(entry.getValue() instanceof OutputSdObject ){
+					result &= entry.getValue().executeStep(_sdObjects);
 				}
 			}
+			
+			for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
+				System.out.print(String.format("%S, %.2f\n", entry.getKey(), entry.getValue().getValue()));
+			}
+			
+			ISdObject time=_sdObjects.get(CONST_TIME_SDOBJECT_NAME);
+			result &= time.executeStep(_sdObjects);
+		}finally{
+			_lockObject.unlock();
 		}
 		
-		for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
-			System.out.print(String.format("%S, %.2f\n", entry.getKey(), entry.getValue().getValue()));
-		}
-		
-		ISdObject time=_sdObjects.get(CONST_TIME_SDOBJECT_NAME);
-		time.executeStep(_sdObjects);
-		return true;
+		return result;
 	}
 	
 	/**
@@ -129,31 +140,27 @@ public class SdSystem
 	 * @param inputName
 	 * @param value
 	 * @return
-	 * @throws NullArgumentException
 	 */
-	public synchronized boolean setInput(final String inputName, final Double value)throws SdSystemException{
-		if(inputName==null)
-		{
-			throw new SdSystemException("Wrong argument inputName==null");
-		}
+	public boolean setInput(final String inputName, final Double value){
+		boolean result = false;
 		
-		if(value==null){
-			throw new SdSystemException("Wrong argument value==null");
-		}
-		
-		if(_sdObjects.containsKey(inputName)){
-			ISdObject sdObject=_sdObjects.get(inputName);
-			if( sdObject instanceof InputSdObject ){
-				InputSdObject inputSdObject=(InputSdObject)sdObject;
-				inputSdObject.setValue(value);
-			}else{
-				return false;
+		try{
+			_lockObject.lock();
+			if( inputName != null || value != null)
+			{
+				if(_sdObjects.containsKey(inputName)){
+					ISdObject sdObject=_sdObjects.get(inputName);
+					if( sdObject instanceof InputSdObject ){
+						InputSdObject inputSdObject=(InputSdObject)sdObject;
+						result = inputSdObject.setValue(value);
+					}
+				}
 			}
-		}else{
-			return false;
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		return true;
+
+		return result;
 	}
 	
 	/**
@@ -163,7 +170,7 @@ public class SdSystem
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public synchronized Double getValue(final String sdObjectName)throws SdSystemException{
+	public Double getValue(final String sdObjectName)throws SdSystemException{
 		if(sdObjectName==null){
 			throw new SdSystemException("Wrong argument sdObjectName==null");
 		}
@@ -172,7 +179,12 @@ public class SdSystem
 			throw new SdSystemException("Wrong argument sdObjectName no in sdObjects list");
 		}
 		
-		return _sdObjects.get(sdObjectName).getValue();
+		try{
+			_lockObject.lock();
+			return _sdObjects.get(sdObjectName).getValue();
+		}finally{
+			_lockObject.unlock();
+		}
 	}
 	
 	/**

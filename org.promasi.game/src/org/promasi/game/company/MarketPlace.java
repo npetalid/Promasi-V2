@@ -120,7 +120,7 @@ public class MarketPlace
 	 * @throws NullArgumentException
 	 * @throws SerializationException
 	 */
-	public synchronized boolean hireEmployee(final Company company, final String employeeId)throws NullArgumentException, SerializationException{
+	public synchronized boolean hireEmployee( Company company, String employeeId)throws NullArgumentException, SerializationException{
 		if(employeeId==null){
 			throw new NullArgumentException("Wrong argument employeeId==null");
 		}

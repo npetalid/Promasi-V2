@@ -5,7 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
+import org.promasi.game.GameException;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -64,6 +67,11 @@ public class Project
     protected double _projectPrice;
     
     /**
+     * 
+     */
+    private Lock _lockObject;
+    
+    /**
      * The tasks for this project.
      */
     protected Map<String, ProjectTask> _projectTasks;
@@ -115,6 +123,7 @@ public class Project
         _projectPrice=projectPrice;
         _difficultyLevel=difficultyLevel;
         _taskBridges=new LinkedList<TaskBridge>();
+        _lockObject = new ReentrantLock();
     }
 
     /**
@@ -132,40 +141,25 @@ public class Project
      * @param inputTaskName
      * @param inputId
      * @return
-     * @throws NullArgumentException
-     * @throws IllegalArgumentException
      */
-    public boolean makeBridge(final String outputTaskName, final String outputId, String inputTaskName, final String inputId)throws NullArgumentException, IllegalArgumentException{
-    	if(outputTaskName==null)
-    	{
-    		throw new NullArgumentException("Wrong argument outputTaskName==null");
-    	}
+    public boolean makeBridge(final String outputTaskName, final String outputId, String inputTaskName, final String inputId){
+    	boolean result = true;
     	
-    	if(inputTaskName==null){
-    		throw new NullArgumentException("Wrong argument inputTaskName==null");
+    	try{
+    		_lockObject.lock();    
+    		if(outputTaskName!=null && inputTaskName != null && outputId != null && inputId != null )
+	    	{
+	    		result &= _projectTasks.containsKey(inputTaskName);
+	    		TaskBridge bridge=new TaskBridge(outputTaskName, inputTaskName, outputId, inputId, _projectTasks);
+	    		_taskBridges.add(bridge);
+	    	}
+    	}catch( GameException e){
+    		result = false;
+    	}finally{
+    		_lockObject.unlock();
     	}
-    	
-    	if(outputId==null)
-    	{
-    		throw new NullArgumentException("Wrong argument outputId==null");
-    	}
-    	
-    	if(inputId==null)
-    	{
-    		throw new NullArgumentException("Wrong argument inputId==null");
-    	}
-    	
-    	if(!_projectTasks.containsKey(outputTaskName)){
-    		throw new IllegalArgumentException("Wrong argument outputTaskName");
-    	}
-    	
-    	if(!_projectTasks.containsKey(inputTaskName)){
-    		throw new IllegalArgumentException("Wrong argument inputTaskName");
-    	}
-    	
-    	TaskBridge bridge=new TaskBridge(outputTaskName, inputTaskName, outputId, inputId, _projectTasks);
-    	_taskBridges.add(bridge);
-    	return true;
+
+    	return result;
     }
     
     
@@ -182,15 +176,25 @@ public class Project
      * 
      * @return
      */
-    public synchronized String getDescription(){
-    	return _description;
+    public String getDescription(){
+    	try{
+    		_lockObject.lock();
+    		return _description;
+    	}finally{
+    		_lockObject.unlock();
+    	}
     }
     
     /**
      * @return The {@link #_projectTasks}. The list is read only.
      */
-    public synchronized Map<String,ProjectTask> getProjectTasks ( ){
-        return  new TreeMap<String,ProjectTask>(_projectTasks);
+    public Map<String,ProjectTask> getProjectTasks ( ){
+    	try{
+    		_lockObject.lock();
+    		 return  new TreeMap<String,ProjectTask>(_projectTasks);
+    	}finally{
+    		_lockObject.unlock();
+    	}
     }
     
     /**
@@ -199,23 +203,39 @@ public class Project
      * @return
      * @throws NullArgumentException
      */
-    public synchronized boolean executeStep(){
-    	if( _projectDuration<_currentStep ){
-    		return false;
-    	}
+    public boolean executeStep(){
+    	boolean result = false;
     	
-    	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
-    		System.out.print(String.format("\n\nExecuting ProjectTask : %s\n", entry.getKey()) );
-    	}
-    	
-    	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
-    		entry.getValue().executeBridges();
+    	try{
+    		_lockObject.lock();
+        	if( _projectDuration>_currentStep ){
+            	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
+            		System.out.print(String.format("\n\nExecuting ProjectTask : %s\n", entry.getKey()) );
+            	}
+            	
+            	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
+            		entry.getValue().executeBridges();
+            	}
+
+            	ProjectTask overallProject=_projectTasks.get(CONST_DEPLOY_TASK_NAME);
+            	_overallProgress=overallProject.getProgress();
+            	_currentStep++;	
+            	result = true;
+        	}
+    	}finally{
+    		_lockObject.unlock();
     	}
 
-    	ProjectTask overallProject=_projectTasks.get(CONST_DEPLOY_TASK_NAME);
-    	_overallProgress=overallProject.getProgress();
-    	_currentStep++;	
-    	return true;
+    	return result;
+    }
+    
+    public boolean hasTask( String taskName ){
+    	try{
+    		_lockObject.lock();
+    		return _projectTasks.containsKey(taskName);
+    	}finally{
+    		_lockObject.unlock();
+    	}
     }
     
     /**
@@ -225,15 +245,15 @@ public class Project
      * @throws NullArgumentException
      * @throws IllegalArgumentException
      */
-    public ProjectTask getProjectTask(final String projectTaskName)throws NullArgumentException, IllegalArgumentException{
+    public ProjectTask getProjectTask(final String projectTaskName)throws GameException{
     	if(projectTaskName==null){
-    		throw new NullArgumentException("Wrong argument projectTaskName==null");
+    		throw new GameException("Wrong argument projectTaskName==null");
     	}
     	
     	if(_projectTasks.containsKey(projectTaskName)){
     		return _projectTasks.get(projectTaskName);
     	}else{
-    		throw new IllegalArgumentException("Wrong argument projectTaskName");
+    		throw new GameException("Wrong argument projectTaskName");
     	}
     }
     
@@ -242,11 +262,14 @@ public class Project
      * @return
      * @throws SerializationException
      */
-    public synchronized SerializableProject getSerializableProject()throws SerializationException{
+    public SerializableProject getSerializableProject()throws SerializationException{
     	try {
+    		_lockObject.lock();
 			return new SerializableProject(this);
-		} catch (NullArgumentException e) {
+		} catch (GameException e) {
 			throw new SerializationException("Serialization failed because " + e.getMessage());
+		}finally{
+			_lockObject.unlock();
 		}
     }
     
@@ -254,28 +277,35 @@ public class Project
      * 
      * @return
      */
-    public synchronized double getPrestigePoints(){
-		return _difficultyLevel*_overallProgress/100.0d;
+    public double getPrestigePoints(){
+    	try{
+    		_lockObject.lock();
+    		return _difficultyLevel*_overallProgress/100.0d;
+    	}finally{
+    		_lockObject.unlock();
+    	}
     }
     
     /**
      * 
      * @return
      */
-    public synchronized boolean isExpired(){
+    public boolean isExpired(){
     	ProjectTask mainTask=_projectTasks.get(CONST_DEPLOY_TASK_NAME);
     	try {
+    		_lockObject.lock();
 			if(mainTask.getProgress()>=100){
 				return true;
 			}
-		} catch (IllegalArgumentException e) {
-			return true;
-		} 
-    	
-    	if(_currentStep>=_projectDuration){
-    		return true;
-    	}
-		
+			
+	    	if(_currentStep>=_projectDuration){
+	    		return true;
+	    	}
+	    	
+		} finally{
+			_lockObject.unlock();
+		}
+
     	return false;
     }
     
@@ -283,8 +313,13 @@ public class Project
      * 
      * @return
      */
-    public synchronized int getCurrentStep(){
-    	return _currentStep;
+    public int getCurrentStep(){
+    	try{
+    		_lockObject.lock();
+    		return _currentStep;
+    	}finally{
+    		_lockObject.unlock();
+    	}
     }
     
     /**

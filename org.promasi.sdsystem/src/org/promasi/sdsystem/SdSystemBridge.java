@@ -34,21 +34,21 @@ public class SdSystemBridge
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public SdSystemBridge(String outputSdObjectId, SdSystem outputSdSystem, String inputSdObjectId, SdSystem inputSdSystem)throws NullArgumentException, IllegalArgumentException{
+	public SdSystemBridge(String outputSdObjectId, SdSystem outputSdSystem, String inputSdObjectId, SdSystem inputSdSystem)throws SdSystemException{
 		if(outputSdObjectId==null){
-			throw new NullArgumentException("Wrong argument outputSdObjectId==null");
+			throw new SdSystemException("Wrong argument outputSdObjectId==null");
 		}
 		
 		if(inputSdObjectId==null){
-			throw new NullArgumentException("Wrong argument inputSdObjectId==null");
+			throw new SdSystemException("Wrong argument inputSdObjectId==null");
 		}
 		
 		if(outputSdSystem==null){
-			throw new NullArgumentException("Wrong argument outputSdSystem==null");
+			throw new SdSystemException("Wrong argument outputSdSystem==null");
 		}
 		
 		if(inputSdSystem==null){
-			throw new NullArgumentException("Wrong argument inputSdSystem==null");
+			throw new SdSystemException("Wrong argument inputSdSystem==null");
 		}
 		
 		if(!inputSdSystem._sdObjects.containsKey(inputSdObjectId) || !(inputSdSystem._sdObjects.get(inputSdObjectId) instanceof InputSdObject) ){
@@ -68,13 +68,13 @@ public class SdSystemBridge
 	 * @param inputSdObject
 	 * @param outputSdObject
 	 */
-	protected SdSystemBridge(InputSdObject inputSdObject, OutputSdObject outputSdObject)throws NullArgumentException{
+	protected SdSystemBridge(InputSdObject inputSdObject, OutputSdObject outputSdObject)throws SdSystemException{
 		if(inputSdObject==null){
-			throw new NullArgumentException("Wrong argument inputSdObject==null");
+			throw new SdSystemException("Wrong argument inputSdObject==null");
 		}
 		
 		if(outputSdObject==null){
-			throw new NullArgumentException("Wrong argument outputSdObject==null");
+			throw new SdSystemException("Wrong argument outputSdObject==null");
 		}
 		
 		_inputSdObject=inputSdObject;
@@ -98,12 +98,6 @@ public class SdSystemBridge
 	 * 
 	 */
 	public boolean executeStep(){
-		try {
-			_inputSdObject.setValue( _outputSdObject.getValue() );
-		} catch (SdSystemException e) {
-			return false;
-		}
-		
-		return true;
+		return _inputSdObject.setValue( _outputSdObject.getValue() );
 	}
 }

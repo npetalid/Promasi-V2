@@ -3,10 +3,8 @@
  */
 package org.promasi.game.company;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.joda.time.LocalTime;
+import org.promasi.game.GameException;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
@@ -35,6 +33,11 @@ public class SerializableCompany extends SerializableObject {
      * The time that the company stops working.
      */
     private String _endTime;
+    
+    /**
+     * 
+     */
+    private SerializableDepartment _itDepartment;
 
     /**
      * 
@@ -49,11 +52,6 @@ public class SerializableCompany extends SerializableObject {
 	/**
      * 
      */
-    private Map<String, SerializableEmployee> _employees;
-
-	/**
-     * 
-     */
     public SerializableCompany(){
     }
     
@@ -62,9 +60,9 @@ public class SerializableCompany extends SerializableObject {
      * @param company
      * @throws NullArgumentException
      */
-    public SerializableCompany(final Company company)throws NullArgumentException, SerializationException{
+    public SerializableCompany( final Company company )throws SerializationException{
     	if(company==null){
-    		throw new NullArgumentException("Wrong argument company==null");
+    		throw new SerializationException("Wrong argument company==null");
     	}
     	
     	setStartTime(company._startTime.toString());
@@ -73,11 +71,6 @@ public class SerializableCompany extends SerializableObject {
     	_description=company._description;
     	_name=company._name;
     	_prestigePoints=company._prestigePoints;
-    	
-    	_employees=new TreeMap<String, SerializableEmployee>();
-    	for(Map.Entry<String, Employee> entry : company._employees.entrySet()){
-    		_employees.put(entry.getKey(), entry.getValue().getSerializableEmployee());
-    	}
     }
     
 	/**
@@ -186,39 +179,30 @@ public class SerializableCompany extends SerializableObject {
     		throw new SerializationException("Serialization failed because _endTime property is null");
     	}
     	
+    	if( _itDepartment == null ){
+    		throw new SerializationException("Serialization failed because _itDepartment property is null");
+    	}
+    	
     	try{
     		Company company=new Company(_name, _description, new LocalTime(_startTime), new LocalTime(_endTime), _budget, _prestigePoints);
-    		if(_employees!=null){
-    			for(Map.Entry<String, SerializableEmployee> entry : _employees.entrySet()){
-    				if(entry.getKey()==null || entry.getValue()==null){
-    					throw new SerializationException("Serialization failed becuase employee list is invalid");
-    				}
-    				
-    				company.hireEmployee(entry.getValue().getEmployee());
-    			}
-    		}
-    		
+    		company._itDepartment = _itDepartment.getDepartment();
     		return company;
-    	}catch(IllegalArgumentException e){
-    		throw new SerializationException("Serialization failed because "+e.getMessage());
-    	}catch(NullArgumentException e){
+    	}catch(GameException e){
     		throw new SerializationException("Serialization failed because " + e.getMessage());
     	}
     }
 
-    /**
-     * 
-     * @return
-     */
-    public Map<String, SerializableEmployee> getEmployees() {
-		return _employees;
+	/**
+	 * @return the _itDepartment
+	 */
+	public SerializableDepartment getITDepartment() {
+		return _itDepartment;
 	}
 
-    /**
-     * 
-     * @param employees
-     */
-	public void setEmployees(Map<String, SerializableEmployee> employees) {
-		_employees = employees;
+	/**
+	 * @param _itDepartment the _itDepartment to set
+	 */
+	public void setITDepartment(SerializableDepartment _itDepartment) {
+		this._itDepartment = _itDepartment;
 	}
 }
