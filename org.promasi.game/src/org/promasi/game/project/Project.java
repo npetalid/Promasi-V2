@@ -105,10 +105,6 @@ public class Project
     		throw new IllegalArgumentException("Wrong argument difficultyLevel");
     	}
     	
-    	if(!projectTasks.containsKey(CONST_DEPLOY_TASK_NAME)){
-    		throw new IllegalArgumentException("Wrong argument projectTasks does not contain task named "+CONST_DEPLOY_TASK_NAME);
-    	}
-    	
     	for(Map.Entry<String, ProjectTask> entry : projectTasks.entrySet()){
     		if ( entry.getKey()==null || entry.getValue()==null ){
     			throw new IllegalArgumentException("Wrong argument projectTasks contains null");

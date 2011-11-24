@@ -17,6 +17,8 @@ import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.MainFrame;
 import org.promasi.client_swing.gui.PlayModesJPanel;
 
+import GameBuilder.GameMaker;
+
 /**
  * @author alekstheod
  *
@@ -30,6 +32,7 @@ public class Application {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 				try {
+					GameMaker.makeGame();
 	                // Create a JFrame, which is a Window with "decorations", i.e.
 	                // title, border and close-button
 	                MainFrame mainFrame = new MainFrame("ProMaSi");

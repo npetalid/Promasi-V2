@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="1.7.0_01" class="java.beans.XMLDecoder">
+<java version="1.6.0_23" class="java.beans.XMLDecoder">
  <object class="org.promasi.game.project.SerializableProject">
   <void property="description">
    <string>Test</string>
@@ -22,15 +22,18 @@
      <string>DEPLOY</string>
      <object class="org.promasi.game.project.SerializableProjectTask">
       <void property="description">
-       <string>DEPLOY</string>
+       <string>Deploy</string>
       </void>
       <void property="name">
        <string>DEPLOY</string>
       </void>
+      <void property="progress">
+       <double>33.0</double>
+      </void>
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
         <void property="equationString">
-         <string>stock</string>
+         <string>33</string>
         </void>
        </object>
       </void>
@@ -98,10 +101,13 @@
       <void property="name">
        <string>Test1</string>
       </void>
+      <void property="progress">
+       <double>33.0</double>
+      </void>
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
         <void property="equationString">
-         <string>stock</string>
+         <string>33</string>
         </void>
        </object>
       </void>
@@ -169,10 +175,13 @@
       <void property="name">
        <string>Test2</string>
       </void>
+      <void property="progress">
+       <double>33.0</double>
+      </void>
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
         <void property="equationString">
-         <string>stock</string>
+         <string>33</string>
         </void>
        </object>
       </void>

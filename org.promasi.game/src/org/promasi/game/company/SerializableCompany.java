@@ -71,6 +71,7 @@ public class SerializableCompany extends SerializableObject {
     	_description=company._description;
     	_name=company._name;
     	_prestigePoints=company._prestigePoints;
+    	_itDepartment = new SerializableDepartment(company._itDepartment);
     }
     
 	/**

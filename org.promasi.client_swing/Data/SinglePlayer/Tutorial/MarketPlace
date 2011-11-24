@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="1.7.0_01" class="java.beans.XMLDecoder">
+<java version="1.6.0_23" class="java.beans.XMLDecoder">
  <object class="org.promasi.game.company.SerializableMarketPlace">
   <void property="availableEmployees">
    <object class="java.util.TreeMap">
@@ -13,7 +13,7 @@
        <string>xd332211</string>
       </void>
       <void property="employeeSkills">
-       <object class="java.util.TreeMap" id="TreeMap0">
+       <object id="TreeMap0" class="java.util.TreeMap">
         <void method="put">
          <string>developer</string>
          <double>6.0</double>
