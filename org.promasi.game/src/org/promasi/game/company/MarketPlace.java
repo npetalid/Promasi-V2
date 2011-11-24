@@ -117,26 +117,29 @@ public class MarketPlace
 	 * @param company
 	 * @param employeeId
 	 * @return
-	 * @throws NullArgumentException
-	 * @throws SerializationException
 	 */
-	public synchronized boolean hireEmployee( Company company, String employeeId)throws NullArgumentException, SerializationException{
-		if(employeeId==null){
-			throw new NullArgumentException("Wrong argument employeeId==null");
-		}
+	public boolean hireEmployee( Company company, String employeeId){
+		boolean result = false;
 		
-		if( _availabelEmployees.containsKey( employeeId ) ){
-			Employee tmpEmployee=_availabelEmployees.get(employeeId);
-			_availabelEmployees.remove( employeeId );
-			if(!company.hireEmployee( tmpEmployee ) ){
-				_availabelEmployees.put(employeeId, tmpEmployee);
-				return false;
+		try{
+			_lockObject.lock();
+			if(employeeId!=null){
+				if( _availabelEmployees.containsKey( employeeId ) ){
+					Employee tmpEmployee=_availabelEmployees.get(employeeId);
+					_availabelEmployees.remove( employeeId );
+					if(!company.hireEmployee( tmpEmployee ) ){
+						_availabelEmployees.put(employeeId, tmpEmployee);
+					}else{
+						result = true;
+					}
+				}
 			}
-		}else{
-			return false;
+			
+		}finally{
+			_lockObject.unlock();
 		}
-		
-		return true;
+
+		return result;
 	}
 	
 	/**
@@ -149,9 +152,11 @@ public class MarketPlace
 	public boolean dischargeEmployee(final Employee employee){
 		boolean result = false;
 		try {
+			_lockObject.lock();
 			if(employee!=null){
 				if( !_availabelEmployees.containsKey( employee.getEmployeeId() ) ){
 					employee.removeAllTasks();
+					
 					_availabelEmployees.put(employee.getEmployeeId(), employee);
 					result = true;
 				}		

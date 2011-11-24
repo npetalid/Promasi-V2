@@ -7,7 +7,6 @@ import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.SerializableEmployeeTask;
 import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
-import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * 
@@ -25,20 +24,14 @@ public interface IGame
 	/**
 	 * 
 	 * @param employeeId
-	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
-	 * @throws SerializationException
 	 */
-	public void hireEmployee(final String employeeId)throws GameException;
+	public boolean hireEmployee(final String employeeId);
 	
 	/**
 	 * 
 	 * @param employeeId
-	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
-	 * @throws SerializationException
 	 */
-	public void dischargeEmployee(final String employeeId)throws GameException;
+	public boolean dischargeEmployee(final String employeeId);
 	
 	/**
 	 * 

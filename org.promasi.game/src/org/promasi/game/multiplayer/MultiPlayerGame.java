@@ -16,6 +16,9 @@ import org.promasi.game.GameModel;
 import org.promasi.game.IGameModelListener;
 import org.promasi.game.SerializableGameModel;
 import org.promasi.game.company.Company;
+import org.promasi.game.company.ICompanyListener;
+import org.promasi.game.company.IDepartmentListener;
+import org.promasi.game.company.IEmployeeListener;
 import org.promasi.game.company.MarketPlace;
 import org.promasi.game.company.SerializableCompany;
 import org.promasi.game.company.SerializableEmployee;
@@ -32,7 +35,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameModelListener
+public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameModelListener, IEmployeeListener, ICompanyListener, IDepartmentListener
 {
 	/**
 	 * 
@@ -131,6 +134,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		_gameModels=new TreeMap<String, GameModel>(); 
 		_finishedGames=new TreeMap<String, SerializableGameModel>();
 		gameModel.addListener(this);
+		gameModel.addCompanyListener(this);
 		_gameModels.put(clientId, gameModel);
 		_listeners=new LinkedList<IServerGameListener>();
 		_isRunning=false;
@@ -423,91 +427,6 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		}
 	}
 
-
-	@Override
-	public void projectAssigned(GameModel game, SerializableCompany company, SerializableProject project) {
-		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
-			if(entry.getValue()==game){
-				for(IServerGameListener listener : _listeners){
-					listener.projectAssigned(entry.getKey(), this, company, project, _systemClock.getCurrentDateTime());
-				}
-			}
-		}
-	}
-
-
-	@Override
-	public void projectFinished(GameModel game, SerializableCompany company,SerializableProject project) {
-		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
-			if(entry.getValue()==game){
-				for(IServerGameListener listener : _listeners){
-					listener.projectFinished(entry.getKey(), this, company, project, _systemClock.getCurrentDateTime());
-				}
-			}
-		}
-		
-	}
-
-
-	@Override
-	public void employeeHired(GameModel game,SerializableMarketPlace marketPlace, SerializableCompany company, SerializableEmployee employee) {
-		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
-			for(IServerGameListener listener : _listeners){
-				try{
-					SerializableGameModel gameModel=entry.getValue().getSerializableGameModel();
-					SerializableMarketPlace sMarketPlace=gameModel.getMarketPlace();
-					SerializableCompany sCompany=gameModel.getCompany();
-					listener.employeeHired(entry.getKey(), this, sMarketPlace, sCompany, employee, _systemClock.getCurrentDateTime());
-				}catch(SerializationException e){
-					//Logger
-				}
-			}
-		}
-	}
-
-
-	@Override
-	public void employeeDischarged(GameModel game,
-			SerializableMarketPlace marketPlace, SerializableCompany company,
-			SerializableEmployee employee) {
-		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
-			for(IServerGameListener listener : _listeners){
-				try{
-					SerializableGameModel gameModel=entry.getValue().getSerializableGameModel();
-					SerializableMarketPlace sMarketPlace=gameModel.getMarketPlace();
-					SerializableCompany sCompany=gameModel.getCompany();
-					listener.employeeDischarged(entry.getKey(), this, sMarketPlace, sCompany, employee, _systemClock.getCurrentDateTime());
-				}catch(SerializationException e){
-					//Logger
-				}
-			}
-		}
-	}
-
-
-	@Override
-	public void employeeTasksAssigned(GameModel game, SerializableCompany company, SerializableEmployee employee, List<SerializableEmployeeTask> employeeTasks) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void employeeTaskDetached(GameModel game,
-			SerializableMarketPlace marketPlace, SerializableCompany company,
-			SerializableEmployee employee, SerializableEmployeeTask employeeTask) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void companyIsInsolvent(GameModel game, SerializableCompany company) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 	@Override
 	public void onExecuteStep(GameModel game, SerializableCompany company, SerializableProject assignedProject) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
@@ -543,6 +462,82 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		if(_finishedGames.size()==_gameModels.size()){
 			for(IServerGameListener listener : _listeners){
 				listener.gameFinished(_finishedGames);
+			}
+		}
+	}
+
+
+	@Override
+	public void projectAssigned(String owner, SerializableCompany company, SerializableProject project) {
+		for(IServerGameListener listener : _listeners){
+			listener.projectAssigned(owner, this, company, project, _systemClock.getCurrentDateTime());
+		}
+	}
+
+
+	@Override
+	public void projectFinished(String owner, SerializableCompany company, SerializableProject project) {
+		for(IServerGameListener listener : _listeners){
+			listener.projectFinished(owner, this, company, project, _systemClock.getCurrentDateTime());
+		}
+	}
+
+	@Override
+	public void companyIsInsolvent(String owner, SerializableCompany company,SerializableProject assignedProject) {
+		for(IServerGameListener listener : _listeners){
+			listener.companyIsInsolvent(owner, this, company, _systemClock.getCurrentDateTime());
+		}
+	}
+
+	@Override
+	public void onExecuteWorkingStep(String owner, SerializableCompany company,SerializableProject assignedProject) {
+		for(IServerGameListener listener : _listeners){
+			listener.onExecuteStep(owner, this, company, assignedProject, _systemClock.getCurrentDateTime());
+		}
+	}
+
+
+	@Override
+	public void taskAttached(String supervisor,SerializableEmployee employee,List<SerializableEmployeeTask> employeeTask) {
+		// TODO Auto-generated method stub
+	}
+
+
+	@Override
+	public void taskDetached(String supervisor,SerializableEmployee employee, SerializableEmployeeTask employeeTask) {
+		// TODO Auto-generated method stub
+	}
+
+
+	@Override
+	public void employeeDischarged(String director, SerializableEmployee employee) {
+		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
+			for(IServerGameListener listener : _listeners){
+				try{
+					SerializableGameModel gameModel=entry.getValue().getSerializableGameModel();
+					SerializableMarketPlace sMarketPlace=gameModel.getMarketPlace();
+					SerializableCompany sCompany=gameModel.getCompany();
+					listener.employeeDischarged(entry.getKey(), this, sMarketPlace, sCompany, employee, _systemClock.getCurrentDateTime());
+				}catch(SerializationException e){
+					//Logger
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public void employeeHired(String director, SerializableEmployee employee) {
+		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
+			for(IServerGameListener listener : _listeners){
+				try{
+					SerializableGameModel gameModel=entry.getValue().getSerializableGameModel();
+					SerializableMarketPlace sMarketPlace=gameModel.getMarketPlace();
+					SerializableCompany sCompany=gameModel.getCompany();
+					listener.employeeHired(entry.getKey(), this, sMarketPlace, sCompany, employee, _systemClock.getCurrentDateTime());
+				}catch(SerializationException e){
+					//Logger
+				}
 			}
 		}
 	}

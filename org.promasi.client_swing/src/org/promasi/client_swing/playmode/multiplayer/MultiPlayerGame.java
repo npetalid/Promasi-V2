@@ -26,15 +26,15 @@ public class MultiPlayerGame implements IGame {
 	}
 
 	@Override
-	public void hireEmployee(String employeeId) throws GameException {
+	public boolean hireEmployee(String employeeId) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override
-	public void dischargeEmployee(String employeeId)throws GameException {
+	public boolean dischargeEmployee(String employeeId) {
 		// TODO Auto-generated method stub
-		
+		return false;
 	}
 
 	@Override

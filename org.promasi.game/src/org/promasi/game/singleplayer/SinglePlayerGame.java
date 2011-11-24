@@ -17,9 +17,7 @@ import org.promasi.game.IGameModelListener;
 import org.promasi.game.IGamesServer;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableEmployee;
 import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.company.SerializableMarketPlace;
 import org.promasi.game.project.SerializableProject;
 import org.promasi.utilities.clock.Clock;
 import org.promasi.utilities.clock.IClockListener;
@@ -100,38 +98,30 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public void hireEmployee(String employeeId) throws GameException {
+	public boolean hireEmployee(String employeeId) {
+		boolean result = false;
 		try {
 			_lockObject.lock();
-			_gameModel.hireEmployee(employeeId);
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (NullArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SerializationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			result = _gameModel.hireEmployee(employeeId);
 		}finally{
 			_lockObject.unlock();
 		}
+		
+		return result;
 	}
 
 	@Override
-	public void dischargeEmployee(String employeeId)throws GameException {
+	public boolean dischargeEmployee(String employeeId){
+		boolean result = false;
+		
 		try {
 			_lockObject.lock();
-			_gameModel.dischargeEmployee(employeeId);
-		} catch (IllegalArgumentException e) {
-			throw new GameException(e.toString());
-		} catch (NullArgumentException e) {
-			throw new GameException(e.toString());
-		} catch (SerializationException e) {
-			throw new GameException(e.toString());
+			result = _gameModel.dischargeEmployee(employeeId);
 		}finally{
 			_lockObject.unlock();
 		}
+		
+		return result;
 	}
 
 	@Override
@@ -225,56 +215,6 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		}
 
 		return true;
-	}
-	
-
-	@Override
-	public void projectAssigned(GameModel game, SerializableCompany company, SerializableProject project) {
-		for(IClientGameListener listener : _listeners){
-			listener.projectAssigned(this, company, project, _systemClock.getCurrentDateTime());
-		}
-	}
-
-	@Override
-	public void projectFinished(GameModel game, SerializableCompany company,SerializableProject project) {
-		for(IClientGameListener listener : _listeners){
-			listener.projectFinished(this, company, project, _systemClock.getCurrentDateTime());
-		}
-	}
-
-	@Override
-	public void employeeHired(GameModel game,SerializableMarketPlace marketPlace, SerializableCompany company,SerializableEmployee employee) {
-		for(IClientGameListener listener : _listeners){
-			listener.employeeHired(this, marketPlace, company, employee, _systemClock.getCurrentDateTime());
-		}
-	}
-
-	@Override
-	public void employeeDischarged(GameModel game,SerializableMarketPlace marketPlace, SerializableCompany company,SerializableEmployee employee) {
-		for(IClientGameListener listener : _listeners){
-			listener.employeeDischarged(this, marketPlace, company, employee, _systemClock.getCurrentDateTime());
-		}
-	}
-
-	@Override
-	public void employeeTasksAssigned(GameModel game,SerializableCompany company, SerializableEmployee employee,List<SerializableEmployeeTask> employeeTasks) {
-		for(IClientGameListener listener : _listeners){
-			listener.employeeTasksAttached(this, company, employee, employeeTasks, _systemClock.getCurrentDateTime());
-		}
-	}
-
-	@Override
-	public void employeeTaskDetached(GameModel game,SerializableMarketPlace marketPlace, SerializableCompany company,SerializableEmployee employee, SerializableEmployeeTask employeeTask) {
-		for(IClientGameListener listener : _listeners){
-			listener.employeeTaskDetached(this, marketPlace, company, employee, employeeTask, _systemClock.getCurrentDateTime());
-		}
-	}
-
-	@Override
-	public void companyIsInsolvent(GameModel game, SerializableCompany company) {
-		for(IClientGameListener listener : _listeners){
-			listener.companyIsInsolvent(this, company, _systemClock.getCurrentDateTime());
-		}
 	}
 
 	@Override

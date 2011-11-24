@@ -6,6 +6,8 @@ package org.promasi.game;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.joda.time.DateTime;
 import org.promasi.game.company.Company;
@@ -41,6 +43,11 @@ public class GameModel
 	 * 
 	 */
 	protected Company _company;
+	
+	/**
+	 * 
+	 */
+	private Lock _lockObject;
 	
 	/**
 	 * 
@@ -105,6 +112,7 @@ public class GameModel
 		_gameDescription=gameDescription;
 		_runnedProjects=new LinkedList<Project>();
 		_gameFinished=false;
+		_lockObject = new ReentrantLock();
 	}
 	
 	/**
@@ -114,23 +122,21 @@ public class GameModel
 	 */
 	public SerializableGameModel getSerializableGameModel()throws SerializationException{
 		try {
+			_lockObject.lock();
 			return new SerializableGameModel(this);
 		} catch (NullArgumentException e) {
 			throw new SerializationException("Serialization failed because " + e.getMessage());
+		} finally {
+			_lockObject.unlock();
 		}
 	}
 
-	public void hireEmployee(String employeeId) throws NullArgumentException, IllegalArgumentException, SerializationException {
-		if( !_marketPlace.hireEmployee(_company, employeeId) ){
-			throw new IllegalArgumentException("Wrong argument employee");
-		}
-		
+	public boolean hireEmployee(String employeeId) {
+		return _marketPlace.hireEmployee(_company, employeeId);
 	}
 
-	public void dischargeEmployee(String employeeId) throws NullArgumentException, IllegalArgumentException,SerializationException {
-		if(!_company.dischargeEmployee(employeeId, _marketPlace)){
-			throw new IllegalArgumentException("Wrong argument employee");
-		}
+	public boolean dischargeEmployee(String employeeId) {
+		return _company.dischargeEmployee(employeeId, _marketPlace);
 	}
 
 	/**
@@ -187,18 +193,22 @@ public class GameModel
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public synchronized boolean removeGameModelListener(IGameModelListener listener) {
-		if(listener==null){
-			return false;
+	public boolean removeGameModelListener(IGameModelListener listener) {
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if(listener!=null){
+				if(_listeners.contains(listener)){
+					result = _listeners.remove(listener);
+				}
+			}
+			
+		}finally{
+			_lockObject.unlock();
 		}
 		
-		if(_listeners.contains(listener)){
-			_listeners.remove(listener);
-		}else{
-			return false;
-		}
-		
-		return true;
+		return result;
 	}
 	
 	/**
@@ -207,18 +217,22 @@ public class GameModel
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public synchronized boolean addListener(IGameModelListener listener) {
-		if(listener==null){
-			return false;
+	public boolean addListener(IGameModelListener listener) {
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if(listener!=null){
+				if( !_listeners.contains(listener) ){
+					result = _listeners.add(listener);
+				}
+			}
+			
+		}finally{
+			_lockObject.unlock();
 		}
 		
-		if( !_listeners.contains(listener) ){
-			_listeners.add(listener);
-		}else{
-			return false;
-		}
-		
-		return true;
+		return result;
 	}
 
 	/**

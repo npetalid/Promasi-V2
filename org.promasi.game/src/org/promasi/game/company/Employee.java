@@ -7,6 +7,7 @@ import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.promasi.game.GameException;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -55,7 +56,7 @@ public class Employee
 	/**
 	 * 
 	 */
-	private IEmployeeListener _employeeListener;
+	private List<IEmployeeListener> _listeners;
     
     /**
      * 
@@ -65,32 +66,37 @@ public class Employee
     /**
      * 
      */
+    private String _supervisor;
+    
+    /**
+     * 
+     */
     private Lock _lockObject;
     
     /**
      * Initializes the object.
      */
-    public Employee(String firstName, String lastName, String employeeId, String curriculumVitae, double salary,Map<String, Double> employeeSkills)throws NullArgumentException, IllegalArgumentException
+    public Employee(String firstName, String lastName, String employeeId, String curriculumVitae, double salary,Map<String, Double> employeeSkills)throws GameException
    {
     	
     	if(firstName==null){
-    		throw new NullArgumentException("Wrong argument firstName==null");
+    		throw new GameException("Wrong argument firstName==null");
     	}
     	
         if(lastName==null){
-        	throw new NullArgumentException("Wrong argument lastName==null");
+        	throw new GameException("Wrong argument lastName==null");
         }
         
         if(employeeId==null){
-        	throw new NullArgumentException("Wrong argument employeeId==null");
+        	throw new GameException("Wrong argument employeeId==null");
         }
         
         if(curriculumVitae==null){
-        	throw new NullArgumentException("Wrong argument curriculumVitae==null");
+        	throw new GameException("Wrong argument curriculumVitae==null");
         }
 
         if(employeeSkills==null){
-        	throw new NullArgumentException("Wrong argument employeeSkills==null");
+        	throw new GameException("Wrong argument employeeSkills==null");
         }
         
         for(Map.Entry<String, Double> entry : employeeSkills.entrySet()){
@@ -107,6 +113,7 @@ public class Employee
         _employeeSkills=employeeSkills;
         _lockObject = new ReentrantLock();
         _employeeTasks=new TreeMap<Integer, EmployeeTask>();
+        _listeners = new LinkedList<IEmployeeListener>();
     }
 
     /**
@@ -145,6 +152,32 @@ public class Employee
      */
     public String getEmployeeId(){
     	return _employeeId;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public String getSupervisor(){
+    	try{
+    		_lockObject.lock();
+    		return _supervisor;
+    	}finally{
+    		_lockObject.unlock();
+    	}
+    }
+    
+    /**
+     * 
+     * @param supervisor
+     */
+    public void setSupervisor( String supervisor ){
+    	try{
+    		_lockObject.lock();
+    		_supervisor = supervisor;
+    	}finally{
+    		_lockObject.unlock();
+    	}
     }
     
 	/**
@@ -195,8 +228,8 @@ public class Employee
             		serializableTasks.add( task.getSerializableEmployeeTask() );
             	}
         		
-            	if(_employeeListener!=null){
-            		_employeeListener.taskAttached(getSerializableEmployee(), serializableTasks);
+            	for( IEmployeeListener listener : _listeners ){
+            		listener.taskAttached(_supervisor, getSerializableEmployee(), serializableTasks);
             	}
             	
             	result = true;
@@ -219,9 +252,10 @@ public class Employee
     	try{
     		_lockObject.lock();
         	for(Map.Entry<Integer , EmployeeTask> entry : _employeeTasks.entrySet()){
-        		if(_employeeListener!=null){
-        			_employeeListener.taskDetached( getSerializableEmployee(), entry.getValue().getSerializableEmployeeTask() );
-        		}
+        		result = true;
+    			for ( IEmployeeListener listener : _listeners ){
+    				listener.taskDetached(_supervisor, getSerializableEmployee(), entry.getValue().getSerializableEmployeeTask());
+    			}
         	}
         	
         	_employeeTasks.clear();
@@ -242,23 +276,29 @@ public class Employee
      * @throws NullArgumentException
      * @throws SerializationException 
      */
-    public synchronized boolean removeEmployeeTask(EmployeeTask employeeTask)throws NullArgumentException, SerializationException{
-    	if(employeeTask==null){
-    		throw new NullArgumentException("Wrong argument employeeTask==null");
+    public boolean removeEmployeeTask(EmployeeTask employeeTask){
+    	boolean result = false;
+    	try{
+    		_lockObject.lock();
+        	if(employeeTask!=null){
+            	if(_employeeTasks.containsKey(employeeTask.getFirstStep() ) ){
+            		EmployeeTask task=_employeeTasks.get(employeeTask.getFirstStep() );
+            		if(task==employeeTask){
+            			_employeeTasks.remove(task.getFirstStep());
+            			result = true;
+            			for ( IEmployeeListener listener : _listeners ){
+            				listener.taskDetached(_supervisor, getSerializableEmployee(), task.getSerializableEmployeeTask());
+            			}
+            		}
+            	}
+        	}
+    	}catch(SerializationException e){
+    		result = false;
+    	}finally{
+    		_lockObject.unlock();
     	}
     	
-    	if(_employeeTasks.containsKey(employeeTask.getFirstStep() ) ){
-    		EmployeeTask task=_employeeTasks.get(employeeTask.getFirstStep() );
-    		if(task==employeeTask){
-    			_employeeTasks.remove(task.getFirstStep());
-    			if(_employeeListener!=null){
-    				_employeeListener.taskDetached(getSerializableEmployee(), task.getSerializableEmployeeTask());
-    			}
-    			return true;
-    		}
-    	}
-    	
-    	return false;
+    	return result;
     }
     
     /**
@@ -297,12 +337,51 @@ public class Employee
 
     /**
      * 
-     * @param employeeEventHandler
+     * @param listener
+     * @return
      */
-    public void setListener(IEmployeeListener employeeEventHandler){
+    public boolean addListener(IEmployeeListener listener){
+    	boolean result = false;
+    	
     	try{
     		_lockObject.lock();
-        	_employeeListener=employeeEventHandler;
+    		if( !_listeners.contains(listener) ){
+    			result = _listeners.add(listener);
+    		}
+    	}finally{
+    		_lockObject.unlock();
+    	}
+    	
+    	return result;
+    }
+    
+
+    /**
+     * 
+     * @param listener
+     * @return
+     */
+    public boolean removeListener(IEmployeeListener listener){
+    	boolean result = false;
+    	try{
+    		_lockObject.lock();
+    		if( _listeners.contains(listener) ){
+    			result = _listeners.remove(listener);
+    		}
+    	}finally{
+    		_lockObject.unlock();
+    	}
+    	
+    	return result;
+    }
+    
+    /**
+     * 
+     */
+    public void removeListeners(){
+    	try{
+    		_lockObject.lock();
+    		_listeners.clear();
     	}finally{
     		_lockObject.unlock();
     	}

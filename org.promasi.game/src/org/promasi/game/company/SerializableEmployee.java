@@ -5,6 +5,7 @@ package org.promasi.game.company;
 
 import java.util.Map;
 
+import org.promasi.game.GameException;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
@@ -93,9 +94,7 @@ public class SerializableEmployee extends SerializableObject
     	
     	try{
     		return new Employee(_firstName, _lastName, _employeeId, _curriculumVitae, _salary, _employeeSkills);
-    	}catch(IllegalArgumentException e){
-    		throw new SerializationException("Serialization failed because " + e.getMessage());
-    	}catch(NullArgumentException e){
+    	}catch(GameException e){
     		throw new SerializationException("Serialization failed because " + e.getMessage());
     	}
     }

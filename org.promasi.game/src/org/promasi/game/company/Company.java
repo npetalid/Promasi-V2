@@ -20,7 +20,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  * 
  */
-public class Company implements IEmployeeListener
+public class Company
 {
 	/**
      * The name of the company.
@@ -77,6 +77,11 @@ public class Company implements IEmployeeListener
      * 
      */
     private List<ICompanyListener> _companyListeners;
+    
+    /**
+     * 
+     */
+    private String _owner;
     
     /**
      * Defines the number of working days for each month.
@@ -236,6 +241,7 @@ public class Company implements IEmployeeListener
     	
     	return result;
     }
+
     
     /**
      * Assigns a {@link Project} to this {@link Company}, and notifies the
@@ -255,7 +261,7 @@ public class Company implements IEmployeeListener
     	try{
     		_lockObject.lock();
             for(ICompanyListener listener : _companyListeners){
-            	listener.projectAssigned(getSerializableCompany(),project.getSerializableProject());
+            	listener.projectAssigned(_owner, getSerializableCompany(),project.getSerializableProject());
             }
     	}finally{
     		_lockObject.unlock();
@@ -328,7 +334,7 @@ public class Company implements IEmployeeListener
             				
                     		if(_budget<0){
                 		        for(ICompanyListener listener : _companyListeners){
-                		        	listener.companyIsInsolvent(getSerializableCompany(), _assignedProject.getSerializableProject());
+                		        	listener.companyIsInsolvent(_owner, getSerializableCompany(), _assignedProject.getSerializableProject());
                 		        	_assignedProject=null;
                 		        }
                 		        
@@ -343,7 +349,7 @@ public class Company implements IEmployeeListener
                     	 _itDepartment.executeWorkingStep(_assignedProject.getCurrentStep());
                     	 
                          for(ICompanyListener eventHandler : _companyListeners){
-                         	eventHandler.onExecuteWorkingStep(getSerializableCompany(), _assignedProject.getSerializableProject());
+                         	eventHandler.onExecuteWorkingStep(_owner, getSerializableCompany(), _assignedProject.getSerializableProject());
                          }
                          
                          _assignedProject.executeStep();
@@ -353,7 +359,7 @@ public class Company implements IEmployeeListener
                      		_budget=_budget+_assignedProject.getProjectPrice();
                      		
                              for(ICompanyListener listener : _companyListeners){
-                             	listener.projectFinished(getSerializableCompany(), _assignedProject.getSerializableProject());
+                             	listener.projectFinished(_owner, getSerializableCompany(), _assignedProject.getSerializableProject());
                              }
                              
                      		_assignedProject=null;
@@ -401,7 +407,7 @@ public class Company implements IEmployeeListener
     	
     	try{
     		_lockObject.lock();
-    		result = _itDepartment.hireEmployee(employee);
+    		result = _itDepartment.hireEmployee(_owner, employee);
     	}catch(SerializationException e){
     		result = false;
     	}finally{
@@ -430,6 +436,42 @@ public class Company implements IEmployeeListener
     	return result;
 	}
     
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean addITDepartmentListener( IDepartmentListener listener ){
+		return _itDepartment.addListener(listener);
+	}
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean removeITDepartmentListener( IDepartmentListener listener ){
+		return _itDepartment.removeListener(listener);
+	}
+	
+    /**
+     * 
+     * @param listener
+     * @return
+     */
+    public boolean addEmploeeListener( IEmployeeListener listener ){
+        return _itDepartment.addEmployeeListener(listener);
+    }
+    
+    /**
+     * 
+     * @param listener
+     * @return
+     */
+    public boolean removeEmploeeListener( IEmployeeListener listener ){
+    	return _itDepartment.removeEmployeeListener(listener);
+    }
+	
     /**
      * 
      * @return
@@ -439,19 +481,30 @@ public class Company implements IEmployeeListener
 		return new SerializableCompany(this);
     }
     
-	@Override
-	public void taskAttached(SerializableEmployee employee, List<SerializableEmployeeTask> employeeTasks) throws SerializationException {
-        for(ICompanyListener eventHandler : _companyListeners){
-        	eventHandler.employeeTasksAttached(getSerializableCompany(), employee, employeeTasks);
-        }
-	}
-
-	@Override
-	public void taskDetached(SerializableEmployee employee, SerializableEmployeeTask employeeTask) throws SerializationException {
-        for(ICompanyListener eventHandler : _companyListeners){
-        	eventHandler.employeeTaskDetached(getSerializableCompany(),employee, employeeTask);
-        }
-	}
-
-	
+    /**
+     * 
+     * @param owner
+     */
+    public void setOwner( String owner ){
+    	try{
+    		_lockObject.lock();
+        	_owner = owner;
+        	_itDepartment.setDirector(_owner);
+    	}finally{
+    		_lockObject.unlock();
+    	}
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public String getOwner(){
+    	try{
+    		_lockObject.lock();
+    		return _owner;
+    	}finally{
+    		_lockObject.unlock();
+    	}
+    }
 }
