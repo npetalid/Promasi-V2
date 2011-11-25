@@ -50,7 +50,7 @@ public class Application {
 	                // program won't exit when clicking close button
 	                //  (The default is HIDE_ON_CLOSE, which just makes the window
 	                //  invisible, and thus doesn't exit the app)
-	                mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
+	                mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	                
 	                Rectangle rect = new Rectangle(screenSize.width/2 - screenSize.width/4, screenSize.height/2 - screenSize.height/4, screenSize.width/2, screenSize.height/2);
 	                mainFrame.setBounds(rect);

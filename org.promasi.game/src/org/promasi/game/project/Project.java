@@ -236,25 +236,6 @@ public class Project
     
     /**
      * 
-     * @param projectTaskName
-     * @return
-     * @throws NullArgumentException
-     * @throws IllegalArgumentException
-     */
-    public ProjectTask getProjectTask(final String projectTaskName)throws GameException{
-    	if(projectTaskName==null){
-    		throw new GameException("Wrong argument projectTaskName==null");
-    	}
-    	
-    	if(_projectTasks.containsKey(projectTaskName)){
-    		return _projectTasks.get(projectTaskName);
-    	}else{
-    		throw new GameException("Wrong argument projectTaskName");
-    	}
-    }
-    
-    /**
-     * 
      * @return
      * @throws SerializationException
      */

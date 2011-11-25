@@ -5,7 +5,6 @@ package org.promasi.client_swing.gui.desktop;
 
 import java.awt.BorderLayout;
 import java.beans.PropertyVetoException;
-import java.util.List;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
@@ -20,9 +19,6 @@ import org.promasi.client_swing.gui.desktop.taskbar.TaskBarJPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.SerializableGameModel;
 import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableEmployee;
-import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.company.SerializableMarketPlace;
 import org.promasi.game.project.SerializableProject;
 import org.promasi.game.singleplayer.IClientGameListener;
 
@@ -92,60 +88,6 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 
 	@Override
 	public void gameStarted(IGame game, SerializableGameModel gameModel,
-			DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void projectAssigned(IGame game, SerializableCompany company,
-			SerializableProject project, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void projectFinished(IGame game, SerializableCompany company,
-			SerializableProject project, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void employeeHired(IGame game, SerializableMarketPlace marketPlace,
-			SerializableCompany company, SerializableEmployee employee,
-			DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void employeeDischarged(IGame game,
-			SerializableMarketPlace marketPlace, SerializableCompany company,
-			SerializableEmployee employee, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void employeeTasksAttached(IGame game, SerializableCompany company,
-			SerializableEmployee employee,
-			List<SerializableEmployeeTask> employeeTasks, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void employeeTaskDetached(IGame game,
-			SerializableMarketPlace marketPlace, SerializableCompany company,
-			SerializableEmployee employee,
-			SerializableEmployeeTask employeeTask, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void companyIsInsolvent(IGame game, SerializableCompany company,
 			DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
