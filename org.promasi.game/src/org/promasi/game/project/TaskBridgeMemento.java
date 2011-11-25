@@ -11,7 +11,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableTaskBridge 
+public class TaskBridgeMemento 
 {
 	
 	/**
@@ -37,7 +37,7 @@ public class SerializableTaskBridge
 	/**
 	 * 
 	 */
-	public SerializableTaskBridge(){
+	public TaskBridgeMemento(){
 		
 	}
 	
@@ -46,7 +46,7 @@ public class SerializableTaskBridge
 	 * @param taskBridge
 	 * @throws NullArgumentException
 	 */
-	protected SerializableTaskBridge(TaskBridge taskBridge)throws NullArgumentException{
+	protected TaskBridgeMemento(TaskBridge taskBridge)throws NullArgumentException{
 		if(taskBridge==null){
 			throw new NullArgumentException("Wrong argument taskBridge==null");
 		}

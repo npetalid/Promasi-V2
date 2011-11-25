@@ -7,15 +7,15 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.joda.time.DateTime;
-import org.promasi.game.SerializableGameModel;
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableEmployee;
-import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.company.SerializableMarketPlace;
+import org.promasi.game.GameModelMemento;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.company.EmployeeMemento;
+import org.promasi.game.company.EmployeeTaskMemento;
+import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.game.multiplayer.IMultiPlayerGame;
 import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.game.multiplayer.MultiPlayerGame;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.project.ProjectMemento;
 import org.promasi.protocol.messages.AssignEmployeeTasksRequest;
 import org.promasi.protocol.messages.DischargeEmployeeRequest;
 import org.promasi.protocol.messages.EmployeeDischargedRequest;
@@ -163,7 +163,7 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 	
 	@Override
 	public void gameStarted(String clientId, IMultiPlayerGame game,
-			SerializableGameModel gameModel, DateTime dateTime) {
+			GameModelMemento gameModel, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -171,7 +171,7 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 	
 	@Override
 	public void projectAssigned(String clientId, IMultiPlayerGame game,
-			SerializableCompany company, SerializableProject project,
+			CompanyMemento company, ProjectMemento project,
 			DateTime dateTime) {
 		if(clientId.equals(_clientId)){
 			_client.sendMessage(new ProjectAssignedRequest(company, project, dateTime.toString()).serialize());
@@ -181,7 +181,7 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 	
 	@Override
 	public void projectFinished(String clientId, IMultiPlayerGame game,
-			SerializableCompany company, SerializableProject project,
+			CompanyMemento company, ProjectMemento project,
 			DateTime dateTime) {
 		if(clientId.equals(_clientId)){
 			_client.sendMessage(new ProjectFinishedRequest(project).serialize());
@@ -191,7 +191,7 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 
 	
 	@Override
-	public void employeeHired(String clientId, IMultiPlayerGame game,SerializableMarketPlace marketPlace, SerializableCompany company,SerializableEmployee employee, DateTime dateTime) {
+	public void employeeHired(String clientId, IMultiPlayerGame game,MarketPlaceMemento marketPlace, CompanyMemento company,EmployeeMemento employee, DateTime dateTime) {
 		if(clientId.equals(_clientId)){
 			_client.sendMessage(new EmployeeHiredRequest(marketPlace, company, employee, dateTime.toString()).serialize());
 		}	
@@ -199,7 +199,7 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 
 	
 	@Override
-	public void employeeDischarged(String clientId, IMultiPlayerGame game,SerializableMarketPlace marketPlace, SerializableCompany company, SerializableEmployee employee, DateTime dateTime) {
+	public void employeeDischarged(String clientId, IMultiPlayerGame game,MarketPlaceMemento marketPlace, CompanyMemento company, EmployeeMemento employee, DateTime dateTime) {
 		if(clientId.equals(_clientId)){
 			_client.sendMessage(new EmployeeDischargedRequest(marketPlace, company, employee, dateTime.toString()).serialize());
 		}	
@@ -208,8 +208,8 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 	
 	@Override
 	public void employeeTasksAssigned(String clientId, IMultiPlayerGame game,
-			SerializableCompany company, SerializableEmployee employee,
-			List<SerializableEmployeeTask> employeeTasks, DateTime dateTime) {
+			CompanyMemento company, EmployeeMemento employee,
+			List<EmployeeTaskMemento> employeeTasks, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -217,9 +217,9 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 	
 	@Override
 	public void employeeTaskDetached(String clientId, IMultiPlayerGame game,
-			SerializableMarketPlace marketPlace, SerializableCompany company,
-			SerializableEmployee employee,
-			SerializableEmployeeTask employeeTask, DateTime dateTime) {
+			MarketPlaceMemento marketPlace, CompanyMemento company,
+			EmployeeMemento employee,
+			EmployeeTaskMemento employeeTask, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -227,7 +227,7 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 	
 	@Override
 	public void companyIsInsolvent(String clientId, IMultiPlayerGame game,
-			SerializableCompany company, DateTime dateTime) {
+			CompanyMemento company, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -235,7 +235,7 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 	
 	@Override
 	public void onExecuteStep(String clientId, IMultiPlayerGame game,
-			SerializableCompany company, SerializableProject assignedProject, DateTime dateTime) {
+			CompanyMemento company, ProjectMemento assignedProject, DateTime dateTime) {
 		if(clientId.equals(_clientId)){
 			_client.sendMessage(new OnExecuteStepRequest(assignedProject, company, dateTime.toString()).serialize());
 		}
@@ -284,10 +284,10 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 
 	
 	@Override
-	public void gameFinished(Map<String, SerializableGameModel> gameModels) {
+	public void gameFinished(Map<String, GameModelMemento> gameModels) {
 		if(gameModels.containsKey(_clientId)){
-			SerializableGameModel gameModel=gameModels.get(_clientId);
-			Map<String, SerializableGameModel> models=new TreeMap<String, SerializableGameModel>(gameModels);
+			GameModelMemento gameModel=gameModels.get(_clientId);
+			Map<String, GameModelMemento> models=new TreeMap<String, GameModelMemento>(gameModels);
 			models.remove(_clientId);
 			GameFinishedRequest request=new GameFinishedRequest(_clientId, gameModel, models);
 			_client.sendMessage(request.serialize());

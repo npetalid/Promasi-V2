@@ -69,7 +69,7 @@ public class TaskBarJPanel extends JPanel {
 		if( desktop == null ){
 			throw new GuiException("Wrong argument desktop == null");
 		}
-		
+
 		setPreferredSize( new Dimension( 100, CONST_TASKBAR_HEIGHT ) );
 		setLayout(new BorderLayout());
 		

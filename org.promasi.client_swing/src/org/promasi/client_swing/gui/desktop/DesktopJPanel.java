@@ -17,9 +17,9 @@ import org.promasi.client_swing.gui.IMainFrame;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
 import org.promasi.client_swing.gui.desktop.taskbar.TaskBarJPanel;
 import org.promasi.game.IGame;
-import org.promasi.game.SerializableGameModel;
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.GameModelMemento;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.project.ProjectMemento;
 import org.promasi.game.singleplayer.IClientGameListener;
 
 /**
@@ -82,20 +82,20 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 		_taskBarPanel = new TaskBarJPanel( username, this );
 		add( _taskBarPanel, BorderLayout.NORTH );
 		
-		_workspace = new PromasiJDesktopPane( username , this );
+		_workspace = new PromasiJDesktopPane( _game, username , this );
 		add(_workspace);
 	}
 
 	@Override
-	public void gameStarted(IGame game, SerializableGameModel gameModel,
+	public void gameStarted(IGame game, GameModelMemento gameModel,
 			DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onExecuteStep(IGame game, SerializableCompany company,
-			SerializableProject assignedProject, DateTime dateTime) {
+	public void onExecuteStep(IGame game, CompanyMemento company,
+			ProjectMemento assignedProject, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -112,8 +112,8 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 	}
 
 	@Override
-	public void gameFinished(IGame game, SerializableGameModel gameModel,
-			SerializableCompany company) {	
+	public void gameFinished(IGame game, GameModelMemento gameModel,
+			CompanyMemento company) {	
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {

@@ -1,6 +1,6 @@
 package org.promasi.sdsystem.sdobject;
 
-import org.promasi.sdsystem.serialization.ISerializableEquation;
+import org.promasi.sdsystem.serialization.IEquationMemento;
 import org.promasi.sdsystem.serialization.ISerializableSdObject;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializableObject;
@@ -11,12 +11,12 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableStockSdObject extends SerializableObject implements ISerializableSdObject
+public class StockSdObjectMemento extends SerializableObject implements ISerializableSdObject
 {
 	/**
 	 * 
 	 */
-	private ISerializableEquation _equation;
+	private IEquationMemento _equation;
 	
 	/**
 	 * 
@@ -26,23 +26,17 @@ public class SerializableStockSdObject extends SerializableObject implements ISe
 	/**
 	 * 
 	 */
-	public SerializableStockSdObject(){
+	public StockSdObjectMemento(){
 		
 	}
 	
 	/**
 	 * 
 	 * @param sdObject
-	 * @throws NullArgumentException
-	 * @throws SerializationException 
 	 */
-	public SerializableStockSdObject(final StockSdObject sdObject)throws NullArgumentException, SerializationException
+	protected StockSdObjectMemento(final StockSdObject sdObject)
 	{
-		if(sdObject==null){
-			throw new NullArgumentException("Wrong argument sdObject==null");
-		}
-		
-		_equation=sdObject._equation.getSerializableEquation();
+		_equation=sdObject._equation.getMemento();
 		_value=sdObject._value;
 	}
 	
@@ -67,7 +61,7 @@ public class SerializableStockSdObject extends SerializableObject implements ISe
 	 * 
 	 * @param equation
 	 */
-	public void setEquation(ISerializableEquation equation){
+	public void setEquation(IEquationMemento equation){
 		_equation=equation;
 	}
 	
@@ -75,7 +69,7 @@ public class SerializableStockSdObject extends SerializableObject implements ISe
 	 * 
 	 * @return
 	 */
-	public ISerializableEquation getEquation(){
+	public IEquationMemento getEquation(){
 		return _equation;
 	}
 

@@ -3,7 +3,7 @@
  */
 package org.promasi.protocol.messages;
 
-import org.promasi.game.SerializableGameModel;
+import org.promasi.game.GameModelMemento;
 import org.promasi.utilities.serialization.SerializableObject;
 
 /**
@@ -15,7 +15,7 @@ public class GameStartedRequest extends SerializableObject
 	/**
 	 * 
 	 */
-	SerializableGameModel _gameModel;
+	GameModelMemento _gameModel;
 
 	/**
 	 * 
@@ -32,7 +32,7 @@ public class GameStartedRequest extends SerializableObject
 	 * @param gameModel
 	 * @param dateTime
 	 */
-	public GameStartedRequest(SerializableGameModel gameModel, String dateTime){
+	public GameStartedRequest(GameModelMemento gameModel, String dateTime){
 		_gameModel=gameModel;
 		_dateTime=dateTime;
 	}
@@ -41,7 +41,7 @@ public class GameStartedRequest extends SerializableObject
 	 * 
 	 * @return
 	 */
-	public SerializableGameModel getGameModel() {
+	public GameModelMemento getGameModel() {
 		return _gameModel;
 	}
 
@@ -49,7 +49,7 @@ public class GameStartedRequest extends SerializableObject
 	 * 
 	 * @param gameModel
 	 */
-	public void setGameModel(SerializableGameModel gameModel) {
+	public void setGameModel(GameModelMemento gameModel) {
 		_gameModel = gameModel;
 	}
 

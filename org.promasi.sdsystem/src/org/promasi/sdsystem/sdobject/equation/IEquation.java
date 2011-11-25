@@ -2,7 +2,7 @@ package org.promasi.sdsystem.sdobject.equation;
 
 import java.util.Map;
 
-import org.promasi.sdsystem.serialization.ISerializableEquation;
+import org.promasi.sdsystem.serialization.IEquationMemento;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -28,5 +28,5 @@ public interface IEquation {
 	 * @return
 	 * @throws SerializationException
 	 */
-	public ISerializableEquation getSerializableEquation()throws SerializationException;
+	public IEquationMemento getMemento();
 }

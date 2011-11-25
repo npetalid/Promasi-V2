@@ -13,11 +13,11 @@ public interface IEmployeeListener
 	 * 
 	 * @param employee
 	 */
-	public void taskAttached(String supervisor, SerializableEmployee employee, List<SerializableEmployeeTask> employeeTask);
+	public void taskAttached(String supervisor, EmployeeMemento employee, List<EmployeeTaskMemento> employeeTask);
 	
 	/**
 	 * 
 	 * @param employee
 	 */
-	public void taskDetached(String supervisor, SerializableEmployee employee, SerializableEmployeeTask employeeTask);
+	public void taskDetached(String supervisor, EmployeeMemento employee, EmployeeTaskMemento employeeTask);
 }

@@ -239,10 +239,10 @@ public class Project
      * @return
      * @throws SerializationException
      */
-    public SerializableProject getSerializableProject()throws SerializationException{
+    public ProjectMemento getMemento()throws SerializationException{
     	try {
     		_lockObject.lock();
-			return new SerializableProject(this);
+			return new ProjectMemento(this);
 		} catch (GameException e) {
 			throw new SerializationException("Serialization failed because " + e.getMessage());
 		}finally{

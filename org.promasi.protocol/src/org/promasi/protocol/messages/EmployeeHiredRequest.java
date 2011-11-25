@@ -3,9 +3,9 @@
  */
 package org.promasi.protocol.messages;
 
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableEmployee;
-import org.promasi.game.company.SerializableMarketPlace;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.company.EmployeeMemento;
+import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.utilities.serialization.SerializableObject;
 
 /**
@@ -17,17 +17,17 @@ public class EmployeeHiredRequest extends SerializableObject
 	/**
 	 * 
 	 */
-	private SerializableCompany _company;
+	private CompanyMemento _company;
 	
 	/**
 	 * 
 	 */
-	private SerializableMarketPlace _marketPlace;
+	private MarketPlaceMemento _marketPlace;
 
 	/**
 	 * 
 	 */
-	private SerializableEmployee _employee;
+	private EmployeeMemento _employee;
 	
 	/**
 	 * 
@@ -45,7 +45,7 @@ public class EmployeeHiredRequest extends SerializableObject
 	 * @param marketPlace
 	 * @param dateTime
 	 */
-	public EmployeeHiredRequest( SerializableMarketPlace marketPlace, SerializableCompany company, SerializableEmployee employee, String dateTime){
+	public EmployeeHiredRequest( MarketPlaceMemento marketPlace, CompanyMemento company, EmployeeMemento employee, String dateTime){
 		_company=company;
 		_marketPlace=marketPlace;
 		_dateTime=dateTime;
@@ -55,28 +55,28 @@ public class EmployeeHiredRequest extends SerializableObject
 	/**
 	 * @param company the company to set
 	 */
-	public void setCompany(SerializableCompany company) {
+	public void setCompany(CompanyMemento company) {
 		_company = company;
 	}
 
 	/**
 	 * @return the company
 	 */
-	public SerializableCompany getCompany() {
+	public CompanyMemento getCompany() {
 		return _company;
 	}
 
 	/**
 	 * @param marketPlace the marketPlace to set
 	 */
-	public void setMarketPlace(SerializableMarketPlace marketPlace) {
+	public void setMarketPlace(MarketPlaceMemento marketPlace) {
 		_marketPlace = marketPlace;
 	}
 
 	/**
 	 * @return the marketPlace
 	 */
-	public SerializableMarketPlace getMarketPlace() {
+	public MarketPlaceMemento getMarketPlace() {
 		return _marketPlace;
 	}
 
@@ -97,14 +97,14 @@ public class EmployeeHiredRequest extends SerializableObject
 	/**
 	 * @param employee the employee to set
 	 */
-	public void setEmployee(SerializableEmployee employee) {
+	public void setEmployee(EmployeeMemento employee) {
 		_employee = employee;
 	}
 
 	/**
 	 * @return the employee
 	 */
-	public SerializableEmployee getEmployee() {
+	public EmployeeMemento getEmployee() {
 		return _employee;
 	}
 }

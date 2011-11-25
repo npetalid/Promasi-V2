@@ -9,9 +9,9 @@ import javax.swing.SwingUtilities;
 import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.desktop.DesktopJPanel;
 import org.promasi.game.IGame;
-import org.promasi.game.SerializableGameModel;
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.GameModelMemento;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.project.ProjectMemento;
 import org.promasi.game.singleplayer.IClientGameListener;
 
 /**
@@ -67,7 +67,7 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 	}
 
 	@Override
-	public void gameStarted(IGame game, SerializableGameModel gameModel,
+	public void gameStarted(IGame game, GameModelMemento gameModel,
 			DateTime dateTime) {
 		
 		SwingUtilities.invokeLater(new Runnable() {
@@ -84,8 +84,8 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 	}
 
 	@Override
-	public void onExecuteStep(IGame game, SerializableCompany company,
-			SerializableProject assignedProject, DateTime dateTime) {
+	public void onExecuteStep(IGame game, CompanyMemento company,
+			ProjectMemento assignedProject, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -97,8 +97,8 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 	}
 
 	@Override
-	public void gameFinished(IGame game, SerializableGameModel gameModel,
-			SerializableCompany company) {
+	public void gameFinished(IGame game, GameModelMemento gameModel,
+			CompanyMemento company) {
 		// TODO Auto-generated method stub
 		
 	}

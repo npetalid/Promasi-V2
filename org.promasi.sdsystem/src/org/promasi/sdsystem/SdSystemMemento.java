@@ -14,7 +14,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableSdSystem extends SerializableObject{
+public class SdSystemMemento extends SerializableObject{
 	
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class SerializableSdSystem extends SerializableObject{
 	/**
 	 * 
 	 */
-	public SerializableSdSystem(){
+	public SdSystemMemento(){
 		_sdObjects=new TreeMap<String, ISerializableSdObject>();
 	}
 	
@@ -34,18 +34,14 @@ public class SerializableSdSystem extends SerializableObject{
 	 * @throws NullArgumentException
 	 * @throws SerializationException 
 	 */
-	public SerializableSdSystem(final SdSystem sdSystem)throws NullArgumentException, IllegalArgumentException, SerializationException{
-		if(sdSystem==null){
-			throw new NullArgumentException("Wrong argument sdSystem==null");
-		}
-		
+	protected SdSystemMemento(final SdSystem sdSystem){
 		_sdObjects=new TreeMap<String, ISerializableSdObject>();
 		for(Map.Entry<String, ISdObject> entry : sdSystem._sdObjects.entrySet()){
 			if(entry.getKey()==null || entry.getValue()==null){
 				throw new IllegalArgumentException("Wrong argument sdSystem contains invalid sdObject entries");
 			}
 
-			_sdObjects.put(entry.getKey(), entry.getValue().getSerializableSdObject());
+			_sdObjects.put(entry.getKey(), entry.getValue().getMemento());
 		}
 	}
 	

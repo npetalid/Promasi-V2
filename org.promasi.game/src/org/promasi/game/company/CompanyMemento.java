@@ -13,7 +13,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableCompany extends SerializableObject {
+public class CompanyMemento extends SerializableObject {
 	/**
      * The name of the company.
      */
@@ -37,7 +37,7 @@ public class SerializableCompany extends SerializableObject {
     /**
      * 
      */
-    private SerializableDepartment _itDepartment;
+    private DepartmentMemento _itDepartment;
 
     /**
      * 
@@ -52,7 +52,7 @@ public class SerializableCompany extends SerializableObject {
 	/**
      * 
      */
-    public SerializableCompany(){
+    public CompanyMemento(){
     }
     
     /**
@@ -60,7 +60,7 @@ public class SerializableCompany extends SerializableObject {
      * @param company
      * @throws NullArgumentException
      */
-    public SerializableCompany( final Company company )throws SerializationException{
+    public CompanyMemento( final Company company )throws SerializationException{
     	if(company==null){
     		throw new SerializationException("Wrong argument company==null");
     	}
@@ -71,7 +71,7 @@ public class SerializableCompany extends SerializableObject {
     	_description=company._description;
     	_name=company._name;
     	_prestigePoints=company._prestigePoints;
-    	_itDepartment = new SerializableDepartment(company._itDepartment);
+    	_itDepartment = new DepartmentMemento(company._itDepartment);
     }
     
 	/**
@@ -196,14 +196,14 @@ public class SerializableCompany extends SerializableObject {
 	/**
 	 * @return the _itDepartment
 	 */
-	public SerializableDepartment getITDepartment() {
+	public DepartmentMemento getITDepartment() {
 		return _itDepartment;
 	}
 
 	/**
 	 * @param _itDepartment the _itDepartment to set
 	 */
-	public void setITDepartment(SerializableDepartment _itDepartment) {
+	public void setITDepartment(DepartmentMemento _itDepartment) {
 		this._itDepartment = _itDepartment;
 	}
 }

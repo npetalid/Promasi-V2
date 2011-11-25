@@ -6,10 +6,10 @@ package org.promasi.game;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableMarketPlace;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.game.project.Project;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -17,7 +17,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableGameModel 
+public class GameModelMemento 
 {
 	/**
 	 * 
@@ -32,27 +32,27 @@ public class SerializableGameModel
 	/**
 	 * 
 	 */
-	private SerializableMarketPlace _marketPlace;
+	private MarketPlaceMemento _marketPlace;
 	
 	/**
 	 * 
 	 */
-	private SerializableCompany _company;
+	private CompanyMemento _company;
 	
 	/**
 	 * 
 	 */
-	private Queue<SerializableProject> _projects;
+	private Queue<ProjectMemento> _projects;
 	
 	/**
 	 * 
 	 */
-	private Queue<SerializableProject> _runnedProjects;
+	private Queue<ProjectMemento> _runnedProjects;
 
 	/**
 	 * 
 	 */
-	public SerializableGameModel(){
+	public GameModelMemento(){
 		
 	}
 	
@@ -62,7 +62,7 @@ public class SerializableGameModel
 	 * @throws NullArgumentException
 	 * @throws SerializationException
 	 */
-	protected SerializableGameModel(GameModel gameModel)throws NullArgumentException, SerializationException{
+	protected GameModelMemento(GameModel gameModel)throws NullArgumentException, SerializationException{
 		if(gameModel==null){
 			throw new NullArgumentException("Wrong argument gameModel==null");
 		}
@@ -71,14 +71,14 @@ public class SerializableGameModel
 		_gameDescription=gameModel._gameDescription;
 		_marketPlace=gameModel._marketPlace.getSerializableMarketPlace();
 		_company=gameModel._company.getSerializableCompany();
-		_projects=new LinkedList<SerializableProject>();
-		_runnedProjects=new LinkedList<SerializableProject>();
+		_projects=new LinkedList<ProjectMemento>();
+		_runnedProjects=new LinkedList<ProjectMemento>();
 		for(Project project : gameModel._projects){
-			_projects.add(project.getSerializableProject());
+			_projects.add(project.getMemento());
 		}
 		
 		for(Project project : gameModel._runnedProjects){
-			_runnedProjects.add(project.getSerializableProject());
+			_runnedProjects.add(project.getMemento());
 		}
 	}
 
@@ -113,7 +113,7 @@ public class SerializableGameModel
 		}
 		
 		Queue<Project> projects=new LinkedList<Project>();
-		for(SerializableProject project : _projects){
+		for(ProjectMemento project : _projects){
 			projects.add(project.getProject());
 		}
 		
@@ -129,42 +129,42 @@ public class SerializableGameModel
 	/**
 	 * @param projects the projects to set
 	 */
-	public void setProjects(Queue<SerializableProject> projects) {
+	public void setProjects(Queue<ProjectMemento> projects) {
 		_projects = projects;
 	}
 
 	/**
 	 * @return the projects
 	 */
-	public Queue<SerializableProject> getProjects() {
+	public Queue<ProjectMemento> getProjects() {
 		return _projects;
 	}
 
 	/**
 	 * @param company the company to set
 	 */
-	public void setCompany(SerializableCompany company) {
+	public void setCompany(CompanyMemento company) {
 		_company = company;
 	}
 
 	/**
 	 * @return the company
 	 */
-	public SerializableCompany getCompany() {
+	public CompanyMemento getCompany() {
 		return _company;
 	}
 
 	/**
 	 * @param marketPlace the marketPlace to set
 	 */
-	public void setMarketPlace(SerializableMarketPlace marketPlace) {
+	public void setMarketPlace(MarketPlaceMemento marketPlace) {
 		_marketPlace = marketPlace;
 	}
 
 	/**
 	 * @return the marketPlace
 	 */
-	public SerializableMarketPlace getMarketPlace() {
+	public MarketPlaceMemento getMarketPlace() {
 		return _marketPlace;
 	}
 
@@ -199,14 +199,14 @@ public class SerializableGameModel
 	/**
 	 * @param _runnedProjects the _runnedProjects to set
 	 */
-	public void setRunnedProjects(Queue<SerializableProject> _runnedProjects) {
+	public void setRunnedProjects(Queue<ProjectMemento> _runnedProjects) {
 		this._runnedProjects = _runnedProjects;
 	}
 
 	/**
 	 * @return the _runnedProjects
 	 */
-	public Queue<SerializableProject> getRunnedProjects() {
+	public Queue<ProjectMemento> getRunnedProjects() {
 		return _runnedProjects;
 	}
 }

@@ -11,7 +11,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableTimeSdObject extends SerializableObject implements
+public class TimeSdObjectMemento extends SerializableObject implements
 		ISerializableSdObject {
 
 	/* (non-Javadoc)

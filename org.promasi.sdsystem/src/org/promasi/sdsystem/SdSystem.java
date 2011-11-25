@@ -192,14 +192,8 @@ public class SdSystem
 	 * @return
 	 * @throws SerializationException
 	 */
-	public SerializableSdSystem getSerializableSdSystem()throws SerializationException {
-		try {
-			return new SerializableSdSystem(this);
-		} catch (IllegalArgumentException e) {
-			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
-		} catch (NullArgumentException e) {
-			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
-		}
+	public SdSystemMemento getMemento() {
+		return new SdSystemMemento(this);
 	}
 	
 	/**

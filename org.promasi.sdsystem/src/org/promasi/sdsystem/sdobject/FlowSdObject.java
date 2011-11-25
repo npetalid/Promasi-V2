@@ -10,7 +10,6 @@ import org.promasi.sdsystem.sdobject.equation.CalculationExeption;
 import org.promasi.sdsystem.sdobject.equation.IEquation;
 import org.promasi.sdsystem.serialization.ISerializableSdObject;
 import org.promasi.utilities.exceptions.NullArgumentException;
-import org.promasi.utilities.serialization.SerializationException;
 
 
 /**
@@ -80,11 +79,7 @@ public class FlowSdObject implements ISdObject
 
 
 	@Override
-	public ISerializableSdObject getSerializableSdObject()throws SerializationException {
-		try {
-			return new SerializableFlowSdObject(this);
-		} catch (NullArgumentException e) {
-			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
-		}
+	public ISerializableSdObject getMemento() {
+		return new FlowSdObjectMemento(this);
 	}
 }

@@ -16,9 +16,9 @@ import org.promasi.game.IGame;
 import org.promasi.game.IGameModelListener;
 import org.promasi.game.IGamesServer;
 import org.promasi.game.company.ICompanyListener;
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.company.EmployeeTaskMemento;
+import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.clock.Clock;
 import org.promasi.utilities.clock.IClockListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
@@ -125,7 +125,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public boolean assignTasks(String employeeId, List<SerializableEmployeeTask> employeeTasks) {
+	public boolean assignTasks(String employeeId, List<EmployeeTaskMemento> employeeTasks) {
 		boolean result = false;
 		try
 		{
@@ -218,7 +218,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public void onExecuteStep(GameModel game, SerializableCompany company,SerializableProject assignedProject) {
+	public void onExecuteStep(GameModel game, CompanyMemento company,ProjectMemento assignedProject) {
 		for(IClientGameListener listener : _listeners){
 			listener.onExecuteStep(this, company, assignedProject, _systemClock.getCurrentDateTime());
 		}
@@ -250,7 +250,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public void gameFinished(GameModel gameModel, SerializableCompany company) {
+	public void gameFinished(GameModel gameModel, CompanyMemento company) {
 		try{
 			_lockObject.lock();
 			for( IClientGameListener gameEventHandler : _listeners){
@@ -279,5 +279,15 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	@Override
 	public boolean removeCompanyListener(ICompanyListener listener) {
 		return _gameModel.removeCompanyListener(listener);
+	}
+
+	@Override
+	public void removeListeners() {
+		try{
+			_lockObject.lock();
+			_gameModel.removeListeners();
+		}finally{
+			_lockObject.unlock();
+		}
 	}
 }

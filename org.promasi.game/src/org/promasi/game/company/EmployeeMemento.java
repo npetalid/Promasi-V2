@@ -4,6 +4,7 @@
 package org.promasi.game.company;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.promasi.game.GameException;
 import org.promasi.utilities.exceptions.NullArgumentException;
@@ -14,7 +15,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableEmployee extends SerializableObject 
+public class EmployeeMemento extends SerializableObject 
 {
 	/**
 	 * 
@@ -42,6 +43,11 @@ public class SerializableEmployee extends SerializableObject
     private String _curriculumVitae;
     
     /**
+	 * 
+	 */
+	private Map<Integer, EmployeeTaskMemento> _tasks;
+    
+    /**
      * 
      */
     private Map<String, Double> _employeeSkills;
@@ -49,7 +55,7 @@ public class SerializableEmployee extends SerializableObject
     /**
      * 
      */
-    public SerializableEmployee(){
+    public EmployeeMemento(){
     	
     }
     
@@ -58,9 +64,9 @@ public class SerializableEmployee extends SerializableObject
      * @param employee
      * @throws NullArgumentException
      */
-    public SerializableEmployee(Employee employee)throws NullArgumentException{
+    public EmployeeMemento(Employee employee)throws SerializationException{
     	if(employee==null){
-    		throw new NullArgumentException("Wrong argument employee==null");
+    		throw new SerializationException("Wrong argument employee==null");
     	}
     	
     	_salary=employee._salary;
@@ -69,6 +75,11 @@ public class SerializableEmployee extends SerializableObject
     	_firstName=employee.getFirstName();
     	_lastName=employee.getLastName();
     	_employeeId=employee.getEmployeeId();
+    	
+    	_tasks = new TreeMap<Integer, EmployeeTaskMemento>();
+    	for(Map.Entry<Integer, EmployeeTask> entry : employee._employeeTasks.entrySet()){
+    		_tasks.put(entry.getKey(), entry.getValue().getSerializableEmployeeTask());
+    	}
     }
     
     public Employee getEmployee()throws SerializationException{
@@ -189,4 +200,19 @@ public class SerializableEmployee extends SerializableObject
 		_firstName = firstName;
 	}
 
+	/**
+	 * 
+	 * @param tasks
+	 */
+	public void setTasks( Map<Integer, EmployeeTaskMemento> tasks){
+		_tasks = tasks;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Map<Integer, EmployeeTaskMemento> getTasks(){
+		return _tasks;
+	}
 }

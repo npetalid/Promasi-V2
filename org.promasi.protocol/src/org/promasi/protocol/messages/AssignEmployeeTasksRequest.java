@@ -5,7 +5,7 @@ package org.promasi.protocol.messages;
 
 import java.util.List;
 
-import org.promasi.game.company.SerializableEmployeeTask;
+import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.utilities.serialization.SerializableObject;
 
 /**
@@ -22,7 +22,7 @@ public class AssignEmployeeTasksRequest extends SerializableObject
 	/**
 	 * 
 	 */
-	private List<SerializableEmployeeTask> _tasks;
+	private List<EmployeeTaskMemento> _tasks;
 	
 	/**
 	 * 
@@ -34,7 +34,7 @@ public class AssignEmployeeTasksRequest extends SerializableObject
 	 * @param employeeId
 	 * @param tasks
 	 */
-	public AssignEmployeeTasksRequest(String employeeId, List<SerializableEmployeeTask> tasks){
+	public AssignEmployeeTasksRequest(String employeeId, List<EmployeeTaskMemento> tasks){
 		_tasks=tasks;
 		_employeeId=employeeId;
 	}
@@ -56,14 +56,14 @@ public class AssignEmployeeTasksRequest extends SerializableObject
 	/**
 	 * @param tasks the tasks to set
 	 */
-	public void setTasks(List<SerializableEmployeeTask> tasks) {
+	public void setTasks(List<EmployeeTaskMemento> tasks) {
 		_tasks = tasks;
 	}
 	
 	/**
 	 * @return the tasks
 	 */
-	public List<SerializableEmployeeTask> getTasks() {
+	public List<EmployeeTaskMemento> getTasks() {
 		return _tasks;
 	}
 }

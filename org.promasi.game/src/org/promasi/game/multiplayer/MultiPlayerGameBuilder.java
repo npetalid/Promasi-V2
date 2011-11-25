@@ -18,10 +18,10 @@ import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.MarketPlace;
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableMarketPlace;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.game.project.Project;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utilities.serialization.SerializationException;
@@ -148,8 +148,8 @@ public class MultiPlayerGameBuilder {
 		FileInputStream fileInputStream=new FileInputStream(companyFile);
 		XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
 		Object object=xmlDecoder.readObject();
-		if(object instanceof SerializableCompany){
-			SerializableCompany sCompany=(SerializableCompany)object;
+		if(object instanceof CompanyMemento){
+			CompanyMemento sCompany=(CompanyMemento)object;
 			Company company=sCompany.getCompany();
 			return company;
 		}
@@ -169,8 +169,8 @@ public class MultiPlayerGameBuilder {
 		FileInputStream fileInputStream=new FileInputStream(marketPlaceFile);
 		XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
 		Object object=xmlDecoder.readObject();
-		if(object instanceof SerializableMarketPlace){
-			SerializableMarketPlace sMarketPlace=(SerializableMarketPlace)object;
+		if(object instanceof MarketPlaceMemento){
+			MarketPlaceMemento sMarketPlace=(MarketPlaceMemento)object;
 			MarketPlace marketPlace=sMarketPlace.getMarketPlace();
 			return marketPlace;
 		}
@@ -230,8 +230,8 @@ public class MultiPlayerGameBuilder {
 				FileInputStream fileInputStream=new FileInputStream(projectFile);
 				XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
 				Object object=xmlDecoder.readObject();
-				if(object instanceof SerializableProject){
-					SerializableProject sProject=(SerializableProject)object;
+				if(object instanceof ProjectMemento){
+					ProjectMemento sProject=(ProjectMemento)object;
 					Project project;
 					try {
 						project = sProject.getProject();

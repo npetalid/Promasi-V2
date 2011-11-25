@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.promasi.game.GameException;
-import org.promasi.sdsystem.SerializableSdSystem;
-import org.promasi.sdsystem.serialization.ISerializableEquation;
+import org.promasi.sdsystem.SdSystemMemento;
+import org.promasi.sdsystem.serialization.IEquationMemento;
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -14,7 +14,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableProjectTask extends SerializableObject
+public class ProjectTaskMemento extends SerializableObject
 {
     /**
      * The name of the task.
@@ -39,17 +39,17 @@ public class SerializableProjectTask extends SerializableObject
     /**
      * 
      */
-    private ISerializableEquation _progressEquation;
+    private IEquationMemento _progressEquation;
     
     /**
      * 
      */
-    private SerializableSdSystem _sdSystem;
+    private SdSystemMemento _sdSystem;
     
     /**
      * 
      */
-	public SerializableProjectTask(){
+	public ProjectTaskMemento(){
 	}
 	
 	/**
@@ -57,14 +57,10 @@ public class SerializableProjectTask extends SerializableObject
 	 * @param projectTask
 	 * @throws SerializationException 
 	 */
-	protected SerializableProjectTask(ProjectTask projectTask) throws SerializationException{
-		if(projectTask==null){
-			throw new SerializationException("Wrong argument projectTask==null");
-		}
-		
-		_sdSystem=projectTask._sdSystem.getSerializableSdSystem();
+	protected ProjectTaskMemento(ProjectTask projectTask){
+		_sdSystem=projectTask._sdSystem.getMemento();
 		_name=projectTask._name;
-		_progressEquation=projectTask._progressEquation.getSerializableEquation();
+		_progressEquation=projectTask._progressEquation.getMemento();
 		_description=projectTask._description;
 		setHistory(new TreeMap<Integer, Double>(projectTask._history));
 		setProgress(projectTask._progress);
@@ -134,14 +130,14 @@ public class SerializableProjectTask extends SerializableObject
 	/**
 	 * @param sdSystem the sdSystem to set
 	 */
-	public void setSdSystem(SerializableSdSystem sdSystem) {
+	public void setSdSystem(SdSystemMemento sdSystem) {
 		_sdSystem = sdSystem;
 	}
 
 	/**
 	 * @return the sdSystem
 	 */
-	public SerializableSdSystem getSdSystem() {
+	public SdSystemMemento getSdSystem() {
 		return _sdSystem;
 	}
 	
@@ -163,7 +159,7 @@ public class SerializableProjectTask extends SerializableObject
 	 * 
 	 * @return
 	 */
-	public ISerializableEquation getProgressEquation(){
+	public IEquationMemento getProgressEquation(){
 		return _progressEquation;
 	}
 	
@@ -171,7 +167,7 @@ public class SerializableProjectTask extends SerializableObject
 	 * 
 	 * @param progressEquation
 	 */
-	public void setProgressEquation( ISerializableEquation progressEquation ){
+	public void setProgressEquation( IEquationMemento progressEquation ){
 		_progressEquation = progressEquation;
 	}
 

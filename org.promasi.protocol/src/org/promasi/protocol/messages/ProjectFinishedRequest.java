@@ -3,7 +3,7 @@
  */
 package org.promasi.protocol.messages;
 
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.serialization.SerializableObject;
 
 /**
@@ -15,7 +15,7 @@ public class ProjectFinishedRequest extends SerializableObject
 	/**
 	 * 
 	 */
-	private SerializableProject _project;
+	private ProjectMemento _project;
 
 	/**
 	 * 
@@ -26,21 +26,21 @@ public class ProjectFinishedRequest extends SerializableObject
 	 * 
 	 * @param project
 	 */
-	public ProjectFinishedRequest(SerializableProject project){
+	public ProjectFinishedRequest(ProjectMemento project){
 		_project=project;
 	}
 	
 	/**
 	 * @param project the project to set
 	 */
-	public void setProject(SerializableProject project) {
+	public void setProject(ProjectMemento project) {
 		_project = project;
 	}
 
 	/**
 	 * @return the project
 	 */
-	public SerializableProject getProject() {
+	public ProjectMemento getProject() {
 		return _project;
 	}
 }

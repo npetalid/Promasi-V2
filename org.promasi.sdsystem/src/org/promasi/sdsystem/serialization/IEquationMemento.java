@@ -8,7 +8,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public interface ISerializableEquation {
+public interface IEquationMemento {
 	/**
 	 * 
 	 * @return

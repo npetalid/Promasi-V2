@@ -9,7 +9,7 @@ package org.promasi.game.multiplayer;
  */
 import java.util.List;
 
-import org.promasi.game.company.SerializableEmployeeTask;
+import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
@@ -73,7 +73,7 @@ public interface IMultiPlayerGame
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public boolean assignTasks(final String playerId, final String employeeId, List<SerializableEmployeeTask> employeeTasks)throws NullArgumentException, IllegalArgumentException;
+	public boolean assignTasks(final String playerId, final String employeeId, List<EmployeeTaskMemento> employeeTasks)throws NullArgumentException, IllegalArgumentException;
 	
 	/**
 	 * 

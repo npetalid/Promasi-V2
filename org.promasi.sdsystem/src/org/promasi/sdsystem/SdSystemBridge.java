@@ -88,7 +88,7 @@ public class SdSystemBridge
 	 */
 	public SerializableSdSystemBridge getSerializableSdSystemBridge()throws SerializationException{
 		try {
-			return new SerializableSdSystemBridge(_inputSdObject.getSerializableSdObject(), _outputSdObject.getSerializableSdObject());
+			return new SerializableSdSystemBridge(_inputSdObject.getMemento(), _outputSdObject.getMemento());
 		} catch (NullArgumentException e) {
 			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
 		}

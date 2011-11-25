@@ -13,7 +13,7 @@ import org.joda.time.DateTime;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.MarketPlace;
-import org.promasi.game.company.SerializableEmployeeTask;
+import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.project.Project;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
@@ -120,10 +120,10 @@ public class GameModel
 	 * @return
 	 * @throws SerializationException
 	 */
-	public SerializableGameModel getSerializableGameModel()throws SerializationException{
+	public GameModelMemento getSerializableGameModel()throws SerializationException{
 		try {
 			_lockObject.lock();
-			return new SerializableGameModel(this);
+			return new GameModelMemento(this);
 		} catch (NullArgumentException e) {
 			throw new SerializationException("Serialization failed because " + e.getMessage());
 		} finally {
@@ -153,7 +153,7 @@ public class GameModel
 	 * @param employeeTasks
 	 * @return
 	 */
-	public boolean assignTasks(String employeeId,List<SerializableEmployeeTask> employeeTasks) {
+	public boolean assignTasks(String employeeId,List<EmployeeTaskMemento> employeeTasks) {
 		try {
 			return _company.assignTasks(employeeId, employeeTasks);
 		} catch (IllegalArgumentException e) {
@@ -265,5 +265,17 @@ public class GameModel
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * 
+	 */
+	public void removeListeners(){
+		try{
+			_lockObject.lock();
+			_listeners.clear();
+		}finally{
+			_lockObject.unlock();
+		}
 	}
 }

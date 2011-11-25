@@ -1,6 +1,6 @@
 package org.promasi.sdsystem.sdobject;
 
-import org.promasi.sdsystem.serialization.ISerializableEquation;
+import org.promasi.sdsystem.serialization.IEquationMemento;
 import org.promasi.sdsystem.serialization.ISerializableSdObject;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializableObject;
@@ -11,17 +11,17 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableFlowSdObject extends SerializableObject implements ISerializableSdObject
+public class OutputSdObjectMemento extends SerializableObject implements ISerializableSdObject
 {
 	/**
 	 * 
 	 */
-	private ISerializableEquation _equation;
+	private IEquationMemento _equation;
 	
 	/**
 	 * 
 	 */
-	public SerializableFlowSdObject(){
+	public OutputSdObjectMemento(){
 		
 	}
 	
@@ -31,38 +31,32 @@ public class SerializableFlowSdObject extends SerializableObject implements ISer
 	 * @throws NullArgumentException
 	 * @throws SerializationException
 	 */
-	public SerializableFlowSdObject(final FlowSdObject sdObject)throws NullArgumentException, SerializationException{
-		if(sdObject==null){
-			throw new NullArgumentException("Wrong argument sdObject==null");
-		}
-
-		_equation=sdObject._equation.getSerializableEquation();
+	protected OutputSdObjectMemento(final OutputSdObject sdObject){
+		setEquation(sdObject._equation.getMemento());
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * @param equation the equation to set
 	 */
-	public ISerializableEquation getEquation(){
+	public void setEquation(IEquationMemento equation) {
+		_equation = equation;
+	}
+
+	/**
+	 * @return the equation
+	 */
+	public IEquationMemento getEquation() {
 		return _equation;
 	}
-	
-	/**
-	 * 
-	 * @param equation
-	 */
-	public void setEquation(ISerializableEquation equation){
-		_equation=equation;
-	}
-	
+
 	@Override
 	public ISdObject getSdObject() throws SerializationException {
 		if(_equation==null){
 			throw new SerializationException("Serialization failed because _equation property is null");
 		}
-
+		
 		try {
-			return new FlowSdObject(_equation.getEquation());
+			return new OutputSdObject(_equation.getEquation());
 		} catch (NullArgumentException e) {
 			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
 		}

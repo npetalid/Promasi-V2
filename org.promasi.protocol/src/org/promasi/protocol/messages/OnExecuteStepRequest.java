@@ -3,8 +3,8 @@
  */
 package org.promasi.protocol.messages;
 
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.serialization.SerializableObject;
 
 /**
@@ -16,7 +16,7 @@ public class OnExecuteStepRequest extends SerializableObject
 	/**
 	 * 
 	 */
-	private SerializableProject _project;
+	private ProjectMemento _project;
 	
 	/**
 	 * 
@@ -26,7 +26,7 @@ public class OnExecuteStepRequest extends SerializableObject
 	/**
 	 * 
 	 */
-	private SerializableCompany _company;
+	private CompanyMemento _company;
 	
 	/**
 	 * 
@@ -38,7 +38,7 @@ public class OnExecuteStepRequest extends SerializableObject
 	 * @param project
 	 * @param dateTime
 	 */
-	public OnExecuteStepRequest(SerializableProject project, SerializableCompany company,  String dateTime){
+	public OnExecuteStepRequest(ProjectMemento project, CompanyMemento company,  String dateTime){
 		_project=project;
 		_dateTime=dateTime;
 		setCompany(company);
@@ -47,14 +47,14 @@ public class OnExecuteStepRequest extends SerializableObject
 	/**
 	 * @param project the project to set
 	 */
-	public void setProject(SerializableProject project) {
+	public void setProject(ProjectMemento project) {
 		_project = project;
 	}
 
 	/**
 	 * @return the project
 	 */
-	public SerializableProject getProject() {
+	public ProjectMemento getProject() {
 		return _project;
 	}
 
@@ -75,14 +75,14 @@ public class OnExecuteStepRequest extends SerializableObject
 	/**
 	 * @param company the company to set
 	 */
-	public void setCompany(SerializableCompany company) {
+	public void setCompany(CompanyMemento company) {
 		_company = company;
 	}
 
 	/**
 	 * @return the company
 	 */
-	public SerializableCompany getCompany() {
+	public CompanyMemento getCompany() {
 		return _company;
 	}
 }

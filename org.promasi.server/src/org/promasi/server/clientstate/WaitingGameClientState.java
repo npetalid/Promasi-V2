@@ -9,15 +9,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.promasi.game.SerializableGameModel;
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableEmployee;
-import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.company.SerializableMarketPlace;
+import org.promasi.game.GameModelMemento;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.company.EmployeeMemento;
+import org.promasi.game.company.EmployeeTaskMemento;
+import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.game.multiplayer.IMultiPlayerGame;
 import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.game.multiplayer.MultiPlayerGame;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.project.ProjectMemento;
 import org.promasi.protocol.messages.GameCanceledResponse;
 import org.promasi.protocol.messages.GameStartedRequest;
 import org.promasi.protocol.messages.GameStartedResponse;
@@ -140,7 +140,7 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 
 	@Override
 	public void gameStarted(String playerId, IMultiPlayerGame game,
-			SerializableGameModel gameModel, DateTime dateTime) {
+			GameModelMemento gameModel, DateTime dateTime) {
 		if(playerId.equals(_clientId)){
 			try {
 				_game.removeListener(this);
@@ -157,7 +157,7 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 
 	@Override
 	public void projectAssigned(String playerId, IMultiPlayerGame game,
-			SerializableCompany company, SerializableProject project,
+			CompanyMemento company, ProjectMemento project,
 			DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
@@ -165,7 +165,7 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 
 	@Override
 	public void projectFinished(String playerId, IMultiPlayerGame game,
-			SerializableCompany company, SerializableProject project,
+			CompanyMemento company, ProjectMemento project,
 			DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
@@ -173,47 +173,47 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 
 	@Override
 	public void employeeHired(String playerId, IMultiPlayerGame game,
-			SerializableMarketPlace marketPlace, SerializableCompany company,
-			SerializableEmployee employee, DateTime dateTime) {
+			MarketPlaceMemento marketPlace, CompanyMemento company,
+			EmployeeMemento employee, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void employeeDischarged(String playerId, IMultiPlayerGame game,
-			SerializableMarketPlace marketPlace, SerializableCompany company,
-			SerializableEmployee employee, DateTime dateTime) {
+			MarketPlaceMemento marketPlace, CompanyMemento company,
+			EmployeeMemento employee, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void employeeTasksAssigned(String playerId, IMultiPlayerGame game,
-			SerializableCompany company, SerializableEmployee employee,
-			List<SerializableEmployeeTask> employeeTasks, DateTime dateTime) {
+			CompanyMemento company, EmployeeMemento employee,
+			List<EmployeeTaskMemento> employeeTasks, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void employeeTaskDetached(String playerId, IMultiPlayerGame game,
-			SerializableMarketPlace marketPlace, SerializableCompany company,
-			SerializableEmployee employee,
-			SerializableEmployeeTask employeeTask, DateTime dateTime) {
+			MarketPlaceMemento marketPlace, CompanyMemento company,
+			EmployeeMemento employee,
+			EmployeeTaskMemento employeeTask, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void companyIsInsolvent(String playerId, IMultiPlayerGame game,
-			SerializableCompany company, DateTime dateTime) {
+			CompanyMemento company, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onExecuteStep(String playerId, IMultiPlayerGame game,
-			SerializableCompany company, SerializableProject assignedProject,
+			CompanyMemento company, ProjectMemento assignedProject,
 			DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
@@ -253,7 +253,7 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 	}
 
 	@Override
-	public void gameFinished(Map<String, SerializableGameModel> gameModels) {
+	public void gameFinished(Map<String, GameModelMemento> gameModels) {
 		// TODO Auto-generated method stub
 		
 	}

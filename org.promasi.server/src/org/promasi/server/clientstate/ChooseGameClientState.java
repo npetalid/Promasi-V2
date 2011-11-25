@@ -9,12 +9,12 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import org.promasi.game.GameException;
-import org.promasi.game.SerializableGameModel;
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableMarketPlace;
+import org.promasi.game.GameModelMemento;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.Project;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.project.ProjectMemento;
 import org.promasi.protocol.messages.CreateGameFailedResponse;
 import org.promasi.protocol.messages.CreateGameRequest;
 import org.promasi.protocol.messages.CreateGameResponse;
@@ -85,33 +85,33 @@ public class ChooseGameClientState extends AbstractClientState
 
 			}else if(object instanceof CreateGameRequest){
 				CreateGameRequest request=(CreateGameRequest)object;
-				SerializableGameModel gameModel=request.getGameModel();
+				GameModelMemento gameModel=request.getGameModel();
 				if(gameModel==null){
 					client.sendMessage(new WrongProtocolResponse().serialize());
 					client.disconnect();
 					return;
 				}
 				
-				SerializableMarketPlace marketPlace=gameModel.getMarketPlace();
+				MarketPlaceMemento marketPlace=gameModel.getMarketPlace();
 				if(marketPlace==null){
 					client.sendMessage(new WrongProtocolResponse().serialize());
 					client.disconnect();
 				}
 				
-				SerializableCompany company=gameModel.getCompany();
+				CompanyMemento company=gameModel.getCompany();
 				if(company==null){
 					client.sendMessage(new WrongProtocolResponse().serialize());
 					client.disconnect();
 				}
 				
-				Queue<SerializableProject> sProjects=gameModel.getProjects();
+				Queue<ProjectMemento> sProjects=gameModel.getProjects();
 				if(sProjects==null){
 					client.sendMessage(new WrongProtocolResponse().serialize());
 					client.disconnect();
 				}
 				
 				Queue<Project> projects=new LinkedList<Project>(); 
-				for(SerializableProject currentProject : sProjects){
+				for(ProjectMemento currentProject : sProjects){
 					projects.add(currentProject.getProject());
 				}
 				

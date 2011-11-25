@@ -8,7 +8,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableEmployeeTask extends SerializableObject 
+public class EmployeeTaskMemento extends SerializableObject 
 {
 
 	/**
@@ -19,17 +19,17 @@ public class SerializableEmployeeTask extends SerializableObject
 	/**
 	 * 
 	 */
-	public int _firstStep;
+	private int _firstStep;
 
 	/**
 	 * 
 	 */
-	public int _lastStep;
+	private int _lastStep;
 	
 	/**
 	 * 
 	 */
-	public SerializableEmployeeTask(){
+	public EmployeeTaskMemento(){
 		
 	}
 	
@@ -38,7 +38,7 @@ public class SerializableEmployeeTask extends SerializableObject
 	 * @param employeeTask
 	 * @throws SerializationException
 	 */
-	public SerializableEmployeeTask(EmployeeTask employeeTask)throws SerializationException{
+	public EmployeeTaskMemento(EmployeeTask employeeTask)throws SerializationException{
 		_firstStep=employeeTask._firstStep;
 		_lastStep=employeeTask._lastStep;
 		_projectTaskName=employeeTask._projectTask.getName();

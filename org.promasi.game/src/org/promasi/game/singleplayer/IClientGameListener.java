@@ -5,9 +5,9 @@ package org.promasi.game.singleplayer;
 
 import org.joda.time.DateTime;
 import org.promasi.game.IGame;
-import org.promasi.game.SerializableGameModel;
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.GameModelMemento;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.project.ProjectMemento;
 
 /**
  * @author m1cRo
@@ -20,7 +20,7 @@ public interface IClientGameListener
 	 * @param game
 	 * @param gameModel
 	 */
-	public void gameStarted(final IGame game, final SerializableGameModel gameModel, final DateTime dateTime);
+	public void gameStarted(final IGame game, final GameModelMemento gameModel, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -33,7 +33,7 @@ public interface IClientGameListener
 	 * 
 	 * @param game
 	 */
-	public void gameFinished(IGame game,final SerializableGameModel gameModel, final SerializableCompany company);
+	public void gameFinished(IGame game,final GameModelMemento gameModel, final CompanyMemento company);
 	
 	/**
 	 * 
@@ -42,5 +42,5 @@ public interface IClientGameListener
 	 * @param assignedProject
 	 * @param dateTime
 	 */
-	public void onExecuteStep(IGame game, SerializableCompany company,SerializableProject assignedProject, DateTime dateTime);
+	public void onExecuteStep(IGame game, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime);
 }

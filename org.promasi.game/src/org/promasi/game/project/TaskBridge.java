@@ -96,9 +96,9 @@ public class TaskBridge
 	 * @return
 	 * @throws SerializationException
 	 */
-	public synchronized SerializableTaskBridge getSerializableTaskBridge()throws SerializationException{
+	public synchronized TaskBridgeMemento getSerializableTaskBridge()throws SerializationException{
 		try {
-			return new SerializableTaskBridge(this);
+			return new TaskBridgeMemento(this);
 		} catch (NullArgumentException e) {
 			throw new SerializationException("Serialization failed because "+e.getMessage());
 		}

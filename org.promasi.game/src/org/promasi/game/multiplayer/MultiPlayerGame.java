@@ -14,18 +14,18 @@ import org.joda.time.DateTime;
 import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.IGameModelListener;
-import org.promasi.game.SerializableGameModel;
+import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IEmployeeListener;
 import org.promasi.game.company.MarketPlace;
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableEmployee;
-import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.company.SerializableMarketPlace;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.company.EmployeeMemento;
+import org.promasi.game.company.EmployeeTaskMemento;
+import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.game.project.Project;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.clock.Clock;
 import org.promasi.utilities.clock.IClockListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
@@ -50,7 +50,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	/**
 	 * 
 	 */
-	private Map<String, SerializableGameModel> _finishedGames;
+	private Map<String, GameModelMemento> _finishedGames;
 	
 	/**
 	 * 
@@ -60,7 +60,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	/**
 	 * 
 	 */
-	private SerializableGameModel _gameModel;
+	private GameModelMemento _gameModel;
 	
 	/**
 	 * 
@@ -132,7 +132,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		_marketPlace=marketPlace;
 
 		_gameModels=new TreeMap<String, GameModel>(); 
-		_finishedGames=new TreeMap<String, SerializableGameModel>();
+		_finishedGames=new TreeMap<String, GameModelMemento>();
 		gameModel.addListener(this);
 		gameModel.addCompanyListener(this);
 		_gameModels.put(clientId, gameModel);
@@ -208,7 +208,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	 * @see org.promasi.game.IGame#assignTasks(java.lang.String, java.util.List)
 	 */
 	@Override
-	public boolean assignTasks(final String clientId, String employeeId,List<SerializableEmployeeTask> employeeTasks)throws NullArgumentException, IllegalArgumentException {
+	public boolean assignTasks(final String clientId, String employeeId,List<EmployeeTaskMemento> employeeTasks)throws NullArgumentException, IllegalArgumentException {
 		synchronized(_lockObject){
 			if(clientId==null){
 				throw new NullArgumentException("Wrong argument client==null");
@@ -327,7 +327,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 			try {
 				Queue<Project> projects=new LinkedList<Project>();
-				for(SerializableProject project : _gameModel.getProjects()){
+				for(ProjectMemento project : _gameModel.getProjects()){
 					projects.add(project.getProject());
 				}
 				GameModel gameModel=new GameModel(_gameModel.getGameName(), _gameModel.getGameDescription(), _marketPlace, _gameModel.getCompany().getCompany(),projects);
@@ -428,7 +428,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	}
 
 	@Override
-	public void onExecuteStep(GameModel game, SerializableCompany company, SerializableProject assignedProject) {
+	public void onExecuteStep(GameModel game, CompanyMemento company, ProjectMemento assignedProject) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			if(entry.getValue()==game){
 				for(IServerGameListener listener : _listeners){
@@ -446,7 +446,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void gameFinished(GameModel game, SerializableCompany company) {
+	public void gameFinished(GameModel game, CompanyMemento company) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			if(entry.getValue()==game){
 				if(!_finishedGames.containsKey(entry.getKey())){
@@ -468,7 +468,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void projectAssigned(String owner, SerializableCompany company, SerializableProject project) {
+	public void projectAssigned(String owner, CompanyMemento company, ProjectMemento project) {
 		for(IServerGameListener listener : _listeners){
 			listener.projectAssigned(owner, this, company, project, _systemClock.getCurrentDateTime());
 		}
@@ -476,21 +476,21 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void projectFinished(String owner, SerializableCompany company, SerializableProject project) {
+	public void projectFinished(String owner, CompanyMemento company, ProjectMemento project) {
 		for(IServerGameListener listener : _listeners){
 			listener.projectFinished(owner, this, company, project, _systemClock.getCurrentDateTime());
 		}
 	}
 
 	@Override
-	public void companyIsInsolvent(String owner, SerializableCompany company,SerializableProject assignedProject) {
+	public void companyIsInsolvent(String owner, CompanyMemento company,ProjectMemento assignedProject) {
 		for(IServerGameListener listener : _listeners){
 			listener.companyIsInsolvent(owner, this, company, _systemClock.getCurrentDateTime());
 		}
 	}
 
 	@Override
-	public void onExecuteWorkingStep(String owner, SerializableCompany company,SerializableProject assignedProject) {
+	public void onExecuteWorkingStep(String owner, CompanyMemento company,ProjectMemento assignedProject) {
 		for(IServerGameListener listener : _listeners){
 			listener.onExecuteStep(owner, this, company, assignedProject, _systemClock.getCurrentDateTime());
 		}
@@ -498,25 +498,25 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void taskAttached(String supervisor,SerializableEmployee employee,List<SerializableEmployeeTask> employeeTask) {
+	public void taskAttached(String supervisor,EmployeeMemento employee,List<EmployeeTaskMemento> employeeTask) {
 		// TODO Auto-generated method stub
 	}
 
 
 	@Override
-	public void taskDetached(String supervisor,SerializableEmployee employee, SerializableEmployeeTask employeeTask) {
+	public void taskDetached(String supervisor,EmployeeMemento employee, EmployeeTaskMemento employeeTask) {
 		// TODO Auto-generated method stub
 	}
 
 
 	@Override
-	public void employeeDischarged(String director, SerializableEmployee employee) {
+	public void employeeDischarged(String director, EmployeeMemento employee) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
 				try{
-					SerializableGameModel gameModel=entry.getValue().getSerializableGameModel();
-					SerializableMarketPlace sMarketPlace=gameModel.getMarketPlace();
-					SerializableCompany sCompany=gameModel.getCompany();
+					GameModelMemento gameModel=entry.getValue().getSerializableGameModel();
+					MarketPlaceMemento sMarketPlace=gameModel.getMarketPlace();
+					CompanyMemento sCompany=gameModel.getCompany();
 					listener.employeeDischarged(entry.getKey(), this, sMarketPlace, sCompany, employee, _systemClock.getCurrentDateTime());
 				}catch(SerializationException e){
 					//Logger
@@ -527,13 +527,13 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void employeeHired(String director, SerializableEmployee employee) {
+	public void employeeHired(String director, EmployeeMemento employee) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
 				try{
-					SerializableGameModel gameModel=entry.getValue().getSerializableGameModel();
-					SerializableMarketPlace sMarketPlace=gameModel.getMarketPlace();
-					SerializableCompany sCompany=gameModel.getCompany();
+					GameModelMemento gameModel=entry.getValue().getSerializableGameModel();
+					MarketPlaceMemento sMarketPlace=gameModel.getMarketPlace();
+					CompanyMemento sCompany=gameModel.getCompany();
 					listener.employeeHired(entry.getKey(), this, sMarketPlace, sCompany, employee, _systemClock.getCurrentDateTime());
 				}catch(SerializationException e){
 					//Logger

@@ -10,7 +10,7 @@ import org.promasi.game.GameException;
 import org.promasi.game.IGame;
 import org.promasi.game.IGamesServer;
 import org.promasi.game.company.ICompanyListener;
-import org.promasi.game.company.SerializableEmployeeTask;
+import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.singleplayer.IClientGameListener;
 
 /**
@@ -38,7 +38,7 @@ public class MultiPlayerGame implements IGame {
 	}
 
 	@Override
-	public boolean assignTasks(String employeeId, List<SerializableEmployeeTask> employeeTasks) {
+	public boolean assignTasks(String employeeId, List<EmployeeTaskMemento> employeeTasks) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -95,6 +95,12 @@ public class MultiPlayerGame implements IGame {
 	public boolean removeCompanyListener(ICompanyListener listener) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void removeListeners() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

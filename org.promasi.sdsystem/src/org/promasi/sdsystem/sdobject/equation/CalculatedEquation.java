@@ -12,9 +12,8 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.SymbolTable;
 import org.nfunk.jep.Variable;
 import org.nfunk.jep.function.PostfixMathCommandI;
-import org.promasi.sdsystem.serialization.ISerializableEquation;
+import org.promasi.sdsystem.serialization.IEquationMemento;
 import org.promasi.utilities.exceptions.NullArgumentException;
-import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
@@ -198,7 +197,7 @@ public class CalculatedEquation implements IEquation{
 	}
 
 	@Override
-	public ISerializableEquation getSerializableEquation()throws SerializationException {
-		return new SerializableCalculatedEquation(this);
+	public IEquationMemento getMemento() {
+		return new CalculatedEquationMemento(this);
 	}
 }

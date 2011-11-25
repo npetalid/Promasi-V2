@@ -4,9 +4,9 @@
 package org.promasi.game;
 
 
-import org.promasi.game.company.SerializableCompany;
+import org.promasi.game.company.CompanyMemento;
 
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.project.ProjectMemento;
 
 /**
  * @author m1cRo
@@ -17,12 +17,12 @@ public interface IGameModelListener
 	/**
 	 * 
 	 */
-	public void onExecuteStep(final GameModel game, final SerializableCompany company,final SerializableProject assignedProject);
+	public void onExecuteStep(final GameModel game, final CompanyMemento company,final ProjectMemento assignedProject);
 	
 	/**
 	 * 
 	 * @param game
 	 * @param company
 	 */
-	public void gameFinished(final GameModel game, final SerializableCompany company);
+	public void gameFinished(final GameModel game, final CompanyMemento company);
 }

@@ -6,9 +6,9 @@ package org.promasi.protocol.messages;
 import java.util.Map;
 import java.util.Queue;
 
-import org.promasi.game.SerializableGameModel;
-import org.promasi.game.project.SerializableProject;
-import org.promasi.game.project.SerializableProjectTask;
+import org.promasi.game.GameModelMemento;
+import org.promasi.game.project.ProjectMemento;
+import org.promasi.game.project.ProjectTaskMemento;
 import org.promasi.utilities.serialization.SerializableObject;
 
 /**
@@ -20,7 +20,7 @@ public class GameFinishedRequest extends SerializableObject {
 	/**
 	 * 
 	 */
-	private SerializableGameModel _gameModel;
+	private GameModelMemento _gameModel;
 	
 	/**
 	 * 
@@ -30,7 +30,7 @@ public class GameFinishedRequest extends SerializableObject {
 	/**
 	 * 
 	 */
-	private Map<String, SerializableGameModel> _otherPlayersModels;
+	private Map<String, GameModelMemento> _otherPlayersModels;
 
 	/**
 	 * 
@@ -43,10 +43,10 @@ public class GameFinishedRequest extends SerializableObject {
 	 * @param clientId
 	 * @param gameModel
 	 */
-	public GameFinishedRequest(String clientId, SerializableGameModel gameModel,Map<String, SerializableGameModel> otherPlayersModels){
+	public GameFinishedRequest(String clientId, GameModelMemento gameModel,Map<String, GameModelMemento> otherPlayersModels){
 		_clientId=clientId;
 		if(otherPlayersModels!=null){
-			for(Map.Entry<String, SerializableGameModel> entry : otherPlayersModels.entrySet()){
+			for(Map.Entry<String, GameModelMemento> entry : otherPlayersModels.entrySet()){
 				if(entry.getValue()!=null){
 					normilizeGameModel(entry.getValue());
 				}
@@ -61,7 +61,7 @@ public class GameFinishedRequest extends SerializableObject {
 	/**
 	 * @param _gameModel the _gameModel to set
 	 */
-	public void setGameModel(SerializableGameModel gameModel) {
+	public void setGameModel(GameModelMemento gameModel) {
 		normilizeGameModel(gameModel);
 		this._gameModel = gameModel;
 	}
@@ -69,7 +69,7 @@ public class GameFinishedRequest extends SerializableObject {
 	/**
 	 * @return the _gameModel
 	 */
-	public SerializableGameModel getGameModel() {
+	public GameModelMemento getGameModel() {
 		return _gameModel;
 	}
 
@@ -91,17 +91,17 @@ public class GameFinishedRequest extends SerializableObject {
 	 * 
 	 * @param gameModel
 	 */
-	private void normilizeGameModel(SerializableGameModel gameModel){
+	private void normilizeGameModel(GameModelMemento gameModel){
 		if(gameModel!=null){
-			Queue<SerializableProject> projects=gameModel.getProjects();
+			Queue<ProjectMemento> projects=gameModel.getProjects();
 			if(projects!=null){
-				for(SerializableProject project : projects){
+				for(ProjectMemento project : projects){
 					if(project!=null){
-						Map<String, SerializableProjectTask> tasks=project.getProjectTasks();
+						Map<String, ProjectTaskMemento> tasks=project.getProjectTasks();
 						if(tasks!=null){
-							for(Map.Entry<String, SerializableProjectTask> entry : tasks.entrySet()){
+							for(Map.Entry<String, ProjectTaskMemento> entry : tasks.entrySet()){
 								if(entry.getValue()!=null){
-									SerializableProjectTask task=entry.getValue();
+									ProjectTaskMemento task=entry.getValue();
 									task.setSdSystem(null);
 								}
 							}
@@ -110,15 +110,15 @@ public class GameFinishedRequest extends SerializableObject {
 				}
 			}
 			
-			Queue<SerializableProject> oldProjects=gameModel.getRunnedProjects();
+			Queue<ProjectMemento> oldProjects=gameModel.getRunnedProjects();
 			if(projects!=null){
-				for(SerializableProject project : oldProjects){
+				for(ProjectMemento project : oldProjects){
 					if(project!=null){
-						Map<String, SerializableProjectTask> tasks=project.getProjectTasks();
+						Map<String, ProjectTaskMemento> tasks=project.getProjectTasks();
 						if(tasks!=null){
-							for(Map.Entry<String, SerializableProjectTask> entry : tasks.entrySet()){
+							for(Map.Entry<String, ProjectTaskMemento> entry : tasks.entrySet()){
 								if(entry.getValue()!=null){
-									SerializableProjectTask task=entry.getValue();
+									ProjectTaskMemento task=entry.getValue();
 									task.setSdSystem(null);
 								}
 							}
@@ -133,9 +133,9 @@ public class GameFinishedRequest extends SerializableObject {
 	 * 
 	 * @param otherPlayersModels
 	 */
-	public void setOtherPlayersModels(Map<String, SerializableGameModel> otherPlayersModels) {
+	public void setOtherPlayersModels(Map<String, GameModelMemento> otherPlayersModels) {
 		if(otherPlayersModels!=null){
-			for(Map.Entry<String, SerializableGameModel> entry : otherPlayersModels.entrySet()){
+			for(Map.Entry<String, GameModelMemento> entry : otherPlayersModels.entrySet()){
 				if(entry.getValue()!=null){
 					normilizeGameModel(entry.getValue());
 				}
@@ -149,7 +149,7 @@ public class GameFinishedRequest extends SerializableObject {
 	 * 
 	 * @return
 	 */
-	public Map<String, SerializableGameModel> getOtherPlayersModels() {
+	public Map<String, GameModelMemento> getOtherPlayersModels() {
 		return _otherPlayersModels;
 	}
 }

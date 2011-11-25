@@ -261,7 +261,7 @@ public class Company
     	try{
     		_lockObject.lock();
             for(ICompanyListener listener : _companyListeners){
-            	listener.projectAssigned(_owner, getSerializableCompany(),project.getSerializableProject());
+            	listener.projectAssigned(_owner, getSerializableCompany(),project.getMemento());
             }
     	}finally{
     		_lockObject.unlock();
@@ -334,7 +334,7 @@ public class Company
             				
                     		if(_budget<0){
                 		        for(ICompanyListener listener : _companyListeners){
-                		        	listener.companyIsInsolvent(_owner, getSerializableCompany(), _assignedProject.getSerializableProject());
+                		        	listener.companyIsInsolvent(_owner, getSerializableCompany(), _assignedProject.getMemento());
                 		        	_assignedProject=null;
                 		        }
                 		        
@@ -349,7 +349,7 @@ public class Company
                     	 _itDepartment.executeWorkingStep(_assignedProject.getCurrentStep());
                     	 
                          for(ICompanyListener eventHandler : _companyListeners){
-                         	eventHandler.onExecuteWorkingStep(_owner, getSerializableCompany(), _assignedProject.getSerializableProject());
+                         	eventHandler.onExecuteWorkingStep(_owner, getSerializableCompany(), _assignedProject.getMemento());
                          }
                          
                          _assignedProject.executeStep();
@@ -359,7 +359,7 @@ public class Company
                      		_budget=_budget+_assignedProject.getProjectPrice();
                      		
                              for(ICompanyListener listener : _companyListeners){
-                             	listener.projectFinished(_owner, getSerializableCompany(), _assignedProject.getSerializableProject());
+                             	listener.projectFinished(_owner, getSerializableCompany(), _assignedProject.getMemento());
                              }
                              
                      		_assignedProject=null;
@@ -382,7 +382,7 @@ public class Company
      * @param employee
      * @param employeeTask
      */
-    public boolean assignTasks(final String employeeId, List<SerializableEmployeeTask> employeeTasks){
+    public boolean assignTasks(final String employeeId, List<EmployeeTaskMemento> employeeTasks){
     	boolean result = false;
     	
     	try{
@@ -477,8 +477,8 @@ public class Company
      * @return
      * @throws SerializationException
      */
-    public SerializableCompany getSerializableCompany()throws SerializationException{
-		return new SerializableCompany(this);
+    public CompanyMemento getSerializableCompany()throws SerializationException{
+		return new CompanyMemento(this);
     }
     
     /**
@@ -503,6 +503,19 @@ public class Company
     	try{
     		_lockObject.lock();
     		return _owner;
+    	}finally{
+    		_lockObject.unlock();
+    	}
+    }
+    
+    /**
+     * 
+     */
+    public void removeAllListeners(){
+    	try{
+    		_lockObject.lock();
+    		_companyListeners.clear();
+    		_itDepartment.removeListeners();
     	}finally{
     		_lockObject.unlock();
     	}

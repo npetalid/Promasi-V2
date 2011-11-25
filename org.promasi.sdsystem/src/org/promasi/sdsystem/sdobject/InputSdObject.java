@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.promasi.sdsystem.serialization.ISerializableSdObject;
 import org.promasi.utilities.exceptions.NullArgumentException;
-import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
@@ -50,12 +49,8 @@ public class InputSdObject implements ISdObject
 	}
 
 	@Override
-	public ISerializableSdObject getSerializableSdObject()throws SerializationException {
-		try {
-			return new SerializableInputSdObject(this);
-		} catch (NullArgumentException e) {
-			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
-		}
+	public ISerializableSdObject getMemento() {
+		return new InputSdObjectMemento(this);
 	}
 	
 }

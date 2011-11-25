@@ -6,7 +6,6 @@ package org.promasi.sdsystem.sdobject;
 import java.util.Map;
 
 import org.promasi.sdsystem.serialization.ISerializableSdObject;
-import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
@@ -40,8 +39,8 @@ public class TimeSdObject implements ISdObject
 	 * @see org.promasi.sdsystem.sdobject.ISdObject#getSerializableSdObject()
 	 */
 	@Override
-	public ISerializableSdObject getSerializableSdObject()throws SerializationException {
-		return new SerializableTimeSdObject();
+	public ISerializableSdObject getMemento() {
+		return new TimeSdObjectMemento();
 	}
 
 }

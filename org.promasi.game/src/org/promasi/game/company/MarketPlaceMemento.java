@@ -7,17 +7,17 @@ import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
 
-public class SerializableMarketPlace extends SerializableObject
+public class MarketPlaceMemento extends SerializableObject
 {
 	/**
 	 * 
 	 */
-	private Map<String, SerializableEmployee> _availableEmployees;
+	private Map<String, EmployeeMemento> _availableEmployees;
 
 	/**
 	 * 
 	 */
-	public SerializableMarketPlace(){
+	public MarketPlaceMemento(){
 	}
 	
 	/**
@@ -26,13 +26,13 @@ public class SerializableMarketPlace extends SerializableObject
 	 * @throws NullArgumentException
 	 * @throws SerializationException 
 	 */
-	public SerializableMarketPlace(final MarketPlace marketPlace)throws NullArgumentException, SerializationException
+	public MarketPlaceMemento(final MarketPlace marketPlace)throws NullArgumentException, SerializationException
 	{
 		if(marketPlace==null){
 			throw new NullArgumentException("Wrong argumnet marketPlace==null");
 		}
 		
-		_availableEmployees=new TreeMap<String, SerializableEmployee>();
+		_availableEmployees=new TreeMap<String, EmployeeMemento>();
 		for(Map.Entry<String, Employee> entry : marketPlace._availabelEmployees.entrySet()){
 			_availableEmployees.put(entry.getKey(), entry.getValue().getSerializableEmployee());
 		}
@@ -44,7 +44,7 @@ public class SerializableMarketPlace extends SerializableObject
 		}
 		
 		Map<String, Employee> availableEmployees=new TreeMap<String, Employee>();
-		for(Map.Entry<String, SerializableEmployee> entry : _availableEmployees.entrySet()){
+		for(Map.Entry<String, EmployeeMemento> entry : _availableEmployees.entrySet()){
 			availableEmployees.put(entry.getKey(), entry.getValue().getEmployee());
 		}
 		
@@ -60,14 +60,14 @@ public class SerializableMarketPlace extends SerializableObject
 	/**
 	 * @param availableEmployees the availableEmployees to set
 	 */
-	public void setAvailableEmployees(Map<String, SerializableEmployee> availableEmployees) {
+	public void setAvailableEmployees(Map<String, EmployeeMemento> availableEmployees) {
 		_availableEmployees = availableEmployees;
 	}
 
 	/**
 	 * @return the availableEmployees
 	 */
-	public Map<String, SerializableEmployee> getAvailableEmployees() {
+	public Map<String, EmployeeMemento> getAvailableEmployees() {
 		return _availableEmployees;
 	}
 }

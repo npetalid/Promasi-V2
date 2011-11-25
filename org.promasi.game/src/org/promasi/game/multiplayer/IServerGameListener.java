@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.promasi.game.SerializableGameModel;
-import org.promasi.game.company.SerializableCompany;
-import org.promasi.game.company.SerializableEmployee;
-import org.promasi.game.company.SerializableEmployeeTask;
-import org.promasi.game.company.SerializableMarketPlace;
-import org.promasi.game.project.SerializableProject;
+import org.promasi.game.GameModelMemento;
+import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.company.EmployeeMemento;
+import org.promasi.game.company.EmployeeTaskMemento;
+import org.promasi.game.company.MarketPlaceMemento;
+import org.promasi.game.project.ProjectMemento;
 
 /**
  * 
@@ -25,7 +25,7 @@ public interface IServerGameListener
 	 * @param gameModel
 	 * @param dateTime
 	 */
-	public void gameStarted(final String playerId, final IMultiPlayerGame game, final SerializableGameModel gameModel, final DateTime dateTime);
+	public void gameStarted(final String playerId, final IMultiPlayerGame game, final GameModelMemento gameModel, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -35,7 +35,7 @@ public interface IServerGameListener
 	 * @param project
 	 * @param dateTime
 	 */
-	public void projectAssigned(final String playerId, final IMultiPlayerGame game, final SerializableCompany company, final SerializableProject project, final DateTime dateTime);
+	public void projectAssigned(final String playerId, final IMultiPlayerGame game, final CompanyMemento company, final ProjectMemento project, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -45,7 +45,7 @@ public interface IServerGameListener
 	 * @param project
 	 * @param dateTime
 	 */
-	public void projectFinished(final String playerId, final IMultiPlayerGame game, final SerializableCompany company, final SerializableProject project, final DateTime dateTime);
+	public void projectFinished(final String playerId, final IMultiPlayerGame game, final CompanyMemento company, final ProjectMemento project, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -55,7 +55,7 @@ public interface IServerGameListener
 	 * @param employee
 	 * @param dateTime
 	 */
-	public void employeeHired(final String clientId, final IMultiPlayerGame game, final SerializableMarketPlace marketPlace, final SerializableCompany company, final SerializableEmployee employee, final DateTime dateTime);
+	public void employeeHired(final String clientId, final IMultiPlayerGame game, final MarketPlaceMemento marketPlace, final CompanyMemento company, final EmployeeMemento employee, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -66,7 +66,7 @@ public interface IServerGameListener
 	 * @param employee
 	 * @param dateTime
 	 */
-	public void employeeDischarged(final String playerId, final IMultiPlayerGame game, final SerializableMarketPlace marketPlace, final SerializableCompany company, final SerializableEmployee employee, final DateTime dateTime);
+	public void employeeDischarged(final String playerId, final IMultiPlayerGame game, final MarketPlaceMemento marketPlace, final CompanyMemento company, final EmployeeMemento employee, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -77,7 +77,7 @@ public interface IServerGameListener
 	 * @param employeeTasks
 	 * @param dateTime
 	 */
-	public void employeeTasksAssigned(final String playerId, final IMultiPlayerGame game, final SerializableCompany company, final SerializableEmployee employee, final List<SerializableEmployeeTask> employeeTasks, final DateTime dateTime);
+	public void employeeTasksAssigned(final String playerId, final IMultiPlayerGame game, final CompanyMemento company, final EmployeeMemento employee, final List<EmployeeTaskMemento> employeeTasks, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -89,7 +89,7 @@ public interface IServerGameListener
 	 * @param employeeTask
 	 * @param dateTime
 	 */
-	public void employeeTaskDetached(final String playerId, final IMultiPlayerGame game, final SerializableMarketPlace marketPlace, final SerializableCompany company, final SerializableEmployee employee, final SerializableEmployeeTask employeeTask, final DateTime dateTime);
+	public void employeeTaskDetached(final String playerId, final IMultiPlayerGame game, final MarketPlaceMemento marketPlace, final CompanyMemento company, final EmployeeMemento employee, final EmployeeTaskMemento employeeTask, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -98,7 +98,7 @@ public interface IServerGameListener
 	 * @param company
 	 * @param dateTime
 	 */
-	public void companyIsInsolvent(final String playerId, final IMultiPlayerGame game, final SerializableCompany company, final DateTime dateTime);
+	public void companyIsInsolvent(final String playerId, final IMultiPlayerGame game, final CompanyMemento company, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -108,7 +108,7 @@ public interface IServerGameListener
 	 * @param assignedProject
 	 * @param dateTime
 	 */
-	public void onExecuteStep(final String playerId, final IMultiPlayerGame game, final SerializableCompany company,final SerializableProject assignedProject, final DateTime dateTime);
+	public void onExecuteStep(final String playerId, final IMultiPlayerGame game, final CompanyMemento company,final ProjectMemento assignedProject, final DateTime dateTime);
 	
 	
 	/**
@@ -138,5 +138,5 @@ public interface IServerGameListener
 	 * 
 	 * @param gameModels
 	 */
-	public void gameFinished(Map<String, SerializableGameModel> gameModels);
+	public void gameFinished(Map<String, GameModelMemento> gameModels);
 }

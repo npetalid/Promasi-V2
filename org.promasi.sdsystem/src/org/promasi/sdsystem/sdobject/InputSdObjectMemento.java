@@ -13,12 +13,12 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableInputSdObject extends SerializableObject implements ISerializableSdObject
+public class InputSdObjectMemento extends SerializableObject implements ISerializableSdObject
 {
 	/**
 	 * 
 	 */
-	public SerializableInputSdObject(){
+	public InputSdObjectMemento(){
 	}
 	
 	/**
@@ -26,10 +26,7 @@ public class SerializableInputSdObject extends SerializableObject implements ISe
 	 * @param sdObject
 	 * @throws NullArgumentException
 	 */
-	public SerializableInputSdObject(InputSdObject sdObject)throws NullArgumentException{
-		if(sdObject==null){
-			throw new NullArgumentException("Wrong argument sdObject==null");
-		}
+	public InputSdObjectMemento(InputSdObject sdObject){
 	}
 	
 	@Override

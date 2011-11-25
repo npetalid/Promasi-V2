@@ -5,8 +5,8 @@ package org.promasi.sdsystem;
 
 import org.promasi.sdsystem.sdobject.InputSdObject;
 import org.promasi.sdsystem.sdobject.OutputSdObject;
-import org.promasi.sdsystem.sdobject.SerializableInputSdObject;
-import org.promasi.sdsystem.sdobject.SerializableOutputSdObject;
+import org.promasi.sdsystem.sdobject.InputSdObjectMemento;
+import org.promasi.sdsystem.sdobject.OutputSdObjectMemento;
 import org.promasi.sdsystem.serialization.ISerializableSdObject;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
@@ -67,11 +67,11 @@ public class SerializableSdSystemBridge
 			throw new SerializationException("Serialization failed because _outputSdObject property is null");
 		}
 		
-		if(!(_inputSdObject instanceof SerializableInputSdObject)){
+		if(!(_inputSdObject instanceof InputSdObjectMemento)){
 			throw new SerializationException("Serialization failed because _outputSdObject property is not an instance of InputSdObject");
 		}
 		
-		if(!(_outputSdObject instanceof SerializableOutputSdObject)){
+		if(!(_outputSdObject instanceof OutputSdObjectMemento)){
 			throw new SerializationException("Serialization failed because _outputSdObject property is not an instance of OutputSdObject");
 		}
 		

@@ -1,6 +1,6 @@
 package org.promasi.sdsystem.sdobject.equation;
 
-import org.promasi.sdsystem.serialization.ISerializableEquation;
+import org.promasi.sdsystem.serialization.IEquationMemento;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
@@ -10,7 +10,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableCalculatedEquation extends SerializableObject implements ISerializableEquation{
+public class CalculatedEquationMemento extends SerializableObject implements IEquationMemento{
 	
 	/**
 	 * 
@@ -20,14 +20,14 @@ public class SerializableCalculatedEquation extends SerializableObject implement
 	/**
 	 * 
 	 */
-	public SerializableCalculatedEquation(){
+	public CalculatedEquationMemento(){
 	}
 	
 	/**
 	 * 
 	 * @param equation
 	 */
-	public SerializableCalculatedEquation(final CalculatedEquation equation){
+	public CalculatedEquationMemento(final CalculatedEquation equation){
 		_equationString=equation._equationString;
 	}
 	

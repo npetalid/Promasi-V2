@@ -57,11 +57,11 @@ public class MarketPlace
 	 * @return
 	 * @throws SerializationException
 	 */
-	public SerializableMarketPlace getSerializableMarketPlace()throws SerializationException{
-		SerializableMarketPlace result = null;
+	public MarketPlaceMemento getSerializableMarketPlace()throws SerializationException{
+		MarketPlaceMemento result = null;
 		try {
 			_lockObject.lock();
-			result = new SerializableMarketPlace(this);
+			result = new MarketPlaceMemento(this);
 		} catch (NullArgumentException e) {
 			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
 		} finally{
@@ -76,8 +76,8 @@ public class MarketPlace
 	 * @return
 	 * @throws SerializationException 
 	 */
-	public Map<String, SerializableEmployee> getAvailableEmployees() throws SerializationException{
-		Map<String, SerializableEmployee> employees = new TreeMap<String, SerializableEmployee>();
+	public Map<String, EmployeeMemento> getAvailableEmployees() throws SerializationException{
+		Map<String, EmployeeMemento> employees = new TreeMap<String, EmployeeMemento>();
 
 		try{
 			_lockObject.lock();		
@@ -97,7 +97,7 @@ public class MarketPlace
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean isEmployeeAvailable(final SerializableEmployee employee){
+	public boolean isEmployeeAvailable(final EmployeeMemento employee){
 		boolean result = false;
 		
 		try{

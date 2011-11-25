@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <java version="1.6.0_23" class="java.beans.XMLDecoder">
- <object class="org.promasi.game.project.SerializableProject">
+ <object class="org.promasi.game.project.ProjectMemento">
   <void property="description">
    <string>Test</string>
   </void>
@@ -20,7 +20,7 @@
    <object class="java.util.TreeMap">
     <void method="put">
      <string>DEPLOY</string>
-     <object class="org.promasi.game.project.SerializableProjectTask">
+     <object class="org.promasi.game.project.ProjectTaskMemento">
       <void property="description">
        <string>Deploy</string>
       </void>
@@ -31,24 +31,24 @@
        <double>33.0</double>
       </void>
       <void property="progressEquation">
-       <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+       <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
         <void property="equationString">
          <string>33</string>
         </void>
        </object>
       </void>
       <void property="sdSystem">
-       <object class="org.promasi.sdsystem.SerializableSdSystem">
+       <object class="org.promasi.sdsystem.SdSystemMemento">
         <void property="sdObjects">
          <void method="put">
           <string>developer</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableInputSdObject"/>
+          <object class="org.promasi.sdsystem.sdobject.InputSdObjectMemento"/>
          </void>
          <void method="put">
           <string>flow</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableFlowSdObject">
+          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
            <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
               <string>developer</string>
              </void>
@@ -58,9 +58,9 @@
          </void>
          <void method="put">
           <string>output</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableOutputSdObject">
+          <object class="org.promasi.sdsystem.sdobject.OutputSdObjectMemento">
            <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
               <string>stock</string>
              </void>
@@ -70,9 +70,9 @@
          </void>
          <void method="put">
           <string>stock</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableStockSdObject">
+          <object class="org.promasi.sdsystem.sdobject.StockSdObjectMemento">
            <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
               <string>flow</string>
              </void>
@@ -85,7 +85,7 @@
          </void>
          <void method="put">
           <string>time</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableTimeSdObject"/>
+          <object class="org.promasi.sdsystem.sdobject.TimeSdObjectMemento"/>
          </void>
         </void>
        </object>
@@ -94,7 +94,7 @@
     </void>
     <void method="put">
      <string>Test1</string>
-     <object class="org.promasi.game.project.SerializableProjectTask">
+     <object class="org.promasi.game.project.ProjectTaskMemento">
       <void property="description">
        <string>Test1</string>
       </void>
@@ -105,24 +105,24 @@
        <double>33.0</double>
       </void>
       <void property="progressEquation">
-       <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+       <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
         <void property="equationString">
          <string>33</string>
         </void>
        </object>
       </void>
       <void property="sdSystem">
-       <object class="org.promasi.sdsystem.SerializableSdSystem">
+       <object class="org.promasi.sdsystem.SdSystemMemento">
         <void property="sdObjects">
          <void method="put">
           <string>developer</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableInputSdObject"/>
+          <object class="org.promasi.sdsystem.sdobject.InputSdObjectMemento"/>
          </void>
          <void method="put">
           <string>flow</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableFlowSdObject">
+          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
            <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
               <string>developer</string>
              </void>
@@ -132,9 +132,9 @@
          </void>
          <void method="put">
           <string>output</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableOutputSdObject">
+          <object class="org.promasi.sdsystem.sdobject.OutputSdObjectMemento">
            <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
               <string>stock</string>
              </void>
@@ -144,9 +144,9 @@
          </void>
          <void method="put">
           <string>stock</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableStockSdObject">
+          <object class="org.promasi.sdsystem.sdobject.StockSdObjectMemento">
            <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
               <string>flow</string>
              </void>
@@ -159,7 +159,7 @@
          </void>
          <void method="put">
           <string>time</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableTimeSdObject"/>
+          <object class="org.promasi.sdsystem.sdobject.TimeSdObjectMemento"/>
          </void>
         </void>
        </object>
@@ -168,7 +168,7 @@
     </void>
     <void method="put">
      <string>Test2</string>
-     <object class="org.promasi.game.project.SerializableProjectTask">
+     <object class="org.promasi.game.project.ProjectTaskMemento">
       <void property="description">
        <string>Test2</string>
       </void>
@@ -179,24 +179,24 @@
        <double>33.0</double>
       </void>
       <void property="progressEquation">
-       <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+       <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
         <void property="equationString">
          <string>33</string>
         </void>
        </object>
       </void>
       <void property="sdSystem">
-       <object class="org.promasi.sdsystem.SerializableSdSystem">
+       <object class="org.promasi.sdsystem.SdSystemMemento">
         <void property="sdObjects">
          <void method="put">
           <string>developer</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableInputSdObject"/>
+          <object class="org.promasi.sdsystem.sdobject.InputSdObjectMemento"/>
          </void>
          <void method="put">
           <string>flow</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableFlowSdObject">
+          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
            <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
               <string>developer</string>
              </void>
@@ -206,9 +206,9 @@
          </void>
          <void method="put">
           <string>output</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableOutputSdObject">
+          <object class="org.promasi.sdsystem.sdobject.OutputSdObjectMemento">
            <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
               <string>stock</string>
              </void>
@@ -218,9 +218,9 @@
          </void>
          <void method="put">
           <string>stock</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableStockSdObject">
+          <object class="org.promasi.sdsystem.sdobject.StockSdObjectMemento">
            <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.SerializableCalculatedEquation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
               <string>flow</string>
              </void>
@@ -233,7 +233,7 @@
          </void>
          <void method="put">
           <string>time</string>
-          <object class="org.promasi.sdsystem.sdobject.SerializableTimeSdObject"/>
+          <object class="org.promasi.sdsystem.sdobject.TimeSdObjectMemento"/>
          </void>
         </void>
        </object>
@@ -245,7 +245,7 @@
   <void property="taskBridges">
    <object class="java.util.LinkedList">
     <void method="add">
-     <object class="org.promasi.game.project.SerializableTaskBridge">
+     <object class="org.promasi.game.project.TaskBridgeMemento">
       <void property="inputSdObjectId">
        <string>developer</string>
       </void>
@@ -261,7 +261,7 @@
      </object>
     </void>
     <void method="add">
-     <object class="org.promasi.game.project.SerializableTaskBridge">
+     <object class="org.promasi.game.project.TaskBridgeMemento">
       <void property="inputSdObjectId">
        <string>developer</string>
       </void>

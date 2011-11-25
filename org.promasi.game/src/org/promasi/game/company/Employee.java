@@ -61,7 +61,7 @@ public class Employee
     /**
      * 
      */
-    private Map<Integer ,EmployeeTask> _employeeTasks;
+    protected Map<Integer ,EmployeeTask> _employeeTasks;
     
     /**
      * 
@@ -185,12 +185,8 @@ public class Employee
 	 * @return
 	 * @throws SerializationException
 	 */
-	public SerializableEmployee getSerializableEmployee()throws SerializationException{
-		try {
-			return new SerializableEmployee(this);
-		} catch (NullArgumentException e) {
-			throw new SerializationException("Serialization failed because " + e.getMessage());
-		}
+	public EmployeeMemento getSerializableEmployee()throws SerializationException{
+		return new EmployeeMemento(this);
 	}
 
     /**
@@ -222,7 +218,7 @@ public class Employee
             		}
             	}
 
-            	List<SerializableEmployeeTask> serializableTasks=new LinkedList<SerializableEmployeeTask>();
+            	List<EmployeeTaskMemento> serializableTasks=new LinkedList<EmployeeTaskMemento>();
             	for(EmployeeTask task : employeeTasks){
             		_employeeTasks.put(task.getFirstStep(), task);
             		serializableTasks.add( task.getSerializableEmployeeTask() );

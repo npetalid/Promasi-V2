@@ -15,7 +15,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SerializableProject extends SerializableObject
+public class ProjectMemento extends SerializableObject
 {
     /**
      * The name of the project.
@@ -50,17 +50,17 @@ public class SerializableProject extends SerializableObject
     /**
      * The tasks for this project.
      */
-    private Map<String, SerializableProjectTask> _projectTasks;
+    private Map<String, ProjectTaskMemento> _projectTasks;
     
     /**
      * 
      */
-    private List<SerializableTaskBridge> _taskBridges;
+    private List<TaskBridgeMemento> _taskBridges;
 	
 	/**
      * 
      */
-	public SerializableProject(){
+	public ProjectMemento(){
 		
 	}
 	
@@ -70,7 +70,7 @@ public class SerializableProject extends SerializableObject
 	 * @throws NullArgumentException
 	 * @throws SerializationException 
 	 */
-	protected SerializableProject(Project project)throws GameException, SerializationException{
+	protected ProjectMemento(Project project)throws GameException, SerializationException{
 		if(project==null){
 			throw new GameException("Wrong argument project==null");
 		}
@@ -81,14 +81,14 @@ public class SerializableProject extends SerializableObject
         setProjectDuration(project._projectDuration);
         setDifficultyLevel(project._difficultyLevel);
         _overallProgress=project._overallProgress;
-        _projectTasks=new TreeMap<String,SerializableProjectTask>();
+        _projectTasks=new TreeMap<String,ProjectTaskMemento>();
         for(Map.Entry<String, ProjectTask> entry : project._projectTasks.entrySet()){
-        	_projectTasks.put(entry.getKey(),entry.getValue().getSerializableProjectTask());
+        	_projectTasks.put(entry.getKey(),entry.getValue().getMemento());
         }
         
-        _taskBridges=new LinkedList<SerializableTaskBridge>();
+        _taskBridges=new LinkedList<TaskBridgeMemento>();
         for(TaskBridge bridge : project._taskBridges){
-        	SerializableTaskBridge sBridge=bridge.getSerializableTaskBridge();
+        	TaskBridgeMemento sBridge=bridge.getSerializableTaskBridge();
         	_taskBridges.add(sBridge);
         }
 
@@ -120,13 +120,13 @@ public class SerializableProject extends SerializableObject
 		}
 		
 		Map<String, ProjectTask> projectTasks=new TreeMap<String, ProjectTask>();
-		for(Map.Entry<String, SerializableProjectTask> entry : _projectTasks.entrySet()){
+		for(Map.Entry<String, ProjectTaskMemento> entry : _projectTasks.entrySet()){
 			projectTasks.put(entry.getKey(), entry.getValue().getProjectTask());
 		}
 		
 		try{
 			Project project = new Project(_name,_description,_projectDuration,projectTasks,_projectPrice, _difficultyLevel);
-			for(SerializableTaskBridge bridge : _taskBridges){
+			for(TaskBridgeMemento bridge : _taskBridges){
 				if(!project.makeBridge(bridge.getOutputTaskName(),bridge.getOutputSdObjectId(), bridge.getInputTaskName(), bridge.getInputSdObjectId())){
 					throw new SerializationException("Serialization failed because Project.makeBridge failed");
 				}
@@ -192,7 +192,7 @@ public class SerializableProject extends SerializableObject
 	 * 
 	 * @return
 	 */
-    public Map<String, SerializableProjectTask> getProjectTasks() {
+    public Map<String, ProjectTaskMemento> getProjectTasks() {
 		return _projectTasks;
 	}
 
@@ -200,7 +200,7 @@ public class SerializableProject extends SerializableObject
      * 
      * @param projectTasks
      */
-	public void setProjectTasks(Map<String, SerializableProjectTask> projectTasks) {
+	public void setProjectTasks(Map<String, ProjectTaskMemento> projectTasks) {
 		_projectTasks = projectTasks;
 	}
 
@@ -250,7 +250,7 @@ public class SerializableProject extends SerializableObject
 	 * 
 	 * @return
 	 */
-    public List<SerializableTaskBridge> getTaskBridges() {
+    public List<TaskBridgeMemento> getTaskBridges() {
 		return _taskBridges;
 	}
 
@@ -258,7 +258,7 @@ public class SerializableProject extends SerializableObject
      * 
      * @param taskBridges
      */
-	public void setTaskBridges(List<SerializableTaskBridge> taskBridges) {
+	public void setTaskBridges(List<TaskBridgeMemento> taskBridges) {
 		_taskBridges = taskBridges;
 	}
 
