@@ -251,16 +251,16 @@ public class Company
      *            The {@link Project} to assign to the company.
      * @throws SerializationException 
      */
-    public boolean assignProject ( Project project )
+    public boolean assignProject ( Project project, DateTime currentDate )
     {
     	boolean result = false;
     	
-        if(project!=null){
+        if( project!=null && currentDate != null ){
         	try{
         		_lockObject.lock();
         		_assignedProject=project;
                 for(ICompanyListener listener : _companyListeners){
-                	listener.projectAssigned(_owner, getSerializableCompany(),project.getMemento());
+                	listener.projectAssigned(_owner, getSerializableCompany(),project.getMemento(), currentDate);
                 }
                 
                 result = true;
@@ -280,7 +280,7 @@ public class Company
     {
     	try{
     		_lockObject.lock();
-    		return (_assignedProject==null);
+    		return (_assignedProject!=null);
     	}finally{
     		_lockObject.unlock();
     	}
@@ -318,10 +318,10 @@ public class Company
      * @throws SerializationException
      * @throws NullArgumentException
      */
-    public boolean executeWorkingStep(final DateTime dateTime, MarketPlace marketPlace) throws SerializationException{
+    public boolean executeWorkingStep(final DateTime dateTime, MarketPlace marketPlace, DateTime currentDate) throws SerializationException{
     	boolean result = false;
     	
-    	if( marketPlace != null && dateTime != null){
+    	if( marketPlace != null && dateTime != null && currentDate != null ){
     		try{
         		_lockObject.lock();
         		DateTime currentDateTime=dateTime;
@@ -337,7 +337,7 @@ public class Company
             				
                     		if(_budget<0){
                 		        for(ICompanyListener listener : _companyListeners){
-                		        	listener.companyIsInsolvent(_owner, getSerializableCompany(), _assignedProject.getMemento());
+                		        	listener.companyIsInsolvent(_owner, getSerializableCompany(), _assignedProject.getMemento(), currentDate);
                 		        	_assignedProject=null;
                 		        }
                 		        
@@ -352,7 +352,7 @@ public class Company
                     	 _itDepartment.executeWorkingStep(_assignedProject.getCurrentStep());
                     	 
                          for(ICompanyListener eventHandler : _companyListeners){
-                         	eventHandler.onExecuteWorkingStep(_owner, getSerializableCompany(), _assignedProject.getMemento());
+                         	eventHandler.onExecuteWorkingStep(_owner, getSerializableCompany(), _assignedProject.getMemento(), currentDate);
                          }
                          
                          _assignedProject.executeStep();
@@ -362,7 +362,7 @@ public class Company
                      		_budget=_budget+_assignedProject.getProjectPrice();
                      		
                              for(ICompanyListener listener : _companyListeners){
-                             	listener.projectFinished(_owner, getSerializableCompany(), _assignedProject.getMemento());
+                             	listener.projectFinished(_owner, getSerializableCompany(), _assignedProject.getMemento(), currentDate);
                              }
                              
                      		_assignedProject=null;

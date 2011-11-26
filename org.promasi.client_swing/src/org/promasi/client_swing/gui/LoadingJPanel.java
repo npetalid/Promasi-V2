@@ -38,6 +38,11 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 	/**
 	 * 
 	 */
+	private DesktopJPanel _gamePanel;
+	
+	/**
+	 * 
+	 */
 	private String _username;
 	
 	/**
@@ -63,6 +68,7 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 		_mainFrame = mainFrame;
 		_game = game;
 		_game.addListener(this);
+		_gamePanel = new DesktopJPanel( _mainFrame, _game, _username);
 		_game.startGame();
 	}
 
@@ -73,12 +79,7 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					_mainFrame.changePanel(new DesktopJPanel( _mainFrame, _game, _username));
-				} catch (GuiException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				_mainFrame.changePanel(_gamePanel);
 			}
 		});
 	}

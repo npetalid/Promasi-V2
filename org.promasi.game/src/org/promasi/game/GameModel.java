@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.joda.time.DateTime;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.ICompanyListener;
+import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.MarketPlace;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.project.Project;
@@ -183,6 +184,24 @@ public class GameModel
 	 * @param listener
 	 * @return
 	 */
+	public boolean removeDepartmentListener( IDepartmentListener listener ){
+		return _company.removeITDepartmentListener(listener);
+	}
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean addDepartmentListener( IDepartmentListener listener ){
+		return _company.addITDepartmentListener(listener);
+	}
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
 	public boolean removeCompanyListener( ICompanyListener listener ){
 		return _company.removeListener(listener);
 	}
@@ -242,27 +261,36 @@ public class GameModel
 	 * @throws NullArgumentException
 	 */
 	public boolean executeGameStep(DateTime currentDateTime) {
-		try{
-			if( !_company.hasAssignedProject() && _projects.size()>0){
-				Project project=_projects.poll();
-				if( project!=null ){
-					_company.assignProject(project);
-					_runnedProjects.add(project);
-				}
-			}else if(_projects.size()==0 && !_company.hasAssignedProject() && !_gameFinished){
-				for(IGameModelListener listener : _listeners){
-					listener.gameFinished(this, _company.getSerializableCompany());
+		boolean result = false;
+		
+		if( currentDateTime != null ){
+			try{
+				_lockObject.lock();
+				if( !_company.hasAssignedProject() && _projects.size()>0){
+					Project project=_projects.poll();
+					if( project!=null ){
+						_company.assignProject(project, currentDateTime);
+						_runnedProjects.add(project);
+					}
+				}else if(_projects.size()==0 && !_company.hasAssignedProject() && !_gameFinished){
+					for(IGameModelListener listener : _listeners){
+						listener.gameFinished(this, _company.getSerializableCompany());
+					}
+					
+					_gameFinished=true;
+				}else{
+					_company.executeWorkingStep(currentDateTime,_marketPlace, currentDateTime);
 				}
 				
-				_gameFinished=true;
-			}else{
-				_company.executeWorkingStep(currentDateTime,_marketPlace);
-			}
-		}catch(SerializationException e){
-			return false;
+				result = true;
+			}catch(SerializationException e){
+				result = false;
+			}finally{
+				_lockObject.unlock();
+			}	
 		}
-		
-		return true;
+
+		return result;
 	}
 	
 	/**

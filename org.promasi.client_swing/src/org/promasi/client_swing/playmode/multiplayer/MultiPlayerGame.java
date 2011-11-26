@@ -11,6 +11,7 @@ import org.promasi.game.IGame;
 import org.promasi.game.IGamesServer;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.EmployeeTaskMemento;
+import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.singleplayer.IClientGameListener;
 
 /**
@@ -101,6 +102,18 @@ public class MultiPlayerGame implements IGame {
 	public void removeListeners() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean addDepartmentListener(IDepartmentListener listener) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeDepartmentListener(IDepartmentListener listener) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

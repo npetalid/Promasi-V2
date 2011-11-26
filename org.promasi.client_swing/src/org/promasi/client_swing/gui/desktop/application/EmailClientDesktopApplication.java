@@ -5,6 +5,7 @@ package org.promasi.client_swing.gui.desktop.application;
 
 import java.io.IOException;
 
+import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.game.IGame;
 import org.promasi.game.company.ICompanyListener;
@@ -57,28 +58,28 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 
 	@Override
 	public void projectAssigned(String owner, CompanyMemento company,
-			ProjectMemento project) {
+			ProjectMemento project, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void projectFinished(String owner, CompanyMemento company,
-			ProjectMemento project) {
+			ProjectMemento project, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void companyIsInsolvent(String owner, CompanyMemento company,
-			ProjectMemento assignedProject) {
+			ProjectMemento assignedProject, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void onExecuteWorkingStep(String owner, CompanyMemento company,
-			ProjectMemento assignedProject) {
+			ProjectMemento assignedProject, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}

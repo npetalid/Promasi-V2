@@ -18,6 +18,7 @@ import org.promasi.game.IGamesServer;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.EmployeeTaskMemento;
+import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.clock.Clock;
 import org.promasi.utilities.clock.IClockListener;
@@ -289,5 +290,15 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		}finally{
 			_lockObject.unlock();
 		}
+	}
+
+	@Override
+	public boolean addDepartmentListener(IDepartmentListener listener) {
+		return _gameModel.addDepartmentListener(listener);
+	}
+
+	@Override
+	public boolean removeDepartmentListener(IDepartmentListener listener) {
+		return _gameModel.removeDepartmentListener(listener);
 	}
 }

@@ -468,31 +468,31 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void projectAssigned(String owner, CompanyMemento company, ProjectMemento project) {
+	public void projectAssigned(String owner, CompanyMemento company, ProjectMemento project, DateTime dateTime) {
 		for(IServerGameListener listener : _listeners){
-			listener.projectAssigned(owner, this, company, project, _systemClock.getCurrentDateTime());
+			listener.projectAssigned(owner, this, company, project, dateTime);
 		}
 	}
 
 
 	@Override
-	public void projectFinished(String owner, CompanyMemento company, ProjectMemento project) {
+	public void projectFinished(String owner, CompanyMemento company, ProjectMemento project, DateTime dateTime) {
 		for(IServerGameListener listener : _listeners){
-			listener.projectFinished(owner, this, company, project, _systemClock.getCurrentDateTime());
+			listener.projectFinished(owner, this, company, project, dateTime);
 		}
 	}
 
 	@Override
-	public void companyIsInsolvent(String owner, CompanyMemento company,ProjectMemento assignedProject) {
+	public void companyIsInsolvent(String owner, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime) {
 		for(IServerGameListener listener : _listeners){
-			listener.companyIsInsolvent(owner, this, company, _systemClock.getCurrentDateTime());
+			listener.companyIsInsolvent(owner, this, company, dateTime);
 		}
 	}
 
 	@Override
-	public void onExecuteWorkingStep(String owner, CompanyMemento company,ProjectMemento assignedProject) {
+	public void onExecuteWorkingStep(String owner, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime) {
 		for(IServerGameListener listener : _listeners){
-			listener.onExecuteStep(owner, this, company, assignedProject, _systemClock.getCurrentDateTime());
+			listener.onExecuteStep(owner, this, company, assignedProject, dateTime);
 		}
 	}
 
