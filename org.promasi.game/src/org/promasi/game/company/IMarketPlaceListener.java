@@ -8,5 +8,10 @@ package org.promasi.game.company;
  *
  */
 public interface IMarketPlaceListener {
-
+	
+	/**
+	 * 
+	 * @param marketPlace
+	 */
+	void MarketPlaceChanged( MarketPlaceMemento marketPlace );
 }

@@ -29,7 +29,6 @@ import org.promasi.sdsystem.sdobject.StockSdObject;
 import org.promasi.sdsystem.sdobject.equation.CalculatedEquation;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.file.RootDirectory;
-import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
@@ -101,7 +100,7 @@ public class GameMaker {
             out.close();
 
             Company company=new Company("Test","Test",new LocalTime().withHourOfDay(9), new LocalTime().withHourOfDay(17),10000,0.0);
-            CompanyMemento sCompany=company.getSerializableCompany();
+            CompanyMemento sCompany=company.getMemento();
                 
             out = new PrintWriter(new FileWriter(path+"SinglePlayer"+separator+"Tutorial"+separator+"Company"));
             out.print(sCompany.serialize());
@@ -342,7 +341,7 @@ public class GameMaker {
 																			"RvOG9emNbi1ylQWCgkA42OM7+o1yvyhKNaSPbOCfduMaHMkSnlIGQANx7tdKjESE0MzkmFsnOGGM"+
 																			"9vMND7qT9Yj3P2P11ms0TUfhPF7mp/1JB7v7DXJv5IPfWazSQ6mplBXVtE/tKOsqKZwueaKQofvG"+
 																			"iH/MnEU2I5r9dZEPVXrJCDt7zrNZpc/lGk6mhSEyVETSEuWYFi2+fjphtYBjfPeRtZrNOVwJg+57"+
-																			"1NQT1AH5DQ2b+YflrNZog8zB7n\" //2Q== align=\"left\" /></td><td><h3>Samuel Garcia"+
+																			"1NQT1AH5DQ2b+YflrNZog8zB7n\" align=\"left\" /></td><td><h3>Samuel Garcia"+
 																			"</h3><hr></td></tr><tr><td><p>He is working for UBM for a year, his skills as a"+
 																			"coder are low<br&gt;but he has a really good experience in testing. He worked as"+
 																			"a tester<br>for 6 years. <p>Since he is new he is only working with new project"+
@@ -356,7 +355,7 @@ public class GameMaker {
             employees.put(employee3.getEmployeeId(), employee3);
                 
             MarketPlace marketPlace=new MarketPlace(employees);
-            xmlString=marketPlace.getSerializableMarketPlace().serialize();
+            xmlString=marketPlace.getMemento().serialize();
                 
             out = new PrintWriter(new FileWriter(path+"SinglePlayer"+separator+"Tutorial"+separator+"MarketPlace"));
             out.print(xmlString);
@@ -714,8 +713,6 @@ public class GameMaker {
                 e1.printStackTrace();
         } catch (IllegalArgumentException e1) {
                 e1.printStackTrace();
-        }catch (SerializationException e) {
-                e.printStackTrace();
         }catch (IOException e) {
 			e.printStackTrace();
 		} catch (GameException e){

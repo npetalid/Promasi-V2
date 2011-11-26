@@ -84,4 +84,10 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 		
 	}
 
+	@Override
+	public void companyAssigned(String owner, CompanyMemento company) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

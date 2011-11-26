@@ -13,6 +13,7 @@ import org.joda.time.DateTime;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
+import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.game.company.MarketPlace;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.project.Project;
@@ -210,6 +211,24 @@ public class GameModel
 	 * 
 	 * @param listener
 	 * @return
+	 */
+	public boolean removeMarketPlaceListener( IMarketPlaceListener listener ){
+		return _marketPlace.removeListener(listener);
+	}
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean addMarketPlaceListener( IMarketPlaceListener listener ){
+		return _marketPlace.addListener(listener);
+	}
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
 	 * @throws NullArgumentException
 	 */
 	public boolean removeGameModelListener(IGameModelListener listener) {
@@ -274,7 +293,7 @@ public class GameModel
 					}
 				}else if(_projects.size()==0 && !_company.hasAssignedProject() && !_gameFinished){
 					for(IGameModelListener listener : _listeners){
-						listener.gameFinished(this, _company.getSerializableCompany());
+						listener.gameFinished(this, _company.getMemento());
 					}
 					
 					_gameFinished=true;
@@ -283,8 +302,6 @@ public class GameModel
 				}
 				
 				result = true;
-			}catch(SerializationException e){
-				result = false;
 			}finally{
 				_lockObject.unlock();
 			}	
@@ -300,6 +317,20 @@ public class GameModel
 		try{
 			_lockObject.lock();
 			_listeners.clear();
+		}finally{
+			_lockObject.unlock();
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void removeAllListeners(){
+		try{
+			_lockObject.lock();
+			_listeners.clear();
+			_marketPlace.removeAllListeners();
+			_company.removeAllListeners();
 		}finally{
 			_lockObject.unlock();
 		}

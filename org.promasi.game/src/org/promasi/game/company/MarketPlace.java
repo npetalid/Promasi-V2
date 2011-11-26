@@ -3,6 +3,7 @@
  */
 package org.promasi.game.company;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,6 +24,11 @@ public class MarketPlace
 	 * 
 	 */
 	protected Map<String,Employee> _availabelEmployees;
+	
+	/**
+	 * 
+	 */
+	private List<IMarketPlaceListener> _listeners;
 	
 	/**
 	 * 
@@ -50,20 +56,71 @@ public class MarketPlace
 		
 		_lockObject = new ReentrantLock();
 		_availabelEmployees=employees;
+		_listeners = new LinkedList<IMarketPlaceListener>();
+	}
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean addListener( IMarketPlaceListener listener ){
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if( !_listeners.contains(listener)){
+				result = _listeners.add(listener);
+				listener.MarketPlaceChanged(getMemento());
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean removeListener( IMarketPlaceListener listener ){
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if( _listeners.contains(listener)){
+				result = _listeners.remove(listener);
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 */
+	public void removeAllListeners(){
+		try{
+			_lockObject.lock();
+			_listeners.clear();
+		}finally{
+			_lockObject.unlock();
+		}
 	}
 	
 	/**
 	 * 
 	 * @return
-	 * @throws SerializationException
 	 */
-	public MarketPlaceMemento getSerializableMarketPlace()throws SerializationException{
+	public MarketPlaceMemento getMemento(){
 		MarketPlaceMemento result = null;
 		try {
 			_lockObject.lock();
 			result = new MarketPlaceMemento(this);
-		} catch (NullArgumentException e) {
-			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
 		} finally{
 			_lockObject.unlock();
 		}
@@ -76,13 +133,13 @@ public class MarketPlace
 	 * @return
 	 * @throws SerializationException 
 	 */
-	public Map<String, EmployeeMemento> getAvailableEmployees() throws SerializationException{
+	public Map<String, EmployeeMemento> getAvailableEmployees(){
 		Map<String, EmployeeMemento> employees = new TreeMap<String, EmployeeMemento>();
 
 		try{
 			_lockObject.lock();		
 			for(Map.Entry<String, Employee> entry : _availabelEmployees.entrySet()){
-			employees.put(entry.getKey(), entry.getValue().getSerializableEmployee());
+			employees.put(entry.getKey(), entry.getValue().getMemento());
 		}
 		}finally{
 			_lockObject.unlock();
@@ -130,6 +187,10 @@ public class MarketPlace
 					if(!company.hireEmployee( tmpEmployee ) ){
 						_availabelEmployees.put(employeeId, tmpEmployee);
 					}else{
+						for( IMarketPlaceListener listener : _listeners){
+							listener.MarketPlaceChanged(getMemento());
+						}
+						
 						result = true;
 					}
 				}
@@ -158,6 +219,10 @@ public class MarketPlace
 					employee.removeAllTasks();
 					
 					_availabelEmployees.put(employee.getEmployeeId(), employee);
+					for( IMarketPlaceListener listener : _listeners){
+						listener.MarketPlaceChanged(getMemento());
+					}
+					
 					result = true;
 				}		
 			}
@@ -186,9 +251,17 @@ public class MarketPlace
 					}
 				}
 				
+				boolean employeeAdded = false;
 				for(Employee employee : employees){
 					if( !_availabelEmployees.containsKey(employee.getEmployeeId() ) ){
 						_availabelEmployees.put(employee.getEmployeeId(), employee);
+						employeeAdded = true;
+					}
+				}
+				
+				if( employeeAdded ){
+					for( IMarketPlaceListener listener : _listeners){
+						listener.MarketPlaceChanged(getMemento());
 					}
 				}
 			}

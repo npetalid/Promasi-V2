@@ -34,4 +34,10 @@ public interface ICompanyListener {
 	 * @param assignedProject
 	 */
 	public void onExecuteWorkingStep( String owner, CompanyMemento company, ProjectMemento assignedProject, DateTime dateTime);
+	
+	/**
+	 * 
+	 * @param company
+	 */
+	public void companyAssigned ( String owner, CompanyMemento company );
 }

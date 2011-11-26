@@ -34,7 +34,7 @@ public class DepartmentMemento {
 	public DepartmentMemento( Department department ){
     	_employees=new TreeMap<String, EmployeeMemento>();
     	for(Map.Entry<String, Employee> entry : department._employees.entrySet()){
-    		_employees.put(entry.getKey(), entry.getValue().getSerializableEmployee());
+    		_employees.put(entry.getKey(), entry.getValue().getMemento());
     	}
 	}
 

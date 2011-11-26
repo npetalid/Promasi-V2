@@ -47,13 +47,14 @@ public class Department{
     public Department(){
     	_employees = new TreeMap<String, Employee>();
     	_lockObject = new ReentrantLock();
+    	_listeners = new LinkedList<IDepartmentListener>();
     }
     
     /**
      * @return The {@link #_employees}. The list cannot be modified.
      * @throws SerializationException 
      */
-    public Map<String,EmployeeMemento> getEmployees ( ) throws SerializationException
+    public Map<String,EmployeeMemento> getEmployees ( )
     {
     	Map<String,EmployeeMemento> employees=new TreeMap<String, EmployeeMemento>();
     	
@@ -61,7 +62,7 @@ public class Department{
     		_lockObject.lock();
         	for(Map.Entry<String, Employee> entry : _employees.entrySet())
         	{
-        		employees.put(entry.getKey(), entry.getValue().getSerializableEmployee());
+        		employees.put(entry.getKey(), entry.getValue().getMemento());
         	}
     	}finally{
     		_lockObject.unlock();
@@ -75,7 +76,7 @@ public class Department{
      * @param employee
      * @throws SerializationException 
      */
-    protected boolean hireEmployee(String supervisor, Employee employee) throws SerializationException
+    protected boolean hireEmployee(String supervisor, Employee employee)
     {
        	boolean result = false;
     	if(employee != null){
@@ -83,8 +84,9 @@ public class Department{
         		_lockObject.lock();
             	if( !_employees.containsKey( employee.getEmployeeId() ) ){
                 	_employees.put(employee.getEmployeeId(), employee);
+                	DepartmentMemento memento = getMemento();
                     for(IDepartmentListener listener : _listeners){
-                    	listener.employeeHired(_director, employee.getSerializableEmployee());
+                    	listener.employeeHired(_director, memento);
                     }
                     
                     employee.setSupervisor(_director);
@@ -186,6 +188,14 @@ public class Department{
     
     /**
      * 
+     * @return
+     */
+    public DepartmentMemento getMemento(){
+    	return new DepartmentMemento(this);
+    }
+    
+    /**
+     * 
      * @param employee
      * @return
      * @throws NullArgumentException
@@ -201,9 +211,10 @@ public class Department{
                 	_employees.remove(employeeId);
                 	currentEmployee.addListener(null);
                 	currentEmployee.setSupervisor(null);
-                	if(!marketPlace.dischargeEmployee(currentEmployee)){
+                	if(marketPlace.dischargeEmployee(currentEmployee)){
+                		DepartmentMemento memento = getMemento();
                         for(IDepartmentListener listener : _listeners){
-                        	listener.employeeDischarged(_director, currentEmployee.getSerializableEmployee());
+                        	listener.employeeDischarged(_director, memento);
                         }
                         
                         result = true;

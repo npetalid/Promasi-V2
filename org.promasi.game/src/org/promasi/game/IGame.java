@@ -6,6 +6,7 @@ import java.util.List;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.IDepartmentListener;
+import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
 
@@ -83,6 +84,20 @@ public interface IGame
 	 * @return
 	 */
 	public boolean removeDepartmentListener( IDepartmentListener listener );
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean addMarketPlaceListener( IMarketPlaceListener listener );
+	
+	/**
+	 * 
+	 * @param listener
+	 * @return
+	 */
+	public boolean removeMarketPlaceListener (IMarketPlaceListener listener );
 	
 	/**
 	 * 

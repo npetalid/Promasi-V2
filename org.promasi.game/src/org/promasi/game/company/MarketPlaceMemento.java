@@ -26,15 +26,11 @@ public class MarketPlaceMemento extends SerializableObject
 	 * @throws NullArgumentException
 	 * @throws SerializationException 
 	 */
-	public MarketPlaceMemento(final MarketPlace marketPlace)throws NullArgumentException, SerializationException
+	protected MarketPlaceMemento(final MarketPlace marketPlace)
 	{
-		if(marketPlace==null){
-			throw new NullArgumentException("Wrong argumnet marketPlace==null");
-		}
-		
 		_availableEmployees=new TreeMap<String, EmployeeMemento>();
 		for(Map.Entry<String, Employee> entry : marketPlace._availabelEmployees.entrySet()){
-			_availableEmployees.put(entry.getKey(), entry.getValue().getSerializableEmployee());
+			_availableEmployees.put(entry.getKey(), entry.getValue().getMemento());
 		}
 	}
 	

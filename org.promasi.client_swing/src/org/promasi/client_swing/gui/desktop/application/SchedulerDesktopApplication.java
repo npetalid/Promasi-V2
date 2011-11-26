@@ -23,7 +23,6 @@ import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.CompanyMemento;
-import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.file.RootDirectory;
 import org.swiftgantt.Config;
@@ -37,7 +36,7 @@ import org.swiftgantt.ui.TimeUnit;
  * @author alekstheod
  *
  */
-public class SchedulerDesktopApplication extends ADesktopApplication implements ICompanyListener, IDepartmentListener {
+public class SchedulerDesktopApplication extends ADesktopApplication implements ICompanyListener {
 
 	/**
 	 * 
@@ -131,16 +130,32 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 		}
 	}
 
+	private void ClearGanttChart(){
+		try {
+			SwingUtilities.invokeAndWait(new Runnable() {
+				
+				@Override
+				public void run() {
+					_gantChart.removeAll();
+				}
+			});
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void projectFinished(String owner, CompanyMemento company, ProjectMemento project, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
+		ClearGanttChart();
 	}
 
 	@Override
 	public void companyIsInsolvent(String owner, CompanyMemento company, ProjectMemento assignedProject, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
+		ClearGanttChart();
 	}
 
 	@Override
@@ -193,11 +208,9 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 	}
 
 	@Override
-	public void employeeDischarged(final String director, final EmployeeMemento employee) {
-	}
-
-	@Override
-	public void employeeHired(final String director,final EmployeeMemento employee) {
+	public void companyAssigned(String owner, CompanyMemento company) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

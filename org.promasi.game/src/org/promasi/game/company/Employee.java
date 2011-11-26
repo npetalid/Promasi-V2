@@ -185,7 +185,7 @@ public class Employee
 	 * @return
 	 * @throws SerializationException
 	 */
-	public EmployeeMemento getSerializableEmployee(){
+	public EmployeeMemento getMemento(){
 		return new EmployeeMemento(this);
 	}
 
@@ -225,7 +225,7 @@ public class Employee
             	}
         		
             	for( IEmployeeListener listener : _listeners ){
-            		listener.taskAttached(_supervisor, getSerializableEmployee(), serializableTasks);
+            		listener.taskAttached(_supervisor, getMemento(), serializableTasks);
             	}
             	
             	result = true;
@@ -248,7 +248,7 @@ public class Employee
         	for(Map.Entry<Integer , EmployeeTask> entry : _employeeTasks.entrySet()){
         		result = true;
     			for ( IEmployeeListener listener : _listeners ){
-    				listener.taskDetached(_supervisor, getSerializableEmployee(), entry.getValue().getSerializableEmployeeTask());
+    				listener.taskDetached(_supervisor, getMemento(), entry.getValue().getSerializableEmployeeTask());
     			}
         	}
         	
@@ -279,7 +279,7 @@ public class Employee
             			_employeeTasks.remove(task.getFirstStep());
             			result = true;
             			for ( IEmployeeListener listener : _listeners ){
-            				listener.taskDetached(_supervisor, getSerializableEmployee(), task.getSerializableEmployeeTask());
+            				listener.taskDetached(_supervisor, getMemento(), task.getSerializableEmployeeTask());
             			}
             		}
             	}

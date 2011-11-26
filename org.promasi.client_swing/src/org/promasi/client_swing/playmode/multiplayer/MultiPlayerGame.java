@@ -12,6 +12,7 @@ import org.promasi.game.IGamesServer;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.IDepartmentListener;
+import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.game.singleplayer.IClientGameListener;
 
 /**
@@ -112,6 +113,18 @@ public class MultiPlayerGame implements IGame {
 
 	@Override
 	public boolean removeDepartmentListener(IDepartmentListener listener) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean addMarketPlaceListener(IMarketPlaceListener listener) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean removeMarketPlaceListener(IMarketPlaceListener listener) {
 		// TODO Auto-generated method stub
 		return false;
 	}

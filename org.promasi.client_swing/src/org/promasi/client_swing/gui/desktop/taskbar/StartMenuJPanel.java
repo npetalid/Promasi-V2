@@ -21,13 +21,13 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.promasi.client_swing.components.ApplicationCellRenderer;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
 import org.promasi.client_swing.gui.desktop.application.EmailClientDesktopApplication;
 import org.promasi.client_swing.gui.desktop.application.SchedulerDesktopApplication;
-import org.promasi.client_swing.gui.desktop.application.WebBrowserDesktopApplication;
-import org.promasi.client_swing.gui.utilities.ApplicationCellRenderer;
+import org.promasi.client_swing.gui.desktop.application.WebBrowser.WebBrowserDesktopApplication;
 import org.promasi.game.IGame;
 import org.promasi.utilities.file.RootDirectory;
 

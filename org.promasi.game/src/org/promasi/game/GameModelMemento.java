@@ -69,8 +69,8 @@ public class GameModelMemento
 		
 		_gameName=gameModel._gameName;
 		_gameDescription=gameModel._gameDescription;
-		_marketPlace=gameModel._marketPlace.getSerializableMarketPlace();
-		_company=gameModel._company.getSerializableCompany();
+		_marketPlace=gameModel._marketPlace.getMemento();
+		_company=gameModel._company.getMemento();
 		_projects=new LinkedList<ProjectMemento>();
 		_runnedProjects=new LinkedList<ProjectMemento>();
 		for(Project project : gameModel._projects){

@@ -10,15 +10,15 @@ package org.promasi.game.company;
 public interface IDepartmentListener {
 	/**
 	 * 
-	 * @param company
-	 * @param employee
+	 * @param director
+	 * @param department
 	 */
-	public void employeeDischarged( String director, EmployeeMemento employee);
+	public void employeeDischarged( String director, DepartmentMemento department);
 	
 	/**
 	 * 
-	 * @param company
-	 * @param employee
+	 * @param director
+	 * @param department
 	 */
-	public void employeeHired( String director, EmployeeMemento employee );
+	public void employeeHired( String director, DepartmentMemento department );
 }

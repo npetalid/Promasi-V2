@@ -211,6 +211,7 @@ public class Company
         	if(listener!=null){
             	if(!_companyListeners.contains(listener)){
             		result = _companyListeners.add(listener);
+            		listener.companyAssigned(_owner, getMemento());
             	}
         	}
     	}finally{
@@ -260,7 +261,7 @@ public class Company
         		_lockObject.lock();
         		_assignedProject=project;
                 for(ICompanyListener listener : _companyListeners){
-                	listener.projectAssigned(_owner, getSerializableCompany(),project.getMemento(), currentDate);
+                	listener.projectAssigned(_owner, getMemento(),project.getMemento(), currentDate);
                 }
                 
                 result = true;
@@ -318,7 +319,7 @@ public class Company
      * @throws SerializationException
      * @throws NullArgumentException
      */
-    public boolean executeWorkingStep(final DateTime dateTime, MarketPlace marketPlace, DateTime currentDate) throws SerializationException{
+    public boolean executeWorkingStep(final DateTime dateTime, MarketPlace marketPlace, DateTime currentDate){
     	boolean result = false;
     	
     	if( marketPlace != null && dateTime != null && currentDate != null ){
@@ -337,7 +338,7 @@ public class Company
             				
                     		if(_budget<0){
                 		        for(ICompanyListener listener : _companyListeners){
-                		        	listener.companyIsInsolvent(_owner, getSerializableCompany(), _assignedProject.getMemento(), currentDate);
+                		        	listener.companyIsInsolvent(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
                 		        	_assignedProject=null;
                 		        }
                 		        
@@ -352,7 +353,7 @@ public class Company
                     	 _itDepartment.executeWorkingStep(_assignedProject.getCurrentStep());
                     	 
                          for(ICompanyListener eventHandler : _companyListeners){
-                         	eventHandler.onExecuteWorkingStep(_owner, getSerializableCompany(), _assignedProject.getMemento(), currentDate);
+                         	eventHandler.onExecuteWorkingStep(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
                          }
                          
                          _assignedProject.executeStep();
@@ -362,7 +363,7 @@ public class Company
                      		_budget=_budget+_assignedProject.getProjectPrice();
                      		
                              for(ICompanyListener listener : _companyListeners){
-                             	listener.projectFinished(_owner, getSerializableCompany(), _assignedProject.getMemento(), currentDate);
+                             	listener.projectFinished(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
                              }
                              
                      		_assignedProject=null;
@@ -411,8 +412,6 @@ public class Company
     	try{
     		_lockObject.lock();
     		result = _itDepartment.hireEmployee(_owner, employee);
-    	}catch(SerializationException e){
-    		result = false;
     	}finally{
     		_lockObject.unlock();
     	}
@@ -480,7 +479,7 @@ public class Company
      * @return
      * @throws SerializationException
      */
-    public CompanyMemento getSerializableCompany(){
+    public CompanyMemento getMemento(){
 		return new CompanyMemento(this);
     }
     

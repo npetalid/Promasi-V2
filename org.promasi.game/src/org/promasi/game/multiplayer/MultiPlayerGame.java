@@ -16,6 +16,7 @@ import org.promasi.game.GameModel;
 import org.promasi.game.IGameModelListener;
 import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.Company;
+import org.promasi.game.company.DepartmentMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IEmployeeListener;
@@ -23,7 +24,6 @@ import org.promasi.game.company.MarketPlace;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.EmployeeTaskMemento;
-import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.game.project.Project;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.clock.Clock;
@@ -510,8 +510,8 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void employeeDischarged(String director, EmployeeMemento employee) {
-		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
+	public void employeeDischarged(String director, DepartmentMemento department) {
+		/*for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
 				try{
 					GameModelMemento gameModel=entry.getValue().getSerializableGameModel();
@@ -522,13 +522,13 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 					//Logger
 				}
 			}
-		}
+		}*/
 	}
 
 
 	@Override
-	public void employeeHired(String director, EmployeeMemento employee) {
-		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
+	public void employeeHired(String director, DepartmentMemento department) {
+		/*for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
 				try{
 					GameModelMemento gameModel=entry.getValue().getSerializableGameModel();
@@ -539,6 +539,13 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 					//Logger
 				}
 			}
-		}
+		}*/
+	}
+
+
+	@Override
+	public void companyAssigned(String owner, CompanyMemento company) {
+		// TODO Auto-generated method stub
+		
 	}
 }
