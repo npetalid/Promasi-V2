@@ -53,7 +53,7 @@ public final class Clock
     /**
      * The default value of the {@link #_speed}.
      */
-    private static final int DEFAULT_SPEED = 1000;
+    private static final int DEFAULT_SPEED = 10000;
 
     /**
      * Initializes the object. Sets the {@link #_fieldType} to minutes.
