@@ -251,23 +251,25 @@ public class Company
      *            The {@link Project} to assign to the company.
      * @throws SerializationException 
      */
-    public void assignProject ( Project project )throws NullArgumentException, SerializationException
+    public boolean assignProject ( Project project )
     {
+    	boolean result = false;
     	
-        if(project==null){
-        	throw new NullArgumentException("Wrong argument project==null");
+        if(project!=null){
+        	try{
+        		_lockObject.lock();
+        		_assignedProject=project;
+                for(ICompanyListener listener : _companyListeners){
+                	listener.projectAssigned(_owner, getSerializableCompany(),project.getMemento());
+                }
+                
+                result = true;
+        	}finally{
+        		_lockObject.unlock();
+        	}
         }
         
-    	try{
-    		_lockObject.lock();
-            for(ICompanyListener listener : _companyListeners){
-            	listener.projectAssigned(_owner, getSerializableCompany(),project.getMemento());
-            }
-    	}finally{
-    		_lockObject.unlock();
-    	}
-
-        _assignedProject=project;
+        return result;
     }
     
     /**
@@ -276,11 +278,12 @@ public class Company
      */
     public boolean hasAssignedProject()
     {
-    	if(_assignedProject==null){
-    		return false;
+    	try{
+    		_lockObject.lock();
+    		return (_assignedProject==null);
+    	}finally{
+    		_lockObject.unlock();
     	}
-    	
-    	return true;
     }
     
     /**
@@ -477,7 +480,7 @@ public class Company
      * @return
      * @throws SerializationException
      */
-    public CompanyMemento getSerializableCompany()throws SerializationException{
+    public CompanyMemento getSerializableCompany(){
 		return new CompanyMemento(this);
     }
     

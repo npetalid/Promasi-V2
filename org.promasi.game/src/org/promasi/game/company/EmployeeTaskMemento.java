@@ -1,5 +1,7 @@
 package org.promasi.game.company;
 
+import java.util.List;
+
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -29,6 +31,16 @@ public class EmployeeTaskMemento extends SerializableObject
 	/**
 	 * 
 	 */
+	private List<String> _dependencies;
+	
+	/**
+	 * 
+	 */
+	private String _taskName;
+	
+	/**
+	 * 
+	 */
 	public EmployeeTaskMemento(){
 		
 	}
@@ -38,10 +50,12 @@ public class EmployeeTaskMemento extends SerializableObject
 	 * @param employeeTask
 	 * @throws SerializationException
 	 */
-	public EmployeeTaskMemento(EmployeeTask employeeTask)throws SerializationException{
+	public EmployeeTaskMemento(EmployeeTask employeeTask){
 		_firstStep=employeeTask._firstStep;
 		_lastStep=employeeTask._lastStep;
 		_projectTaskName=employeeTask._projectTask.getName();
+		setDependencies(employeeTask._dependencies);
+		setTaskName(employeeTask._taskName);
 	}
 
 	/**
@@ -88,5 +102,33 @@ public class EmployeeTaskMemento extends SerializableObject
 	 */
 	public void setFirstStep(int firstStep) {
 		_firstStep = firstStep;
+	}
+
+	/**
+	 * @return the _dependencies
+	 */
+	public List<String> getDependencies() {
+		return _dependencies;
+	}
+
+	/**
+	 * @param _dependencies the _dependencies to set
+	 */
+	public void setDependencies(List<String> _dependencies) {
+		this._dependencies = _dependencies;
+	}
+
+	/**
+	 * @return the _taskName
+	 */
+	public String getTaskName() {
+		return _taskName;
+	}
+
+	/**
+	 * @param _taskName the _taskName to set
+	 */
+	public void setTaskName(String _taskName) {
+		this._taskName = _taskName;
 	}
 }

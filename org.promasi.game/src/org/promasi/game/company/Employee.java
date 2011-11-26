@@ -185,7 +185,7 @@ public class Employee
 	 * @return
 	 * @throws SerializationException
 	 */
-	public EmployeeMemento getSerializableEmployee()throws SerializationException{
+	public EmployeeMemento getSerializableEmployee(){
 		return new EmployeeMemento(this);
 	}
 
@@ -230,8 +230,6 @@ public class Employee
             	
             	result = true;
         	}
-    	}catch( SerializationException e){
-    		result = false;
     	}finally{
     		_lockObject.unlock();
     	}
@@ -256,8 +254,6 @@ public class Employee
         	
         	_employeeTasks.clear();
         	result = true;
-    	}catch (SerializationException e){
-    		result = false;
     	}finally{
     		_lockObject.unlock();
     	}
@@ -288,8 +284,6 @@ public class Employee
             		}
             	}
         	}
-    	}catch(SerializationException e){
-    		result = false;
     	}finally{
     		_lockObject.unlock();
     	}

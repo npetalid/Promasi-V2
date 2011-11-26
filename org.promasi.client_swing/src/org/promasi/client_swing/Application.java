@@ -26,7 +26,7 @@ import GameBuilder.GameMaker;
 public class Application {
 
 	/**
-	 * @param args
+	 * @param args 
 	 */
 	public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {

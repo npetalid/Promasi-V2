@@ -240,7 +240,7 @@ public class ProjectTask
 	 * @throws SerializationException 
 	 * @throws NullArgumentException 
 	 */
-	public ProjectTaskMemento getMemento()throws SerializationException{
+	public ProjectTaskMemento getMemento(){
 		return new ProjectTaskMemento(this);
 	}
 

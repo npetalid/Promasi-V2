@@ -28,7 +28,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SinglePlayerGameBuilder 
+public class SinglePlayerGameBuilder
 {
 	/**
 	 * 

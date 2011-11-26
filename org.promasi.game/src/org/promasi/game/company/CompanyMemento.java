@@ -60,11 +60,7 @@ public class CompanyMemento extends SerializableObject {
      * @param company
      * @throws NullArgumentException
      */
-    public CompanyMemento( final Company company )throws SerializationException{
-    	if(company==null){
-    		throw new SerializationException("Wrong argument company==null");
-    	}
-    	
+    protected CompanyMemento( final Company company ){
     	setStartTime(company._startTime.toString());
     	setEndTime(company._endTime.toString());
     	_budget=company._budget;

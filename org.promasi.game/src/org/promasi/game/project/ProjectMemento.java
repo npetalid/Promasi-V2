@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.promasi.game.GameException;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
@@ -70,11 +69,7 @@ public class ProjectMemento extends SerializableObject
 	 * @throws NullArgumentException
 	 * @throws SerializationException 
 	 */
-	protected ProjectMemento(Project project)throws GameException, SerializationException{
-		if(project==null){
-			throw new GameException("Wrong argument project==null");
-		}
-		
+	protected ProjectMemento(Project project){	
         _name=project._name;
         _description=project._description;
         _projectPrice = project._projectPrice;

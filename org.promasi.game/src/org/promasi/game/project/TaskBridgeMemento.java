@@ -46,11 +46,7 @@ public class TaskBridgeMemento
 	 * @param taskBridge
 	 * @throws NullArgumentException
 	 */
-	protected TaskBridgeMemento(TaskBridge taskBridge)throws NullArgumentException{
-		if(taskBridge==null){
-			throw new NullArgumentException("Wrong argument taskBridge==null");
-		}
-		
+	protected TaskBridgeMemento(TaskBridge taskBridge){
 		_outputTaskName=taskBridge._outputTaskName;
 		_inputTaskName=taskBridge._inputTaskName;
 		_inputSdObjectId=taskBridge._inputSdObjectId;

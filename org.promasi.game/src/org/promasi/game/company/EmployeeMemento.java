@@ -64,11 +64,7 @@ public class EmployeeMemento extends SerializableObject
      * @param employee
      * @throws NullArgumentException
      */
-    public EmployeeMemento(Employee employee)throws SerializationException{
-    	if(employee==null){
-    		throw new SerializationException("Wrong argument employee==null");
-    	}
-    	
+    public EmployeeMemento(Employee employee){
     	_salary=employee._salary;
     	_curriculumVitae=employee._curriculumVitae;
     	_employeeSkills=employee._employeeSkills;

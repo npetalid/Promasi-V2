@@ -14,23 +14,23 @@ public interface ICompanyListener {
 	 * 
 	 * @param project
 	 */
-	public void projectAssigned(final String owner, final CompanyMemento company, final ProjectMemento project );
+	public void projectAssigned( String owner, CompanyMemento company, ProjectMemento project );
 	
 	/**
 	 * 
 	 * @param project
 	 */
-	public void projectFinished(final String owner, final CompanyMemento company, final ProjectMemento project);
+	public void projectFinished( String owner, CompanyMemento company, ProjectMemento project);
 	
 	/**
 	 * 
 	 */
-	public void companyIsInsolvent(final String owner, final CompanyMemento company, final ProjectMemento assignedProject);
+	public void companyIsInsolvent( String owner, CompanyMemento company, ProjectMemento assignedProject);
 
 	/**
 	 * 
 	 * @param company
 	 * @param assignedProject
 	 */
-	public void onExecuteWorkingStep(final String owner, final CompanyMemento company, final ProjectMemento assignedProject);
+	public void onExecuteWorkingStep( String owner, CompanyMemento company, ProjectMemento assignedProject);
 }

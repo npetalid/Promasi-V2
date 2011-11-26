@@ -210,8 +210,6 @@ public class Department{
                 	}else{
                 			_employees.put(currentEmployee.getEmployeeId(), currentEmployee);
                 	}
-            	}catch( SerializationException e){
-            		result = false;
             	}finally{
             		_lockObject.unlock();
             	}
@@ -241,7 +239,7 @@ public class Department{
      * @param employee
      * @param employeeTask
      */
-    public boolean assignTasks(final String employeeId, List<EmployeeTaskMemento> employeeTasks , Map<String, ProjectTask> projectTasks){
+    public boolean assignTasks( String employeeId, List<EmployeeTaskMemento> employeeTasks , Map<String, ProjectTask> projectTasks ){
     	boolean result = false;
     	
     	try{
@@ -253,7 +251,7 @@ public class Department{
     	        		String taskName=employeeTask.getProjectTaskName();
     	    			ProjectTask projectTask=projectTasks.get(taskName);
     	    			if(_employees.containsKey(employeeId)){
-        	    			EmployeeTask task=new EmployeeTask(projectTask,employeeTask.getFirstStep(),employeeTask.getLastStep());
+        	    			EmployeeTask task=new EmployeeTask(employeeTask.getTaskName(), employeeTask.getDependencies(), projectTask,employeeTask.getFirstStep(),employeeTask.getLastStep());
         	    			result = tasks.add(task);
     	    			}
     	    		}

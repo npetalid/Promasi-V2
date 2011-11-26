@@ -17,12 +17,12 @@ public interface IGameModelListener
 	/**
 	 * 
 	 */
-	public void onExecuteStep(final GameModel game, final CompanyMemento company,final ProjectMemento assignedProject);
+	public void onExecuteStep( GameModel game, CompanyMemento company, ProjectMemento assignedProject);
 	
 	/**
 	 * 
 	 * @param game
 	 * @param company
 	 */
-	public void gameFinished(final GameModel game, final CompanyMemento company);
+	public void gameFinished( GameModel game, CompanyMemento company);
 }

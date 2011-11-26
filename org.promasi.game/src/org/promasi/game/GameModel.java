@@ -260,8 +260,6 @@ public class GameModel
 			}
 		}catch(SerializationException e){
 			return false;
-		}catch(NullArgumentException e){
-			return false;
 		}
 		
 		return true;

@@ -3,6 +3,7 @@
  */
 package org.promasi.game.company;
 
+import java.util.List;
 import java.util.Map;
 
 import org.promasi.game.GameException;
@@ -33,13 +34,23 @@ public class EmployeeTask
 	
 	/**
 	 * 
+	 */
+	protected List<String> _dependencies;
+	
+	/**
+	 * 
+	 */
+	protected String _taskName;
+	
+	/**
+	 * 
 	 * @param projectTask
 	 * @param startDate
 	 * @param endDate
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public EmployeeTask(ProjectTask projectTask,final int firstStep, final int lastStep)throws GameException
+	public EmployeeTask(String taskName, List<String> dependencies, ProjectTask projectTask,final int firstStep, final int lastStep)throws GameException
 	{
 		if(projectTask==null)
 		{
@@ -56,9 +67,19 @@ public class EmployeeTask
 			throw new GameException("Wrong argument endDate<=startStep");
 		}
 		
+		if( taskName == null ){
+			throw new GameException("Wrong argument taskName == null");
+		}
+		
+		if(dependencies == null){
+			throw new GameException("Wrong argument dependencies == null");
+		}
+		
 		_firstStep=firstStep;
 		_lastStep=lastStep;
 		_projectTask=projectTask;
+		_taskName = taskName;
+		_dependencies = dependencies;
 	}
 	
 	/**
@@ -66,7 +87,7 @@ public class EmployeeTask
 	 * @return
 	 * @throws SerializationException
 	 */
-	public EmployeeTaskMemento getSerializableEmployeeTask()throws SerializationException{
+	public EmployeeTaskMemento getSerializableEmployeeTask(){
 		return new EmployeeTaskMemento(this);
 	}
 	

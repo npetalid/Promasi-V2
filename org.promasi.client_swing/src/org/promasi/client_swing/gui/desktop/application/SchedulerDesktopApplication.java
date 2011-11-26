@@ -7,11 +7,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Calendar;
+import java.util.Map;
+import java.util.TreeMap;
+
+import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.game.IGame;
+import org.promasi.game.company.EmployeeMemento;
+import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.project.ProjectMemento;
@@ -83,52 +90,79 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 		config.setWorkingDaysSpanOfWeek(new int[]{Calendar.MONDAY, Calendar.THURSDAY});//Set span of working days in each week
 		config.setAllowAccurateTaskBar(true);//Set true if you want to show accurate task bar.
 		add(_gantChart, BorderLayout.CENTER);
-		
-		GanttModel model = new GanttModel();
-		Time time = new Time(new DateTime().plusMillis(3).toDate());
-		model.setDeadline(time);
-		
-		Task taskGroup = new Task("My Work 1", new Time(), new Time().increaseYear());
-		Task task1 = new Task("Sub-task 1", new Time(), new Time().increaseWeek());
-		Task task2 = new Task();
-		task2.setName("Sub-task 2");
-		task2.setStart(new Time());
-		task2.setEnd(new Time().increaseMonth());// Since version 0.3.0, the end time set to a task is included in duration of the task
-		task2.addPredecessor(task1);
-
-		taskGroup.add(new Task[]{task1, task2});
-
-		task2.addPredecessor(task1);
-		
-		model.addTask(taskGroup);
-		_gantChart.setModel(model);
 	}
 
 	@Override
-	public void projectAssigned(String owner, CompanyMemento company,
-			ProjectMemento project) {
+	public void projectAssigned(String owner, CompanyMemento company, ProjectMemento project) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void projectFinished(String owner, CompanyMemento company,
-			ProjectMemento project) {
+	public void projectFinished(String owner, CompanyMemento company, ProjectMemento project) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void companyIsInsolvent(String owner, CompanyMemento company,
-			ProjectMemento assignedProject) {
+	public void companyIsInsolvent(String owner, CompanyMemento company, ProjectMemento assignedProject) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onExecuteWorkingStep(String owner, CompanyMemento company,
-			ProjectMemento assignedProject) {
-		// TODO Auto-generated method stub
+	public void onExecuteWorkingStep(String owner, CompanyMemento company, ProjectMemento assignedProject) {
+		Map<String, EmployeeTaskMemento> projectTasks = new TreeMap<String, EmployeeTaskMemento>();
+		if( company != null && company.getITDepartment() != null && company.getITDepartment().getEmployees() != null ){
+			Map<String, EmployeeMemento> employees = company.getITDepartment().getEmployees();
+			for (Map.Entry<String, EmployeeMemento> entry : employees.entrySet()){
+				Map<Integer, EmployeeTaskMemento> tasks = entry.getValue().getTasks();
+				for (Map.Entry<Integer, EmployeeTaskMemento> taskEntry : tasks.entrySet() ){
+					if( !projectTasks.containsKey(taskEntry.getValue().getTaskName())){
+						projectTasks.put(taskEntry.getValue().getTaskName(), taskEntry.getValue() );
+					}
+				}
+			}
+		}
 		
+		class GanttUpdater implements Runnable{
+			private Map<String, EmployeeTaskMemento> _projectTasks;
+			private int _projectDuration;
+
+			public GanttUpdater(int projectDuration, Map<String, EmployeeTaskMemento> projectTasks){
+				_projectTasks = projectTasks;
+				_projectDuration = projectDuration;
+			}
+			
+			@Override
+			public void run() {
+				GanttModel model = new GanttModel();
+				Time time = new Time(new DateTime().plusDays(_projectDuration).toDate());
+				model.setDeadline(time);
+				
+				Task taskGroup = new Task("My Work 1", new Time(), new Time().increaseYear());
+				Task task1 = new Task("Sub-task 1", new Time(), new Time().increaseWeek());
+				Task task2 = new Task();
+				task2.setName("Sub-task 2");
+				task2.setStart(new Time());
+				task2.setEnd(new Time().increaseMonth());// Since version 0.3.0, the end time set to a task is included in duration of the task
+				task2.addPredecessor(task1);
+
+				taskGroup.add(new Task[]{task1, task2});
+
+				task2.addPredecessor(task1);
+				
+				model.addTask(taskGroup);
+				_gantChart.setModel(model);
+			}
+		}
+		
+		if( !projectTasks.isEmpty() && assignedProject != null ){
+			try {
+				SwingUtilities.invokeAndWait( new GanttUpdater(assignedProject.getProjectDuration(), projectTasks));
+			} catch (InterruptedException e) {
+			} catch (InvocationTargetException e) {
+			}
+		}
 	}
 
 }
