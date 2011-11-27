@@ -135,19 +135,13 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 
 	@Override
 	public void shutDown() {
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					_game.stopGame();
-					_mainFrame.changePanel( new GamesJPanel(_mainFrame, _game.getGamesServer(), _username));
-				} catch (GuiException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
+		try {
+			_game.stopGame();
+			_mainFrame.changePanel( new GamesJPanel(_mainFrame, _game.getGamesServer(), _username));
+		} catch (GuiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

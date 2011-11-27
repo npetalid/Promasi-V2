@@ -16,6 +16,7 @@ import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.Vector;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -23,7 +24,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import org.promasi.client_swing.components.ApplicationCellRenderer;
+import org.promasi.client_swing.components.MenuCellRenderer;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
@@ -52,17 +53,7 @@ public class StartMenuJPanel extends JPanel {
 	/**
 	 * 
 	 */
-	public static final int CONST_PREFERED_HEIGHT = 350;
-	
-	/**
-	 * 
-	 */
-	public static final int CONST_SHUTDOWN_PANEL_PREFERED_HEIGHT = 50;
-	
-	/**
-	 * 
-	 */
-	public static final int CONST_USERNAME_LABEL_PREFERED_HEIGHT = 30;
+	public static final int CONST_PREFERED_HEIGHT = 200;
 	
 	/**
 	 * 
@@ -103,9 +94,10 @@ public class StartMenuJPanel extends JPanel {
 		
 		JLabel usernameLabel;
 		try {
-			usernameLabel = new JLabel(username, new ImageIcon( RootDirectory.getInstance().getImagesDirectory() + "user24.png" ), SwingConstants.LEFT);
-			usernameLabel.setFont(new Font("Serif", Font.BOLD, 15));
-			usernameLabel.setPreferredSize( new Dimension( CONST_PREFERED_WIDTH, CONST_USERNAME_LABEL_PREFERED_HEIGHT ) );
+			Icon userIcon = new ImageIcon( RootDirectory.getInstance().getImagesDirectory() + "user.png" );
+			usernameLabel = new JLabel(username, userIcon , SwingConstants.LEFT);
+			usernameLabel.setFont(new Font("Serif", Font.BOLD | Font.ITALIC, 18));
+			usernameLabel.setPreferredSize( new Dimension( CONST_PREFERED_WIDTH,  userIcon.getIconHeight() ) );
 			add( usernameLabel, BorderLayout.NORTH );
 		} catch (IOException ex) {
 			throw new GuiException(ex.getMessage());
@@ -122,8 +114,8 @@ public class StartMenuJPanel extends JPanel {
 		}
 		
 		_appList = new JList(apps);
-		_appList.setCellRenderer(new ApplicationCellRenderer());
-		_appList.setPreferredSize(new Dimension(CONST_PREFERED_WIDTH, CONST_PREFERED_HEIGHT - CONST_SHUTDOWN_PANEL_PREFERED_HEIGHT - CONST_USERNAME_LABEL_PREFERED_HEIGHT - 20));
+		_appList.setCellRenderer(new MenuCellRenderer());
+		_appList.setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height ));
 		add(_appList, BorderLayout.CENTER);
 		
 		_appList.addMouseMotionListener(new MouseMotionListener() {
@@ -175,31 +167,6 @@ public class StartMenuJPanel extends JPanel {
 			}
 		});
 		
-		JPanel shutDownPanel = new JPanel();
-		shutDownPanel.setPreferredSize( new Dimension(CONST_PREFERED_WIDTH, CONST_SHUTDOWN_PANEL_PREFERED_HEIGHT ) );
-		shutDownPanel.setLayout(new GridLayout(1, 2, 20, 0));
-		
-		JButton sleepButton = new JButton("Sleep");
-		sleepButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				//_desktop.sleep();
-			}
-		});
-		
-		shutDownPanel.add( sleepButton );
-		
-		JButton shutDownButton = new JButton("ShutDown");
-		shutDownButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				_game.removeListeners();
-				_desktop.shutDown();
-			}
-		});
-
-		shutDownPanel.add( shutDownButton );
-		add(shutDownPanel, BorderLayout.NORTH);
 		_game = game;
 	}
 

@@ -11,13 +11,11 @@ import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
-
 /**
  * @author alekstheod
  * 
  */
-public class ApplicationCellRenderer extends DefaultListCellRenderer {
+public class MenuCellRenderer extends DefaultListCellRenderer {
 
 	/**
 	 * 
@@ -29,9 +27,9 @@ public class ApplicationCellRenderer extends DefaultListCellRenderer {
 	 */
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
 		JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
-		if (value instanceof ADesktopApplication) {
-			ADesktopApplication app = (ADesktopApplication) value;
-			Icon icon = app.getAppIcon();
+		if (value instanceof IMenuEntry) {
+			IMenuEntry menuEntry = (IMenuEntry) value;
+			Icon icon = menuEntry.getIcon();
 			label.setPreferredSize(new Dimension( 50, icon.getIconHeight() ));
 			label.setIcon(icon);
 		} else {

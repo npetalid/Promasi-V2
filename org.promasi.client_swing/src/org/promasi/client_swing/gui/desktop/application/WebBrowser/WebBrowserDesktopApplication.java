@@ -31,7 +31,7 @@ public class WebBrowserDesktopApplication extends ADesktopApplication{
 	/**
 	 * 
 	 */
-	public static final String CONST_APP_ICON = "internet.png";
+	public static final String CONST_APP_ICON = "firefox.png";
 	
 	/**
 	 * 

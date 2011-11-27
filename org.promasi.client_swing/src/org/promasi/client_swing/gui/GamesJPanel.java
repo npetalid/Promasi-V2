@@ -39,7 +39,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 	/**
 	 * 
 	 */
-	public static final int CONST_GAMES_LIST_WIDTH = 150;
+	public static final int CONST_GAMES_LIST_WIDTH = 200;
 	
 	/**
 	 * 

@@ -34,7 +34,7 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 	/**
 	 * 
 	 */
-	public static final String CONST_APP_ICON = "planner.png";
+	public static final String CONST_APP_ICON = "monitor.png";
 	
 	/**
 	 * 

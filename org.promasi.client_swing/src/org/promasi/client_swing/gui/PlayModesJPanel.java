@@ -17,6 +17,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.promasi.client_swing.components.ExtendedJEditorPane;
+import org.promasi.client_swing.components.MenuCellRenderer;
 import org.promasi.client_swing.playmode.IPlayMode;
 import org.promasi.client_swing.playmode.multiplayer.MultiPlayerPlayMode;
 import org.promasi.client_swing.playmode.singleplayer.SinglePlayerPlayMode;
@@ -34,7 +35,7 @@ public class PlayModesJPanel extends JPanel {
 	/**
 	 * 
 	 */
-	public static final int CONST_PLAYMODES_LIST_WIDTH = 150;
+	public static final int CONST_PLAYMODES_LIST_WIDTH = 200;
 	
 	/**
 	 * 
@@ -84,6 +85,8 @@ public class PlayModesJPanel extends JPanel {
 			}
 		});
 		
+		_playModesList.setCellRenderer(new MenuCellRenderer());
+		
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BorderLayout() );
 		
@@ -109,6 +112,6 @@ public class PlayModesJPanel extends JPanel {
 		_infoPane = new ExtendedJEditorPane();
 		add( _infoPane, BorderLayout.CENTER );
 		_infoPane.setEditable(false);
-		_infoPane.setContentType("text/html" );
+		_infoPane.setContentType( "text/html" );
 	}
 }

@@ -76,6 +76,7 @@ public class TaskBarJPanel extends JPanel {
 		try {
 			Icon startIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + CONST_START_ICON);
 			_startButton = new JButton("Start", startIcon);
+			_startButton.setPreferredSize(new Dimension( startIcon.getIconHeight(), startIcon.getIconHeight() ));
 		} catch (IOException e1) {
 			_startButton = new JButton("Start");
 		}
@@ -96,8 +97,28 @@ public class TaskBarJPanel extends JPanel {
 		iconsPanel.setLayout(new BorderLayout());
 		iconsPanel.setPreferredSize(new Dimension( ClockJPanel.CONST_CLOCK_PANEL_WIDTH + QuickIconsJPanel.CONST_QUICK_ICONS_PANEL_WIDTH, 100) );
 		_clockPanel = new ClockJPanel();
-		iconsPanel.add(_clockPanel, BorderLayout.EAST);
-		iconsPanel.add(new QuickIconsJPanel(), BorderLayout.CENTER);
+		
+		JButton exitButton = null;
+		try {
+			Icon exitIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + "exit.png");
+			exitButton = new JButton(exitIcon);
+			exitButton.setPreferredSize(new Dimension( exitIcon.getIconHeight(), exitIcon.getIconHeight() ));
+		} catch (IOException e1) {
+			exitButton = new JButton("Exit");
+		}
+		
+		exitButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				_desktop.shutDown();
+			}
+		});
+		
+		iconsPanel.add(exitButton, BorderLayout.EAST);
+		iconsPanel.add(_clockPanel, BorderLayout.CENTER);
+		iconsPanel.add(new QuickIconsJPanel(), BorderLayout.WEST);
+		
 		add(iconsPanel, BorderLayout.EAST);
 		
 		_desktop = desktop;

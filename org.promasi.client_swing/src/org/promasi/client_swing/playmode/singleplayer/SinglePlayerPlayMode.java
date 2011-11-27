@@ -5,6 +5,10 @@ package org.promasi.client_swing.playmode.singleplayer;
 
 import java.io.IOException;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
+import org.promasi.client_swing.components.IMenuEntry;
 import org.promasi.client_swing.gui.GamesJPanel;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.IMainFrame;
@@ -15,7 +19,7 @@ import org.promasi.utilities.file.RootDirectory;
  * @author alekstheod
  *
  */
-public class SinglePlayerPlayMode implements IPlayMode {
+public class SinglePlayerPlayMode implements IPlayMode, IMenuEntry {
 
 	/**
 	 * 
@@ -35,8 +39,27 @@ public class SinglePlayerPlayMode implements IPlayMode {
 	/**
 	 * 
 	 */
+	public static final String CONST_MENUIMAGE = "user.png";
+	
+	/**
+	 * 
+	 */
+	private Icon _menuIcon;
+	
+	/**
+	 * 
+	 */
 	public static final String CONST_PLAYMODE_DESCRIPTION =	"The purpose of this play mode is to gather the highest score.<br>"
 															+ "You will play through various levels. On each level you will have to complete a project.<br>";
+	
+	
+	public SinglePlayerPlayMode(){
+		try {
+			_menuIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + CONST_MENUIMAGE);
+		} catch (IOException e) {
+			//TODO log
+		}
+	}
 	
 	@Override
 	public String toString(){
@@ -65,6 +88,11 @@ public class SinglePlayerPlayMode implements IPlayMode {
 	@Override
 	public String getUri() throws IOException {
 		return RootDirectory.getInstance().getRootDirectory() + CONST_SINGLEPLAYER_PLAYMODE_FOLDER_NAME;
+	}
+
+	@Override
+	public Icon getIcon() {
+		return _menuIcon;
 	}
 
 }

@@ -33,7 +33,7 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 	/**
 	 * 
 	 */
-	public static final String CONST_APP_ICON = "evolutionBird.png";
+	public static final String CONST_APP_ICON = "gmail.png";
 	
 	/**
 	 * 
