@@ -296,7 +296,7 @@ public class Department{
 														
 														tasks.add(employeeTask);
 													} catch (GameException e) {
-														//Log
+														//TODO Log
 													}
         				}
         			}

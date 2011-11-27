@@ -5,6 +5,9 @@ package org.promasi.client_swing.gui.desktop.application.Scheduler;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
+
+import javax.swing.JPanel;
+
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
 import org.promasi.game.IGame;
@@ -35,6 +38,11 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 	
 	/**
 	 * 
+	 */
+	private JPanel _internalPanel;
+	
+	/**
+	 * 
 	 * @param game
 	 * @throws GuiException
 	 * @throws IOException
@@ -42,13 +50,22 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 	public SchedulerDesktopApplication( IGame game ) throws GuiException, IOException{
 		super(CONST_APPNAME, RootDirectory.getInstance().getImagesDirectory() + CONST_APP_ICON);
 		setLayout(new BorderLayout());
-		add( new SchedulerJPanel( game ), BorderLayout.CENTER);
+		_internalPanel = new JPanel();
+		_internalPanel.setLayout(new BorderLayout());
+		add(_internalPanel, BorderLayout.CENTER);
+		_internalPanel.add( new SchedulerJPanel( game , this), BorderLayout.CENTER);
 	}
 
 	@Override
-	public void createTask(String taskName, Task task) {
-		// TODO Auto-generated method stub
-		
+	public void setPanel(JPanel panel) {
+		if( panel != null ){
+			this.validate();
+			this.repaint();
+			_internalPanel.removeAll();
+			_internalPanel.add(panel, BorderLayout.CENTER);
+			_internalPanel.validate();
+			_internalPanel.repaint();
+		}
 	}
 
 }
