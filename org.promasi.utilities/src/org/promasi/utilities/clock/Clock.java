@@ -53,7 +53,7 @@ public final class Clock
     /**
      * The default value of the {@link #_speed}.
      */
-    private static final int DEFAULT_SPEED = 10000;
+    private static final int DEFAULT_SPEED = 1000;
 
     /**
      * Initializes the object. Sets the {@link #_fieldType} to minutes.
@@ -68,6 +68,13 @@ public final class Clock
 				boolean running = true;
 				while ( running ) {
 		            try{
+			            try{
+			            	 Thread.sleep( _speed );
+			            }catch ( InterruptedException e ){
+			                // Just warn no one is going to interrupt this thread.
+			                //LOGGER.warn( "An InterruptedException occured while the clock was waiting.", e );
+			            }
+			            
 		            	_lockObject.lock();
 		            	running = _isRunning;
 		                _currentDateTime=_currentDateTime.plusHours(1);
@@ -76,13 +83,6 @@ public final class Clock
 		            	}
 		            }finally{
 		            	_lockObject.unlock();
-		            }
-		            
-		            try{
-		            	 Thread.sleep( _speed );
-		            }catch ( InterruptedException e ){
-		                // Just warn no one is going to interrupt this thread.
-		                //LOGGER.warn( "An InterruptedException occured while the clock was waiting.", e );
 		            }
 		        }
 				
