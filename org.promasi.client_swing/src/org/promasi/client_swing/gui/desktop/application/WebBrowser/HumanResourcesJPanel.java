@@ -18,6 +18,7 @@ import javax.swing.SwingUtilities;
 import org.joda.time.DateTime;
 import org.promasi.client_swing.components.HtmlCellRenderer;
 import org.promasi.client_swing.gui.GuiException;
+import org.promasi.client_swing.gui.desktop.application.Employee;
 import org.promasi.game.IGame;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.DepartmentMemento;
@@ -124,7 +125,11 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 			Vector<Employee> dataSet = new Vector<Employee>();
 			for(Map.Entry<String,EmployeeMemento> entry : employees.entrySet() ){
 				if( entry.getValue() !=null && entry.getValue().getEmployeeId() != null ){
-					dataSet.add(new Employee(entry.getValue()));
+					try {
+						dataSet.add(new Employee(entry.getValue()));
+					} catch (GuiException e) {
+						// TODO log
+					}
 				}
 			}
 			

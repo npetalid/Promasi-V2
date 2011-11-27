@@ -17,6 +17,7 @@ import javax.swing.SwingUtilities;
 
 import org.promasi.client_swing.components.HtmlCellRenderer;
 import org.promasi.client_swing.gui.GuiException;
+import org.promasi.client_swing.gui.desktop.application.Employee;
 import org.promasi.game.IGame;
 import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.IMarketPlaceListener;
@@ -97,7 +98,11 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 					Vector<Employee> dataSet = new Vector<Employee>();
 					for(Map.Entry<String,EmployeeMemento> entry : marketPlace.getAvailableEmployees().entrySet() ){
 						if( entry.getValue() !=null && entry.getValue().getEmployeeId() != null ){
-							dataSet.add(new Employee(entry.getValue()));
+							try {
+								dataSet.add(new Employee(entry.getValue()));
+							} catch (GuiException e) {
+								// TODO log
+							}
 						}
 					}
 					

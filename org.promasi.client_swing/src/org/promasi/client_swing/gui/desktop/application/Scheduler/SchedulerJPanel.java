@@ -79,12 +79,7 @@ public class SchedulerJPanel extends JPanel implements ICompanyListener {
 	/**
 	 * 
 	 */
-	private ProjectMemento _project;
-	
-	/**
-	 * 
-	 */
-	private CompanyMemento _company;
+	private JPanel _taskPanel;
 	
 	/**
 	 * 
@@ -129,15 +124,12 @@ public class SchedulerJPanel extends JPanel implements ICompanyListener {
 		createButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				try {
-					_app.setPanel(new TaskJPanel(_game, _app, _company, _project, SchedulerJPanel.this));
-				} catch (GuiException e) {
-					//TODO Log
-				}
+				_app.setPanel(_taskPanel);
 			}
 		});
 		
 		add( wizardPanel, BorderLayout.SOUTH);
+		_taskPanel = new TaskJPanel(_game, _app, SchedulerJPanel.this);
 		_game.addCompanyListener(this);
 	}
 	
@@ -156,7 +148,6 @@ public class SchedulerJPanel extends JPanel implements ICompanyListener {
 							_ganttModel.setDeadline(time);
 							_projectAssignDate = dateTime;
 							_ganttChart.setModel(_ganttModel);
-							_project = project;
 						}finally{
 							_lockObject.unlock();
 						}
@@ -286,11 +277,5 @@ public class SchedulerJPanel extends JPanel implements ICompanyListener {
 
 	@Override
 	public void companyAssigned(String owner, CompanyMemento company) {
-		try{
-			_lockObject.lock();
-			_company = company;
-		}finally{
-			_lockObject.unlock();
-		}
 	}
 }

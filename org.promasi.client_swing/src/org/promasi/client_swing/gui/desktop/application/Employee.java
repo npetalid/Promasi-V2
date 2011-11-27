@@ -1,8 +1,9 @@
 /**
  * 
  */
-package org.promasi.client_swing.gui.desktop.application.WebBrowser;
+package org.promasi.client_swing.gui.desktop.application;
 
+import org.promasi.client_swing.gui.GuiException;
 import org.promasi.game.company.EmployeeMemento;
 
 /**
@@ -10,11 +11,22 @@ import org.promasi.game.company.EmployeeMemento;
  * @author alekstheod
  *
  */
-class Employee{
+public class Employee{
 	
+	/**
+	 * 
+	 */
 	private EmployeeMemento _employee;
 	
-	public Employee(EmployeeMemento employee ){ 
+	/**
+	 * 
+	 * @param employee
+	 */
+	public Employee(EmployeeMemento employee )throws GuiException{
+		if( employee == null ){
+			throw new GuiException("Wrong argument employee == null");
+		}
+		
 		_employee = employee;
 	}
 	
