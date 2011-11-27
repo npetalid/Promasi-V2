@@ -16,7 +16,7 @@ import org.promasi.utilities.file.RootDirectory;
  * @author alekstheod
  *
  */
-public class SchedulerDesktopApplication extends ADesktopApplication {
+public class SchedulerDesktopApplication extends ADesktopApplication implements ISchedulerApplication {
 
 	/**
 	 * 
@@ -43,6 +43,12 @@ public class SchedulerDesktopApplication extends ADesktopApplication {
 		super(CONST_APPNAME, RootDirectory.getInstance().getImagesDirectory() + CONST_APP_ICON);
 		setLayout(new BorderLayout());
 		add( new SchedulerJPanel( game ), BorderLayout.CENTER);
+	}
+
+	@Override
+	public void createTask(String taskName, Task task) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

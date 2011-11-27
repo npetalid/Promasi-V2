@@ -87,7 +87,7 @@ public class EmployeeTask
 	 * @return
 	 * @throws SerializationException
 	 */
-	public EmployeeTaskMemento getSerializableEmployeeTask(){
+	public EmployeeTaskMemento getMemento(){
 		return new EmployeeTaskMemento(this);
 	}
 	

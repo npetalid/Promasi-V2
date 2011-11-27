@@ -255,6 +255,7 @@ public class Department{
     	
     	try{
     		_lockObject.lock();
+    		DepartmentMemento memento = getMemento();
         	if(employeeId!=null && employeeTasks != null ){
         		List<EmployeeTask> tasks=new  LinkedList<EmployeeTask>();
         		try {
@@ -262,7 +263,12 @@ public class Department{
     	        		String taskName=employeeTask.getProjectTaskName();
     	    			ProjectTask projectTask=projectTasks.get(taskName);
     	    			if(_employees.containsKey(employeeId)){
-        	    			EmployeeTask task=new EmployeeTask(employeeTask.getTaskName(), employeeTask.getDependencies(), projectTask,employeeTask.getFirstStep(),employeeTask.getLastStep());
+        	    			EmployeeTask task=new EmployeeTask( employeeTask.getTaskName(), 
+							        	    					employeeTask.getDependencies(), 
+							        	    					projectTask,
+							        	    					employeeTask.getFirstStep(),
+							        	    					employeeTask.getLastStep());
+        	    			
         	    			result = tasks.add(task);
     	    			}
     	    		}
@@ -273,8 +279,58 @@ public class Department{
     				result = false;
     			}
         	}
+        	
+        	if( !result && setMemento(memento) ){
+        		for ( Map.Entry<String, EmployeeMemento> entry : memento.getEmployees().entrySet()){
+        			Employee employee = _employees.get(entry.getKey());
+        			List<EmployeeTask> tasks = new LinkedList<EmployeeTask>();
+        			for( Map.Entry<Integer, EmployeeTaskMemento> taskEntry : entry.getValue().getTasks().entrySet()){
+        				if( projectTasks.containsKey(taskEntry.getValue().getProjectTaskName())){
+				        							try {
+				        								EmployeeTaskMemento taskMemento = taskEntry.getValue();
+														EmployeeTask employeeTask = new EmployeeTask(taskMemento.getTaskName(), 
+														taskMemento.getDependencies(), 
+														projectTasks.get(taskMemento.getProjectTaskName()),
+														taskMemento.getFirstStep(), 
+														taskMemento.getLastStep());
+														
+														tasks.add(employeeTask);
+													} catch (GameException e) {
+														//Log
+													}
+        				}
+        			}
+        			
+        			employee.assignTasks(tasks);
+        		}
+        			
+        		for ( IDepartmentListener listener : _listeners ){
+        			listener.tasksAssignFailed(_director, memento);
+        		}
+        	}else{
+        		for ( IDepartmentListener listener : _listeners ){
+        			listener.tasksAssigned(_director, memento);
+        		}
+        	}
     	}finally{
     		_lockObject.unlock();
+    	}
+    	
+    	return result;
+    }
+    
+    /**
+     * 
+     * @param memento
+     */
+    public boolean setMemento(DepartmentMemento memento){
+    	boolean result = false;
+    	
+    	try{
+    		Department department = memento.getDepartment();
+    		this._employees = department._employees;
+    	}catch( SerializationException e){
+    		result = false;
     	}
     	
     	return result;

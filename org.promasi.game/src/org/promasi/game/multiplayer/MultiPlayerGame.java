@@ -548,4 +548,26 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public void tasksAssignFailed(String supervisor, EmployeeMemento employee,
+			List<EmployeeTaskMemento> employeeTasks) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void tasksAssigned(String director, DepartmentMemento department) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void tasksAssignFailed(String director, DepartmentMemento department) {
+		// TODO Auto-generated method stub
+		
+	}
 }

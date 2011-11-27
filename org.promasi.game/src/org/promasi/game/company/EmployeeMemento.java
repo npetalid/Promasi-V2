@@ -74,7 +74,7 @@ public class EmployeeMemento extends SerializableObject
     	
     	_tasks = new TreeMap<Integer, EmployeeTaskMemento>();
     	for(Map.Entry<Integer, EmployeeTask> entry : employee._employeeTasks.entrySet()){
-    		_tasks.put(entry.getKey(), entry.getValue().getSerializableEmployeeTask());
+    		_tasks.put(entry.getKey(), entry.getValue().getMemento());
     	}
     }
     
