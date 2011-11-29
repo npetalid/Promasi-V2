@@ -14,7 +14,7 @@ import org.promasi.game.company.EmployeeMemento;
  * @author alekstheod
  *
  */
-public class Task {
+public class ScheduledTask {
 	
 	/**
 	 * 
@@ -46,7 +46,7 @@ public class Task {
 	 * @param taskName
 	 * @param employees
 	 */
-	public Task( String taskName, Map<String, EmployeeMemento> employees, DateTime startTime, DateTime endTime, List<String> dependencies)throws GuiException{
+	public ScheduledTask( String taskName, Map<String, EmployeeMemento> employees, DateTime startTime, DateTime endTime, List<String> dependencies)throws GuiException{
 		if( taskName == null ){
 			throw new GuiException("Wrong argument taskName == null");
 		}

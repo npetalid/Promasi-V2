@@ -4,6 +4,9 @@
 package org.promasi.client_swing.gui.desktop.application.Scheduler;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
@@ -12,7 +15,10 @@ import java.util.Vector;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -32,6 +38,8 @@ import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.game.project.ProjectTaskMemento;
+
+import sun.font.FontStrike;
 
 /**
  * @author alekstheod
@@ -67,12 +75,22 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 	/**
 	 * 
 	 */
-	private JList _projectTasks;
+	private JComboBox _projectTasks;
+	
+	/**
+	 * 
+	 */
+	private JList _runningTasks;
 	
 	/**
 	 * 
 	 */
 	private Lock _lockObject;
+	
+	/**
+	 * 
+	 */
+	private JLabel _timeLabel;
 	
 	/**
 	 * 
@@ -122,7 +140,10 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 		add(tabbedPane);
 		
 		JPanel schedulerPanel = new JPanel();
+		schedulerPanel.setLayout(new BorderLayout());
 		tabbedPane.addTab("Scheduler", schedulerPanel);
+		_runningTasks = new JList();
+		schedulerPanel.add(_runningTasks, BorderLayout.CENTER);
 		
 		JPanel hrPanel = new JPanel();
 		hrPanel.setLayout(new BorderLayout());
@@ -133,10 +154,29 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 		_employeesList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		hrPanel.add(scrollPane, BorderLayout.CENTER);
 		
-		_projectTasks = new JList();
+		JPanel taskDesignPanel = new JPanel();
+		taskDesignPanel.setLayout(new BorderLayout());
+		
+		JPanel timePanel = new JPanel();
+		timePanel.setLayout(new GridLayout(4,1));
+		
+		_timeLabel = new JLabel("Time");
+		_timeLabel.setFont(new Font("Arial", Font.BOLD, 20));
+		_timeLabel.setPreferredSize(new Dimension(100, 50));
+		timePanel.add(_timeLabel);
+		schedulerPanel.add(timePanel, BorderLayout.EAST);
+		
+		_projectTasks = new JComboBox();
+		schedulerPanel.add(_projectTasks, BorderLayout.NORTH);
 		
 		add( tabbedPane, BorderLayout.CENTER);
+		
+		JPanel scheduledTaskNamePanel = new JPanel();
+		add(scheduledTaskNamePanel, BorderLayout.SOUTH);
+		scheduledTaskNamePanel.setBorder(BorderFactory.createTitledBorder("Task Name"));
+		
 		_game.addDepartmentListener(this);
+		_game.addCompanyListener(this);
 	}
 
 	@Override
@@ -228,14 +268,20 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 			
 			@Override
 			public void run() {
-				if( project != null && project.getProjectTasks() != null ){
-					Vector<String> tasks = new Vector<String>();
-					for(Map.Entry<String, ProjectTaskMemento> entry : project.getProjectTasks().entrySet() ){
-						tasks.add(entry.getValue().getName());
+				try{
+					_lockObject.lock();
+					if( project != null && project.getProjectTasks() != null ){
+						_projectTasks.removeAll();
+						for(Map.Entry<String, ProjectTaskMemento> entry : project.getProjectTasks().entrySet() ){
+							_projectTasks.addItem(new ProjectTask(entry.getValue()));
+						}
 					}
-					
-					_projectTasks.setListData(tasks);
+				} catch (GuiException e) {
+					//TODO log
+				} finally {
+					_lockObject.unlock();
 				}
+
 			}
 		});
 	}
@@ -243,8 +289,19 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 	@Override
 	public void projectFinished(String owner, CompanyMemento company,
 			ProjectMemento project, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				try{
+					_lockObject.lock();
+					_projectTasks.removeAll();
+				} finally {
+					_lockObject.unlock();
+				}
+
+			}
+		});
 	}
 
 	@Override
@@ -255,9 +312,21 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 	}
 
 	@Override
-	public void onExecuteWorkingStep(String owner, CompanyMemento company,
-			ProjectMemento assignedProject, DateTime dateTime) {
-		// TODO Auto-generated method stub
+	public void onExecuteWorkingStep(String owner, final CompanyMemento company,
+			final ProjectMemento assignedProject, final DateTime dateTime) {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				try{
+					_lockObject.lock();
+					_timeLabel.setText(dateTime.toString());
+				} finally {
+					_lockObject.unlock();
+				}
+
+			}
+		});
 		
 	}
 
