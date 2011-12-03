@@ -21,6 +21,8 @@ import org.promasi.game.project.Project;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.file.RootDirectory;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utilities.serialization.SerializationException;
 
 /**
@@ -28,8 +30,13 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class SinglePlayerGameBuilder
+public class SinglePlayerGameFolder
 {
+	/**
+	 * Logger
+	 */
+	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(SinglePlayerGameFolder.class);
+	
 	/**
 	 * 
 	 */
@@ -66,7 +73,8 @@ public class SinglePlayerGameBuilder
 	 * @throws NullArgumentException
 	 * @throws IOException 
 	 */
-	public SinglePlayerGameBuilder(final String gameFolderPath)throws GameException{
+	public SinglePlayerGameFolder(final String gameFolderPath)throws GameException{
+		CONST_LOGGER.info("Start reading game from : " + gameFolderPath);
 		if(gameFolderPath==null){
 			throw new GameException("Wrong argument gameFolderPath==null");
 		}
@@ -121,26 +129,29 @@ public class SinglePlayerGameBuilder
 
 		
 		if(company==null){
+			CONST_LOGGER.warn("unable to read company");
 			throw new GameException("Wrong gameFolderPath");
 		}
 		
 		if(marketPlace==null){
+			CONST_LOGGER.warn("unable to read marketplace");
 			throw new GameException("Wrong gameFolderPath");
 		}
 		
 		if(projects==null || projects.size()==0){
+			CONST_LOGGER.warn("unable to read projects");
 			throw new GameException("Wrong gameFolderPath");
 		}
 		
 		if(gameInfo==null){
+			CONST_LOGGER.warn("unable to read gameinfo");
 			throw new GameException("Wrong gameFolderPath");
 		}
 		
 		try {
 			_game=new GameModel(gameName, gameInfo, marketPlace, company, projects);
-		} catch (IllegalArgumentException e) {
-			throw new GameException("Wrong gameFolderPath");
 		} catch (GameException e) {
+			CONST_LOGGER.warn("unable to make game");
 			throw new GameException("Wrong gameFolderPath");
 		}
 	}

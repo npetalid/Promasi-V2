@@ -15,7 +15,7 @@ import org.promasi.game.IGame;
 import org.promasi.game.IGamesServer;
 import org.promasi.game.IGamesServerListener;
 import org.promasi.game.singleplayer.SinglePlayerGame;
-import org.promasi.game.singleplayer.SinglePlayerGameBuilder;
+import org.promasi.game.singleplayer.SinglePlayerGameFolder;
 import org.promasi.utilities.file.RootDirectory;
 
 /**
@@ -63,8 +63,8 @@ public class SinglePlayerGamesServer implements IGamesServer {
 				String gamesFolders[]=_gamesFolder.list();
 				for(int i=0;i<gamesFolders.length;i++){
 					try{
-						SinglePlayerGameBuilder builder;
-						builder = new SinglePlayerGameBuilder( _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + gamesFolders[i] );
+						SinglePlayerGameFolder builder;
+						builder = new SinglePlayerGameFolder( _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + gamesFolders[i] );
 						games.add( new SinglePlayerGame(this, builder.getGame() )  );
 					}catch (GameException e) {
 						// TODO Auto-generated catch block

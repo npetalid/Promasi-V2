@@ -121,17 +121,17 @@ public class EmployeeTask
 	 * @return
 	 */
 	public boolean conflictsWithTask(final EmployeeTask task){
-		boolean result = false;
-		if(_firstStep>task._firstStep && _firstStep<task._lastStep){
-			result = true;
+		boolean result = true;
+		if( _firstStep > task._firstStep && _firstStep < task._lastStep ){
+			result = false;
 		}
 		
-		if(_lastStep>task._firstStep && _lastStep<task._lastStep){
-			result = true;
+		if( _lastStep > task._firstStep && _lastStep < task._lastStep ){
+			result = false;
 		}
 		
 		if( task.getTaskName().equals(_taskName)){
-			result = true;
+			result = false;
 		}
 		
 		return result;

@@ -7,7 +7,8 @@ Bundle-Activator: org.promasi.utilities.Activator
 Require-Bundle: org.eclipse.core.runtime
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: org.joda.time,
+Export-Package: org.apache.log4j,
+ org.joda.time,
  org.joda.time.base,
  org.joda.time.chrono,
  org.joda.time.convert,
@@ -19,5 +20,6 @@ Export-Package: org.joda.time,
  org.promasi.utilities.exceptions,
  org.promasi.utilities.file,
  org.promasi.utilities.jodautils,
+ org.promasi.utilities.logger,
  org.promasi.utilities.serialization,
  org.promasi.utilities.ui
