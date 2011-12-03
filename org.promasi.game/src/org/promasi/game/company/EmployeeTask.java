@@ -85,6 +85,14 @@ public class EmployeeTask
 	/**
 	 * 
 	 * @return
+	 */
+	public String getTaskName(){
+		return _taskName;
+	}
+	
+	/**
+	 * 
+	 * @return
 	 * @throws SerializationException
 	 */
 	public EmployeeTaskMemento getMemento(){
@@ -113,15 +121,20 @@ public class EmployeeTask
 	 * @return
 	 */
 	public boolean conflictsWithTask(final EmployeeTask task){
+		boolean result = false;
 		if(_firstStep>task._firstStep && _firstStep<task._lastStep){
-			return true;
+			result = true;
 		}
 		
 		if(_lastStep>task._firstStep && _lastStep<task._lastStep){
-			return true;
+			result = true;
 		}
 		
-		return false;
+		if( task.getTaskName().equals(_taskName)){
+			result = true;
+		}
+		
+		return result;
 	}
 	
 	/**

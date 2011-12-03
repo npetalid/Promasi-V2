@@ -255,7 +255,6 @@ public class Department{
     	
     	try{
     		_lockObject.lock();
-    		DepartmentMemento memento = getMemento();
         	if(employeeId!=null && employeeTasks != null ){
         		List<EmployeeTask> tasks=new  LinkedList<EmployeeTask>();
         		try {
@@ -273,37 +272,15 @@ public class Department{
     	    			}
     	    		}
         		
-    	    		_employees.get(employeeId).removeAllTasks();
     				result &= _employees.get( employeeId ).assignTasks(tasks);
     			} catch (GameException e) {
     				result = false;
     			}
         	}
         	
-        	if( !result && setMemento(memento) ){
-        		for ( Map.Entry<String, EmployeeMemento> entry : memento.getEmployees().entrySet()){
-        			Employee employee = _employees.get(entry.getKey());
-        			List<EmployeeTask> tasks = new LinkedList<EmployeeTask>();
-        			for( Map.Entry<Integer, EmployeeTaskMemento> taskEntry : entry.getValue().getTasks().entrySet()){
-        				if( projectTasks.containsKey(taskEntry.getValue().getProjectTaskName())){
-				        							try {
-				        								EmployeeTaskMemento taskMemento = taskEntry.getValue();
-														EmployeeTask employeeTask = new EmployeeTask(taskMemento.getTaskName(), 
-														taskMemento.getDependencies(), 
-														projectTasks.get(taskMemento.getProjectTaskName()),
-														taskMemento.getFirstStep(), 
-														taskMemento.getLastStep());
-														
-														tasks.add(employeeTask);
-													} catch (GameException e) {
-														//TODO Log
-													}
-        				}
-        			}
-        			
-        			employee.assignTasks(tasks);
-        		}
-        			
+        	DepartmentMemento memento = getMemento();
+        	if( !result ){
+        		setMemento(memento) ;
         		for ( IDepartmentListener listener : _listeners ){
         			listener.tasksAssignFailed(_director, memento);
         		}
@@ -328,7 +305,7 @@ public class Department{
     	
     	try{
     		Department department = memento.getDepartment();
-    		this._employees = department._employees;
+    		_employees = department._employees;
     	}catch( SerializationException e){
     		result = false;
     	}

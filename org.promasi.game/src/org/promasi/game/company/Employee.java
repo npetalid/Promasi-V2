@@ -61,7 +61,7 @@ public class Employee
     /**
      * 
      */
-    protected Map<Integer ,EmployeeTask> _employeeTasks;
+    protected Map<String ,EmployeeTask> _employeeTasks;
     
     /**
      * 
@@ -112,7 +112,7 @@ public class Employee
         _salary=salary;
         _employeeSkills=employeeSkills;
         _lockObject = new ReentrantLock();
-        _employeeTasks=new TreeMap<Integer, EmployeeTask>();
+        _employeeTasks=new TreeMap<String, EmployeeTask>();
         _listeners = new LinkedList<IEmployeeListener>();
     }
 
@@ -201,46 +201,28 @@ public class Employee
     	try{
     		_lockObject.lock();
         	if(employeeTasks!=null){
+        		result = true;
             	for(EmployeeTask task : employeeTasks){
-                	for(Map.Entry<Integer , EmployeeTask> entry: _employeeTasks.entrySet()){
+                	for(Map.Entry<String , EmployeeTask> entry: _employeeTasks.entrySet()){
                 		if( entry.getValue().conflictsWithTask(task) ){
                 			result = false;
                 		}
                 	}
             	}
             	
-            	List<EmployeeTask> tmp=new LinkedList<EmployeeTask>(employeeTasks);
-            	for(EmployeeTask tmpTask : tmp){
-            		for(EmployeeTask employeeTask : employeeTasks){
-            			if(tmpTask!=employeeTask && tmpTask.conflictsWithTask(employeeTask)){
-            				result = false;
-            			}
-            		}
-            	}
-
-            	List<EmployeeTaskMemento> tasks=new LinkedList<EmployeeTaskMemento>();
-            	for(EmployeeTask task : employeeTasks){
-            		tasks.add( task.getMemento() );
-            	}
-            	
             	if( result ){
                 	for(EmployeeTask task : employeeTasks){
-                		tasks.add( task.getMemento() );
+                		_employeeTasks.put(task.getTaskName(), task);
                 	}
                 	
                 	for( IEmployeeListener listener : _listeners ){
-                		listener.taskAttached(_supervisor, getMemento(), tasks);
+                		listener.taskAssigned(_supervisor, getMemento());
                 	}
             		
             	}else{
                 	for( IEmployeeListener listener : _listeners ){
-                		listener.tasksAssignFailed(_supervisor, getMemento(), tasks);
+                		listener.tasksAssignFailed(_supervisor, getMemento());
                 	}
-            	}
-            	
-            	for(EmployeeTask task : employeeTasks){
-            		_employeeTasks.put(task.getFirstStep(), task);
-            		tasks.add( task.getMemento() );
             	}
         	}
     	}finally{
@@ -258,7 +240,7 @@ public class Employee
     	boolean result = false;
     	try{
     		_lockObject.lock();
-        	for(Map.Entry<Integer , EmployeeTask> entry : _employeeTasks.entrySet()){
+        	for(Map.Entry<String , EmployeeTask> entry : _employeeTasks.entrySet()){
         		result = true;
     			for ( IEmployeeListener listener : _listeners ){
     				listener.taskDetached(_supervisor, getMemento(), entry.getValue().getMemento());
@@ -314,8 +296,8 @@ public class Employee
     	try{
     		_lockObject.lock();
         	if(!_employeeTasks.isEmpty()){
-            	Map<Integer, EmployeeTask> employeeTasks=new TreeMap<Integer, EmployeeTask> ();
-            	for(Map.Entry<Integer ,EmployeeTask> entry: _employeeTasks.entrySet()){
+            	Map<String, EmployeeTask> employeeTasks=new TreeMap<String, EmployeeTask> ();
+            	for(Map.Entry<String ,EmployeeTask> entry: _employeeTasks.entrySet()){
             		try{
             			entry.getValue().executeTask(_employeeSkills, currentStep);
             			if(entry.getValue().isValid(currentStep)){

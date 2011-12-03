@@ -498,7 +498,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void taskAttached(String supervisor,EmployeeMemento employee,List<EmployeeTaskMemento> employeeTask) {
+	public void taskAssigned(String supervisor,EmployeeMemento employee) {
 		// TODO Auto-generated method stub
 	}
 
@@ -551,8 +551,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void tasksAssignFailed(String supervisor, EmployeeMemento employee,
-			List<EmployeeTaskMemento> employeeTasks) {
+	public void tasksAssignFailed(String supervisor, EmployeeMemento employee) {
 		// TODO Auto-generated method stub
 		
 	}

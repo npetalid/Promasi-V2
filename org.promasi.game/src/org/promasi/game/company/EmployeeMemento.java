@@ -45,7 +45,7 @@ public class EmployeeMemento extends SerializableObject
     /**
 	 * 
 	 */
-	private Map<Integer, EmployeeTaskMemento> _tasks;
+	private Map<String, EmployeeTaskMemento> _tasks;
     
     /**
      * 
@@ -72,8 +72,8 @@ public class EmployeeMemento extends SerializableObject
     	_lastName=employee.getLastName();
     	_employeeId=employee.getEmployeeId();
     	
-    	_tasks = new TreeMap<Integer, EmployeeTaskMemento>();
-    	for(Map.Entry<Integer, EmployeeTask> entry : employee._employeeTasks.entrySet()){
+    	_tasks = new TreeMap<String, EmployeeTaskMemento>();
+    	for(Map.Entry<String, EmployeeTask> entry : employee._employeeTasks.entrySet()){
     		_tasks.put(entry.getKey(), entry.getValue().getMemento());
     	}
     }
@@ -200,7 +200,7 @@ public class EmployeeMemento extends SerializableObject
 	 * 
 	 * @param tasks
 	 */
-	public void setTasks( Map<Integer, EmployeeTaskMemento> tasks){
+	public void setTasks( Map<String, EmployeeTaskMemento> tasks){
 		_tasks = tasks;
 	}
 	
@@ -208,7 +208,7 @@ public class EmployeeMemento extends SerializableObject
 	 * 
 	 * @return
 	 */
-	public Map<Integer, EmployeeTaskMemento> getTasks(){
+	public Map<String, EmployeeTaskMemento> getTasks(){
 		return _tasks;
 	}
 }

@@ -333,7 +333,7 @@ public class ProjectTask
     public boolean isValidTask(){
     	try{
     		_lockObject.lock();
-    		return _progress >= CONST_PROGRESS_MAX_VALUE;
+    		return _progress <= CONST_PROGRESS_MAX_VALUE;
     	}finally{
     		_lockObject.unlock();
     	}
