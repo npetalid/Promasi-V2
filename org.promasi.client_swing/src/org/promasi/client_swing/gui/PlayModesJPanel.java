@@ -16,8 +16,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.promasi.client_swing.components.ExtendedJEditorPane;
-import org.promasi.client_swing.components.MenuCellRenderer;
+import org.promasi.client_swing.components.JEditorPane.ExtendedJEditorPane;
+import org.promasi.client_swing.components.JList.MenuCellRenderer;
 import org.promasi.client_swing.playmode.IPlayMode;
 import org.promasi.client_swing.playmode.multiplayer.MultiPlayerPlayMode;
 import org.promasi.client_swing.playmode.singleplayer.SinglePlayerPlayMode;

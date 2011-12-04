@@ -1,12 +1,14 @@
 /**
  * 
  */
-package org.promasi.client_swing.components;
+package org.promasi.client_swing.components.JList;
 
 import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+
+import org.promasi.client_swing.components.JEditorPane.ExtendedJEditorPane;
 
 /**
  * @author alekstheod

@@ -1,4 +1,4 @@
-package org.promasi.client_swing.components;
+package org.promasi.client_swing.components.JEditorPane;
 
 import javax.swing.JEditorPane;
 

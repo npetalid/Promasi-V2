@@ -218,4 +218,10 @@ public class SchedulerJPanel extends JPanel implements ICompanyListener, IDepart
 			_lockObject.unlock();
 		}	
 	}
+
+	@Override
+	public void departmentAssigned(String director, DepartmentMemento department) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -1,4 +1,4 @@
-package org.promasi.client_swing.components;
+package org.promasi.client_swing.components.JEditorPane;
 
 import java.awt.Image;
 import java.io.ByteArrayInputStream;
@@ -14,6 +14,7 @@ import javax.swing.text.Element;
 import javax.swing.text.html.ImageView;
 
 import org.apache.commons.codec.binary.Base64;
+import org.promasi.client_swing.components.ComponentException;
 
 /**
  * 

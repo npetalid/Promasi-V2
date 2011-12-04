@@ -6,10 +6,7 @@ package org.promasi.client_swing.gui.desktop.taskbar;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -18,13 +15,12 @@ import java.util.Vector;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import org.promasi.client_swing.components.MenuCellRenderer;
+import org.promasi.client_swing.components.JList.MenuCellRenderer;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
@@ -64,11 +60,6 @@ public class StartMenuJPanel extends JPanel {
 	 * 
 	 */
 	private JList _appList;
-	
-	/**
-	 * 
-	 */
-	private IGame _game;
 	
 	/**
 	 * Constructor.
@@ -134,30 +125,14 @@ public class StartMenuJPanel extends JPanel {
 		});
 		
 		_appList.addMouseListener(new MouseListener() {
-			
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mouseReleased(MouseEvent e) {}
 			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mousePressed(MouseEvent e) {}
 			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
+			public void mouseExited(MouseEvent e) {}
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
+			public void mouseEntered(MouseEvent e) {}
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -166,8 +141,6 @@ public class StartMenuJPanel extends JPanel {
 				_desktop.runApplication(app);
 			}
 		});
-		
-		_game = game;
 	}
 
 }

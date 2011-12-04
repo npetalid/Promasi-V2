@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.promasi.client_swing.components;
+package org.promasi.client_swing.components.JList;
 
 import java.awt.Component;
 import java.awt.Dimension;

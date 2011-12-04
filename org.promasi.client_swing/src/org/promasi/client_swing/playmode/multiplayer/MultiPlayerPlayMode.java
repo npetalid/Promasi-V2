@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.promasi.client_swing.components.IMenuEntry;
+import org.promasi.client_swing.components.JList.IMenuEntry;
 import org.promasi.client_swing.gui.IMainFrame;
 import org.promasi.client_swing.playmode.IPlayMode;
 import org.promasi.utilities.file.RootDirectory;

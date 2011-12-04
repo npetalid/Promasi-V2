@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.promasi.client_swing.components;
+package org.promasi.client_swing.components.JEditorPane;
 
 import javax.swing.text.ViewFactory;
 import javax.swing.text.html.HTMLEditorKit;

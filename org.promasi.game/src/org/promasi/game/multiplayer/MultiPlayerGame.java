@@ -569,4 +569,11 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		// TODO Auto-generated method stub
 		
 	}
+
+
+	@Override
+	public void departmentAssigned(String director, DepartmentMemento department) {
+		// TODO Auto-generated method stub
+		
+	}
 }

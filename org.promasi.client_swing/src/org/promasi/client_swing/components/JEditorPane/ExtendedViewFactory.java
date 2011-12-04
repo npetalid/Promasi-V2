@@ -1,13 +1,15 @@
 /**
  * 
  */
-package org.promasi.client_swing.components;
+package org.promasi.client_swing.components.JEditorPane;
 
 import javax.swing.text.Element;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 import javax.swing.text.html.HTMLEditorKit.HTMLFactory;
 import javax.swing.text.html.ImageView;
+
+import org.promasi.client_swing.components.ComponentException;
 
 
 /**

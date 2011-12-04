@@ -16,7 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
-import org.promasi.client_swing.components.HtmlCellRenderer;
+import org.promasi.client_swing.components.JList.HtmlCellRenderer;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.application.Employee;
 import org.promasi.game.IGame;
@@ -173,6 +173,13 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 
 	@Override
 	public void tasksAssignFailed(String director, DepartmentMemento department) {
+		if( department != null ){
+			updateEmployeeList(department.getEmployees());
+		}
+	}
+
+	@Override
+	public void departmentAssigned(String director, DepartmentMemento department) {
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}

@@ -35,4 +35,11 @@ public interface IDepartmentListener {
 	 * @param department
 	 */
 	public void tasksAssignFailed( String director, DepartmentMemento department );
+	
+	/**
+	 * 
+	 * @param director
+	 * @param department
+	 */
+	public void departmentAssigned( String director, DepartmentMemento department );
 }

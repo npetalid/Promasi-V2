@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.promasi.client_swing.components.IMenuEntry;
+import org.promasi.client_swing.components.JList.IMenuEntry;
 import org.promasi.client_swing.gui.GamesJPanel;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.IMainFrame;
