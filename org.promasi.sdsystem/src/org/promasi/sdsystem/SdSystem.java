@@ -16,6 +16,8 @@ import org.promasi.sdsystem.sdobject.OutputSdObject;
 import org.promasi.sdsystem.sdobject.StockSdObject;
 import org.promasi.sdsystem.sdobject.TimeSdObject;
 import org.promasi.utilities.exceptions.NullArgumentException;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utilities.serialization.SerializationException;
 
 /**
@@ -25,6 +27,11 @@ import org.promasi.utilities.serialization.SerializationException;
  */
 public class SdSystem
 {
+	/**
+	 * 
+	 */
+	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(SdSystem.class);
+	
 	/**
 	 * 
 	 */
@@ -123,7 +130,7 @@ public class SdSystem
 			}
 			
 			for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
-				System.out.print(String.format("%S, %.2f\n", entry.getKey(), entry.getValue().getValue()));
+				CONST_LOGGER.debug(String.format("SdObject : %S, %.2f", entry.getKey(), entry.getValue().getValue()));
 			}
 			
 			ISdObject time=_sdObjects.get(CONST_TIME_SDOBJECT_NAME);

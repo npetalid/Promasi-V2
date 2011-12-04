@@ -16,6 +16,8 @@ import javax.swing.SwingUtilities;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.MainFrame;
 import org.promasi.client_swing.gui.PlayModesJPanel;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 
 import GameBuilder.GameMaker;
 
@@ -24,11 +26,17 @@ import GameBuilder.GameMaker;
  *
  */
 public class Application {
-
+	
+	/**
+	 * Logger
+	 */
+	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(Application.class);
+	
 	/**
 	 * @param args 
 	 */
 	public static void main(String[] args) {
+		CONST_LOGGER.info("Start application");
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 				try {

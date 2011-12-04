@@ -24,6 +24,8 @@ import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.clock.Clock;
 import org.promasi.utilities.clock.IClockListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utilities.serialization.SerializationException;
 
 /**
@@ -32,6 +34,11 @@ import org.promasi.utilities.serialization.SerializationException;
  */
 public class SinglePlayerGame implements IGame, IClockListener, IGameModelListener
 {
+	/**
+	 * Logger
+	 */
+	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(SinglePlayerGame.class);
+	
 	/**
 	 * 
 	 */
@@ -191,6 +198,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 			_lockObject.unlock();
 		}
 
+		CONST_LOGGER.info("SinglePlayer game started");
 		return true;
 	}
 	

@@ -10,6 +10,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.GameException;
 import org.promasi.utilities.exceptions.NullArgumentException;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utilities.serialization.SerializationException;
 
 /**
@@ -20,6 +22,11 @@ import org.promasi.utilities.serialization.SerializationException;
  */
 public class Project
 {
+	/**
+	 * 
+	 */
+	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(Project.class);
+	
 	/**
 	 * The main task name.
 	 */
@@ -206,10 +213,12 @@ public class Project
     		_lockObject.lock();
         	if( _projectDuration>_currentStep ){
             	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
-            		System.out.print(String.format("\n\nExecuting ProjectTask : %s\n", entry.getKey()) );
+            		entry.getValue().executeTask(_currentStep);
+            		CONST_LOGGER.info("Executing ProjectTask : " + entry.getKey());
             	}
             	
             	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
+            		CONST_LOGGER.info("Executing TaskBridges for task : " + entry.getKey());
             		entry.getValue().executeBridges();
             	}
 
