@@ -54,6 +54,7 @@ public class CheckBoxCellRenderer extends DefaultListCellRenderer {
 		_panel.add(_htmlPane, BorderLayout.CENTER);
 		
 		_checkBox = new JCheckBox();
+		_checkBox.setSelected(false);
 		_panel.add(_checkBox, BorderLayout.EAST);
 	}
 
@@ -61,10 +62,10 @@ public class CheckBoxCellRenderer extends DefaultListCellRenderer {
 	 * 
 	 */
 	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
-		if( isSelected && (value instanceof CheckBoxListEntry)){
+		if(value instanceof CheckBoxListEntry ){
 			CheckBoxListEntry entry = (CheckBoxListEntry)value;
-			_checkBox.setSelected(entry.isSelected());
 			_htmlPane.setText(entry.toString());
+			_checkBox.setSelected(entry.isSelected());
 		}else{
 			_htmlPane.setText( value.toString() );
 		}

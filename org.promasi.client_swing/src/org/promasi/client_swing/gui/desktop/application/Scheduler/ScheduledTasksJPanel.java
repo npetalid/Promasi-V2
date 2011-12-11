@@ -149,7 +149,7 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 							
 							List<CheckBoxListEntry> tasks = new LinkedList<CheckBoxListEntry>();
 							for( Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet()){
-								tasks.add(new CheckBoxListEntry(entry.getValue(), entry.getKey()));
+								tasks.add(new CheckBoxListEntry(entry.getValue(), entry.getValue().getTaskName()));
 							}
 							
 							_tasksList.setListData(tasks.toArray());

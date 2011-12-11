@@ -174,12 +174,12 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				String taskName = _taskNameField.getText();
-				ProjectTaskMemento prjMemento = (ProjectTaskMemento) _projectTasks.getSelectedItem();
+				ProjectTask prjTask = (ProjectTask) _projectTasks.getSelectedItem();
 				EmployeeTaskMemento memento = new EmployeeTaskMemento();
 				memento.setFirstStep(_durationPanel.getFirstStep());
 				memento.setLastStep(_durationPanel.getLastStep());
 				memento.setDependencies(new LinkedList<String>());
-				memento.setProjectTaskName(prjMemento.getName());
+				memento.setProjectTaskName(prjTask.toString());
 				memento.setTaskName(taskName);
 				
 				Map<String, List<EmployeeTaskMemento> > tasks = new TreeMap<String, List<EmployeeTaskMemento> >();

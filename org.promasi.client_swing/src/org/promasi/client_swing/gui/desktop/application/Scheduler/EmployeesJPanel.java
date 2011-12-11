@@ -13,7 +13,6 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JPanel;
-
 import org.promasi.client_swing.components.JList.CheckBoxCellRenderer;
 import org.promasi.client_swing.components.JList.CheckBoxListEntry;
 import org.promasi.client_swing.gui.GuiException;
@@ -69,8 +68,7 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				CheckBoxListEntry entry = (CheckBoxListEntry)_employeesList.getSelectedValue();
-				entry.onSelect();
-				_employeesList.repaint();
+				entry.onClick();
 			}
 		});
 		

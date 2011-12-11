@@ -53,7 +53,7 @@ public class CheckBoxListEntry{
 	/**
 	 * 
 	 */
-	public void onSelect(){
+	public void onClick(){
 		_isSelected = !_isSelected;
 	}
 	
