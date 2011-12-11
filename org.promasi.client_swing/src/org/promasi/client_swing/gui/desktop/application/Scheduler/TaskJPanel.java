@@ -5,10 +5,13 @@ package org.promasi.client_swing.gui.desktop.application.Scheduler;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -21,12 +24,12 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
-import org.jdesktop.swingx.JXDatePicker;
 import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.game.IGame;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.DepartmentMemento;
+import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
@@ -84,22 +87,22 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 	/**
 	 * 
 	 */
-	private JXDatePicker _startDatePicket;
-	
-	/**
-	 * 
-	 */
-	private JXDatePicker _endDatePicket;
-	
-	/**
-	 * 
-	 */
-	private DateTime _projectAssignDate;
-	
-	/**
-	 * 
-	 */
 	private GanttScheduler _scheduler;
+	
+	/**
+	 * 
+	 */
+	private EmployeesJPanel _employeesPanel;
+	
+	/**
+	 * 
+	 */
+	private DurationJPanel _durationPanel;
+	
+	/**
+	 * 
+	 */
+	private ScheduledTasksJPanel _tasksPanel;
 	
 	/**
 	 * 
@@ -140,33 +143,14 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 		JPanel hrPanel = new JPanel();
 		hrPanel.setLayout(new BorderLayout());
 		tabbedPane.addTab("Human Resources", hrPanel);
-		JScrollPane scrollPane = new JScrollPane(new EmployeesJPanel(game));
+		_employeesPanel = new EmployeesJPanel(game);
+		JScrollPane scrollPane = new JScrollPane(_employeesPanel);
 		hrPanel.add(scrollPane, BorderLayout.CENTER);
 		
 		
 		JPanel taskDesignPanel = new JPanel();
 		taskDesignPanel.setLayout(new BorderLayout());
-		
-		//Setup time settings panel
-		JPanel timePanel = new JPanel();
-		timePanel.setLayout(new BorderLayout());
-		
-		JPanel startDatePanel = new JPanel();
-		startDatePanel.setLayout(new BorderLayout());
-		_startDatePicket = new JXDatePicker();
-		startDatePanel.add(_startDatePicket, BorderLayout.NORTH);
-		startDatePanel.setBorder(BorderFactory.createTitledBorder("Start at"));
-		timePanel.add(startDatePanel, BorderLayout.NORTH);
-		schedulerPanel.add(timePanel, BorderLayout.EAST);
-		timePanel.setBorder(BorderFactory.createTitledBorder("Time scheduler"));
-		
-		JPanel endDatePanel = new JPanel();
-		endDatePanel.setLayout(new BorderLayout());
-		_endDatePicket = new JXDatePicker();
-		endDatePanel.add(_endDatePicket, BorderLayout.CENTER);
-		endDatePanel.setBorder(BorderFactory.createTitledBorder("End at"));
-		timePanel.add(endDatePanel, BorderLayout.SOUTH);
-		
+
 		//Setup project tasks
 		JPanel prjTasksPanel = new JPanel();
 		_projectTasks = new JComboBox();
@@ -192,15 +176,21 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 				String taskName = _taskNameField.getText();
 				ProjectTaskMemento prjMemento = (ProjectTaskMemento) _projectTasks.getSelectedItem();
 				EmployeeTaskMemento memento = new EmployeeTaskMemento();
-				memento.setFirstStep(33);
-				memento.setLastStep(1000);
+				memento.setFirstStep(_durationPanel.getFirstStep());
+				memento.setLastStep(_durationPanel.getLastStep());
 				memento.setDependencies(new LinkedList<String>());
 				memento.setProjectTaskName(prjMemento.getName());
 				memento.setTaskName(taskName);
-				//Employee employee = (Employee)_employeesList.getSelectedValue();
-				//List<EmployeeTaskMemento> tasks = new LinkedList<EmployeeTaskMemento>();
-				//tasks.add(memento);
-				//_game.assignTasks(employee.getEmployeeMemento().getEmployeeId(), tasks );
+				
+				Map<String, List<EmployeeTaskMemento> > tasks = new TreeMap<String, List<EmployeeTaskMemento> >();
+				Map<String, EmployeeMemento> selectedEmployees = _employeesPanel.getSelectedEmployees();
+				for( Map.Entry<String, EmployeeMemento> entry : selectedEmployees.entrySet()){
+					List<EmployeeTaskMemento> tasksList = new LinkedList<EmployeeTaskMemento>();
+					tasksList.add(memento);
+					tasks.put(entry.getKey(), tasksList);
+					tasksList.add(memento);
+					_game.assignTasks(tasks);
+				}
 			}
 		});
 		
@@ -218,16 +208,19 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 		taskNamePanel.setBorder(BorderFactory.createTitledBorder("Task Name"));
 		taskNamePanel.setLayout(new BorderLayout());
 		_taskNameField = new JTextField();
+		_taskNameField.setFont(new Font("Arial", 0, 25));
 		taskNamePanel.add(_taskNameField, BorderLayout.CENTER);
 		
-		bottomPanel.add(taskNamePanel, BorderLayout.NORTH);
+		_durationPanel = new DurationJPanel(game);
+		bottomPanel.add(taskNamePanel, BorderLayout.CENTER);
+		bottomPanel.add(_durationPanel, BorderLayout.EAST);
 		bottomPanel.add(controlPanel, BorderLayout.SOUTH);
 		add(bottomPanel, BorderLayout.SOUTH);
 		
 		// Setup scheduled tasks
-		ScheduledTasksJPanel tasksPanel = new ScheduledTasksJPanel(game);
-		schedulerPanel.add(tasksPanel, BorderLayout.WEST);
-		tasksPanel.setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height));
+		_tasksPanel = new ScheduledTasksJPanel(game);
+		schedulerPanel.add(_tasksPanel, BorderLayout.WEST);
+		_tasksPanel.setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height));
 		
 		JPanel ganttPanel = new JPanel();
 		ganttPanel.setLayout(new BorderLayout());
@@ -276,8 +269,6 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 								}
 							}
 						}
-						
-						_projectAssignDate = dateTime;
 					}finally{
 						_lockObject.unlock();
 					}
@@ -305,14 +296,12 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 	}
 
 	@Override
-	public void companyIsInsolvent(String owner, CompanyMemento company,
-			ProjectMemento assignedProject, DateTime dateTime) {
+	public void companyIsInsolvent(String owner, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime) {
 		projectFinished(owner, company, assignedProject, dateTime);
 	}
 	
 	@Override
-	public void onExecuteWorkingStep(String owner, final CompanyMemento company,
-			final ProjectMemento assignedProject, final DateTime dateTime) {}
+	public void onExecuteWorkingStep(String owner, final CompanyMemento company, final ProjectMemento assignedProject, final DateTime dateTime) {}
 	@Override
 	public void companyAssigned(String owner, CompanyMemento company) {}
 	@Override

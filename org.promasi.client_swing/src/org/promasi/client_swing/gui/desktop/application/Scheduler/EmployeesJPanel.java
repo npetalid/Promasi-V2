@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -39,6 +40,11 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 	
 	/**
 	 * 
+	 */
+	private Map<String, CheckBoxListEntry> _employees;
+	
+	/**
+	 * 
 	 * @param game
 	 */
 	public EmployeesJPanel(IGame game)throws GuiException{
@@ -48,6 +54,7 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 		
 		setLayout(new BorderLayout());
 		_employeesList= new JList();
+		_employees= new TreeMap<String, CheckBoxListEntry>();
 		_employeesList.setCellRenderer(new CheckBoxCellRenderer());
 		_employeesList.addMouseListener(new MouseListener() {
 			@Override
@@ -78,10 +85,13 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 	 */
 	private void updateEmployeeList( final Map<String, EmployeeMemento> employees ){
 		if( employees != null ){
+			_employees.clear();
 			Vector<CheckBoxListEntry> dataSet = new Vector<CheckBoxListEntry>();
 			for(Map.Entry<String,EmployeeMemento> entry : employees.entrySet() ){
 				if( entry.getValue() !=null && entry.getValue().getEmployeeId() != null ){
-					dataSet.add(new CheckBoxListEntry(entry.getValue(), entry.getValue().getCurriculumVitae()));
+					CheckBoxListEntry newEntry = new CheckBoxListEntry(entry.getValue(), entry.getValue().getCurriculumVitae());
+					dataSet.add(newEntry);
+					_employees.put(entry.getKey(), newEntry);
 				}
 			}
 			
@@ -122,5 +132,21 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Map<String, EmployeeMemento> getSelectedEmployees(){
+		Map<String, EmployeeMemento> result = new TreeMap<String, EmployeeMemento>();
+		
+		for(Map.Entry<String, CheckBoxListEntry> entry : _employees.entrySet()){
+			if( entry.getValue().isSelected() ){
+				result.put(entry.getKey(), (EmployeeMemento)entry.getValue().getObject());
+			}
+		}
+		
+		return result;
 	}
 }

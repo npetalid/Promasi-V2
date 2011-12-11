@@ -6,6 +6,7 @@ package org.promasi.game.singleplayer;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -134,12 +135,14 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public boolean assignTasks(String employeeId, List<EmployeeTaskMemento> employeeTasks) {
-		boolean result = false;
+	public boolean assignTasks(final Map<String, List<EmployeeTaskMemento> > employeeTasks) {
+		boolean result = true;
 		try
 		{
 			_lockObject.lock();
-			result =_gameModel.assignTasks(employeeId, employeeTasks);
+			for( Map.Entry<String, List<EmployeeTaskMemento> > entry : employeeTasks.entrySet()){
+				result &=_gameModel.assignTasks(entry.getKey(), entry.getValue());
+			}
 		}finally{
 			_lockObject.unlock();
 		}

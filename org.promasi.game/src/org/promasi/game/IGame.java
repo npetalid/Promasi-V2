@@ -2,6 +2,7 @@ package org.promasi.game;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.EmployeeTaskMemento;
@@ -41,7 +42,7 @@ public interface IGame
 	 * @param employeeTasks
 	 * @return
 	 */
-	public boolean assignTasks(final String employeeId, List<EmployeeTaskMemento> employeeTasks);
+	public boolean assignTasks(final Map<String, List<EmployeeTaskMemento> > employeeTasks);
 	
 	/**
 	 * 

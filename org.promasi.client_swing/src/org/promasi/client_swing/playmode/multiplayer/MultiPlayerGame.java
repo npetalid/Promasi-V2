@@ -5,6 +5,7 @@ package org.promasi.client_swing.playmode.multiplayer;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.promasi.game.GameException;
 import org.promasi.game.IGame;
@@ -40,7 +41,7 @@ public class MultiPlayerGame implements IGame {
 	}
 
 	@Override
-	public boolean assignTasks(String employeeId, List<EmployeeTaskMemento> employeeTasks) {
+	public boolean assignTasks(Map<String , List<EmployeeTaskMemento> > employeeTasks) {
 		// TODO Auto-generated method stub
 		return false;
 	}

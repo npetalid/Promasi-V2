@@ -70,6 +70,23 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 		game.addCompanyListener(this);
 		game.addDepartmentListener(this);
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<String> getRunningTasks(){
+		List<String> result = new LinkedList<String>();
+		
+		try{
+			_lockObject.lock();
+			
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
+	}
 
 	@Override
 	public void projectAssigned(String owner, CompanyMemento company,
