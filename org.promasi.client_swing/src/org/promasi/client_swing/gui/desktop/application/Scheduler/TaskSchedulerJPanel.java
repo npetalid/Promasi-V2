@@ -42,12 +42,12 @@ import org.promasi.utilities.logger.LoggerFactory;
  * @author alekstheod
  *
  */
-public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentListener{
+public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDepartmentListener{
 
 	/**
 	 * 
 	 */
-	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(TaskJPanel.class);
+	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(TaskSchedulerJPanel.class);
 	
 	/**
 	 * 
@@ -110,7 +110,7 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 	 * @param app
 	 * @throws GuiException
 	 */
-	public TaskJPanel( IGame game, ISchedulerApplication app, JPanel prevPanel)throws GuiException{
+	public TaskSchedulerJPanel( IGame game, ISchedulerApplication app, JPanel prevPanel)throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
 		}
@@ -178,7 +178,7 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 				EmployeeTaskMemento memento = new EmployeeTaskMemento();
 				memento.setFirstStep(_durationPanel.getFirstStep());
 				memento.setLastStep(_durationPanel.getLastStep());
-				memento.setDependencies(new LinkedList<String>());
+				memento.setDependencies(_tasksPanel.getSelectedDependencies());
 				memento.setProjectTaskName(prjTask.toString());
 				memento.setTaskName(taskName);
 				

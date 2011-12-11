@@ -69,6 +69,7 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 			public void mouseClicked(MouseEvent arg0) {
 				CheckBoxListEntry entry = (CheckBoxListEntry)_employeesList.getSelectedValue();
 				entry.onClick();
+				_employeesList.repaint();
 			}
 		});
 		

@@ -95,7 +95,7 @@ public class SchedulerJPanel extends JPanel implements ICompanyListener, IDepart
 		
 		add(_scheduler, BorderLayout.CENTER);
 		add( wizardPanel, BorderLayout.SOUTH);
-		_taskPanel = new TaskJPanel(game, _app, SchedulerJPanel.this);
+		_taskPanel = new TaskSchedulerJPanel(game, _app, SchedulerJPanel.this);
 		_needToUpdateCompany = true;
 		game.addCompanyListener(this);
 		game.addDepartmentListener(this);

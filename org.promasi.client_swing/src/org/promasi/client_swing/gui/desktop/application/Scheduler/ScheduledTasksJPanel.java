@@ -4,6 +4,8 @@
 package org.promasi.client_swing.gui.desktop.application.Scheduler;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +55,11 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 	/**
 	 * 
 	 */
+	private Map<String, CheckBoxListEntry> _tasks;
+	
+	/**
+	 * 
+	 */
 	private Lock _lockObject;
 	
 	/**
@@ -60,8 +67,26 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 	 */
 	public ScheduledTasksJPanel(IGame game){
 		_tasksList = new JList();
+		_tasks= new TreeMap<String, CheckBoxListEntry>();
 		_tasksList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		_tasksList.setCellRenderer(new CheckBoxCellRenderer());
+		_tasksList.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
+			@Override
+			public void mousePressed(MouseEvent arg0) {}
+			@Override
+			public void mouseExited(MouseEvent arg0) {}
+			@Override
+			public void mouseEntered(MouseEvent arg0) {}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				CheckBoxListEntry entry = (CheckBoxListEntry)_tasksList.getSelectedValue();
+				entry.onClick();
+				_tasksList.repaint();
+			}
+		});
+		
 		setLayout(new BorderLayout());
 		add(_tasksList, BorderLayout.CENTER);
 		_lockObject = new ReentrantLock();
@@ -75,12 +100,16 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 	 * 
 	 * @return
 	 */
-	public List<String> getRunningTasks(){
+	public List<String> getSelectedDependencies(){
 		List<String> result = new LinkedList<String>();
 		
 		try{
 			_lockObject.lock();
-			
+			for( Map.Entry<String, CheckBoxListEntry> entry : _tasks.entrySet()){
+				if( entry.getValue().isSelected() ){
+					result.add(entry.getKey());
+				}
+			}
 		}finally{
 			_lockObject.unlock();
 		}
@@ -147,9 +176,12 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 								}
 							}
 							
+							_tasks.clear();
 							List<CheckBoxListEntry> tasks = new LinkedList<CheckBoxListEntry>();
 							for( Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet()){
-								tasks.add(new CheckBoxListEntry(entry.getValue(), entry.getValue().getTaskName()));
+								CheckBoxListEntry taskEntry = new CheckBoxListEntry(entry.getValue(), entry.getValue().getTaskName());
+								tasks.add(taskEntry);
+								_tasks.put(entry.getKey(), taskEntry);
 							}
 							
 							_tasksList.setListData(tasks.toArray());
