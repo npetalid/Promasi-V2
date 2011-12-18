@@ -154,6 +154,14 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 		//Setup project tasks
 		JPanel prjTasksPanel = new JPanel();
 		_projectTasks = new JComboBox();
+		_projectTasks.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				_taskNameField.setBorder(BorderFactory.createTitledBorder(_projectTasks.getSelectedItem().toString()));
+			}
+		});
+		
 		prjTasksPanel.setLayout(new BorderLayout());
 		prjTasksPanel.add(_projectTasks, BorderLayout.CENTER);
 		schedulerPanel.add(prjTasksPanel, BorderLayout.NORTH);
@@ -208,8 +216,8 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 		taskNamePanel.setBorder(BorderFactory.createTitledBorder("Task Name"));
 		taskNamePanel.setLayout(new BorderLayout());
 		_taskNameField = new JTextField();
-		_taskNameField.setFont(new Font("Arial", 0, 25));
-		taskNamePanel.add(_taskNameField, BorderLayout.CENTER);
+		_taskNameField.setBorder(BorderFactory.createTitledBorder("Task"));
+		taskNamePanel.add(_taskNameField, BorderLayout.SOUTH);
 		
 		_durationPanel = new DurationJPanel(game);
 		bottomPanel.add(taskNamePanel, BorderLayout.CENTER);
@@ -269,6 +277,8 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 								}
 							}
 						}
+						
+						_taskNameField.setBorder(BorderFactory.createTitledBorder(_projectTasks.getSelectedItem().toString()));
 					}finally{
 						_lockObject.unlock();
 					}

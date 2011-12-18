@@ -64,17 +64,15 @@ public class DurationJPanel extends JPanel implements ICompanyListener{
 			throw new GuiException("Wrong argument game == null");
 		}
 	
-		JPanel timePanel = new JPanel();
-		timePanel.setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 		
 		JPanel startDatePanel = new JPanel();
 		startDatePanel.setLayout(new BorderLayout());
 		_startDatePicket = new JXDatePicker();
 		startDatePanel.add(_startDatePicket, BorderLayout.WEST);
 		startDatePanel.setBorder(BorderFactory.createTitledBorder("Start at"));
-		timePanel.add(startDatePanel, BorderLayout.WEST);
-		add(timePanel, BorderLayout.EAST);
-		timePanel.setBorder(BorderFactory.createTitledBorder("Time scheduler"));
+		add(startDatePanel, BorderLayout.WEST);
+		setBorder(BorderFactory.createTitledBorder("Time scheduler"));
 		
 		JPanel endDatePanel = new JPanel();
 		endDatePanel.setLayout(new BorderLayout());
@@ -82,7 +80,7 @@ public class DurationJPanel extends JPanel implements ICompanyListener{
 		_durationSpinner.setPreferredSize(new Dimension(100,20));
 		endDatePanel.add(_durationSpinner, BorderLayout.EAST);
 		endDatePanel.setBorder(BorderFactory.createTitledBorder("Duration"));
-		timePanel.add(endDatePanel, BorderLayout.EAST);
+		add(endDatePanel, BorderLayout.EAST);
 		
 		game.addCompanyListener(this);
 	}
