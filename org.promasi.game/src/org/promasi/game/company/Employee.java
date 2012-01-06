@@ -259,9 +259,7 @@ public class Employee
     /**
      * 
      * @param employeeTask
-     * @return
-     * @throws NullArgumentException
-     * @throws SerializationException 
+     * @return true in case of remove task succeed, false otherwise.
      */
     public boolean removeEmployeeTask(EmployeeTask employeeTask){
     	boolean result = false;

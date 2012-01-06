@@ -24,7 +24,7 @@ import org.swiftgantt.model.GanttModel;
 import org.swiftgantt.model.Task;
 import org.swiftgantt.ui.TimeUnit;
 
-public class GanttScheduler extends JPanel {
+public class GanttSchedulerJPanel extends JPanel {
 
 	/**
 	 * 
@@ -59,14 +59,14 @@ public class GanttScheduler extends JPanel {
 	/**
 	 * 
 	 */
-	public GanttScheduler(){
+	public GanttSchedulerJPanel(){
 		_ganttChart = new GanttChart();
 		_ganttChart.setPreferredSize(new Dimension(100,100));
 		
 		setLayout(new BorderLayout());
 		_ganttChart.setVisible(true);
 		_ganttChart.setBounds(0, 0, 100, 100);
-		_ganttChart.setTimeUnit(TimeUnit.Week);
+		_ganttChart.setTimeUnit(TimeUnit.Day);
 		Config config = _ganttChart.getConfig();
 		config.setWorkingTimeBackColor(Color.YELLOW);//Set background color for working time.
 		config.setTimeUnitWidth(50);//Set width for time unit
@@ -86,8 +86,7 @@ public class GanttScheduler extends JPanel {
 	 * @param project
 	 * @param dateTime
 	 */
-	public void projectAssigned(String owner, CompanyMemento company,
-			final ProjectMemento project, final DateTime dateTime) {
+	public void projectAssigned(String owner, CompanyMemento company,final ProjectMemento project, final DateTime dateTime) {
 		try{
 			_lockObject.lock();
 			Time time = new Time(dateTime.plusHours(project.getProjectDuration()/CONST_DURATION_MULTIPLIER).toDate());
@@ -136,7 +135,6 @@ public class GanttScheduler extends JPanel {
 
 	public void companyAssigned(String owner, CompanyMemento company) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	/**
@@ -152,7 +150,7 @@ public class GanttScheduler extends JPanel {
 				Map<String, Task> ganttTasks = new TreeMap<String, Task>();
 				for (Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet() ){
 					EmployeeTaskMemento employeeTask = entry.getValue();
-					Time startTime = new Time(_projectAssignDate.plusHours( employeeTask.getFirstStep()).toDate());
+					Time startTime = new Time(_projectAssignDate.plusHours( employeeTask.getFirstStep() ).toDate());
 					Time endTime = new Time(_projectAssignDate.plusHours( employeeTask.getLastStep()).toDate());
 					Task newTask = new Task(employeeTask.getTaskName(), startTime, endTime );
 					ganttTasks.put(employeeTask.getTaskName(), newTask);

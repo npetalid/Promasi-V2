@@ -12,6 +12,9 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.MainFrame;
@@ -40,6 +43,18 @@ public class Application {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 				try {
+					
+					/*try {
+					    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+					        if ("Nimbus".equals(info.getName())) {
+					            UIManager.setLookAndFeel(info.getClassName());
+					            break;
+					        }
+					    }
+					} catch (Exception e) {
+					    // If Nimbus is not available, you can set the GUI to another look and feel.
+					}*/
+					
 					GameMaker.makeGame();
 	                // Create a JFrame, which is a Window with "decorations", i.e.
 	                // title, border and close-button
@@ -75,7 +90,6 @@ public class Application {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
             }
         });
 	}

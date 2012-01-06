@@ -87,7 +87,7 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 	/**
 	 * 
 	 */
-	private GanttScheduler _scheduler;
+	private GanttSchedulerJPanel _scheduler;
 	
 	/**
 	 * 
@@ -196,7 +196,6 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 					List<EmployeeTaskMemento> tasksList = new LinkedList<EmployeeTaskMemento>();
 					tasksList.add(memento);
 					tasks.put(entry.getKey(), tasksList);
-					tasksList.add(memento);
 					_game.assignTasks(tasks);
 				}
 			}
@@ -233,7 +232,7 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 		JPanel ganttPanel = new JPanel();
 		ganttPanel.setLayout(new BorderLayout());
 
-		_scheduler = new GanttScheduler();
+		_scheduler = new GanttSchedulerJPanel();
 		schedulerPanel.add(_scheduler, BorderLayout.CENTER);
 		
 		_game.addDepartmentListener(this);

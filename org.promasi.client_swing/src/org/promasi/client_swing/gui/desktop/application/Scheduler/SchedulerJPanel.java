@@ -43,7 +43,7 @@ public class SchedulerJPanel extends JPanel implements ICompanyListener, IDepart
 	/**
 	 * 
 	 */
-	private GanttScheduler _scheduler;
+	private GanttSchedulerJPanel _scheduler;
 	
 	/**
 	 * 
@@ -79,7 +79,7 @@ public class SchedulerJPanel extends JPanel implements ICompanyListener, IDepart
 		_lockObject = new ReentrantLock();
 		_app = app;
 		setLayout(new BorderLayout());
-		_scheduler = new GanttScheduler();
+		_scheduler = new GanttSchedulerJPanel();
 		
 		JPanel wizardPanel = new JPanel();
 		wizardPanel.setLayout(new BorderLayout());
