@@ -3,7 +3,6 @@
  */
 package org.promasi.game.singleplayer;
 
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -182,12 +181,6 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		}
 
 		return result;
-	}
-
-	@Override
-	public boolean executeGameStep(Date currentDateTime) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override

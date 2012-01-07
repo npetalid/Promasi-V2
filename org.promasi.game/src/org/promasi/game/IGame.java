@@ -1,6 +1,5 @@
 package org.promasi.game;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -104,14 +103,6 @@ public interface IGame
 	 * 
 	 */
 	public void removeListeners();
-	
-	/**
-	 * 
-	 * @param currentDateTime
-	 * @return
-	 * @throws NullArgumentException
-	 */
-	public boolean executeGameStep(Date currentDateTime)throws GameException;
 	
 	/**
 	 * 

@@ -3,11 +3,9 @@
  */
 package org.promasi.client_swing.playmode.multiplayer;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.promasi.game.GameException;
 import org.promasi.game.IGame;
 import org.promasi.game.IGamesServer;
 import org.promasi.game.company.ICompanyListener;
@@ -54,12 +52,6 @@ public class MultiPlayerGame implements IGame {
 
 	@Override
 	public boolean removeListener(IClientGameListener listener) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean executeGameStep(Date currentDateTime)throws GameException {
 		// TODO Auto-generated method stub
 		return false;
 	}
