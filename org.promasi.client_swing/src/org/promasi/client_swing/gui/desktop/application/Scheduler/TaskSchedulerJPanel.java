@@ -5,7 +5,6 @@ package org.promasi.client_swing.gui.desktop.application.Scheduler;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -72,7 +71,7 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 	/**
 	 * 
 	 */
-	private JComboBox _projectTasks;
+	private JComboBox<ProjectTask> _projectTasks;
 	
 	/**
 	 * 
@@ -153,7 +152,7 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 
 		//Setup project tasks
 		JPanel prjTasksPanel = new JPanel();
-		_projectTasks = new JComboBox();
+		_projectTasks = new JComboBox<ProjectTask>();
 		_projectTasks.addActionListener(new ActionListener() {
 			
 			@Override

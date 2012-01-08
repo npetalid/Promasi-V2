@@ -44,7 +44,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 	/**
 	 * 
 	 */
-	private JList _gamesList;
+	private JList<IGame> _gamesList;
 	
 	/**
 	 * 
@@ -98,9 +98,9 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		_mainFrame = mainFrame;
 		_gamesServer = gamesServer;
 		
-		DefaultListModel listModel = new DefaultListModel();
+		DefaultListModel<IGame> listModel = new DefaultListModel<IGame>();
 		
-		_gamesList = new JList(listModel);
+		_gamesList = new JList<IGame>(listModel);
 		setLayout( new BorderLayout() );
 		_gamesList.setPreferredSize(new Dimension( CONST_GAMES_LIST_WIDTH, 100 ));
 		add(_gamesList, BorderLayout.EAST);
@@ -109,7 +109,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				_playButton.setEnabled(true);
-				IGame game = (IGame)_gamesList.getSelectedValue();
+				IGame game = _gamesList.getSelectedValue();
 				_infoPane.setText( game.getGameDescription() );
 			}
 		});

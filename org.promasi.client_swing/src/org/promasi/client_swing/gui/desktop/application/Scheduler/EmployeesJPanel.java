@@ -35,7 +35,7 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 	/**
 	 * 
 	 */
-	private JList _employeesList;
+	private JList<CheckBoxListEntry> _employeesList;
 	
 	/**
 	 * 
@@ -52,7 +52,7 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 		}
 		
 		setLayout(new BorderLayout());
-		_employeesList= new JList();
+		_employeesList= new JList<CheckBoxListEntry>();
 		_employees= new TreeMap<String, CheckBoxListEntry>();
 		_employeesList.setCellRenderer(new CheckBoxCellRenderer());
 		_employeesList.addMouseListener(new MouseListener() {

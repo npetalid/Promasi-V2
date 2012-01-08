@@ -61,7 +61,7 @@ public class CheckBoxCellRenderer extends DefaultListCellRenderer {
 	/**
 	 * 
 	 */
-	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
+	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
 		if(value instanceof CheckBoxListEntry ){
 			CheckBoxListEntry entry = (CheckBoxListEntry)value;
 			_htmlPane.setText(entry.toString());

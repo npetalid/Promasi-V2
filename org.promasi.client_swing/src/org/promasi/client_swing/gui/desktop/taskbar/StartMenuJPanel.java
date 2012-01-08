@@ -59,7 +59,7 @@ public class StartMenuJPanel extends JPanel {
 	/**
 	 * 
 	 */
-	private JList _appList;
+	private JList<ADesktopApplication> _appList;
 	
 	/**
 	 * Constructor.
@@ -104,7 +104,7 @@ public class StartMenuJPanel extends JPanel {
 			ex.printStackTrace();
 		}
 		
-		_appList = new JList(apps);
+		_appList = new JList<ADesktopApplication>(apps);
 		_appList.setCellRenderer(new MenuCellRenderer());
 		_appList.setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height ));
 		add(_appList, BorderLayout.CENTER);
@@ -136,7 +136,7 @@ public class StartMenuJPanel extends JPanel {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ADesktopApplication app = (ADesktopApplication)_appList.getSelectedValue();
+				ADesktopApplication app = _appList.getSelectedValue();
 				_appList.clearSelection();
 				_desktop.runApplication(app);
 			}

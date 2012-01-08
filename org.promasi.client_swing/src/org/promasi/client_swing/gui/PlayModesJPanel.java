@@ -40,7 +40,7 @@ public class PlayModesJPanel extends JPanel {
 	/**
 	 * 
 	 */
-	private JList _playModesList;
+	private JList<IPlayMode> _playModesList;
 	
 	/**
 	 * 
@@ -67,11 +67,11 @@ public class PlayModesJPanel extends JPanel {
 		}
 		
 		_mainFrame = listener;
-		DefaultListModel listModel = new DefaultListModel();
+		DefaultListModel<IPlayMode> listModel = new DefaultListModel<IPlayMode>();
 		listModel.addElement( new SinglePlayerPlayMode() );
 		listModel.addElement( new MultiPlayerPlayMode() );
 		
-		_playModesList = new JList(listModel);
+		_playModesList = new JList<IPlayMode>(listModel);
 		setLayout( new BorderLayout() );
 		_playModesList.setPreferredSize(new Dimension( CONST_PLAYMODES_LIST_WIDTH, 100 ));
 		add(_playModesList, BorderLayout.EAST);

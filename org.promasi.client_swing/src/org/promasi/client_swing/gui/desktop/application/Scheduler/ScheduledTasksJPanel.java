@@ -45,7 +45,7 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 	/**
 	 * 
 	 */
-	private JList _tasksList;
+	private JList<CheckBoxListEntry> _tasksList;
 	
 	/**
 	 * 
@@ -66,7 +66,7 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 	 * 
 	 */
 	public ScheduledTasksJPanel(IGame game){
-		_tasksList = new JList();
+		_tasksList = new JList<CheckBoxListEntry>();
 		_tasks= new TreeMap<String, CheckBoxListEntry>();
 		_tasksList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		_tasksList.setCellRenderer(new CheckBoxCellRenderer());
@@ -184,7 +184,7 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 								_tasks.put(entry.getKey(), taskEntry);
 							}
 							
-							_tasksList.setListData(tasks.toArray());
+							_tasksList.setListData((CheckBoxListEntry[]) tasks.toArray());
 							_needToUpdate= false;
 						}
 					}finally{

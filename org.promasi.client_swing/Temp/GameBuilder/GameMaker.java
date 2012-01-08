@@ -43,7 +43,6 @@ public class GameMaker {
 	        ISdObject flow=new FlowSdObject(new CalculatedEquation("developer"));
 	        ISdObject stock=new StockSdObject(new CalculatedEquation("flow"),0.0);
 	        ISdObject output=new OutputSdObject(new CalculatedEquation("stock"));
-	        ISdObject percCompleted=new OutputSdObject(new CalculatedEquation("50"));
 	        Map<String, ISdObject> sdObjects=new TreeMap<String, ISdObject>();
 	        sdObjects.put("developer", input);
 	        sdObjects.put("flow", flow);
@@ -56,7 +55,6 @@ public class GameMaker {
 	        flow=new FlowSdObject(new CalculatedEquation("developer"));
 	        stock=new StockSdObject(new CalculatedEquation("flow"),0.0);
 	        output=new OutputSdObject(new CalculatedEquation("stock"));
-	        percCompleted=new OutputSdObject(new CalculatedEquation("50"));
 	        sdObjects=new TreeMap<String, ISdObject>();
 	        sdObjects.put("developer", input);
 	        sdObjects.put("flow", flow);
@@ -70,7 +68,6 @@ public class GameMaker {
 	        flow=new FlowSdObject(new CalculatedEquation("developer"));
 	        stock=new StockSdObject(new CalculatedEquation("flow"),0.0);
 	        output=new OutputSdObject(new CalculatedEquation("stock"));
-	        percCompleted=new OutputSdObject(new CalculatedEquation("time"));
 	        sdObjects=new TreeMap<String, ISdObject>();
 	        sdObjects.put("developer", input);
 	        sdObjects.put("flow", flow);

@@ -51,7 +51,7 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 	/**
 	 * 
 	 */
-	private JList _employeesList;
+	private JList<Employee> _employeesList;
 	
 	/**
 	 * 
@@ -61,7 +61,7 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 			throw new GuiException("Wrong argument game == null");
 		}
 		
-		_employeesList = new JList();
+		_employeesList = new JList<Employee>();
 		JScrollPane scrollPane = new JScrollPane(_employeesList);
 		
 		_employeesList.setCellRenderer(new HtmlCellRenderer());

@@ -25,7 +25,7 @@ public class MenuCellRenderer extends DefaultListCellRenderer {
 	/**
 	 * 
 	 */
-	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
+	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
 		JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
 		if (value instanceof IMenuEntry) {
 			IMenuEntry menuEntry = (IMenuEntry) value;

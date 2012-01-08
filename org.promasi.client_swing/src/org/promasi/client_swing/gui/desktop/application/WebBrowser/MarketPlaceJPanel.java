@@ -47,7 +47,7 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 	/**
 	 * 
 	 */
-	private JList _employeesList;
+	private JList<Employee> _employeesList;
 	
 	/**
 	 * 
@@ -58,7 +58,7 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 			throw new GuiException("Wrong argument game == null");
 		}
 		
-		_employeesList = new JList();
+		_employeesList = new JList<Employee>();
 		JScrollPane scrollPane = new JScrollPane(_employeesList);
 		
 		_employeesList.setCellRenderer(new HtmlCellRenderer());
@@ -74,7 +74,7 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if( !_employeesList.isSelectionEmpty() ){
-					Employee employee = (Employee)_employeesList.getSelectedValue();
+					Employee employee = _employeesList.getSelectedValue();
 					_game.hireEmployee(employee.getEmployeeMemento().getEmployeeId());
 				}
 			}
