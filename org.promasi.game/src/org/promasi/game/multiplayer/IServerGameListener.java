@@ -89,7 +89,7 @@ public interface IServerGameListener
 	 * @param employeeTask
 	 * @param dateTime
 	 */
-	public void employeeTaskDetached(final String playerId, final IMultiPlayerGame game, final MarketPlaceMemento marketPlace, final CompanyMemento company, final EmployeeMemento employee, final EmployeeTaskMemento employeeTask, final DateTime dateTime);
+	public void employeeTaskDetached( String playerId, IMultiPlayerGame game, MarketPlaceMemento marketPlace, CompanyMemento company, EmployeeMemento employee, EmployeeTaskMemento employeeTask, DateTime dateTime);
 	
 	/**
 	 * 
@@ -98,7 +98,7 @@ public interface IServerGameListener
 	 * @param company
 	 * @param dateTime
 	 */
-	public void companyIsInsolvent(final String playerId, final IMultiPlayerGame game, final CompanyMemento company, final DateTime dateTime);
+	public void companyIsInsolvent( String playerId, IMultiPlayerGame game, CompanyMemento company, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -108,8 +108,17 @@ public interface IServerGameListener
 	 * @param assignedProject
 	 * @param dateTime
 	 */
-	public void onExecuteStep(final String playerId, final IMultiPlayerGame game, final CompanyMemento company,final ProjectMemento assignedProject, final DateTime dateTime);
+	public void onExecuteStep( String playerId, IMultiPlayerGame game, CompanyMemento company, DateTime dateTime);
 	
+	/**
+	 * 
+	 * @param playerId
+	 * @param game
+	 * @param company
+	 * @param assignedProject
+	 * @param dateTime
+	 */
+    public void onExecuteWorkingStep( String playerId, IMultiPlayerGame game, CompanyMemento company, ProjectMemento assignedProject, DateTime dateTime);
 	
 	/**
 	 * 

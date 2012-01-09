@@ -301,6 +301,10 @@ public class GameModel
 					_company.executeWorkingStep(currentDateTime,_marketPlace, currentDateTime);
 				}
 				
+				for(IGameModelListener listener : _listeners){
+					listener.onExecuteStep(this, _company.getMemento());
+				}
+				
 				result = true;
 			}finally{
 				_lockObject.unlock();

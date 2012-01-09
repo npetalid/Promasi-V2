@@ -212,7 +212,7 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 	}
 
 	@Override
-	public void onExecuteStep(String playerId, IMultiPlayerGame game,
+	public void onExecuteWorkingStep(String playerId, IMultiPlayerGame game,
 			CompanyMemento company, ProjectMemento assignedProject,
 			DateTime dateTime) {
 		// TODO Auto-generated method stub
@@ -254,6 +254,13 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 
 	@Override
 	public void gameFinished(Map<String, GameModelMemento> gameModels) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onExecuteStep(String playerId, IMultiPlayerGame game,
+			CompanyMemento company, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -11,7 +11,6 @@ import org.promasi.client_swing.gui.desktop.DesktopJPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.CompanyMemento;
-import org.promasi.game.project.ProjectMemento;
 import org.promasi.game.singleplayer.IClientGameListener;
 
 /**
@@ -85,11 +84,7 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 	}
 
 	@Override
-	public void onExecuteStep(IGame game, CompanyMemento company,
-			ProjectMemento assignedProject, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onExecuteStep(IGame game, CompanyMemento company, DateTime dateTime) {}
 
 	@Override
 	public void onTick(IGame game, DateTime dateTime) {

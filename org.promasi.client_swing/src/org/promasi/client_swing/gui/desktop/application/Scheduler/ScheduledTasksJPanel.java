@@ -184,7 +184,7 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 								_tasks.put(entry.getKey(), taskEntry);
 							}
 							
-							_tasksList.setListData((CheckBoxListEntry[]) tasks.toArray());
+							_tasksList.setListData( tasks.toArray(new CheckBoxListEntry[0]));
 							_needToUpdate= false;
 						}
 					}finally{

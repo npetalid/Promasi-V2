@@ -20,7 +20,6 @@ import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IMarketPlaceListener;
-import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.clock.Clock;
 import org.promasi.utilities.clock.IClockListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
@@ -224,9 +223,9 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public void onExecuteStep(GameModel game, CompanyMemento company,ProjectMemento assignedProject) {
+	public void onExecuteStep(GameModel game, CompanyMemento company) {
 		for(IClientGameListener listener : _listeners){
-			listener.onExecuteStep(this, company, assignedProject, _systemClock.getCurrentDateTime());
+			listener.onExecuteStep(this, company, _systemClock.getCurrentDateTime());
 		}
 	}
 

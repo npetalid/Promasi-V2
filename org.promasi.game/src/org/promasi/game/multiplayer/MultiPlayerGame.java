@@ -428,11 +428,11 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	}
 
 	@Override
-	public void onExecuteStep(GameModel game, CompanyMemento company, ProjectMemento assignedProject) {
+	public void onExecuteStep(GameModel game, CompanyMemento company) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			if(entry.getValue()==game){
 				for(IServerGameListener listener : _listeners){
-					listener.onExecuteStep(entry.getKey(), this, company, assignedProject, _systemClock.getCurrentDateTime());
+					listener.onExecuteStep(entry.getKey(), this, company, _systemClock.getCurrentDateTime());
 				}
 			}
 		}
@@ -491,22 +491,18 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 	@Override
 	public void onExecuteWorkingStep(String owner, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime) {
-		for(IServerGameListener listener : _listeners){
-			listener.onExecuteStep(owner, this, company, assignedProject, dateTime);
-		}
+		//for(IServerGameListener listener : _listeners){
+		//	listener.onExecuteStep(owner, this, company, dateTime);
+		//}
 	}
 
 
 	@Override
-	public void taskAssigned(String supervisor,EmployeeMemento employee) {
-		// TODO Auto-generated method stub
-	}
+	public void taskAssigned(String supervisor,EmployeeMemento employee) {}
 
 
 	@Override
-	public void taskDetached(String supervisor,EmployeeMemento employee, EmployeeTaskMemento employeeTask) {
-		// TODO Auto-generated method stub
-	}
+	public void taskDetached(String supervisor,EmployeeMemento employee, EmployeeTaskMemento employeeTask) {}
 
 
 	@Override

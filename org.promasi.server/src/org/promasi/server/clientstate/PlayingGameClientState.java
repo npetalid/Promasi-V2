@@ -219,22 +219,17 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 	public void employeeTaskDetached(String clientId, IMultiPlayerGame game,
 			MarketPlaceMemento marketPlace, CompanyMemento company,
 			EmployeeMemento employee,
-			EmployeeTaskMemento employeeTask, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
+			EmployeeTaskMemento employeeTask, DateTime dateTime) {}
 
 	
 	@Override
-	public void companyIsInsolvent(String clientId, IMultiPlayerGame game,
-			CompanyMemento company, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void companyIsInsolvent(String clientId, IMultiPlayerGame game,CompanyMemento company, DateTime dateTime) {}
 	
 	@Override
-	public void onExecuteStep(String clientId, IMultiPlayerGame game,
+	public void onExecuteStep( String playerId, IMultiPlayerGame game, CompanyMemento company, DateTime dateTime){}
+	
+	@Override
+	public void onExecuteWorkingStep(String clientId, IMultiPlayerGame game,
 			CompanyMemento company, ProjectMemento assignedProject, DateTime dateTime) {
 		if(clientId.equals(_clientId)){
 			_client.sendMessage(new OnExecuteStepRequest(assignedProject, company, dateTime.toString()).serialize());
@@ -247,15 +242,11 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 		if(clientId.equals(_clientId)){
 			_client.sendMessage(new OnTickRequest(dateTime.toString()).serialize());
 		}
-		
 	}
 
 	
 	@Override
-	public void messageSent(String clientId, IMultiPlayerGame game, String message) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void messageSent(String clientId, IMultiPlayerGame game, String message) {}
 
 	
 	@Override
@@ -265,9 +256,7 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 
 	
 	@Override
-	public void onConnect(ProMaSiClient client) {
-
-	}
+	public void onConnect(ProMaSiClient client) {}
 
 	
 	@Override
@@ -277,10 +266,7 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 
 	
 	@Override
-	public void playersListUpdated( IMultiPlayerGame game, List<String> gamePlayers) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void playersListUpdated( IMultiPlayerGame game, List<String> gamePlayers) {}
 
 	
 	@Override
