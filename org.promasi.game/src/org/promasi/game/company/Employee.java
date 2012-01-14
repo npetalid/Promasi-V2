@@ -203,16 +203,42 @@ public class Employee
         	if(employeeTasks!=null){
         		result = true;
             	for(EmployeeTask task : employeeTasks){
+            		if( _employeeTasks.containsKey(task.getTaskName())){
+            			result = false;
+            			break;
+            		}
+            		
                 	for(Map.Entry<String , EmployeeTask> entry: _employeeTasks.entrySet()){
                 		if( entry.getValue().conflictsWithTask(task) ){
                 			result = false;
+                			break;
                 		}
                 	}
             	}
             	
+        		List<EmployeeTask> tasks = new LinkedList<EmployeeTask>(employeeTasks);
+        		for( EmployeeTask task : employeeTasks ){
+        			for( EmployeeTask newTask : tasks){
+        				if( task != newTask && task.conflictsWithTask(newTask)){
+        					result = false;
+        				}
+        			}
+        		}
+            	
             	if( result ){
+
                 	for(EmployeeTask task : employeeTasks){
                 		_employeeTasks.put(task.getTaskName(), task);
+                	}
+                	
+                	Map<String, EmployeeTask> tmpTasks = new TreeMap<String, EmployeeTask>(_employeeTasks);
+                	for( Map.Entry<String, EmployeeTask> taskEntry : tmpTasks.entrySet() )
+                	{
+                		for( Map.Entry<String, EmployeeTask> secondEntry: _employeeTasks.entrySet() ){
+                			if( !taskEntry.getKey().equals(secondEntry.getKey())){
+                				taskEntry.getValue().applyDependencie(secondEntry.getValue());
+                			}
+                		}
                 	}
                 	
                 	for( IEmployeeListener listener : _listeners ){

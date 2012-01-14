@@ -120,19 +120,58 @@ public class EmployeeTask
 	 * @param task
 	 * @return
 	 */
-	public boolean conflictsWithTask(final EmployeeTask task){
+	public boolean conflictsWithTask( EmployeeTask task){
 		boolean result = true;
 		
 		if( task != null && !task.getTaskName().equals(_taskName) ){
 			if( _firstStep > task._lastStep ){
 				result = false;
 			}
-			else if( _lastStep < task._firstStep )
-			{
+			else if( _lastStep < task._firstStep ){
+				result = false;
+			}else if( task._dependencies.contains(_taskName) || _dependencies.contains(task.getTaskName()) ){
 				result = false;
 			}
 		}
 		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param task
+	 * @return
+	 */
+	public boolean hasDependencie( EmployeeTask task ){
+		boolean result = false;
+		
+		if( task != null )
+		{
+			result = _dependencies.contains(task._taskName);
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @param dependencieTask
+	 * @return
+	 */
+	public boolean applyDependencie(EmployeeTask dependencieTask)
+	{
+		boolean result = false;
+		
+		if( dependencieTask != null ){
+			if( _dependencies.contains(dependencieTask.getTaskName()) ){
+				if( dependencieTask._lastStep > _firstStep){
+					_firstStep = dependencieTask._lastStep;
+				}
+				
+				result = true;
+			}
+		}
+
 		return result;
 	}
 	
