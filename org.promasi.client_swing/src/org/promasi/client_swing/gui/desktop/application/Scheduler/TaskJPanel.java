@@ -41,12 +41,12 @@ import org.promasi.utilities.logger.LoggerFactory;
  * @author alekstheod
  *
  */
-public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDepartmentListener{
+public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentListener{
 
 	/**
 	 * 
 	 */
-	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(TaskSchedulerJPanel.class);
+	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(TaskJPanel.class);
 	
 	/**
 	 * 
@@ -86,7 +86,7 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 	/**
 	 * 
 	 */
-	private GanttSchedulerJPanel _scheduler;
+	private GanttJPanel _scheduler;
 	
 	/**
 	 * 
@@ -109,7 +109,7 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 	 * @param app
 	 * @throws GuiException
 	 */
-	public TaskSchedulerJPanel( IGame game, ISchedulerApplication app, JPanel prevPanel)throws GuiException{
+	public TaskJPanel( IGame game, ISchedulerApplication app, JPanel prevPanel)throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
 		}
@@ -231,7 +231,7 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 		JPanel ganttPanel = new JPanel();
 		ganttPanel.setLayout(new BorderLayout());
 
-		_scheduler = new GanttSchedulerJPanel();
+		_scheduler = new GanttJPanel(game);
 		schedulerPanel.add(_scheduler, BorderLayout.CENTER);
 		
 		_game.addDepartmentListener(this);
@@ -287,27 +287,9 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 	}
 
 	@Override
-	public void projectFinished(String owner, CompanyMemento company,
-			ProjectMemento project, DateTime dateTime) {
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				try{
-					_lockObject.lock();
-					_scheduler.clearScheduler();
-				}finally{
-					_lockObject.unlock();
-				}
-			}
-		});
-	}
-
+	public void projectFinished(String owner, CompanyMemento company,ProjectMemento project, DateTime dateTime) {}
 	@Override
-	public void companyIsInsolvent(String owner, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime) {
-		projectFinished(owner, company, assignedProject, dateTime);
-	}
-	
+	public void companyIsInsolvent(String owner, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime) {projectFinished(owner, company, assignedProject, dateTime);}
 	@Override
 	public void onExecuteWorkingStep(String owner, final CompanyMemento company, final ProjectMemento assignedProject, final DateTime dateTime) {}
 	@Override
@@ -316,7 +298,6 @@ public class TaskSchedulerJPanel extends JPanel implements ICompanyListener ,IDe
 	public void departmentAssigned(String director, DepartmentMemento department) {}
 	@Override
 	public void employeeDischarged(String director, DepartmentMemento department) {}
-
 	@Override
 	public void employeeHired(String director, DepartmentMemento department) {}
 }

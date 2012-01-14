@@ -96,7 +96,7 @@ public class GameMaker {
             out.print(xmlString);
             out.close();
 
-            Company company=new Company("Test","Test",new LocalTime().withHourOfDay(9), new LocalTime().withHourOfDay(17),10000,0.0);
+            Company company=new Company("Test","Test",new LocalTime().withHourOfDay(0), new LocalTime().withHourOfDay(23),10000,0.0);
             CompanyMemento sCompany=company.getMemento();
                 
             out = new PrintWriter(new FileWriter(path+"SinglePlayer"+separator+"Tutorial"+separator+"Company"));

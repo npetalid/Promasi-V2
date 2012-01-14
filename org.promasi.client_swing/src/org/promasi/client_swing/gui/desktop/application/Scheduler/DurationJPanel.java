@@ -154,7 +154,7 @@ public class DurationJPanel extends JPanel implements ICompanyListener{
 				try{
 					_lockObject.lock();
 					if( dateTime.toDate().after(_startDatePicket.getDate()) ){
-						_startDatePicket.setDate(dateTime.toDate());
+						_startDatePicket.setDate(dateTime.plusDays(1).toDate());
 					}
 				}finally{
 					_lockObject.unlock();
