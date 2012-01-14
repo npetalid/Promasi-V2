@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.Calendar;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Vector;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -118,7 +120,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	private void drawGanttDiagramm( Map<String, EmployeeTaskMemento> scheduledTasks, ProjectMemento assignedProject, DateTime dateTime ){
 		try{
 			_lockObject.lock();
-			Vector<Task> tasks = new Vector<Task>();
+			List<Task> tasks = new LinkedList<Task>();
 			if(_projectAssignDate != null ){
 				Map<String, Task> ganttTasks = new TreeMap<String, Task>();
 				for (Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet() ){
@@ -143,6 +145,21 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 						}
 					}
 				}
+				
+				java.util.Collections.sort(tasks, new Comparator<Task>() {
+
+					@Override
+					public int compare(Task o1, Task o2) {
+						int result = 0;
+						if(o1.getStart().after(o2.getStart())){
+							result = 1;
+						}else if( o1.getStart().before(o2.getStart())){
+							result = -1;
+						}
+						
+						return result;
+					}
+				});
 				
 				_ganttModel.removeAll();
 				Task[] taskArray = new Task[tasks.size()];
