@@ -100,7 +100,8 @@ public class EmployeeMemento extends SerializableObject
     	}
     	
     	try{
-    		return new Employee(_firstName, _lastName, _employeeId, _curriculumVitae, _salary, _employeeSkills);
+    		Employee employee = new Employee(_firstName, _lastName, _employeeId, _curriculumVitae, _salary, _employeeSkills);
+    		return employee;
     	}catch(GameException e){
     		throw new SerializationException("Serialization failed because " + e.getMessage());
     	}

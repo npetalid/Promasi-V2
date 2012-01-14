@@ -106,7 +106,7 @@ public class EmployeeTask
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean executeTask(Map<String, Double> employeeSkills, double currentStep)throws NullArgumentException
+	public boolean executeTask(Map<String, Double> employeeSkills, double currentStep)
 	{
 		if(currentStep<_firstStep || currentStep>_lastStep){
 			return false;
@@ -181,9 +181,9 @@ public class EmployeeTask
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	public boolean isValid(int currentStep)throws IllegalArgumentException{
+	public boolean isValid(int currentStep){
 		if(currentStep<0){
-			throw new IllegalArgumentException("Wrong argument currentStep<0");
+			return true;
 		}
 		
 		if(currentStep>_lastStep){

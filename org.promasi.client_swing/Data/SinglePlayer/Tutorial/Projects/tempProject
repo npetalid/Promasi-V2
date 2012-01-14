@@ -27,9 +27,6 @@
       <void property="name">
        <string>DEPLOY</string>
       </void>
-      <void property="progress">
-       <double>33.0</double>
-      </void>
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
         <void property="equationString">
@@ -101,9 +98,6 @@
       <void property="name">
        <string>Test1</string>
       </void>
-      <void property="progress">
-       <double>33.0</double>
-      </void>
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
         <void property="equationString">
@@ -174,9 +168,6 @@
       </void>
       <void property="name">
        <string>Test2</string>
-      </void>
-      <void property="progress">
-       <double>33.0</double>
       </void>
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">

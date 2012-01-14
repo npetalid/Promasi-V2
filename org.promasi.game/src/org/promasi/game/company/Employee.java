@@ -8,7 +8,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.GameException;
-import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
 
@@ -322,16 +321,12 @@ public class Employee
         	if(!_employeeTasks.isEmpty()){
             	Map<String, EmployeeTask> employeeTasks=new TreeMap<String, EmployeeTask> ();
             	for(Map.Entry<String ,EmployeeTask> entry: _employeeTasks.entrySet()){
-            		try{
-            			entry.getValue().executeTask(_employeeSkills, currentStep);
-            			if(entry.getValue().isValid(currentStep)){
-            				employeeTasks.put(entry.getKey(), entry.getValue());
-            			}
-            			
-            			result = true;
-            		}catch(NullArgumentException e){
-            			return false;
-            		}
+        			entry.getValue().executeTask(_employeeSkills, currentStep);
+        			if(entry.getValue().isValid(currentStep)){
+        				employeeTasks.put(entry.getKey(), entry.getValue());
+        			}
+        			
+        			result = true;
             	}
             	
             	_employeeTasks=employeeTasks;

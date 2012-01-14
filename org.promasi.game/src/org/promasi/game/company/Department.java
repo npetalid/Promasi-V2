@@ -280,7 +280,6 @@ public class Department{
         	
         	DepartmentMemento memento = getMemento();
         	if( !result ){
-        		setMemento(memento) ;
         		for ( IDepartmentListener listener : _listeners ){
         			listener.tasksAssignFailed(_director, memento);
         		}

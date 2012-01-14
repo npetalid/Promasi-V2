@@ -108,15 +108,7 @@ public class ProjectTask
         
         _lockObject = new ReentrantLock();
         
-        try {
-			_progress=_progressEquation.calculateEquation(sdSystem.getSystemValues());
-		} catch (IllegalArgumentException e) {
-			throw new GameException(e.toString()); 
-		} catch (NullArgumentException e) {
-			throw new GameException(e.toString()); 
-		} catch (CalculationExeption e) {
-			throw new GameException(e.toString()); 
-		}
+        _progress= 0;
     }
 
     /**
