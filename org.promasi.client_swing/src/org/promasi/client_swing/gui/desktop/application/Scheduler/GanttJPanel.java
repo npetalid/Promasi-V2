@@ -97,6 +97,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		_ganttChart.getConfig().setWorkingTimeBackColor(Color.WHITE);
 		_ganttChart.getConfig().setRestoutTimeBackColor(new Color(177,201, 237));
 		_ganttChart.getConfig().setFillInvalidArea(true);
+		_ganttChart.getConfig().setTaskBarHeight(12);
 		
 		add(_ganttChart, BorderLayout.CENTER);
 		_ganttModel = new GanttModel();
@@ -161,7 +162,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					}
 				});
 				
-				_ganttModel.removeAll();
+				_ganttModel.getTaskTreeModel().removeAll();
 				Task[] taskArray = new Task[tasks.size()];
 				tasks.toArray(taskArray);
 				_ganttModel.setKickoffTime( new Time(dateTime.toDate()));
@@ -279,8 +280,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	}
 
 	@Override
-	public void onExecuteWorkingStep(String owner, final CompanyMemento company,
-			final ProjectMemento assignedProject, final DateTime dateTime) {
+	public void onExecuteWorkingStep(String owner, final CompanyMemento company, final ProjectMemento assignedProject, final DateTime dateTime) {
 		SwingUtilities.invokeLater( new Runnable() {
 			
 			@Override
