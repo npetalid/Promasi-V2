@@ -11,10 +11,11 @@
 	<classpathentry kind="lib" path="Libs/SwiftGantt_0.4.0/DateChooser.jar"/>
 	<classpathentry kind="lib" path="Libs/SwiftGantt_0.4.0/junit-4.8.1.jar"/>
 	<classpathentry kind="lib" path="Libs/SwiftGantt_0.4.0/log4j-1.2.15.jar"/>
-	<classpathentry kind="lib" path="Libs/SwiftGantt_0.4.0/swiftgantt-0.4.0.jar"/>
-	<classpathentry kind="lib" path="Libs/SwiftGantt_0.4.0/swiftganttdemo.jar"/>
 	<classpathentry kind="lib" path="Libs/SwiftGantt_0.4.0/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="lib" path="Libs/swingx-1.6.2/swingx-beaninfo-1.6.2.jar"/>
 	<classpathentry kind="lib" path="Libs/swingx-1.6.2/swingx-core-1.6.2.jar"/>
+	<classpathentry kind="lib" path="Libs/jide.3.3.3.eval/lib/jide-gantt.jar"/>
+	<classpathentry kind="lib" path="Libs/jide.3.3.3.eval/lib/jide-common.jar"/>
+	<classpathentry kind="lib" path="Libs/jide.3.3.3.eval/lib/jide-grids.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

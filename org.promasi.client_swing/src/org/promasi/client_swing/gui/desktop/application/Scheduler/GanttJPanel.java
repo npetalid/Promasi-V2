@@ -1,12 +1,9 @@
 package org.promasi.client_swing.gui.desktop.application.Scheduler;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.util.Calendar;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
@@ -14,6 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
@@ -26,11 +24,18 @@ import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.project.ProjectMemento;
-import org.swiftgantt.GanttChart;
-import org.swiftgantt.common.Time;
-import org.swiftgantt.model.GanttModel;
-import org.swiftgantt.model.Task;
-import org.swiftgantt.ui.TimeUnit;
+
+import com.jidesoft.gantt.DateGanttChartPane;
+import com.jidesoft.gantt.DefaultGanttEntry;
+import com.jidesoft.gantt.DefaultGanttEntryRelation;
+import com.jidesoft.gantt.DefaultGanttModel;
+import com.jidesoft.gantt.GanttChartPane;
+import com.jidesoft.gantt.GanttEntryRelation;
+import com.jidesoft.range.TimeRange;
+import com.jidesoft.scale.DateScaleModel;
+import com.jidesoft.scale.ResizePeriodsPopupMenuCustomizer;
+import com.jidesoft.scale.VisiblePeriodsPopupMenuCustomizer;
+import com.jidesoft.swing.CornerScroller;
 
 public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmentListener{
 
@@ -38,16 +43,6 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	/**|
-	 * 
-	 */
-	private GanttChart _ganttChart;
-	
-	/**
-	 * 
-	 */
-	private GanttModel _ganttModel;
 	
 	/**
 	 * 
@@ -58,6 +53,16 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	 * 
 	 */
 	private DateTime _projectAssignDate;
+	
+	/**
+	 * 
+	 */
+	private DateTime _currentDate;
+	
+	/**
+	 * 
+	 */
+	private GanttChartPane< Date, DefaultGanttEntry<Date> > _ganttPane;
 	
 	/**
 	 * 
@@ -77,42 +82,29 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		if( game == null ){
 			throw new GuiException("Wrong argument game");
 		}
-		
-		_ganttChart = new GanttChart();
-		_ganttChart.setPreferredSize(new Dimension(100,100));
-		
-		setLayout(new BorderLayout());
-		_ganttChart.setVisible(true);
-		_ganttChart.setBounds(0, 0, 100, 100);
-		_ganttChart.setTimeUnit(TimeUnit.Day);
-		_ganttChart.setAutoscrolls(true);
-		
-		_ganttChart.setShowTreeView(false);
-		
-		_ganttChart.getConfig().setTimeUnitWidth(30);
-		_ganttChart.getConfig().setWorkingDaysSpanOfWeek(new int[]{Calendar.SUNDAY, Calendar.SATURDAY});
-		_ganttChart.getConfig().setAllowAccurateTaskBar(true);
-		_ganttChart.getConfig().setTaskTreeViewBackColor(Color.WHITE);
-		_ganttChart.getConfig().setGanttChartBackColor(new Color(0x1B,0x88, 0xE0));
-		_ganttChart.getConfig().setWorkingTimeBackColor(Color.WHITE);
-		_ganttChart.getConfig().setRestoutTimeBackColor(new Color(177,201, 237));
-		_ganttChart.getConfig().setFillInvalidArea(true);
-		_ganttChart.getConfig().setTaskBarHeight(12);
-		
-		add(_ganttChart, BorderLayout.CENTER);
-		_ganttModel = new GanttModel();
-		_ganttModel.getTaskTreeModel().setAsksAllowsChildren(true);
-		
-		_ganttChart.setModel(_ganttModel);
 
-
+		_ganttPane= new DateGanttChartPane<>(new DefaultGanttModel<Date, DefaultGanttEntry<Date>>());
+		_ganttPane.getGanttChart().setShowGrid(true);
 		_lockObject = new ReentrantLock();
 		setBorder(BorderFactory.createTitledBorder("Scheduler"));
 		_needToUpdateDiagramm= true;
+		setLayout(new BorderLayout());
+		
+        JScrollPane chartScroll = new JScrollPane(_ganttPane);
+        chartScroll.setCorner(JScrollPane.LOWER_RIGHT_CORNER, new CornerScroller(chartScroll));
+        
+		add(chartScroll, BorderLayout.CENTER);
 		game.addCompanyListener(this);
 		game.addDepartmentListener(this);
+		
+		_ganttPane.getGanttChart().setEditable(false);
+		_ganttPane.getTreeTable().setEnabled(false);
+		_ganttPane.getGanttChart().getScaleArea().addPopupMenuCustomizer(new VisiblePeriodsPopupMenuCustomizer<Date>());
+		_ganttPane.getGanttChart().getScaleArea().addPopupMenuCustomizer(new ResizePeriodsPopupMenuCustomizer<Date>(_ganttPane.getGanttChart()));
+		_ganttPane.getGanttChart().setEditable(false);
+		_currentDate = new DateTime();
 	}
-
+	
 	/**
 	 * 
 	 * @param scheduledTasks
@@ -121,18 +113,36 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	private void drawGanttDiagramm( Map<String, EmployeeTaskMemento> scheduledTasks, ProjectMemento assignedProject, DateTime dateTime ){
 		try{
 			_lockObject.lock();
-			List<Task> tasks = new LinkedList<Task>();
+			
+			DefaultGanttModel<Date, DefaultGanttEntry<Date>> model = new DefaultGanttModel<Date, DefaultGanttEntry<Date>>();
+		    
+	        DateScaleModel scaleModel = new DateScaleModel( );
+
+		    model.setScaleModel(scaleModel);
+
+		    Calendar projectStartDate = Calendar.getInstance(Locale.getDefault());
+		    projectStartDate.setTime(_projectAssignDate.toDate());
+		    
+		    Calendar projectEndDate = Calendar.getInstance(Locale.getDefault());
+		    projectEndDate.setTime(_projectAssignDate.plusHours(assignedProject.getProjectDuration()/CONST_DURATION_MULTIPLIER).toDate());
+		    
+            model.setRange(new TimeRange(projectStartDate, projectEndDate));
+			
+			Map< Date, DefaultGanttEntry<Date>> tasks = new TreeMap< Date, DefaultGanttEntry<Date>>();
 			if(_projectAssignDate != null ){
-				Map<String, Task> ganttTasks = new TreeMap<String, Task>();
+				Map<String,  DefaultGanttEntry<Date>> ganttTasks = new TreeMap<String,  DefaultGanttEntry<Date>>();
 				for (Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet() ){
 					EmployeeTaskMemento employeeTask = entry.getValue();
-					Time startTime = new Time(_projectAssignDate.plusHours( employeeTask.getFirstStep() ).toDate());
-					Time endTime = new Time(_projectAssignDate.plusHours( employeeTask.getLastStep()).toDate());
-					Task newTask = new Task(employeeTask.getTaskName(), startTime, endTime, 0 );
-					newTask.setAllowsChildren(false);
-					newTask.setId(employeeTask.getFirstStep());
+					Date startDate = _projectAssignDate.plusHours( employeeTask.getFirstStep() ).toDate();
+					Calendar startTime = Calendar.getInstance(Locale.getDefault());
+					startTime.setTime(startDate);
+					
+					Calendar endTime = Calendar.getInstance(Locale.getDefault());
+					endTime.setTime(_projectAssignDate.plusHours( employeeTask.getLastStep()).toDate());
+	
+					DefaultGanttEntry<Date> newTask = new DefaultGanttEntry<Date>(employeeTask.getTaskName(), Date.class, new TimeRange(startTime, endTime), 0);
 					ganttTasks.put(employeeTask.getTaskName(), newTask);
-					tasks.add(newTask);
+					tasks.put(startDate, newTask);
 				}
 				
 				
@@ -141,33 +151,17 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					if(  employeeTask.getDependencies() != null ){
 						for( String taskName : employeeTask.getDependencies() ){
 							if( ganttTasks.containsKey(taskName) && ganttTasks.containsKey(employeeTask.getTaskName() ) ){
-								ganttTasks.get(employeeTask.getTaskName()).addPredecessor(ganttTasks.get(taskName));
+								model.getGanttEntryRelationModel().addEntryRelation(new DefaultGanttEntryRelation<DefaultGanttEntry<Date>>(ganttTasks.get(taskName), ganttTasks.get(employeeTask.getTaskName()),  GanttEntryRelation.ENTRY_RELATION_FINISH_TO_START));
 							}
 						}
 					}
 				}
 				
-				java.util.Collections.sort(tasks, new Comparator<Task>() {
-
-					@Override
-					public int compare(Task o1, Task o2) {
-						int result = 0;
-						if(o1.getStart().after(o2.getStart())){
-							result = 1;
-						}else if( o1.getStart().before(o2.getStart())){
-							result = -1;
-						}
-						
-						return result;
-					}
-				});
+				for(Map.Entry<Date, DefaultGanttEntry<Date>> entry : tasks.entrySet()){
+					model.addGanttEntry(entry.getValue());
+				}
 				
-				_ganttModel.getTaskTreeModel().removeAll();
-				Task[] taskArray = new Task[tasks.size()];
-				tasks.toArray(taskArray);
-				_ganttModel.setKickoffTime( new Time(dateTime.toDate()));
-				_ganttModel.addTask(taskArray);
-				_ganttModel.setDeadline(new Time(_projectAssignDate.plusHours(assignedProject.getProjectDuration()/CONST_DURATION_MULTIPLIER).toDate()));
+				_ganttPane.setGanttModel(model);
 			}
 		}finally{
 			_lockObject.unlock();
@@ -239,9 +233,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 			public void run() {
 				try{
 					_lockObject.lock();
-					Time time = new Time(dateTime.plusHours(project.getProjectDuration()/CONST_DURATION_MULTIPLIER).toDate());
-					_ganttModel.removeAll();
-					_ganttModel.setDeadline(time);
+					_needToUpdateDiagramm = true;
 					_projectAssignDate = dateTime;
 				}finally{
 					_lockObject.unlock();
@@ -260,7 +252,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 			public void run() {
 				try{
 					_lockObject.lock();
-					_ganttChart.removeAll();
+					_needToUpdateDiagramm = true;
 				}finally{
 					_lockObject.unlock();
 				}
@@ -287,9 +279,9 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 			public void run() {
 				try{
 					_lockObject.lock();
-				
-					if(_ganttModel.getKickoffTime().getDayIntervalTo(new Time(dateTime.toDate())) > 0)
-					{
+					
+					if( _currentDate.getDayOfMonth() != dateTime.getDayOfMonth() ){
+						_currentDate = dateTime;
 						_needToUpdateDiagramm = true;
 					}
 					
