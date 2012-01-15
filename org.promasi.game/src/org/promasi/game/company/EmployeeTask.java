@@ -167,7 +167,7 @@ public class EmployeeTask
 				if( dependencieTask._lastStep > _firstStep){
 					int duration = _lastStep - _firstStep;
 					_firstStep = dependencieTask._lastStep;
-					_lastStep+=duration;
+					_lastStep = _firstStep + duration;
 				}
 				
 				result = true;
