@@ -104,7 +104,11 @@ public final class Clock
     	DateTime result = new DateTime();
     	try{
     		_lockObject.lock();
-        	result = _currentDateTime.toDateTime( );
+			result = _currentDateTime.toDateTime( );
+			result = result.minusMinutes(result.getMinuteOfHour());
+			result = result.minusSeconds(result.getSecondOfMinute());
+			result = result.minusMillis(result.getMillisOfSecond());
+			
     	}finally{
     		_lockObject.unlock();
     	}

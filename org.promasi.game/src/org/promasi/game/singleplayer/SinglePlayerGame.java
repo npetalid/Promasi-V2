@@ -237,7 +237,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 				_isRunning = true;
 				for( IClientGameListener listener : _listeners ){	
 					try {
-						listener.gameStarted(this, _gameModel.getSerializableGameModel(), _systemClock.getCurrentDateTime() );
+						listener.gameStarted(this, _gameModel.getSerializableGameModel(), _systemClock.getCurrentDateTime());
 					} catch (SerializationException e) {
 						_systemClock.stop();
 					}
