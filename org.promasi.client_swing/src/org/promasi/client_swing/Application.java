@@ -36,6 +36,7 @@ public class Application {
 	 * @param args 
 	 */
 	public static void main(String[] args) {
+		com.jidesoft.utils.Lm.verifyLicense("Alex Theodoridis", "ProMaSi", "BYEuilHJx9N.HdDrNJDzRmot.sJAFQF2");
 		CONST_LOGGER.info("Start application");
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {

@@ -1,0 +1,283 @@
+/*
+ * @(#)JideDemos.java 2/14/2005
+ *
+ * Copyright 2002 - 2005 JIDE Software Inc. All rights reserved.
+ */
+
+import com.jidesoft.action.DefaultDockableBarDockableHolder;
+import com.jidesoft.docking.DefaultDockingManager;
+import com.jidesoft.docking.DockContext;
+import com.jidesoft.docking.DockableFrame;
+import com.jidesoft.document.*;
+import com.jidesoft.icons.JideIconsFactory;
+import com.jidesoft.plaf.LookAndFeelFactory;
+import com.jidesoft.plaf.office2003.BasicOffice2003Theme;
+import com.jidesoft.plaf.office2003.Office2003Painter;
+import com.jidesoft.status.MemoryStatusBarItem;
+import com.jidesoft.status.ProgressStatusBarItem;
+import com.jidesoft.status.ResizeStatusBarItem;
+import com.jidesoft.status.StatusBar;
+import com.jidesoft.swing.ContentContainer;
+import com.jidesoft.swing.JideBoxLayout;
+import com.jidesoft.swing.JideTabbedPane;
+import com.jidesoft.utils.PortingUtils;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class JideDemos extends DefaultDockableBarDockableHolder {
+
+    private static JideDemos _frame;
+    private static IDocumentPane _documentPane;
+
+    private static StatusBar _statusBar;
+    private static final String PROFILE_NAME = "jidesoft-demoes";
+
+    private static boolean _autohideAll = false;
+    private static byte[] _fullScreenLayout;
+
+    public static final String DEMOS_DOCKABLEFRAME_KEY = "Demos";
+    public static final String OPTIONS_DOCKABLEFRAME_KEY = "Options";
+    public static WindowAdapter _windowListener;
+
+    public JideDemos(String title) throws HeadlessException {
+        super(title);
+    }
+
+    public JideDemos() throws HeadlessException {
+        this("");
+    }
+
+    public static void main(String[] args) {
+//        JFrame.setDefaultLookAndFeelDecorated(true);
+        PortingUtils.prerequisiteChecking();
+
+        // add an example custom theme
+        BasicOffice2003Theme theme = new BasicOffice2003Theme("Custom");
+        theme.setBaseColor(new Color(50, 190, 150), true, "default");
+        ((Office2003Painter) Office2003Painter.getInstance()).addTheme(theme);
+
+        LookAndFeelFactory.installDefaultLookAndFeelAndExtension();
+
+        _frame = new JideDemos("Demo of JIDE Products");
+        _frame.setIconImage(JideIconsFactory.getImageIcon(JideIconsFactory.JIDE32).getImage());
+
+        // add a widnow listener so that timer can be stopped when exit
+        _windowListener = new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                clearUp();
+                System.exit(0);
+            }
+        };
+        _frame.addWindowListener(_windowListener);
+
+        // set the profile key
+        _frame.getLayoutPersistence().setProfileKey(PROFILE_NAME);
+
+// comment this if you don't want to use javax pref
+//        _frame.getLayoutPersistence().setUsePref(false);
+
+        // draw full outline when outside main JFrame
+        _frame.getDockingManager().setOutlineMode(0);
+
+        _frame.getDockingManager().setAllowedDockSides(DockContext.DOCK_SIDE_VERTICAL);
+
+// uncomment following to adjust the sliding speed of autohide frame
+//        _frame.getDockingManager().setInitDelay(100);
+//        _frame.getDockingManager().setSteps(1);
+//        _frame.getDockingManager().setStepDelay(0);
+
+        // create tabbed-document interface and add it to workspace area
+        _documentPane = createDocumentTabs();
+        _frame.getDockingManager().getWorkspace().setLayout(new BorderLayout());
+        _frame.getDockingManager().getWorkspace().add((Component) _documentPane, BorderLayout.CENTER);
+
+        _frame.getDockableBarManager().setProfileKey(PROFILE_NAME);
+
+        // add toolbar
+        _frame.getDockableBarManager().addDockableBar(DemosCommandBarFactory.createMenuCommandBar(_frame));
+        _frame.getDockableBarManager().addDockableBar(DemosCommandBarFactory.createLookAndFeelCommandBar(_frame));
+
+        // add status bar
+        _statusBar = createStatusBar();
+        _frame.getContentPane().add(_statusBar, BorderLayout.AFTER_LAST_LINE);
+
+        _frame.getDockingManager().setUndoLimit(10);
+        _frame.getDockingManager().setAutohideShowingContentHidden(false);
+        _frame.getDockingManager().beginLoadLayoutData();
+
+//        _frame.getDockingManager().setFloatable(false);
+
+        _frame.getDockingManager().setInitSplitPriority(DefaultDockingManager.SPLIT_SOUTH_NORTH_EAST_WEST);
+
+        // add all dockable frames
+        _frame.getDockingManager().addFrame(new DemosDockableFrame(DEMOS_DOCKABLEFRAME_KEY));
+        DockableFrame optionsFrame = new DockableFrame(OPTIONS_DOCKABLEFRAME_KEY, DemoIconsFactory.getImageIcon(DemoIconsFactory.Frame.OPTIONS));
+        optionsFrame.getContext().setInitMode(DockContext.STATE_HIDDEN);
+        _frame.getDockingManager().addFrame(optionsFrame);
+
+        _frame.getDockingManager().setDefaultFocusComponent((JComponent) _documentPane);
+
+        _frame.getLayoutPersistence().loadLayoutData();
+        _frame.getDockingManager().hideFrame(OPTIONS_DOCKABLEFRAME_KEY);
+        _frame.getDockingManager().setShowGripper(true);
+
+        _frame.toFront();
+    }
+
+    private static void clearUp() {
+        _frame.removeWindowListener(_windowListener);
+        _windowListener = null;
+        if (_frame.getLayoutPersistence() != null) {
+            _frame.getLayoutPersistence().saveLayoutData();
+        }
+        _documentPane = null;
+        if (_statusBar != null && _statusBar.getParent() != null)
+            _statusBar.getParent().remove(_statusBar);
+        _statusBar = null;
+        _frame.dispose();
+        _frame = null;
+    }
+
+    private static StatusBar createStatusBar() {
+        // setup status bar
+        StatusBar statusBar = new StatusBar();
+        final ProgressStatusBarItem progress = new ProgressStatusBarItem();
+        progress.setCancelCallback(new ProgressStatusBarItem.CancelCallback() {
+            public void cancelPerformed() {
+                progress.setStatus("Cancelled");
+                progress.showStatus();
+            }
+        });
+        statusBar.add(progress, JideBoxLayout.VARY);
+
+        final MemoryStatusBarItem gc = new MemoryStatusBarItem();
+        gc.setPreferredWidth(100);
+        statusBar.add(gc, JideBoxLayout.FLEXIBLE);
+
+        final ResizeStatusBarItem resize = new ResizeStatusBarItem();
+        statusBar.add(resize, JideBoxLayout.FLEXIBLE);
+
+        return statusBar;
+    }
+
+    private static DocumentPane createDocumentTabs() {
+        final DocumentPane pane = new DocumentPane() {
+            // add function to maximize (autohideAll) the document pane when mouse double clicks on the tabs of DocumentPane.
+            @Override
+            protected IDocumentGroup createDocumentGroup() {
+                IDocumentGroup group = super.createDocumentGroup();
+                if (group instanceof JideTabbedPane) {
+                    ((JideTabbedPane) group).addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            if (SwingUtilities.isLeftMouseButton(e) && e.getClickCount() == 2) {
+                                if (!_autohideAll) {
+                                    _fullScreenLayout = _frame.getDockingManager().getLayoutRawData();
+                                    _frame.getDockingManager().autohideAll();
+                                    _autohideAll = true;
+                                }
+                                else {
+                                    if (_fullScreenLayout != null) {
+                                        _frame.getDockingManager().setLayoutRawData(_fullScreenLayout);
+                                    }
+                                    _autohideAll = false;
+                                }
+                            }
+                        }
+                    });
+                }
+                return group;
+            }
+        };
+        pane.registerKeyboardAction(new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                pane.closeDocument(pane.getActiveDocumentName());
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_F4, KeyEvent.CTRL_MASK), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        pane.registerKeyboardAction(new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                pane.nextDocument();
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, KeyEvent.ALT_MASK), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        pane.registerKeyboardAction(new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                pane.prevDocument();
+            }
+        }, KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, KeyEvent.ALT_MASK | KeyEvent.SHIFT_MASK), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        pane.setTabPlacement(JTabbedPane.TOP);
+        return pane;
+    }
+
+    public void openDemo(final Demo demo) {
+        if (!_documentPane.isDocumentOpened(demo.getName())) {
+            final DemoDocumentComponent documentComponent = new DemoDocumentComponent(demo);
+            documentComponent.addDocumentComponentListener(new DocumentComponentAdapter() {
+                @Override
+                public void documentComponentOpened(DocumentComponentEvent e) {
+                }
+
+                @Override
+                public void documentComponentClosing(DocumentComponentEvent e) {
+                    DockableFrame frame = getDockingManager().getFrame(OPTIONS_DOCKABLEFRAME_KEY);
+                    frame.getContentPane().removeAll();
+                    getDockingManager().hideFrame(OPTIONS_DOCKABLEFRAME_KEY);
+                }
+
+                @Override
+                public void documentComponentClosed(DocumentComponentEvent e) {
+                }
+
+                @Override
+                public void documentComponentActivated(final DocumentComponentEvent e) {
+                    JComponent panes = AbstractDemo.createOptionsPanel(_frame, demo, documentComponent.getDemoPanel());
+                    DockableFrame frame = getDockingManager().getFrame(OPTIONS_DOCKABLEFRAME_KEY);
+                    frame.getContentPane().removeAll();
+                    if (panes != null) {
+                        frame.getContentPane().setLayout(new BorderLayout());
+                        frame.getContentPane().add(new JScrollPane(panes), BorderLayout.CENTER);
+                        frame.setPreferredSize(new Dimension(300, 300));
+                        frame.setTitle("Options - " + demo.getName());
+                        if (frame.isHidden()) {
+                            getDockingManager().showFrame(OPTIONS_DOCKABLEFRAME_KEY);
+                        }
+                    }
+                    else {
+                        frame.setTitle("Options");
+                        getDockingManager().hideFrame(OPTIONS_DOCKABLEFRAME_KEY);
+                    }
+                }
+
+                @Override
+                public void documentComponentDeactivated(DocumentComponentEvent e) {
+                    DockableFrame frame = getDockingManager().getFrame(OPTIONS_DOCKABLEFRAME_KEY);
+                    frame.setTitle("Options");
+                    frame.getContentPane().removeAll();
+                }
+            });
+            _documentPane.openDocument(documentComponent);
+        }
+        _documentPane.setActiveDocument(demo.getName(), false);
+    }
+
+    public static StatusBar getStatusBar() {
+        return _statusBar;
+    }
+
+    @Override
+    protected ContentContainer createContentContainer() {
+        return new LogoContentContainer();
+    }
+
+    class LogoContentContainer extends ContentContainer {
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            ImageIcon imageIcon = JideIconsFactory.getImageIcon(JideIconsFactory.JIDELOGO_SMALL2);
+            imageIcon.paintIcon(this, g, getWidth() - imageIcon.getIconWidth() - 2, 2);
+        }
+    }
+}
