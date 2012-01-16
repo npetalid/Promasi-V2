@@ -118,8 +118,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		    projectEndDate.setTime(_projectAssignDate.plusHours(assignedProject.getProjectDuration()/CONST_DURATION_MULTIPLIER).toDate());
 		    
             model.setRange(new TimeRange(projectStartDate, projectEndDate));
-			
-			Map< Date, DefaultGanttEntry<Date>> tasks = new TreeMap< Date, DefaultGanttEntry<Date>>();
+
 			if(_projectAssignDate != null ){
 				Map<String,  DefaultGanttEntry<Date>> ganttTasks = new TreeMap<String,  DefaultGanttEntry<Date>>();
 				for (Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet() ){
