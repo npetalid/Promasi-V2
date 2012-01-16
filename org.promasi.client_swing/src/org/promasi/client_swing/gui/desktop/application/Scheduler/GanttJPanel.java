@@ -32,6 +32,7 @@ import com.jidesoft.gantt.DefaultGanttEntryRelation;
 import com.jidesoft.gantt.DefaultGanttModel;
 import com.jidesoft.gantt.GanttChartPane;
 import com.jidesoft.gantt.GanttEntryRelation;
+import com.jidesoft.grid.TableUtils;
 import com.jidesoft.range.TimeRange;
 import com.jidesoft.scale.DateScaleModel;
 import com.jidesoft.scale.ResizePeriodsPopupMenuCustomizer;
@@ -58,17 +59,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	/**
 	 * 
 	 */
-	private DateTime _currentDate;
-	
-	/**
-	 * 
-	 */
 	private GanttChartPane< Date, DefaultGanttEntry<Date> > _ganttPane;
-	
-	/**
-	 * 
-	 */
-	private boolean _needToUpdateDiagramm;
 	
 	/**
 	 * 
@@ -85,10 +76,9 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		}
 
 		_ganttPane= new DateGanttChartPane<>(new DefaultGanttModel<Date, DefaultGanttEntry<Date>>());
-		_ganttPane.getGanttChart().setShowGrid(true);
+		_ganttPane.getGanttChart().setShowGrid(false);
 		_lockObject = new ReentrantLock();
 		setBorder(BorderFactory.createTitledBorder("Scheduler"));
-		_needToUpdateDiagramm= true;
 		setLayout(new BorderLayout());
 		
         JScrollPane chartScroll = new JScrollPane(_ganttPane);
@@ -103,7 +93,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		_ganttPane.getGanttChart().getScaleArea().addPopupMenuCustomizer(new VisiblePeriodsPopupMenuCustomizer<Date>());
 		_ganttPane.getGanttChart().getScaleArea().addPopupMenuCustomizer(new ResizePeriodsPopupMenuCustomizer<Date>(_ganttPane.getGanttChart()));
 		_ganttPane.getGanttChart().setEditable(false);
-		_currentDate = new DateTime();
+		TableUtils.autoResizeAllColumns(_ganttPane.getTreeTable());
 	}
 	
 	/**
@@ -146,10 +136,10 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					
 					if( assignedProject.getProjectTasks() != null && assignedProject.getProjectTasks().containsKey(employeeTask.getProjectTaskName() ) ){
 						ProjectTaskMemento prjTask = assignedProject.getProjectTasks().get(employeeTask.getProjectTaskName());
-						newTask.setCompletion(prjTask.getProgress());
+						newTask.setCompletion(prjTask.getProgress()/100.0);
 					}
-					
-					tasks.put(startDate, newTask);
+
+					model.addGanttEntry(newTask);
 				}
 				
 				
@@ -164,10 +154,6 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					}
 				}
 				
-				for(Map.Entry<Date, DefaultGanttEntry<Date>> entry : tasks.entrySet()){
-					model.addGanttEntry(entry.getValue());
-				}
-				
 				_ganttPane.setGanttModel(model);
 			}
 		}finally{
@@ -177,52 +163,22 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 
 	@Override
 	public void employeeDischarged(String director, DepartmentMemento department) {
-		try{
-			_lockObject.lock();
-			_needToUpdateDiagramm = true;
-		}finally{
-			_lockObject.unlock();
-		}	
 	}
 
 	@Override
 	public void employeeHired(String director, DepartmentMemento department) {
-		try{
-			_lockObject.lock();
-			_needToUpdateDiagramm = true;
-		}finally{
-			_lockObject.unlock();
-		}	
 	}
 
 	@Override
 	public void tasksAssigned(String director, DepartmentMemento department) {
-		try{
-			_lockObject.lock();
-			_needToUpdateDiagramm = true;
-		}finally{
-			_lockObject.unlock();
-		}	
 	}
 
 	@Override
 	public void tasksAssignFailed(String director, DepartmentMemento department) {
-		try{
-			_lockObject.lock();
-			_needToUpdateDiagramm = true;
-		}finally{
-			_lockObject.unlock();
-		}	
 	}
 
 	@Override
 	public void departmentAssigned(String director, DepartmentMemento department) {
-		try{
-			_lockObject.lock();
-			_needToUpdateDiagramm = true;
-		}finally{
-			_lockObject.unlock();
-		}	
 	}
 	
 	/**
@@ -234,48 +190,23 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	 */
 	@Override
 	public void projectAssigned(String owner, CompanyMemento company,final ProjectMemento project, final DateTime dateTime) {
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				try{
-					_lockObject.lock();
-					_needToUpdateDiagramm = true;
-					_projectAssignDate = dateTime;
-				}finally{
-					_lockObject.unlock();
-				}
-			}
-		});
+		try{
+			_lockObject.lock();
+			_projectAssignDate = dateTime;
+		}finally{
+			_lockObject.unlock();
+		}
 	}
 
 
 	@Override
 	public void projectFinished(String owner, CompanyMemento company,
 			ProjectMemento project, DateTime dateTime) {
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				try{
-					_lockObject.lock();
-					_needToUpdateDiagramm = true;
-				}finally{
-					_lockObject.unlock();
-				}
-			}
-		});
 	}
 
 	@Override
 	public void companyIsInsolvent(String owner, CompanyMemento company,
 			ProjectMemento assignedProject, DateTime dateTime) {
-		try{
-			_lockObject.lock();
-			_needToUpdateDiagramm = true;
-		}finally{
-			_lockObject.unlock();
-		}	
 	}
 
 	@Override
@@ -286,29 +217,21 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 			public void run() {
 				try{
 					_lockObject.lock();
-					
-					if( _currentDate.getDayOfMonth() != dateTime.getDayOfMonth() ){
-						_currentDate = dateTime;
-						_needToUpdateDiagramm = true;
-					}
-					
-					if( _needToUpdateDiagramm ){
-						final Map<String, EmployeeTaskMemento> projectTasks = new TreeMap<String, EmployeeTaskMemento>();
-						if( company != null && company.getITDepartment() != null && company.getITDepartment().getEmployees() != null ){
-							Map<String, EmployeeMemento> employees = company.getITDepartment().getEmployees();
-							for (Map.Entry<String, EmployeeMemento> entry : employees.entrySet()){
-								Map<String, EmployeeTaskMemento> tasks = entry.getValue().getTasks();
-								for (Map.Entry<String, EmployeeTaskMemento> taskEntry : tasks.entrySet() ){
-									if( !projectTasks.containsKey(taskEntry.getValue().getTaskName())){
-										projectTasks.put(taskEntry.getValue().getTaskName(), taskEntry.getValue() );
-									}
+
+					final Map<String, EmployeeTaskMemento> projectTasks = new TreeMap<String, EmployeeTaskMemento>();
+					if( company != null && company.getITDepartment() != null && company.getITDepartment().getEmployees() != null ){
+						Map<String, EmployeeMemento> employees = company.getITDepartment().getEmployees();
+						for (Map.Entry<String, EmployeeMemento> entry : employees.entrySet()){
+							Map<String, EmployeeTaskMemento> tasks = entry.getValue().getTasks();
+							for (Map.Entry<String, EmployeeTaskMemento> taskEntry : tasks.entrySet() ){
+								if( !projectTasks.containsKey(taskEntry.getValue().getTaskName())){
+									projectTasks.put(taskEntry.getValue().getTaskName(), taskEntry.getValue() );
 								}
 							}
 						}
-
-						drawGanttDiagramm(projectTasks, assignedProject, dateTime);
-						_needToUpdateDiagramm = false;
 					}
+
+					drawGanttDiagramm(projectTasks, assignedProject, dateTime);
 					
 				}finally{
 					_lockObject.unlock();
@@ -320,12 +243,6 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 
 	@Override
 	public void companyAssigned(String owner, CompanyMemento company) {
-		try{
-			_lockObject.lock();
-			_needToUpdateDiagramm = true;
-		}finally{
-			_lockObject.unlock();
-		}	
 	}
 
 }

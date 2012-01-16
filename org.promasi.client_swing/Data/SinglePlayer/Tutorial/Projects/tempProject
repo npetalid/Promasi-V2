@@ -11,7 +11,7 @@
    <string>Test</string>
   </void>
   <void property="projectDuration">
-   <int>100000</int>
+   <int>10000</int>
   </void>
   <void property="projectPrice">
    <double>100.0</double>
@@ -30,7 +30,7 @@
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
         <void property="equationString">
-         <string>33</string>
+         <string>time*100/10000</string>
         </void>
        </object>
       </void>
@@ -101,7 +101,7 @@
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
         <void property="equationString">
-         <string>33</string>
+         <string>time*100/10000</string>
         </void>
        </object>
       </void>
@@ -172,7 +172,7 @@
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
         <void property="equationString">
-         <string>33</string>
+         <string>time*100/10000</string>
         </void>
        </object>
       </void>

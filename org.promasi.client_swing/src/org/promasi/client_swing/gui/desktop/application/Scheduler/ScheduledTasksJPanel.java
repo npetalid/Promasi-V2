@@ -82,8 +82,10 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				CheckBoxListEntry entry = (CheckBoxListEntry)_tasksList.getSelectedValue();
-				entry.onClick();
-				_tasksList.repaint();
+				if( entry != null ){
+					entry.onClick();
+					_tasksList.repaint();
+				}
 			}
 		});
 		

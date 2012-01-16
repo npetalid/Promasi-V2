@@ -49,7 +49,7 @@ public class GameMaker {
 	        sdObjects.put("stock", stock);
 	        sdObjects.put("output", output);
 	        SdSystem sdSystem=new SdSystem(sdObjects);
-	        ProjectTask task1=new ProjectTask("Test1","Test1",sdSystem, new CalculatedEquation("33"));
+	        ProjectTask task1=new ProjectTask("Test1","Test1",sdSystem, new CalculatedEquation(SdSystem.CONST_TIME_SDOBJECT_NAME+"*100/10000"));
 	        
 	        input=new InputSdObject();
 	        flow=new FlowSdObject(new CalculatedEquation("developer"));
@@ -61,7 +61,8 @@ public class GameMaker {
 	        sdObjects.put("stock", stock);
 	        sdObjects.put("output", output);
 	        sdSystem=new SdSystem(sdObjects);
-	        ProjectTask task2=new ProjectTask("Test2","Test2",sdSystem, new CalculatedEquation("33"));
+	        
+	        ProjectTask task2=new ProjectTask("Test2","Test2",sdSystem, new CalculatedEquation(SdSystem.CONST_TIME_SDOBJECT_NAME+"*100/10000"));
 	        sdObjects.clear();
 	                
 	        input=new InputSdObject();
@@ -74,7 +75,7 @@ public class GameMaker {
 	        sdObjects.put("stock", stock);
 	        sdObjects.put("output", output);
 	        sdSystem=new SdSystem(sdObjects);
-	        ProjectTask mainTask=new ProjectTask(Project.CONST_DEPLOY_TASK_NAME,"Deploy",sdSystem, new CalculatedEquation("33"));
+	        ProjectTask mainTask=new ProjectTask(Project.CONST_DEPLOY_TASK_NAME,"Deploy",sdSystem, new CalculatedEquation(SdSystem.CONST_TIME_SDOBJECT_NAME+"*100/10000"));
 	        sdObjects.clear();
 	        
 	        //task1.makeBridge("output", "developer", task2);
@@ -84,7 +85,7 @@ public class GameMaker {
 	        tasks.put(task1.getName(), task1);
 	        tasks.put(task2.getName(), task2);
 	        tasks.put(mainTask.getName(), mainTask);
-	        Project project=new Project("Test","Test",100000,tasks,100,100);
+	        Project project=new Project("Test","Test",10000,tasks,100,100);
 	        project.makeBridge(task1.getName(), "output", task2.getName(), "developer");
 	        project.makeBridge(task2.getName(), "output", mainTask.getName(), "developer");
 	        
