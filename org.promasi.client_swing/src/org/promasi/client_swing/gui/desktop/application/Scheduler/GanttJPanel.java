@@ -24,6 +24,7 @@ import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.project.ProjectMemento;
+import org.promasi.game.project.ProjectTaskMemento;
 
 import com.jidesoft.gantt.DateGanttChartPane;
 import com.jidesoft.gantt.DefaultGanttEntry;
@@ -142,6 +143,12 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	
 					DefaultGanttEntry<Date> newTask = new DefaultGanttEntry<Date>(employeeTask.getTaskName(), Date.class, new TimeRange(startTime, endTime), 0);
 					ganttTasks.put(employeeTask.getTaskName(), newTask);
+					
+					if( assignedProject.getProjectTasks() != null && assignedProject.getProjectTasks().containsKey(employeeTask.getProjectTaskName() ) ){
+						ProjectTaskMemento prjTask = assignedProject.getProjectTasks().get(employeeTask.getProjectTaskName());
+						newTask.setCompletion(prjTask.getProgress());
+					}
+					
 					tasks.put(startDate, newTask);
 				}
 				
