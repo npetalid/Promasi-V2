@@ -8,11 +8,11 @@ package org.promasi.client_swing.components.JList;
  * @author alekstheod
  *
  */
-public class CheckBoxListEntry{
+public class CheckBoxListEntry<T>{
 	/**
 	 * 
 	 */
-	private Object _object;
+	private T _object;
 	
 	/**
 	 * 
@@ -28,7 +28,7 @@ public class CheckBoxListEntry{
 	 * 
 	 * @param object
 	 */
-	public CheckBoxListEntry(Object object, String description){
+	public CheckBoxListEntry(T object, String description){
 		_object = object;
 		_isSelected = false;
 		_description = description;
@@ -38,7 +38,7 @@ public class CheckBoxListEntry{
 	 * 
 	 * @return
 	 */
-	public Object getObject(){
+	public T getObject(){
 		return _object;
 	}
 	

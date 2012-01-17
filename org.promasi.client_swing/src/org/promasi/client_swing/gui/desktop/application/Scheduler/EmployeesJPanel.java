@@ -35,12 +35,12 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 	/**
 	 * 
 	 */
-	private JList<CheckBoxListEntry> _employeesList;
+	private JList<CheckBoxListEntry<EmployeeMemento>> _employeesList;
 	
 	/**
 	 * 
 	 */
-	private Map<String, CheckBoxListEntry> _employees;
+	private Map<String, CheckBoxListEntry<EmployeeMemento>> _employees;
 	
 	/**
 	 * 
@@ -52,9 +52,9 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 		}
 		
 		setLayout(new BorderLayout());
-		_employeesList= new JList<CheckBoxListEntry>();
-		_employees= new TreeMap<String, CheckBoxListEntry>();
-		_employeesList.setCellRenderer(new CheckBoxCellRenderer());
+		_employeesList= new JList<CheckBoxListEntry<EmployeeMemento>>();
+		_employees= new TreeMap<String, CheckBoxListEntry<EmployeeMemento>>();
+		_employeesList.setCellRenderer(new CheckBoxCellRenderer<>());
 		_employeesList.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {}
@@ -67,7 +67,7 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				CheckBoxListEntry entry = (CheckBoxListEntry)_employeesList.getSelectedValue();
+				CheckBoxListEntry<EmployeeMemento> entry = _employeesList.getSelectedValue();
 				if( entry != null ){
 					entry.onClick();
 					_employeesList.repaint();
@@ -87,10 +87,10 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 	private void updateEmployeeList( final Map<String, EmployeeMemento> employees ){
 		if( employees != null ){
 			_employees.clear();
-			Vector<CheckBoxListEntry> dataSet = new Vector<CheckBoxListEntry>();
+			Vector<CheckBoxListEntry<EmployeeMemento>> dataSet = new Vector<CheckBoxListEntry<EmployeeMemento>>();
 			for(Map.Entry<String,EmployeeMemento> entry : employees.entrySet() ){
 				if( entry.getValue() !=null && entry.getValue().getEmployeeId() != null ){
-					CheckBoxListEntry newEntry = new CheckBoxListEntry(entry.getValue(), entry.getValue().getCurriculumVitae());
+					CheckBoxListEntry<EmployeeMemento> newEntry = new CheckBoxListEntry<EmployeeMemento>(entry.getValue(), entry.getValue().getCurriculumVitae());
 					dataSet.add(newEntry);
 					_employees.put(entry.getKey(), newEntry);
 				}
@@ -142,7 +142,7 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 	public Map<String, EmployeeMemento> getSelectedEmployees(){
 		Map<String, EmployeeMemento> result = new TreeMap<String, EmployeeMemento>();
 		
-		for(Map.Entry<String, CheckBoxListEntry> entry : _employees.entrySet()){
+		for(Map.Entry<String, CheckBoxListEntry<EmployeeMemento>> entry : _employees.entrySet()){
 			if( entry.getValue().isSelected() ){
 				result.put(entry.getKey(), (EmployeeMemento)entry.getValue().getObject());
 			}

@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Vector;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -45,17 +46,12 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 	/**
 	 * 
 	 */
-	private JList<CheckBoxListEntry> _tasksList;
+	private JList<CheckBoxListEntry<EmployeeTaskMemento>> _tasksList;
 	
 	/**
 	 * 
 	 */
-	private boolean _needToUpdate;
-	
-	/**
-	 * 
-	 */
-	private Map<String, CheckBoxListEntry> _tasks;
+	private Map<String, CheckBoxListEntry<EmployeeTaskMemento>> _tasks;
 	
 	/**
 	 * 
@@ -66,10 +62,10 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 	 * 
 	 */
 	public ScheduledTasksJPanel(IGame game){
-		_tasksList = new JList<CheckBoxListEntry>();
-		_tasks= new TreeMap<String, CheckBoxListEntry>();
+		_tasksList = new JList<CheckBoxListEntry<EmployeeTaskMemento>>();
+		_tasks= new TreeMap<String, CheckBoxListEntry<EmployeeTaskMemento>>();
 		_tasksList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		_tasksList.setCellRenderer(new CheckBoxCellRenderer());
+		_tasksList.setCellRenderer(new CheckBoxCellRenderer<>());
 		_tasksList.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent arg0) {}
@@ -81,7 +77,7 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 			public void mouseEntered(MouseEvent arg0) {}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				CheckBoxListEntry entry = (CheckBoxListEntry)_tasksList.getSelectedValue();
+				CheckBoxListEntry<EmployeeTaskMemento> entry = _tasksList.getSelectedValue();
 				if( entry != null ){
 					entry.onClick();
 					_tasksList.repaint();
@@ -93,7 +89,6 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 		add(_tasksList, BorderLayout.CENTER);
 		_lockObject = new ReentrantLock();
 		setBorder(BorderFactory.createTitledBorder("Running tasks"));
-		_needToUpdate = false;
 		game.addCompanyListener(this);
 		game.addDepartmentListener(this);
 	}
@@ -107,7 +102,7 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 		
 		try{
 			_lockObject.lock();
-			for( Map.Entry<String, CheckBoxListEntry> entry : _tasks.entrySet()){
+			for( Map.Entry<String, CheckBoxListEntry<EmployeeTaskMemento>> entry : _tasks.entrySet()){
 				if( entry.getValue().isSelected() ){
 					result.add(entry.getKey());
 				}
@@ -122,34 +117,16 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 	@Override
 	public void projectAssigned(String owner, CompanyMemento company,
 			ProjectMemento project, DateTime dateTime) {
-		try{
-			_lockObject.lock();
-			_needToUpdate = true;
-		}finally{
-			_lockObject.unlock();
-		}
 	}
 
 	@Override
 	public void projectFinished(String owner, CompanyMemento company,
 			ProjectMemento project, DateTime dateTime) {
-		try{
-			_lockObject.lock();
-			_needToUpdate = true;
-		}finally{
-			_lockObject.unlock();
-		}
 	}
 
 	@Override
 	public void companyIsInsolvent(String owner, CompanyMemento company,
 			ProjectMemento assignedProject, DateTime dateTime) {
-		try{
-			_lockObject.lock();
-			_needToUpdate = true;
-		}finally{
-			_lockObject.unlock();
-		}
 	}
 
 	@Override
@@ -166,29 +143,43 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 				public void run() {
 					try{
 						_lockObject.lock();
-						if( _needToUpdate ){
-							Map<String, EmployeeTaskMemento> scheduledTasks = new TreeMap<String, EmployeeTaskMemento>();
-							for( Map.Entry<String, EmployeeMemento> employeeEntry : company.getITDepartment().getEmployees().entrySet() ){
-								if( employeeEntry.getValue() != null ){
-									for( Map.Entry<String, EmployeeTaskMemento> taskEntry : employeeEntry.getValue().getTasks().entrySet()){
-										if( !scheduledTasks.containsKey( taskEntry.getValue().getTaskName() ) ){
-											scheduledTasks.put(taskEntry.getKey(), taskEntry.getValue());
-										}
+						
+						boolean newTasksFound = false;
+						Map<String, EmployeeTaskMemento> scheduledTasks = new TreeMap<String, EmployeeTaskMemento>();
+						for( Map.Entry<String, EmployeeMemento> employeeEntry : company.getITDepartment().getEmployees().entrySet() ){
+							if( employeeEntry.getValue() != null ){
+								for( Map.Entry<String, EmployeeTaskMemento> taskEntry : employeeEntry.getValue().getTasks().entrySet()){
+									if( !scheduledTasks.containsKey( taskEntry.getValue().getTaskName() ) ){
+										scheduledTasks.put(taskEntry.getKey(), taskEntry.getValue());
 									}
 								}
 							}
-							
-							_tasks.clear();
-							List<CheckBoxListEntry> tasks = new LinkedList<CheckBoxListEntry>();
-							for( Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet()){
-								CheckBoxListEntry taskEntry = new CheckBoxListEntry(entry.getValue(), entry.getValue().getTaskName());
-								tasks.add(taskEntry);
-								_tasks.put(entry.getKey(), taskEntry);
+						}
+						
+						for( Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet() ){
+							if(!_tasks.containsKey(entry.getKey())){
+								_tasks.put(entry.getKey(), new CheckBoxListEntry<EmployeeTaskMemento>(entry.getValue(), entry.getKey()));
+								newTasksFound = true;
+							}
+						}
+						
+						Map<String, CheckBoxListEntry<EmployeeTaskMemento>> tmp = new TreeMap<>(_tasks);
+						for(Map.Entry<String, CheckBoxListEntry<EmployeeTaskMemento>> entry : tmp.entrySet()){
+							if( !scheduledTasks.containsKey(entry.getKey())){
+								_tasks.remove(entry.getKey());
+								newTasksFound = true;
+							}
+						}
+						
+						if( newTasksFound){
+							Vector<CheckBoxListEntry<EmployeeTaskMemento>> tasks = new Vector<CheckBoxListEntry<EmployeeTaskMemento>>();
+							for( Map.Entry<String,  CheckBoxListEntry<EmployeeTaskMemento>> entry : _tasks.entrySet()){
+								tasks.add(entry.getValue());
 							}
 							
-							_tasksList.setListData( tasks.toArray(new CheckBoxListEntry[0]));
-							_needToUpdate= false;
+							_tasksList.setListData(tasks);
 						}
+
 					}finally{
 						_lockObject.unlock();
 					}
@@ -200,52 +191,22 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 
 	@Override
 	public void companyAssigned(String owner, CompanyMemento company) {
-		try{
-			_lockObject.lock();
-			_needToUpdate = true;
-		}finally{
-			_lockObject.unlock();
-		}
 	}
 
 	@Override
 	public void employeeDischarged(String director, DepartmentMemento department) {
-		try{
-			_lockObject.lock();
-			_needToUpdate = true;
-		}finally{
-			_lockObject.unlock();
-		}
 	}
 
 	@Override
 	public void employeeHired(String director, DepartmentMemento department) {
-		try{
-			_lockObject.lock();
-			_needToUpdate = true;
-		}finally{
-			_lockObject.unlock();
-		}
 	}
 
 	@Override
 	public void tasksAssigned(String director, DepartmentMemento department) {
-		try{
-			_lockObject.lock();
-			_needToUpdate = true;
-		}finally{
-			_lockObject.unlock();
-		}
 	}
 
 	@Override
 	public void tasksAssignFailed(String director, DepartmentMemento department) {
-		try{
-			_lockObject.lock();
-			_needToUpdate = true;
-		}finally{
-			_lockObject.unlock();
-		}
 	}
 
 	@Override

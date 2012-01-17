@@ -17,7 +17,7 @@ import org.promasi.client_swing.components.JEditorPane.ExtendedJEditorPane;
  * @author alekstheod
  *
  */
-public class CheckBoxCellRenderer extends DefaultListCellRenderer {
+public class CheckBoxCellRenderer<T> extends DefaultListCellRenderer {
 
 	/**
 	 * 
@@ -63,7 +63,8 @@ public class CheckBoxCellRenderer extends DefaultListCellRenderer {
 	 */
 	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
 		if(value instanceof CheckBoxListEntry ){
-			CheckBoxListEntry entry = (CheckBoxListEntry)value;
+			@SuppressWarnings("unchecked")
+			CheckBoxListEntry<T> entry = (CheckBoxListEntry<T>)value;
 			_htmlPane.setText(entry.toString());
 			_checkBox.setSelected(entry.isSelected());
 		}else{
