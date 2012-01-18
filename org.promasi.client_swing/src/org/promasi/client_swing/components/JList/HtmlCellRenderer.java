@@ -3,8 +3,10 @@
  */
 package org.promasi.client_swing.components.JList;
 
+import java.awt.Color;
 import java.awt.Component;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
@@ -34,6 +36,7 @@ public class HtmlCellRenderer extends DefaultListCellRenderer{
 		_htmlPane.setEditable(false);
 		_htmlPane.setContentType("text/html" );
 		
+		_htmlPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		_htmlPane.setVisible(true);
 		_htmlPane.setFocusable(true);
 	}

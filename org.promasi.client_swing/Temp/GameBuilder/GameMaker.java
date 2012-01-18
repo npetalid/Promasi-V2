@@ -75,7 +75,7 @@ public class GameMaker {
 	        sdObjects.put("stock", stock);
 	        sdObjects.put("output", output);
 	        sdSystem=new SdSystem(sdObjects);
-	        ProjectTask mainTask=new ProjectTask(Project.CONST_DEPLOY_TASK_NAME,"Deploy",sdSystem, new CalculatedEquation(SdSystem.CONST_TIME_SDOBJECT_NAME+"*100/10000"));
+	        ProjectTask mainTask=new ProjectTask("Test3","Deploy",sdSystem, new CalculatedEquation(SdSystem.CONST_TIME_SDOBJECT_NAME+"*100/10000"));
 	        sdObjects.clear();
 	        
 	        //task1.makeBridge("output", "developer", task2);

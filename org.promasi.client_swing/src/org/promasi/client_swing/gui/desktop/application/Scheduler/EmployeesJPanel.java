@@ -86,14 +86,21 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 	 */
 	private void updateEmployeeList( final Map<String, EmployeeMemento> employees ){
 		if( employees != null ){
-			_employees.clear();
-			Vector<CheckBoxListEntry<EmployeeMemento>> dataSet = new Vector<CheckBoxListEntry<EmployeeMemento>>();
-			for(Map.Entry<String,EmployeeMemento> entry : employees.entrySet() ){
-				if( entry.getValue() !=null && entry.getValue().getEmployeeId() != null ){
+			for( Map.Entry<String, EmployeeMemento> entry : employees.entrySet()){
+				if( !_employees.containsKey(entry.getKey() ) ){
 					CheckBoxListEntry<EmployeeMemento> newEntry = new CheckBoxListEntry<EmployeeMemento>(entry.getValue(), entry.getValue().getCurriculumVitae());
-					dataSet.add(newEntry);
 					_employees.put(entry.getKey(), newEntry);
 				}
+			}
+			
+			Vector<CheckBoxListEntry<EmployeeMemento>> dataSet = new Vector<CheckBoxListEntry<EmployeeMemento>>();
+			Map<String, CheckBoxListEntry<EmployeeMemento> > tmpEmployees = new TreeMap<>(_employees);
+			for( Map.Entry<String, CheckBoxListEntry<EmployeeMemento> > entry : tmpEmployees.entrySet() ){
+				if(!employees.containsKey(entry.getKey())){
+					_employees.remove(entry.getKey());
+				}
+				
+				dataSet.add(entry.getValue());
 			}
 			
 			_employeesList.setListData(dataSet);

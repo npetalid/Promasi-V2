@@ -36,7 +36,7 @@ import org.promasi.game.project.ProjectMemento;
  * @author alekstheod
  *
  */
-public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, IDepartmentListener{
+public class DependenciesJPanel extends JPanel implements ICompanyListener, IDepartmentListener{
 	
 	/**
 	 * 
@@ -61,7 +61,7 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 	/**
 	 * 
 	 */
-	public ScheduledTasksJPanel(IGame game){
+	public DependenciesJPanel(IGame game){
 		_tasksList = new JList<CheckBoxListEntry<EmployeeTaskMemento>>();
 		_tasks= new TreeMap<String, CheckBoxListEntry<EmployeeTaskMemento>>();
 		_tasksList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -88,7 +88,7 @@ public class ScheduledTasksJPanel extends JPanel implements ICompanyListener, ID
 		setLayout(new BorderLayout());
 		add(_tasksList, BorderLayout.CENTER);
 		_lockObject = new ReentrantLock();
-		setBorder(BorderFactory.createTitledBorder("Running tasks"));
+		setBorder(BorderFactory.createTitledBorder("Dependencies"));
 		game.addCompanyListener(this);
 		game.addDepartmentListener(this);
 	}

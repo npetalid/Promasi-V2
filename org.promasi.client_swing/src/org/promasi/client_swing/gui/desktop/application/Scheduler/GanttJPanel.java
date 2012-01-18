@@ -93,6 +93,9 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		_ganttPane.getGanttChart().getScaleArea().addPopupMenuCustomizer(new VisiblePeriodsPopupMenuCustomizer<Date>());
 		_ganttPane.getGanttChart().getScaleArea().addPopupMenuCustomizer(new ResizePeriodsPopupMenuCustomizer<Date>(_ganttPane.getGanttChart()));
 		_ganttPane.getGanttChart().setEditable(false);
+		_ganttPane.setProportionalLayout(true);
+		double[] proportions={0.29};
+		_ganttPane.setProportions(proportions);
 		TableUtils.autoResizeAllColumns(_ganttPane.getTreeTable());
 	}
 	

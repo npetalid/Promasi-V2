@@ -101,7 +101,7 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 	/**
 	 * 
 	 */
-	private ScheduledTasksJPanel _tasksPanel;
+	private DependenciesJPanel _tasksPanel;
 	
 	/**
 	 * 
@@ -135,7 +135,7 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 		JPanel schedulerPanel = new JPanel();
 		schedulerPanel.setLayout(new BorderLayout());
 		tabbedPane.addTab("Scheduler", schedulerPanel);
-		schedulerPanel.add(new ScheduledTasksJPanel(_game), BorderLayout.WEST);
+		schedulerPanel.add(new DependenciesJPanel(_game), BorderLayout.WEST);
 
 		
 		// Setup employees list
@@ -224,9 +224,13 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 		add(bottomPanel, BorderLayout.SOUTH);
 		
 		// Setup scheduled tasks
-		_tasksPanel = new ScheduledTasksJPanel(game);
-		schedulerPanel.add(_tasksPanel, BorderLayout.WEST);
+
+		
+		_tasksPanel = new DependenciesJPanel(game);
 		_tasksPanel.setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height));
+		
+		schedulerPanel.setLayout(new BorderLayout());
+		tabbedPane.addTab("Dependencies", _tasksPanel);
 		
 		JPanel ganttPanel = new JPanel();
 		ganttPanel.setLayout(new BorderLayout());

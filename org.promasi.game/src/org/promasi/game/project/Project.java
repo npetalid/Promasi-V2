@@ -27,11 +27,6 @@ public class Project
 	 */
 	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(Project.class);
 	
-	/**
-	 * The main task name.
-	 */
-	public static final String CONST_DEPLOY_TASK_NAME="DEPLOY";
-	
     /**
      * The name of the project.
      */
@@ -222,8 +217,13 @@ public class Project
             		entry.getValue().executeBridges();
             	}
 
-            	ProjectTask overallProject=_projectTasks.get(CONST_DEPLOY_TASK_NAME);
-            	_overallProgress=overallProject.getProgress();
+            	_overallProgress = 0;
+            	for( Map.Entry<String, ProjectTask> taskEntry : _projectTasks.entrySet()){
+            		_overallProgress += taskEntry.getValue().getProgress();
+            	}
+            	
+            	_overallProgress = _overallProgress/_projectTasks.size();
+
             	_currentStep++;	
             	result = true;
         	}
@@ -275,10 +275,9 @@ public class Project
      * @return
      */
     public boolean isExpired(){
-    	ProjectTask mainTask=_projectTasks.get(CONST_DEPLOY_TASK_NAME);
     	try {
     		_lockObject.lock();
-			if(mainTask.getProgress()>=100){
+			if(_overallProgress>=100){
 				return true;
 			}
 			
