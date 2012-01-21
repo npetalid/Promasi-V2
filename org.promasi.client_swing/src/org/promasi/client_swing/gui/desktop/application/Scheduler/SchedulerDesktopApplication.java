@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.swing.JPanel;
 
 import org.promasi.client_swing.gui.GuiException;
+import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
 import org.promasi.game.IGame;
 
@@ -34,7 +35,7 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 	/**
 	 * 
 	 */
-	public static final String CONST_APP_ICON = "monitor.png";
+	public static final String CONST_APP_ICON = "gantt.png";
 	
 	/**
 	 * 
@@ -47,8 +48,16 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 	 * @throws GuiException
 	 * @throws IOException
 	 */
-	public SchedulerDesktopApplication( IGame game ) throws GuiException, IOException{
+	public SchedulerDesktopApplication( IGame game, IDesktop desktop ) throws GuiException, IOException{
 		super(CONST_APPNAME, RootDirectory.getInstance().getImagesDirectory() + CONST_APP_ICON);
+		if( game == null){
+			throw new GuiException("Wrong argument game == null");
+		}
+		
+		if( desktop == null ){
+			throw new GuiException("Wrong argument desktop == null");
+		}
+		
 		setLayout(new BorderLayout());
 		_internalPanel = new JPanel();
 		_internalPanel.setLayout(new BorderLayout());

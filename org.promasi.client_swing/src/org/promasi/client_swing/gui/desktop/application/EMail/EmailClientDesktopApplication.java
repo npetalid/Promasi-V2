@@ -1,12 +1,15 @@
 /**
  * 
  */
-package org.promasi.client_swing.gui.desktop.application;
+package org.promasi.client_swing.gui.desktop.application.EMail;
 
 import java.io.IOException;
 
 import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
+import org.promasi.client_swing.gui.desktop.IDesktop;
+import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
+import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
 import org.promasi.game.IGame;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.CompanyMemento;
@@ -45,7 +48,7 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 	 * @throws GuiException
 	 * @throws IOException 
 	 */
-	public EmailClientDesktopApplication( IGame game ) throws GuiException, IOException {
+	public EmailClientDesktopApplication( IGame game, IDesktop desktop ) throws GuiException, IOException {
 		super(CONST_APPNAME, RootDirectory.getInstance().getImagesDirectory() + CONST_APP_ICON);
 		
 		if( game == null ){
@@ -54,6 +57,7 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 		
 		_game = game;
 		_game.addCompanyListener(this);
+		desktop.addQuickStartButton(new QuickStartButton(this, desktop));
 	}
 
 	@Override

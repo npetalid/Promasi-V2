@@ -8,6 +8,7 @@ import java.io.IOException;
 import javax.swing.JTabbedPane;
 
 import org.promasi.client_swing.gui.GuiException;
+import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
 import org.promasi.game.IGame;
 import org.promasi.utilities.file.RootDirectory;
@@ -26,7 +27,7 @@ public class WebBrowserDesktopApplication extends ADesktopApplication{
 	/**
 	 * 
 	 */
-	public static final String CONST_APPNAME = "MarketPlace";
+	public static final String CONST_APPNAME = "Human resources";
 	
 	/**
 	 * 
@@ -43,7 +44,7 @@ public class WebBrowserDesktopApplication extends ADesktopApplication{
 	 * @throws GuiException
 	 * @throws IOException 
 	 */
-	public WebBrowserDesktopApplication( IGame game ) throws GuiException, IOException {
+	public WebBrowserDesktopApplication( IGame game, IDesktop desktop ) throws GuiException, IOException {
 		super(CONST_APPNAME, RootDirectory.getInstance().getImagesDirectory() + CONST_APP_ICON);
 		
 		if( game == null ){

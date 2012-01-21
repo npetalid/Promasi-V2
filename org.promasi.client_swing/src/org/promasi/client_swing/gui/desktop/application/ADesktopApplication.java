@@ -57,6 +57,10 @@ public abstract class ADesktopApplication extends JInternalFrame implements IMen
 		}
 		
 		_appIcon = new ImageIcon( iconPath );
+		if(_appIcon.getIconHeight() <=0 || _appIcon.getIconWidth() <= 0){
+			throw new GuiException("Wrong argument iconPath");
+		}
+		
 		AffineTransform transform = new AffineTransform();
 		transform.scale(0.5, 0.5);
 		AffineTransformOp op = new AffineTransformOp(transform, AffineTransformOp.TYPE_BILINEAR);

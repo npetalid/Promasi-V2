@@ -42,10 +42,10 @@ public class ClockJPanel extends JPanel {
 	public ClockJPanel(){
 		super();
 		setBackground( Color.gray );
-		setPreferredSize( new Dimension(CONST_CLOCK_PANEL_WIDTH, 100) );
+		setPreferredSize( new Dimension(CONST_CLOCK_PANEL_WIDTH, 50) );
 		setLayout(new BorderLayout());
 		_clockLabel = new JLabel();
-		add(_clockLabel, BorderLayout.CENTER);
+		add(_clockLabel, BorderLayout.EAST);
 	}
 	
 	/**

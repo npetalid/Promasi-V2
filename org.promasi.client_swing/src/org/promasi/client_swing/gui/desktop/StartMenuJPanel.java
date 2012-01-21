@@ -23,8 +23,9 @@ import javax.swing.SwingConstants;
 import org.promasi.client_swing.components.JList.MenuCellRenderer;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
-import org.promasi.client_swing.gui.desktop.application.EmailClientDesktopApplication;
+import org.promasi.client_swing.gui.desktop.application.EMail.EmailClientDesktopApplication;
 import org.promasi.client_swing.gui.desktop.application.Scheduler.SchedulerDesktopApplication;
+import org.promasi.client_swing.gui.desktop.application.Statistics.StatisticsApplication;
 import org.promasi.client_swing.gui.desktop.application.WebBrowser.WebBrowserDesktopApplication;
 import org.promasi.game.IGame;
 import org.promasi.utilities.file.RootDirectory;
@@ -95,9 +96,10 @@ public class StartMenuJPanel extends JPanel {
 
 		Vector<ADesktopApplication> apps = new Vector<ADesktopApplication>();
 		try {
-			apps.add(new SchedulerDesktopApplication( game ));
-			apps.add(new EmailClientDesktopApplication(game));
-			apps.add(new WebBrowserDesktopApplication(game));
+			apps.add(new SchedulerDesktopApplication( game, desktop ));
+			apps.add(new EmailClientDesktopApplication(game, desktop ));
+			apps.add(new WebBrowserDesktopApplication(game, desktop));
+			apps.add(new StatisticsApplication(game, desktop));
 		} catch (IOException ex) {
 			// TODO Auto-generated catch block
 			ex.printStackTrace();

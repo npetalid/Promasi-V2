@@ -18,6 +18,7 @@ import org.promasi.client_swing.gui.GamesJPanel;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.IMainFrame;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
+import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
 import org.promasi.game.IGame;
 import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.CompanyMemento;
@@ -42,7 +43,7 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 	/**
 	 * 
 	 */
-	private TaskBarJPanel _taskBarPanel;
+	private ToolBarJPanel _taskBarPanel;
 	
 	/**
 	 * 
@@ -80,7 +81,7 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 		_game = game;
 		_game.addListener(this);
 		setLayout(new BorderLayout());
-		_taskBarPanel = new TaskBarJPanel( username, this );
+		_taskBarPanel = new ToolBarJPanel( username, this );
 		add( _taskBarPanel, BorderLayout.NORTH );
 		
 		_workspace = new PromasiJDesktopPane( _game, username , this );
@@ -146,12 +147,6 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 	}
 
 	@Override
-	public void sleep() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void runApplication( ADesktopApplication application ) {
 		try {
 			if( application != null ){
@@ -176,5 +171,10 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public boolean addQuickStartButton(QuickStartButton button) {
+		return _taskBarPanel.addQuickStartButton(button);
 	}
 }

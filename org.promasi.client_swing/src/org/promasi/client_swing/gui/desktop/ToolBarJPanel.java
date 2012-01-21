@@ -5,6 +5,7 @@ package org.promasi.client_swing.gui.desktop;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -17,13 +18,14 @@ import javax.swing.SwingConstants;
 
 import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
+import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
 import org.promasi.utilities.file.RootDirectory;
 
 /**
  * @author alekstheod
  *
  */
-public class TaskBarJPanel extends JPanel {
+public class ToolBarJPanel extends JPanel {
 
 	/**
 	 * 
@@ -58,7 +60,17 @@ public class TaskBarJPanel extends JPanel {
 	/**
 	 * 
 	 */
-	public TaskBarJPanel( String username, IDesktop desktop )throws GuiException{
+	private JPanel _quickMenuPanel;
+	
+	/**
+	 * 
+	 */
+	private JPanel _quickButtonsJPanel;
+	
+	/**
+	 * 
+	 */
+	public ToolBarJPanel( String username, IDesktop desktop )throws GuiException{
 		super();
 		
 		if( username == null || username.isEmpty() ){
@@ -94,9 +106,9 @@ public class TaskBarJPanel extends JPanel {
 		
 		add(_startButton, BorderLayout.WEST);
 		
-		JPanel iconsPanel = new JPanel();
-		iconsPanel.setLayout(new BorderLayout());
-		iconsPanel.setPreferredSize(new Dimension( ClockJPanel.CONST_CLOCK_PANEL_WIDTH + QuickIconsJPanel.CONST_QUICK_ICONS_PANEL_WIDTH, 100) );
+		_quickMenuPanel = new JPanel();
+		_quickMenuPanel.setLayout(new BorderLayout());
+		_quickMenuPanel.setPreferredSize(new Dimension( ClockJPanel.CONST_CLOCK_PANEL_WIDTH + QuickIconsJPanel.CONST_QUICK_ICONS_PANEL_WIDTH, 100) );
 		_clockPanel = new ClockJPanel();
 		
 		JButton exitButton = null;
@@ -116,16 +128,38 @@ public class TaskBarJPanel extends JPanel {
 			}
 		});
 		
-		iconsPanel.add(exitButton, BorderLayout.EAST);
-		iconsPanel.add(_clockPanel, BorderLayout.CENTER);
-		iconsPanel.add(new QuickIconsJPanel(), BorderLayout.WEST);
+		_quickButtonsJPanel = new JPanel();
+		_quickButtonsJPanel.setLayout(new FlowLayout());
 		
-		add(iconsPanel, BorderLayout.EAST);
+		_quickMenuPanel.add(exitButton, BorderLayout.EAST);
+		_quickMenuPanel.add(_clockPanel, BorderLayout.CENTER);
+		_quickMenuPanel.add(_quickButtonsJPanel, BorderLayout.WEST);
+		
+		add(_quickMenuPanel, BorderLayout.EAST);
 		
 		_desktop = desktop;
 	}
 	
+	/**
+	 * 
+	 * @param dateTime
+	 */
 	public void updateTime( DateTime dateTime ){
 		_clockPanel.updateTime(dateTime);
+	}
+	
+	/**
+	 * 
+	 * @param button
+	 * @return
+	 */
+	public boolean addQuickStartButton( QuickStartButton button ){
+		boolean result = false;
+		if( button != null ){
+			_quickButtonsJPanel.add(button);
+			result = true;
+		}
+		
+		return result;
 	}
 }

@@ -14,6 +14,7 @@ import javax.swing.JPopupMenu;
 
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
+import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
 import org.promasi.game.IGame;
 import org.promasi.utilities.file.RootDirectory;
 
@@ -73,10 +74,10 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 		
 		_startMenu = new JPopupMenu();
 		_startMenu.setLayout(new BorderLayout());
-		StartMenuJPanel startPanel = new StartMenuJPanel( game, username, this );
-		_startMenu.add(startPanel, BorderLayout.CENTER);
 		
 		_desktop = desktop;
+		StartMenuJPanel startPanel = new StartMenuJPanel( game, username, this );
+		_startMenu.add(startPanel, BorderLayout.CENTER);
 	}
 	
 	/**
@@ -99,15 +100,14 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 	}
 
 	@Override
-	public void sleep() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void runApplication( ADesktopApplication application ) {
 		_startMenu.setVisible(false);
 		_desktop.runApplication(application);
+	}
+
+	@Override
+	public boolean addQuickStartButton(QuickStartButton button) {
+		return _desktop.addQuickStartButton(button);
 	}
 
 }
