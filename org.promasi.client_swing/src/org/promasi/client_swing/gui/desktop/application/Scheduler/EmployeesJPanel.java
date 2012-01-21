@@ -4,80 +4,100 @@
 package org.promasi.client_swing.gui.desktop.application.Scheduler;
 
 import java.awt.BorderLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
 
-import javax.swing.BorderFactory;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import org.promasi.client_swing.components.JList.CheckBoxCellRenderer;
-import org.promasi.client_swing.components.JList.CheckBoxListEntry;
+import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
+
+import org.joda.time.DateTime;
+import org.promasi.client_swing.components.JList.HtmlCellRenderer;
 import org.promasi.client_swing.gui.GuiException;
+import org.promasi.client_swing.gui.desktop.application.Employee;
 import org.promasi.game.IGame;
+import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.DepartmentMemento;
 import org.promasi.game.company.EmployeeMemento;
+import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
+import org.promasi.game.project.ProjectMemento;
 
 /**
  * @author alekstheod
  *
  */
-public class EmployeesJPanel extends JPanel implements IDepartmentListener{
-
+public class EmployeesJPanel extends JPanel implements ICompanyListener, IDepartmentListener {
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	/**
-	 * 
-	 */
-	private JList<CheckBoxListEntry<EmployeeMemento>> _employeesList;
 	
 	/**
 	 * 
 	 */
-	private Map<String, CheckBoxListEntry<EmployeeMemento>> _employees;
+	public static final String CONST_SITENAME = "Human Resources";
 	
 	/**
 	 * 
-	 * @param game
 	 */
-	public EmployeesJPanel(IGame game)throws GuiException{
+	private IGame _game;
+	
+	/**
+	 * 
+	 */
+	private JList<Employee> _employeesList;
+	
+	/**
+	 * 
+	 */
+	public EmployeesJPanel( IGame game ) throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
 		}
 		
-		setLayout(new BorderLayout());
-		_employeesList= new JList<CheckBoxListEntry<EmployeeMemento>>();
-		_employees= new TreeMap<String, CheckBoxListEntry<EmployeeMemento>>();
-		_employeesList.setCellRenderer(new CheckBoxCellRenderer<>());
-		_employeesList.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {}
-			@Override
-			public void mousePressed(MouseEvent arg0) {}
-			@Override
-			public void mouseExited(MouseEvent arg0) {	}
-			@Override
-			public void mouseEntered(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				CheckBoxListEntry<EmployeeMemento> entry = _employeesList.getSelectedValue();
-				if( entry != null ){
-					entry.onClick();
-					_employeesList.repaint();
-				}
-			}
-		});
+		_employeesList = new JList<Employee>();
+		JScrollPane scrollPane = new JScrollPane(_employeesList);
 		
-		add(_employeesList, BorderLayout.CENTER);
-		setBorder(BorderFactory.createTitledBorder("Employees"));
-		game.addDepartmentListener(this);
+		_employeesList.setCellRenderer(new HtmlCellRenderer());
+		setLayout(new BorderLayout());
+		add(scrollPane, BorderLayout.CENTER);
+		
+		_game = game;
+		_game.addCompanyListener(this);
+		_game.addDepartmentListener(this);
+	}
+
+	@Override
+	public void projectAssigned(String owner, CompanyMemento company,
+			ProjectMemento project, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void projectFinished(String owner, CompanyMemento company,
+			ProjectMemento project, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void companyIsInsolvent(String owner, CompanyMemento company,
+			ProjectMemento assignedProject, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onExecuteWorkingStep(String owner, CompanyMemento company,
+			ProjectMemento assignedProject, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**
@@ -86,27 +106,34 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 	 */
 	private void updateEmployeeList( final Map<String, EmployeeMemento> employees ){
 		if( employees != null ){
-			for( Map.Entry<String, EmployeeMemento> entry : employees.entrySet()){
-				if( !_employees.containsKey(entry.getKey() ) ){
-					CheckBoxListEntry<EmployeeMemento> newEntry = new CheckBoxListEntry<EmployeeMemento>(entry.getValue(), entry.getValue().getCurriculumVitae());
-					_employees.put(entry.getKey(), newEntry);
+			Vector<Employee> dataSet = new Vector<Employee>();
+			for(Map.Entry<String,EmployeeMemento> entry : employees.entrySet() ){
+				if( entry.getValue() !=null && entry.getValue().getEmployeeId() != null ){
+					try {
+						dataSet.add(new Employee(entry.getValue()));
+					} catch (GuiException e) {
+						// TODO log
+					}
 				}
-			}
-			
-			Vector<CheckBoxListEntry<EmployeeMemento>> dataSet = new Vector<CheckBoxListEntry<EmployeeMemento>>();
-			Map<String, CheckBoxListEntry<EmployeeMemento> > tmpEmployees = new TreeMap<>(_employees);
-			for( Map.Entry<String, CheckBoxListEntry<EmployeeMemento> > entry : tmpEmployees.entrySet() ){
-				if(!employees.containsKey(entry.getKey())){
-					_employees.remove(entry.getKey());
-				}
-				
-				dataSet.add(entry.getValue());
 			}
 			
 			_employeesList.setListData(dataSet);
 		}
 	}
 	
+	@Override
+	public void companyAssigned(final String owner, final CompanyMemento company) {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				if( company != null && company.getITDepartment() != null){
+					updateEmployeeList(company.getITDepartment().getEmployees() );
+				}
+			}
+		});
+	}
+
 	@Override
 	public void employeeDischarged(String director, DepartmentMemento department) {
 		if( department != null ){
@@ -142,17 +169,11 @@ public class EmployeesJPanel extends JPanel implements IDepartmentListener{
 		}
 	}
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public Map<String, EmployeeMemento> getSelectedEmployees(){
+	Map<String, EmployeeMemento> getSelectedEmployees(){
 		Map<String, EmployeeMemento> result = new TreeMap<String, EmployeeMemento>();
-		
-		for(Map.Entry<String, CheckBoxListEntry<EmployeeMemento>> entry : _employees.entrySet()){
-			if( entry.getValue().isSelected() ){
-				result.put(entry.getKey(), (EmployeeMemento)entry.getValue().getObject());
-			}
+		List<Employee> employees = _employeesList.getSelectedValuesList();
+		for( Employee employee : employees){
+			result.put(employee.getEmployeeMemento().getEmployeeId(), employee.getEmployeeMemento());
 		}
 		
 		return result;

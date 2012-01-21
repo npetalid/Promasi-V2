@@ -3,6 +3,10 @@
  */
 package org.promasi.client_swing.gui;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -78,6 +82,9 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();  
+				Rectangle rect = new Rectangle(screenSize.width/10, screenSize.height/10, screenSize.width - screenSize.width/5, screenSize.height- screenSize.height/5);
+				_mainFrame.setBounds(rect);
 				_mainFrame.changePanel(_gamePanel);
 			}
 		});

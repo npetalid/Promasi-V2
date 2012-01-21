@@ -77,6 +77,6 @@ public class SchedulerJPanel extends JPanel {
 		
 		add(_scheduler, BorderLayout.CENTER);
 		add( wizardPanel, BorderLayout.SOUTH);
-		_taskPanel = new TaskJPanel(game, _app, SchedulerJPanel.this);
+		_taskPanel = new NewTaskJPanel(game, _app, SchedulerJPanel.this);
 	}
 }

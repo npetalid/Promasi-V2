@@ -57,8 +57,6 @@ public class Application {
 	                // Create a JFrame, which is a Window with "decorations", i.e.
 	                // title, border and close-button
 	                MainFrame mainFrame = new MainFrame("ProMaSi");
-	 
-	                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();  
 	                
 	                // Set a simple Layout Manager that arranges the contained
 	                // Components
@@ -72,7 +70,7 @@ public class Application {
 	                //  (The default is HIDE_ON_CLOSE, which just makes the window
 	                //  invisible, and thus doesn't exit the app)
 	                mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	                
+	                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();  
 	                Rectangle rect = new Rectangle(screenSize.width/2 - screenSize.width/4, screenSize.height/2 - screenSize.height/4, screenSize.width/2, screenSize.height/2);
 	                mainFrame.setBounds(rect);
 	 

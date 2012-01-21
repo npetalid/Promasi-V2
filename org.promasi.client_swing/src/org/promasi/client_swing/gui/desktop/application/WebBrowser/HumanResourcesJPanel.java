@@ -6,6 +6,7 @@ package org.promasi.client_swing.gui.desktop.application.WebBrowser;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -71,19 +72,21 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 		JPanel marketPlaceMenu = new JPanel();
 		marketPlaceMenu.setLayout(new BorderLayout());
 		
-		JButton hireButton = new JButton("Discharge");
-		hireButton.addActionListener(new ActionListener() {
+		JButton dischargeButton = new JButton("Discharge");
+		dischargeButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if( !_employeesList.isSelectionEmpty() ){
-					Employee employee = (Employee)_employeesList.getSelectedValue();
-					_game.dischargeEmployee(employee.getEmployeeMemento().getEmployeeId());
+					List<Employee> employees = _employeesList.getSelectedValuesList();
+					for( Employee employee : employees){
+						_game.dischargeEmployee(employee.getEmployeeMemento().getEmployeeId());
+					}
 				}
 			}
 		});
 		
-		marketPlaceMenu.add(hireButton, BorderLayout.EAST);
+		marketPlaceMenu.add(dischargeButton, BorderLayout.EAST);
 		
 		add( marketPlaceMenu, BorderLayout.SOUTH );
 		
@@ -120,6 +123,10 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 		
 	}
 
+	/**
+	 * 
+	 * @param employees
+	 */
 	private void updateEmployeeList( final Map<String, EmployeeMemento> employees ){
 		if( employees != null ){
 			Vector<Employee> dataSet = new Vector<Employee>();

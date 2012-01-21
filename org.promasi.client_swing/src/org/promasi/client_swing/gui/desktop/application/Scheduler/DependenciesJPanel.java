@@ -134,8 +134,7 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 			ProjectMemento assignedProject, DateTime dateTime) {
 		if( 	company != null && 
 				company.getITDepartment() != null && 
-				company.getITDepartment().getEmployees() != null && 
-				!company.getITDepartment().getEmployees().isEmpty()){
+				company.getITDepartment().getEmployees() != null){
 			
 			SwingUtilities.invokeLater(new Runnable() {
 				

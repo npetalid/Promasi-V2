@@ -19,77 +19,6 @@
   <void property="projectTasks">
    <object class="java.util.TreeMap">
     <void method="put">
-     <string>DEPLOY</string>
-     <object class="org.promasi.game.project.ProjectTaskMemento">
-      <void property="description">
-       <string>Deploy</string>
-      </void>
-      <void property="name">
-       <string>DEPLOY</string>
-      </void>
-      <void property="progressEquation">
-       <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
-        <void property="equationString">
-         <string>time*100/10000</string>
-        </void>
-       </object>
-      </void>
-      <void property="sdSystem">
-       <object class="org.promasi.sdsystem.SdSystemMemento">
-        <void property="sdObjects">
-         <void method="put">
-          <string>developer</string>
-          <object class="org.promasi.sdsystem.sdobject.InputSdObjectMemento"/>
-         </void>
-         <void method="put">
-          <string>flow</string>
-          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
-           <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
-             <void property="equationString">
-              <string>developer</string>
-             </void>
-            </object>
-           </void>
-          </object>
-         </void>
-         <void method="put">
-          <string>output</string>
-          <object class="org.promasi.sdsystem.sdobject.OutputSdObjectMemento">
-           <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
-             <void property="equationString">
-              <string>stock</string>
-             </void>
-            </object>
-           </void>
-          </object>
-         </void>
-         <void method="put">
-          <string>stock</string>
-          <object class="org.promasi.sdsystem.sdobject.StockSdObjectMemento">
-           <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
-             <void property="equationString">
-              <string>flow</string>
-             </void>
-            </object>
-           </void>
-           <void property="value">
-            <double>0.0</double>
-           </void>
-          </object>
-         </void>
-         <void method="put">
-          <string>time</string>
-          <object class="org.promasi.sdsystem.sdobject.TimeSdObjectMemento"/>
-         </void>
-        </void>
-       </object>
-      </void>
-     </object>
-    </void>
-    <void method="put">
      <string>Test1</string>
      <object class="org.promasi.game.project.ProjectTaskMemento">
       <void property="description">
@@ -231,6 +160,77 @@
       </void>
      </object>
     </void>
+    <void method="put">
+     <string>Test3</string>
+     <object class="org.promasi.game.project.ProjectTaskMemento">
+      <void property="description">
+       <string>Deploy</string>
+      </void>
+      <void property="name">
+       <string>Test3</string>
+      </void>
+      <void property="progressEquation">
+       <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
+        <void property="equationString">
+         <string>time*100/10000</string>
+        </void>
+       </object>
+      </void>
+      <void property="sdSystem">
+       <object class="org.promasi.sdsystem.SdSystemMemento">
+        <void property="sdObjects">
+         <void method="put">
+          <string>developer</string>
+          <object class="org.promasi.sdsystem.sdobject.InputSdObjectMemento"/>
+         </void>
+         <void method="put">
+          <string>flow</string>
+          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
+           <void property="equation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
+             <void property="equationString">
+              <string>developer</string>
+             </void>
+            </object>
+           </void>
+          </object>
+         </void>
+         <void method="put">
+          <string>output</string>
+          <object class="org.promasi.sdsystem.sdobject.OutputSdObjectMemento">
+           <void property="equation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
+             <void property="equationString">
+              <string>stock</string>
+             </void>
+            </object>
+           </void>
+          </object>
+         </void>
+         <void method="put">
+          <string>stock</string>
+          <object class="org.promasi.sdsystem.sdobject.StockSdObjectMemento">
+           <void property="equation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
+             <void property="equationString">
+              <string>flow</string>
+             </void>
+            </object>
+           </void>
+           <void property="value">
+            <double>0.0</double>
+           </void>
+          </object>
+         </void>
+         <void method="put">
+          <string>time</string>
+          <object class="org.promasi.sdsystem.sdobject.TimeSdObjectMemento"/>
+         </void>
+        </void>
+       </object>
+      </void>
+     </object>
+    </void>
    </object>
   </void>
   <void property="taskBridges">
@@ -257,7 +257,7 @@
        <string>developer</string>
       </void>
       <void property="inputTaskName">
-       <string>DEPLOY</string>
+       <string>Test3</string>
       </void>
       <void property="outputSdObjectId">
        <string>output</string>

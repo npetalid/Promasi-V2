@@ -26,7 +26,7 @@ public class WebBrowserDesktopApplication extends ADesktopApplication{
 	/**
 	 * 
 	 */
-	public static final String CONST_APPNAME = "WebBrowser";
+	public static final String CONST_APPNAME = "MarketPlace";
 	
 	/**
 	 * 

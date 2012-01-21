@@ -4,6 +4,9 @@
 package org.promasi.client_swing.gui.desktop;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.beans.PropertyVetoException;
 
 import javax.swing.JInternalFrame;
@@ -15,7 +18,6 @@ import org.promasi.client_swing.gui.GamesJPanel;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.IMainFrame;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
-import org.promasi.client_swing.gui.desktop.taskbar.TaskBarJPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.CompanyMemento;
@@ -83,6 +85,10 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 		
 		_workspace = new PromasiJDesktopPane( _game, username , this );
 		add(_workspace);
+		
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();  
+        Rectangle rect = new Rectangle(screenSize.width/2 - screenSize.width/4, screenSize.height/2 - screenSize.height/4, screenSize.width/2, screenSize.height/2);
+        mainFrame.setBounds(rect);
 	}
 
 	@Override

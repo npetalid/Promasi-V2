@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="Libs/jide.3.3.3/lib/jide-gantt.jar"/>
 	<classpathentry kind="lib" path="Libs/jide.3.3.3/lib/jide-grids.jar"/>
 	<classpathentry kind="lib" path="Libs/jide.3.3.3/lib/jide-common.jar"/>
+	<classpathentry kind="lib" path="Libs/G_lib/G.jar"/>
+	<classpathentry kind="lib" path="Libs/MigLayout/miglayout-4.0-swing.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

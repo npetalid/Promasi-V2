@@ -5,20 +5,21 @@ package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import org.promasi.client_swing.components.JEditorPane.ExtendedJEditorPane;
 import org.promasi.game.IGame;
@@ -45,11 +46,6 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 	 * 
 	 */
 	private JList<IGame> _gamesList;
-	
-	/**
-	 * 
-	 */
-	private JButton _playButton;
 	
 	/**
 	 * 
@@ -104,36 +100,50 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		setLayout( new BorderLayout() );
 		_gamesList.setPreferredSize(new Dimension( CONST_GAMES_LIST_WIDTH, 100 ));
 		add(_gamesList, BorderLayout.EAST);
-		_gamesList.addListSelectionListener(new ListSelectionListener() {
+		
+		_gamesList.addMouseMotionListener(new MouseMotionListener() {
 			
 			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				_playButton.setEnabled(true);
+			public void mouseMoved(MouseEvent arg0) {
+				Point p = new Point(arg0.getX(),arg0.getY());
+				_gamesList.setSelectedIndex(_gamesList.locationToIndex(p));
 				IGame game = _gamesList.getSelectedValue();
-				_infoPane.setText( game.getGameDescription() );
+				if( game != null ){
+					_infoPane.setText(game.getGameDescription());
+				}
 			}
-		});
-		
-		JPanel bottomPanel = new JPanel();
-		bottomPanel.setLayout(new BorderLayout() );
-		
-		_playButton = new JButton("Next");
-		_playButton.setPreferredSize(new Dimension(CONST_GAMES_LIST_WIDTH, 30));
-		_playButton.addActionListener(new ActionListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				_gamesServer.joinGame((IGame)_gamesList.getSelectedValue());
+			public void mouseDragged(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
 			}
-			
 		});
 		
-		bottomPanel.add(_playButton, BorderLayout.EAST);
-		add( bottomPanel, BorderLayout.SOUTH );
+		_gamesList.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
+			
+			@Override
+			public void mousePressed(MouseEvent arg0) {}
+			
+			@Override
+			public void mouseExited(MouseEvent arg0) {}
+			
+			@Override
+			public void mouseEntered(MouseEvent arg0) {}
+			
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				IGame game = _gamesList.getSelectedValue();
+				if( game != null ){
+					_gamesServer.joinGame(game);
+				}
+			}
+		});
 		
 		EtchedBorder edge = new EtchedBorder(EtchedBorder.RAISED);
-		_playButton.setBorder(edge);
-		_playButton.setEnabled(false);
 		_gamesList.setBorder(edge);
 		
 		_infoPane = new ExtendedJEditorPane();
@@ -152,6 +162,10 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 			}
 			
 		}, 500);
+		
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();  
+		Rectangle rect = new Rectangle(screenSize.width/2 - screenSize.width/4, screenSize.height/2 - screenSize.height/4, screenSize.width/2, screenSize.height/2);
+		_mainFrame.setBounds(rect);
 	}
 
 	@Override

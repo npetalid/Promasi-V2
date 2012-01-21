@@ -4,7 +4,6 @@
 package org.promasi.client_swing.components.JList;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
@@ -58,7 +57,7 @@ public class CheckBoxCellRenderer<T> extends DefaultListCellRenderer {
 		_checkBox = new JCheckBox();
 		_checkBox.setSelected(false);
 		_panel.add(_checkBox, BorderLayout.EAST);
-		_htmlPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		_panel.setBorder( BorderFactory.createEtchedBorder( ) );
 	}
 
 	/**

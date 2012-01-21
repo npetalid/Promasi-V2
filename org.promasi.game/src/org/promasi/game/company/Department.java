@@ -209,14 +209,14 @@ public class Department{
             		_lockObject.lock();
                 	Employee currentEmployee=_employees.get(employeeId);
                 	_employees.remove(employeeId);
-                	currentEmployee.addListener(null);
-                	currentEmployee.setSupervisor(null);
                 	if(marketPlace.dischargeEmployee(currentEmployee)){
                 		DepartmentMemento memento = getMemento();
                         for(IDepartmentListener listener : _listeners){
                         	listener.employeeDischarged(_director, memento);
                         }
                         
+                        currentEmployee.removeListeners();
+                        currentEmployee.setSupervisor(null);
                         result = true;
                 	}else{
                 			_employees.put(currentEmployee.getEmployeeId(), currentEmployee);

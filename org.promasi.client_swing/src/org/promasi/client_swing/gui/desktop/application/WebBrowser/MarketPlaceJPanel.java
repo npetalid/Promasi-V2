@@ -6,6 +6,7 @@ package org.promasi.client_swing.gui.desktop.application.WebBrowser;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -74,8 +75,10 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if( !_employeesList.isSelectionEmpty() ){
-					Employee employee = _employeesList.getSelectedValue();
-					_game.hireEmployee(employee.getEmployeeMemento().getEmployeeId());
+					List<Employee> employees = _employeesList.getSelectedValuesList();
+					for( Employee employee : employees){
+						_game.hireEmployee(employee.getEmployeeMemento().getEmployeeId());
+					}
 				}
 			}
 		});
