@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 
 import org.promasi.client_swing.components.JEditorPane.ExtendedJEditorPane;
+import org.promasi.client_swing.components.JList.MenuCellRenderer;
 import org.promasi.game.IGame;
 import org.promasi.game.IGamesServer;
 import org.promasi.game.IGamesServerListener;
@@ -97,6 +98,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		DefaultListModel<IGame> listModel = new DefaultListModel<IGame>();
 		
 		_gamesList = new JList<IGame>(listModel);
+		_gamesList.setCellRenderer(new MenuCellRenderer());
 		setLayout( new BorderLayout() );
 		_gamesList.setPreferredSize(new Dimension( CONST_GAMES_LIST_WIDTH, 100 ));
 		add(_gamesList, BorderLayout.EAST);

@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import java.io.IOException;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -105,10 +106,16 @@ public class StartMenuJPanel extends JPanel {
 			ex.printStackTrace();
 		}
 		
+		JPanel internalPanel = new JPanel();
+		add(internalPanel, BorderLayout.WEST);
+		internalPanel.setLayout(new BorderLayout());
+		internalPanel.setBorder(BorderFactory.createEtchedBorder());
 		_appList = new JList<ADesktopApplication>(apps);
 		_appList.setCellRenderer(new MenuCellRenderer());
-		_appList.setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height ));
-		add(_appList, BorderLayout.CENTER);
+		_appList.setPreferredSize(new Dimension(getPreferredSize().width-10, CONST_PREFERED_HEIGHT - 50 ));
+
+		internalPanel.add(_appList, BorderLayout.CENTER);
+		
 		
 		_appList.addMouseMotionListener(new MouseMotionListener() {
 			

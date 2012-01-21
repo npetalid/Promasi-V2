@@ -10,11 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
@@ -50,7 +50,7 @@ public class ToolBarJPanel extends JPanel {
 	/**
 	 * 
 	 */
-	public ClockJPanel _clockPanel;
+	public ClockJButton _clockPanel;
 	
 	/**
 	 * 
@@ -86,15 +86,14 @@ public class ToolBarJPanel extends JPanel {
 		
 		try {
 			Icon startIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + CONST_START_ICON);
-			_startButton = new JButton("Start");
+			_startButton = new JButton();
 			_startButton.setIcon(startIcon);
-			_startButton.setPreferredSize(new Dimension( startIcon.getIconHeight(), startIcon.getIconHeight() ));
+			_startButton.setText("Start");
+			_startButton.setIconTextGap(10);
 		} catch (IOException e1) {
 			_startButton = new JButton("Start");
 		}
 		
-		_startButton.setHorizontalAlignment(SwingConstants.LEFT);
-		_startButton.setPreferredSize(new Dimension(125,100));
 		_startButton.setFocusPainted(false);
 		_startButton.addActionListener(new ActionListener() {
 			
@@ -108,14 +107,15 @@ public class ToolBarJPanel extends JPanel {
 		
 		_quickMenuPanel = new JPanel();
 		_quickMenuPanel.setLayout(new BorderLayout());
-		_quickMenuPanel.setPreferredSize(new Dimension( ClockJPanel.CONST_CLOCK_PANEL_WIDTH + QuickIconsJPanel.CONST_QUICK_ICONS_PANEL_WIDTH, 100) );
-		_clockPanel = new ClockJPanel();
+		_clockPanel = new ClockJButton();
 		
 		JButton exitButton = null;
 		try {
 			Icon exitIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + "exit.png");
 			exitButton = new JButton(exitIcon);
 			exitButton.setPreferredSize(new Dimension( exitIcon.getIconHeight(), exitIcon.getIconHeight() ));
+			exitButton.setFocusable(false);
+			exitButton.setBorder(BorderFactory.createEmptyBorder());
 		} catch (IOException e1) {
 			exitButton = new JButton("Exit");
 		}
@@ -130,7 +130,7 @@ public class ToolBarJPanel extends JPanel {
 		
 		_quickButtonsJPanel = new JPanel();
 		_quickButtonsJPanel.setLayout(new FlowLayout());
-		
+		_quickButtonsJPanel.setBorder(BorderFactory.createEtchedBorder());
 		_quickMenuPanel.add(exitButton, BorderLayout.EAST);
 		_quickMenuPanel.add(_clockPanel, BorderLayout.CENTER);
 		_quickMenuPanel.add(_quickButtonsJPanel, BorderLayout.WEST);

@@ -43,7 +43,7 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 	/**
 	 * 
 	 */
-	private ToolBarJPanel _taskBarPanel;
+	private ToolBarJPanel _toolBarPanel;
 	
 	/**
 	 * 
@@ -81,8 +81,8 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 		_game = game;
 		_game.addListener(this);
 		setLayout(new BorderLayout());
-		_taskBarPanel = new ToolBarJPanel( username, this );
-		add( _taskBarPanel, BorderLayout.NORTH );
+		_toolBarPanel = new ToolBarJPanel( username, this );
+		add( _toolBarPanel, BorderLayout.NORTH );
 		
 		_workspace = new PromasiJDesktopPane( _game, username , this );
 		add(_workspace);
@@ -107,7 +107,7 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				_taskBarPanel.updateTime(dateTime);
+				_toolBarPanel.updateTime(dateTime);
 			}
 		});
 		
@@ -165,6 +165,8 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 					application.setBounds(workspaceWidth/2 - workspaceWidth/4, workspaceHeight/2 - workspaceHeight/4 , workspaceWidth/2, workspaceHeight/2 );
 					application.show();
 					application.setSelected(true);
+				}else{
+					application.setSelected(true);
 				}
 			}
 		} catch (PropertyVetoException e) {
@@ -175,6 +177,6 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 
 	@Override
 	public boolean addQuickStartButton(QuickStartButton button) {
-		return _taskBarPanel.addQuickStartButton(button);
+		return _toolBarPanel.addQuickStartButton(button);
 	}
 }

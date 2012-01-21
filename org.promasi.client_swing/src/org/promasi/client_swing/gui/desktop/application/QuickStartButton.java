@@ -59,6 +59,7 @@ public class QuickStartButton extends JButton {
 			}
 		});
 		
+		this.setRolloverEnabled(false);
 		setBorder(BorderFactory.createEmptyBorder());
 		setIcon(applicaiton.getFrameIcon());
 		setPreferredSize(new Dimension(applicaiton.getFrameIcon().getIconWidth(), applicaiton.getFrameIcon().getIconHeight()));

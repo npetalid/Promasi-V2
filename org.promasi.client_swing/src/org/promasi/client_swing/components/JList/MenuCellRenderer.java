@@ -3,13 +3,15 @@
  */
 package org.promasi.client_swing.components.JList;
 
+import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+
+import org.promasi.client_swing.gui.GuiException;
 
 /**
  * @author alekstheod
@@ -21,7 +23,23 @@ public class MenuCellRenderer extends DefaultListCellRenderer {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	/**
+	 * 
+	 */
+	private JLabel _imageLabel;
+	
+	/**
+	 * 
+	 * @param menuEntry
+	 * @throws GuiException
+	 */
+	public MenuCellRenderer(){
+		_imageLabel = new JLabel();
+		_imageLabel.setOpaque(true);
+		_imageLabel.setBackground(Color.WHITE);
+	}
+	
 	/**
 	 * 
 	 */
@@ -30,13 +48,20 @@ public class MenuCellRenderer extends DefaultListCellRenderer {
 		if (value instanceof IMenuEntry) {
 			IMenuEntry menuEntry = (IMenuEntry) value;
 			Icon icon = menuEntry.getIcon();
-			label.setPreferredSize(new Dimension( 50, icon.getIconHeight() ));
-			label.setIcon(icon);
+			_imageLabel.setIcon(icon);
+			_imageLabel.setText(label.getText());
 		} else {
-			label.setIcon(null);
+			_imageLabel.setIcon(null);
+			_imageLabel.setText(label.getText());
+		}
+		
+		if( isSelected ){
+			_imageLabel.setBackground(Color.LIGHT_GRAY);
+		}else{
+			_imageLabel.setBackground(Color.WHITE);
 		}
 
-		return label;
+		return _imageLabel;
 	}
 
 }
