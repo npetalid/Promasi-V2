@@ -10,6 +10,7 @@ import javax.swing.JTabbedPane;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
+import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
 import org.promasi.game.IGame;
 import org.promasi.utilities.file.RootDirectory;
 
@@ -57,5 +58,6 @@ public class WebBrowserDesktopApplication extends ADesktopApplication{
 		add(tabbedPane);
 		tabbedPane.addTab(MarketPlaceJPanel.CONST_SITENAME, new MarketPlaceJPanel(_game));
 		tabbedPane.addTab(HumanResourcesJPanel.CONST_SITENAME, new HumanResourcesJPanel(_game));
+		desktop.addQuickStartButton(new QuickStartButton(this, desktop));
 	}
 }

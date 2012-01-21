@@ -166,6 +166,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 		schedulerPanel.add(prjTasksPanel, BorderLayout.NORTH);
 		prjTasksPanel.setBorder(BorderFactory.createTitledBorder("Project tasks"));
 		
+		add( prjTasksPanel, BorderLayout.NORTH);
 		add( tabbedPane, BorderLayout.CENTER);
 		
 		//Setup control panel

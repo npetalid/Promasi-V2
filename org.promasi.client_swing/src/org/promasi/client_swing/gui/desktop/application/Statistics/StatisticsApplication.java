@@ -6,6 +6,7 @@ import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
+import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
 import org.promasi.game.IGame;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.ICompanyListener;
@@ -46,7 +47,7 @@ public class StatisticsApplication extends ADesktopApplication implements ICompa
 			throw new GuiException("Wrong argument desktop == null");
 		}
 		
-		
+		desktop.addQuickStartButton(new QuickStartButton(this, desktop));
 	}
 
 	@Override

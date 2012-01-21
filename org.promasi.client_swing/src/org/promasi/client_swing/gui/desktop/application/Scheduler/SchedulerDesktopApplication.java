@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
+import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
 import org.promasi.game.IGame;
 
 import org.promasi.utilities.file.RootDirectory;
@@ -63,6 +64,7 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 		_internalPanel.setLayout(new BorderLayout());
 		add(_internalPanel, BorderLayout.CENTER);
 		_internalPanel.add( new SchedulerJPanel( game , this), BorderLayout.CENTER);
+		desktop.addQuickStartButton(new QuickStartButton(this, desktop));
 	}
 
 	@Override

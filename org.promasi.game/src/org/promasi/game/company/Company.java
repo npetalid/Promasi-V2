@@ -338,8 +338,13 @@ public class Company
             				
                     		if(_budget<0){
                 		        for(ICompanyListener listener : _companyListeners){
-                		        	listener.companyIsInsolvent(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
-                		        	_assignedProject=null;
+                		        	if( _assignedProject != null ){
+                    		        	listener.companyIsInsolvent(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
+                    		        	_assignedProject=null;
+                		        	}else{
+                		        		listener.companyIsInsolvent(_owner, getMemento(), null, currentDate);
+                		        	}
+
                 		        }
                 		        
                 		        _itDepartment.dischargeEmployees( marketPlace );

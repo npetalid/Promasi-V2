@@ -85,13 +85,13 @@ public class ToolBarJPanel extends JPanel {
 		setLayout(new BorderLayout());
 		
 		try {
-			Icon startIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + CONST_START_ICON);
+			Icon startIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + "marketplace.png");
 			_startButton = new JButton();
 			_startButton.setIcon(startIcon);
-			_startButton.setText("Start");
-			_startButton.setIconTextGap(10);
+			_startButton.setText("Menu");
+			_startButton.setIconTextGap(5);
 		} catch (IOException e1) {
-			_startButton = new JButton("Start");
+			_startButton = new JButton("Menu");
 		}
 		
 		_startButton.setFocusPainted(false);
