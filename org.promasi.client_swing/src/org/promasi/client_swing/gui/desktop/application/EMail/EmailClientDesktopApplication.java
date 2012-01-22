@@ -25,6 +25,7 @@ import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
 import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
 import org.promasi.game.IGame;
 import org.promasi.game.company.DepartmentMemento;
+import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.IDepartmentListener;
@@ -142,7 +143,6 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 				}finally{
 					_lockObject.unlock();
 				}
-				
 			}
 		});
 	}
@@ -175,41 +175,67 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 	}
 
 	@Override
-	public void employeeDischarged(String director, DepartmentMemento department) {
+	public void employeeDischarged(String director, DepartmentMemento department, final EmployeeMemento employee, final DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
 			public void run() {
-				_quickStartButton.showPopupNotifier("Employee discharged", "Employee discharged");
+				try {
+					_lockObject.lock();
+					Message msg = new Message("CEO", "Employee discharged", dateTime, employee.getCurriculumVitae());
+					List< Message > messages = _msgTableModel.getMessages();
+					messages.add(msg);
+					_msgTableModel = new MessageTableModel(messages);
+					_messageTable.setModel(_msgTableModel);
+					_quickStartButton.showPopupNotifier("Employee discharged", "Employee discharged");
+				} catch (GuiException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally{
+					_lockObject.unlock();
+				}
 			}
 		});
 	}
 
 	@Override
-	public void employeeHired(String director, DepartmentMemento department) {
+	public void employeeHired(String director, DepartmentMemento department, final EmployeeMemento employee, final DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
 			public void run() {
-				_quickStartButton.showPopupNotifier("Employee hired", "Employee hired");
+				try {
+					_lockObject.lock();
+					Message msg = new Message("CEO", "Employee hired", dateTime, employee.getCurriculumVitae());
+					List< Message > messages = _msgTableModel.getMessages();
+					messages.add(msg);
+					_msgTableModel = new MessageTableModel(messages);
+					_messageTable.setModel(_msgTableModel);
+					_quickStartButton.showPopupNotifier("Employee hired", "Employee hired");
+				} catch (GuiException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally{
+					_lockObject.unlock();
+				}
 			}
 		});
 	}
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department) {
+	public void tasksAssigned(String director, DepartmentMemento department, final DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department) {
+	public void tasksAssignFailed(String director, DepartmentMemento department, final DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department) {
+	public void departmentAssigned(String director, DepartmentMemento department, final DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}

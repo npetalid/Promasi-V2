@@ -51,7 +51,7 @@ public class DepartmentMemento {
 					throw new SerializationException("Serialization failed becuase employee list is invalid");
 				}
 				
-				result.hireEmployee(result.getDirector(), entry.getValue().getEmployee());
+				result.hireEmployee(result.getDirector(), entry.getValue().getEmployee(), null);
 			}
 		}
 		

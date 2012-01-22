@@ -133,12 +133,12 @@ public class GameModel
 		}
 	}
 
-	public boolean hireEmployee(String employeeId) {
-		return _marketPlace.hireEmployee(_company, employeeId);
+	public boolean hireEmployee(String employeeId, DateTime dateTime) {
+		return _marketPlace.hireEmployee(_company, employeeId, dateTime);
 	}
 
-	public boolean dischargeEmployee(String employeeId) {
-		return _company.dischargeEmployee(employeeId, _marketPlace);
+	public boolean dischargeEmployee(String employeeId, DateTime dateTime) {
+		return _company.dischargeEmployee(employeeId, _marketPlace, dateTime);
 	}
 
 	/**
@@ -155,9 +155,9 @@ public class GameModel
 	 * @param employeeTasks
 	 * @return
 	 */
-	public boolean assignTasks(String employeeId,List<EmployeeTaskMemento> employeeTasks) {
+	public boolean assignTasks(String employeeId,List<EmployeeTaskMemento> employeeTasks, DateTime dateTime) {
 		try {
-			return _company.assignTasks(employeeId, employeeTasks);
+			return _company.assignTasks(employeeId, employeeTasks, dateTime);
 		} catch (IllegalArgumentException e) {
 			return false;
 		}

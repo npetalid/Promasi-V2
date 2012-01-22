@@ -177,7 +177,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 			}
 			
 			GameModel game=_gameModels.get(clientId);
-			game.hireEmployee(employeeId);
+			game.hireEmployee(employeeId, _systemClock.getCurrentDateTime());
 		}
 	}
 
@@ -200,7 +200,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 			}
 			
 			GameModel game=_gameModels.get(clientId);
-			game.dischargeEmployee(employeeId);
+			game.dischargeEmployee(employeeId, _systemClock.getCurrentDateTime());
 		}
 	}
 
@@ -223,7 +223,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 			}
 			
 			
-			return _gameModels.get(clientId).assignTasks(employeeId, employeeTasks);
+			return _gameModels.get(clientId).assignTasks(employeeId, employeeTasks, _systemClock.getCurrentDateTime());
 		}
 	}
 
@@ -509,7 +509,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void employeeDischarged(String director, DepartmentMemento department) {
+	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
 		/*for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
 				try{
@@ -526,7 +526,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void employeeHired(String director, DepartmentMemento department) {
+	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
 		/*for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
 				try{
@@ -557,21 +557,21 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department) {
+	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department) {
+	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department) {
+	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}

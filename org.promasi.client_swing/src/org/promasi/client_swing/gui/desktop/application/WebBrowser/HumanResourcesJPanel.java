@@ -158,35 +158,35 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 	}
 
 	@Override
-	public void employeeDischarged(String director, DepartmentMemento department) {
+	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}
 	}
 
 	@Override
-	public void employeeHired(String director, DepartmentMemento department) {
+	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}
 	}
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department) {
+	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}
 	}
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department) {
+	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}
 	}
 
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department) {
+	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}

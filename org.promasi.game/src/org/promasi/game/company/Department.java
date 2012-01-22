@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.joda.time.DateTime;
 import org.promasi.game.GameException;
 import org.promasi.game.project.ProjectTask;
 import org.promasi.utilities.exceptions.NullArgumentException;
@@ -76,7 +77,7 @@ public class Department{
      * @param employee
      * @throws SerializationException 
      */
-    protected boolean hireEmployee(String supervisor, Employee employee)
+    protected boolean hireEmployee(String supervisor, Employee employee, DateTime time)
     {
        	boolean result = false;
     	if(employee != null){
@@ -86,7 +87,7 @@ public class Department{
                 	_employees.put(employee.getEmployeeId(), employee);
                 	DepartmentMemento memento = getMemento();
                     for(IDepartmentListener listener : _listeners){
-                    	listener.employeeHired(_director, memento);
+                    	listener.employeeHired(_director, memento, employee.getMemento(), time);
                     }
                     
                     employee.setSupervisor(_director);
@@ -201,7 +202,7 @@ public class Department{
      * @throws NullArgumentException
      * @throws SerializationException 
      */
-    public boolean dischargeEmployee(final String employeeId, MarketPlace marketPlace){
+    public boolean dischargeEmployee(final String employeeId, MarketPlace marketPlace, DateTime time){
     	boolean result = false;
     	if(employeeId!=null){
         	if( _employees.containsKey(employeeId) ){
@@ -212,7 +213,7 @@ public class Department{
                 	if(marketPlace.dischargeEmployee(currentEmployee)){
                 		DepartmentMemento memento = getMemento();
                         for(IDepartmentListener listener : _listeners){
-                        	listener.employeeDischarged(_director, memento);
+                        	listener.employeeDischarged(_director, memento, currentEmployee.getMemento(), time);
                         }
                         
                         currentEmployee.removeListeners();
@@ -250,7 +251,7 @@ public class Department{
      * @param employee
      * @param employeeTask
      */
-    public boolean assignTasks( String employeeId, List<EmployeeTaskMemento> employeeTasks , Map<String, ProjectTask> projectTasks ){
+    public boolean assignTasks( String employeeId, List<EmployeeTaskMemento> employeeTasks , Map<String, ProjectTask> projectTasks, DateTime time ){
     	boolean result = false;
     	
     	try{
@@ -281,11 +282,11 @@ public class Department{
         	DepartmentMemento memento = getMemento();
         	if( !result ){
         		for ( IDepartmentListener listener : _listeners ){
-        			listener.tasksAssignFailed(_director, memento);
+        			listener.tasksAssignFailed(_director, memento, time);
         		}
         	}else{
         		for ( IDepartmentListener listener : _listeners ){
-        			listener.tasksAssigned(_director, memento);
+        			listener.tasksAssigned(_director, memento, time);
         		}
         	}
     	}finally{

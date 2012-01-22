@@ -249,7 +249,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	}
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department) {
+	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
@@ -262,7 +262,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	}
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department) {
+	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {
 		CONST_LOGGER.info("Task assign failed");
 	}
 
@@ -305,9 +305,9 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	@Override
 	public void companyAssigned(String owner, CompanyMemento company) {}
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department) {}
+	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {}
 	@Override
-	public void employeeDischarged(String director, DepartmentMemento department) {}
+	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {}
 	@Override
-	public void employeeHired(String director, DepartmentMemento department) {}
+	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {}
 }

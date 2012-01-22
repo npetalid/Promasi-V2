@@ -391,13 +391,13 @@ public class Company
      * @param employee
      * @param employeeTask
      */
-    public boolean assignTasks(final String employeeId, List<EmployeeTaskMemento> employeeTasks){
+    public boolean assignTasks(final String employeeId, List<EmployeeTaskMemento> employeeTasks, DateTime time){
     	boolean result = false;
     	
     	try{
     		_lockObject.lock();
         	if( _assignedProject != null ){
-        		result = _itDepartment.assignTasks(employeeId, employeeTasks, _assignedProject.getProjectTasks() );
+        		result = _itDepartment.assignTasks(employeeId, employeeTasks, _assignedProject.getProjectTasks(), time );
         	}
     	}finally{
     		_lockObject.unlock();
@@ -411,12 +411,12 @@ public class Company
      * @param employee
      * @return
      */
-    public boolean hireEmployee( Employee employee ){
+    public boolean hireEmployee( Employee employee, DateTime time ){
     	boolean result = false;
     	
     	try{
     		_lockObject.lock();
-    		result = _itDepartment.hireEmployee(_owner, employee);
+    		result = _itDepartment.hireEmployee(_owner, employee, time);
     	}finally{
     		_lockObject.unlock();
     	}
@@ -430,12 +430,12 @@ public class Company
      * @param _marketPlace
      * @return
      */
-	public boolean dischargeEmployee(String employeeId, MarketPlace marketPlace) {
+	public boolean dischargeEmployee(String employeeId, MarketPlace marketPlace, DateTime time) {
     	boolean result = false;
     	
     	try{
     		_lockObject.lock();
-    		result = _itDepartment.dischargeEmployee(employeeId, marketPlace);
+    		result = _itDepartment.dischargeEmployee(employeeId, marketPlace, time);
     	}finally{
     		_lockObject.unlock();
     	}

@@ -164,23 +164,23 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	}
 
 	@Override
-	public void employeeDischarged(String director, DepartmentMemento department) {
+	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
 	}
 
 	@Override
-	public void employeeHired(String director, DepartmentMemento department) {
+	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
 	}
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department) {
+	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {
 	}
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department) {
+	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {
 	}
 
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department) {
+	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {
 	}
 	
 	/**

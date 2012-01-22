@@ -110,7 +110,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		boolean result = false;
 		try {
 			_lockObject.lock();
-			result = _gameModel.hireEmployee(employeeId);
+			result = _gameModel.hireEmployee(employeeId, _systemClock.getCurrentDateTime());
 		}finally{
 			_lockObject.unlock();
 		}
@@ -124,7 +124,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		
 		try {
 			_lockObject.lock();
-			result = _gameModel.dischargeEmployee(employeeId);
+			result = _gameModel.dischargeEmployee(employeeId, _systemClock.getCurrentDateTime());
 		}finally{
 			_lockObject.unlock();
 		}
@@ -139,7 +139,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		{
 			_lockObject.lock();
 			for( Map.Entry<String, List<EmployeeTaskMemento> > entry : employeeTasks.entrySet()){
-				result &=_gameModel.assignTasks(entry.getKey(), entry.getValue());
+				result &=_gameModel.assignTasks(entry.getKey(), entry.getValue(), _systemClock.getCurrentDateTime());
 			}
 		}finally{
 			_lockObject.unlock();

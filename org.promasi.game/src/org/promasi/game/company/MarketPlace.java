@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.joda.time.DateTime;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -175,7 +176,7 @@ public class MarketPlace
 	 * @param employeeId
 	 * @return
 	 */
-	public boolean hireEmployee( Company company, String employeeId){
+	public boolean hireEmployee( Company company, String employeeId, DateTime time){
 		boolean result = false;
 		
 		try{
@@ -184,7 +185,7 @@ public class MarketPlace
 				if( _availabelEmployees.containsKey( employeeId ) ){
 					Employee tmpEmployee=_availabelEmployees.get(employeeId);
 					_availabelEmployees.remove( employeeId );
-					if(!company.hireEmployee( tmpEmployee ) ){
+					if(!company.hireEmployee( tmpEmployee, time ) ){
 						_availabelEmployees.put(employeeId, tmpEmployee);
 					}else{
 						for( IMarketPlaceListener listener : _listeners){
