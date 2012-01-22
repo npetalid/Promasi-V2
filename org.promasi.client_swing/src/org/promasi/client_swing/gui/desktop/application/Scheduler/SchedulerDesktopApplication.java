@@ -63,7 +63,7 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 		_internalPanel = new JPanel();
 		_internalPanel.setLayout(new BorderLayout());
 		add(_internalPanel, BorderLayout.CENTER);
-		_internalPanel.add( new SchedulerJPanel( game , this), BorderLayout.CENTER);
+		_internalPanel.add( new SchedulerJPanel( game , this, desktop), BorderLayout.CENTER);
 		desktop.addQuickStartButton(new QuickStartButton(this, desktop));
 	}
 

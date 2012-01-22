@@ -3,6 +3,7 @@
  */
 package org.promasi.client_swing.gui;
 
+import java.awt.Container;
 import java.awt.Rectangle;
 
 import javax.swing.JPanel;
@@ -33,4 +34,10 @@ public interface IMainFrame {
 	 * 
 	 */
 	public void maximize();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Container getContentPane();
 }

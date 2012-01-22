@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
 import javax.swing.JPopupMenu;
@@ -108,6 +109,11 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 	@Override
 	public boolean addQuickStartButton(QuickStartButton button) {
 		return _desktop.addQuickStartButton(button);
+	}
+
+	@Override
+	public boolean showMessageBox(Object message, String title, int messageType, Icon icon) {
+		return _desktop.showMessageBox(message, title, messageType, icon);
 	}
 
 }

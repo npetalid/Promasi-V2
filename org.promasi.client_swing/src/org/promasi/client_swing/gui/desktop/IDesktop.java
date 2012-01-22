@@ -1,5 +1,7 @@
 package org.promasi.client_swing.gui.desktop;
 
+import javax.swing.Icon;
+
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
 import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
 
@@ -38,4 +40,11 @@ public interface IDesktop {
 	 * @param button Instance of the new button
 	 */
 	public boolean addQuickStartButton( QuickStartButton button );
+	
+	/**
+	 * 
+	 * @param msgBox
+	 * @return
+	 */
+	public boolean showMessageBox( Object message, String title, int messageType, Icon icon );
 }

@@ -330,7 +330,10 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 				for(ProjectMemento project : _gameModel.getProjects()){
 					projects.add(project.getProject());
 				}
-				GameModel gameModel=new GameModel(_gameModel.getGameName(), _gameModel.getGameDescription(), _marketPlace, _gameModel.getCompany().getCompany(),projects);
+				
+				Company company = _gameModel.getCompany().getCompany();
+				GameModel gameModel=new GameModel(_gameModel.getGameName(), _gameModel.getGameDescription(), _marketPlace, company,projects);
+				company.setOwner(playerId);
 				gameModel.addListener(this);
 				_gameModels.put(playerId, gameModel);
 				

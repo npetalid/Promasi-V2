@@ -9,7 +9,9 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.beans.PropertyVetoException;
 
+import javax.swing.Icon;
 import javax.swing.JInternalFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -178,5 +180,16 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 	@Override
 	public boolean addQuickStartButton(QuickStartButton button) {
 		return _toolBarPanel.addQuickStartButton(button);
+	}
+
+	@Override
+	public boolean showMessageBox(Object message, String title, int messageType, Icon icon) {
+		boolean result = false;
+		if( message != null && title != null ){
+			JOptionPane.showInternalMessageDialog(_mainFrame.getContentPane(), message, title, messageType, icon);
+			result = true;
+		}
+		
+		return result;
 	}
 }

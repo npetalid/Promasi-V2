@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.promasi.client_swing.gui.GuiException;
+import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.game.IGame;
 
 
@@ -49,7 +50,7 @@ public class SchedulerJPanel extends JPanel {
 	 * @throws GuiException
 	 * @throws IOException 
 	 */
-	public SchedulerJPanel( IGame game, ISchedulerApplication app ) throws GuiException, IOException {
+	public SchedulerJPanel( IGame game, ISchedulerApplication app, IDesktop desktop ) throws GuiException, IOException {
 		
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
@@ -58,6 +59,11 @@ public class SchedulerJPanel extends JPanel {
 		if( app == null ){
 			throw new GuiException("Wrong argument app == null");
 		}
+		
+		if( desktop == null ){
+			throw new GuiException("Wrong argument desktop == null");
+		}
+		
 		
 		_app = app;
 		setLayout(new BorderLayout());
@@ -77,6 +83,6 @@ public class SchedulerJPanel extends JPanel {
 		
 		add(_scheduler, BorderLayout.CENTER);
 		add( wizardPanel, BorderLayout.SOUTH);
-		_taskPanel = new NewTaskJPanel(game, _app, SchedulerJPanel.this);
+		_taskPanel = new NewTaskJPanel(game, _app, SchedulerJPanel.this, desktop);
 	}
 }

@@ -25,6 +25,7 @@ import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
+import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.game.IGame;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.DepartmentMemento;
@@ -102,14 +103,14 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	 * 
 	 */
 	private DependenciesJPanel _tasksPanel;
-	
+
 	/**
 	 * 
 	 * @param game
 	 * @param app
 	 * @throws GuiException
 	 */
-	public NewTaskJPanel( IGame game, ISchedulerApplication app, JPanel prevPanel)throws GuiException{
+	public NewTaskJPanel( IGame game, ISchedulerApplication app, JPanel prevPanel, IDesktop desktop)throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
 		}
@@ -120,6 +121,10 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 		
 		if( prevPanel == null ){
 			throw new GuiException("Wrong argument prevPanel == null");
+		}
+		
+		if( desktop == null ){
+			throw new GuiException("Wrong argument desktop == null");
 		}
 		
 		setLayout(new BorderLayout());
