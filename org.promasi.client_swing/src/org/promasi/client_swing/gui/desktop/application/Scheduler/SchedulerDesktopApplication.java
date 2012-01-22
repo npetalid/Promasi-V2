@@ -7,12 +7,17 @@ import java.awt.BorderLayout;
 import java.io.IOException;
 
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
+import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.IDesktop;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
 import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
 import org.promasi.game.IGame;
+import org.promasi.game.company.DepartmentMemento;
+import org.promasi.game.company.EmployeeMemento;
+import org.promasi.game.company.IDepartmentListener;
 
 import org.promasi.utilities.file.RootDirectory;
 
@@ -21,7 +26,7 @@ import org.promasi.utilities.file.RootDirectory;
  * @author alekstheod
  *
  */
-public class SchedulerDesktopApplication extends ADesktopApplication implements ISchedulerApplication {
+public class SchedulerDesktopApplication extends ADesktopApplication implements ISchedulerApplication, IDepartmentListener {
 
 	/**
 	 * 
@@ -37,6 +42,11 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 	 * 
 	 */
 	public static final String CONST_APP_ICON = "gantt.png";
+	
+	/**
+	 * 
+	 */
+	private QuickStartButton _quickButton;
 	
 	/**
 	 * 
@@ -64,7 +74,9 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 		_internalPanel.setLayout(new BorderLayout());
 		add(_internalPanel, BorderLayout.CENTER);
 		_internalPanel.add( new SchedulerJPanel( game , this, desktop), BorderLayout.CENTER);
-		desktop.addQuickStartButton(new QuickStartButton(this, desktop));
+		_quickButton = new QuickStartButton(this, desktop); 
+		desktop.addQuickStartButton(_quickButton);
+		game.addDepartmentListener(this);
 	}
 
 	@Override
@@ -77,6 +89,51 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 			_internalPanel.validate();
 			_internalPanel.repaint();
 		}
+	}
+
+	@Override
+	public void employeeDischarged(String director,
+			DepartmentMemento department, EmployeeMemento employee,
+			DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void employeeHired(String director, DepartmentMemento department,
+			EmployeeMemento employee, DateTime dateTime) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void tasksAssigned(String director, DepartmentMemento department,
+			DateTime dateTime) {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				_quickButton.showPopupNotifier( "Tasks assigned");
+			}
+		});
+	}
+
+	@Override
+	public void tasksAssignFailed(String director,
+			DepartmentMemento department, DateTime dateTime) {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				_quickButton.showPopupNotifier( "Assign tasks failed");
+			}
+		});
+	}
+
+	@Override
+	public void departmentAssigned(String director,
+			DepartmentMemento department, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

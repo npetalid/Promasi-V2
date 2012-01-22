@@ -86,6 +86,7 @@ public class QuickStartButton extends JButton {
 	        popup.setLayout( new BorderLayout());
 	        JLabel label = new JLabel( message, _application.getIcon(), SwingConstants.CENTER );
 	        label.setFont( new Font("Arial", Font.TRUETYPE_FONT, 12));
+	        label.setOpaque(false);
 	        label.addMouseListener( new MouseAdapter( ){
 	            @Override
 	            public void mouseClicked ( MouseEvent e ){
@@ -93,8 +94,10 @@ public class QuickStartButton extends JButton {
 	                popup.setVisible( false );
 	            }
 	        });
+	        
 	        popup.add( label, BorderLayout.NORTH );
-	        popup.show( _desktop.getDesktopPane(), _desktop.getDesktopPane().getWidth() - 220, 10 );
+	        label.setPreferredSize(new Dimension(label.getPreferredSize().width+20, label.getPreferredSize().height));
+	        popup.show( _desktop.getDesktopPane(), _desktop.getDesktopPane().getWidth() -  label.getPreferredSize().width - 5 , 5 );
 			result = true;
 		}
 		
