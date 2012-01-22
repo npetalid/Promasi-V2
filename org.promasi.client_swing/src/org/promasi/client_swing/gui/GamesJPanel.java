@@ -19,6 +19,7 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.border.EtchedBorder;
 
 import org.promasi.client_swing.components.JEditorPane.ExtendedJEditorPane;
@@ -95,13 +96,16 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		_mainFrame = mainFrame;
 		_gamesServer = gamesServer;
 		
+		setLayout( new BorderLayout() );
+		JSplitPane splitPane = new JSplitPane();
+		add(splitPane, BorderLayout.CENTER);
+		
 		DefaultListModel<IGame> listModel = new DefaultListModel<IGame>();
 		
 		_gamesList = new JList<IGame>(listModel);
 		_gamesList.setCellRenderer(new MenuCellRenderer());
-		setLayout( new BorderLayout() );
-		_gamesList.setPreferredSize(new Dimension( CONST_GAMES_LIST_WIDTH, 100 ));
-		add(_gamesList, BorderLayout.EAST);
+		splitPane.setLeftComponent(_gamesList);
+		
 		
 		_gamesList.addMouseMotionListener(new MouseMotionListener() {
 			
@@ -149,7 +153,8 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		_gamesList.setBorder(edge);
 		
 		_infoPane = new ExtendedJEditorPane();
-		add( _infoPane, BorderLayout.CENTER );
+		splitPane.setRightComponent(_infoPane);
+		splitPane.setDividerLocation(200);
 		_infoPane.setEditable(false);
 		_infoPane.setContentType("text/html" );
 		

@@ -63,6 +63,7 @@ public class Message {
 			throw new GuiException("Wrong argument date == null ");
 		}
 		
+		_wasOpened = false;
 		_dateSent = date;
 		_sender = sender;
 		_theme = theme;

@@ -4,6 +4,7 @@
 package org.promasi.client_swing.gui.desktop.application.EMail;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.io.IOException;
@@ -17,6 +18,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.joda.time.DateTime;
 import org.promasi.client_swing.gui.GuiException;
@@ -69,6 +73,11 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 	 */
 	private MessageTableModel _msgTableModel;
 	
+	/**|
+	 * 
+	 */
+	private EmailJPanel _emailPanel;
+	
 	/**
 	 * Lock object.
 	 */
@@ -104,39 +113,58 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 		JLabel label = (JLabel)_messageTable.getTableHeader().getDefaultRenderer();
 		label.setHorizontalAlignment(JLabel.LEFT);
 		
-		_msgTableModel =  new MessageTableModel( new Vector<Message>( ) );
-		_messageTable.setModel( _msgTableModel );
-		JScrollPane scrollpane = new JScrollPane(_messageTable);
-		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setOneTouchExpandable(true);
-		splitPane.setDividerLocation(400);
+		splitPane.setDividerLocation(300);
 		
 		Dimension minSize = new Dimension(100, 50);
 		splitPane.setMinimumSize(minSize);
 		splitPane.setMinimumSize(minSize);
+		
+		_msgTableModel =  new MessageTableModel( new Vector<Message>( ) );
+		_messageTable.setModel( _msgTableModel );
+		JScrollPane scrollpane = new JScrollPane(_messageTable);
+		
 		splitPane.setLeftComponent(scrollpane);
 		
+		_emailPanel = new EmailJPanel();
+		splitPane.setRightComponent(_emailPanel);
+		
 		add(splitPane, BorderLayout.CENTER);
+		
+		_messageTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				try {
+					Message msg =_msgTableModel.getMessage( _messageTable.getSelectedRow() );
+					_emailPanel.showMessage(msg);
+				} catch (GuiException e) {
+					// TODO Log error
+				}
+			}
+		});
+		
+		_messageTable.setDefaultRenderer(Object.class, new MessageTableCellRenderer());
 		_game.addCompanyListener(this);
 		_game.addDepartmentListener(this);
 	}
 
 	@Override
 	public void projectAssigned(final String owner, CompanyMemento company,
-			ProjectMemento project, final DateTime dateTime) {
+			final ProjectMemento project, final DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
 			public void run() {
 				try {
 					_lockObject.lock();
-					Message msg = new Message("CEO", "Project assigned", dateTime, "");
+					Message msg = new Message("Customer", "Project assigned", dateTime, project.getDescription());
 					List< Message > messages = _msgTableModel.getMessages();
 					messages.add(msg);
 					_msgTableModel = new MessageTableModel(messages);
 					_messageTable.setModel(_msgTableModel);
-					_quickStartButton.showPopupNotifier("New project assigned", "Project assigned");
+					_quickStartButton.showPopupNotifier("You have " + getUnreadMessages() + " unread messages");
 				} catch (GuiException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -182,12 +210,12 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 			public void run() {
 				try {
 					_lockObject.lock();
-					Message msg = new Message("CEO", "Employee discharged", dateTime, employee.getCurriculumVitae());
+					Message msg = new Message("IT Department", "Employee discharged", dateTime, employee.getCurriculumVitae());
 					List< Message > messages = _msgTableModel.getMessages();
-					messages.add(msg);
+					messages.add(0, msg);
 					_msgTableModel = new MessageTableModel(messages);
 					_messageTable.setModel(_msgTableModel);
-					_quickStartButton.showPopupNotifier("Employee discharged", "Employee discharged");
+					_quickStartButton.showPopupNotifier("You have " + getUnreadMessages() + " unread messages");
 				} catch (GuiException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -206,12 +234,12 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 			public void run() {
 				try {
 					_lockObject.lock();
-					Message msg = new Message("CEO", "Employee hired", dateTime, employee.getCurriculumVitae());
+					Message msg = new Message("IT Department", "Employee hired", dateTime, employee.getCurriculumVitae());
 					List< Message > messages = _msgTableModel.getMessages();
-					messages.add(msg);
+					messages.add(0, msg);
 					_msgTableModel = new MessageTableModel(messages);
 					_messageTable.setModel(_msgTableModel);
-					_quickStartButton.showPopupNotifier("Employee hired", "Employee hired");
+					_quickStartButton.showPopupNotifier( "You have " + getUnreadMessages() + " unread messages");
 				} catch (GuiException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -240,4 +268,52 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 		
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	private int getUnreadMessages(){
+		int result = 0;
+		List< Message > messages = _msgTableModel.getMessages();
+		for( Message msg : messages){
+			if( !msg.itWasOpened()){
+				result++;
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @author alekstheod
+	 *
+	 */
+	class MessageTableCellRenderer extends DefaultTableCellRenderer {  
+		 /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+			
+		/**
+		 * 
+		 */
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {  
+			JLabel parent = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
+			
+			try {
+				 
+				Message msg = _msgTableModel.getMessage( row );
+				if(!msg.itWasOpened()){ 
+					parent.setFont(parent.getFont().deriveFont(Font.BOLD)); 
+				}else{
+					parent.setFont(parent.getFont().deriveFont(Font.PLAIN)); 
+				}
+			     
+			} catch (Exception e) {
+				//TODO log
+			}
+			
+			return parent;  
+		}      
+	}  
 }

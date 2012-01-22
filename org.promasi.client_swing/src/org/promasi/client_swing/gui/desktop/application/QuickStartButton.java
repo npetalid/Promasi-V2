@@ -78,14 +78,14 @@ public class QuickStartButton extends JButton {
 	 * @param message
 	 * @return
 	 */
-	public boolean showPopupNotifier( String title, String message ){
+	public boolean showPopupNotifier( String message ){
 		boolean result = false;
 		
-		if( title != null && message != null ){
+		if( message != null ){
 	        final JPopupMenu popup = new JPopupMenu( );
 	        popup.setLayout( new BorderLayout());
-	        JLabel label = new JLabel( message, getIcon( ), SwingConstants.CENTER );
-	        label.setFont( new Font("Arial", Font.ITALIC, 12));
+	        JLabel label = new JLabel( message, _application.getIcon(), SwingConstants.CENTER );
+	        label.setFont( new Font("Arial", Font.TRUETYPE_FONT, 12));
 	        label.addMouseListener( new MouseAdapter( ){
 	            @Override
 	            public void mouseClicked ( MouseEvent e ){
@@ -94,7 +94,7 @@ public class QuickStartButton extends JButton {
 	            }
 	        });
 	        popup.add( label, BorderLayout.NORTH );
-	        popup.show( this, 0, getHeight( ) );
+	        popup.show( _desktop.getDesktopPane(), _desktop.getDesktopPane().getWidth() - 220, 10 );
 			result = true;
 		}
 		

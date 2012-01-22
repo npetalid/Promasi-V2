@@ -4,7 +4,6 @@
 package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -14,6 +13,7 @@ import javax.swing.DefaultListModel;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.border.EtchedBorder;
 
 
@@ -67,10 +67,13 @@ public class PlayModesJPanel extends JPanel {
 		listModel.addElement( new SinglePlayerPlayMode() );
 		listModel.addElement( new MultiPlayerPlayMode() );
 		
+		JSplitPane splitPane = new JSplitPane();
+		
 		_playModesList = new JList<IPlayMode>(listModel);
 		setLayout( new BorderLayout() );
-		_playModesList.setPreferredSize(new Dimension( CONST_PLAYMODES_LIST_WIDTH, 100 ));
-		add(_playModesList, BorderLayout.EAST);
+		add(splitPane, BorderLayout.CENTER);
+		
+		splitPane.setLeftComponent(_playModesList);
 		_playModesList.addMouseMotionListener(new MouseMotionListener() {
 			
 			@Override
@@ -124,8 +127,9 @@ public class PlayModesJPanel extends JPanel {
 		_playModesList.setBorder(edge);
 		
 		_infoPane = new ExtendedJEditorPane();
-		add( _infoPane, BorderLayout.CENTER );
 		_infoPane.setEditable(false);
 		_infoPane.setContentType( "text/html" );
+		splitPane.setRightComponent(_infoPane);
+		splitPane.setDividerLocation( 200 );
 	}
 }

@@ -10,6 +10,7 @@ import java.awt.Toolkit;
 import java.beans.PropertyVetoException;
 
 import javax.swing.Icon;
+import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -191,5 +192,10 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 		}
 		
 		return result;
+	}
+
+	@Override
+	public JDesktopPane getDesktopPane() {
+		return _workspace;
 	}
 }

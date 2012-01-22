@@ -36,7 +36,7 @@ public class MessageTableModel implements TableModel{
      * Constructor will initialize the object.
      */
     public MessageTableModel( List<Message> messages )throws GuiException{
-        _columnHeaders = new String[] { "Title" , "Sender", "Date Send" };
+        _columnHeaders = new String[] { "Sender", "Title" , "Date" };
         if ( messages == null ){
             throw new GuiException("Wrong argument messages == null");
         }
@@ -72,15 +72,15 @@ public class MessageTableModel implements TableModel{
     @Override
     public Object getValueAt ( int rowIndex, int columnIndex ){
         Message message = _messages.get( rowIndex );
-        if ( columnIndex == 0 ){
+        if ( columnIndex == 1 ){
             return message.getTheme( );
-        }else if ( columnIndex == 1 ){
+        }else if ( columnIndex == 0 ){
             return message.getSender( ).toString( );
         }else if ( columnIndex == 2 ){
             DateTime dateSent = message.getDate();
 			Calendar calendar = new GregorianCalendar();
 			calendar.setTime(dateSent.toDate());
-			SimpleDateFormat dateFromat = new SimpleDateFormat("dd MMMMM kk");
+			SimpleDateFormat dateFromat = new SimpleDateFormat("EEE, d - MMM - yyyy");
 			return dateFromat.format(calendar.getTime() );
         }
         
@@ -103,6 +103,20 @@ public class MessageTableModel implements TableModel{
      */
     public List<Message> getMessages ( ){
         return new LinkedList<>(_messages);
+    }
+    
+    /**
+     * Will return the message in row 
+     * number equal with the given id.
+     * @param id row number.
+     * @return Instance of {@link Message}
+     */
+    public Message getMessage( int id )throws GuiException{
+    	if( id < 0 || _messages.size() < id ){
+    		throw new GuiException("Wrong argument id");
+    	}
+    	
+    	return _messages.get( id );
     }
 
 }

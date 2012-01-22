@@ -116,4 +116,9 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 		return _desktop.showMessageBox(message, title, messageType, icon);
 	}
 
+	@Override
+	public JDesktopPane getDesktopPane() {
+		return this;
+	}
+
 }
