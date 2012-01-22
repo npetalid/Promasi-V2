@@ -50,7 +50,7 @@ public class EmailJPanel extends JPanel {
 		
 		JPanel senderPanel = new JPanel();
 		senderPanel.setLayout(new BorderLayout());
-		JLabel fromLabel = new JLabel("Theme");
+		JLabel fromLabel = new JLabel("From :");
 		fromLabel.setPreferredSize(new Dimension(50,20));
 		senderPanel.add(fromLabel, BorderLayout.WEST);
 		_senderField = new JTextField();
@@ -59,7 +59,7 @@ public class EmailJPanel extends JPanel {
 		
 		JPanel themePanel = new JPanel();
 		themePanel.setLayout(new BorderLayout());
-		JLabel themeLabel = new JLabel("Theme");
+		JLabel themeLabel = new JLabel("Theme :");
 		themeLabel.setPreferredSize(new Dimension(50,20));
 		themePanel.add(themeLabel, BorderLayout.WEST);
 		_themeField = new JTextField();
