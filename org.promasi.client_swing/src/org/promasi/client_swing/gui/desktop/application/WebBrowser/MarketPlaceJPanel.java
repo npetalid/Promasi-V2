@@ -16,9 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-import org.promasi.client_swing.components.JList.HtmlCellRenderer;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.application.Employee;
+import org.promasi.client_swing.gui.desktop.application.Scheduler.EmployeeCellRenderer;
 import org.promasi.game.IGame;
 import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.IMarketPlaceListener;
@@ -62,14 +62,14 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 		_employeesList = new JList<Employee>();
 		JScrollPane scrollPane = new JScrollPane(_employeesList);
 		
-		_employeesList.setCellRenderer(new HtmlCellRenderer());
+		_employeesList.setCellRenderer(new EmployeeCellRenderer());
 		setLayout(new BorderLayout());
 		add(scrollPane, BorderLayout.CENTER);
 		
 		JPanel marketPlaceMenu = new JPanel();
 		marketPlaceMenu.setLayout(new BorderLayout());
 		
-		JButton hireButton = new JButton("Hire");
+		JButton hireButton = new JButton("Hire Employee");
 		hireButton.addActionListener(new ActionListener() {
 			
 			@Override

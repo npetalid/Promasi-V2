@@ -15,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
-import org.promasi.client_swing.components.JList.HtmlCellRenderer;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.application.Employee;
 import org.promasi.game.IGame;
@@ -63,7 +62,7 @@ public class EmployeesJPanel extends JPanel implements ICompanyListener, IDepart
 		_employeesList = new JList<Employee>();
 		JScrollPane scrollPane = new JScrollPane(_employeesList);
 		
-		_employeesList.setCellRenderer(new HtmlCellRenderer());
+		_employeesList.setCellRenderer(new EmployeeCellRenderer());
 		setLayout(new BorderLayout());
 		add(scrollPane, BorderLayout.CENTER);
 		

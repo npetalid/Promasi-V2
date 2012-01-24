@@ -97,7 +97,7 @@ public class QuickStartButton extends JButton {
 	        
 	        popup.add( label, BorderLayout.NORTH );
 	        label.setPreferredSize(new Dimension(label.getPreferredSize().width+20, label.getPreferredSize().height));
-	        popup.show( _desktop.getDesktopPane(), _desktop.getDesktopPane().getWidth() -  label.getPreferredSize().width - 5 , 5 );
+	        popup.show( _desktop.getDesktopPane(), _desktop.getDesktopPane().getWidth() -  label.getPreferredSize().width - 20 , 5 );
 			result = true;
 		}
 		

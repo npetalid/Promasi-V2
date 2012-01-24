@@ -55,7 +55,7 @@ public class HtmlCellRenderer extends DefaultListCellRenderer{
 		_htmlPane.setVisible(true);
 		_htmlPane.setFocusable(true);
 		_htmlPane.setAutoscrolls(true);
-		_mainPanel.add(_htmlPane, new CC( ).spanX( ).grow( ).gapX( "15px", "0px" ));
+		_mainPanel.add(_htmlPane, new CC( ).spanX( ).grow( ).gapX( "30px", "0px" ));
 	}
 	
 	/**

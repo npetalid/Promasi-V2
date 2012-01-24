@@ -17,9 +17,9 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
-import org.promasi.client_swing.components.JList.HtmlCellRenderer;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.desktop.application.Employee;
+import org.promasi.client_swing.gui.desktop.application.Scheduler.EmployeeCellRenderer;
 import org.promasi.game.IGame;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.DepartmentMemento;
@@ -65,14 +65,14 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 		_employeesList = new JList<Employee>();
 		JScrollPane scrollPane = new JScrollPane(_employeesList);
 		
-		_employeesList.setCellRenderer(new HtmlCellRenderer());
+		_employeesList.setCellRenderer(new EmployeeCellRenderer());
 		setLayout(new BorderLayout());
 		add(scrollPane, BorderLayout.CENTER);
 		
 		JPanel marketPlaceMenu = new JPanel();
 		marketPlaceMenu.setLayout(new BorderLayout());
 		
-		JButton dischargeButton = new JButton("Discharge");
+		JButton dischargeButton = new JButton("Discharge Employee");
 		dischargeButton.addActionListener(new ActionListener() {
 			
 			@Override

@@ -71,7 +71,7 @@ public class SchedulerJPanel extends JPanel {
 		
 		JPanel wizardPanel = new JPanel();
 		wizardPanel.setLayout(new BorderLayout());
-		JButton createButton = new JButton("New");
+		JButton createButton = new JButton("Create Task");
 		wizardPanel.add( createButton, BorderLayout.EAST);
 		
 		createButton.addActionListener(new ActionListener() {

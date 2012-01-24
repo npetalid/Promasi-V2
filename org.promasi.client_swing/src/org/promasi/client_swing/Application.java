@@ -21,6 +21,7 @@ import org.promasi.client_swing.gui.PlayModesJPanel;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
 
+
 import GameBuilder.GameMaker;
 
 /**
@@ -44,13 +45,17 @@ public class Application {
             public void run() {
 				try {
 					
-					try {
+					try{
+			            // set your theme
+						//UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
 					    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 					        if ("Nimbus".equals(info.getName())) {
 					            UIManager.setLookAndFeel(info.getClassName());
 					            break;
 					        }
 					    }
+			            
+			            //UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
 					} catch (Exception e) {
 					    // If Nimbus is not available, you can set the GUI to another look and feel.
 					}
