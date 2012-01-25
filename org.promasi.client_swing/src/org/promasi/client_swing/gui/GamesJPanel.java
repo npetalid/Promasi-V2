@@ -159,7 +159,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		_infoPane.setContentType("text/html" );
 		
 		_username = username;
-		_gamesServer.registerGamesServerListener(this);
+		_gamesServer.addGamesServerListener(this);
 		_timer = new Timer();
 		_timer.schedule(new TimerTask() {
 			

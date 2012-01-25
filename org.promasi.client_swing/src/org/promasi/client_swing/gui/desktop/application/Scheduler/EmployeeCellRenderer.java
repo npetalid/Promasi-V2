@@ -7,6 +7,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -67,13 +68,13 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		_htmlPane.setVisible(true);
 		_htmlPane.setFocusable(true);
 		_htmlPane.setAutoscrolls(true);
-		_mainPanel.add(_htmlPane, new CC( ).spanX( ).grow( ).gapX( "30px", "0px" ).gapY("0px", "30px"));
+		_mainPanel.add(_htmlPane, new CC( ).spanX( ).grow( ).gapX( "30px", "0px" ).gapY("0px", "10px"));
 		_salaryLabel = new JLabel();
 		_salaryPanel = new JPanel();
 		_salaryPanel.setLayout(new BorderLayout());
 		_salaryPanel.add(_salaryLabel, BorderLayout.EAST);
 		_salaryPanel.setBackground(Color.WHITE);
-		
+		_salaryLabel.setFont(new Font("Courier New", Font.PLAIN, 15));
 		_mainPanel.add(_salaryPanel, new CC().spanX().grow().gap("0px", "0px"));
 	}
 	

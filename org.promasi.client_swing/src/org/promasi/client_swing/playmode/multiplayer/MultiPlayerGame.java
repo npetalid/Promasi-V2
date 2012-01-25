@@ -12,6 +12,7 @@ import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IMarketPlaceListener;
+import org.promasi.game.multiplayer.IMultiPlayerGame;
 import org.promasi.game.singleplayer.IClientGameListener;
 
 /**
@@ -20,6 +21,19 @@ import org.promasi.game.singleplayer.IClientGameListener;
  */
 public class MultiPlayerGame implements IGame {
 
+	/**
+	 * 
+	 */
+	private IMultiPlayerGame _game;
+	
+	/**
+	 * 
+	 * @param game
+	 */
+	public MultiPlayerGame( IMultiPlayerGame game ){
+		
+	}
+	
 	@Override
 	public String getGameDescription() {
 		// TODO Auto-generated method stub

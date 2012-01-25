@@ -85,7 +85,7 @@ public class SinglePlayerGamesServer implements IGamesServer {
 
 
 	@Override
-	public boolean registerGamesServerListener(IGamesServerListener listener) {
+	public boolean addGamesServerListener(IGamesServerListener listener) {
 		boolean result = false;
 		try{
 			_lockObject.lock();

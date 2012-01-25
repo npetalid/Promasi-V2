@@ -26,7 +26,7 @@ public class MultiPlayerGamesServer implements IGamesServer {
 	}
 
 	@Override
-	public boolean registerGamesServerListener(IGamesServerListener listener) {
+	public boolean addGamesServerListener(IGamesServerListener listener) {
 		// TODO Auto-generated method stub
 		return false;
 	}
