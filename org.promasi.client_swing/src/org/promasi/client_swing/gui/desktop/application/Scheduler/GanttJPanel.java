@@ -75,7 +75,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 			throw new GuiException("Wrong argument game");
 		}
 
-		_ganttPane= new DateGanttChartPane<>(new DefaultGanttModel<Date, DefaultGanttEntry<Date>>());
+		_ganttPane= new DateGanttChartPane<DefaultGanttEntry<Date>>(new DefaultGanttModel<Date, DefaultGanttEntry<Date>>());
 		_ganttPane.getGanttChart().setShowGrid(false);
 		_lockObject = new ReentrantLock();
 		setBorder(BorderFactory.createTitledBorder("Scheduler"));

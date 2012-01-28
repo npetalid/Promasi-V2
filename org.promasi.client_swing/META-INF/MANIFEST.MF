@@ -9,4 +9,3 @@ Require-Bundle: org.promasi.game;bundle-version="1.0.0",
  org.promasi.protocol;bundle-version="1.0.0",
  org.promasi.sdsystem;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7

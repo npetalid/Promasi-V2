@@ -83,9 +83,22 @@ public class SinglePlayerGamesServer implements IGamesServer {
 		return result;
 	}
 
+	@Override
+	public boolean joinGame( IGame game ) {
+		try{
+			_lockObject.lock();
+			if( _listener != null ){
+				_listener.onJoinGame(game);
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+
+		return false;
+	}
 
 	@Override
-	public boolean addGamesServerListener(IGamesServerListener listener) {
+	public boolean registerGamesServerListener(IGamesServerListener listener) {
 		boolean result = false;
 		try{
 			_lockObject.lock();
@@ -99,20 +112,6 @@ public class SinglePlayerGamesServer implements IGamesServer {
 		}
 		
 		return result;
-	}
-
-	@Override
-	public boolean joinGame( IGame game ) {
-		try{
-			_lockObject.lock();
-			if( _listener != null ){
-				_listener.onJoinGame(game);
-			}
-		}finally{
-			_lockObject.unlock();
-		}
-
-		return false;
 	}
 
 }

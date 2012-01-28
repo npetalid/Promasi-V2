@@ -81,7 +81,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	/**
 	 * 
 	 */
-	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
 		_htmlPane.setText( value.toString() );
 		if( value instanceof Employee){
 			Employee employee = (Employee)value;

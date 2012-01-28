@@ -41,7 +41,7 @@ public class MessageTableModel implements TableModel{
             throw new GuiException("Wrong argument messages == null");
         }
         
-        _messages = new LinkedList<>(messages);
+        _messages = new LinkedList<Message>(messages);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class MessageTableModel implements TableModel{
      * @return the {@link #_messages}.
      */
     public List<Message> getMessages ( ){
-        return new LinkedList<>(_messages);
+        return new LinkedList<Message>(_messages);
     }
     
     /**

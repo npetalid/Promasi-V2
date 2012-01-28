@@ -61,7 +61,7 @@ public class HtmlCellRenderer extends DefaultListCellRenderer{
 	/**
 	 * 
 	 */
-	public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean hasFocus) {
 		_htmlPane.setText( value.toString() );
 		if( isSelected ){
 			_mainPanel.setBackground(Color.LIGHT_GRAY);

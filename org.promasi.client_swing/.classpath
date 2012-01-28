@@ -2,15 +2,14 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="Temp"/>
-	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="Libs/Apache/commons-codec-1.4/commons-codec-1.4.jar"/>
-	<classpathentry kind="lib" path="Libs/swingx-1.6.2/swingx-beaninfo-1.6.2.jar"/>
-	<classpathentry kind="lib" path="Libs/swingx-1.6.2/swingx-core-1.6.2.jar"/>
-	<classpathentry kind="lib" path="Libs/jide.3.3.3/lib/jide-gantt.jar"/>
-	<classpathentry kind="lib" path="Libs/jide.3.3.3/lib/jide-grids.jar"/>
-	<classpathentry kind="lib" path="Libs/jide.3.3.3/lib/jide-common.jar"/>
-	<classpathentry kind="lib" path="Libs/G_lib/G.jar"/>
-	<classpathentry kind="lib" path="Libs/MigLayout/miglayout-4.0-swing.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="Libs/Apache/commons-codec-1.4/commons-codec-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libs/MigLayout/miglayout-4.0-swing.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-common.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-gantt.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-grids.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libs/swingx-1.6.2/swingx-beaninfo-1.6.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libs/swingx-1.6.2/swingx-core-1.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

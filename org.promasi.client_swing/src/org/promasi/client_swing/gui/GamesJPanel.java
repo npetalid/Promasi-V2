@@ -47,7 +47,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 	/**
 	 * 
 	 */
-	private JList<IGame> _gamesList;
+	private JList _gamesList;
 	
 	/**
 	 * 
@@ -100,9 +100,9 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		JSplitPane splitPane = new JSplitPane();
 		add(splitPane, BorderLayout.CENTER);
 		
-		DefaultListModel<IGame> listModel = new DefaultListModel<IGame>();
+		DefaultListModel listModel = new DefaultListModel();
 		
-		_gamesList = new JList<IGame>(listModel);
+		_gamesList = new JList(listModel);
 		_gamesList.setCellRenderer(new MenuCellRenderer());
 		splitPane.setLeftComponent(_gamesList);
 		
@@ -113,7 +113,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 			public void mouseMoved(MouseEvent arg0) {
 				Point p = new Point(arg0.getX(),arg0.getY());
 				_gamesList.setSelectedIndex(_gamesList.locationToIndex(p));
-				IGame game = _gamesList.getSelectedValue();
+				IGame game = (IGame)_gamesList.getSelectedValue();
 				if( game != null ){
 					_infoPane.setText(game.getGameDescription());
 				}
@@ -142,7 +142,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 			
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				IGame game = _gamesList.getSelectedValue();
+				IGame game = (IGame)_gamesList.getSelectedValue();
 				if( game != null ){
 					_gamesServer.joinGame(game);
 				}
@@ -159,7 +159,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		_infoPane.setContentType("text/html" );
 		
 		_username = username;
-		_gamesServer.addGamesServerListener(this);
+		_gamesServer.registerGamesServerListener(this);
 		_timer = new Timer();
 		_timer.schedule(new TimerTask() {
 			
