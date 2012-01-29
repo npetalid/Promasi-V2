@@ -82,11 +82,9 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 	@Override
 	public void setPanel(JPanel panel) {
 		if( panel != null ){
-			this.validate();
-			this.repaint();
 			_internalPanel.removeAll();
 			_internalPanel.add(panel, BorderLayout.CENTER);
-			_internalPanel.validate();
+			_internalPanel.invalidate();
 			_internalPanel.repaint();
 		}
 	}
