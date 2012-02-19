@@ -165,7 +165,7 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 					_workspace.add(application);
 					int workspaceWidth = _workspace.getWidth();
 					int workspaceHeight = _workspace.getHeight();
-					application.setBounds(workspaceWidth/2 - workspaceWidth/4, workspaceHeight/2 - workspaceHeight/4 , workspaceWidth/2, workspaceHeight/2 );
+					application.setBounds(workspaceWidth/10, workspaceHeight/10 , workspaceWidth - workspaceWidth/5, workspaceHeight -  workspaceHeight/5);
 					application.show();
 					application.setSelected(true);
 				}else{

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<java version="1.6.0_23" class="java.beans.XMLDecoder">
+<java version="1.7.0_02" class="java.beans.XMLDecoder">
  <object class="org.promasi.game.company.CompanyMemento">
   <void property="ITDepartment">
    <object class="org.promasi.game.company.DepartmentMemento">
@@ -15,13 +15,13 @@
    <string>Test</string>
   </void>
   <void property="endTime">
-   <string>23:57:43.446</string>
+   <string>23:16:00.657</string>
   </void>
   <void property="name">
    <string>Test</string>
   </void>
   <void property="startTime">
-   <string>00:57:43.444</string>
+   <string>00:16:00.655</string>
   </void>
  </object>
 </java>

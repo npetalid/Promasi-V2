@@ -1,6 +1,7 @@
 package org.promasi.client_swing.gui.desktop.application.Scheduler;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -39,6 +40,13 @@ import com.jidesoft.scale.ResizePeriodsPopupMenuCustomizer;
 import com.jidesoft.scale.VisiblePeriodsPopupMenuCustomizer;
 import com.jidesoft.swing.CornerScroller;
 
+/**
+ * 
+ * @author alekstheod
+ * Represent the gantt chart panel in 
+ * promasi. This class will draw the given EmployeeTasks
+ * as a ganttchart.
+ */
 public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmentListener{
 
 	/**
@@ -89,6 +97,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		game.addDepartmentListener(this);
 		
 		_ganttPane.getGanttChart().setEditable(false);
+		_ganttPane.getGanttChart().setSelectionBackground(Color.WHITE) ;
+		_ganttPane.getGanttChart().setShowGrid(true);
 		_ganttPane.getTreeTable().setEnabled(false);
 		_ganttPane.getGanttChart().getScaleArea().addPopupMenuCustomizer(new VisiblePeriodsPopupMenuCustomizer<Date>());
 		_ganttPane.getGanttChart().getScaleArea().addPopupMenuCustomizer(new ResizePeriodsPopupMenuCustomizer<Date>(_ganttPane.getGanttChart()));
