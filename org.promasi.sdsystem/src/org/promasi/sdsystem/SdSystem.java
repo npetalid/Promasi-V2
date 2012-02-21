@@ -23,40 +23,49 @@ import org.promasi.utilities.serialization.SerializationException;
 /**
  * 
  * @author m1cRo
- *
+ * Represent an simulation system,
+ * based on system dynamics concept.
+ * This class contains a list of {@link=ISdObject} which
+ * represents the system dynamics objects, such as stock,
+ * flow, input, output and so on.
  */
 public class SdSystem
 {
 	/**
-	 * 
+	 * Instance of {@link=ILogger} needed for logging.
 	 */
 	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(SdSystem.class);
 	
 	/**
-	 * 
+	 * Name of dynamically generated time object.
+	 * Needed to count the clock ticks. Time object will be generated
+	 * automatically in the class constructor as a part of the
+	 * system dynamics model.
 	 */
 	public static final String CONST_TIME_SDOBJECT_NAME="time";
 	
 	/**
-	 * 
+	 * Regular expression which represent the name of an sdObject. If some of the
+	 * given objects does not match with the current regular expression, constructor
+	 * will throw an instance of {@link = SdSystemException}.
 	 */
 	public static final Pattern CONST_ALPHABET_PATTERN = Pattern.compile("[A-Z0-9a-z]+");
 	
 	/**
-	 * 
+	 * List of {@link = ISdObject} instances which represents the current simulation
+	 * system.
 	 */
 	protected Map<String, ISdObject> _sdObjects;
 	
 	/**
-	 * 
+	 * Lock object needed for cross thread data synchronization.
 	 */
 	private Lock _lockObject;
 	
 	/**
-	 * 
-	 * @param _sdObjects
-	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
+	 * Constructor will initialize the object.
+	 * @param sdObjects List of the available {@link = ISdObject} instances.
+	 * @throws SdSystemException In case of initialization error.
 	 */
 	public SdSystem( final Map<String, ISdObject> sdObjects)throws SdSystemException{
 		if(sdObjects==null){
@@ -103,8 +112,10 @@ public class SdSystem
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Will execute a simulation step. On each step time value
+	 * will be incremented and all the values of available system dynamics
+	 * objects will be calculated.
+	 * @return true on succeed, false otherwise.
 	 */
 	public boolean executeStep(){
 		boolean result = true;
@@ -143,10 +154,12 @@ public class SdSystem
 	}
 	
 	/**
-	 * 
-	 * @param inputName
-	 * @param value
-	 * @return
+	 * Will set the given value to the input sdObject with the given name. 
+	 * If no input object with the same name
+	 * exists in the objects list the method will return false.
+	 * @param inputName SdObject name. 
+	 * @param value.
+	 * @return true in case of succeed, false otherwise.
 	 */
 	public boolean setInput(final String inputName, final Double value){
 		boolean result = false;
@@ -174,8 +187,7 @@ public class SdSystem
 	 * 
 	 * @param sdObjectName
 	 * @return
-	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
+	 * @throws SdSystemException
 	 */
 	public Double getValue(final String sdObjectName)throws SdSystemException{
 		if(sdObjectName==null){
