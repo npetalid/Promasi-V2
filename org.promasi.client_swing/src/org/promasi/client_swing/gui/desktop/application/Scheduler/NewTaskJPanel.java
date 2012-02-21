@@ -72,7 +72,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	/**
 	 * 
 	 */
-	private JComboBox _projectTasks;
+	private JComboBox<ProjectTask> _projectTasks;
 	
 	/**
 	 * 
@@ -157,7 +157,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 
 		//Setup project tasks
 		JPanel prjTasksPanel = new JPanel();
-		_projectTasks = new JComboBox();
+		_projectTasks = new JComboBox<ProjectTask>();
 		_projectTasks.addActionListener(new ActionListener() {
 			
 			@Override

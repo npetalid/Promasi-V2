@@ -6,6 +6,7 @@ package org.promasi.client_swing.gui.desktop.application.WebBrowser;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
@@ -51,7 +52,7 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 	/**
 	 * 
 	 */
-	private JList _employeesList;
+	private JList<Employee> _employeesList;
 	
 	/**
 	 * 
@@ -61,7 +62,7 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 			throw new GuiException("Wrong argument game == null");
 		}
 		
-		_employeesList = new JList();
+		_employeesList = new JList<Employee>();
 		JScrollPane scrollPane = new JScrollPane(_employeesList);
 		
 		_employeesList.setCellRenderer(new EmployeeCellRenderer());
@@ -77,7 +78,7 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if( !_employeesList.isSelectionEmpty() ){
-					Object[] employees =_employeesList.getSelectedValues();
+					List<Employee> employees =_employeesList.getSelectedValuesList();
 					for( Object employee : employees){
 						if( employee instanceof Employee){
 							 _game.dischargeEmployee(((Employee)employee).getEmployeeMemento().getEmployeeId());

@@ -4,6 +4,7 @@
 package org.promasi.client_swing.gui.desktop.application.Scheduler;
 
 import java.awt.BorderLayout;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -48,7 +49,7 @@ public class EmployeesJPanel extends JPanel implements ICompanyListener, IDepart
 	/**
 	 * 
 	 */
-	private JList _employeesList;
+	private JList<Employee> _employeesList;
 	
 	/**
 	 * 
@@ -58,7 +59,7 @@ public class EmployeesJPanel extends JPanel implements ICompanyListener, IDepart
 			throw new GuiException("Wrong argument game == null");
 		}
 		
-		_employeesList = new JList();
+		_employeesList = new JList<Employee>();
 		JScrollPane scrollPane = new JScrollPane(_employeesList);
 		
 		_employeesList.setCellRenderer(new EmployeeCellRenderer());
@@ -169,7 +170,7 @@ public class EmployeesJPanel extends JPanel implements ICompanyListener, IDepart
 	
 	Map<String, EmployeeMemento> getSelectedEmployees(){
 		Map<String, EmployeeMemento> result = new TreeMap<String, EmployeeMemento>();
-		Object[] employees =_employeesList.getSelectedValues();
+		List<Employee> employees =_employeesList.getSelectedValuesList();
 		for( Object employee : employees){
 			if( employee instanceof Employee ){
 				Employee emp = (Employee)employee;

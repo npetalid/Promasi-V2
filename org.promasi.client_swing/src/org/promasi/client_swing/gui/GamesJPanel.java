@@ -47,7 +47,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 	/**
 	 * 
 	 */
-	private JList _gamesList;
+	private JList<IGame> _gamesList;
 	
 	/**
 	 * 
@@ -100,9 +100,9 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		JSplitPane splitPane = new JSplitPane();
 		add(splitPane, BorderLayout.CENTER);
 		
-		DefaultListModel listModel = new DefaultListModel();
+		DefaultListModel<IGame> listModel = new DefaultListModel<IGame>();
 		
-		_gamesList = new JList(listModel);
+		_gamesList = new JList<IGame>(listModel);
 		_gamesList.setCellRenderer(new MenuCellRenderer());
 		splitPane.setLeftComponent(_gamesList);
 		

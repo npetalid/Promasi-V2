@@ -46,7 +46,7 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 	/**
 	 * 
 	 */
-	private JList _tasksList;
+	private JList<CheckBoxListEntry<EmployeeTaskMemento>> _tasksList;
 	
 	/**
 	 * 
@@ -62,7 +62,7 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 	 * 
 	 */
 	public DependenciesJPanel(IGame game){
-		_tasksList = new JList();
+		_tasksList = new JList<CheckBoxListEntry<EmployeeTaskMemento>>();
 		_tasks= new TreeMap<String, CheckBoxListEntry<EmployeeTaskMemento>>();
 		_tasksList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		_tasksList.setCellRenderer(new CheckBoxCellRenderer<Object>());
@@ -77,8 +77,7 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 			public void mouseEntered(MouseEvent arg0) {}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				@SuppressWarnings("unchecked")
-				CheckBoxListEntry<EmployeeTaskMemento> entry = (CheckBoxListEntry<EmployeeTaskMemento>) _tasksList.getSelectedValue();
+				CheckBoxListEntry<EmployeeTaskMemento> entry = _tasksList.getSelectedValue();
 				if( entry != null ){
 					entry.onClick();
 					_tasksList.repaint();
