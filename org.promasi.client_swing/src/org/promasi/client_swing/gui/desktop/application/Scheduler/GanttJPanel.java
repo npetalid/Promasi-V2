@@ -72,6 +72,11 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	/**
 	 * 
 	 */
+	private Map<String, DefaultGanttEntry<Date> > _runningTasks;
+	
+	/**
+	 * 
+	 */
 	public static final int CONST_DURATION_MULTIPLIER = 10;
 	
 	/**
@@ -107,6 +112,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		double[] proportions={0.29};
 		_ganttPane.setProportions(proportions);
 		TableUtils.autoResizeAllColumns(_ganttPane.getTreeTable());
+		_runningTasks = new TreeMap<>();
 	}
 	
 	/**
@@ -114,7 +120,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	 * @param scheduledTasks
 	 * @param assignedProject
 	 */
-	private void drawGanttDiagramm( Map<String, EmployeeTaskMemento> scheduledTasks, ProjectMemento assignedProject, DateTime dateTime ){
+	private void updateGanttDiagramm( Map<String, EmployeeTaskMemento> scheduledTasks, ProjectMemento assignedProject, DateTime dateTime ){
 		try{
 			_lockObject.lock();
 			
@@ -151,6 +157,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 						newTask.setCompletion(prjTask.getProgress()/100.0);
 					}
 
+					_runningTasks.put(entry.getKey(), newTask);
 					model.addGanttEntry(newTask);
 				}
 				
@@ -205,6 +212,13 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		try{
 			_lockObject.lock();
 			_projectAssignDate = dateTime;
+			SwingUtilities.invokeLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					updateGanttDiagramm( new TreeMap<String, EmployeeTaskMemento>(), project, dateTime);
+				}
+			});
 		}finally{
 			_lockObject.unlock();
 		}
@@ -243,8 +257,24 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 						}
 					}
 
-					drawGanttDiagramm(projectTasks, assignedProject, dateTime);
+					boolean hasNewTasks = false;
+					for( Map.Entry<String, EmployeeTaskMemento> entry : projectTasks.entrySet()){
+						if( !_runningTasks.containsKey(entry.getKey()) ){
+							hasNewTasks = true;
+						}
+					}
 					
+					if( hasNewTasks || projectTasks.isEmpty() ){
+						updateGanttDiagramm(projectTasks, assignedProject, dateTime);
+					}else{
+						for( Map.Entry<String, DefaultGanttEntry<Date>> entry : _runningTasks.entrySet()){
+							if( assignedProject.getProjectTasks() != null && assignedProject.getProjectTasks().containsKey( projectTasks.get(entry.getKey()).getProjectTaskName() ) ){
+								ProjectTaskMemento prjTask = assignedProject.getProjectTasks().get(projectTasks.get(entry.getKey()).getProjectTaskName());
+								entry.getValue().setCompletion(prjTask.getProgress()/100.0);
+							}
+						}
+					}
+										
 				}finally{
 					_lockObject.unlock();
 				}
