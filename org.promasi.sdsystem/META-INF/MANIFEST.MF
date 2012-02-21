@@ -3,9 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Sdsystem
 Bundle-SymbolicName: org.promasi.sdsystem
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.promasi.sdsystem.Activator
-Require-Bundle: org.eclipse.core.runtime,
- org.promasi.utilities;bundle-version="1.0.0"
+Require-Bundle: org.promasi.utilities;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.lsmp.djep.djep,

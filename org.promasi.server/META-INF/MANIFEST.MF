@@ -3,9 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Server
 Bundle-SymbolicName: org.promasi.server
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.promasi.server.Activator
-Require-Bundle: org.eclipse.core.runtime,
- org.promasi.game;bundle-version="1.0.0",
+Require-Bundle: org.promasi.game;bundle-version="1.0.0",
  org.promasi.utilities;bundle-version="1.0.0",
  org.promasi.protocol;bundle-version="1.0.0",
  org.promasi.network;bundle-version="1.0.0"

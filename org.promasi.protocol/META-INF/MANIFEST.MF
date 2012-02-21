@@ -3,9 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Protocol
 Bundle-SymbolicName: org.promasi.protocol
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: org.promasi.protocol.Activator
-Require-Bundle: org.eclipse.core.runtime,
- org.promasi.utilities;bundle-version="1.0.0",
+Require-Bundle: org.promasi.utilities;bundle-version="1.0.0",
  org.promasi.game;bundle-version="1.0.0",
  org.promasi.sdsystem;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
