@@ -257,9 +257,20 @@ public class Department{
     	try{
     		_lockObject.lock();
         	if(employeeId!=null && employeeTasks != null ){
+        		Map<String, EmployeeTask> allTasks = new TreeMap<>();
+        		for( Map.Entry<String, Employee> entry : _employees.entrySet()){
+        			Map<String, EmployeeTask> tasks = entry.getValue().getAssignedTasks();
+        			for( Map.Entry<String, EmployeeTask> taskEntry : tasks.entrySet()){
+        				if(!allTasks.containsKey(entry.getKey()) ){
+        					allTasks.put(taskEntry.getKey(), taskEntry.getValue());
+        				}
+        			}
+        		}
+        		
         		List<EmployeeTask> tasks=new  LinkedList<EmployeeTask>();
         		try {
     	    		for(EmployeeTaskMemento employeeTask : employeeTasks){
+    	    			
     	        		String taskName=employeeTask.getProjectTaskName();
     	    			ProjectTask projectTask=projectTasks.get(taskName);
     	    			if(_employees.containsKey(employeeId)){
@@ -269,6 +280,14 @@ public class Department{
 							        	    					employeeTask.getFirstStep(),
 							        	    					employeeTask.getLastStep());
         	    			
+        	        		for( Map.Entry<String, EmployeeTask> taskEntry : allTasks.entrySet()){
+    	        				task.applyDependencie(taskEntry.getValue());
+        	        		}
+        	        		
+        	        		for( EmployeeTask preparedTask : tasks){
+        	        			task.applyDependencie(preparedTask);
+        	        		}
+        	        		
         	    			result = tasks.add(task);
     	    			}
     	    		}

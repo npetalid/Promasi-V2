@@ -15,13 +15,13 @@
    <string>Test</string>
   </void>
   <void property="endTime">
-   <string>23:16:00.657</string>
+   <string>23:17:45.981</string>
   </void>
   <void property="name">
    <string>Test</string>
   </void>
   <void property="startTime">
-   <string>00:16:00.655</string>
+   <string>00:17:45.977</string>
   </void>
  </object>
 </java>

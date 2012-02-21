@@ -202,19 +202,6 @@ public class Employee
         	if(employeeTasks!=null){
         		result = true;
         		
-        		List<EmployeeTask> tmpTasks = new LinkedList<EmployeeTask>(employeeTasks);
-        		for( EmployeeTask task : tmpTasks){
-        			for( EmployeeTask task2 : employeeTasks ){
-        				if( task != task2 ){
-        					task.applyDependencie(task2);
-        				}
-        			}
-        			
-            		for( Map.Entry<String, EmployeeTask> entry: _employeeTasks.entrySet() ){
-            			task.applyDependencie(entry.getValue());
-            		}
-        		}
-        		
             	for(EmployeeTask task : employeeTasks){
             		if( _employeeTasks.containsKey(task.getTaskName())){
             			result = false;
@@ -381,6 +368,14 @@ public class Employee
     	}
     	
     	return result;
+    }
+    
+    /**
+     * Will return the list of assigned tasks.
+     * @return instance of {@link=Map<String, EmployeeTask>}
+     */
+    public Map<String, EmployeeTask> getAssignedTasks(){
+    	return new TreeMap<>(_employeeTasks);
     }
     
     /**
