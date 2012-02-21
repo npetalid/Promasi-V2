@@ -4,7 +4,6 @@ Bundle-Name: Utilities
 Bundle-SymbolicName: org.promasi.utilities;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.apache.log4j,
  org.joda.time,
  org.joda.time.base,
@@ -21,3 +20,4 @@ Export-Package: org.apache.log4j,
  org.promasi.utilities.logger,
  org.promasi.utilities.serialization,
  org.promasi.utilities.ui
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

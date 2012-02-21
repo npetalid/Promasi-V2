@@ -6,9 +6,9 @@ Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.promasi.utilities;bundle-version="1.0.0",
  org.promasi.sdsystem;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.promasi.game,
  org.promasi.game.company,
  org.promasi.game.multiplayer,
  org.promasi.game.project,
  org.promasi.game.singleplayer
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

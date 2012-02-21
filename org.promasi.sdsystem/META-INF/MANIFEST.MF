@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.promasi.sdsystem
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.promasi.utilities;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.lsmp.djep.djep,
  org.lsmp.djep.djep.diffRules,
  org.lsmp.djep.groupJep,
@@ -34,3 +33,4 @@ Export-Package: org.lsmp.djep.djep,
  org.promasi.sdsystem.sdobject,
  org.promasi.sdsystem.sdobject.equation,
  org.promasi.sdsystem.serialization
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
