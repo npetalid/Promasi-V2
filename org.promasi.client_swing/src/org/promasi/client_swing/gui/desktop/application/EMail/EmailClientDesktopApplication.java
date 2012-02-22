@@ -166,7 +166,6 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 					_messageTable.setModel(_msgTableModel);
 					_quickStartButton.showPopupNotifier("You have " + getUnreadMessages() + " unread messages");
 				} catch (GuiException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}finally{
 					_lockObject.unlock();

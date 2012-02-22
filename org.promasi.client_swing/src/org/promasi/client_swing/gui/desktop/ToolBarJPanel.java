@@ -6,14 +6,18 @@ package org.promasi.client_swing.gui.desktop;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.joda.time.DateTime;
@@ -50,7 +54,7 @@ public class ToolBarJPanel extends JPanel {
 	/**
 	 * 
 	 */
-	public ClockJButton _clockPanel;
+	public ClockJPanel _clockPanel;
 	
 	/**
 	 * 
@@ -89,12 +93,12 @@ public class ToolBarJPanel extends JPanel {
 			_startButton = new JButton();
 			_startButton.setIcon(startIcon);
 			_startButton.setText("Menu");
-			_startButton.setIconTextGap(5);
+			_startButton.setIconTextGap(2);
+			_startButton.setFont(new Font("Courier New", Font.BOLD, 15));
 		} catch (IOException e1) {
 			_startButton = new JButton("Menu");
 		}
 		
-		_startButton.setFocusPainted(false);
 		_startButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -107,23 +111,30 @@ public class ToolBarJPanel extends JPanel {
 		
 		_quickMenuPanel = new JPanel();
 		_quickMenuPanel.setLayout(new BorderLayout());
-		_clockPanel = new ClockJButton();
+		_clockPanel = new ClockJPanel();
 		
-		JButton exitButton = null;
+		JLabel exitButton = null;
 		try {
 			Icon exitIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + "exit.png");
-			exitButton = new JButton(exitIcon);
+			exitButton = new JLabel(exitIcon);
 			exitButton.setPreferredSize(new Dimension( exitIcon.getIconHeight(), exitIcon.getIconHeight() ));
 			exitButton.setFocusable(false);
 			exitButton.setBorder(BorderFactory.createEmptyBorder());
 		} catch (IOException e1) {
-			exitButton = new JButton("Exit");
+			exitButton = new JLabel("Exit");
 		}
 		
-		exitButton.addActionListener(new ActionListener() {
-			
+		exitButton.addMouseListener(new MouseListener() {
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void mouseReleased(MouseEvent e) {}
+			@Override
+			public void mousePressed(MouseEvent e) {}
+			@Override
+			public void mouseExited(MouseEvent e){}
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				_desktop.shutDown();
 			}
 		});

@@ -6,13 +6,11 @@ package org.promasi.client_swing.gui.desktop.application;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
@@ -24,7 +22,7 @@ import org.promasi.client_swing.gui.desktop.IDesktop;
  * @author alekstheod
  *
  */
-public class QuickStartButton extends JButton {
+public class QuickStartButton extends JLabel {
 
 	/**
 	 * 
@@ -58,15 +56,28 @@ public class QuickStartButton extends JButton {
 		
 		_application = applicaiton;
 		_desktop = desktop;
-		addActionListener(new ActionListener() {
+
+		addMouseListener(new MouseListener() {
 			
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void mouseReleased(MouseEvent e) {}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				_desktop.runApplication(_application);
 			}
 		});
 		
-		this.setRolloverEnabled(false);
+		//this.setRolloverEnabled(false);
 		setBorder(BorderFactory.createEmptyBorder());
 		setIcon(applicaiton.getFrameIcon());
 		setPreferredSize(new Dimension(applicaiton.getFrameIcon().getIconWidth(), applicaiton.getFrameIcon().getIconHeight()));
@@ -90,7 +101,6 @@ public class QuickStartButton extends JButton {
 	        label.addMouseListener( new MouseAdapter( ){
 	            @Override
 	            public void mouseClicked ( MouseEvent e ){
-	                fireActionPerformed( new ActionEvent( this, 0, "" ) );
 	                popup.setVisible( false );
 	            }
 	        });

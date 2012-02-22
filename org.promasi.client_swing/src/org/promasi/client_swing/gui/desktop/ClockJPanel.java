@@ -9,8 +9,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.joda.time.DateTime;
 
@@ -18,7 +18,7 @@ import org.joda.time.DateTime;
  * @author alekstheod
  *
  */
-public class ClockJButton extends JButton {
+public class ClockJPanel extends JPanel {
 
 	/**
 	 * 
@@ -33,7 +33,7 @@ public class ClockJButton extends JButton {
 	/**
 	 * 
 	 */
-	public ClockJButton(){
+	public ClockJPanel(){
 		super();
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEtchedBorder());

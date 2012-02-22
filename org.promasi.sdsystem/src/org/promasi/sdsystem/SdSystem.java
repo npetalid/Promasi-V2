@@ -18,7 +18,6 @@ import org.promasi.sdsystem.sdobject.TimeSdObject;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
-import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * 
@@ -184,10 +183,10 @@ public class SdSystem
 	}
 	
 	/**
-	 * 
-	 * @param sdObjectName
-	 * @return
-	 * @throws SdSystemException
+	 * Will return the value of the given SdObject.
+	 * @param sdObjectName name of SdObject which value we go to get.
+	 * @return value.
+	 * @throws SdSystemException if case of invalid sdObjectName argument.
 	 */
 	public Double getValue(final String sdObjectName)throws SdSystemException{
 		if(sdObjectName==null){
@@ -207,9 +206,9 @@ public class SdSystem
 	}
 	
 	/**
-	 * 
-	 * @return
-	 * @throws SerializationException
+	 * Will return the state of the current object.
+	 * @return instance of {@link = SdSystemMemento} which
+	 * represent the state of the object.
 	 */
 	public SdSystemMemento getMemento() {
 		return new SdSystemMemento(this);
