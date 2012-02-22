@@ -44,8 +44,8 @@ import com.jidesoft.swing.CornerScroller;
  * 
  * @author alekstheod
  * Represent the gantt chart panel in 
- * promasi. This class will draw the given EmployeeTasks
- * as a ganttchart.
+ * promasi project. This class will draw the given EmployeeTasks
+ * as a ganttchart diagram.
  */
 public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmentListener{
 
@@ -55,27 +55,32 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * Lock object. Needed to synchronize
+	 * the {@link = ICompanyListener} interface
+	 * methods implementation.
 	 */
 	private Lock _lockObject;
 	
 	/**
-	 * 
+	 * Date-Time when the project was assigned.
 	 */
 	private DateTime _projectAssignDate;
 	
 	/**
-	 * 
+	 * Instance of {@link = GanttChartPane} which will
+	 * draw the gantt chart representation of the running
+	 * projects.
 	 */
 	private GanttChartPane< Date, DefaultGanttEntry<Date> > _ganttPane;
 	
 	/**
-	 * 
+	 * List of the running tasks.
 	 */
 	private Map<String, DefaultGanttEntry<Date> > _runningTasks;
 	
 	/**
-	 * 
+	 * Project step per hour multiplier. Needed in order
+	 * to calculate the task duration in hours.
 	 */
 	public static final int CONST_DURATION_MULTIPLIER = 10;
 	
@@ -116,9 +121,11 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	}
 	
 	/**
-	 * 
-	 * @param scheduledTasks
-	 * @param assignedProject
+	 * Will update the Gantt diagram presentation.
+	 * @param scheduledTasks list of the scheduled tasks.
+	 * @param assignedProject Instance of {@link = ProjectMemento} which represent the
+	 * assigned project.
+	 * @param dateTime the current date-time.
 	 */
 	private void updateGanttDiagramm( Map<String, EmployeeTaskMemento> scheduledTasks, ProjectMemento assignedProject, DateTime dateTime ){
 		try{
@@ -139,6 +146,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
             model.setRange(new TimeRange(projectStartDate, projectEndDate));
 
 			if(_projectAssignDate != null ){
+				_runningTasks.clear();
 				Map<String,  DefaultGanttEntry<Date>> ganttTasks = new TreeMap<String,  DefaultGanttEntry<Date>>();
 				for (Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet() ){
 					EmployeeTaskMemento employeeTask = entry.getValue();
@@ -201,11 +209,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	}
 	
 	/**
-	 * 
-	 * @param owner
-	 * @param company
-	 * @param project
-	 * @param dateTime
+	 * Called when the new project assigned.
 	 */
 	@Override
 	public void projectAssigned(String owner, CompanyMemento company,final ProjectMemento project, final DateTime dateTime) {
@@ -235,6 +239,9 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 			ProjectMemento assignedProject, DateTime dateTime) {
 	}
 
+	/**
+	 * Called on step execution.
+	 */
 	@Override
 	public void onExecuteWorkingStep(String owner, final CompanyMemento company, final ProjectMemento assignedProject, final DateTime dateTime) {
 		SwingUtilities.invokeLater( new Runnable() {
