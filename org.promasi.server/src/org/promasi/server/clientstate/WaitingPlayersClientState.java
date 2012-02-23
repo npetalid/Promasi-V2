@@ -18,6 +18,8 @@ import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.game.multiplayer.IMultiPlayerGame;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.ProjectMemento;
+import org.promasi.protocol.client.AbstractClientState;
+import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.CancelGameRequest;
 import org.promasi.protocol.messages.GameStartedRequest;
 import org.promasi.protocol.messages.InternalErrorResponse;
@@ -25,8 +27,6 @@ import org.promasi.protocol.messages.MessageRequest;
 import org.promasi.protocol.messages.StartGameRequest;
 import org.promasi.protocol.messages.UpdateGamePlayersListRequest;
 import org.promasi.protocol.messages.WrongProtocolResponse;
-import org.promasi.server.AbstractClientState;
-import org.promasi.server.ProMaSiClient;
 import org.promasi.server.ProMaSiServer;
 import org.promasi.utilities.exceptions.NullArgumentException;
 

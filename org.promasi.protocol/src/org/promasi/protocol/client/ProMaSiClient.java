@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.server;
+package org.promasi.protocol.client;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -39,13 +39,13 @@ public class ProMaSiClient implements ITcpClientListener
 	 * @throws NullArgumentException
 	 * @throws NetworkException 
 	 */
-	public ProMaSiClient(TcpClient client,IClientState clientState)throws NullArgumentException, NetworkException{
+	public ProMaSiClient(TcpClient client,IClientState clientState)throws NetworkException{
 		if(client==null){
-			throw new NullArgumentException("Wrong client argument");
+			throw new NetworkException("Wrong client argument");
 		}
 		
 		if(clientState==null){
-			throw new NullArgumentException("Wrong clientState argument");
+			throw new NetworkException("Wrong clientState argument");
 		}
 
 		_client=client;

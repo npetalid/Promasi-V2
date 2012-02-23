@@ -301,7 +301,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	@Override
 	public void companyIsInsolvent(String owner, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime) {projectFinished(owner, company, assignedProject, dateTime);}
 	@Override
-	public void onExecuteWorkingStep(String owner, final CompanyMemento company, final ProjectMemento assignedProject, final DateTime dateTime) {}
+	public void onExecuteWorkingStep(String owner, CompanyMemento company, ProjectMemento assignedProject, DateTime dateTime) {}
 	@Override
 	public void companyAssigned(String owner, CompanyMemento company) {}
 	@Override

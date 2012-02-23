@@ -3,13 +3,13 @@ package org.promasi.server.clientstate;
 import java.beans.XMLDecoder;
 import java.io.ByteArrayInputStream;
 
+import org.promasi.protocol.client.AbstractClientState;
+import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.InternalErrorResponse;
 import org.promasi.protocol.messages.LoginFailedResponse;
 import org.promasi.protocol.messages.LoginRequest;
 import org.promasi.protocol.messages.LoginResponse;
 import org.promasi.protocol.messages.WrongProtocolResponse;
-import org.promasi.server.AbstractClientState;
-import org.promasi.server.ProMaSiClient;
 import org.promasi.server.ProMaSiServer;
 import org.promasi.utilities.exceptions.NullArgumentException;
 

@@ -58,78 +58,82 @@ public class PlayModesJPanel extends JPanel {
 	 */
 	public PlayModesJPanel( IMainFrame listener )throws GuiException{
 		super();
-		if( listener == null ){
-			throw new GuiException("Wrong argument listener == null");
-		}
-		
-		_mainFrame = listener;
-		DefaultListModel<IPlayMode> listModel = new DefaultListModel<IPlayMode>();
-		listModel.addElement( new SinglePlayerPlayMode() );
-		listModel.addElement( new MultiPlayerPlayMode() );
-		
-		JSplitPane splitPane = new JSplitPane();
-		
-		_playModesList = new JList<IPlayMode>(listModel);
-		setLayout( new BorderLayout() );
-		add(splitPane, BorderLayout.CENTER);
-		
-		splitPane.setLeftComponent(_playModesList);
-		_playModesList.addMouseMotionListener(new MouseMotionListener() {
-			
-			@Override
-			public void mouseMoved(MouseEvent arg0) {
-				Point p = new Point(arg0.getX(),arg0.getY());
-				_playModesList.setSelectedIndex(_playModesList.locationToIndex(p));
-				IPlayMode playMode = (IPlayMode) _playModesList.getSelectedValue();
-				if( playMode != null ){
-					_infoPane.setText(playMode.getDescription());
-				}
+		try {
+			if( listener == null ){
+				throw new GuiException("Wrong argument listener == null");
 			}
 			
-			@Override
-			public void mouseDragged(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		_playModesList.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent arg0) {}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {	
-			}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				IPlayMode playMode = (IPlayMode) _playModesList.getSelectedValue();
-				if( playMode != null ){
-					playMode.gotoNextPanel(_mainFrame);
-				}
-			}
-		});
-		
-		_playModesList.setCellRenderer(new MenuCellRenderer());
-		
-		JPanel bottomPanel = new JPanel();
-		
-		add( bottomPanel, BorderLayout.SOUTH );
-		
-		EtchedBorder edge = new EtchedBorder(EtchedBorder.RAISED);
+			_mainFrame = listener;
+			DefaultListModel<IPlayMode> listModel = new DefaultListModel<IPlayMode>();
+			listModel.addElement( new SinglePlayerPlayMode() );
+			listModel.addElement( new MultiPlayerPlayMode() );
 
-		_playModesList.setBorder(edge);
-		
-		_infoPane = new ExtendedJEditorPane();
-		_infoPane.setEditable(false);
-		_infoPane.setContentType( "text/html" );
-		splitPane.setRightComponent(_infoPane);
-		splitPane.setDividerLocation( 200 );
+			JSplitPane splitPane = new JSplitPane();
+			
+			_playModesList = new JList<IPlayMode>(listModel);
+			setLayout( new BorderLayout() );
+			add(splitPane, BorderLayout.CENTER);
+			
+			splitPane.setLeftComponent(_playModesList);
+			_playModesList.addMouseMotionListener(new MouseMotionListener() {
+				
+				@Override
+				public void mouseMoved(MouseEvent arg0) {
+					Point p = new Point(arg0.getX(),arg0.getY());
+					_playModesList.setSelectedIndex(_playModesList.locationToIndex(p));
+					IPlayMode playMode = (IPlayMode) _playModesList.getSelectedValue();
+					if( playMode != null ){
+						_infoPane.setText(playMode.getDescription());
+					}
+				}
+				
+				@Override
+				public void mouseDragged(MouseEvent arg0) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+			
+			_playModesList.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseReleased(MouseEvent arg0) {}
+				
+				@Override
+				public void mousePressed(MouseEvent arg0) {}
+				
+				@Override
+				public void mouseExited(MouseEvent arg0) {	
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent arg0) {}
+				
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					IPlayMode playMode = (IPlayMode) _playModesList.getSelectedValue();
+					if( playMode != null ){
+						playMode.gotoNextPanel(_mainFrame);
+					}
+				}
+			});
+			
+			_playModesList.setCellRenderer(new MenuCellRenderer());
+			
+			JPanel bottomPanel = new JPanel();
+			
+			add( bottomPanel, BorderLayout.SOUTH );
+			
+			EtchedBorder edge = new EtchedBorder(EtchedBorder.RAISED);
+	
+			_playModesList.setBorder(edge);
+			
+			_infoPane = new ExtendedJEditorPane();
+			_infoPane.setEditable(false);
+			_infoPane.setContentType( "text/html" );
+			splitPane.setRightComponent(_infoPane);
+			splitPane.setDividerLocation( 200 );
+		} catch (Exception e) {
+			throw new GuiException(e);
+		}
 	}
 }

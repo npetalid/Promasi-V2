@@ -24,6 +24,7 @@ import org.promasi.game.company.MarketPlace;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.EmployeeTaskMemento;
+import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.game.project.Project;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.clock.Clock;
@@ -93,7 +94,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public MultiPlayerGame(final String clientId, final String gameName, final String gameDescription, final MarketPlace marketPlace, final Company company,final Queue<Project> projects)throws GameException{
+	public MultiPlayerGame(String clientId, String gameName, String gameDescription, MarketPlace marketPlace, Company company, Queue<Project> projects)throws GameException{
 		if(company==null){
 			throw new GameException("Wrong argument company==null");
 		}
@@ -494,9 +495,9 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 	@Override
 	public void onExecuteWorkingStep(String owner, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime) {
-		//for(IServerGameListener listener : _listeners){
-		//	listener.onExecuteStep(owner, this, company, dateTime);
-		//}
+		for(IServerGameListener listener : _listeners){
+			listener.onExecuteStep(owner, this, company, dateTime);
+		}
 	}
 
 
@@ -510,7 +511,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 	@Override
 	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
-		/*for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
+		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
 				try{
 					GameModelMemento gameModel=entry.getValue().getSerializableGameModel();
@@ -521,13 +522,13 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 					//Logger
 				}
 			}
-		}*/
+		}
 	}
 
 
 	@Override
 	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
-		/*for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
+		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
 				try{
 					GameModelMemento gameModel=entry.getValue().getSerializableGameModel();
@@ -538,41 +539,26 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 					//Logger
 				}
 			}
-		}*/
+		}
 	}
 
 
 	@Override
-	public void companyAssigned(String owner, CompanyMemento company) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void companyAssigned(String owner, CompanyMemento company) {}
 
 
 	@Override
-	public void tasksAssignFailed(String supervisor, EmployeeMemento employee) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void tasksAssignFailed(String supervisor, EmployeeMemento employee) {}
 
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {}
 
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {}
 
 
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {}
 }

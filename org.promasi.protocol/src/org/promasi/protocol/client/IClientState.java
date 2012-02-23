@@ -1,9 +1,10 @@
 /**
  *
  */
-package org.promasi.server;
+package org.promasi.protocol.client;
 
 import java.net.ProtocolException;
+
 
 
 

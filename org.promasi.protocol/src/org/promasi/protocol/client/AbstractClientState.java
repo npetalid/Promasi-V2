@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.promasi.server;
+package org.promasi.protocol.client;
 
 import org.promasi.utilities.exceptions.NullArgumentException;
 

@@ -14,6 +14,7 @@ import org.promasi.network.tcp.ITcpServerListener;
 import org.promasi.network.tcp.NetworkException;
 import org.promasi.network.tcp.TcpClient;
 import org.promasi.network.tcp.TcpServer;
+import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.CancelGameResponse;
 import org.promasi.protocol.messages.GameCanceledRequest;
 import org.promasi.protocol.messages.LeaveGameResponse;

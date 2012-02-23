@@ -23,6 +23,14 @@ public class GuiException extends Exception {
 	
 	/**
 	 * 
+	 * @param e
+	 */
+	public GuiException(Exception e){
+		super(e);
+	}
+	
+	/**
+	 * 
 	 * @param message
 	 */
 	public GuiException( String message ){

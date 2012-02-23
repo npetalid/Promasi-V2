@@ -5,7 +5,10 @@ Bundle-SymbolicName: org.promasi.protocol
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.promasi.utilities;bundle-version="1.0.0",
  org.promasi.game;bundle-version="1.0.0",
- org.promasi.sdsystem;bundle-version="1.0.0"
+ org.promasi.sdsystem;bundle-version="1.0.0",
+ org.promasi.network;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
-Export-Package: org.promasi.protocol.messages
+Export-Package: org.apache.commons.codec,
+ org.promasi.protocol.client,
+ org.promasi.protocol.messages
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

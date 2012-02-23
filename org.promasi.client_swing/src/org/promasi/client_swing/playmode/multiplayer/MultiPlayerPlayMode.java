@@ -3,78 +3,154 @@
  */
 package org.promasi.client_swing.playmode.multiplayer;
 
+import java.beans.XMLDecoder;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import org.promasi.client_swing.components.JList.IMenuEntry;
+import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.IMainFrame;
 import org.promasi.client_swing.playmode.IPlayMode;
+import org.promasi.network.tcp.NetworkException;
+import org.promasi.network.tcp.TcpClient;
+import org.promasi.protocol.client.IClientState;
+import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.utilities.file.RootDirectory;
 
 /**
- * @author alekstheod
+ * @author m1cRo
  *
  */
-public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry {
-
+public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
+{
 	/**
 	 * 
 	 */
-	public static final String CONST_PLAYMODE_NAME = "MultiPlayer";
+	public static final String CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME="MultiPlayer";
+	
+	public static final String CONST_PLAYMODE_DESCRIPTION	=	"The purpose of this play mode is to gather the highest score in the competition with other online game players.\n"+
+																"You will chose one game from the list of available games, and will play this with other online players.\n"+
+																"On each game you will have to complete one or more projects.\n"+
+																"You will share the market place with your competitors and improve your skills as project manager";
+	
+	/**
+	 * MultiPlayer client settings file name.
+	 */
+	public static final String CONST_MULTIPLAYER_CLIENT_SETTINGS_FILE_NAME="Settings.xml";
 	
 	/**
 	 * 
 	 */
-	public static final String CONST_PLAYMODE_DESCRIPTION = "The purpose of this play mode is to gather the highest score in the competition with other online game players.\n";
-	
-															
-	/**														
-	 * 
-	 */
-	public static final String CONST_MENUIMAGE = "user_group.png";
-		
-	/**
-	 * 
-	 */
-	private Icon _menuIcon;
+	@SuppressWarnings("unused")
+	private ProMaSiClient _client;
 	
 	/**
 	 * 
+	 * @throws GuiException
 	 */
-	public MultiPlayerPlayMode(){
-		try {
-			_menuIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + CONST_MENUIMAGE);
-		} catch (IOException e) {
-			//TODO log
+	public MultiPlayerPlayMode()throws GuiException{
+		try{
+			MultiPlayerClientSettings settings=readClientSettings(RootDirectory.getInstance().getRootDirectory()+CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME+RootDirectory.getInstance().getSeparator()+CONST_MULTIPLAYER_CLIENT_SETTINGS_FILE_NAME);
+			TcpClient client=new TcpClient(settings.getHostName(),settings.getPortNumber());
+			_client=new ProMaSiClient(client, this);
+		}catch(FileNotFoundException e){
+			MultiPlayerClientSettings settings=new MultiPlayerClientSettings();
+			settings.setHostName("localhost");
+			settings.setPortNumber(55555);
+            PrintWriter out;
+			try {
+				out = new PrintWriter(new FileWriter(RootDirectory.getInstance().getRootDirectory()+CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME+RootDirectory.getInstance().getSeparator()+CONST_MULTIPLAYER_CLIENT_SETTINGS_FILE_NAME));
+			} catch (IOException e1) {
+				throw new GuiException(e);
+			}
+            out.print(settings.serialize());
+            out.close();
+		} catch (NetworkException e) {
+			throw new GuiException(e);
+		} catch( IOException e){
+			throw new GuiException(e);
 		}
 	}
-	
-	@Override
-	public String toString(){
-		return CONST_PLAYMODE_NAME;
-	}
-	
+
+	/* (non-Javadoc)
+	 * @see org.promasi.playmode.IPlayMode#getDescription()
+	 */
 	@Override
 	public String getDescription() {
-		return CONST_PLAYMODE_DESCRIPTION;
+		return "Online multiplayer game";
 	}
 
-	@Override
-	public void gotoNextPanel(IMainFrame mainFrame) {
-		
-	}
-
+	/* (non-Javadoc)
+	 * @see org.promasi.playmode.IPlayMode#getUri()
+	 */
 	@Override
 	public String getUri() throws IOException {
+		return RootDirectory.getInstance().getRootDirectory()+RootDirectory.getInstance().getSeparator()+CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME;
+	}
+	
+	/**
+	 * Method that will read the MultiPlayer client settings.
+	 * @param filePath
+	 * @return
+	 * @throws FileNotFoundException
+	 */
+	private MultiPlayerClientSettings readClientSettings(String filePath)throws FileNotFoundException{
+		File companyFile=new File(filePath);
+		FileInputStream fileInputStream=new FileInputStream(companyFile);
+		XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
+		Object object=xmlDecoder.readObject();
+		if(object instanceof MultiPlayerClientSettings){
+			return (MultiPlayerClientSettings)object;
+		}
+		
+		throw new FileNotFoundException("Company file not found");
+	}
+
+	@Override
+	public Icon getIcon() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Icon getIcon() {
-		return _menuIcon;
+	public void gotoNextPanel(IMainFrame mainFrame) {
+		// TODO Auto-generated method stub
+		
 	}
 
+	@Override
+	public void onReceive(ProMaSiClient client, String recData) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSetState(ProMaSiClient client) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDisconnect(ProMaSiClient client) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onConnect(ProMaSiClient client) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onConnectionError(ProMaSiClient client) {
+		// TODO Auto-generated method stub
+		
+	}
 }

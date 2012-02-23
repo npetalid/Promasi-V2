@@ -204,23 +204,23 @@ public class TcpClient
 	 *
 	 * @param tcpEventHandler
 	 */
-	public boolean addListener(ITcpClientListener listener)throws NetworkException
+	public boolean addListener(ITcpClientListener listener)
 	{
-		if(listener==null){
-			throw new NetworkException("Wrong argument listener==null");
+		boolean result = false;
+		if(listener!=null){
+			try{
+				_lockObject.lock();
+				if(_listeners.contains(listener)){
+					return false;
+				}else{
+					result = _listeners.add(listener);
+				}
+			}finally{
+				_lockObject.unlock();
+			}
 		}
 		
-		try{
-			_lockObject.lock();
-			if(_listeners.contains(listener)){
-				return false;
-			}else{
-				_listeners.add(listener);
-				return true;
-			}
-		}finally{
-			_lockObject.unlock();
-		}
+		return result;
 	}
 	
 	/**
