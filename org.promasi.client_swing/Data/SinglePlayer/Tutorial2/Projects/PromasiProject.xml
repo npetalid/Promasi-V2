@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.6.0_29" class="java.beans.XMLDecoder"> 
+ <object class="org.promasi.game.project.ProjectMemento"> 
+  <void property="description"> 
+   <string>PromasiProject</string> 
+  </void> 
+  <void property="difficultyLevel"> 
+   <double>2.2</double> 
+  </void> 
+  <void property="name"> 
+   <string>PromasiProject</string> 
+  </void> 
+  <void property="projectDuration"> 
+   <int>10000</int> 
+  </void> 
+  <void property="projectPrice"> 
+   <double>2.2</double> 
+  </void> 
+  <void property="projectTasks"> 
+   <object class="java.util.TreeMap"> 
+    <void method="put"> 
+     <string>Deploy</string> 
+     <object class="org.promasi.game.project.ProjectTaskMemento"> 
+      <void property="description"> 
+       <string>Deploy</string> 
+      </void> 
+      <void property="name"> 
+       <string>Deploy</string> 
+      </void> 
+      <void property="progressEquation"> 
+       <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento"> 
+        <void property="equationString"> 
+         <string>time*100/10000</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void property="sdSystem"> 
+       <object class="org.promasi.sdsystem.SdSystemMemento"> 
+        <void property="sdObjects"> 
+         <void method="put"> 
+          <string>developer</string> 
+          <object class="org.promasi.sdsystem.sdobject.InputSdObjectMemento"/> 
+         </void> 
+         <void method="put"> 
+          <string>time</string> 
+          <object class="org.promasi.sdsystem.sdobject.TimeSdObjectMemento"/> 
+         </void> 
+        </void> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="put"> 
+     <string>Test1</string> 
+     <object class="org.promasi.game.project.ProjectTaskMemento"> 
+      <void property="description"> 
+       <string>Test1</string> 
+      </void> 
+      <void property="name"> 
+       <string>Test1</string> 
+      </void> 
+      <void property="progressEquation"> 
+       <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento"> 
+        <void property="equationString"> 
+         <string>time*100/10000</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void property="sdSystem"> 
+       <object class="org.promasi.sdsystem.SdSystemMemento"> 
+        <void property="sdObjects"> 
+         <void method="put"> 
+          <string>developer</string> 
+          <object class="org.promasi.sdsystem.sdobject.InputSdObjectMemento"/> 
+         </void> 
+         <void method="put"> 
+          <string>time</string> 
+          <object class="org.promasi.sdsystem.sdobject.TimeSdObjectMemento"/> 
+         </void> 
+        </void> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="put"> 
+     <string>Test2</string> 
+     <object class="org.promasi.game.project.ProjectTaskMemento"> 
+      <void property="description"> 
+       <string>Test2</string> 
+      </void> 
+      <void property="name"> 
+       <string>Test2</string> 
+      </void> 
+      <void property="progressEquation"> 
+       <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento"> 
+        <void property="equationString"> 
+         <string>time*100/10000</string> 
+        </void> 
+       </object> 
+      </void> 
+      <void property="sdSystem"> 
+       <object class="org.promasi.sdsystem.SdSystemMemento"> 
+        <void property="sdObjects"> 
+         <void method="put"> 
+          <string>developer</string> 
+          <object class="org.promasi.sdsystem.sdobject.InputSdObjectMemento"/> 
+         </void> 
+         <void method="put"> 
+          <string>time</string> 
+          <object class="org.promasi.sdsystem.sdobject.TimeSdObjectMemento"/> 
+         </void> 
+        </void> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="taskBridges"> 
+   <object class="java.util.LinkedList"/> 
+  </void> 
+ </object> 
+</java> 

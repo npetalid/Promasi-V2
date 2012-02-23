@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.7.0_02" class="java.beans.XMLDecoder">
+ <object class="org.promasi.game.company.CompanyMemento">
+  <void property="ITDepartment">
+   <object class="org.promasi.game.company.DepartmentMemento">
+    <void property="employees">
+     <object class="java.util.TreeMap"/>
+    </void>
+   </object>
+  </void>
+  <void property="budget">
+   <double>10000.0</double>
+  </void>
+  <void property="description">
+   <string>Test</string>
+  </void>
+  <void property="endTime">
+   <string>23:43:27.348</string>
+  </void>
+  <void property="name">
+   <string>Test</string>
+  </void>
+  <void property="startTime">
+   <string>00:43:27.346</string>
+  </void>
+ </object>
+</java>
