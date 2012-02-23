@@ -28,7 +28,7 @@ public interface IPlayMode {
 	/**
 	 * 
 	 * @return
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	public String getUri() throws IOException;
+	public String getUri();
 }

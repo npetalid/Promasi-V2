@@ -86,8 +86,15 @@ public class SinglePlayerPlayMode implements IPlayMode, IMenuEntry {
 	}
 
 	@Override
-	public String getUri() throws IOException {
-		return RootDirectory.getInstance().getRootDirectory() + CONST_SINGLEPLAYER_PLAYMODE_FOLDER_NAME;
+	public String getUri() {
+		String result = "";
+		try{
+			result = RootDirectory.getInstance().getRootDirectory() + CONST_SINGLEPLAYER_PLAYMODE_FOLDER_NAME;
+		}catch( Exception e){
+			//TODO log.
+		}
+		
+		return result; 
 	}
 
 	@Override

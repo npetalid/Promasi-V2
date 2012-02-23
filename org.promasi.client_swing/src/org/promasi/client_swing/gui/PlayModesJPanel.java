@@ -66,8 +66,13 @@ public class PlayModesJPanel extends JPanel {
 			_mainFrame = listener;
 			DefaultListModel<IPlayMode> listModel = new DefaultListModel<IPlayMode>();
 			listModel.addElement( new SinglePlayerPlayMode() );
-			listModel.addElement( new MultiPlayerPlayMode() );
-
+			
+			try{
+				listModel.addElement( new MultiPlayerPlayMode() );
+			}catch( Exception e){
+				//TODO log.
+			}
+			
 			JSplitPane splitPane = new JSplitPane();
 			
 			_playModesList = new JList<IPlayMode>(listModel);
@@ -81,7 +86,7 @@ public class PlayModesJPanel extends JPanel {
 				public void mouseMoved(MouseEvent arg0) {
 					Point p = new Point(arg0.getX(),arg0.getY());
 					_playModesList.setSelectedIndex(_playModesList.locationToIndex(p));
-					IPlayMode playMode = (IPlayMode) _playModesList.getSelectedValue();
+					IPlayMode playMode =  _playModesList.getSelectedValue();
 					if( playMode != null ){
 						_infoPane.setText(playMode.getDescription());
 					}
@@ -110,7 +115,7 @@ public class PlayModesJPanel extends JPanel {
 				
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
-					IPlayMode playMode = (IPlayMode) _playModesList.getSelectedValue();
+					IPlayMode playMode = _playModesList.getSelectedValue();
 					if( playMode != null ){
 						playMode.gotoNextPanel(_mainFrame);
 					}

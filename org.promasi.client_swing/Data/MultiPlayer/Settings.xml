@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <java version="1.6.0_23" class="java.beans.XMLDecoder"> 
- <object class="org.promasi.client.playmode.multiplayer.MultiPlayerClientSettings"> 
+ <object class="org.promasi.client_swing.playmode.multiplayer.MultiPlayerClientSettings"> 
   <void property="hostName"> 
    <string>localhost</string> 
   </void> 

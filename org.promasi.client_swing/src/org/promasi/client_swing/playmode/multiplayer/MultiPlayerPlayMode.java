@@ -25,15 +25,18 @@ import org.promasi.utilities.file.RootDirectory;
 
 /**
  * @author m1cRo
- *
+ * Represent the multiplayer play mode in promasi system.
  */
 public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 {
 	/**
-	 * 
+	 * PlayMode name.
 	 */
 	public static final String CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME="MultiPlayer";
 	
+	/**
+	 * PlayMode description.
+	 */
 	public static final String CONST_PLAYMODE_DESCRIPTION	=	"The purpose of this play mode is to gather the highest score in the competition with other online game players.\n"+
 																"You will chose one game from the list of available games, and will play this with other online players.\n"+
 																"On each game you will have to complete one or more projects.\n"+
@@ -47,7 +50,6 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 	/**
 	 * 
 	 */
-	@SuppressWarnings("unused")
 	private ProMaSiClient _client;
 	
 	/**
@@ -59,7 +61,11 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 			MultiPlayerClientSettings settings=readClientSettings(RootDirectory.getInstance().getRootDirectory()+CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME+RootDirectory.getInstance().getSeparator()+CONST_MULTIPLAYER_CLIENT_SETTINGS_FILE_NAME);
 			TcpClient client=new TcpClient(settings.getHostName(),settings.getPortNumber());
 			_client=new ProMaSiClient(client, this);
-		}catch(FileNotFoundException e){
+		} catch (NetworkException e) {
+			throw new GuiException(e);
+		} catch( IOException e){
+			throw new GuiException(e);
+		}catch(Exception e){
 			MultiPlayerClientSettings settings=new MultiPlayerClientSettings();
 			settings.setHostName("localhost");
 			settings.setPortNumber(55555);
@@ -69,12 +75,9 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 			} catch (IOException e1) {
 				throw new GuiException(e);
 			}
+			
             out.print(settings.serialize());
             out.close();
-		} catch (NetworkException e) {
-			throw new GuiException(e);
-		} catch( IOException e){
-			throw new GuiException(e);
 		}
 	}
 
@@ -83,15 +86,22 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 	 */
 	@Override
 	public String getDescription() {
-		return "Online multiplayer game";
+		return CONST_PLAYMODE_DESCRIPTION;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.promasi.playmode.IPlayMode#getUri()
 	 */
 	@Override
-	public String getUri() throws IOException {
-		return RootDirectory.getInstance().getRootDirectory()+RootDirectory.getInstance().getSeparator()+CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME;
+	public String getUri(){
+		String result = "";
+		try{
+			result = RootDirectory.getInstance().getRootDirectory()+RootDirectory.getInstance().getSeparator()+CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME;
+		}catch( Exception e){
+			//TODO log.
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -121,36 +131,30 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 	@Override
 	public void gotoNextPanel(IMainFrame mainFrame) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onReceive(ProMaSiClient client, String recData) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onSetState(ProMaSiClient client) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onDisconnect(ProMaSiClient client) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onConnect(ProMaSiClient client) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
 		// TODO Auto-generated method stub
-		
 	}
 }
