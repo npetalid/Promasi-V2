@@ -15,6 +15,7 @@ import org.promasi.network.tcp.NetworkException;
 import org.promasi.network.tcp.TcpClient;
 import org.promasi.network.tcp.TcpServer;
 import org.promasi.protocol.client.ProMaSiClient;
+import org.promasi.protocol.compression.ZipCompression;
 import org.promasi.protocol.messages.CancelGameResponse;
 import org.promasi.protocol.messages.GameCanceledRequest;
 import org.promasi.protocol.messages.LeaveGameResponse;
@@ -141,7 +142,7 @@ public class ProMaSiServer implements ITcpServerListener
 	@Override
 	public void clientConnected(TcpClient client) {
 		try {
-			ProMaSiClient pClient=new ProMaSiClient(client,new LoginClientState(this));
+			ProMaSiClient pClient=new ProMaSiClient(client,new LoginClientState(this), new ZipCompression());
 			_connectedClients.put(new DateTime(),pClient);
 		} catch (NullArgumentException e) {
 			//Logger

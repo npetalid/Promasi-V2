@@ -63,6 +63,6 @@ public class MainFrame extends JFrame implements IMainFrame {
 	@Override
 	public void enableWizardMode() {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();  
-		setBounds(new Rectangle(screenSize.width/2 - screenSize.width/4, screenSize.height/2 - screenSize.height/4, screenSize.width/2, screenSize.height/2));
+		setBounds(new Rectangle(screenSize.width/2 - 320, screenSize.height/2 - 240, 640, 480));
 	}
 }

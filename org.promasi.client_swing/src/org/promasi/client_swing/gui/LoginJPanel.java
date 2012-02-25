@@ -111,7 +111,7 @@ public class LoginJPanel extends JPanel implements IClientState{
 		
 		JButton loginButton = new JButton("Next");
 		add( loginButton );
-		loginButton.setBounds(300, 450, 100, 30);
+		loginButton.setBounds(500, 380, 100, 30);
 		loginButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -122,7 +122,7 @@ public class LoginJPanel extends JPanel implements IClientState{
 		
 		JButton backButton = new JButton("Back");
 		add( backButton );
-		backButton.setBounds(100, 450, 100, 30);
+		backButton.setBounds(100, 380, 100, 30);
 		backButton.addActionListener(new ActionListener() {
 			
 			@Override

@@ -10,5 +10,6 @@ Require-Bundle: org.promasi.utilities;bundle-version="1.0.0",
 Bundle-ActivationPolicy: lazy
 Export-Package: org.apache.commons.codec,
  org.promasi.protocol.client,
+ org.promasi.protocol.compression,
  org.promasi.protocol.messages
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

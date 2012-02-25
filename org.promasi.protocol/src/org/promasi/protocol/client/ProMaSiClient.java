@@ -10,11 +10,16 @@ import org.apache.commons.codec.binary.Base64;
 import org.promasi.network.tcp.ITcpClientListener;
 import org.promasi.network.tcp.NetworkException;
 import org.promasi.network.tcp.TcpClient;
+import org.promasi.protocol.compression.CompressionException;
+import org.promasi.protocol.compression.ICompression;
 import org.promasi.utilities.exceptions.NullArgumentException;
 
 /**
  * @author m1cRo
- * ProMaSiClient class.
+ * Represent the network client on ProMaSi system.
+ * This class will communicate with the ProMaSi server, also
+ * this class provide the state machine engine so user can 
+ * change the states of the client in order to receive messages.
  */
 public class ProMaSiClient implements ITcpClientListener
 {
@@ -31,6 +36,11 @@ public class ProMaSiClient implements ITcpClientListener
 	/**
 	 * 
 	 */
+	private ICompression _compression;
+	
+	/**
+	 * 
+	 */
 	private Lock _lockObject;
 
 	/**
@@ -39,7 +49,7 @@ public class ProMaSiClient implements ITcpClientListener
 	 * @throws NullArgumentException
 	 * @throws NetworkException 
 	 */
-	public ProMaSiClient(TcpClient client,IClientState clientState)throws NetworkException{
+	public ProMaSiClient(TcpClient client,IClientState clientState, ICompression compression)throws NetworkException{
 		if(client==null){
 			throw new NetworkException("Wrong client argument");
 		}
@@ -53,6 +63,7 @@ public class ProMaSiClient implements ITcpClientListener
 		_clientState=clientState; 
 		_clientState.onSetState(this, clientState);
 		_lockObject = new ReentrantLock();
+		_compression = compression;
 	}
 
 	/**
@@ -66,24 +77,21 @@ public class ProMaSiClient implements ITcpClientListener
 		try{
 			_lockObject.lock();
 			if(message !=null ){
-				//System.out.print("Message "+message);
-				Base64 base64=new Base64();
-				byte data[]=base64.encode(message.getBytes());
-				String temp=new String(data);
-				StringBuilder builder = new StringBuilder();
-				for(int i=0;i<temp.length();i++)
-				{
-					char ch=temp.charAt(i);
-					if(ch!='\n' && ch!='\r')
-					{
-						builder.append(ch);
-					}
+				byte[] outputMessage = message.getBytes();
+				if( _compression != null ){
+					outputMessage = _compression.compress( message.getBytes() );
 				}
 				
+				Base64 base64=new Base64();
+				byte data[]=base64.encode(outputMessage);
+				String temp=new String(data);
+				StringBuilder builder = new StringBuilder();
+				builder.append(temp.replaceAll("\n", "").replaceAll("\r", ""));
 				builder.append("\r\n");
-				//System.out.print("Encoded to "+result+"\n");
 				result = _client.sendMessage(builder.toString());
 			}
+		} catch (CompressionException e) {
+			//TODO log
 		}finally{
 			_lockObject.unlock();
 		}
@@ -131,10 +139,13 @@ public class ProMaSiClient implements ITcpClientListener
 
 	@Override
 	public void onReceive(String line) {
-		//System.out.print("Received : "+line+"\n");
-		byte[] recBytes=Base64.decodeBase64(line.getBytes());
-		//System.out.print("Decoded to - "+new String(recBytes)+"\n");
-		_clientState.onReceive(this, new String(recBytes));
+        Base64 base64= new Base64();
+        byte[] messageByte = base64.decode(line.getBytes());
+        try {
+			_clientState.onReceive(this, new String(_compression.deCompress(messageByte)));
+		} catch (CompressionException e) {
+			// TODO log
+		}
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import org.promasi.network.tcp.NetworkException;
 import org.promasi.network.tcp.TcpClient;
 import org.promasi.protocol.client.IClientState;
 import org.promasi.protocol.client.ProMaSiClient;
+import org.promasi.protocol.compression.ZipCompression;
 import org.promasi.utilities.file.RootDirectory;
 
 /**
@@ -72,7 +73,7 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 		try{
 			MultiPlayerClientSettings settings=readClientSettings(RootDirectory.getInstance().getRootDirectory()+CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME+RootDirectory.getInstance().getSeparator()+CONST_MULTIPLAYER_CLIENT_SETTINGS_FILE_NAME);
 			TcpClient client=new TcpClient(settings.getHostName(),settings.getPortNumber());
-			_client=new ProMaSiClient(client, this);
+			_client=new ProMaSiClient(client, this, new ZipCompression());
 			
 		} catch (NetworkException e) {
 			throw new GuiException(e);

@@ -14,17 +14,22 @@ import org.promasi.game.singleplayer.IClientGameListener;
 
 /**
  * @author alekstheod
- *
+ * Represent the loading frame in ProMasi system.
+ * Needed in order to present the loading process in
+ * case of network interaction - downloads, game start loading and
+ * so on.
  */
 public class LoadingJPanel extends JPanel implements IClientGameListener {
 
 	/**
-	 * 
+	 * Instance of {@link = IGame} interface implementation,
+	 * which represent the game on ProMaSi system.
 	 */
 	private IGame _game;
 	
 	/**
-	 * 
+	 * Instance of {@link = IMainFrame} interface implementation,
+	 * which represent the main frame in ProMasi system.
 	 */
 	private IMainFrame _mainFrame;
 	
@@ -95,8 +100,7 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 	@Override
 	public void gameFinished(IGame game, GameModelMemento gameModel,
 			CompanyMemento company) {
-		// TODO Auto-generated method stub
-		
+		_game.removeListeners();
 	}
 
 }
