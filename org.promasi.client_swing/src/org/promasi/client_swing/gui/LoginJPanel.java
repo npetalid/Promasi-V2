@@ -12,6 +12,7 @@ import java.io.ByteArrayInputStream;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -23,6 +24,8 @@ import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.LoginFailedResponse;
 import org.promasi.protocol.messages.LoginRequest;
 import org.promasi.protocol.messages.LoginResponse;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 
 /**
  * @author alekstheod
@@ -36,6 +39,11 @@ public class LoginJPanel extends JPanel implements IClientState{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Instance of {@link = ILogger} needed for logging.
+	 */
+	private static final ILogger _logger = LoggerFactory.getInstance(LoginJPanel.class);
+	
 	/**
 	 * Instance of {@link = ProMaSiClient}
 	 * Needed in order to communicate with a
@@ -78,30 +86,32 @@ public class LoginJPanel extends JPanel implements IClientState{
 		
 		_client = client;
 		_mainFrame = mainFrame;
-		_usernameField = new JTextField();
-		_passwordField = new JPasswordField();
+		
 		setLayout(null);
 		
 		JLabel userNameLabel =  new JLabel("Username");
-		userNameLabel.setBounds(300, 200, 150, 30);
+		userNameLabel.setBounds(100, 200, 150, 30);
 		add( userNameLabel );
 		userNameLabel.setFont(new Font("Arial", Font.BOLD, 25));
 		
 		JLabel passwordLabel = new JLabel("Password");
-		passwordLabel.setBounds(300, 280, 150, 30);
+		passwordLabel.setBounds(100, 280, 150, 30);
 		passwordLabel.setFont(new Font("Arial", Font.BOLD, 25));
+		add( passwordLabel );
 		
+		_usernameField = new JTextField();
 		add( _usernameField );
-		_usernameField.setBounds(500, 200, 300, 30);
+		_usernameField.setBounds(300, 200, 300, 30);
 		_usernameField.setFont(new Font("Arial", Font.BOLD, 25));
-		
+
+		_passwordField = new JPasswordField();
 		add( _passwordField );
-		_passwordField.setBounds(500, 280, 300, 30);
+		_passwordField.setBounds(300, 280, 300, 30);
 		_passwordField.setFont(new Font("Arial", Font.BOLD, 25));
 		
 		JButton loginButton = new JButton("Next");
 		add( loginButton );
-		loginButton.setBounds(800, 400, 100, 30);
+		loginButton.setBounds(300, 450, 100, 30);
 		loginButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -110,7 +120,23 @@ public class LoginJPanel extends JPanel implements IClientState{
 			}
 		});
 		
-		add( passwordLabel );
+		JButton backButton = new JButton("Back");
+		add( backButton );
+		backButton.setBounds(100, 450, 100, 30);
+		backButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					PlayModesJPanel panel = new PlayModesJPanel(_mainFrame);
+					_mainFrame.changePanel(panel);
+					_mainFrame.setResizable(true);
+				} catch (GuiException e1) {
+					_logger.error("PlayModesJPanel initialization failed");
+				}
+
+			}
+		});
 		
 		_client.changeState(this);
 	}
@@ -132,51 +158,37 @@ public class LoginJPanel extends JPanel implements IClientState{
 						try {
 							final MultiPlayerGamesJPanel gamesPanel = new MultiPlayerGamesJPanel(resp.getUserName(), _mainFrame, _client, gamesServer );
 							_mainFrame.changePanel(gamesPanel);
+							_mainFrame.setResizable(true);
 						} catch (GuiException e) {
-							//TODO log.
+							_logger.error("Unable to create MultiPlayerGamesJPanel because an exception was thrown : " + e.getMessage());
 						}
 					}
 				});
 				
 			}else if( object instanceof LoginFailedResponse){
-				
+				_logger.warn("Login failed");
+				JOptionPane.showMessageDialog(this, "Login failed\nPlease check you username and password\nand try again.");
 			}else{
-				
+				_logger.error("Invalid message received : " + recData);
 			}
 		}catch( Exception e){
-			
+			_logger.error("Invalid message received : " + recData);
 		}
-		
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				_mainFrame.setResizable(true);
-			}
-		});
 	}
 
 	@Override
-	public void onSetState(ProMaSiClient client, IClientState state) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onSetState(ProMaSiClient client, IClientState state) {}
 
 	@Override
 	public void onDisconnect(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-		
+		_logger.warn("Connection lost");
 	}
 
 	@Override
-	public void onConnect(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onConnect(ProMaSiClient client) {}
 
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-		
+		_logger.warn("Connection error");
 	}
 }

@@ -88,7 +88,8 @@ public class ProMaSiServer implements ITcpServerListener
 			@Override
 			public void run() {
 				while(_server.isRunning()){
-					synchronized(ProMaSiServer.this){
+					try{
+						_lockObject.lock();
 						Map<DateTime,ProMaSiClient> connectedClients=new TreeMap<DateTime, ProMaSiClient>();
 						for(Map.Entry<DateTime, ProMaSiClient > entry : _connectedClients.entrySet()){
 							if(entry.getKey().plusSeconds(60).isBefore(new DateTime())){
@@ -99,6 +100,8 @@ public class ProMaSiServer implements ITcpServerListener
 						}
 						
 						_connectedClients=connectedClients;
+					}finally{
+						_lockObject.unlock();
 					}
 					
 					try {

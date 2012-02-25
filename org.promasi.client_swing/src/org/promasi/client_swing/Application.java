@@ -28,14 +28,14 @@ public class Application {
 	/**
 	 * Logger
 	 */
-	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(Application.class);
+	private static final ILogger _logger = LoggerFactory.getInstance(Application.class);
 	
 	/**
 	 * @param args 
 	 */
 	public static void main(String[] args) {
 		com.jidesoft.utils.Lm.verifyLicense("Alex Theodoridis", "ProMaSi", "BYEuilHJx9N.HdDrNJDzRmot.sJAFQF2");
-		CONST_LOGGER.info("Start application");
+		_logger.info("Start application");
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
 				try {
