@@ -4,6 +4,7 @@ import java.beans.XMLDecoder;
 import java.io.ByteArrayInputStream;
 
 import org.promasi.protocol.client.AbstractClientState;
+import org.promasi.protocol.client.IClientState;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.InternalErrorResponse;
 import org.promasi.protocol.messages.LoginFailedResponse;
@@ -49,7 +50,7 @@ public class LoginClientState extends AbstractClientState {
 					client.disconnect();
 				}else{
 					if(_server.login(request.getClientId(), client)){
-						LoginResponse response=new LoginResponse(_server.getAvailableGames());
+						LoginResponse response=new LoginResponse(request.getClientId(), _server.getAvailableGames());
 						changeClientState(client, new ChooseGameClientState(_server,request.getClientId()));
 						client.sendMessage(response.serialize());
 					}else{
@@ -67,12 +68,6 @@ public class LoginClientState extends AbstractClientState {
 	}
 
 	@Override
-	public void onSetState(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onDisconnect(ProMaSiClient client) {
 		// TODO Auto-generated method stub
 		
@@ -86,6 +81,12 @@ public class LoginClientState extends AbstractClientState {
 
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSetState(ProMaSiClient client, IClientState state) {
 		// TODO Auto-generated method stub
 		
 	}

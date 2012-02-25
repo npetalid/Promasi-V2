@@ -17,6 +17,7 @@ import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.protocol.client.AbstractClientState;
+import org.promasi.protocol.client.IClientState;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.AssignEmployeeTasksRequest;
 import org.promasi.protocol.messages.DischargeEmployeeRequest;
@@ -152,14 +153,6 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 			client.disconnect();
 		}
 	}
-
-	
-	@Override
-	public void onSetState(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-
-	}
-
 	
 	@Override
 	public void gameStarted(String clientId, IMultiPlayerGame game,
@@ -168,7 +161,6 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 		
 	}
 
-	
 	@Override
 	public void projectAssigned(String clientId, IMultiPlayerGame game,
 			CompanyMemento company, ProjectMemento project,
@@ -177,7 +169,6 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 			_client.sendMessage(new ProjectAssignedRequest(company, project, dateTime.toString()).serialize());
 		}
 	}
-
 	
 	@Override
 	public void projectFinished(String clientId, IMultiPlayerGame game,
@@ -188,7 +179,6 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 		}
 		
 	}
-
 	
 	@Override
 	public void employeeHired(String clientId, IMultiPlayerGame game,MarketPlaceMemento marketPlace, CompanyMemento company,EmployeeMemento employee, DateTime dateTime) {
@@ -197,7 +187,6 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 		}	
 	}
 
-	
 	@Override
 	public void employeeDischarged(String clientId, IMultiPlayerGame game,MarketPlaceMemento marketPlace, CompanyMemento company, EmployeeMemento employee, DateTime dateTime) {
 		if(clientId.equals(_clientId)){
@@ -205,7 +194,6 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 		}	
 	}
 
-	
 	@Override
 	public void employeeTasksAssigned(String clientId, IMultiPlayerGame game,
 			CompanyMemento company, EmployeeMemento employee,
@@ -214,7 +202,6 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 		
 	}
 
-	
 	@Override
 	public void employeeTaskDetached(String clientId, IMultiPlayerGame game,
 			MarketPlaceMemento marketPlace, CompanyMemento company,
@@ -236,7 +223,6 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 		}
 	}
 
-	
 	@Override
 	public void onTick(String clientId, IMultiPlayerGame game, DateTime dateTime) {
 		if(clientId.equals(_clientId)){
@@ -244,7 +230,6 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 		}
 	}
 
-	
 	@Override
 	public void messageSent(String clientId, IMultiPlayerGame game, String message) {}
 
@@ -253,22 +238,18 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 	public void onDisconnect(ProMaSiClient client) {
 		_game.leaveGame(_clientId);
 	}
-
 	
 	@Override
 	public void onConnect(ProMaSiClient client) {}
 
-	
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
 		_game.leaveGame(_clientId);
 	}
 
-	
 	@Override
 	public void playersListUpdated( IMultiPlayerGame game, List<String> gamePlayers) {}
 
-	
 	@Override
 	public void gameFinished(Map<String, GameModelMemento> gameModels) {
 		if(gameModels.containsKey(_clientId)){
@@ -278,6 +259,12 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 			GameFinishedRequest request=new GameFinishedRequest(_clientId, gameModel, models);
 			_client.sendMessage(request.serialize());
 		}
+	}
+
+	@Override
+	public void onSetState(ProMaSiClient client, IClientState state) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

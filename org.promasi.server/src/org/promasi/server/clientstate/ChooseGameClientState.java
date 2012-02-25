@@ -16,6 +16,7 @@ import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.Project;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.protocol.client.AbstractClientState;
+import org.promasi.protocol.client.IClientState;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.CreateGameFailedResponse;
 import org.promasi.protocol.messages.CreateGameRequest;
@@ -152,12 +153,6 @@ public class ChooseGameClientState extends AbstractClientState
 	}
 
 	@Override
-	public void onSetState(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public void onDisconnect(ProMaSiClient client) {
 		// TODO Auto-generated method stub
 		
@@ -171,6 +166,12 @@ public class ChooseGameClientState extends AbstractClientState
 
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSetState(ProMaSiClient client, IClientState state) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -12,10 +12,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.promasi.client_swing.components.JList.IMenuEntry;
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.IMainFrame;
+import org.promasi.client_swing.gui.LoginJPanel;
 import org.promasi.client_swing.playmode.IPlayMode;
 import org.promasi.network.tcp.NetworkException;
 import org.promasi.network.tcp.TcpClient;
@@ -50,6 +52,16 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 	/**
 	 * 
 	 */
+	public static final String CONST_MENUIMAGE = "user_group.png";
+	
+	/**
+	 * 
+	 */
+	private Icon _menuIcon;	
+	
+	/**
+	 * 
+	 */
 	private ProMaSiClient _client;
 	
 	/**
@@ -61,6 +73,7 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 			MultiPlayerClientSettings settings=readClientSettings(RootDirectory.getInstance().getRootDirectory()+CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME+RootDirectory.getInstance().getSeparator()+CONST_MULTIPLAYER_CLIENT_SETTINGS_FILE_NAME);
 			TcpClient client=new TcpClient(settings.getHostName(),settings.getPortNumber());
 			_client=new ProMaSiClient(client, this);
+			
 		} catch (NetworkException e) {
 			throw new GuiException(e);
 		} catch( IOException e){
@@ -78,6 +91,12 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 			
             out.print(settings.serialize());
             out.close();
+		}
+		
+		try{
+			_menuIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + CONST_MENUIMAGE);
+		}catch( IOException e){
+			//TODO log
 		}
 	}
 
@@ -124,13 +143,18 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 
 	@Override
 	public Icon getIcon() {
-		// TODO Auto-generated method stub
-		return null;
+		return _menuIcon;
 	}
 
 	@Override
 	public void gotoNextPanel(IMainFrame mainFrame) {
-		// TODO Auto-generated method stub
+        try {
+			LoginJPanel lognPanel = new LoginJPanel(mainFrame, _client);
+			mainFrame.setResizable(false);
+			mainFrame.changePanel(lognPanel);
+		} catch (GuiException e) {
+			// TODO log
+		}
 	}
 
 	@Override
@@ -139,7 +163,7 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 	}
 
 	@Override
-	public void onSetState(ProMaSiClient client) {
+	public void onSetState(ProMaSiClient client, IClientState state) {
 		// TODO Auto-generated method stub
 	}
 
@@ -156,5 +180,10 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
 		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public String toString(){
+		return "Multiplayer";
 	}
 }

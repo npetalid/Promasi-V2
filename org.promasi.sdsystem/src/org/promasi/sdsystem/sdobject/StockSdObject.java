@@ -6,7 +6,7 @@ package org.promasi.sdsystem.sdobject;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.promasi.sdsystem.sdobject.equation.CalculationExeption;
+import org.promasi.sdsystem.SdSystemException;
 import org.promasi.sdsystem.sdobject.equation.IEquation;
 import org.promasi.sdsystem.serialization.ISerializableSdObject;
 import org.promasi.utilities.exceptions.NullArgumentException;
@@ -58,11 +58,7 @@ public class StockSdObject implements ISdObject
 			}
 			
 			_value=_value+_equation.calculateEquation(systemValues);
-		} catch (NullArgumentException e) {
-			return false;
-		} catch (IllegalArgumentException e) {
-			return false;
-		} catch (CalculationExeption e) {
+		} catch (SdSystemException e) {
 			return false;
 		}
 		

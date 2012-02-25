@@ -4,33 +4,44 @@
 package org.promasi.protocol.messages;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.promasi.utilities.serialization.SerializableObject;
 
 /**
  * @author m1cRo
- *
+ * Represent the valid login response in
+ * ProMaSi system. This response should be send as
+ * response to the LoginRequest message, in case if
+ * login succeed.
  */
 public class LoginResponse extends SerializableObject 
 {
 	/**
-	 * 
+	 * List of available games.
 	 */
-	Map<String, String> _availableGames;
+	private Map<String, String> _availableGames;
+	
+	/**
+	 * The username of connected user.
+	 */
+	private String _userName;
 
 	/**
-	 * 
+	 * Empty constructor will initialize the
+	 * object.
 	 */
 	public LoginResponse(){
-		
+		_availableGames = new TreeMap<String, String>();
 	}
 	
 	/**
 	 * 
 	 * @param availableGames
 	 */
-	public LoginResponse(Map<String, String> availableGames){
+	public LoginResponse(String userName, Map<String, String> availableGames){
 		_availableGames=availableGames;
+		setUserName(userName);
 	}
 	
 	/**
@@ -47,5 +58,19 @@ public class LoginResponse extends SerializableObject
 	 */
 	public void setAvailableGames(Map<String, String> availableGames) {
 		_availableGames = availableGames;
+	}
+
+	/**
+	 * @return the _userName
+	 */
+	public String getUserName() {
+		return _userName;
+	}
+
+	/**
+	 * @param _userName the _userName to set
+	 */
+	public void setUserName(String _userName) {
+		this._userName = _userName;
 	}
 }

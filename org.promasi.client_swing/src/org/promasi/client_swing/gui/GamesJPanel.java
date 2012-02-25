@@ -4,10 +4,7 @@
 package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -169,10 +166,6 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 			}
 			
 		}, 500);
-		
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();  
-		Rectangle rect = new Rectangle(screenSize.width/2 - screenSize.width/4, screenSize.height/2 - screenSize.height/4, screenSize.width/2, screenSize.height/2);
-		_mainFrame.setBounds(rect);
 	}
 
 	@Override

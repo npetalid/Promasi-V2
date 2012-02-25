@@ -1,7 +1,7 @@
 package org.promasi.sdsystem.sdobject.equation;
 
+import org.promasi.sdsystem.SdSystemException;
 import org.promasi.sdsystem.serialization.IEquationMemento;
-import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -51,9 +51,7 @@ public class CalculatedEquationMemento extends SerializableObject implements IEq
 	public IEquation getEquation()throws SerializationException {
 		try {
 			return new CalculatedEquation(_equationString);
-		} catch (NullArgumentException e) {
-			throw new SerializationException(e.getMessage());
-		} catch (IllegalArgumentException e) {
+		} catch (SdSystemException e) {
 			throw new SerializationException(e.getMessage());
 		}
 	}

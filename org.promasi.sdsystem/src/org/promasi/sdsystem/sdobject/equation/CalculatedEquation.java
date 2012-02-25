@@ -12,8 +12,8 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.SymbolTable;
 import org.nfunk.jep.Variable;
 import org.nfunk.jep.function.PostfixMathCommandI;
+import org.promasi.sdsystem.SdSystemException;
 import org.promasi.sdsystem.serialization.IEquationMemento;
-import org.promasi.utilities.exceptions.NullArgumentException;
 
 /**
  * @author m1cRo
@@ -44,10 +44,10 @@ public class CalculatedEquation implements IEquation{
 	 * 
 	 * @param equationString
 	 */
-	public CalculatedEquation(final String equationString)throws NullArgumentException, IllegalArgumentException
+	public CalculatedEquation(final String equationString)throws SdSystemException
 	{
 		if(equationString==null){
-			throw new NullArgumentException("Wrong argument equationString==null");
+			throw new SdSystemException("Wrong argument equationString==null");
 		}
 			
 		_jep = new JEP( );
@@ -156,9 +156,9 @@ public class CalculatedEquation implements IEquation{
 	}
 
 	@Override
-	public Double calculateEquation(Map<String, Double> systemValues)throws NullArgumentException, IllegalArgumentException, CalculationExeption, IllegalArgumentException {
+	public Double calculateEquation(Map<String, Double> systemValues)throws SdSystemException {
 		if(systemValues==null){
-			throw new NullArgumentException("Wrong argument systemValues==null");
+			throw new SdSystemException("Wrong argument systemValues==null");
 		}
 		
 		for(Map.Entry<String, Double> entry : systemValues.entrySet()){
@@ -180,11 +180,11 @@ public class CalculatedEquation implements IEquation{
 						
 						_jep.setVarValue(var.getName(),value);
 					}else{
-						throw new IllegalArgumentException("Calculation failed value for object named " + var.getName() + " not found");
+						throw new SdSystemException("Calculation failed value for object named " + var.getName() + " not found");
 					}
 				}		
 			}else{
-				throw new CalculationExeption("Calculation error JEP failed");
+				throw new SdSystemException("Calculation error JEP failed");
 			}
 		}
 		

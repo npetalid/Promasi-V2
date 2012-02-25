@@ -26,7 +26,7 @@ public interface IClientState
 	 * 
 	 * @param client
 	 */
-	public void onSetState(ProMaSiClient client);
+	public void onSetState(ProMaSiClient client, IClientState state);
 	
 	/**
 	 * 

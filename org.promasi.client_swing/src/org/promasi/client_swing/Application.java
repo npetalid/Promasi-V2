@@ -4,16 +4,11 @@
 package org.promasi.client_swing;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.MainFrame;
@@ -48,12 +43,12 @@ public class Application {
 					try{
 			            // set your theme
 						//UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
-					    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+					    /*for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 					        if ("Nimbus".equals(info.getName())) {
 					            UIManager.setLookAndFeel(info.getClassName());
 					            break;
 					        }
-					    }
+					    }*/
 			            
 			            //UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
 					} catch (Exception e) {
@@ -77,10 +72,7 @@ public class Application {
 	                //  (The default is HIDE_ON_CLOSE, which just makes the window
 	                //  invisible, and thus doesn't exit the app)
 	                mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	                Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();  
-	                Rectangle rect = new Rectangle(screenSize.width/2 - screenSize.width/4, screenSize.height/2 - screenSize.height/4, screenSize.width/2, screenSize.height/2);
-	                mainFrame.setBounds(rect);
-	 
+	                mainFrame.enableWizardMode();
 	                mainFrame.setLayout(new BorderLayout());
 	                
 	        		JPanel panel;

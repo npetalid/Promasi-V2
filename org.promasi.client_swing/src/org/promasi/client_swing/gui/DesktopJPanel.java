@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.promasi.client_swing.gui.desktop;
+package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -17,9 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
-import org.promasi.client_swing.gui.GamesJPanel;
-import org.promasi.client_swing.gui.GuiException;
-import org.promasi.client_swing.gui.IMainFrame;
+import org.promasi.client_swing.gui.desktop.IDesktop;
+import org.promasi.client_swing.gui.desktop.PromasiJDesktopPane;
+import org.promasi.client_swing.gui.desktop.ToolBarJPanel;
 import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
 import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
 import org.promasi.game.IGame;
@@ -125,6 +125,7 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 				try {
 					_game.stopGame();
 					_mainFrame.changePanel( new GamesJPanel(_mainFrame, _game.getGamesServer(), _username));
+					_mainFrame.enableWizardMode();
 				} catch (GuiException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -143,6 +144,7 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 		try {
 			_game.stopGame();
 			_mainFrame.changePanel( new GamesJPanel(_mainFrame, _game.getGamesServer(), _username));
+			_mainFrame.enableWizardMode();
 		} catch (GuiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

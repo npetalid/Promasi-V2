@@ -19,6 +19,7 @@ import org.promasi.game.multiplayer.IMultiPlayerGame;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.protocol.client.AbstractClientState;
+import org.promasi.protocol.client.IClientState;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.CancelGameRequest;
 import org.promasi.protocol.messages.GameStartedRequest;
@@ -129,12 +130,6 @@ public class WaitingPlayersClientState extends AbstractClientState implements IS
 			client.sendMessage(new InternalErrorResponse().serialize());
 			client.disconnect();
 		}
-	}
-
-	@Override
-	public void onSetState(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -259,6 +254,12 @@ public class WaitingPlayersClientState extends AbstractClientState implements IS
 	@Override
 	public void onExecuteStep(String playerId, IMultiPlayerGame game,
 			CompanyMemento company, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSetState(ProMaSiClient client, IClientState state) {
 		// TODO Auto-generated method stub
 		
 	}

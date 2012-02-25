@@ -51,7 +51,7 @@ public class ProMaSiClient implements ITcpClientListener
 		_client=client;
 		_client.addListener(this);
 		_clientState=clientState; 
-		_clientState.onSetState(this);
+		_clientState.onSetState(this, clientState);
 		_lockObject = new ReentrantLock();
 	}
 
@@ -95,14 +95,14 @@ public class ProMaSiClient implements ITcpClientListener
 	 * 
 	 * @param clientState
 	 */
-	protected boolean changeState(IClientState clientState){
+	public boolean changeState(IClientState clientState){
 		boolean result = false;
 		
 		try{
 			_lockObject.lock();
 			if(clientState!=null){
 				_clientState=clientState;
-				_clientState.onSetState(this);
+				_clientState.onSetState(this, clientState);
 				result = true;
 			}
 		}finally{

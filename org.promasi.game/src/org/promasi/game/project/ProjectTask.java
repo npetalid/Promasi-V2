@@ -12,7 +12,6 @@ import org.promasi.game.GameException;
 import org.promasi.sdsystem.SdSystem;
 import org.promasi.sdsystem.SdSystemBridge;
 import org.promasi.sdsystem.SdSystemException;
-import org.promasi.sdsystem.sdobject.equation.CalculationExeption;
 import org.promasi.sdsystem.sdobject.equation.IEquation;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
@@ -196,11 +195,8 @@ public class ProjectTask
     		_employeeSkills.clear();
         	_sumEmployees=0;
         	result = true;
-    	}catch(NullArgumentException e){
+    	}catch(SdSystemException e){
     		result = false;
-    	}catch(IllegalArgumentException e){
-    		result = false;
-    	} catch (CalculationExeption e) {
 		}finally{
 			_lockObject.unlock();
 		}

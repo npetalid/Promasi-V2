@@ -19,6 +19,7 @@ import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.protocol.client.AbstractClientState;
+import org.promasi.protocol.client.IClientState;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.GameCanceledResponse;
 import org.promasi.protocol.messages.GameStartedRequest;
@@ -130,12 +131,6 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 			client.disconnect();
 		}
 
-	}
-
-	@Override
-	public void onSetState(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -261,6 +256,12 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 	@Override
 	public void onExecuteStep(String playerId, IMultiPlayerGame game,
 			CompanyMemento company, DateTime dateTime) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSetState(ProMaSiClient client, IClientState state) {
 		// TODO Auto-generated method stub
 		
 	}

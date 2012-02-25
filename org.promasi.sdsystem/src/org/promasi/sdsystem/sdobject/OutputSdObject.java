@@ -6,7 +6,7 @@ package org.promasi.sdsystem.sdobject;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.promasi.sdsystem.sdobject.equation.CalculationExeption;
+import org.promasi.sdsystem.SdSystemException;
 
 import org.promasi.sdsystem.sdobject.equation.IEquation;
 import org.promasi.sdsystem.serialization.ISerializableSdObject;
@@ -55,11 +55,7 @@ public class OutputSdObject implements ISdObject
 			}
 			
 			_value=_equation.calculateEquation(systemValues);		
-		}catch(CalculationExeption e){
-			return false;
-		} catch (IllegalArgumentException e) {
-			return false;
-		} catch (NullArgumentException e) {
+		}catch(SdSystemException e){
 			return false;
 		}
 		
