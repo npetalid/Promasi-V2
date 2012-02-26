@@ -135,6 +135,18 @@ public class ProMaSiClient implements ITcpClientListener
 	}
 	
 	/**
+	 * Will remove all client listeners.
+	 */
+	public void removeListeners(){
+		try{
+			_lockObject.lock();
+			_listeners.clear();
+		}finally{
+			_lockObject.unlock();
+		}
+	}
+	
+	/**
 	 * This method will close the connection with current user and will terminate the receive thread.
 	 * @return true if the connection was successfully closed, false otherwise.
 	 */

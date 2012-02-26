@@ -139,8 +139,8 @@ public class TcpServer
 								}
 							}
 								
-							for(TcpClient client : clients){
-								if(!_clients.contains(client)){
+							for(TcpClient client : new LinkedList<>(_clients)){
+								if(!clients.contains(client)){
 									for(ITcpServerListener listener : _listeners){
 										listener.clientDisconnected(client);
 									}
@@ -155,9 +155,11 @@ public class TcpServer
 				}
 			});
 				
+			_clientCheckThread.start();
 			for(ITcpServerListener listener : _listeners){
 				listener.serverStarted(portNumber);
 			}
+			
 		}catch(IOException e){
 			return false;
 		}

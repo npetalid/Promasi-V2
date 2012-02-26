@@ -6,12 +6,12 @@ import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.joda.time.DateTime;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.network.tcp.ITcpServerListener;
 import org.promasi.network.tcp.NetworkException;
 import org.promasi.network.tcp.TcpClient;
 import org.promasi.network.tcp.TcpServer;
+import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.compression.ZipCompression;
 import org.promasi.protocol.messages.CancelGameResponse;
@@ -25,39 +25,38 @@ import org.promasi.utilities.exceptions.NullArgumentException;
 /**
  * 
  * @author m1cRo
- *
+ * Represent the server in ProMaSi system.
+ * Server is responsible to manage all the running online games.
  */
-public class ProMaSiServer implements ITcpServerListener
+public class ProMaSiServer implements IClientListener, ITcpServerListener
 {
 	/**
-	 * 
+	 * The tcp server needed in order to handle
+	 * tcp connections.
 	 */
 	private TcpServer _server;
 	
 	/**
-	 * 
+	 * List of connected clients. In order to connect client 
+	 * should call the login method with the valid userId, which
+	 * is unique for each client. After that client will be added to
+	 * this list.
 	 */
 	private Map<String, ProMaSiClient> _clients;
 	
 	/**
-	 * 
-	 */
-	private Map<DateTime, ProMaSiClient> _connectedClients;
-	
-	/**
-	 * 
+	 * List of available online games. Each registered client is able to
+	 * create a new game, in order to create a new game client has to call the
+	 * createGame method with a valid arguments. After that a new game will be
+	 * inserted to available games list. If a client call startGame method the 
+	 * game will be executed and removed from the available games list.
 	 */
 	private Map<String, MultiPlayerGame> _availableGames;
 	
 	/**
-	 * 
+	 * Lock object. Needed for thread shared data synchronization.
 	 */
 	private Lock _lockObject;
-	
-	/**
-	 * 
-	 */
-	private Thread _loginCheckThread;
 	
 	/**
 	 * 
@@ -80,42 +79,8 @@ public class ProMaSiServer implements ITcpServerListener
 		}
 		
 		_clients=new TreeMap<String, ProMaSiClient>();
-		_connectedClients=new TreeMap<DateTime, ProMaSiClient>();
-		
-		_loginCheckThread=new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				while(_server.isRunning()){
-					try{
-						_lockObject.lock();
-						Map<DateTime,ProMaSiClient> connectedClients=new TreeMap<DateTime, ProMaSiClient>();
-						for(Map.Entry<DateTime, ProMaSiClient > entry : _connectedClients.entrySet()){
-							if(entry.getKey().plusSeconds(60).isBefore(new DateTime())){
-								entry.getValue().disconnect();
-							}else{
-								connectedClients.put(entry.getKey(), entry.getValue());
-							}
-						}
-						
-						_connectedClients=connectedClients;
-					}finally{
-						_lockObject.unlock();
-					}
-					
-					try {
-						Thread.sleep(100);
-					} catch (InterruptedException e) {
-						//Logger
-					}
-				}
-
-			}
-		});
-		
 		_lockObject = new ReentrantLock();
 		_availableGames=new TreeMap<String, MultiPlayerGame>();
-		_loginCheckThread.start();
 	}
 
 	@Override
@@ -129,47 +94,42 @@ public class ProMaSiServer implements ITcpServerListener
 			entry.getValue().disconnect();
 		}
 		
-		for(Map.Entry<DateTime, ProMaSiClient > entry : _connectedClients.entrySet()){
-			entry.getValue().disconnect();
-		}
-		
 		_clients.clear();
-		_connectedClients.clear();
 	}
 
 	@Override
 	public void clientConnected(TcpClient client) {
 		try {
+			_lockObject.lock();
 			ProMaSiClient pClient=new ProMaSiClient(client, new ZipCompression());
 			pClient.addListener(new LoginClientState(this));
-			_connectedClients.put(new DateTime(),pClient);
+			pClient.addListener(this);
 		} catch (NullArgumentException e) {
 			//Logger
 		} catch (NetworkException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			_lockObject.unlock();
 		}
 	}
 
 	@Override
-	public void clientDisconnected( TcpClient client) {
-		if(_connectedClients.containsKey(client)){
-			_connectedClients.remove(client);
-		}
-		
-		Map<String, ProMaSiClient> clients=new TreeMap<String, ProMaSiClient>();
-		for(Map.Entry<String, ProMaSiClient> entry : _clients.entrySet()){
-			if(!entry.getValue().equals(client)){
-				clients.put(entry.getKey(), entry.getValue());
-			}
-		}
-	}
+	public void clientDisconnected(TcpClient client) {}
 	
 	/**
-	 * 
-	 * @param userId
-	 * @return
-	 * @throws NullArgumentException
+	 * Login method, user must call this method in order to
+	 * join to online games room. If the an user with the given
+	 * userId already registered in the system this method will
+	 * fail and return false, otherwise user will be registered.
+	 * Call this method before any method you will use with the
+	 * given userId.
+	 * @param userId Game player identification string, actually the
+	 * username of the player.
+	 * @param client Instance of {@link = ProMaSiClient} which
+	 * represent the game player.
+	 * @return true in case if login succeed,
+	 * false otherwise.
 	 */
 	public boolean login(String userId, ProMaSiClient client){
 		boolean result = false;
@@ -177,18 +137,6 @@ public class ProMaSiServer implements ITcpServerListener
 			_lockObject.lock();
 			if(userId!=null && client != null){
 				if(!_clients.containsKey(userId)){
-					DateTime loginTime=null;
-					for(Map.Entry<DateTime, ProMaSiClient> entry : _connectedClients.entrySet()){
-						if(entry.getValue()==client){
-							loginTime=entry.getKey();
-							break;
-						}
-					}
-					
-					if(loginTime!=null && _connectedClients.containsKey(loginTime)){
-						_connectedClients.remove(loginTime);
-					}
-					
 					_clients.put(userId, client);
 					result = true;
 				}
@@ -196,7 +144,6 @@ public class ProMaSiServer implements ITcpServerListener
 		}finally{
 			_lockObject.unlock();
 		}
-
 		
 		return result;
 	}
@@ -417,4 +364,32 @@ public class ProMaSiServer implements ITcpServerListener
 
 		return result;
 	}
+
+	@Override
+	public void onReceive(ProMaSiClient client, String recData) {}
+
+	@Override
+	public void onDisconnect(ProMaSiClient client) {
+		try{
+			_lockObject.lock();
+			Map<String, ProMaSiClient> clients=new TreeMap<String, ProMaSiClient>(_clients);
+			for(Map.Entry<String, ProMaSiClient> entry : clients.entrySet()){
+				if(entry.getValue() == client){
+					_clients.remove(entry.getKey());
+				}
+				
+				if( _availableGames.containsKey(entry.getKey())){
+					_availableGames.remove(entry.getKey());
+				}
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+	}
+
+	@Override
+	public void onConnect(ProMaSiClient client) {}
+
+	@Override
+	public void onConnectionError(ProMaSiClient client) {}
 }

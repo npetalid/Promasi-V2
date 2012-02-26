@@ -69,8 +69,6 @@ public class LoginClientState implements IClientListener {
 
 	@Override
 	public void onDisconnect(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

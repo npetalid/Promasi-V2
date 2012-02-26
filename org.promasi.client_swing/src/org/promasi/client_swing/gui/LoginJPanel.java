@@ -167,7 +167,7 @@ public class LoginJPanel extends JPanel implements IClientListener{
 				
 			}else if( object instanceof LoginFailedResponse){
 				_logger.warn("Login failed");
-				JOptionPane.showMessageDialog(this, "Login failed\nPlease check you username and password\nand try again.");
+				JOptionPane.showMessageDialog(this, "Login failed\nPlease check your username and password\nand try again.");
 			}
 		}catch( Exception e){
 			_logger.error("Invalid message received : " + recData);
