@@ -146,7 +146,7 @@ public class TcpClient
 		{
 			try{
 				_lockObject.lock();
-				for(ITcpClientListener listener : _listeners){
+				for(ITcpClientListener listener : new LinkedList<>(_listeners)){
 					listener.onConnect();
 				}
 			}finally{
@@ -159,7 +159,7 @@ public class TcpClient
 				if( line != null){
 					try{
 						_lockObject.lock();
-						for(ITcpClientListener listener : _listeners){
+						for(ITcpClientListener listener : new LinkedList<>(_listeners)){
 							listener.onReceive(line);
 						}	
 					}finally{
@@ -176,7 +176,7 @@ public class TcpClient
 			
 			try{
 				_lockObject.lock();
-				for(ITcpClientListener listener : _listeners){
+				for(ITcpClientListener listener : new LinkedList<>(_listeners)){
 					listener.onDisconnect();
 				}
 			}finally{
@@ -185,7 +185,7 @@ public class TcpClient
 		}catch(IOException e){
 			try{
 				_lockObject.lock();
-				for(ITcpClientListener listener : _listeners){
+				for(ITcpClientListener listener : new LinkedList<>(_listeners)){
 					listener.onConnectionError();
 				}
 			}finally{
