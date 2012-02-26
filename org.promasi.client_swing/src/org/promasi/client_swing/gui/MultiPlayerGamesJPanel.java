@@ -4,6 +4,8 @@
 package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -13,6 +15,7 @@ import org.promasi.client_swing.playmode.multiplayer.MultiPlayerGamesServer;
 import org.promasi.game.IGame;
 import org.promasi.game.IGamesServerListener;
 import org.promasi.protocol.client.ProMaSiClient;
+import org.promasi.protocol.messages.UpdateAvailableGameListRequest;
 
 /**
  * @author alekstheod
@@ -87,9 +90,10 @@ public class MultiPlayerGamesJPanel extends JPanel implements IGamesServerListen
 		_mainFrame = mainFrame;
 		_username = username;
 		
+		_gamesServer.addListener(this);
+		
 		setLayout(new BorderLayout());
 		add(_gamesPanel, BorderLayout.CENTER);
-		
 		
 		JPanel bottomPanel = new JPanel();
 		add( bottomPanel, BorderLayout.SOUTH);
@@ -97,18 +101,24 @@ public class MultiPlayerGamesJPanel extends JPanel implements IGamesServerListen
 		
 		JButton newGameButton = new JButton("Create New");
 		bottomPanel.add(newGameButton, BorderLayout.EAST);
+		newGameButton.addActionListener(new ActionListener() {	
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+			}
+		});
+		
+		_client.sendMessage(new UpdateAvailableGameListRequest().serialize());
 	}
 
 	@Override
 	public void updateGamesList(List<IGame> games) {
-		// TODO Auto-generated method stub
-		
+		_gamesPanel.updateGamesList(games);
 	}
 
 	@Override
 	public void onJoinGame(IGame game) {
-		// TODO Auto-generated method stub
-		
+		_gamesPanel.onJoinGame(game);
 	}
 
 }

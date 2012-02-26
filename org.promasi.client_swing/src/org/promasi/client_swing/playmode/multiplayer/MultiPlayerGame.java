@@ -3,8 +3,11 @@
  */
 package org.promasi.client_swing.playmode.multiplayer;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.game.IGame;
@@ -14,13 +17,16 @@ import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.game.singleplayer.IClientGameListener;
+import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 
 /**
  * @author alekstheod
- *
+ * Represent the MultiPlayer game in ProMaSi system.
+ * This class will be responsible for all needed communication
+ * in playing game state between client and server.
  */
-public class MultiPlayerGame implements IGame {
+public class MultiPlayerGame implements IGame, IClientListener {
 	
 	/**
 	 * 
@@ -43,8 +49,38 @@ public class MultiPlayerGame implements IGame {
 	private AGamesServer _gamesServer;
 	
 	/**
+	 * List of game listeners, needed to handle
+	 * game events.
+	 */
+	private List< IClientGameListener > _listeners;
+	
+	/**
 	 * 
-	 * @param game
+	 */
+	private List< IDepartmentListener > _departmentListeners;
+	
+	/**
+	 * 
+	 */
+	private List< ICompanyListener > _companyListeners;
+	
+	/**
+	 * 
+	 */
+	private List< IMarketPlaceListener > _marketPlaceListeners;
+	
+	/**
+	 * 
+	 */
+	private Lock _lockObject;
+	
+	/**
+	 * 
+	 * @param gamesServer
+	 * @param client
+	 * @param gameId
+	 * @param description
+	 * @throws GuiException
 	 */
 	public MultiPlayerGame(AGamesServer gamesServer, ProMaSiClient client, String gameId, String description )throws GuiException{
 		if( gameId == null ){
@@ -67,12 +103,18 @@ public class MultiPlayerGame implements IGame {
 		_description = description;
 		_client = client;
 		_gamesServer = gamesServer;
+		_lockObject = new ReentrantLock();
+		
+		_listeners = new LinkedList<>();
+		_departmentListeners = new LinkedList<>();
+		_companyListeners = new LinkedList<>();
+		_marketPlaceListeners = new LinkedList<>();
+		_client.addListener(this);
 	}
 	
 	@Override
 	public String getGameDescription() {
-		// TODO Auto-generated method stub
-		return null;
+		return _description;
 	}
 
 	@Override
@@ -95,14 +137,153 @@ public class MultiPlayerGame implements IGame {
 
 	@Override
 	public boolean addListener(IClientGameListener listener) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if( listener != null && !_listeners.contains(listener) ){
+				result = _listeners.add(listener);
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
 	}
 
 	@Override
 	public boolean removeListener(IClientGameListener listener) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if( listener != null && _listeners.contains(listener) ){
+				result = _listeners.remove(listener);
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public AGamesServer getGamesServer() {
+		return _gamesServer;
+	}
+
+	@Override
+	public boolean addCompanyListener(ICompanyListener listener) {
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if( listener != null && !_companyListeners.contains(listener) ){
+				result = _companyListeners.add(listener);
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean removeCompanyListener(ICompanyListener listener) {
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if( listener != null && _companyListeners.contains(listener) ){
+				result = _companyListeners.remove(listener);
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public void removeListeners() {
+		try{
+			_lockObject.lock();
+			_listeners.clear();
+			_companyListeners.clear();
+			_departmentListeners.clear();
+			_marketPlaceListeners.clear();
+		}finally{
+			_lockObject.unlock();
+		}
+	}
+
+	@Override
+	public boolean addDepartmentListener(IDepartmentListener listener) {
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if( listener != null && !_departmentListeners.contains(listener) ){
+				result = _departmentListeners.add(listener);
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean removeDepartmentListener(IDepartmentListener listener) {
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if( listener != null && _departmentListeners.contains(listener) ){
+				result = _departmentListeners.remove(listener);
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean addMarketPlaceListener(IMarketPlaceListener listener) {
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if( listener != null && !_marketPlaceListeners.contains(listener) ){
+				result = _marketPlaceListeners.add(listener);
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public boolean removeMarketPlaceListener(IMarketPlaceListener listener) {
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if( listener != null && _marketPlaceListeners.contains(listener) ){
+				result = _marketPlaceListeners.remove(listener);
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
+	}
+
+	@Override
+	public String toString(){
+		return _gameId;
 	}
 
 	@Override
@@ -122,57 +303,20 @@ public class MultiPlayerGame implements IGame {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
 	@Override
-	public AGamesServer getGamesServer() {
-		// TODO Auto-generated method stub
-		return null;
+	public void onReceive(ProMaSiClient client, String recData) {
 	}
 
 	@Override
-	public boolean addCompanyListener(ICompanyListener listener) {
-		// TODO Auto-generated method stub
-		return false;
+	public void onDisconnect(ProMaSiClient client) {
 	}
 
 	@Override
-	public boolean removeCompanyListener(ICompanyListener listener) {
-		// TODO Auto-generated method stub
-		return false;
+	public void onConnect(ProMaSiClient client) {
 	}
 
 	@Override
-	public void removeListeners() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean addDepartmentListener(IDepartmentListener listener) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean removeDepartmentListener(IDepartmentListener listener) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean addMarketPlaceListener(IMarketPlaceListener listener) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean removeMarketPlaceListener(IMarketPlaceListener listener) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String toString(){
-		return _description;
+	public void onConnectionError(ProMaSiClient client) {
 	}
 }

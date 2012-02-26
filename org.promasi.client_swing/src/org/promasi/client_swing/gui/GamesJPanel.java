@@ -17,6 +17,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 
 import org.promasi.client_swing.components.JEditorPane.ExtendedJEditorPane;
@@ -169,17 +170,27 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 	}
 
 	@Override
-	public void updateGamesList(List<IGame> games) {
-		_gamesList.setListData( new Vector< IGame >( games) );
+	public void updateGamesList(final List<IGame> games) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				_gamesList.setListData( new Vector< IGame >( games) );
+			}
+		});	
 	}
 
 	@Override
-	public void onJoinGame(IGame game) {
-		try {
-			_mainFrame.changePanel(new LoadingJPanel(_mainFrame,game, _username));
-		} catch (GuiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void onJoinGame(final IGame game) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					_mainFrame.changePanel(new LoadingJPanel(_mainFrame,game, _username));
+				} catch (GuiException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 }
