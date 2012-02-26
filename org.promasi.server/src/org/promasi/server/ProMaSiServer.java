@@ -140,7 +140,8 @@ public class ProMaSiServer implements ITcpServerListener
 	@Override
 	public void clientConnected(TcpClient client) {
 		try {
-			ProMaSiClient pClient=new ProMaSiClient(client,new LoginClientState(this), new ZipCompression());
+			ProMaSiClient pClient=new ProMaSiClient(client, new ZipCompression());
+			pClient.addListener(new LoginClientState(this));
 			_connectedClients.put(new DateTime(),pClient);
 		} catch (NullArgumentException e) {
 			//Logger

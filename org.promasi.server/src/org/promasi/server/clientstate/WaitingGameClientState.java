@@ -18,8 +18,7 @@ import org.promasi.game.multiplayer.IMultiPlayerGame;
 import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.ProjectMemento;
-import org.promasi.protocol.client.AbstractClientState;
-import org.promasi.protocol.client.IClientState;
+import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.GameCanceledResponse;
 import org.promasi.protocol.messages.GameStartedRequest;
@@ -36,7 +35,7 @@ import org.promasi.utilities.exceptions.NullArgumentException;
  * @author m1cRo
  *
  */
-public class WaitingGameClientState extends AbstractClientState implements IServerGameListener
+public class WaitingGameClientState implements IServerGameListener, IClientListener
 {
 	/**
 	 * 
@@ -116,10 +115,12 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 					_game.sendMessage(_clientId, request.getMessage());
 				}
 			}else if(object instanceof GameCanceledResponse){
-				changeClientState(client, new ChooseGameClientState(_server, _clientId));
+				client.removeListener(this);
+				client.addListener(new ChooseGameClientState(_server, _clientId));
 			}else if(object instanceof LeaveGameRequest){
 				_server.leaveGame(_gameId, _clientId);
-				changeClientState(client, new ChooseGameClientState(_server, _clientId));
+				client.removeListener(this);
+				client.addListener(new ChooseGameClientState(_server, _clientId));
 			}else{
 				client.sendMessage(new WrongProtocolResponse().serialize());
 			}
@@ -139,7 +140,8 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 		if(playerId.equals(_clientId)){
 			try {
 				_game.removeListener(this);
-				changeClientState(_client, new PlayingGameClientState(_server, _client, _clientId, _game));
+				_client.removeListener(this);
+				_client.addListener(new PlayingGameClientState(_server, _client, _clientId, _game));
 			} catch (NullArgumentException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -261,7 +263,7 @@ public class WaitingGameClientState extends AbstractClientState implements IServ
 	}
 
 	@Override
-	public void onSetState(ProMaSiClient client, IClientState state) {
+	public void onSetState(ProMaSiClient client, IClientListener state) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -3,8 +3,7 @@ package org.promasi.server.clientstate;
 import java.beans.XMLDecoder;
 import java.io.ByteArrayInputStream;
 
-import org.promasi.protocol.client.AbstractClientState;
-import org.promasi.protocol.client.IClientState;
+import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.InternalErrorResponse;
 import org.promasi.protocol.messages.LoginFailedResponse;
@@ -19,7 +18,7 @@ import org.promasi.utilities.exceptions.NullArgumentException;
  * @author m1cRo
  *
  */
-public class LoginClientState extends AbstractClientState {
+public class LoginClientState implements IClientListener {
 
 	/**
 	 * 
@@ -51,7 +50,8 @@ public class LoginClientState extends AbstractClientState {
 				}else{
 					if(_server.login(request.getClientId(), client)){
 						LoginResponse response=new LoginResponse(request.getClientId(), _server.getAvailableGames());
-						changeClientState(client, new ChooseGameClientState(_server,request.getClientId()));
+						client.removeListener(this);
+						client.addListener( new ChooseGameClientState(_server,request.getClientId()) );
 						client.sendMessage(response.serialize());
 					}else{
 						client.sendMessage(new LoginFailedResponse().serialize());
@@ -86,7 +86,7 @@ public class LoginClientState extends AbstractClientState {
 	}
 
 	@Override
-	public void onSetState(ProMaSiClient client, IClientState state) {
+	public void onSetState(ProMaSiClient client, IClientListener state) {
 		// TODO Auto-generated method stub
 		
 	}

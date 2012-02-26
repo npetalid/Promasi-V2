@@ -21,8 +21,8 @@ import javax.swing.border.EtchedBorder;
 
 import org.promasi.client_swing.components.JEditorPane.ExtendedJEditorPane;
 import org.promasi.client_swing.components.JList.MenuCellRenderer;
+import org.promasi.game.AGamesServer;
 import org.promasi.game.IGame;
-import org.promasi.game.IGamesServer;
 import org.promasi.game.IGamesServerListener;
 
 /**
@@ -59,7 +59,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 	/**
 	 * 
 	 */
-	private IGamesServer _gamesServer;
+	private AGamesServer _gamesServer;
 	
 	/**
 	 * 
@@ -75,7 +75,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 	 * @throws GuiException 
 	 * 
 	 */
-	public GamesJPanel( IMainFrame mainFrame , IGamesServer gamesServer, String username ) throws GuiException{
+	public GamesJPanel( IMainFrame mainFrame , AGamesServer gamesServer, String username ) throws GuiException{
 		super();
 		
 		if( mainFrame == null ){
@@ -156,7 +156,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		_infoPane.setContentType("text/html" );
 		
 		_username = username;
-		_gamesServer.registerGamesServerListener(this);
+		_gamesServer.addListener(this);
 		_timer = new Timer();
 		_timer.schedule(new TimerTask() {
 			

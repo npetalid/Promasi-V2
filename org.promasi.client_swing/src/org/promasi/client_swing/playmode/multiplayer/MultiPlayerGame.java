@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.promasi.game.IGame;
-import org.promasi.game.IGamesServer;
+import org.promasi.game.AGamesServer;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.IDepartmentListener;
@@ -89,7 +89,7 @@ public class MultiPlayerGame implements IGame {
 	}
 
 	@Override
-	public IGamesServer getGamesServer() {
+	public AGamesServer getGamesServer() {
 		// TODO Auto-generated method stub
 		return null;
 	}

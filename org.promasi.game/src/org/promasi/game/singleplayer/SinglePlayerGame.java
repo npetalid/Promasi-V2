@@ -10,11 +10,11 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.joda.time.DateTime;
+import org.promasi.game.AGamesServer;
 import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.IGame;
 import org.promasi.game.IGameModelListener;
-import org.promasi.game.IGamesServer;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.EmployeeTaskMemento;
@@ -50,7 +50,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	/**
 	 * 
 	 */
-	private IGamesServer _gamesServer;
+	private AGamesServer _gamesServer;
 	
 	/**
 	 * 
@@ -72,7 +72,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	 * @param gameModel
 	 * @throws NullArgumentException
 	 */
-	public SinglePlayerGame(IGamesServer gamesServer, GameModel gameModel)throws GameException{
+	public SinglePlayerGame(AGamesServer gamesServer, GameModel gameModel)throws GameException{
 		if(gameModel==null){
 			throw new GameException("Wrong argument gameModel==null");
 		}
@@ -262,7 +262,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public IGamesServer getGamesServer() {
+	public AGamesServer getGamesServer() {
 		return _gamesServer;
 	}
 

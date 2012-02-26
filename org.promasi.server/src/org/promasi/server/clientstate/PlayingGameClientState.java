@@ -16,8 +16,7 @@ import org.promasi.game.multiplayer.IMultiPlayerGame;
 import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.ProjectMemento;
-import org.promasi.protocol.client.AbstractClientState;
-import org.promasi.protocol.client.IClientState;
+import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.AssignEmployeeTasksRequest;
 import org.promasi.protocol.messages.DischargeEmployeeRequest;
@@ -42,7 +41,7 @@ import org.promasi.utilities.exceptions.NullArgumentException;
  * @author m1cRo
  *
  */
-public class PlayingGameClientState extends AbstractClientState implements IServerGameListener
+public class PlayingGameClientState implements IServerGameListener, IClientListener
 {
 	/**
 	 * 
@@ -135,7 +134,8 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 				_game.assignTasks(_clientId, request.getEmployeeId(), request.getTasks());
 			}else if(object instanceof LeaveGameRequest){
 				_game.removeListener(this);
-				changeClientState(_client, new ChooseGameClientState(_server, _clientId));
+				_client.removeListener(this);
+				_client.addListener( new ChooseGameClientState(_server, _clientId));
 				client.sendMessage(new LeaveGameResponse().serialize());
 			}else{
 				client.sendMessage(new WrongProtocolResponse().serialize());
@@ -255,7 +255,7 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 	}
 
 	@Override
-	public void onSetState(ProMaSiClient client, IClientState state) {
+	public void onSetState(ProMaSiClient client, IClientListener state) {
 		// TODO Auto-generated method stub
 		
 	}

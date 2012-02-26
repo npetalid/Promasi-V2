@@ -3,6 +3,8 @@
  */
 package org.promasi.protocol.client;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -31,7 +33,7 @@ public class ProMaSiClient implements ITcpClientListener
 	/**
 	 *	Client states defined in the protocol logic.
 	 */
-	private IClientState _clientState;
+	private List< IClientListener > _listeners;
 	
 	/**
 	 * 
@@ -49,19 +51,14 @@ public class ProMaSiClient implements ITcpClientListener
 	 * @throws NullArgumentException
 	 * @throws NetworkException 
 	 */
-	public ProMaSiClient(TcpClient client,IClientState clientState, ICompression compression)throws NetworkException{
+	public ProMaSiClient(TcpClient client, ICompression compression)throws NetworkException{
 		if(client==null){
 			throw new NetworkException("Wrong client argument");
-		}
-		
-		if(clientState==null){
-			throw new NetworkException("Wrong clientState argument");
 		}
 
 		_client=client;
 		_client.addListener(this);
-		_clientState=clientState; 
-		_clientState.onSetState(this, clientState);
+		_listeners = new LinkedList<>();
 		_lockObject = new ReentrantLock();
 		_compression = compression;
 	}
@@ -101,17 +98,15 @@ public class ProMaSiClient implements ITcpClientListener
 	
 	/**
 	 * 
-	 * @param clientState
+	 * @param listener
 	 */
-	public boolean changeState(IClientState clientState){
+	public boolean addListener(IClientListener listener){
 		boolean result = false;
 		
 		try{
 			_lockObject.lock();
-			if(clientState!=null){
-				_clientState=clientState;
-				_clientState.onSetState(this, clientState);
-				result = true;
+			if(listener!=null && !_listeners.contains(listener)){
+				result = _listeners.add(listener);
 			}
 		}finally{
 			_lockObject.unlock();
@@ -120,6 +115,25 @@ public class ProMaSiClient implements ITcpClientListener
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param listener
+	 */
+	public boolean removeListener(IClientListener listener){
+		boolean result = false;
+		
+		try{
+			_lockObject.lock();
+			if(listener!=null && _listeners.contains(listener)){
+				result = _listeners.remove(listener);
+			}
+		}finally{
+			_lockObject.unlock();
+		}
+		
+		return result;
+	}
+	
 	/**
 	 * This method will close the connection with current user and will terminate the receive thread.
 	 * @return true if the connection was successfully closed, false otherwise.
@@ -142,7 +156,15 @@ public class ProMaSiClient implements ITcpClientListener
         Base64 base64= new Base64();
         byte[] messageByte = base64.decode(line.getBytes());
         try {
-			_clientState.onReceive(this, new String(_compression.deCompress(messageByte)));
+        	
+    		for( IClientListener listener : _listeners ){
+    			if( _compression != null ){
+    				listener.onReceive(this, new String(_compression.deCompress(messageByte)));
+    			}else{
+    				listener.onReceive(this, new String(messageByte));
+    			}
+    		}
+			
 		} catch (CompressionException e) {
 			// TODO log
 		}
@@ -150,20 +172,23 @@ public class ProMaSiClient implements ITcpClientListener
 
 	@Override
 	public void onConnect() {
-		System.out.print("Client connected\n");
-		_clientState.onConnect(this);
+		for( IClientListener listener : _listeners ){
+			listener.onConnect(this);
+		}
 	}
 
 	@Override
 	public void onDisconnect() {
-		System.out.print("Client disconnected\n");
-		_clientState.onDisconnect(this);
+		for( IClientListener listener : _listeners ){
+			listener.onDisconnect(this);
+		}
 	}
 
 	@Override
 	public void onConnectionError() {
-		System.out.print("Client connection error\n");
-		_clientState.onConnectionError(this);
+		for( IClientListener listener : _listeners ){
+			listener.onConnectionError(this);
+		}
 	}
 	
 	/**

@@ -114,7 +114,7 @@ public interface IGame
 	 * 
 	 * @return
 	 */
-	public IGamesServer getGamesServer();
+	public AGamesServer getGamesServer();
 	
 	/**
 	 * 

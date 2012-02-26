@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import org.promasi.client_swing.playmode.multiplayer.MultiPlayerGamesServer;
-import org.promasi.protocol.client.IClientState;
+import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.LoginFailedResponse;
 import org.promasi.protocol.messages.LoginRequest;
@@ -32,7 +32,7 @@ import org.promasi.utilities.logger.LoggerFactory;
  * Represent the Login panel on
  * ProMaSi system.
  */
-public class LoginJPanel extends JPanel implements IClientState{
+public class LoginJPanel extends JPanel implements IClientListener{
 
 	/**
 	 * 
@@ -138,7 +138,7 @@ public class LoginJPanel extends JPanel implements IClientState{
 			}
 		});
 		
-		_client.changeState(this);
+		_client.addListener(this);
 	}
 
 	@Override
@@ -177,7 +177,7 @@ public class LoginJPanel extends JPanel implements IClientState{
 	}
 
 	@Override
-	public void onSetState(ProMaSiClient client, IClientState state) {}
+	public void onSetState(ProMaSiClient client, IClientListener state) {}
 
 	@Override
 	public void onDisconnect(ProMaSiClient client) {

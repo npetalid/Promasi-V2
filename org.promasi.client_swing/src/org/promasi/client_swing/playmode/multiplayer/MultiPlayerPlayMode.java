@@ -21,7 +21,7 @@ import org.promasi.client_swing.gui.LoginJPanel;
 import org.promasi.client_swing.playmode.IPlayMode;
 import org.promasi.network.tcp.NetworkException;
 import org.promasi.network.tcp.TcpClient;
-import org.promasi.protocol.client.IClientState;
+import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.compression.ZipCompression;
 import org.promasi.utilities.file.RootDirectory;
@@ -30,7 +30,7 @@ import org.promasi.utilities.file.RootDirectory;
  * @author m1cRo
  * Represent the multiplayer play mode in promasi system.
  */
-public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
+public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientListener
 {
 	/**
 	 * PlayMode name.
@@ -73,8 +73,7 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 		try{
 			MultiPlayerClientSettings settings=readClientSettings(RootDirectory.getInstance().getRootDirectory()+CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME+RootDirectory.getInstance().getSeparator()+CONST_MULTIPLAYER_CLIENT_SETTINGS_FILE_NAME);
 			TcpClient client=new TcpClient(settings.getHostName(),settings.getPortNumber());
-			_client=new ProMaSiClient(client, this, new ZipCompression());
-			
+			_client=new ProMaSiClient(client, new ZipCompression());
 		} catch (NetworkException e) {
 			throw new GuiException(e);
 		} catch( IOException e){
@@ -164,7 +163,7 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientState
 	}
 
 	@Override
-	public void onSetState(ProMaSiClient client, IClientState state) {
+	public void onSetState(ProMaSiClient client, IClientListener state) {
 		// TODO Auto-generated method stub
 	}
 

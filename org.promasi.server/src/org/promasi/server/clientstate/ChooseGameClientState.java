@@ -14,10 +14,8 @@ import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.Project;
 import org.promasi.game.project.ProjectMemento;
-import org.promasi.protocol.client.AbstractClientState;
-import org.promasi.protocol.client.IClientState;
+import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
-import org.promasi.protocol.messages.CreateGameFailedResponse;
 import org.promasi.protocol.messages.CreateGameRequest;
 import org.promasi.protocol.messages.CreateGameResponse;
 import org.promasi.protocol.messages.InternalErrorResponse;
@@ -34,7 +32,7 @@ import org.promasi.utilities.exceptions.NullArgumentException;
  * @author m1cRo
  *
  */
-public class ChooseGameClientState extends AbstractClientState
+public class ChooseGameClientState  implements IClientListener 
 {
 	/**
 	 * 
@@ -78,7 +76,8 @@ public class ChooseGameClientState extends AbstractClientState
 					game = _server.joinGame(_clientId, request.getGameId());
 
 					JoinGameResponse response=new JoinGameResponse(game.getGameName(), game.getGameDescription(), game.getGamePlayers());
-					changeClientState(client, new WaitingGameClientState(_clientId,_server, client,request.getGameId(), game));
+					client.removeListener(this);
+					client.addListener(new WaitingGameClientState(_clientId,_server, client,request.getGameId(), game));
 					client.sendMessage(response.serialize());
 				}catch(IllegalArgumentException e){
 					client.sendMessage(new JoinGameFailedResponse().serialize());
@@ -126,9 +125,8 @@ public class ChooseGameClientState extends AbstractClientState
 				{
 					CreateGameResponse response=new CreateGameResponse(request.getGameId(), gameModel.getGameDescription(), game.getGamePlayers());
 					client.sendMessage(response.serialize());
-					changeClientState( client, new WaitingPlayersClientState(_clientId, request.getGameId(), client, game, _server) );
-				}else{
-					client.sendMessage(new CreateGameFailedResponse().serialize());
+					client.removeListener(this);
+					client.addListener(new WaitingPlayersClientState(_clientId, request.getGameId(), client, game, _server));
 				}
 			}else if(object instanceof UpdateAvailableGameListRequest){
 				UpdateGameListRequest request=new UpdateGameListRequest(_server.getAvailableGames());
@@ -162,7 +160,7 @@ public class ChooseGameClientState extends AbstractClientState
 	}
 
 	@Override
-	public void onSetState(ProMaSiClient client, IClientState state) {
+	public void onSetState(ProMaSiClient client, IClientListener state) {
 		// TODO Auto-generated method stub
 		
 	}

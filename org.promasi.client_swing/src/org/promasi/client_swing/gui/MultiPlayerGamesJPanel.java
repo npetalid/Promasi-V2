@@ -4,11 +4,14 @@
 package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.promasi.client_swing.playmode.multiplayer.MultiPlayerGamesServer;
+import org.promasi.game.IGame;
+import org.promasi.game.IGamesServerListener;
 import org.promasi.protocol.client.ProMaSiClient;
 
 /**
@@ -18,7 +21,7 @@ import org.promasi.protocol.client.ProMaSiClient;
  * the {@link = GamesJPanel} with except that uses will be able
  * to make a new game by using it.
  */
-public class MultiPlayerGamesJPanel extends JPanel {
+public class MultiPlayerGamesJPanel extends JPanel implements IGamesServerListener{
 
 	/**
 	 * 
@@ -26,7 +29,8 @@ public class MultiPlayerGamesJPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * Instance of {@link = ProMaSiClient}
+	 * needed in order to communicate with the ProMaSi server.
 	 */
 	private ProMaSiClient _client;
 	
@@ -34,6 +38,21 @@ public class MultiPlayerGamesJPanel extends JPanel {
 	 * 
 	 */
 	private GamesJPanel _gamesPanel;
+	
+	/**
+	 * 
+	 */
+	private IMainFrame _mainFrame;
+	
+	/**
+	 * 
+	 */
+	private String _username;
+	
+	/**
+	 * 
+	 */
+	private MultiPlayerGamesServer _gamesServer;
 	
 	/**
 	 * Constructor will initialize the object
@@ -51,7 +70,23 @@ public class MultiPlayerGamesJPanel extends JPanel {
 			throw new GuiException("Wrong argument client == null");
 		}
 		
+		if( gamesServer == null ){
+			throw new GuiException("Wrong argument gamesServer == null");
+		}
+		
+		if( mainFrame == null ){
+			throw new GuiException("Wrong argument mainFrame == null");
+		}
+
+		if( username == null ){
+			throw new GuiException("Wrong argument username == null");
+		}
+		
 		_client = client;
+		_gamesServer = gamesServer;
+		_mainFrame = mainFrame;
+		_username = username;
+		
 		setLayout(new BorderLayout());
 		add(_gamesPanel, BorderLayout.CENTER);
 		
@@ -62,6 +97,18 @@ public class MultiPlayerGamesJPanel extends JPanel {
 		
 		JButton newGameButton = new JButton("Create New");
 		bottomPanel.add(newGameButton, BorderLayout.EAST);
+	}
+
+	@Override
+	public void updateGamesList(List<IGame> games) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onJoinGame(IGame game) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

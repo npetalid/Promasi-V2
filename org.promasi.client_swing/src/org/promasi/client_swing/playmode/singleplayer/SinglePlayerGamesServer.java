@@ -10,10 +10,9 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.promasi.game.AGamesServer;
 import org.promasi.game.GameException;
 import org.promasi.game.IGame;
-import org.promasi.game.IGamesServer;
-import org.promasi.game.IGamesServerListener;
 import org.promasi.game.singleplayer.SinglePlayerGame;
 import org.promasi.game.singleplayer.SinglePlayerGameFolder;
 import org.promasi.utilities.file.RootDirectory;
@@ -22,13 +21,7 @@ import org.promasi.utilities.file.RootDirectory;
  * @author alekstheod
  *
  */
-public class SinglePlayerGamesServer implements IGamesServer {
-	
-	/**
-	 * 
-	 */
-	private IGamesServerListener _listener;
-	
+public class SinglePlayerGamesServer extends AGamesServer {
 	/**
 	 * 
 	 */
@@ -57,7 +50,8 @@ public class SinglePlayerGamesServer implements IGamesServer {
 	@Override
 	public boolean requestGamesList() {
 		boolean result = false;
-		synchronized( this ){
+		try{
+			_lockObject.lock();
 			try{
 				List<IGame> games = new LinkedList<IGame>();
 				String gamesFolders[]=_gamesFolder.list();
@@ -71,13 +65,13 @@ public class SinglePlayerGamesServer implements IGamesServer {
 					}
 				}
 				
-				if( _listener != null ){
-					_listener.updateGamesList( games );
-				}	
+				updateGamesList(games);
 			}catch(IOException e){
 				
 			}
 
+		}finally{
+			_lockObject.unlock();
 		}
 		
 		return result;
@@ -87,31 +81,11 @@ public class SinglePlayerGamesServer implements IGamesServer {
 	public boolean joinGame( IGame game ) {
 		try{
 			_lockObject.lock();
-			if( _listener != null ){
-				_listener.onJoinGame(game);
-			}
+			onJoinGame(game);
 		}finally{
 			_lockObject.unlock();
 		}
 
 		return false;
 	}
-
-	@Override
-	public boolean registerGamesServerListener(IGamesServerListener listener) {
-		boolean result = false;
-		try{
-			_lockObject.lock();
-			if( listener != null ){
-				_listener = listener;
-				result = true;
-			}
-			
-		}finally{
-			_lockObject.unlock();
-		}
-		
-		return result;
-	}
-
 }

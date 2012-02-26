@@ -12,7 +12,7 @@ import java.net.ProtocolException;
  * @author m1cRo
  *
  */
-public interface IClientState
+public interface IClientListener
 {
 	/**
 	 *
@@ -26,7 +26,7 @@ public interface IClientState
 	 * 
 	 * @param client
 	 */
-	public void onSetState(ProMaSiClient client, IClientState state);
+	public void onSetState(ProMaSiClient client, IClientListener state);
 	
 	/**
 	 * 
