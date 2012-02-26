@@ -6,8 +6,6 @@ import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import javax.naming.ConfigurationException;
-
 import org.joda.time.DateTime;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.network.tcp.ITcpServerListener;
@@ -67,18 +65,18 @@ public class ProMaSiServer implements ITcpServerListener
 	 * @throws IllegalArgumentException
 	 * @throws NetworkException 
 	 */
-	public ProMaSiServer(int portNumber)throws IllegalArgumentException, ConfigurationException, NetworkException{
+	public ProMaSiServer(int portNumber)throws NetworkException{
 		if(portNumber<0){
-			throw new IllegalArgumentException("Wrong argument portNumber==null");
+			throw new NetworkException("Wrong argument portNumber==null");
 		}
 		
 		_server=new TcpServer();
 		if(!_server.addListener(this)){
-			throw new ConfigurationException("TcpServer configuration failed");
+			throw new NetworkException("TcpServer configuration failed");
 		}
 
 		if(!_server.start(portNumber)){
-			throw new IllegalArgumentException("Wrong argument portNumber");
+			throw new NetworkException("Wrong argument portNumber");
 		}
 		
 		_clients=new TreeMap<String, ProMaSiClient>();
@@ -250,8 +248,6 @@ public class ProMaSiServer implements ITcpServerListener
 					}
 				}
 			}
-		}catch( NullArgumentException e){
-			result = false;
 		}finally{
 			_lockObject.unlock();
 		}
@@ -303,13 +299,13 @@ public class ProMaSiServer implements ITcpServerListener
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public MultiPlayerGame joinGame(String clientId, String gameId)throws NullArgumentException, IllegalArgumentException{
+	public MultiPlayerGame joinGame(String clientId, String gameId)throws NetworkException{
 		if(gameId==null){
-			throw new NullArgumentException("Wrong argument gameId==null");
+			throw new NetworkException("Wrong argument gameId==null");
 		}
 		
 		if(clientId==null){
-			throw new NullArgumentException("Wrong argument clientId==null");
+			throw new NetworkException("Wrong argument clientId==null");
 		}
 		
 		try{
@@ -319,7 +315,7 @@ public class ProMaSiServer implements ITcpServerListener
 			}
 			
 			if(!_availableGames.containsKey(gameId)){
-				throw new NullArgumentException("Wrong argument gameId");
+				throw new NetworkException("Wrong argument gameId");
 			}
 			
 			if( _availableGames.get(gameId).joinGame(clientId) ) {

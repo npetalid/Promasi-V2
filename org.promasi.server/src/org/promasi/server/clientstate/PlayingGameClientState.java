@@ -36,7 +36,6 @@ import org.promasi.protocol.messages.ProjectFinishedRequest;
 import org.promasi.protocol.messages.WrongProtocolResponse;
 import org.promasi.server.ProMaSiServer;
 import org.promasi.utilities.exceptions.NullArgumentException;
-import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * 
@@ -142,13 +141,7 @@ public class PlayingGameClientState extends AbstractClientState implements IServ
 				client.sendMessage(new WrongProtocolResponse().serialize());
 				client.disconnect();
 			}
-		}catch(IllegalArgumentException e){
-			client.sendMessage(new InternalErrorResponse().serialize());
-			client.disconnect();
-		} catch (NullArgumentException e) {
-			client.sendMessage(new InternalErrorResponse().serialize());
-			client.disconnect();
-		} catch (SerializationException e) {
+		}catch(Exception e){
 			client.sendMessage(new InternalErrorResponse().serialize());
 			client.disconnect();
 		}

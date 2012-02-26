@@ -62,11 +62,7 @@ public class GameModelMemento
 	 * @throws NullArgumentException
 	 * @throws SerializationException
 	 */
-	protected GameModelMemento(GameModel gameModel)throws NullArgumentException, SerializationException{
-		if(gameModel==null){
-			throw new NullArgumentException("Wrong argument gameModel==null");
-		}
-		
+	protected GameModelMemento(GameModel gameModel){
 		_gameName=gameModel._gameName;
 		_gameDescription=gameModel._gameDescription;
 		_marketPlace=gameModel._marketPlace.getMemento();

@@ -122,12 +122,10 @@ public class GameModel
 	 * @return
 	 * @throws SerializationException
 	 */
-	public GameModelMemento getSerializableGameModel()throws SerializationException{
+	public GameModelMemento getMemento(){
 		try {
 			_lockObject.lock();
 			return new GameModelMemento(this);
-		} catch (NullArgumentException e) {
-			throw new SerializationException("Serialization failed because " + e.getMessage());
 		} finally {
 			_lockObject.unlock();
 		}

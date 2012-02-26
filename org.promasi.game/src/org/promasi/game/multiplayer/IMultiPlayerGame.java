@@ -12,7 +12,6 @@ import java.util.List;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
-import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
@@ -48,21 +47,17 @@ public interface IMultiPlayerGame
 	 * 
 	 * @param playerId
 	 * @param employeeId
-	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
-	 * @throws SerializationException
+	 * @return
 	 */
-	public void hireEmployee(final String playerId, final String employeeId)throws NullArgumentException, IllegalArgumentException, SerializationException;
+	public boolean hireEmployee(final String playerId, final String employeeId);
 	
 	/**
 	 * 
 	 * @param playerId
 	 * @param employeeId
-	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
-	 * @throws SerializationException
+	 * @return
 	 */
-	public void dischargeEmployee(final String playerId, final String employeeId)throws NullArgumentException, IllegalArgumentException, SerializationException;
+	public boolean dischargeEmployee(final String playerId, final String employeeId);
 	
 	/**
 	 * 
@@ -73,7 +68,7 @@ public interface IMultiPlayerGame
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public boolean assignTasks(final String playerId, final String employeeId, List<EmployeeTaskMemento> employeeTasks)throws NullArgumentException, IllegalArgumentException;
+	public boolean assignTasks(final String playerId, final String employeeId, List<EmployeeTaskMemento> employeeTasks);
 	
 	/**
 	 * 
@@ -82,7 +77,7 @@ public interface IMultiPlayerGame
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean addListener(final IServerGameListener listener)throws NullArgumentException;
+	public boolean addListener(final IServerGameListener listener);
 	
 	/**
 	 * 
@@ -91,7 +86,7 @@ public interface IMultiPlayerGame
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean removeListener(final IServerGameListener gameEventHandler)throws NullArgumentException;
+	public boolean removeListener(final IServerGameListener gameEventHandler);
 	
 	/**
 	 * 
@@ -99,7 +94,7 @@ public interface IMultiPlayerGame
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean startGame(final String playerId)throws NullArgumentException;
+	public boolean startGame(final String playerId);
 	
 	/**
 	 * 
@@ -107,7 +102,7 @@ public interface IMultiPlayerGame
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean joinGame(final String playerId)throws NullArgumentException;
+	public boolean joinGame(final String playerId);
 	
 	/**
 	 * 
@@ -115,7 +110,7 @@ public interface IMultiPlayerGame
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean leaveGame(final String playerId)throws NullArgumentException;
+	public boolean leaveGame(final String playerId);
 	
 	/**
 	 * 
@@ -124,7 +119,7 @@ public interface IMultiPlayerGame
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean sendMessage(final String playerId, String message)throws NullArgumentException;
+	public boolean sendMessage(final String playerId, String message);
 	
 	/**
 	 * 
@@ -132,7 +127,7 @@ public interface IMultiPlayerGame
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean stopGame(final String playerId)throws NullArgumentException;
+	public boolean stopGame(final String playerId);
 	
 	/**
 	 * 
@@ -141,5 +136,5 @@ public interface IMultiPlayerGame
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean setGameSpeed(final String playerId, int newSpeed)throws NullArgumentException;
+	public boolean setGameSpeed(final String playerId, int newSpeed);
 }

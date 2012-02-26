@@ -25,7 +25,6 @@ import org.promasi.utilities.clock.IClockListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
-import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
@@ -236,11 +235,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 			if( !_isRunning ){
 				_isRunning = true;
 				for( IClientGameListener listener : _listeners ){	
-					try {
-						listener.gameStarted(this, _gameModel.getSerializableGameModel(), _systemClock.getCurrentDateTime());
-					} catch (SerializationException e) {
-						_systemClock.stop();
-					}
+					listener.gameStarted(this, _gameModel.getMemento(), _systemClock.getCurrentDateTime());
 				}
 			}
 			
@@ -259,12 +254,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		try{
 			_lockObject.lock();
 			for( IClientGameListener gameEventHandler : _listeners){
-				try {
-					gameEventHandler.gameFinished(this, gameModel.getSerializableGameModel(),company);
-				} catch (SerializationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				gameEventHandler.gameFinished(this, gameModel.getMemento(),company);
 			}
 		}finally{
 			_lockObject.unlock();

@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.naming.ConfigurationException;
 
 import org.promasi.network.tcp.NetworkException;
 import org.promasi.utilities.file.RootDirectory;
@@ -47,12 +46,6 @@ public class Application {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -8,7 +8,6 @@ import java.io.ByteArrayInputStream;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import org.promasi.game.GameException;
 import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.MarketPlaceMemento;
@@ -30,7 +29,6 @@ import org.promasi.protocol.messages.UpdateGameListRequest;
 import org.promasi.protocol.messages.WrongProtocolResponse;
 import org.promasi.server.ProMaSiServer;
 import org.promasi.utilities.exceptions.NullArgumentException;
-import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
@@ -76,7 +74,9 @@ public class ChooseGameClientState extends AbstractClientState
 			if(object instanceof JoinGameRequest){
 				try{
 					JoinGameRequest request=(JoinGameRequest)object;
-					MultiPlayerGame game=_server.joinGame(_clientId, request.getGameId());
+					MultiPlayerGame game;
+					game = _server.joinGame(_clientId, request.getGameId());
+
 					JoinGameResponse response=new JoinGameResponse(game.getGameName(), game.getGameDescription(), game.getGamePlayers());
 					changeClientState(client, new WaitingGameClientState(_clientId,_server, client,request.getGameId(), game));
 					client.sendMessage(response.serialize());
@@ -137,16 +137,7 @@ public class ChooseGameClientState extends AbstractClientState
 				client.sendMessage(new WrongProtocolResponse().serialize());
 				client.disconnect();
 			}
-		}catch(NullArgumentException e){
-			client.sendMessage(new InternalErrorResponse().serialize());
-			client.disconnect();
-		}catch(IllegalArgumentException e){
-			client.sendMessage(new InternalErrorResponse().serialize());
-			client.disconnect();
-		}catch(SerializationException e){
-			client.sendMessage(new InternalErrorResponse().serialize());
-			client.disconnect();
-		}catch(GameException e){
+		}catch(Exception e){
 			client.sendMessage(new InternalErrorResponse().serialize());
 			client.disconnect();
 		}
