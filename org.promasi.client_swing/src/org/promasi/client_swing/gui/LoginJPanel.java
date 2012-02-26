@@ -177,9 +177,6 @@ public class LoginJPanel extends JPanel implements IClientListener{
 	}
 
 	@Override
-	public void onSetState(ProMaSiClient client, IClientListener state) {}
-
-	@Override
 	public void onDisconnect(ProMaSiClient client) {
 		_logger.warn("Connection lost");
 	}

@@ -161,12 +161,7 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientListen
 	public void onReceive(ProMaSiClient client, String recData) {
 		// TODO Auto-generated method stub
 	}
-
-	@Override
-	public void onSetState(ProMaSiClient client, IClientListener state) {
-		// TODO Auto-generated method stub
-	}
-
+	
 	@Override
 	public void onDisconnect(ProMaSiClient client) {
 		// TODO Auto-generated method stub

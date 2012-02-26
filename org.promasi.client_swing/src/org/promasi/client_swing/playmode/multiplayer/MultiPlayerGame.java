@@ -6,32 +6,67 @@ package org.promasi.client_swing.playmode.multiplayer;
 import java.util.List;
 import java.util.Map;
 
+import org.promasi.client_swing.gui.GuiException;
 import org.promasi.game.IGame;
 import org.promasi.game.AGamesServer;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IMarketPlaceListener;
-import org.promasi.game.multiplayer.IMultiPlayerGame;
 import org.promasi.game.singleplayer.IClientGameListener;
+import org.promasi.protocol.client.ProMaSiClient;
 
 /**
  * @author alekstheod
  *
  */
 public class MultiPlayerGame implements IGame {
-
+	
 	/**
 	 * 
 	 */
-	private IMultiPlayerGame _game;
+	private String _gameId;
+	
+	/**
+	 * 
+	 */
+	private String _description;
+	
+	/**
+	 * 
+	 */
+	private ProMaSiClient _client;
+	
+	/**
+	 * 
+	 */
+	private AGamesServer _gamesServer;
 	
 	/**
 	 * 
 	 * @param game
 	 */
-	public MultiPlayerGame( IMultiPlayerGame game ){
+	public MultiPlayerGame(AGamesServer gamesServer, ProMaSiClient client, String gameId, String description )throws GuiException{
+		if( gameId == null ){
+			throw new GuiException("Wrong argument gameId == null");
+		}
 		
+		if( description == null ){
+			throw new GuiException("Wrong argument description == null");
+		}
+		
+		if( client == null ){
+			throw new GuiException("Wrong argument client == null");
+		}
+		
+		if( gamesServer == null ){
+			throw new GuiException("Wrong argument gamesServer == null");
+		}
+		
+		_gameId = gameId;
+		_description = description;
+		_client = client;
+		_gamesServer = gamesServer;
 	}
 	
 	@Override
@@ -136,4 +171,8 @@ public class MultiPlayerGame implements IGame {
 		return false;
 	}
 
+	@Override
+	public String toString(){
+		return _description;
+	}
 }

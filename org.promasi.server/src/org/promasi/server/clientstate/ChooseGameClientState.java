@@ -159,10 +159,4 @@ public class ChooseGameClientState  implements IClientListener
 		
 	}
 
-	@Override
-	public void onSetState(ProMaSiClient client, IClientListener state) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

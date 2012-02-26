@@ -7,11 +7,11 @@ import java.beans.XMLDecoder;
 import java.io.ByteArrayInputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.promasi.client_swing.gui.GuiException;
 import org.promasi.game.AGamesServer;
 import org.promasi.game.IGame;
-import org.promasi.game.IGamesServerListener;
 import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.UpdateAvailableGameListRequest;
@@ -32,11 +32,6 @@ public class MultiPlayerGamesServer extends AGamesServer implements IClientListe
 	private ProMaSiClient _client;
 	
 	/**
-	 * The games server listener.
-	 */
-	private List< IGamesServerListener > _listeners;
-	
-	/**
 	 * 
 	 */
 	private ILogger _logger = LoggerFactory.getInstance(MultiPlayerGamesServer.class);
@@ -51,7 +46,6 @@ public class MultiPlayerGamesServer extends AGamesServer implements IClientListe
 			throw new GuiException("Wrong argument client");
 		}
 		
-		_listeners = new LinkedList<>();
 		_client.addListener(this);
 		_client = client;
 		_client.sendMessage(new UpdateAvailableGameListRequest().serialize());
@@ -74,18 +68,23 @@ public class MultiPlayerGamesServer extends AGamesServer implements IClientListe
 		try
 		{
 			Object object=new XMLDecoder(new ByteArrayInputStream(recData.getBytes())).readObject();
-			if(object instanceof UpdateGameListRequest){
-				final  UpdateGameListRequest request = (UpdateGameListRequest)object;	
-				//request.get
+			if(object instanceof UpdateGameListRequest){	
+				Map<String, String> availableGames = ((UpdateGameListRequest)object).getAvailableGames();
+				if( availableGames != null ){
+					List< IGame > games = new LinkedList<>();
+					for( Map.Entry<String, String> gameEntry : availableGames.entrySet() ){
+						MultiPlayerGame game = new MultiPlayerGame(this, client, gameEntry.getKey(), gameEntry.getValue() );
+						games.add(game);
+					}
+					
+					updateGamesList(games);
+				}else{
+					
+				}
 			}
 		}catch( Exception e){
 			_logger.error("Invalid message received : " + recData);
 		}
-	}
-
-	@Override
-	public void onSetState(ProMaSiClient client, IClientListener state) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override

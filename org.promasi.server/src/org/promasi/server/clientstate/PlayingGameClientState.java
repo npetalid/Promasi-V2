@@ -253,11 +253,4 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 			_client.sendMessage(request.serialize());
 		}
 	}
-
-	@Override
-	public void onSetState(ProMaSiClient client, IClientListener state) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

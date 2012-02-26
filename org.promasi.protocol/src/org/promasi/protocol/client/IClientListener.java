@@ -26,12 +26,6 @@ public interface IClientListener
 	 * 
 	 * @param client
 	 */
-	public void onSetState(ProMaSiClient client, IClientListener state);
-	
-	/**
-	 * 
-	 * @param client
-	 */
 	public void onDisconnect(ProMaSiClient client);
 	
 	/**
