@@ -46,8 +46,8 @@ public class MultiPlayerGamesServer extends AGamesServer implements IClientListe
 			throw new GuiException("Wrong argument client");
 		}
 		
-		_client.addListener(this);
 		_client = client;
+		_client.addListener(this);
 		_client.sendMessage(new UpdateAvailableGameListRequest().serialize());
 	}
 	

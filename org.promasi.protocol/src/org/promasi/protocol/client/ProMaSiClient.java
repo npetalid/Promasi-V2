@@ -144,6 +144,9 @@ public class ProMaSiClient implements ITcpClientListener
 		try{
 			_lockObject.lock();
 			result = _client.disconnect();
+			for( IClientListener listener : _listeners ){
+				listener.onDisconnect(this);
+			}
 		}finally{
 			_lockObject.unlock();
 		}
@@ -156,8 +159,9 @@ public class ProMaSiClient implements ITcpClientListener
         Base64 base64= new Base64();
         byte[] messageByte = base64.decode(line.getBytes());
         try {
-        	
-    		for( IClientListener listener : _listeners ){
+        	_lockObject.lock();
+        	List< IClientListener > listeners = new LinkedList<>(_listeners);
+    		for( IClientListener listener : listeners ){
     			if( _compression != null ){
     				listener.onReceive(this, new String(_compression.deCompress(messageByte)));
     			}else{
@@ -167,27 +171,45 @@ public class ProMaSiClient implements ITcpClientListener
 			
 		} catch (CompressionException e) {
 			// TODO log
+		}finally{
+			_lockObject.unlock();
 		}
 	}
 
 	@Override
 	public void onConnect() {
-		for( IClientListener listener : _listeners ){
-			listener.onConnect(this);
+		try{
+			_lockObject.lock();
+			for( IClientListener listener : _listeners ){
+				listener.onConnect(this);
+			}
+		}finally{
+			_lockObject.unlock();
 		}
+
 	}
 
 	@Override
 	public void onDisconnect() {
-		for( IClientListener listener : _listeners ){
-			listener.onDisconnect(this);
+		try{
+			_lockObject.lock();
+			for( IClientListener listener : _listeners ){
+				listener.onDisconnect(this);
+			}
+		}finally{
+			_lockObject.unlock();
 		}
 	}
 
 	@Override
 	public void onConnectionError() {
-		for( IClientListener listener : _listeners ){
-			listener.onConnectionError(this);
+		try{
+			_lockObject.lock();
+			for( IClientListener listener : _listeners ){
+				listener.onConnectionError(this);
+			}
+		}finally{
+			_lockObject.unlock();
 		}
 	}
 	

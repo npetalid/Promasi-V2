@@ -183,10 +183,13 @@ public class TcpClient
 				_lockObject.unlock();
 			}
 		}catch(IOException e){
-			synchronized(_lockObject){
+			try{
+				_lockObject.lock();
 				for(ITcpClientListener listener : _listeners){
 					listener.onConnectionError();
 				}
+			}finally{
+				_lockObject.unlock();
 			}
 		}
 	}
@@ -197,7 +200,12 @@ public class TcpClient
 	 */
 	public boolean isConnected()
 	{
-		return _isConnected;
+		try{
+			_lockObject.lock();
+			return _isConnected;
+		}finally{
+			_lockObject.unlock();
+		}
 	}
 
 	/**
@@ -207,17 +215,13 @@ public class TcpClient
 	public boolean addListener(ITcpClientListener listener)
 	{
 		boolean result = false;
-		if(listener!=null){
-			try{
-				_lockObject.lock();
-				if(_listeners.contains(listener)){
-					return false;
-				}else{
-					result = _listeners.add(listener);
-				}
-			}finally{
-				_lockObject.unlock();
+		try{
+			_lockObject.lock();
+			if(listener != null && !_listeners.contains(listener)){
+				result = _listeners.add(listener);
 			}
+		}finally{
+			_lockObject.unlock();
 		}
 		
 		return result;
@@ -229,23 +233,20 @@ public class TcpClient
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean removeListener(ITcpClientListener listener)throws NullArgumentException
+	public boolean removeListener(ITcpClientListener listener)
 	{
-		if(listener==null){
-			throw new NullArgumentException("Wrong argument listener==null");
-		}
+		boolean result = false;
 		
 		try{
 			_lockObject.lock();
-			if(_listeners.contains(listener)){
-				_listeners.remove(listener);
-				return true;
+			if(listener != null && _listeners.contains(listener)){
+				result = _listeners.remove(listener);
 			}
 		}finally{
 			_lockObject.unlock();
 		}
 	
-		return false;
+		return result;
 	}
 
 	/**
@@ -278,20 +279,21 @@ public class TcpClient
 	 * @return
 	 */
 	public boolean sendMessage(String message){
-		if(message==null){
-			return false;
-		}
+		boolean result = false;
 
 		try{
 			_lockObject.lock();
-			_socketStreamWriter.write(message,0,message.length());
-			_socketStreamWriter.flush();
+			if( message != null ){
+				_socketStreamWriter.write(message,0,message.length());
+				_socketStreamWriter.flush();
+				result = true;
+			}
 		}catch(IOException e){
-			return false;
+			//TODO log
 		}finally{
 			_lockObject.unlock();
 		}
 		
-		return true;
+		return result;
 	}
 }
