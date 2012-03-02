@@ -16,6 +16,7 @@ import org.promasi.game.multiplayer.IMultiPlayerGame;
 import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.ProjectMemento;
+import org.promasi.network.tcp.NetworkException;
 import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.AssignEmployeeTasksRequest;
@@ -34,56 +35,62 @@ import org.promasi.protocol.messages.ProjectAssignedRequest;
 import org.promasi.protocol.messages.ProjectFinishedRequest;
 import org.promasi.protocol.messages.WrongProtocolResponse;
 import org.promasi.server.ProMaSiServer;
-import org.promasi.utilities.exceptions.NullArgumentException;
 
 /**
  * 
  * @author m1cRo
- *
+ * Represent the playing game user state.
+ * In this state user is a player of the running ProMaSi game.
  */
 public class PlayingGameClientState implements IServerGameListener, IClientListener
 {
 	/**
-	 * 
+	 * Instance of {@link MultiPlayerGame} which represent the
+	 * running game.
 	 */
 	private MultiPlayerGame _game;
 	
 	/**
-	 * 
+	 * The client id.
 	 */
 	private String _clientId;
 	
 	/**
-	 * 
+	 * Instance of {@link ProMaSiClient} needed in order to
+	 * handle ProMaSi system requests and communicate with a client.
 	 */
 	private ProMaSiClient _client;
 	
 	/**
-	 * 
+	 * Instance of {@link ProMaSiServer} which contains the business logic
+	 * of ProMaSi server.
 	 */
 	private ProMaSiServer _server;
 	
 	/**
-	 * 
-	 * @param clientId
-	 * @param game
-	 * @throws NullArgumentException
+	 * Constructor will initialize the object.
+	 * @param server instance of {@link ProMaSiServer}
+	 * @param client instance of {@link ProMaSiClient}
+	 * @param clientId Client id, this is the identification string 
+	 * given by user in login procedure.
+	 * @param game Instance of {@link MultiPlayerGame} represent the running game.
+	 * @throws NetworkException In case of invalid arguments, such as null argument. 
 	 */
-	public PlayingGameClientState(ProMaSiServer server, ProMaSiClient client, String clientId, MultiPlayerGame game)throws NullArgumentException{
+	public PlayingGameClientState(ProMaSiServer server, ProMaSiClient client, String clientId, MultiPlayerGame game)throws NetworkException{
 		if(game==null){
-			throw new NullArgumentException("Wrong argument game==null");
+			throw new NetworkException("Wrong argument game==null");
 		}
 		
 		if(clientId==null){
-			throw new NullArgumentException("Wrong argument clientId==null");
+			throw new NetworkException("Wrong argument clientId==null");
 		}
 		
 		if(client==null){
-			throw new NullArgumentException("Wrong argument client==null");
+			throw new NetworkException("Wrong argument client==null");
 		}
 		
 		if(server==null){
-			throw new NullArgumentException("Wrong argument server==null");
+			throw new NetworkException("Wrong argument server==null");
 		}
 		
 		_client=client;
@@ -105,11 +112,7 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 					client.disconnect();
 				}
 				
-				try{
-					_game.hireEmployee(_clientId, request.getEmployeeId());
-				}catch(IllegalArgumentException e){
-					//Logger
-				}
+				_game.hireEmployee(_clientId, request.getEmployeeId());
 			}else if(object instanceof DischargeEmployeeRequest){
 				DischargeEmployeeRequest request=(DischargeEmployeeRequest)object;
 				if(request.getEmployeeId()==null){
@@ -117,11 +120,7 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 					client.disconnect();
 				}
 				
-				try{
-					_game.dischargeEmployee(_clientId, request.getEmployeeId());
-				}catch(IllegalArgumentException e){
-					//Logger
-				}
+				_game.dischargeEmployee(_clientId, request.getEmployeeId());
 			}else if(object instanceof GameStartedResponse){
 			}else if(object instanceof AssignEmployeeTasksRequest){
 				AssignEmployeeTasksRequest request=(AssignEmployeeTasksRequest)object;
@@ -130,12 +129,11 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 					client.disconnect();
 				}
 				
-				//ToDo if assign tasks failed response with valid message
 				_game.assignTasks(_clientId, request.getEmployeeId(), request.getTasks());
 			}else if(object instanceof LeaveGameRequest){
 				_game.removeListener(this);
 				_client.removeListener(this);
-				_client.addListener( new ChooseGameClientState(_server, _clientId));
+				_client.addListener( new ChooseGameClientState( _server, _client, _clientId));
 				client.sendMessage(new LeaveGameResponse().serialize());
 			}else{
 				client.sendMessage(new WrongProtocolResponse().serialize());
@@ -229,6 +227,7 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 	
 	@Override
 	public void onDisconnect(ProMaSiClient client) {
+		_client.removeListener(this);
 		_game.leaveGame(_clientId);
 	}
 	
@@ -237,6 +236,7 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
+		_client.removeListener(this);
 		_game.leaveGame(_clientId);
 	}
 

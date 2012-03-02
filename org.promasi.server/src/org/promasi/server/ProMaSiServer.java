@@ -20,7 +20,6 @@ import org.promasi.protocol.messages.LeaveGameResponse;
 import org.promasi.protocol.messages.UpdateGameListRequest;
 import org.promasi.protocol.messages.UpdateGamePlayersListRequest;
 import org.promasi.server.clientstate.LoginClientState;
-import org.promasi.utilities.exceptions.NullArgumentException;
 
 /**
  * 
@@ -32,7 +31,7 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 {
 	/**
 	 * The tcp server needed in order to handle
-	 * tcp connections.
+	 * the tcp connections.
 	 */
 	private TcpServer _server;
 	
@@ -84,10 +83,12 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	}
 
 	@Override
-	public void serverStarted(int portNumber) {
-		// TODO Auto-generated method stub
-	}
+	public void serverStarted(int portNumber) {}
 
+	/**
+	 * If the ProMaSi server is stopped all
+	 * the available clients will be disconnected.
+	 */
 	@Override
 	public void serverStopped() {
 		for(Map.Entry<String, ProMaSiClient> entry : _clients.entrySet()){
@@ -102,10 +103,8 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 		try {
 			_lockObject.lock();
 			ProMaSiClient pClient=new ProMaSiClient(client, new ZipCompression());
-			pClient.addListener(new LoginClientState(this));
+			pClient.addListener(new LoginClientState(this, pClient));
 			pClient.addListener(this);
-		} catch (NullArgumentException e) {
-			//Logger
 		} catch (NetworkException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -149,10 +148,11 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	}
 	
 	/**
-	 * 
-	 * @param clientId
-	 * @param game
-	 * @return
+	 * Will create a new game assigned to the given client id.
+	 * The game will be inserted to the available games list.
+	 * @param clientId Client's id who are a creator of the game
+	 * @param game Instance of {@link = MultiPlayerGame} which represents the game.
+	 * @return true if succeed, false otherwise.
 	 */
 	public boolean createGame(String clientId, MultiPlayerGame game){
 		boolean result = false;
@@ -175,9 +175,11 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	}
 	
 	/**
-	 * 
-	 * @param clientId
-	 * @return
+	 * Client should call this method in order to start
+	 * the prepared by him game.
+	 * @param clientId The client id.
+	 * @param gameId Id of prepared game.
+	 * @return true if succeed, false otherwise.
 	 */
 	public boolean startGame(String clientId, String gameId){
 		boolean result = false;
@@ -204,8 +206,9 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * User can call this method in order to check
+	 * if the ProMasiServer is currently running or not.
+	 * @return true if server is running, false otherwise.
 	 */
 	public boolean isRunning(){
 		boolean result = false;
@@ -221,8 +224,9 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	}
 	
 	/**
-	 * 
-	 * @return
+	 * Will return the list of available games.
+	 * @return instance of {@link Map} interface implementation
+	 * which contains the pairs of gameId and game description strings.
 	 */
 	public Map<String, String> getAvailableGames(){
 		Map<String, String> games=new TreeMap<String, String>();
@@ -240,12 +244,13 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	}
 	
 	/**
-	 * 
-	 * @param clientId
-	 * @param gameId
-	 * @return
-	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
+	 * User should call this method in order 
+	 * to join to the ProMaSi game.
+	 * @param clientId Unique user identification string.
+	 * @param gameId The game identification string in which a user will join.
+	 * @return Instance of {@link MultiPlayerGame} which represent the game.
+	 * @throws NetworkException In case of invalid arguments ( Game with the given game Id is not available,
+	 * null arguments and so on).
 	 */
 	public MultiPlayerGame joinGame(String clientId, String gameId)throws NetworkException{
 		if(gameId==null){
@@ -276,7 +281,11 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 		}
 	}
 	
-	
+	/**
+	 * Will send the available games list to the given client.
+	 * @param client Instance of {@link ProMaSiClient} which represent a client.
+	 * @return true if succeed, false otherwise.
+	 */
 	private boolean sendUpdateGamesListRequest(ProMaSiClient client){
 		boolean result = false;
 		try{
@@ -299,9 +308,12 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	}
 	
 	/**
-	 * 
-	 * @param gameId
-	 * @throws NullArgumentException
+	 * User can call this method in order to abort the 
+	 * created from him game. All the game players available
+	 * in this game will be removed, {@link GameCanceledRequest} will
+	 * be sent to all of these players.
+	 * @param gameId The games name.
+	 * @return true if succeed, false otherwise.
 	 */
 	public boolean cancelGame(String gameId){
 		boolean result = false;
@@ -334,9 +346,13 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	}
 	
 	/**
-	 * 
-	 * @param gameId
-	 * @param clientId
+	 * User will call this method in order to leave the
+	 * joined game. User will be removed from the game players list.
+	 * An UpdateGamePlayersListRequest message will be sent to all the players
+	 * of the given name.
+	 * @param gameId Id of the game.
+	 * @param clientId Client identification string.
+	 * @return true if succeed, false otherwise.
 	 */
 	public boolean leaveGame(String gameId, String clientId){
 		boolean result = false;
@@ -368,6 +384,10 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	@Override
 	public void onReceive(ProMaSiClient client, String recData) {}
 
+	/**
+	 * In case of an client was disconnected from the
+	 * server we have to remove him from the clients list.
+	 */
 	@Override
 	public void onDisconnect(ProMaSiClient client) {
 		try{

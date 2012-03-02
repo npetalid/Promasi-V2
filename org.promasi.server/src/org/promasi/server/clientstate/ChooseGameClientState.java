@@ -14,6 +14,7 @@ import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.Project;
 import org.promasi.game.project.ProjectMemento;
+import org.promasi.network.tcp.NetworkException;
 import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.CreateGameRequest;
@@ -30,40 +31,60 @@ import org.promasi.utilities.exceptions.NullArgumentException;
 
 /**
  * @author m1cRo
- *
+ * Represent the client state in which a user will chose
+ * the game from the list of available games exposed by the
+ * server.
  */
 public class ChooseGameClientState  implements IClientListener 
 {
 	/**
-	 * 
+	 * Instance of {@link = ProMaSiServer} needed to
+	 * handle the users commands.
 	 */
 	private ProMaSiServer _server;
 	
 	/**
-	 * 
+	 * The client id, user insert it in the login
+	 * procedure.
 	 */
 	private String _clientId;
 	
 	/**
-	 * 
+	 * Instance of {@link ProMaSiClient}
+	 */
+	private ProMaSiClient _client;
+	
+	/**
+	 * Constructor with arguments will initialize the object.
 	 * @param server
 	 * @throws NullArgumentException
 	 */
-	public ChooseGameClientState(ProMaSiServer server, String clientId)throws NullArgumentException{
+	public ChooseGameClientState( ProMaSiServer server, ProMaSiClient client, String clientId)throws NetworkException{
 		if(server==null){
-			throw new NullArgumentException("Wrong argument server==null");
+			throw new NetworkException("Wrong argument server==null");
 		}
 		
 		if(clientId==null){
-			throw new NullArgumentException("Wrong argument clientId==null");
+			throw new NetworkException("Wrong argument clientId==null");
+		}
+		
+		if( client == null ){
+			throw new NetworkException("Wrong argument client==null");
 		}
 		
 		_clientId=clientId;
 		_server=server;
+		_client=client;
+		_client.addListener(this);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.promasi.playmode.multiplayer.IClientState#onReceive(org.promasi.playmode.multiplayer.ProMaSiClient, java.lang.String)
+	/**
+	 * Accepted requests are:
+	 * {@link JoinGameRequest}, 
+	 * {@link CreateGameRequest},
+	 * {@link UpdateAvailableGameListRequest},
+	 * In case of any other type of request client
+	 * will be disconnected.
 	 */
 	@Override
 	public void onReceive(ProMaSiClient client, String recData) {
@@ -143,8 +164,7 @@ public class ChooseGameClientState  implements IClientListener
 
 	@Override
 	public void onDisconnect(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-		
+		_client.removeListener(this);
 	}
 
 	@Override
@@ -155,8 +175,7 @@ public class ChooseGameClientState  implements IClientListener
 
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-		
+		_client.removeListener(this);
 	}
 
 }

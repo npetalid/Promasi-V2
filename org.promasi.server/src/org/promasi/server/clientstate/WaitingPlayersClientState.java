@@ -18,6 +18,7 @@ import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.game.multiplayer.IMultiPlayerGame;
 import org.promasi.game.multiplayer.MultiPlayerGame;
 import org.promasi.game.project.ProjectMemento;
+import org.promasi.network.tcp.NetworkException;
 import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.CancelGameRequest;
@@ -118,12 +119,12 @@ public class WaitingPlayersClientState implements IServerGameListener, IClientLi
 			}else if(object instanceof CancelGameRequest){
 				_server.cancelGame(_gameId);
 				client.removeListener(this);
-				client.addListener(new ChooseGameClientState(_server, _clientId));
+				client.addListener(new ChooseGameClientState(_server, client, _clientId));
 			}else{
 				client.sendMessage(new WrongProtocolResponse().serialize());
 				client.disconnect();
 			}
-		}catch(NullArgumentException e){
+		}catch(NetworkException e){
 			client.sendMessage(new InternalErrorResponse().serialize());
 			client.disconnect();
 		}catch(IllegalArgumentException e){
@@ -139,7 +140,7 @@ public class WaitingPlayersClientState implements IServerGameListener, IClientLi
 				_game.removeListener(this);
 				_client.removeListener(this);
 				_client.addListener(new PlayingGameClientState(_server, _client, _clientId, _game));
-			} catch (NullArgumentException e) {
+			} catch (NetworkException e) {
 				//Logger
 			}
 			
@@ -227,17 +228,17 @@ public class WaitingPlayersClientState implements IServerGameListener, IClientLi
 	@Override
 	public void onDisconnect(ProMaSiClient client) {
 		_game.leaveGame(_clientId);
+		_client.removeListener(this);
 	}
 
 	@Override
 	public void onConnect(ProMaSiClient client) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
 		_game.leaveGame(_clientId);
+		_client.removeListener(this);
 	}
 
 	@Override
