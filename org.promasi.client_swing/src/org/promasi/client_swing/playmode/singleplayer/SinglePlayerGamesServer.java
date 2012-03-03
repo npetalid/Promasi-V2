@@ -88,4 +88,9 @@ public class SinglePlayerGamesServer extends AGamesServer {
 
 		return false;
 	}
+
+	@Override
+	public boolean createGame(IGame game) {
+		return false;
+	}
 }

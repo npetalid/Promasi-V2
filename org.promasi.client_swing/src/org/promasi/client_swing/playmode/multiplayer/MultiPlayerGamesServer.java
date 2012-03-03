@@ -101,4 +101,10 @@ public class MultiPlayerGamesServer extends AGamesServer implements IClientListe
 	public void onConnectionError(ProMaSiClient client) {
 		// TODO Auto-generated method stub	
 	}
+
+	@Override
+	public boolean createGame(IGame game) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

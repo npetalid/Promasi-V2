@@ -24,27 +24,31 @@ import org.promasi.protocol.client.ProMaSiClient;
  * @author alekstheod
  * Represent the MultiPlayer game in ProMaSi system.
  * This class will be responsible for all needed communication
- * in playing game state between client and server.
+ * in playing game state between client and server. This class
+ * will be used in the client side of application and it implements the
+ * basic game interface {@link IGame}.
  */
 public class MultiPlayerGame implements IGame, IClientListener {
 	
 	/**
-	 * 
+	 * The game name.
 	 */
 	private String _gameId;
 	
 	/**
-	 * 
+	 * Games description usually in HTML format.
 	 */
 	private String _description;
 	
 	/**
-	 * 
+	 * Instance of {@link ProMaSiClient} needed in order to 
+	 * communicate with a server.
 	 */
 	private ProMaSiClient _client;
 	
 	/**
-	 * 
+	 * ProMaSi games server needed in order to retrieve the 
+	 * available games list and create a new games.
 	 */
 	private AGamesServer _gamesServer;
 	
@@ -55,32 +59,33 @@ public class MultiPlayerGame implements IGame, IClientListener {
 	private List< IClientGameListener > _listeners;
 	
 	/**
-	 * 
+	 * List of the department listeners.
 	 */
 	private List< IDepartmentListener > _departmentListeners;
 	
 	/**
-	 * 
+	 * List of the company listeners.
 	 */
 	private List< ICompanyListener > _companyListeners;
 	
 	/**
-	 * 
+	 * List of the market place listeners.
 	 */
 	private List< IMarketPlaceListener > _marketPlaceListeners;
 	
 	/**
-	 * 
+	 * The lock object needed in order to synchronize the listener lists.
 	 */
 	private Lock _lockObject;
 	
 	/**
-	 * 
-	 * @param gamesServer
-	 * @param client
-	 * @param gameId
-	 * @param description
-	 * @throws GuiException
+	 * Constructor will initialize the object.
+	 * @param gamesServer Instance of {@link AGamesServer} which represent 
+	 * the game server in which this game is running.
+	 * @param client Instance of {@link ProMaSiClient} needed for communication.
+	 * @param gameId The games name.
+	 * @param description Games description.
+	 * @throws GuiException In case of invalid arguments.
 	 */
 	public MultiPlayerGame(AGamesServer gamesServer, ProMaSiClient client, String gameId, String description )throws GuiException{
 		if( gameId == null ){
