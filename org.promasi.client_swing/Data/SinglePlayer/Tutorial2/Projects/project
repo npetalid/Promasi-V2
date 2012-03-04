@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <java version="1.7.0_02" class="java.beans.XMLDecoder">
  <object class="org.promasi.game.project.ProjectMemento">
   <void property="description">
@@ -339,7 +339,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>lRequirementsRate*(AnalyticsRate + DesignRate - ConflictsRate)/100</string>
+              <string>RequirementsRate*(AnalyticsRate + DesignRate - ConflictsRate)/100</string>
              </void>
             </object>
            </void>
