@@ -1,5 +1,6 @@
 package org.promasi.sdsystem.sdobject;
 
+import org.promasi.sdsystem.SdSystemException;
 import org.promasi.sdsystem.serialization.IEquationMemento;
 import org.promasi.sdsystem.serialization.ISerializableSdObject;
 import org.promasi.utilities.exceptions.NullArgumentException;
@@ -57,7 +58,7 @@ public class OutputSdObjectMemento extends SerializableObject implements ISerial
 		
 		try {
 			return new OutputSdObject(_equation.getEquation());
-		} catch (NullArgumentException e) {
+		} catch (SdSystemException e) {
 			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
 		}
 	}

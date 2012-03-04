@@ -33,11 +33,11 @@ public class FlowSdObject implements ISdObject
 	 * @param equation
 	 * @throws NullArgumentException
 	 */
-	public FlowSdObject(final IEquation equation)throws NullArgumentException
+	public FlowSdObject(final IEquation equation)throws SdSystemException
 	{
 		if(equation==null)
 		{
-			throw new NullArgumentException("Wrong argument equation==null");
+			throw new SdSystemException("Wrong argument equation==null");
 		}
 
 		_equation=equation;

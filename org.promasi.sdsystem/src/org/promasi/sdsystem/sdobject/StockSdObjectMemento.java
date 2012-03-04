@@ -1,8 +1,8 @@
 package org.promasi.sdsystem.sdobject;
 
+import org.promasi.sdsystem.SdSystemException;
 import org.promasi.sdsystem.serialization.IEquationMemento;
 import org.promasi.sdsystem.serialization.ISerializableSdObject;
-import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -52,7 +52,7 @@ public class StockSdObjectMemento extends SerializableObject implements ISeriali
 
 		try {
 			return new StockSdObject(_equation.getEquation(),_value);
-		} catch (NullArgumentException e) {
+		} catch (SdSystemException e) {
 			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
 		}
 	}

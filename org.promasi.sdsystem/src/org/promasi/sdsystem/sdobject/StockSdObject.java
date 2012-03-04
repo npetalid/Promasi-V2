@@ -32,13 +32,13 @@ public class StockSdObject implements ISdObject
 	 * @param equation
 	 * @throws NullArgumentException
 	 */
-	public StockSdObject(final IEquation equation, Double value)throws NullArgumentException{
+	public StockSdObject(final IEquation equation, Double value)throws SdSystemException{
 		if(equation==null){
-			throw new NullArgumentException("Wrong argument equation==null");
+			throw new SdSystemException("Wrong argument equation==null");
 		}
 		
 		if(value==null){
-			throw new NullArgumentException("Wrong argument value==null");
+			throw new SdSystemException("Wrong argument value==null");
 		}
 		
 		_value=value;
