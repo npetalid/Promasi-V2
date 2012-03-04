@@ -339,7 +339,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>RequirementsRate*(AnalyticsRate + DesignRate - ConflictsRate)/100</string>
+              <string>lRequirementsRate*(AnalyticsRate + DesignRate - ConflictsRate)/100</string>
              </void>
             </object>
            </void>
