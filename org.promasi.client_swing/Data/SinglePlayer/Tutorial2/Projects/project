@@ -177,7 +177,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-	      <string>if( DesignRate + CodeTestRate  &lt; DevelopmentRate,   RequirementsRate * (DevelopmentRate - DesignRate - CodeTestRate), 0)</string>
+	      <string>if( DesignRate + CodeTestRate  &lt; DevelopmentRate,   RequirementsRate * (DevelopmentRate - DesignRate - CodeTestRate)/100, 0)</string>
              </void>
             </object>
            </void>
@@ -296,7 +296,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>RequirementsRate*(AnalyticsRate + DesignRate - ConflictsRate)/10000</string>
+              <string>if( Conflicts &lt; 100, RequirementsRate*(AnalyticsRate + DesignRate - ConflictsRate)/10000, 0)</string>
              </void>
             </object>
            </void>
@@ -339,7 +339,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>RequirementsRate*(AnalyticsRate + DesignRate - ConflictsRate)/100</string>
+              <string>if( Documentation &lt; 1000, RequirementsRate*(AnalyticsRate + DesignRate - ConflictsRate)/100, 1000)</string>
              </void>
             </object>
            </void>

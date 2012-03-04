@@ -366,11 +366,12 @@ public class Company
                      	 if(_assignedProject.isExpired()){
                      		_prestigePoints=_prestigePoints+_assignedProject.getPrestigePoints();
                      		_budget=_budget+_assignedProject.getProjectPrice();
+                     		_itDepartment.removeAssignedTasks();
                      		
                              for(ICompanyListener listener : _companyListeners){
                              	listener.projectFinished(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
                              }
-                             
+                              
                      		_assignedProject=null;
                      	}
                 	}

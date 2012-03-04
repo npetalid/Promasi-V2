@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.regex.Pattern;
 
+import org.omg.CORBA.SystemException;
 import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.company.Company;
@@ -269,6 +270,8 @@ public class SinglePlayerGameFolder
 					}
 				}
 			}catch(FileNotFoundException e){
+				//Log wrong file
+			}catch( Exception e ){
 				//Log wrong file
 			}
 		}

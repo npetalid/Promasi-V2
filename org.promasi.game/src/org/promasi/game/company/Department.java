@@ -247,6 +247,25 @@ public class Department{
     }
     
     /**
+     * Will remove all assigned tasks to
+     * to the departments employees.
+     * @return true if succeed, false otherwise.
+     */
+    public boolean removeAssignedTasks(){
+    	boolean result = true;
+    	try{
+    		_lockObject.lock();
+    		for(Map.Entry<String, Employee> entry : _employees.entrySet()){
+    			result &= entry.getValue().removeAllTasks();
+    		}
+    	}finally{
+    		_lockObject.unlock();
+    	}
+    	
+    	return result;
+    }
+    
+    /**
      * 
      * @param employee
      * @param employeeTask

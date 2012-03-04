@@ -295,14 +295,17 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 						updateGanttDiagramm(projectTasks, assignedProject, dateTime);
 					}else{
 						for( Map.Entry<String, DefaultGanttEntry<Date>> entry : _runningTasks.entrySet()){
-							if( assignedProject.getProjectTasks() != null && assignedProject.getProjectTasks().containsKey( projectTasks.get(entry.getKey()).getProjectTaskName() ) ){
-								ProjectTaskMemento prjTask = assignedProject.getProjectTasks().get(projectTasks.get(entry.getKey()).getProjectTaskName());
-								if( prjTask.getProgress() > 100 ){
-									entry.getValue().setCompletion(100.0);
-								}else if( prjTask.getProgress() < 0 ){
-									entry.getValue().setCompletion(0);
-								}else{
-									entry.getValue().setCompletion(prjTask.getProgress()/100.0);
+							if( projectTasks.containsKey(entry.getKey())){
+								String taskName = projectTasks.get(entry.getKey()).getProjectTaskName();
+								if( assignedProject.getProjectTasks() != null && assignedProject.getProjectTasks().containsKey( taskName ) ){
+									ProjectTaskMemento prjTask = assignedProject.getProjectTasks().get(projectTasks.get(entry.getKey()).getProjectTaskName());
+									if( prjTask.getProgress() > 100 ){
+										entry.getValue().setCompletion(100.0);
+									}else if( prjTask.getProgress() < 0 ){
+										entry.getValue().setCompletion(0);
+									}else{
+										entry.getValue().setCompletion(prjTask.getProgress()/100.0);
+									}
 								}
 							}
 						}
