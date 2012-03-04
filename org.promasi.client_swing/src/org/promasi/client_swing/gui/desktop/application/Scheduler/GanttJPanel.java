@@ -163,6 +163,13 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					if( assignedProject.getProjectTasks() != null && assignedProject.getProjectTasks().containsKey(employeeTask.getProjectTaskName() ) ){
 						ProjectTaskMemento prjTask = assignedProject.getProjectTasks().get(employeeTask.getProjectTaskName());
 						newTask.setCompletion(prjTask.getProgress()/100.0);
+						if( prjTask.getProgress() > 100 ){
+							newTask.setCompletion(100.0);
+						}else if( prjTask.getProgress() < 0 ){
+							newTask.setCompletion(0);
+						}else{
+							newTask.setCompletion(prjTask.getProgress()/100.0);
+						}
 					}
 
 					_runningTasks.put(entry.getKey(), newTask);
@@ -231,7 +238,20 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 
 	@Override
 	public void projectFinished(String owner, CompanyMemento company,
-			ProjectMemento project, DateTime dateTime) {
+			final ProjectMemento project, final DateTime dateTime) {
+		try{
+			_lockObject.lock();
+			_projectAssignDate = dateTime;
+			SwingUtilities.invokeLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					updateGanttDiagramm( new TreeMap<String, EmployeeTaskMemento>(), project, dateTime);
+				}
+			});
+		}finally{
+			_lockObject.unlock();
+		}
 	}
 
 	@Override
@@ -277,7 +297,13 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 						for( Map.Entry<String, DefaultGanttEntry<Date>> entry : _runningTasks.entrySet()){
 							if( assignedProject.getProjectTasks() != null && assignedProject.getProjectTasks().containsKey( projectTasks.get(entry.getKey()).getProjectTaskName() ) ){
 								ProjectTaskMemento prjTask = assignedProject.getProjectTasks().get(projectTasks.get(entry.getKey()).getProjectTaskName());
-								entry.getValue().setCompletion(prjTask.getProgress()/100.0);
+								if( prjTask.getProgress() > 100 ){
+									entry.getValue().setCompletion(100.0);
+								}else if( prjTask.getProgress() < 0 ){
+									entry.getValue().setCompletion(0);
+								}else{
+									entry.getValue().setCompletion(prjTask.getProgress()/100.0);
+								}
 							}
 						}
 					}

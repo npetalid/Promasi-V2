@@ -15,19 +15,27 @@
       <void property="employeeSkills">
        <object class="java.util.TreeMap" id="TreeMap0">
         <void method="put">
-         <string>developer</string>
-         <double>6.0</double>
+         <string>Developer</string>
+         <double>16.0</double>
         </void>
         <void method="put">
-         <string>systemKnowledge</string>
+         <string>SystemKnowledge</string>
+         <double>19.0</double>
+        </void>
+	<void method="put">
+         <string>Designer</string>
+         <double>9.0</double>
+        </void>
+	<void method="put">
+         <string>Analytics</string>
          <double>9.0</double>
         </void>
         <void method="put">
-         <string>teamPlayer</string>
+         <string>TeamPlayer</string>
          <double>8.0</double>
         </void>
         <void method="put">
-         <string>tester</string>
+         <string>Tester</string>
          <double>5.0</double>
         </void>
        </object>
