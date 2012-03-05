@@ -163,6 +163,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				_taskNameField.setBorder(BorderFactory.createTitledBorder(_projectTasks.getSelectedItem().toString()));
+				_taskNameField.setText("#"+_projectTasks.getSelectedItem().toString());
 			}
 		});
 		
