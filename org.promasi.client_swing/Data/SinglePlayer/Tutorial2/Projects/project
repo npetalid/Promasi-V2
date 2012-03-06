@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <java version="1.7.0_02" class="java.beans.XMLDecoder">
  <object class="org.promasi.game.project.ProjectMemento">
   <void property="description">
-   <string>Test</string>
+   <string>test</string>
   </void>
   <void property="difficultyLevel">
-   <double>5.0</double>
+   <double>10.0</double>
   </void>
   <void property="name">
    <string>Tutorial</string>
@@ -14,7 +14,7 @@
    <int>100000</int>
   </void>
   <void property="projectPrice">
-   <double>50000.0</double>
+   <double>6000.0</double>
   </void>
   <void property="projectTasks">
    <object class="java.util.TreeMap">
@@ -30,7 +30,7 @@
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
         <void property="equationString">
-         <string>CodeQualityOutput/10000</string>
+         <string>CodeQualityOutput*100</string>
         </void>
        </object>
       </void>
@@ -38,24 +38,12 @@
        <object class="org.promasi.sdsystem.SdSystemMemento">
         <void property="sdObjects">
          <void method="put">
-          <string>BugFixRate</string>
-          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
-           <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
-             <void property="equationString">
-              <string>BugsFixed</string>
-             </void>
-            </object>
-           </void>
-          </object>
-         </void>
-         <void method="put">
           <string>BugsFixed</string>
           <object class="org.promasi.sdsystem.sdobject.StockSdObjectMemento">
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>BugsRate / 100 * 80</string>
+              <string>if( Developer/100 + Designer/100 - BugsRate/ 1000 &gt; 0,  Developer/100 + Designer/100 - BugsRate/ 1000 , 0)</string>
              </void>
             </object>
            </void>
@@ -70,7 +58,19 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>BugFixRate</string>
+              <string>BugsFixed</string>
+             </void>
+            </object>
+           </void>
+          </object>
+         </void>
+         <void method="put">
+          <string>BugsFixedRate</string>
+          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
+           <void property="equation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
+             <void property="equationString">
+              <string>if( LinesOfCode +  BugsFixed &lt; 10000, (LinesOfCode + BugsFixed)/1000, 1)</string>
              </void>
             </object>
            </void>
@@ -82,7 +82,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>Testing</string>
+              <string>if( Testing &lt; 1000, Testing, 1000)</string>
              </void>
             </object>
            </void>
@@ -94,7 +94,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-	      <string>if(LinesOfCodeRate - BugsRate*3 &gt; 0,LinesOfCodeRate - BugsRate*3 + DesignRate/100, 0)</string>
+              <string>if( CodeQuality &lt; 1000, (BugsFixedRate - RequirementsToCodeQualityRate*CodeQuality)*3, 0)</string>
              </void>
             </object>
            </void>
@@ -109,43 +109,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>CodeQualityRate</string>
-             </void>
-            </object>
-           </void>
-          </object>
-         </void>
-         <void method="put">
-          <string>CodeQualityRate</string>
-          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
-           <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
-             <void property="equationString">
-              <string>CodeQuality</string>
-             </void>
-            </object>
-           </void>
-          </object>
-         </void>
-         <void method="put">
-          <string>CodeTestRate</string>
-          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
-           <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
-             <void property="equationString">
-              <string>Tester</string>
-             </void>
-            </object>
-           </void>
-          </object>
-         </void>
-         <void method="put">
-          <string>DesignRate</string>
-          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
-           <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
-             <void property="equationString">
-              <string>Designer</string>
+	      <string>CodeQuality/1000</string>
              </void>
             </object>
            </void>
@@ -160,24 +124,12 @@
           <object class="org.promasi.sdsystem.sdobject.InputSdObjectMemento"/>
          </void>
          <void method="put">
-          <string>DevelopmentRate</string>
-          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
-           <void property="equation">
-            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
-             <void property="equationString">
-              <string>Developer</string>
-             </void>
-            </object>
-           </void>
-          </object>
-         </void>
-         <void method="put">
           <string>LinesOfCode</string>
           <object class="org.promasi.sdsystem.sdobject.StockSdObjectMemento">
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-	      <string>if( DesignRate + CodeTestRate  &lt; DevelopmentRate,   RequirementsRate * (DevelopmentRate - DesignRate - CodeTestRate)/100, 0)</string>
+	      <string>if( LinesOfCode &lt; 1000,RequirementsRate*(Designer*0.7 + Tester*0.5 + Developer*0.6), 0)*30 </string>
              </void>
             </object>
            </void>
@@ -204,7 +156,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>LinesOfCode</string>
+              <string>if( LinesOfCode &lt; 1000, LinesOfCode/1000, 1)</string>
              </void>
             </object>
            </void>
@@ -220,7 +172,19 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>RequirementsAnalysis</string>
+              <string>if( RequirementsAnalysis &lt; 1000, RequirementsAnalysis / 1000, 1)</string>
+             </void>
+            </object>
+           </void>
+          </object>
+         </void>
+         <void method="put">
+          <string>RequirementsToCodeQualityRate</string>
+          <object class="org.promasi.sdsystem.sdobject.FlowSdObjectMemento">
+           <void property="equation">
+            <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
+             <void property="equationString">
+              <string>if( RequirementsAnalysis &lt; 1000,  RequirementsAnalysis / 1000, 1)</string>
              </void>
             </object>
            </void>
@@ -255,7 +219,7 @@
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
         <void property="equationString">
-	 <string>AnalysisResult/10000</string>
+         <string>AnalysisResult*100</string>
         </void>
        </object>
       </void>
@@ -296,7 +260,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>if( Conflicts &lt; 1000, RequirementsRate*(AnalyticsRate + DesignRate - ConflictsRate)/10000, 10)</string>
+              <string>RequirementsRate*(AnalyticsRate + DesignRate)  / 10</string>
              </void>
             </object>
            </void>
@@ -339,7 +303,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>if( Documentation &lt; 1000, RequirementsRate*(AnalyticsRate + DesignRate - ConflictsRate)/100, 1000)</string>
+              <string>if( Documentation &lt; 10000, AnalyticsRate + DesignRate - ConflictsRate, 0)</string>
              </void>
             </object>
            </void>
@@ -354,11 +318,15 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>Documentation</string>
+              <string>if( Documentation &lt; 10000, Documentation/10000, 1)</string>
              </void>
             </object>
            </void>
           </object>
+         </void>
+         <void method="put">
+          <string>Requirements</string>
+          <object class="org.promasi.sdsystem.sdobject.InputSdObjectMemento"/>
          </void>
          <void method="put">
           <string>RequirementsRate</string>
@@ -366,7 +334,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>1000.0</string>
+              <string>Requirements</string>
              </void>
             </object>
            </void>
@@ -393,7 +361,7 @@
       <void property="progressEquation">
        <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
         <void property="equationString">
-	 <string>BugsFoundOutput/10000</string>
+         <string>BugsFoundOutput*100</string>
         </void>
        </object>
       </void>
@@ -410,7 +378,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-	      <string>LinesOfCode/100 - Tester*(CodeQuality + BugsFixed)</string>
+              <string>LinesOfCode*Tester /100 - 0.1*Tester*(CodeQuality + BugsFixed)</string>
              </void>
             </object>
            </void>

@@ -147,7 +147,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
             
 			if(_projectAssignDate != null ){
 				_runningTasks.clear();
-				Map<String,  DefaultGanttEntry<Date>> ganttTasks = new TreeMap<String,  DefaultGanttEntry<Date>>();
+				Map<String, DefaultGanttEntry<Date>> ganttTasks = new TreeMap<String,  DefaultGanttEntry<Date>>();
+				Map<Integer, DefaultGanttEntry<Date>> sortedTasks = new TreeMap<>();
 				for (Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet() ){
 					EmployeeTaskMemento employeeTask = entry.getValue();
 					Date startDate = _projectAssignDate.plusHours( employeeTask.getFirstStep() ).toDate();
@@ -173,9 +174,16 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					}
 
 					_runningTasks.put(entry.getKey(), newTask);
-					model.addGanttEntry(newTask);
+					Integer value = employeeTask.getFirstStep();
+					while( sortedTasks.containsKey(value)){
+						value++;
+					}
+					sortedTasks.put(value, newTask);
 				}
 				
+				for( Map.Entry<Integer, DefaultGanttEntry<Date> > entry : sortedTasks.entrySet()){
+					model.addGanttEntry(entry.getValue());
+				}
 				
 				for (Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet() ){
 					EmployeeTaskMemento employeeTask = entry.getValue();

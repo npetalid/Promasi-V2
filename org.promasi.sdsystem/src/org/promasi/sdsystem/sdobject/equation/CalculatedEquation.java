@@ -14,6 +14,8 @@ import org.nfunk.jep.Variable;
 import org.nfunk.jep.function.PostfixMathCommandI;
 import org.promasi.sdsystem.SdSystemException;
 import org.promasi.sdsystem.serialization.IEquationMemento;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 
 /**
  * @author m1cRo
@@ -24,6 +26,12 @@ public class CalculatedEquation implements IEquation{
 	 * 
 	 */
 	protected String _equationString;
+	
+	/**
+	 * Instance of {@link ILogger} interface implementation
+	 * needed for logging.
+	 */
+	private static final ILogger _logger = LoggerFactory.getInstance(CalculatedEquation.class);
 	
 	/**
      * The lower value of a double in order to be considered as 0.
@@ -134,21 +142,18 @@ public class CalculatedEquation implements IEquation{
 			            val = var1 / var2;
 			        }
 			        stack.push( val );
-					
 				}
 
 				@Override
-				public void setCurNumberOfParameters(int arg0) {
-					// TODO Auto-generated method stub
-					
-				}
+				public void setCurNumberOfParameters(int arg0) {}
 	        });
 
 	  _jep.setAllowUndeclared( true );
 	  Node topNode = _jep.parseExpression( equationString );
 	  if(topNode==null)
 	  {
-	       throw new IllegalArgumentException("Wrong argument equationString");
+		  _logger.error("Jep parseExpression failed for equation string : '" + equationString + "'"); 
+	      throw new IllegalArgumentException("Wrong argument equationString");
 	  }
 	        
 	  _symbolTable = _jep.getSymbolTable( );
@@ -158,11 +163,13 @@ public class CalculatedEquation implements IEquation{
 	@Override
 	public Double calculateEquation(Map<String, Double> systemValues)throws SdSystemException {
 		if(systemValues==null){
+			_logger.error("Wrong argument systemValues==null"); 
 			throw new SdSystemException("Wrong argument systemValues==null");
 		}
 		
 		for(Map.Entry<String, Double> entry : systemValues.entrySet()){
 			if(entry.getKey()==null || entry.getValue()==null){
+				_logger.error("Wrong argument systemValues contains null"); 
 				throw new IllegalArgumentException("Wrong argument systemValues contains null");
 			}
 		}
@@ -180,10 +187,12 @@ public class CalculatedEquation implements IEquation{
 						
 						_jep.setVarValue(var.getName(),value);
 					}else{
+						_logger.error("Calculation failed value for object named " + var.getName() + " not found in equation : '" + _equationString +"'"); 
 						throw new SdSystemException("Calculation failed value for object named " + var.getName() + " not found");
 					}
 				}		
 			}else{
+				_logger.error("Calculation error JEP failed for equation : '" + _equationString +"'");
 				throw new SdSystemException("Calculation error JEP failed");
 			}
 		}
