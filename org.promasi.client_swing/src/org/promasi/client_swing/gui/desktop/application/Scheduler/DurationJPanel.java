@@ -82,7 +82,7 @@ public class DurationJPanel extends JPanel implements ICompanyListener{
 		
 		JPanel endDatePanel = new JPanel();
 		endDatePanel.setLayout(new BorderLayout());
-		_durationSpinner = new JSpinner(new SpinnerNumberModel(1, 1, 1000, 1));
+		_durationSpinner = new JSpinner(new SpinnerNumberModel(10, 1, 1000, 1));
 		_durationSpinner.setPreferredSize(new Dimension(100,20));
 		endDatePanel.add(_durationSpinner, BorderLayout.EAST);
 		endDatePanel.setBorder(BorderFactory.createTitledBorder("Duration"));

@@ -101,10 +101,9 @@ public class EmployeeTask
 	
 	/**
 	 * 
-	 * @param systemClock
-	 * @param employeeProperties
+	 * @param employeeSkills
+	 * @param currentStep
 	 * @return
-	 * @throws NullArgumentException
 	 */
 	public boolean executeTask(Map<String, Double> employeeSkills, double currentStep)
 	{
@@ -116,9 +115,10 @@ public class EmployeeTask
 	}
 	
 	/**
-	 * 
-	 * @param task
-	 * @return
+	 * Will check if the current task has any 
+	 * time line conflict with the given instance of {@link EmployeeTask}
+	 * @param task Tack to check the conflict with.
+	 * @return true if any conflict was found, false otherwise.
 	 */
 	public boolean conflictsWithTask( EmployeeTask task){
 		boolean result = true;
@@ -126,14 +126,13 @@ public class EmployeeTask
 		if( task != null && !task.getTaskName().equals(_taskName) ){
 			if( _firstStep > task._lastStep ){
 				result = false;
-			}
-			else if( _lastStep < task._firstStep ){
+			}else if( _lastStep < task._firstStep ){
 				result = false;
 			}else if( task._dependencies.contains(_taskName) || _dependencies.contains(task.getTaskName()) ){
 				result = false;
 			}
 		}
-		
+
 		return result;
 	}
 	

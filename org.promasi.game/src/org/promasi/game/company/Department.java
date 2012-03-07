@@ -276,6 +276,7 @@ public class Department{
     	try{
     		_lockObject.lock();
         	if(employeeId!=null && employeeTasks != null ){
+        		result = true;
         		Map<String, EmployeeTask> allTasks = new TreeMap<>();
         		for( Map.Entry<String, Employee> entry : _employees.entrySet()){
         			Map<String, EmployeeTask> tasks = entry.getValue().getAssignedTasks();
@@ -318,13 +319,13 @@ public class Department{
         	}
         	
         	DepartmentMemento memento = getMemento();
-        	if( !result ){
+        	if( result ){
         		for ( IDepartmentListener listener : _listeners ){
-        			listener.tasksAssignFailed(_director, memento, time);
+        			listener.tasksAssigned(_director, memento, time);
         		}
         	}else{
         		for ( IDepartmentListener listener : _listeners ){
-        			listener.tasksAssigned(_director, memento, time);
+        			listener.tasksAssignFailed(_director, memento, time);
         		}
         	}
     	}finally{

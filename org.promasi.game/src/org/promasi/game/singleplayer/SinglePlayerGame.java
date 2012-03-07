@@ -65,6 +65,11 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	/**
 	 * 
 	 */
+	private DateTime _currentDateTime;
+	
+	/**
+	 * 
+	 */
 	private List<IClientGameListener> _listeners;
 	
 	/**
@@ -87,6 +92,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		_gameModel=gameModel;
 		_listeners=new LinkedList<IClientGameListener>();
 		_systemClock=new Clock();
+		_currentDateTime = _systemClock.getCurrentDateTime();
 		_systemClock.addListener(this);
 		if(!_gameModel.addListener(this) )
 		{
@@ -109,7 +115,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		boolean result = false;
 		try {
 			_lockObject.lock();
-			result = _gameModel.hireEmployee(employeeId, _systemClock.getCurrentDateTime());
+			result = _gameModel.hireEmployee(employeeId, _currentDateTime);
 		}finally{
 			_lockObject.unlock();
 		}
@@ -123,7 +129,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		
 		try {
 			_lockObject.lock();
-			result = _gameModel.dischargeEmployee(employeeId, _systemClock.getCurrentDateTime());
+			result = _gameModel.dischargeEmployee(employeeId, _currentDateTime);
 		}finally{
 			_lockObject.unlock();
 		}
@@ -138,7 +144,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		{
 			_lockObject.lock();
 			for( Map.Entry<String, List<EmployeeTaskMemento> > entry : employeeTasks.entrySet()){
-				result &=_gameModel.assignTasks(entry.getKey(), entry.getValue(), _systemClock.getCurrentDateTime());
+				result &=_gameModel.assignTasks(entry.getKey(), entry.getValue(), _currentDateTime);
 			}
 		}finally{
 			_lockObject.unlock();
@@ -232,6 +238,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	public void onTick(DateTime dateTime) {
 		try{
 			_lockObject.lock();
+			_currentDateTime = dateTime;
 			if( !_isRunning ){
 				_isRunning = true;
 				for( IClientGameListener listener : _listeners ){	

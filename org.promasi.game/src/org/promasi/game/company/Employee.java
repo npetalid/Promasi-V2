@@ -8,16 +8,16 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.GameException;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utilities.serialization.SerializationException;
 
 
 /**
  * 
+ * @author alekstheod
  * Represents an employee.(Developer,Tester,Designer etc). All the fields of the
  * employee(experienced etc) have a range of 0.0-10.0
- * 
- * @author m1cRo
- * 
  */
 public class Employee 
 {	
@@ -32,7 +32,7 @@ public class Employee
     protected String _lastName;
 
     /**
-     * 
+     * The employee identifier string.
      */
     protected String _employeeId;
     
@@ -48,22 +48,30 @@ public class Employee
     protected String _curriculumVitae;
     
     /**
-     * 
+     * List of employee skills,
+     * each employee has a different list of skills
+     * these skills will be used as the inputs of the
+     * simulation system.
      */
     protected Map<String, Double> _employeeSkills;
     
 	/**
-	 * 
+	 * List of object listeners, needed to
+	 * inform other objects about the important
+	 * state changes of the current object.
 	 */
 	private List<IEmployeeListener> _listeners;
     
     /**
-     * 
+     * List of assigned employee tasks. Employee
+     * will apply his skills to the executing task.
      */
     protected Map<String ,EmployeeTask> _employeeTasks;
     
     /**
-     * 
+     * The supervisor of employee, in real
+     * world a project manager, in the ProMaSi system
+     * a player.
      */
     private String _supervisor;
     
@@ -73,7 +81,19 @@ public class Employee
     private Lock _lockObject;
     
     /**
-     * Initializes the object.
+     * 
+     */
+    private static final ILogger _logger = LoggerFactory.getInstance(Employee.class);
+    
+    /**
+     * 
+     * @param firstName
+     * @param lastName
+     * @param employeeId
+     * @param curriculumVitae
+     * @param salary
+     * @param employeeSkills
+     * @throws GameException
      */
     public Employee(String firstName, String lastName, String employeeId, String curriculumVitae, double salary,Map<String, Double> employeeSkills)throws GameException
    {
@@ -113,6 +133,7 @@ public class Employee
         _lockObject = new ReentrantLock();
         _employeeTasks=new TreeMap<String, EmployeeTask>();
         _listeners = new LinkedList<IEmployeeListener>();
+        _logger.info("Employee initialization succeed :" + _employeeId);
     }
 
     /**
@@ -204,6 +225,7 @@ public class Employee
         		
             	for(EmployeeTask task : employeeTasks){
             		if( _employeeTasks.containsKey(task.getTaskName())){
+            			_logger.warn("Task assign failed because a task with the same Id is already assigned :" + task.getTaskName());
             			result = false;
             			break;
             		}
@@ -211,6 +233,7 @@ public class Employee
                 	for(Map.Entry<String , EmployeeTask> entry: _employeeTasks.entrySet()){
                 		if( entry.getValue().conflictsWithTask(task) ){
                 			result = false;
+                			_logger.warn("Task assign failed because a conflict with a task :" + entry.getKey());
                 			break;
                 		}
                 	}
@@ -220,6 +243,7 @@ public class Employee
         		for( EmployeeTask task : employeeTasks ){
         			for( EmployeeTask newTask : tasks){
         				if( task != newTask && task.conflictsWithTask(newTask)){
+        					_logger.warn("Task assign failed because a conflict with a task :" + newTask.getTaskName());
         					result = false;
         				}
         			}

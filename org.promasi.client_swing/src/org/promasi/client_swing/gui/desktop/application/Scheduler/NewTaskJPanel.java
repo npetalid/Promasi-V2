@@ -196,14 +196,15 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 				memento.setProjectTaskName(prjTask.toString());
 				memento.setTaskName(taskName);
 				
-				Map<String, List<EmployeeTaskMemento> > tasks = new TreeMap<String, List<EmployeeTaskMemento> >();
+				final Map<String, List<EmployeeTaskMemento> > tasks = new TreeMap<String, List<EmployeeTaskMemento> >();
 				Map<String, EmployeeMemento> selectedEmployees = _employeesPanel.getSelectedEmployees();
 				for( Map.Entry<String, EmployeeMemento> entry : selectedEmployees.entrySet()){
 					List<EmployeeTaskMemento> tasksList = new LinkedList<EmployeeTaskMemento>();
 					tasksList.add(memento);
 					tasks.put(entry.getKey(), tasksList);
-					_game.assignTasks(tasks);
 				}
+				
+				_game.assignTasks(tasks);
 			}
 		});
 		

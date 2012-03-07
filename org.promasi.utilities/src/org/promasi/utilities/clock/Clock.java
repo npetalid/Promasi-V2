@@ -107,8 +107,7 @@ public final class Clock
 			result = _currentDateTime.toDateTime( );
 			result = result.minusMinutes(result.getMinuteOfHour());
 			result = result.minusSeconds(result.getSecondOfMinute());
-			result = result.minusMillis(result.getMillisOfSecond());
-			
+			result = result.minusMillis(result.getMillisOfSecond());			
     	}finally{
     		_lockObject.unlock();
     	}

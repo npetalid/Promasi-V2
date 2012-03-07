@@ -378,7 +378,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>LinesOfCode*Tester /100 - 0.1*Tester*(CodeQuality + BugsFixed)</string>
+              <string>LinesOfCode*Tester - 0.1*Tester*(CodeQuality + BugsFixed)</string>
              </void>
             </object>
            </void>
@@ -393,7 +393,7 @@
            <void property="equation">
             <object class="org.promasi.sdsystem.sdobject.equation.CalculatedEquationMemento">
              <void property="equationString">
-              <string>BugsFound</string>
+	      <string>if( BugsFound &lt; 1000, BugsFound/1000, 0)</string>
              </void>
             </object>
            </void>

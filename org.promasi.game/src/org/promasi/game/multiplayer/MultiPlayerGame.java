@@ -83,6 +83,11 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	private String _gameOwnerId;
 	
 	/**
+	 * Current date time.
+	 */
+	private DateTime _currentDateTime;
+	
+	/**
 	 * Instance of {@link = ILogger} interface implementation.
 	 * Needed for logging.
 	 */
@@ -145,6 +150,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		_listeners=new LinkedList<IServerGameListener>();
 		_isRunning=false;
 		_systemClock=new Clock();
+		_currentDateTime = _systemClock.getCurrentDateTime();
 		_systemClock.addListener(this);
 		_gameOwnerId=clientId;
 		_lockObject=new ReentrantLock();
@@ -176,7 +182,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 			_lockObject.lock();
 			if(clientId!=null && employeeId != null && _gameModels.containsKey(clientId)){
 				GameModel game=_gameModels.get(clientId);
-				result = game.hireEmployee(employeeId, _systemClock.getCurrentDateTime());
+				result = game.hireEmployee(employeeId, _currentDateTime);
 			}
 		}finally{
 			_lockObject.unlock();
@@ -195,7 +201,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		try{
 			_lockObject.lock();
 			GameModel game=_gameModels.get(clientId);
-			result = game.dischargeEmployee(employeeId, _systemClock.getCurrentDateTime());
+			result = game.dischargeEmployee(employeeId, _currentDateTime);
 		}finally{
 			_lockObject.unlock();
 		}
@@ -212,7 +218,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		
 		try{
 			_lockObject.lock();
-			result = _gameModels.get(clientId).assignTasks(employeeId, employeeTasks, _systemClock.getCurrentDateTime());
+			result = _gameModels.get(clientId).assignTasks(employeeId, employeeTasks, _currentDateTime);
 		}finally{
 			_lockObject.unlock();
 		}
@@ -275,7 +281,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 				LinkedList<IServerGameListener> listeners=new LinkedList<IServerGameListener>(_listeners);
 				for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 					for(IServerGameListener listener : listeners){
-						listener.gameStarted(entry.getKey(), this, entry.getValue().getMemento() , _systemClock.getCurrentDateTime());
+						listener.gameStarted(entry.getKey(), this, entry.getValue().getMemento() , _currentDateTime);
 					}
 				}
 			}
@@ -290,6 +296,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	public void onTick(DateTime dateTime) {
 		try{
 			_lockObject.lock();
+			_currentDateTime = dateTime;
 			for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 				entry.getValue().executeGameStep(_systemClock.getCurrentDateTime());
 			}
@@ -429,7 +436,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			if(entry.getValue()==game){
 				for(IServerGameListener listener : _listeners){
-					listener.onExecuteStep(entry.getKey(), this, company, _systemClock.getCurrentDateTime());
+					listener.onExecuteStep(entry.getKey(), this, company, _currentDateTime);
 				}
 			}
 		}
@@ -505,7 +512,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 				GameModelMemento gameModel=entry.getValue().getMemento();
 				MarketPlaceMemento sMarketPlace=gameModel.getMarketPlace();
 				CompanyMemento sCompany=gameModel.getCompany();
-				listener.employeeDischarged(entry.getKey(), this, sMarketPlace, sCompany, employee, _systemClock.getCurrentDateTime());
+				listener.employeeDischarged(entry.getKey(), this, sMarketPlace, sCompany, employee, dateTime);
 			}
 		}
 	}
@@ -518,7 +525,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 				GameModelMemento gameModel=entry.getValue().getMemento();
 				MarketPlaceMemento sMarketPlace=gameModel.getMarketPlace();
 				CompanyMemento sCompany=gameModel.getCompany();
-				listener.employeeHired(entry.getKey(), this, sMarketPlace, sCompany, employee, _systemClock.getCurrentDateTime());
+				listener.employeeHired(entry.getKey(), this, sMarketPlace, sCompany, employee, dateTime);
 			}
 		}
 	}
