@@ -14,6 +14,8 @@ import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.IMainFrame;
 import org.promasi.client_swing.playmode.IPlayMode;
 import org.promasi.utilities.file.RootDirectory;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 
 /**
  * @author alekstheod
@@ -40,6 +42,11 @@ public class SinglePlayerPlayMode implements IPlayMode, IMenuEntry {
 	 * 
 	 */
 	public static final String CONST_MENUIMAGE = "user.png";
+	
+	/**
+	 * 
+	 */
+	public static final ILogger _logger = LoggerFactory.getInstance(SinglePlayerPlayMode.class);
 	
 	/**
 	 * 
@@ -79,9 +86,9 @@ public class SinglePlayerPlayMode implements IPlayMode, IMenuEntry {
 			newPanel = new GamesJPanel(mainFrame, server, CONST_SINGLEPLAYER_USERNAME );
 			mainFrame.changePanel(newPanel);
 		} catch (GuiException e) {
-			//ToDo : error
+			_logger.error(e.toString());
 		} catch (IOException e) {
-			//ToDo : error
+			_logger.error(e.toString());
 		}
 	}
 

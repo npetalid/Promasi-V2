@@ -16,9 +16,6 @@ import org.promasi.client_swing.gui.PlayModesJPanel;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
 
-
-import GameBuilder.GameMaker;
-
 /**
  * @author alekstheod
  *
@@ -30,10 +27,7 @@ public class Application {
 	 */
 	private static final ILogger _logger = LoggerFactory.getInstance(Application.class);
 	
-	/**
-	 * @param args 
-	 */
-	public static void main(String[] args) {
+	public static void run(){
 		com.jidesoft.utils.Lm.verifyLicense("Alex Theodoridis", "ProMaSi", "BYEuilHJx9N.HdDrNJDzRmot.sJAFQF2");
 		_logger.info("Start application");
         SwingUtilities.invokeLater(new Runnable() {
@@ -55,7 +49,7 @@ public class Application {
 					    // If Nimbus is not available, you can set the GUI to another look and feel.
 					}
 					
-					GameMaker.makeGame();
+					//GameMaker.makeGame();
 	                // Create a JFrame, which is a Window with "decorations", i.e.
 	                // title, border and close-button
 	                MainFrame mainFrame = new MainFrame("ProMaSi");
@@ -87,6 +81,13 @@ public class Application {
 				}
             }
         });
+	}
+	
+	/**
+	 * @param args 
+	 */
+	public static void main(String[] args) {
+		run();
 	}
 
 }

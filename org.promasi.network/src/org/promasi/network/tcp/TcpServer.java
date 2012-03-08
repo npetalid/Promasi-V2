@@ -148,6 +148,9 @@ public class TcpServer
 							}
 							
 							_clients=clients;
+							Thread.sleep(100);
+						}catch( InterruptedException e){
+							
 						}finally{
 							_lockObject.unlock();
 						}
