@@ -35,6 +35,8 @@ import org.promasi.protocol.messages.ProjectAssignedRequest;
 import org.promasi.protocol.messages.ProjectFinishedRequest;
 import org.promasi.protocol.messages.WrongProtocolResponse;
 import org.promasi.server.ProMaSiServer;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 
 /**
  * 
@@ -68,6 +70,12 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 	private ProMaSiServer _server;
 	
 	/**
+	 * Instance of {@link ILogger} interface implementation,
+	 * need for logging.
+	 */
+	private ILogger _logger = LoggerFactory.getInstance(ChooseGameClientState.class);
+	
+	/**
 	 * Constructor will initialize the object.
 	 * @param server instance of {@link ProMaSiServer}
 	 * @param client instance of {@link ProMaSiClient}
@@ -78,18 +86,22 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 	 */
 	public PlayingGameClientState(ProMaSiServer server, ProMaSiClient client, String clientId, MultiPlayerGame game)throws NetworkException{
 		if(game==null){
+			_logger.error("Initialization failed because a wrong argument game == null");
 			throw new NetworkException("Wrong argument game==null");
 		}
 		
 		if(clientId==null){
+			_logger.error("Initialization failed because a wrong argument clientId == null");
 			throw new NetworkException("Wrong argument clientId==null");
 		}
 		
 		if(client==null){
+			_logger.error("Initialization failed because a wrong argument client == null");
 			throw new NetworkException("Wrong argument client==null");
 		}
 		
 		if(server==null){
+			_logger.error("Initialization failed because a wrong argument server == null");
 			throw new NetworkException("Wrong argument server==null");
 		}
 		
@@ -98,6 +110,7 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 		_game=game;
 		_game.addListener(this);
 		_clientId=clientId;
+		_logger.debug("Initialization initializatin complete");
 	}
 	
 	

@@ -88,7 +88,7 @@ public class ChooseGameClientState  implements IClientListener
 		_server=server;
 		_client=client;
 		_client.addListener(this);
-		_logger.info("Initialization complete");
+		_logger.debug("Initialization complete");
 	}
 	
 	/**
@@ -123,6 +123,7 @@ public class ChooseGameClientState  implements IClientListener
 				CreateGameRequest request=(CreateGameRequest)object;
 				GameModelMemento gameModel=request.getGameModel();
 				if(gameModel==null){
+					_logger.warn("Invalid message detected gameModel == null, client will be disconnected");
 					client.sendMessage(new WrongProtocolResponse().serialize());
 					client.disconnect();
 					return;
@@ -130,18 +131,21 @@ public class ChooseGameClientState  implements IClientListener
 				
 				MarketPlaceMemento marketPlace=gameModel.getMarketPlace();
 				if(marketPlace==null){
+					_logger.warn("Invalid message detected marketPlace == null, client will be disconnected");
 					client.sendMessage(new WrongProtocolResponse().serialize());
 					client.disconnect();
 				}
 				
 				CompanyMemento company=gameModel.getCompany();
 				if(company==null){
+					_logger.warn("Invalid message detected company == null, client will be disconnected");
 					client.sendMessage(new WrongProtocolResponse().serialize());
 					client.disconnect();
 				}
 				
 				Queue<ProjectMemento> sProjects=gameModel.getProjects();
 				if(sProjects==null){
+					_logger.warn("Invalid message detected projects == null, client will be disconnected");
 					client.sendMessage(new WrongProtocolResponse().serialize());
 					client.disconnect();
 				}
@@ -163,6 +167,8 @@ public class ChooseGameClientState  implements IClientListener
 					client.sendMessage(response.serialize());
 					client.removeListener(this);
 					client.addListener(new WaitingPlayersClientState(_clientId, request.getGameId(), client, game, _server));
+				}else{
+					_logger.warn("Create game failed");
 				}
 			}else if(object instanceof UpdateAvailableGameListRequest){
 				_logger.info("Received message :'" + UpdateAvailableGameListRequest.class.toString() + "'");
@@ -183,7 +189,7 @@ public class ChooseGameClientState  implements IClientListener
 	@Override
 	public void onDisconnect(ProMaSiClient client) {
 		_client.removeListener(this);
-		_logger.info("Client disconnected");
+		_logger.debug("Client disconnected");
 	}
 
 	@Override
@@ -195,7 +201,7 @@ public class ChooseGameClientState  implements IClientListener
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
 		_client.removeListener(this);
-		_logger.info("Client connection error");
+		_logger.debug("Client connection error");
 	}
 
 }
