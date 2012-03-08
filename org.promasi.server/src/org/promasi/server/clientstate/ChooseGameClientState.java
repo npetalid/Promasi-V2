@@ -27,7 +27,8 @@ import org.promasi.protocol.messages.UpdateAvailableGameListRequest;
 import org.promasi.protocol.messages.UpdateGameListRequest;
 import org.promasi.protocol.messages.WrongProtocolResponse;
 import org.promasi.server.ProMaSiServer;
-import org.promasi.utilities.exceptions.NullArgumentException;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 
 /**
  * @author m1cRo
@@ -50,25 +51,36 @@ public class ChooseGameClientState  implements IClientListener
 	private String _clientId;
 	
 	/**
+	 * Instance of {@link ILogger} interface implementation,
+	 * need for logging.
+	 */
+	private ILogger _logger = LoggerFactory.getInstance(ChooseGameClientState.class);
+	
+	/**
 	 * Instance of {@link ProMaSiClient}
 	 */
 	private ProMaSiClient _client;
 	
 	/**
-	 * Constructor with arguments will initialize the object.
-	 * @param server
-	 * @throws NullArgumentException
+	 * Constructor will initialize the object.
+	 * @param server the server which is responsible to handle the given client.
+	 * @param client Instance of {@link ProMaSiClient}
+	 * @param clientId The client id.
+	 * @throws NetworkException in case of invalid arguments or initialization errors.
 	 */
 	public ChooseGameClientState( ProMaSiServer server, ProMaSiClient client, String clientId)throws NetworkException{
 		if(server==null){
+			_logger.error("Initialization failed because a wrong argument server == null");
 			throw new NetworkException("Wrong argument server==null");
 		}
 		
 		if(clientId==null){
+			_logger.error("Initialization failed because a wrong argument clientId == null");
 			throw new NetworkException("Wrong argument clientId==null");
 		}
 		
 		if( client == null ){
+			_logger.error("Initialization failed because a wrong argument client == null");
 			throw new NetworkException("Wrong argument client==null");
 		}
 		
@@ -76,6 +88,7 @@ public class ChooseGameClientState  implements IClientListener
 		_server=server;
 		_client=client;
 		_client.addListener(this);
+		_logger.info("Initialization complete");
 	}
 	
 	/**
@@ -92,6 +105,7 @@ public class ChooseGameClientState  implements IClientListener
 			Object object=new XMLDecoder(new ByteArrayInputStream(recData.getBytes())).readObject();
 			if(object instanceof JoinGameRequest){
 				try{
+					_logger.info("Received message :'" + JoinGameRequest.class.toString() + "'");
 					JoinGameRequest request=(JoinGameRequest)object;
 					MultiPlayerGame game;
 					game = _server.joinGame(_clientId, request.getGameId());
@@ -105,6 +119,7 @@ public class ChooseGameClientState  implements IClientListener
 				}
 
 			}else if(object instanceof CreateGameRequest){
+				_logger.info("Received message :'" + CreateGameRequest.class.toString() + "'");
 				CreateGameRequest request=(CreateGameRequest)object;
 				GameModelMemento gameModel=request.getGameModel();
 				if(gameModel==null){
@@ -150,13 +165,16 @@ public class ChooseGameClientState  implements IClientListener
 					client.addListener(new WaitingPlayersClientState(_clientId, request.getGameId(), client, game, _server));
 				}
 			}else if(object instanceof UpdateAvailableGameListRequest){
+				_logger.info("Received message :'" + UpdateAvailableGameListRequest.class.toString() + "'");
 				UpdateGameListRequest request=new UpdateGameListRequest(_server.getAvailableGames());
 				client.sendMessage(request.serialize());
 			}else{
+				_logger.warn("Received an invalid message type '" +object.toString()+"'");
 				client.sendMessage(new WrongProtocolResponse().serialize());
 				client.disconnect();
 			}
 		}catch(Exception e){
+			_logger.warn("Internal error client will be disconnected");
 			client.sendMessage(new InternalErrorResponse().serialize());
 			client.disconnect();
 		}
@@ -165,6 +183,7 @@ public class ChooseGameClientState  implements IClientListener
 	@Override
 	public void onDisconnect(ProMaSiClient client) {
 		_client.removeListener(this);
+		_logger.info("Client disconnected");
 	}
 
 	@Override
@@ -176,6 +195,7 @@ public class ChooseGameClientState  implements IClientListener
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
 		_client.removeListener(this);
+		_logger.info("Client connection error");
 	}
 
 }

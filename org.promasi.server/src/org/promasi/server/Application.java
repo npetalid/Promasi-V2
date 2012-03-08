@@ -13,10 +13,13 @@ import java.io.PrintWriter;
 
 import org.promasi.network.tcp.NetworkException;
 import org.promasi.utilities.file.RootDirectory;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 
 /**
  * @author m1cRo
- *
+ * The main server application class,
+ * Will initialize the java application.
  */
 public class Application {
 
@@ -26,11 +29,19 @@ public class Application {
 	public static final String CONST_SERVER_SETTINGS_FILE_NAME="Settings.xml";
 	
 	/**
-	 * @param args
+	 * Instance of {@link ILogger} interface implementation, needed
+	 * for logging.
+	 */
+	private static final ILogger _logger = LoggerFactory.getInstance(Application.class);
+	
+	/**
+	 * Will run the application.
+	 * @param args command line arguments.
 	 */
 	public static void main(String[] args) {
 		try {
 			try{
+				_logger.info("Application started");
 				ServerSettings settings=readServerSettings(RootDirectory.getInstance().getRootDirectory()+CONST_SERVER_SETTINGS_FILE_NAME);
 				ProMaSiServer server=new ProMaSiServer(settings.getPortNumber());
 				while(server.isRunning()){
@@ -42,25 +53,23 @@ public class Application {
 	            PrintWriter out = new PrintWriter(new FileWriter(RootDirectory.getInstance().getRootDirectory()+CONST_SERVER_SETTINGS_FILE_NAME));
 	            out.print(settings.serialize());
 	            out.close();
+	            _logger.warn("Server configuration file was not found, server will generate a new configuration file");
 			} catch (NetworkException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				_logger.fatal("Server unabled to open the listening port (" + e.toString() +")");
 			}
 		}catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}catch(FileNotFoundException e){
-			e.printStackTrace();
+			_logger.fatal("Internal exception (" + e.toString() +")");
 		}catch(IOException e){
-			e.printStackTrace();
+			_logger.fatal("Internal exception (" + e.toString() +")");
 		}
 	}
 
 	/**
-	 * 
-	 * @param filePath
-	 * @return
-	 * @throws FileNotFoundException
+	 * Will read the server's setting from the given 
+	 * file.
+	 * @param filePath the path to the configurations file.
+	 * @return Instance of {@link ServerSettings}.
+	 * @throws FileNotFoundException In case if file was not found.
 	 */
 	private static ServerSettings readServerSettings(String filePath) throws FileNotFoundException{
 		File companyFile=new File(filePath);

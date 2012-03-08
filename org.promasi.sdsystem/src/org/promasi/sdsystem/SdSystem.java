@@ -308,7 +308,7 @@ public class SdSystem
 	 * 
 	 * @param inputName
 	 * @return
-	 * @throws NullArgumentException
+	 * @throws SdSystemException
 	 */
 	public boolean hasInput(String inputName) throws SdSystemException {
 		if(inputName==null){

@@ -20,6 +20,8 @@ import org.promasi.protocol.messages.LeaveGameResponse;
 import org.promasi.protocol.messages.UpdateGameListRequest;
 import org.promasi.protocol.messages.UpdateGamePlayersListRequest;
 import org.promasi.server.clientstate.LoginClientState;
+import org.promasi.utilities.logger.LoggerFactory;
+import org.promasi.utilities.logger.ILogger;
 
 /**
  * 
@@ -53,33 +55,42 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	private Map<String, MultiPlayerGame> _availableGames;
 	
 	/**
+	 * Instance of {@link ILogger} interface implementation,
+	 * needed for logging.
+	 */
+	private static final ILogger _logger = LoggerFactory.getInstance(ProMaSiServer.class);
+	
+	/**
 	 * Lock object. Needed for thread shared data synchronization.
 	 */
 	private Lock _lockObject;
 	
 	/**
-	 * 
-	 * @param portNumber
-	 * @throws IllegalArgumentException
-	 * @throws NetworkException 
+	 * Constructor will initialize the ProMaSi server.
+	 * @param portNumber the listening tcp port number.
+	 * @throws NetworkException In case of initialization errors.
 	 */
 	public ProMaSiServer(int portNumber)throws NetworkException{
 		if(portNumber<0){
+			_logger.error("Initialization failed because a wrong portNumber argument < 0");
 			throw new NetworkException("Wrong argument portNumber==null");
 		}
 		
 		_server=new TcpServer();
 		if(!_server.addListener(this)){
+			_logger.error("Initialization failed");
 			throw new NetworkException("TcpServer configuration failed");
 		}
 
 		if(!_server.start(portNumber)){
+			_logger.error("Server start failed");
 			throw new NetworkException("Wrong argument portNumber");
 		}
 		
 		_clients=new TreeMap<String, ProMaSiClient>();
 		_lockObject = new ReentrantLock();
 		_availableGames=new TreeMap<String, MultiPlayerGame>();
+		_logger.info("ProMaSi server initialization compelete, listening on port :" + portNumber);
 	}
 
 	@Override
@@ -96,6 +107,7 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 		}
 		
 		_clients.clear();
+		_logger.info("Server stopped all the clients are disconnected");
 	}
 
 	@Override
@@ -105,9 +117,9 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 			ProMaSiClient pClient=new ProMaSiClient(client, new ZipCompression());
 			pClient.addListener(new LoginClientState(this, pClient));
 			pClient.addListener(this);
+			_logger.info("New client connection detected");
 		} catch (NetworkException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			_logger.info("Exception on client connection : '" + e.toString() + "'");
 		}finally{
 			_lockObject.unlock();
 		}
@@ -138,6 +150,9 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 				if(!_clients.containsKey(userId)){
 					_clients.put(userId, client);
 					result = true;
+					_logger.info("Client login succeed for client : '" + userId+"'");
+				}else{
+					_logger.info("Client login failed for client : '" + userId+"'");
 				}
 			}
 		}finally{
@@ -165,7 +180,13 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 					for(Map.Entry<String, ProMaSiClient> entry : _clients.entrySet()){
 						result = sendUpdateGamesListRequest(entry.getValue());
 					}
+					
+					_logger.info("New game created by client '" + clientId+ "' with game id: '" + game.getGameName() + "'");
+				}else{
+					_logger.error("Create game failed because an game with the same game id is already running on this server game id = '" + game.getGameName()+"'");
 				}
+			}else{
+				_logger.error("Create game failed because the wrong arguments");
 			}
 		}finally{
 			_lockObject.unlock();
@@ -189,6 +210,7 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 			if( clientId != null && gameId != null){
 				if(_availableGames.containsKey(gameId)){
 					if(!_availableGames.get(gameId).startGame(clientId)){
+						_logger.error("Game start failed for game with id '" + gameId + "'");
 						return false;
 					}
 					
@@ -196,7 +218,11 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 					for(Map.Entry<String, ProMaSiClient> entry : _clients.entrySet()){
 						result = sendUpdateGamesListRequest(entry.getValue());
 					}
+					
+					_logger.info("Start game succeed for game '" + gameId + "'");
 				}
+			}else{
+				_logger.warn("Start game failed for game '" + gameId + "' because no game with the same Id was found in the available games list");
 			}
 		}finally{
 			_lockObject.unlock();
@@ -254,27 +280,32 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	 */
 	public MultiPlayerGame joinGame(String clientId, String gameId)throws NetworkException{
 		if(gameId==null){
+			_logger.error("joinGame failed because the wrong argument gameId == null");
 			throw new NetworkException("Wrong argument gameId==null");
 		}
 		
 		if(clientId==null){
+			_logger.error("joinGame failed because the wrong argument clientId == null");
 			throw new NetworkException("Wrong argument clientId==null");
 		}
 		
 		try{
 			_lockObject.lock();
 			if(!_clients.containsKey(clientId)){
-				throw new IllegalArgumentException("Wrong argument clientId");
+				_logger.error("joinGame failed because the wrong argument clientId which is not in the client list");
+				throw new NetworkException("Wrong argument clientId");
 			}
 			
 			if(!_availableGames.containsKey(gameId)){
+				_logger.error("joinGame failed because no game with the given id was found in the available games list");
 				throw new NetworkException("Wrong argument gameId");
 			}
 			
 			if( _availableGames.get(gameId).joinGame(clientId) ) {
 				return _availableGames.get(gameId);
 			}else{
-				throw new IllegalArgumentException("Wrong argument gameId");
+				_logger.error("joinGame failed because an internal error");
+				throw new NetworkException("Wrong argument gameId");
 			}
 		}finally{
 			_lockObject.unlock();
@@ -298,6 +329,9 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 				
 				UpdateGameListRequest request=new UpdateGameListRequest(gamesList);
 				result = client.sendMessage(request.serialize());
+				_logger.info("Update games request was sent to the client with");
+			}else{
+				_logger.error("sendUpdateGamesListRequest failed becuase the wrong argument client == null");
 			}
 			
 		}finally{
@@ -333,6 +367,8 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 					if(_clients.containsKey(game.getGameOwnerId())){
 						_clients.get(game.getGameOwnerId()).sendMessage(new CancelGameResponse().serialize());
 					}
+					
+					_logger.info("Game with id '" + gameId + "' was cancelled");
 				}
 			}
 			
@@ -368,6 +404,7 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 						for(String player : gamePlayers){
 							if(_clients.containsKey(player)){
 								result = _clients.get(clientId).sendMessage(new UpdateGamePlayersListRequest(gamePlayers).serialize());
+								_logger.info("Client with id '" + clientId + "' did leave the game with id '" + gameId +"'");
 							}
 						}
 					}
@@ -401,6 +438,8 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 				if( _availableGames.containsKey(entry.getKey())){
 					_availableGames.remove(entry.getKey());
 				}
+				
+				_logger.info("Client disconnected");
 			}
 		}finally{
 			_lockObject.unlock();
