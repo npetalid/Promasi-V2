@@ -14,6 +14,8 @@ import org.joda.time.DateTime;
 import org.promasi.game.GameException;
 import org.promasi.game.project.ProjectTask;
 import org.promasi.utilities.exceptions.NullArgumentException;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utilities.serialization.SerializationException;
 
 /**
@@ -40,6 +42,11 @@ public class Department{
     /**
      * 
      */
+    private ILogger _logger = LoggerFactory.getInstance(Department.class);
+    
+    /**
+     * 
+     */
     private String _director;
     
     /**
@@ -49,6 +56,7 @@ public class Department{
     	_employees = new TreeMap<String, Employee>();
     	_lockObject = new ReentrantLock();
     	_listeners = new LinkedList<IDepartmentListener>();
+    	_logger.debug("Initialization succeed");
     }
     
     /**
@@ -92,6 +100,9 @@ public class Department{
                     
                     employee.setSupervisor(_director);
                     result = true;
+                    _logger.debug("Employee hired '" + employee.getEmployeeId() + "'");
+            	}else{
+            		_logger.warn("Hire employee failed because employee with the same id is already hired '" + employee.getEmployeeId() + "'");
             	}
         	}finally{
         		_lockObject.unlock();
@@ -220,7 +231,7 @@ public class Department{
                         currentEmployee.setSupervisor(null);
                         result = true;
                 	}else{
-                			_employees.put(currentEmployee.getEmployeeId(), currentEmployee);
+                		_employees.put(currentEmployee.getEmployeeId(), currentEmployee);
                 	}
             	}finally{
             		_lockObject.unlock();
@@ -315,6 +326,7 @@ public class Department{
     				result &= _employees.get( employeeId ).assignTasks(tasks);
     			} catch (GameException e) {
     				result = false;
+    				_logger.warn("Assign tasks failed because an internal exception '" + e.getMessage()+ "'");
     			}
         	}
         	

@@ -102,9 +102,8 @@ public class DurationJPanel extends JPanel implements ICompanyListener{
 		Calendar assignDate = Calendar.getInstance();
 		assignDate.setTime(_projectAssignDate.toDate());
 		
-		long differenceFromStart = startDate.getTimeInMillis() - assignDate.getTimeInMillis();
-		
-		return (int)differenceFromStart/(60 * 60 * 1000);
+		long differenceFromStart = (startDate.getTimeInMillis() - assignDate.getTimeInMillis())/(60 * 60 * 1000);
+		return (int)differenceFromStart;
 	}
 	
 	/**
