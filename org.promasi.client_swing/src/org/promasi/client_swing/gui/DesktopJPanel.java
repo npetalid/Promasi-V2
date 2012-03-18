@@ -164,6 +164,7 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 					application.show();
 					application.setSelected(true);
 				}else{
+					application.setIcon(false);
 					application.setSelected(true);
 				}
 			}

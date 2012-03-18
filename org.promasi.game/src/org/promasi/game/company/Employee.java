@@ -76,24 +76,26 @@ public class Employee
     private String _supervisor;
     
     /**
-     * 
+     * The lock object needed for synchronization of 
+     * shared data.
      */
     private Lock _lockObject;
     
     /**
-     * 
+     * Instance of {@link ILogger} interface implementation, needed
+     * for logging.
      */
     private static final ILogger _logger = LoggerFactory.getInstance(Employee.class);
     
     /**
-     * 
-     * @param firstName
-     * @param lastName
-     * @param employeeId
-     * @param curriculumVitae
-     * @param salary
-     * @param employeeSkills
-     * @throws GameException
+     * Constructor will initialize the object
+     * @param firstName Employee's first name.
+     * @param lastName Employee's last name.
+     * @param employeeId Employee identification string.
+     * @param curriculumVitae CV text of employee.
+     * @param salary Daily salary of employee.
+     * @param employeeSkills list of employee skills.
+     * @throws GameException In case of invalid arguments.
      */
     public Employee(String firstName, String lastName, String employeeId, String curriculumVitae, double salary,Map<String, Double> employeeSkills)throws GameException
    {
@@ -133,7 +135,7 @@ public class Employee
         _lockObject = new ReentrantLock();
         _employeeTasks=new TreeMap<String, EmployeeTask>();
         _listeners = new LinkedList<IEmployeeListener>();
-        _logger.info("Employee initialization succeed :" + _employeeId);
+        _logger.debug("Employee initialization succeed :" + _employeeId);
     }
 
     /**
@@ -152,7 +154,7 @@ public class Employee
     
     /**
      * 
-     * @return
+     * @return The {@link #_firstName}
      */
     public String getFirstName(){
     	return _firstName;
@@ -339,6 +341,10 @@ public class Employee
         			entry.getValue().executeTask(_employeeSkills, currentStep);
         			if(entry.getValue().isValid(currentStep)){
         				employeeTasks.put(entry.getKey(), entry.getValue());
+        			}else{
+            			for ( IEmployeeListener listener : _listeners ){
+            				listener.taskDetached(_supervisor, getMemento(), entry.getValue().getMemento());
+            			}
         			}
         			
         			result = true;
@@ -351,6 +357,24 @@ public class Employee
     		_lockObject.unlock();
     	}
 
+    	return result;
+    }
+    
+    /**
+     * 
+     * @param dependencie
+     * @return
+     */
+    public boolean removeEmployeeTaskDependencie( String dependencie ){
+    	boolean result = false;
+    	
+    	if( dependencie != null ){
+    		result = true;
+    		for( Map.Entry<String, EmployeeTask> taskEntry : _employeeTasks.entrySet() ){
+    			taskEntry.getValue().removeDependencie(dependencie);
+    		}
+    	}
+    	
     	return result;
     }
 

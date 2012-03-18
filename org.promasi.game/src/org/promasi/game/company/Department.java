@@ -22,7 +22,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author alekstheod
  *
  */
-public class Department{
+public class Department implements IEmployeeListener{
 
     /**
      * All the hired employees of the company.
@@ -93,6 +93,7 @@ public class Department{
         		_lockObject.lock();
             	if( !_employees.containsKey( employee.getEmployeeId() ) ){
                 	_employees.put(employee.getEmployeeId(), employee);
+                	employee.addListener(this);
                 	DepartmentMemento memento = getMemento();
                     for(IDepartmentListener listener : _listeners){
                     	listener.employeeHired(_director, memento, employee.getMemento(), time);
@@ -220,6 +221,7 @@ public class Department{
             	try{
             		_lockObject.lock();
                 	Employee currentEmployee=_employees.get(employeeId);
+                	_employees.get(employeeId).removeListener(this);
                 	_employees.remove(employeeId);
                 	if(marketPlace.dischargeEmployee(currentEmployee)){
                 		DepartmentMemento memento = getMemento();
@@ -377,8 +379,8 @@ public class Department{
         		_lockObject.lock();
         		result = true;
         		for(Map.Entry<String, Employee> entry : _employees.entrySet()){
+        			entry.getValue().removeListener(this);
         			entry.getValue().removeAllTasks();
-        			
         			result &= marketPlace.dischargeEmployee(entry.getValue());
         		}
         		
@@ -473,4 +475,18 @@ public class Department{
     		_lockObject.unlock();
     	}
     }
+
+	@Override
+	public void taskAssigned(String supervisor, EmployeeMemento employee) {}
+
+	@Override
+	public void taskDetached(String supervisor, EmployeeMemento employee,
+			EmployeeTaskMemento task) {
+		for( Map.Entry<String, Employee> entry : _employees.entrySet() ){
+			entry.getValue().removeEmployeeTaskDependencie(task.getTaskName());
+		}
+	}
+
+	@Override
+	public void tasksAssignFailed(String supervisor, EmployeeMemento employee) {}
 }

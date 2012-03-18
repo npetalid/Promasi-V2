@@ -15,25 +15,39 @@ import org.promasi.game.GameException;
 import org.promasi.game.IGame;
 import org.promasi.game.singleplayer.SinglePlayerGame;
 import org.promasi.game.singleplayer.SinglePlayerGameFolder;
+import org.promasi.utilities.clock.Clock;
 import org.promasi.utilities.file.RootDirectory;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 
 /**
  * @author alekstheod
- *
+ * Represent the games server of single player play mode.
+ * This class is responsible to de-serialize the games which are available in
+ * the games directory.
  */
 public class SinglePlayerGamesServer extends AGamesServer {
 	/**
-	 * 
+	 * Lock object needed for the 
+	 * threads synchronization.
 	 */
 	private Lock _lockObject;
 	
 	/**
-	 * 
+	 * The games folder.
 	 */
 	private File _gamesFolder;
 	
 	/**
-	 * 
+	 * Logger needed for logging.
+	 */
+	private ILogger _logger = LoggerFactory.getInstance(SinglePlayerGamesServer.class);
+	
+	/**
+	 * Constructor will initialize the object.
+	 * @param gamesFolder the games folder name.
+	 * @throws IOException In case of initialization fail
+	 * or wrong arguments.
 	 */
 	public SinglePlayerGamesServer( String gamesFolder )throws IOException{
 		if( gamesFolder == null ){
@@ -43,8 +57,11 @@ public class SinglePlayerGamesServer extends AGamesServer {
 		_lockObject=new ReentrantLock();
 		_gamesFolder=new File(gamesFolder);
 		if(!_gamesFolder.isDirectory()){
+			_logger.warn("Initializatin failed because games directory doesn't found");
 			throw new IOException("Wrong argument gamesFolder");
 		}
+		
+		_logger.debug("Initialization complete");
 	}
 
 	@Override
@@ -59,9 +76,9 @@ public class SinglePlayerGamesServer extends AGamesServer {
 					try{
 						SinglePlayerGameFolder builder;
 						builder = new SinglePlayerGameFolder( _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + gamesFolders[i] );
-						games.add( new SinglePlayerGame(this, builder.getGame() )  );
+						games.add( new SinglePlayerGame(this, builder.getGame(), new Clock() )  );
 					}catch (GameException e) {
-						// TODO Auto-generated catch block
+						_logger.warn("Request games list failed because the GameException " + e.toString());
 					}
 				}
 				

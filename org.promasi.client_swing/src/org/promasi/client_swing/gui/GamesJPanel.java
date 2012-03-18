@@ -16,6 +16,7 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
@@ -104,7 +105,6 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		_gamesList.setCellRenderer(new MenuCellRenderer());
 		splitPane.setLeftComponent(_gamesList);
 		
-		
 		_gamesList.addMouseMotionListener(new MouseMotionListener() {
 			
 			@Override
@@ -151,7 +151,8 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		_gamesList.setBorder(edge);
 		
 		_infoPane = new ExtendedJEditorPane();
-		splitPane.setRightComponent(_infoPane);
+		JScrollPane scrollPane = new JScrollPane(_infoPane);
+		splitPane.setRightComponent(scrollPane);
 		splitPane.setDividerLocation(200);
 		_infoPane.setEditable(false);
 		_infoPane.setContentType("text/html" );

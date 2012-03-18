@@ -79,6 +79,11 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	private Map<String, DefaultGanttEntry<Date> > _runningTasks;
 	
 	/**
+	 * Represent the mapping of task to working on it employees.
+	 */
+	//private Map< DefaultGanttEntry<Date> , List< EmployeeMemento > > _employees;
+	
+	/**
 	 * Project step per hour multiplier. Needed in order
 	 * to calculate the task duration in hours.
 	 */
@@ -106,6 +111,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		game.addCompanyListener(this);
 		game.addDepartmentListener(this);
 		
+		//_employees = new TreeMap<>();
 		_ganttPane.getGanttChart().setEditable(false);
 		_ganttPane.getGanttChart().setSelectionBackground(Color.WHITE) ;
 		_ganttPane.getGanttChart().setShowGrid(true);
@@ -130,11 +136,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	private void updateGanttDiagramm( Map<String, EmployeeTaskMemento> scheduledTasks, ProjectMemento assignedProject, DateTime dateTime ){
 		try{
 			_lockObject.lock();
-			
 			DefaultGanttModel<Date, DefaultGanttEntry<Date>> model = new DefaultGanttModel<Date, DefaultGanttEntry<Date>>();
-		    
 	        DateScaleModel scaleModel = new DateScaleModel( );
-
 		    model.setScaleModel(scaleModel);
 
 		    Calendar projectStartDate = Calendar.getInstance(Locale.getDefault());
@@ -142,9 +145,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		    
 		    Calendar projectEndDate = Calendar.getInstance(Locale.getDefault());
 		    projectEndDate.setTime(_projectAssignDate.plusHours(assignedProject.getProjectDuration()/CONST_DURATION_MULTIPLIER).toDate());
-		    
             model.setRange(new TimeRange(projectStartDate, projectEndDate));
-            
+ 
 			if(_projectAssignDate != null ){
 				_runningTasks.clear();
 				Map<String, DefaultGanttEntry<Date>> ganttTasks = new TreeMap<String,  DefaultGanttEntry<Date>>();
@@ -178,6 +180,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					while( sortedTasks.containsKey(value)){
 						value++;
 					}
+					
 					sortedTasks.put(value, newTask);
 				}
 				
@@ -243,7 +246,6 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		}
 	}
 
-
 	@Override
 	public void projectFinished(String owner, CompanyMemento company,
 			final ProjectMemento project, final DateTime dateTime) {
@@ -292,14 +294,22 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 						}
 					}
 
-					boolean hasNewTasks = false;
+					boolean needUpdate = false;
 					for( Map.Entry<String, EmployeeTaskMemento> entry : projectTasks.entrySet()){
 						if( !_runningTasks.containsKey(entry.getKey()) ){
-							hasNewTasks = true;
+							needUpdate = true;
+							break;
 						}
 					}
 					
-					if( hasNewTasks || projectTasks.isEmpty() ){
+					for( Map.Entry<String, DefaultGanttEntry<Date>> entry : _runningTasks.entrySet()){
+						if( !projectTasks.containsKey(entry.getKey())){
+							needUpdate = true;
+							break;
+						}
+					}
+					
+					if( needUpdate ){
 						updateGanttDiagramm(projectTasks, assignedProject, dateTime);
 					}else{
 						for( Map.Entry<String, DefaultGanttEntry<Date>> entry : _runningTasks.entrySet()){
@@ -321,8 +331,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 										
 				}finally{
 					_lockObject.unlock();
-				}
-				
+				}	
 			}
 		});
 	}

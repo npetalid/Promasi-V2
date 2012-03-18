@@ -13,6 +13,7 @@ import javax.swing.DefaultListModel;
 
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.border.EtchedBorder;
 
@@ -135,7 +136,7 @@ public class PlayModesJPanel extends JPanel {
 			_infoPane = new ExtendedJEditorPane();
 			_infoPane.setEditable(false);
 			_infoPane.setContentType( "text/html" );
-			splitPane.setRightComponent(_infoPane);
+			splitPane.setRightComponent(new JScrollPane(_infoPane));
 			splitPane.setDividerLocation( 200 );
 		} catch (Exception e) {
 			throw new GuiException(e);

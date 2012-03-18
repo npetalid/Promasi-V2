@@ -63,7 +63,6 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		_htmlPane.setEditable(false);
 		_htmlPane.setContentType("text/html" );
 		_htmlPane.setPreferredSize(new Dimension(100,200));
-		
 		_htmlPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 		_htmlPane.setVisible(true);
 		_htmlPane.setFocusable(true);

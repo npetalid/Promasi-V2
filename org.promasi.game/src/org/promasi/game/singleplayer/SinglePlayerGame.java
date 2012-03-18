@@ -77,7 +77,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	 * @param gameModel
 	 * @throws NullArgumentException
 	 */
-	public SinglePlayerGame(AGamesServer gamesServer, GameModel gameModel)throws GameException{
+	public SinglePlayerGame(AGamesServer gamesServer, GameModel gameModel, Clock systemClock)throws GameException{
 		if(gameModel==null){
 			throw new GameException("Wrong argument gameModel==null");
 		}
@@ -86,12 +86,16 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 			throw new GameException("Wrong argument gamesServer==null");
 		}
 		
+		if( systemClock == null ){
+			throw new GameException("Wrong argument systemClock == null");
+		}
+		
 		_isRunning = false;
 		_gamesServer = gamesServer;
 		_lockObject = new ReentrantLock();
 		_gameModel=gameModel;
 		_listeners=new LinkedList<IClientGameListener>();
-		_systemClock=new Clock();
+		_systemClock = systemClock;
 		_currentDateTime = _systemClock.getCurrentDateTime();
 		_systemClock.addListener(this);
 		if(!_gameModel.addListener(this) )

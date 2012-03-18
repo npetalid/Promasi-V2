@@ -195,6 +195,22 @@ public class EmployeeTask
 	}
 	
 	/**
+	 * Will remove the given task name from
+	 * the tasks dependencies.
+	 * @param dependencie
+	 * @return true if succeed, false otherwise.
+	 */
+	public boolean removeDependencie( String dependencie ){
+		boolean result = false;
+		
+		if( dependencie != null && _dependencies.contains(dependencie) ){
+			result = _dependencies.remove(dependencie);
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * 
 	 * @return
 	 */
