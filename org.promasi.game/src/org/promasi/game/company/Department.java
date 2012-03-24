@@ -285,14 +285,13 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
     			}
         	}
         	
-        	DepartmentMemento memento = getMemento();
         	if( result ){
         		for ( IDepartmentListener listener : getListeners() ){
-        			listener.tasksAssigned(_director, memento, time);
+        			listener.tasksAssigned(_director, getMemento(), time);
         		}
         	}else{
         		for ( IDepartmentListener listener : getListeners() ){
-        			listener.tasksAssignFailed(_director, memento, time);
+        			listener.tasksAssignFailed(_director, getMemento(), time);
         		}
         	}
     	}finally{

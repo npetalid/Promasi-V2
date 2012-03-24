@@ -110,7 +110,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	 * @param app
 	 * @throws GuiException
 	 */
-	public NewTaskJPanel( IGame game, ISchedulerApplication app, JPanel prevPanel, IDesktop desktop)throws GuiException{
+	public NewTaskJPanel( IGame game, ISchedulerApplication app, JPanel prevPanel, final IDesktop desktop)throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
 		}
@@ -198,11 +198,16 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 				
 				final Map<String, List<EmployeeTaskMemento> > tasks = new TreeMap<String, List<EmployeeTaskMemento> >();
 				Map<String, EmployeeMemento> selectedEmployees = _employeesPanel.getSelectedEmployees();
-				for( Map.Entry<String, EmployeeMemento> entry : selectedEmployees.entrySet()){
-					List<EmployeeTaskMemento> tasksList = new LinkedList<EmployeeTaskMemento>();
-					tasksList.add(memento);
-					tasks.put(entry.getKey(), tasksList);
+				if( !selectedEmployees.isEmpty() ){
+					for( Map.Entry<String, EmployeeMemento> entry : selectedEmployees.entrySet()){
+						List<EmployeeTaskMemento> tasksList = new LinkedList<EmployeeTaskMemento>();
+						tasksList.add(memento);
+						tasks.put(entry.getKey(), tasksList);
+					}
+				}else{
+					desktop.showMessageBox("Please select employees first", "Warning", 1 , null);
 				}
+
 				
 				_game.assignTasks(tasks);
 			}

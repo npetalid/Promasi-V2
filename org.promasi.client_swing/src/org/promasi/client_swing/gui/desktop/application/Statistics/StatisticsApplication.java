@@ -13,6 +13,15 @@ import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.file.RootDirectory;
 
+/**
+ * 
+ * @author alekstheod
+ * Represent the company statistics application in
+ * ProMaSi system. In the company statistics application 
+ * user would be able to see all the statistics which are
+ * related with his company such as company's budget, the running
+ * project, company performance and so on.
+ */
 public class StatisticsApplication extends ADesktopApplication implements ICompanyListener{
 
 	/**
@@ -47,6 +56,7 @@ public class StatisticsApplication extends ADesktopApplication implements ICompa
 			throw new GuiException("Wrong argument desktop == null");
 		}
 		
+		game.addCompanyListener(this);
 		desktop.addQuickStartButton(new QuickStartButton(this, desktop));
 	}
 
