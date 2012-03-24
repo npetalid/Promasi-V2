@@ -359,7 +359,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		try{
 			_lockObject.lock();
 			if(clientId!=null && _gameModels.containsKey(clientId)){
-				_gameModels.get(clientId).removeGameModelListener(this);
+				_gameModels.get(clientId).removeListener(this);
 				_gameModels.remove(clientId);	
 				
 				List<String> playersList=new Vector<String>();

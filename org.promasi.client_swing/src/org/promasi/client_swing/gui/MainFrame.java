@@ -6,13 +6,20 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 
 public class MainFrame extends JFrame implements IMainFrame {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * The status pannel of the ProMaSi application.
+	 */
+	private JPanel _statusPanel;
 
 	/**
 	 * Panel shown on the main window.
@@ -25,6 +32,12 @@ public class MainFrame extends JFrame implements IMainFrame {
 	 */
 	public MainFrame( String caption ){
 		super(caption);
+		_statusPanel = new JPanel();
+		setLayout(new BorderLayout());
+		_statusPanel.setPreferredSize(new Dimension(200,20));
+		_statusPanel.setLayout(new BorderLayout());
+		_statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
+		_statusPanel.add(new JLabel("Pro.Ma.Si"), BorderLayout.WEST);
 	}
 
 	@Override
@@ -32,6 +45,7 @@ public class MainFrame extends JFrame implements IMainFrame {
 		if ( panel != null ){
 			if( _panel != null ){
 				this.remove(_panel);
+				this.remove(_statusPanel);
 				_panel.removeAll();
 			}
 			
@@ -39,6 +53,7 @@ public class MainFrame extends JFrame implements IMainFrame {
 		}
 		
 		this.add(_panel, BorderLayout.CENTER);
+		add(_statusPanel, BorderLayout.SOUTH);
 		this.validate();
 		this.repaint();
 	}

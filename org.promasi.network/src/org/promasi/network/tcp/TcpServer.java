@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.promasi.utilities.design.Observer;
+
 /**
  * @author m1cRo
  *
  */
-public class TcpServer
+public class TcpServer extends Observer<ITcpServerListener>
 {
 	/**
 	 *
@@ -44,11 +46,6 @@ public class TcpServer
 	 * 
 	 */
 	private Lock _lockObject;
-
-	/**
-	 * 
-	 */
-	private List<ITcpServerListener> _listeners;
 	
 	/**
 	 *
@@ -59,30 +56,8 @@ public class TcpServer
 		_clientCheckThread=null;
 		_listening=false;
 		_clients=new LinkedList<TcpClient>();
-		_listeners=new LinkedList<ITcpServerListener>();
 		_lockObject = new ReentrantLock();
 	}
-
-	/**
-	 *
-	 * @param tcpEventHandler
-	 */
-	public boolean addListener(ITcpServerListener listener)
-	{
-		boolean result = false;
-		try{
-			_lockObject.lock();
-			if(listener!=null){
-				result = _listeners.add(listener);
-			}
-			
-		}finally{
-			_lockObject.unlock();
-		}
-
-		return result;
-	}
-
 
 	/**
 	 * 
@@ -109,7 +84,7 @@ public class TcpServer
 								_lockObject.lock();
 								TcpClient client=new TcpClient(clientSocket);
 								_clients.add(client);
-								for(ITcpServerListener listener : _listeners){
+								for(ITcpServerListener listener : getListeners()){
 									listener.clientConnected(client);
 								}	
 							}finally{
@@ -141,7 +116,7 @@ public class TcpServer
 								
 							for(TcpClient client : new LinkedList<>(_clients)){
 								if(!clients.contains(client)){
-									for(ITcpServerListener listener : _listeners){
+									for(ITcpServerListener listener : getListeners()){
 										listener.clientDisconnected(client);
 									}
 								}
@@ -159,7 +134,7 @@ public class TcpServer
 			});
 				
 			_clientCheckThread.start();
-			for(ITcpServerListener listener : _listeners){
+			for(ITcpServerListener listener : getListeners()){
 				listener.serverStarted(portNumber);
 			}
 			
@@ -188,7 +163,7 @@ public class TcpServer
 				}
 			}
 				
-			for(ITcpServerListener listener : _listeners){
+			for(ITcpServerListener listener : getListeners()){
 				listener.serverStopped();
 			}
 				

@@ -13,6 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.joda.time.DateTime;
 import org.promasi.game.GameException;
 import org.promasi.game.project.ProjectTask;
+import org.promasi.utilities.design.Observer;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
@@ -22,17 +23,12 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author alekstheod
  *
  */
-public class Department implements IEmployeeListener{
+public class Department extends Observer<IDepartmentListener> implements IEmployeeListener{
 
     /**
      * All the hired employees of the company.
      */
     protected Map<String, Employee> _employees;
-    
-    /**
-     * 
-     */
-    private List<IDepartmentListener> _listeners;
     
     /**
      * 
@@ -55,7 +51,6 @@ public class Department implements IEmployeeListener{
     public Department(){
     	_employees = new TreeMap<String, Employee>();
     	_lockObject = new ReentrantLock();
-    	_listeners = new LinkedList<IDepartmentListener>();
     	_logger.debug("Initialization succeed");
     }
     
@@ -95,7 +90,7 @@ public class Department implements IEmployeeListener{
                 	_employees.put(employee.getEmployeeId(), employee);
                 	employee.addListener(this);
                 	DepartmentMemento memento = getMemento();
-                    for(IDepartmentListener listener : _listeners){
+                    for(IDepartmentListener listener : getListeners()){
                     	listener.employeeHired(_director, memento, employee.getMemento(), time);
                     }
                     
@@ -156,49 +151,7 @@ public class Department implements IEmployeeListener{
 
 		return result;
     }
-    
-    /**
-     * 
-     * @param listener
-     * @return
-     */
-    public boolean addListener( IDepartmentListener listener ){
-    	boolean result = false;
-    	if( listener != null ){
-    		try{
-				_lockObject.lock();
-				if ( !_listeners.contains(listener) ){
-					result = _listeners.add(listener);
-				}
-			}finally{
-				_lockObject.unlock();
-			}
-    	}
 
-		return result;
-    }
-    
-    /**
-     * 
-     * @param listener
-     * @return
-     */
-    public boolean removeListener( IDepartmentListener listener ){
-    	boolean result = false;
-    	if( listener != null ){
-    		try{
-				_lockObject.lock();
-				if ( _listeners.contains(listener) ){
-					result = _listeners.remove(listener);
-				}
-			}finally{
-				_lockObject.unlock();
-			}
-    	}
-
-		return result;
-    }
-    
     /**
      * 
      * @return
@@ -225,11 +178,11 @@ public class Department implements IEmployeeListener{
                 	_employees.remove(employeeId);
                 	if(marketPlace.dischargeEmployee(currentEmployee)){
                 		DepartmentMemento memento = getMemento();
-                        for(IDepartmentListener listener : _listeners){
+                        for(IDepartmentListener listener : getListeners()){
                         	listener.employeeDischarged(_director, memento, currentEmployee.getMemento(), time);
                         }
                         
-                        currentEmployee.removeListeners();
+                        currentEmployee.clearListeners();
                         currentEmployee.setSupervisor(null);
                         result = true;
                 	}else{
@@ -334,11 +287,11 @@ public class Department implements IEmployeeListener{
         	
         	DepartmentMemento memento = getMemento();
         	if( result ){
-        		for ( IDepartmentListener listener : _listeners ){
+        		for ( IDepartmentListener listener : getListeners() ){
         			listener.tasksAssigned(_director, memento, time);
         		}
         	}else{
-        		for ( IDepartmentListener listener : _listeners ){
+        		for ( IDepartmentListener listener : getListeners() ){
         			listener.tasksAssignFailed(_director, memento, time);
         		}
         	}
@@ -461,15 +414,13 @@ public class Department implements IEmployeeListener{
     	}
     }
     
-    /**
-     * 
-     */
-    public void removeListeners(){
+    @Override
+    public void clearListeners(){
     	try{
     		_lockObject.lock();
-    		_listeners.clear();
+    		super.clearListeners();
     		for ( Map.Entry<String, Employee> employee : _employees.entrySet()){
-    			employee.getValue().removeListeners();
+    			employee.getValue().clearListeners();
     		}
     	}finally{
     		_lockObject.unlock();

@@ -8,6 +8,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.GameException;
+import org.promasi.utilities.design.Observer;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utilities.serialization.SerializationException;
@@ -19,7 +20,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * Represents an employee.(Developer,Tester,Designer etc). All the fields of the
  * employee(experienced etc) have a range of 0.0-10.0
  */
-public class Employee 
+public class Employee extends Observer< IEmployeeListener >
 {	
 	/**
      * The name of the person.
@@ -54,13 +55,6 @@ public class Employee
      * simulation system.
      */
     protected Map<String, Double> _employeeSkills;
-    
-	/**
-	 * List of object listeners, needed to
-	 * inform other objects about the important
-	 * state changes of the current object.
-	 */
-	private List<IEmployeeListener> _listeners;
     
     /**
      * List of assigned employee tasks. Employee
@@ -134,7 +128,6 @@ public class Employee
         _employeeSkills=employeeSkills;
         _lockObject = new ReentrantLock();
         _employeeTasks=new TreeMap<String, EmployeeTask>();
-        _listeners = new LinkedList<IEmployeeListener>();
         _logger.debug("Employee initialization succeed :" + _employeeId);
     }
 
@@ -257,12 +250,12 @@ public class Employee
                 		_employeeTasks.put(task.getTaskName(), task);
                 	}
                 	
-                	for( IEmployeeListener listener : _listeners ){
+                	for( IEmployeeListener listener : getListeners() ){
                 		listener.taskAssigned(_supervisor, getMemento());
                 	}
             		
             	}else{
-                	for( IEmployeeListener listener : _listeners ){
+                	for( IEmployeeListener listener : getListeners() ){
                 		listener.tasksAssignFailed(_supervisor, getMemento());
                 	}
             	}
@@ -284,7 +277,7 @@ public class Employee
     		_lockObject.lock();
         	for(Map.Entry<String , EmployeeTask> entry : _employeeTasks.entrySet()){
         		result = true;
-    			for ( IEmployeeListener listener : _listeners ){
+    			for ( IEmployeeListener listener : getListeners() ){
     				listener.taskDetached(_supervisor, getMemento(), entry.getValue().getMemento());
     			}
         	}
@@ -313,7 +306,7 @@ public class Employee
             		if(task==employeeTask){
             			_employeeTasks.remove(task.getFirstStep());
             			result = true;
-            			for ( IEmployeeListener listener : _listeners ){
+            			for ( IEmployeeListener listener : getListeners() ){
             				listener.taskDetached(_supervisor, getMemento(), task.getMemento());
             			}
             		}
@@ -342,7 +335,7 @@ public class Employee
         			if(entry.getValue().isValid(currentStep)){
         				employeeTasks.put(entry.getKey(), entry.getValue());
         			}else{
-            			for ( IEmployeeListener listener : _listeners ){
+            			for ( IEmployeeListener listener : getListeners() ){
             				listener.taskDetached(_supervisor, getMemento(), entry.getValue().getMemento());
             			}
         			}
@@ -377,46 +370,6 @@ public class Employee
     	
     	return result;
     }
-
-    /**
-     * 
-     * @param listener
-     * @return
-     */
-    public boolean addListener(IEmployeeListener listener){
-    	boolean result = false;
-    	
-    	try{
-    		_lockObject.lock();
-    		if( !_listeners.contains(listener) ){
-    			result = _listeners.add(listener);
-    		}
-    	}finally{
-    		_lockObject.unlock();
-    	}
-    	
-    	return result;
-    }
-    
-
-    /**
-     * 
-     * @param listener
-     * @return
-     */
-    public boolean removeListener(IEmployeeListener listener){
-    	boolean result = false;
-    	try{
-    		_lockObject.lock();
-    		if( _listeners.contains(listener) ){
-    			result = _listeners.remove(listener);
-    		}
-    	}finally{
-    		_lockObject.unlock();
-    	}
-    	
-    	return result;
-    }
     
     /**
      * Will return the list of assigned tasks.
@@ -424,17 +377,5 @@ public class Employee
      */
     public Map<String, EmployeeTask> getAssignedTasks(){
     	return new TreeMap<>(_employeeTasks);
-    }
-    
-    /**
-     * 
-     */
-    public void removeListeners(){
-    	try{
-    		_lockObject.lock();
-    		_listeners.clear();
-    	}finally{
-    		_lockObject.unlock();
-    	}
     }
 }

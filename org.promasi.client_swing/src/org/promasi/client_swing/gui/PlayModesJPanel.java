@@ -125,10 +125,6 @@ public class PlayModesJPanel extends JPanel {
 			
 			_playModesList.setCellRenderer(new MenuCellRenderer());
 			
-			JPanel bottomPanel = new JPanel();
-			
-			add( bottomPanel, BorderLayout.SOUTH );
-			
 			EtchedBorder edge = new EtchedBorder(EtchedBorder.RAISED);
 	
 			_playModesList.setBorder(edge);

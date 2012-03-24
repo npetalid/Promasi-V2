@@ -1,6 +1,5 @@
 package org.promasi.game.company;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -9,6 +8,7 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.promasi.game.GameException;
 import org.promasi.game.project.Project;
+import org.promasi.utilities.design.Observer;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -20,7 +20,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  * 
  */
-public class Company
+public class Company extends Observer<ICompanyListener>
 {
 	/**
      * The name of the company.
@@ -72,11 +72,6 @@ public class Company
      * 
      */
     private Lock _lockObject;
-    
-    /**
-     * 
-     */
-    private List<ICompanyListener> _companyListeners;
     
     /**
      * 
@@ -137,7 +132,6 @@ public class Company
 		_budget=budget;
 		_itDepartment = new Department();
 		_lastPaymentDateTime=new DateTime();
-		_companyListeners=new LinkedList<ICompanyListener>();
     }
 
     /**
@@ -198,52 +192,7 @@ public class Company
     	
         return result;
     }
-    
-    /**
-     * 
-     * @param listener
-     */
-    public boolean addListener(ICompanyListener listener){
-    	boolean result = false;
-    	
-    	try{
-    		_lockObject.lock();
-        	if(listener!=null){
-            	if(!_companyListeners.contains(listener)){
-            		result = _companyListeners.add(listener);
-            		listener.companyAssigned(_owner, getMemento());
-            	}
-        	}
-    	}finally{
-    		_lockObject.unlock();
-    	}
 
-    	return result;
-    }
-    
-    /**
-     * 
-     * @param listener
-     * @return
-     */
-    public boolean removeListener( ICompanyListener listener ){
-    	boolean result = false;
-    	
-    	try{
-    		_lockObject.lock();
-        	if(listener!=null){
-            	if( _companyListeners.contains(listener) ){
-            		result = _companyListeners.remove(listener);
-            	}
-        	}
-    	}finally{
-    		_lockObject.unlock();
-    	}
-    	
-    	return result;
-    }
-
-    
     /**
      * Assigns a {@link Project} to this {@link Company}, and notifies the
      * {@link Notifier}.
@@ -260,7 +209,7 @@ public class Company
         	try{
         		_lockObject.lock();
         		_assignedProject=project;
-                for(ICompanyListener listener : _companyListeners){
+                for(ICompanyListener listener : getListeners()){
                 	listener.projectAssigned(_owner, getMemento(),project.getMemento(), currentDate);
                 }
                 
@@ -337,7 +286,7 @@ public class Company
             				}
             				
                     		if(_budget<0){
-                		        for(ICompanyListener listener : _companyListeners){
+                		        for(ICompanyListener listener : getListeners()){
                 		        	if( _assignedProject != null ){
                     		        	listener.companyIsInsolvent(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
                     		        	_assignedProject=null;
@@ -357,7 +306,7 @@ public class Company
                 	if(_assignedProject!=null){
                     	 _itDepartment.executeWorkingStep(_assignedProject.getCurrentStep());
                     	 
-                         for(ICompanyListener eventHandler : _companyListeners){
+                         for(ICompanyListener eventHandler : getListeners()){
                          	eventHandler.onExecuteWorkingStep(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
                          }
                          
@@ -368,7 +317,7 @@ public class Company
                      		_budget=_budget+_assignedProject.getProjectPrice();
                      		_itDepartment.removeAssignedTasks();
                      		
-                             for(ICompanyListener listener : _companyListeners){
+                             for(ICompanyListener listener : getListeners()){
                              	listener.projectFinished(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
                              }
                               
@@ -511,19 +460,6 @@ public class Company
     	try{
     		_lockObject.lock();
     		return _owner;
-    	}finally{
-    		_lockObject.unlock();
-    	}
-    }
-    
-    /**
-     * 
-     */
-    public void removeAllListeners(){
-    	try{
-    		_lockObject.lock();
-    		_companyListeners.clear();
-    		_itDepartment.removeListeners();
     	}finally{
     		_lockObject.unlock();
     	}

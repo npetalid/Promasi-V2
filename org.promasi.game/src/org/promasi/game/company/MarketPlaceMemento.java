@@ -3,6 +3,7 @@ package org.promasi.game.company;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.promasi.game.GameException;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializableObject;
 import org.promasi.utilities.serialization.SerializationException;
@@ -46,9 +47,7 @@ public class MarketPlaceMemento extends SerializableObject
 		
 		try {
 			return new MarketPlace(availableEmployees);
-		} catch (IllegalArgumentException e) {
-			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
-		} catch (NullArgumentException e) {
+		} catch (GameException e) {
 			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
 		}
 	}

@@ -17,6 +17,7 @@ import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.game.company.MarketPlace;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.project.Project;
+import org.promasi.utilities.design.Observer;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -24,7 +25,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class GameModel
+public class GameModel extends Observer<IGameModelListener>
 {
 	/**
 	 * 
@@ -60,11 +61,6 @@ public class GameModel
 	 * 
 	 */
 	protected Queue<Project> _runnedProjects;
-	
-	/**
-	 * 
-	 */
-	private List<IGameModelListener> _listeners;
 	
 	/**
 	 * 
@@ -109,7 +105,6 @@ public class GameModel
 		_projects=projects;
 		_marketPlace=marketPlace;
 		_company=company;
-		_listeners=new LinkedList<IGameModelListener>();
 		_gameName=gameName;
 		_gameDescription=gameDescription;
 		_runnedProjects=new LinkedList<Project>();
@@ -222,54 +217,6 @@ public class GameModel
 	public boolean addMarketPlaceListener( IMarketPlaceListener listener ){
 		return _marketPlace.addListener(listener);
 	}
-	
-	/**
-	 * 
-	 * @param listener
-	 * @return
-	 * @throws NullArgumentException
-	 */
-	public boolean removeGameModelListener(IGameModelListener listener) {
-		boolean result = false;
-		
-		try{
-			_lockObject.lock();
-			if(listener!=null){
-				if(_listeners.contains(listener)){
-					result = _listeners.remove(listener);
-				}
-			}
-			
-		}finally{
-			_lockObject.unlock();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * 
-	 * @param listener
-	 * @return
-	 * @throws NullArgumentException
-	 */
-	public boolean addListener(IGameModelListener listener) {
-		boolean result = false;
-		
-		try{
-			_lockObject.lock();
-			if(listener!=null){
-				if( !_listeners.contains(listener) ){
-					result = _listeners.add(listener);
-				}
-			}
-			
-		}finally{
-			_lockObject.unlock();
-		}
-		
-		return result;
-	}
 
 	/**
 	 * 
@@ -290,7 +237,7 @@ public class GameModel
 						_runnedProjects.add(project);
 					}
 				}else if(_projects.size()==0 && !_company.hasAssignedProject() && !_gameFinished){
-					for(IGameModelListener listener : _listeners){
+					for(IGameModelListener listener : getListeners()){
 						listener.gameFinished(this, _company.getMemento());
 					}
 					
@@ -299,7 +246,7 @@ public class GameModel
 					_company.executeWorkingStep(currentDateTime,_marketPlace, currentDateTime);
 				}
 				
-				for(IGameModelListener listener : _listeners){
+				for(IGameModelListener listener : getListeners()){
 					listener.onExecuteStep(this, _company.getMemento());
 				}
 				
@@ -315,24 +262,12 @@ public class GameModel
 	/**
 	 * 
 	 */
-	public void removeListeners(){
-		try{
-			_lockObject.lock();
-			_listeners.clear();
-		}finally{
-			_lockObject.unlock();
-		}
-	}
-	
-	/**
-	 * 
-	 */
 	public void removeAllListeners(){
 		try{
 			_lockObject.lock();
-			_listeners.clear();
-			_marketPlace.removeAllListeners();
-			_company.removeAllListeners();
+			clearListeners();
+			_marketPlace.clearListeners();
+			_company.clearListeners();
 		}finally{
 			_lockObject.unlock();
 		}

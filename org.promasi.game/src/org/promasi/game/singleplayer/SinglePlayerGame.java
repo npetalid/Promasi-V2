@@ -3,7 +3,6 @@
  */
 package org.promasi.game.singleplayer;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
@@ -22,6 +21,7 @@ import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.utilities.clock.Clock;
 import org.promasi.utilities.clock.IClockListener;
+import org.promasi.utilities.design.Observer;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
@@ -30,7 +30,7 @@ import org.promasi.utilities.logger.LoggerFactory;
  * @author m1cRo
  *
  */
-public class SinglePlayerGame implements IGame, IClockListener, IGameModelListener
+public class SinglePlayerGame extends Observer<IClientGameListener> implements IGame, IClockListener, IGameModelListener
 {
 	/**
 	 * Logger
@@ -69,11 +69,6 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	
 	/**
 	 * 
-	 */
-	private List<IClientGameListener> _listeners;
-	
-	/**
-	 * 
 	 * @param gameModel
 	 * @throws NullArgumentException
 	 */
@@ -94,7 +89,6 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 		_gamesServer = gamesServer;
 		_lockObject = new ReentrantLock();
 		_gameModel=gameModel;
-		_listeners=new LinkedList<IClientGameListener>();
 		_systemClock = systemClock;
 		_currentDateTime = _systemClock.getCurrentDateTime();
 		_systemClock.addListener(this);
@@ -158,40 +152,6 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	}
 
 	@Override
-	public boolean addListener(IClientGameListener listener) {
-		boolean result = false;
-		try{
-			_lockObject.lock();
-			if(listener!=null){
-				if(!_listeners.contains(listener)){
-					result =_listeners.add(listener);
-				}
-			}
-		}finally{
-			_lockObject.unlock();
-		}
-
-		return result;
-	}
-
-	@Override
-	public boolean removeListener(IClientGameListener listener) {
-		boolean result = false;
-		try{
-			_lockObject.lock();
-			if(listener!=null){
-				if( _listeners.contains(listener) ){
-					result =_listeners.remove(listener);
-				}
-			}
-		}finally{
-			_lockObject.unlock();
-		}
-
-		return result;
-	}
-
-	@Override
 	public boolean startGame() {
 		try{
 			_lockObject.lock();
@@ -233,7 +193,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 
 	@Override
 	public void onExecuteStep(GameModel game, CompanyMemento company) {
-		for(IClientGameListener listener : _listeners){
+		for(IClientGameListener listener : getListeners()){
 			listener.onExecuteStep(this, company, _systemClock.getCurrentDateTime());
 		}
 	}
@@ -245,12 +205,12 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 			_currentDateTime = dateTime;
 			if( !_isRunning ){
 				_isRunning = true;
-				for( IClientGameListener listener : _listeners ){	
+				for( IClientGameListener listener : getListeners() ){	
 					listener.gameStarted(this, _gameModel.getMemento(), _systemClock.getCurrentDateTime());
 				}
 			}
 			
-			for( IClientGameListener gameEventHandler : _listeners){
+			for( IClientGameListener gameEventHandler : getListeners()){
 				gameEventHandler.onTick(this, dateTime);
 			}
 			
@@ -264,7 +224,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	public void gameFinished(GameModel gameModel, CompanyMemento company) {
 		try{
 			_lockObject.lock();
-			for( IClientGameListener gameEventHandler : _listeners){
+			for( IClientGameListener gameEventHandler : getListeners()){
 				gameEventHandler.gameFinished(this, gameModel.getMemento(),company);
 			}
 		}finally{
@@ -291,7 +251,7 @@ public class SinglePlayerGame implements IGame, IClockListener, IGameModelListen
 	public void removeListeners() {
 		try{
 			_lockObject.lock();
-			_gameModel.removeListeners();
+			_gameModel.clearListeners();
 		}finally{
 			_lockObject.unlock();
 		}
