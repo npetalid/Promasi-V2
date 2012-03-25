@@ -450,5 +450,7 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 	public void onConnect(ProMaSiClient client) {}
 
 	@Override
-	public void onConnectionError(ProMaSiClient client) {}
+	public void onConnectionError(ProMaSiClient client) {
+		onDisconnect(client);
+	}
 }
