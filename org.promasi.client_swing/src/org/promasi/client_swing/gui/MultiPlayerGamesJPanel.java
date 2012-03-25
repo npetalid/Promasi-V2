@@ -6,16 +6,21 @@ package org.promasi.client_swing.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.promasi.client_swing.playmode.multiplayer.MultiPlayerGamesServer;
+import org.promasi.client_swing.playmode.multiplayer.MultiplayerFolderGamesServer;
 import org.promasi.game.IGame;
 import org.promasi.game.IGamesServerListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.UpdateAvailableGameListRequest;
+import org.promasi.utilities.file.RootDirectory;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 
 /**
  * @author alekstheod
@@ -40,6 +45,11 @@ public class MultiPlayerGamesJPanel extends JPanel implements IGamesServerListen
 	/**
 	 * 
 	 */
+	public static final String CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME = "MultiPlayer";
+	
+	/**
+	 * 
+	 */
 	private GamesJPanel _gamesPanel;
 	
 	/**
@@ -51,6 +61,12 @@ public class MultiPlayerGamesJPanel extends JPanel implements IGamesServerListen
 	 * 
 	 */
 	private String _username;
+	
+	/**
+	 * Instance of {@link ILogger} interface implementation
+	 * needed for logging.
+	 */
+	private ILogger _logger = LoggerFactory.getInstance(MultiPlayerGamesJPanel.class);
 	
 	/**
 	 * 
@@ -104,7 +120,15 @@ public class MultiPlayerGamesJPanel extends JPanel implements IGamesServerListen
 		newGameButton.addActionListener(new ActionListener() {	
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				try {
+					String gamesFolder = RootDirectory.getInstance().getRootDirectory() + CONST_MULTIPLAYER_PLAYMODE_FOLDER_NAME;
+					CreateGameJPanel panel = new CreateGameJPanel(_mainFrame, _username, new MultiplayerFolderGamesServer(gamesFolder, _client) );
+					_mainFrame.changePanel(panel);
+				} catch (GuiException e1) {
+					_logger.error("Failed to create the instance of CreateGameJpanel because of : " + e1.toString());
+				}catch (IOException e1) {
+					_logger.error("Failed to create the instance of CreateGameJpanel because of : "  + e1.toString());
+				}
 			}
 		});
 		

@@ -24,6 +24,8 @@ import org.promasi.game.project.Project;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.file.RootDirectory;
+import org.promasi.utilities.logger.ILogger;
+import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utilities.serialization.SerializationException;
 
 /**
@@ -34,7 +36,7 @@ public class MultiPlayerGameFolder {
 	/**
 	 * 
 	 */
-	public static final String CONST_PROJECTS_DIF_NAME="Projects";
+	public static final String CONST_PROJECTS_DIR_NAME="Projects";
 	
 	/**
 	 * 
@@ -50,6 +52,12 @@ public class MultiPlayerGameFolder {
 	 * 
 	 */
 	public static final String CONST_GAME_DESCRIPTION_FILE_NAME="GameInfo";
+	
+	/**
+	 * Instance of {@link ILogger} interface implementation
+	 * needed for logging.
+	 */
+	private static final ILogger _logger = LoggerFactory.getInstance(MultiPlayerGameFolder.class);
 	
 	/**
 	 * 
@@ -96,7 +104,7 @@ public class MultiPlayerGameFolder {
 					marketPlace=makeMarketPlace(gameFolderPath+separator+projectFiles[i]);
 				}else if( projectFiles[i].toLowerCase().equals(CONST_GAME_DESCRIPTION_FILE_NAME.toLowerCase()) ){
 					gameInfo=makeGameDescription(gameFolderPath+separator+projectFiles[i]);
-				}else if( projectFiles[i].toLowerCase().equals(CONST_PROJECTS_DIF_NAME.toLowerCase()) ){
+				}else if( projectFiles[i].toLowerCase().equals(CONST_PROJECTS_DIR_NAME.toLowerCase()) ){
 					projects=makeProjects(gameFolderPath+separator+projectFiles[i]);
 				}
 			}
@@ -224,9 +232,9 @@ public class MultiPlayerGameFolder {
 			throw new FileNotFoundException("File not found");
 		}
 		
-		for(int i=0;i<files.length;i++){
+		for(String fileName : files){
 			try{
-				File projectFile=new File(filePath+RootDirectory.getInstance().getSeparator()+files[i]);
+				File projectFile=new File(filePath+RootDirectory.getInstance().getSeparator()+fileName);
 				FileInputStream fileInputStream=new FileInputStream(projectFile);
 				XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
 				Object object=xmlDecoder.readObject();
@@ -241,7 +249,9 @@ public class MultiPlayerGameFolder {
 					}
 				}
 			}catch(FileNotFoundException e){
-				//Log wrong file
+				_logger.warn("Invalid project file found : " + fileName);
+			}catch(Exception e){
+				_logger.warn("Invalid project file found : " + fileName);
 			}
 		}
 		

@@ -4,19 +4,21 @@
 package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.promasi.client_swing.components.JEditorPane.ExtendedJEditorPane;
 import org.promasi.client_swing.components.JList.MenuCellRenderer;
@@ -46,6 +48,11 @@ public class CreateGameJPanel extends JPanel implements IGamesServerListener {
 	 * A list of available games.
 	 */
 	private JList<IGame> _gamesList;
+	
+	/**
+	 * Represent the game name field in the form.
+	 */
+	private JTextField _gameNameField;
 	
 	/**
 	 * Instance of {@link IMainFrame} needed in 
@@ -82,11 +89,30 @@ public class CreateGameJPanel extends JPanel implements IGamesServerListener {
 			throw new GuiException("Wrong argument userName == null");
 		}
 		
+		setLayout(new BorderLayout());
 		_mainFrame = mainFrame;
 		_gamesServer = gamesServer;
 		_userName = userName;
-	
-		setLayout( new BorderLayout() );
+		
+		JPanel bottomPanel = new JPanel();
+		bottomPanel.setLayout(new BorderLayout());
+		_gameNameField = new JTextField();
+		bottomPanel.add(_gameNameField, BorderLayout.CENTER);
+		add( bottomPanel, BorderLayout.SOUTH );
+		
+		JButton createButton = new JButton("Create");
+		bottomPanel.add(createButton, BorderLayout.EAST);
+		createButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				IGame game = (IGame)_gamesList.getSelectedValue();
+				if( game != null ){
+					_gamesServer.createGame(_gameNameField.getText(), game);
+				}
+			}
+		});
+		
 		JSplitPane splitPane = new JSplitPane();
 		add(splitPane, BorderLayout.CENTER);
 		
@@ -94,50 +120,17 @@ public class CreateGameJPanel extends JPanel implements IGamesServerListener {
 		
 		_gamesList = new JList<IGame>(listModel);
 		_gamesList.setCellRenderer(new MenuCellRenderer());
+		_gamesList.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if( _gamesList.getSelectedValue() != null ){
+					_infoPane.setText(_gamesList.getSelectedValue().getGameDescription());
+				}
+			}
+		});
+		
 		splitPane.setLeftComponent(_gamesList);
-		
-		
-		_gamesList.addMouseMotionListener(new MouseMotionListener() {
-			
-			@Override
-			public void mouseMoved(MouseEvent arg0) {
-				Point p = new Point(arg0.getX(),arg0.getY());
-				_gamesList.setSelectedIndex(_gamesList.locationToIndex(p));
-				IGame game = (IGame)_gamesList.getSelectedValue();
-				if( game != null ){
-					_infoPane.setText(game.getGameDescription());
-				}
-			}
-			
-			@Override
-			public void mouseDragged(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-		_gamesList.addMouseListener(new MouseListener() {
-			
-			@Override
-			public void mouseReleased(MouseEvent arg0) {}
-			
-			@Override
-			public void mousePressed(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseExited(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseEntered(MouseEvent arg0) {}
-			
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				IGame game = (IGame)_gamesList.getSelectedValue();
-				if( game != null ){
-					//_gamesServer.createGame(game);
-				}
-			}
-		});
 		
 		EtchedBorder edge = new EtchedBorder(EtchedBorder.RAISED);
 		_gamesList.setBorder(edge);

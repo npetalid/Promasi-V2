@@ -88,24 +88,22 @@ public class MultiplayerFolderGamesServer extends AGamesServer {
 			_games.clear();
 			try{
 				List<IGame> games = new LinkedList<IGame>();
-				String gamesFolders[]=_gamesFolder.list();
-				for(int i=0;i<gamesFolders.length;i++){
+				for(String folderName : _gamesFolder.list() ){
 					try{
-						MultiPlayerGameFolder folder = new MultiPlayerGameFolder( _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + gamesFolders[i] );
+						MultiPlayerGameFolder folder = new MultiPlayerGameFolder( _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + folderName );
 						GameModel model = folder.readGame();
 						games.add( new MultiPlayerGame(this, _client, model.getName(), model.getGameDescription()) );
 						_games.put(model.getName(), model);
 					}catch (GameException e) {
 						_logger.warn("Request games list failed because the GameException " + e.toString());
 					}catch (GuiException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						_logger.warn("Request games list failed because the GuiException " + e.toString());
 					}
 				}
 				
 				updateGamesList(games);
 			}catch(IOException e){
-				
+				_logger.warn("Unable to create a MultiPlayer game because of exception : " + e.toString());
 			}
 
 		}finally{
