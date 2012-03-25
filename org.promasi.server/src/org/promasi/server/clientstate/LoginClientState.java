@@ -77,25 +77,25 @@ public class LoginClientState implements IClientListener {
 				LoginRequest request=(LoginRequest)object;
 				if(request.getClientId()==null || request.getPassword()==null){
 					_logger.warn("Invalid request found client will be disconnected");
-					client.sendMessage(new WrongProtocolResponse().serialize());
+					client.sendMessage(new WrongProtocolResponse());
 					client.disconnect();
 				}else{
 					if(_server.login(request.getClientId(), client)){
 						LoginResponse response=new LoginResponse(request.getClientId(), _server.getAvailableGames());
 						client.removeListener(this);
 						client.addListener( new ChooseGameClientState(_server, client, request.getClientId()) );
-						client.sendMessage(response.serialize());
+						client.sendMessage(response);
 						_logger.info("Login succeed");
 					}else{
 						_logger.info("Login failed for client id '"+request.getClientId() +"'");
-						client.sendMessage(new LoginFailedResponse().serialize());
+						client.sendMessage(new LoginFailedResponse());
 					}
 				}
 			}else{
 				
 			}
 		}catch(NetworkException e){
-			client.sendMessage(new InternalErrorResponse().serialize());
+			client.sendMessage(new InternalErrorResponse());
 			client.disconnect();
 		}
 	}

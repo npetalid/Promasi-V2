@@ -327,8 +327,7 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 					gamesList.put(entry.getKey(), entry.getValue().getGameDescription());
 				}
 				
-				UpdateGameListRequest request=new UpdateGameListRequest(gamesList);
-				result = client.sendMessage(request.serialize());
+				result = client.sendMessage(new UpdateGameListRequest(gamesList));
 				_logger.info("Update games request was sent to the client with");
 			}else{
 				_logger.error("sendUpdateGamesListRequest failed becuase the wrong argument client == null");
@@ -360,12 +359,12 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 					List<String> gamePlayers=game.getGamePlayers();
 					for(String playerId : gamePlayers){
 						if(playerId!=game.getGameOwnerId() && _clients.containsKey(playerId)){
-							_clients.get(playerId).sendMessage(new GameCanceledRequest().serialize());
+							_clients.get(playerId).sendMessage(new GameCanceledRequest());
 						}
 					}
 					
 					if(_clients.containsKey(game.getGameOwnerId())){
-						_clients.get(game.getGameOwnerId()).sendMessage(new CancelGameResponse().serialize());
+						_clients.get(game.getGameOwnerId()).sendMessage(new CancelGameResponse());
 					}
 					
 					_logger.info("Game with id '" + gameId + "' was cancelled");
@@ -399,11 +398,11 @@ public class ProMaSiServer implements IClientListener, ITcpServerListener
 				if(_availableGames.containsKey(gameId)){
 					List<String> gamePlayers=_availableGames.get(gameId).getGamePlayers();
 					if(gamePlayers.contains(clientId) && _clients.containsKey(clientId)){
-						_clients.get(clientId).sendMessage(new LeaveGameResponse().serialize());
+						_clients.get(clientId).sendMessage(new LeaveGameResponse());
 						gamePlayers.remove(clientId);
 						for(String player : gamePlayers){
 							if(_clients.containsKey(player)){
-								result = _clients.get(clientId).sendMessage(new UpdateGamePlayersListRequest(gamePlayers).serialize());
+								result = _clients.get(clientId).sendMessage(new UpdateGamePlayersListRequest(gamePlayers));
 								_logger.info("Client with id '" + clientId + "' did leave the game with id '" + gameId +"'");
 							}
 						}

@@ -6,8 +6,6 @@ package org.promasi.protocol.messages;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.promasi.utilities.serialization.SerializableObject;
-
 /**
  * @author m1cRo
  * Represent the valid login response in
@@ -15,7 +13,7 @@ import org.promasi.utilities.serialization.SerializableObject;
  * response to the LoginRequest message, in case if
  * login succeed.
  */
-public class LoginResponse extends SerializableObject 
+public class LoginResponse extends Message 
 {
 	/**
 	 * List of available games.

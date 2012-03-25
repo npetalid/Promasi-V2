@@ -105,13 +105,13 @@ public class WaitingPlayersClientState implements IServerGameListener, IClientLi
 			Object object=new XMLDecoder(new ByteArrayInputStream(recData.getBytes())).readObject();
 			if(object instanceof StartGameRequest){
 				if(!_server.startGame(_clientId, _gameId)){
-					client.sendMessage(new InternalErrorResponse().serialize());
+					client.sendMessage(new InternalErrorResponse());
 					client.disconnect();
 				}
 			}else if(object instanceof MessageRequest){
 				MessageRequest request=(MessageRequest)object;
 				if( request.getMessage()==null ){
-					client.sendMessage(new WrongProtocolResponse().serialize());
+					client.sendMessage(new WrongProtocolResponse());
 					client.disconnect();
 				}else{
 					_game.sendMessage(_clientId, request.getMessage());
@@ -121,14 +121,14 @@ public class WaitingPlayersClientState implements IServerGameListener, IClientLi
 				client.removeListener(this);
 				client.addListener(new ChooseGameClientState(_server, client, _clientId));
 			}else{
-				client.sendMessage(new WrongProtocolResponse().serialize());
+				client.sendMessage(new WrongProtocolResponse());
 				client.disconnect();
 			}
 		}catch(NetworkException e){
-			client.sendMessage(new InternalErrorResponse().serialize());
+			client.sendMessage(new InternalErrorResponse());
 			client.disconnect();
 		}catch(IllegalArgumentException e){
-			client.sendMessage(new InternalErrorResponse().serialize());
+			client.sendMessage(new InternalErrorResponse());
 			client.disconnect();
 		}
 	}
@@ -145,7 +145,7 @@ public class WaitingPlayersClientState implements IServerGameListener, IClientLi
 			}
 			
 			gameModel.setProjects(null);
-			_client.sendMessage(new GameStartedRequest(gameModel, dateTime.toString()).serialize());
+			_client.sendMessage(new GameStartedRequest(gameModel, dateTime.toString()));
 		}
 	}
 
@@ -222,7 +222,7 @@ public class WaitingPlayersClientState implements IServerGameListener, IClientLi
 	@Override
 	public void messageSent(String clientId, IMultiPlayerGame game, String message) {
 		MessageRequest request=new MessageRequest(clientId, message);
-		_client.sendMessage(request.serialize());
+		_client.sendMessage(request);
 	}
 
 	@Override
@@ -243,7 +243,7 @@ public class WaitingPlayersClientState implements IServerGameListener, IClientLi
 
 	@Override
 	public void playersListUpdated( IMultiPlayerGame game, List<String> gamePlayers) {
-		_client.sendMessage(new UpdateGamePlayersListRequest(gamePlayers).serialize());
+		_client.sendMessage(new UpdateGamePlayersListRequest(gamePlayers));
 		
 	}
 

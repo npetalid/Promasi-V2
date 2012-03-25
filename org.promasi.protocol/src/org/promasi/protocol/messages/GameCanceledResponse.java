@@ -3,12 +3,10 @@
  */
 package org.promasi.protocol.messages;
 
-import org.promasi.utilities.serialization.SerializableObject;
-
 /**
  * @author m1cRo
  *
  */
-public class GameCanceledResponse extends SerializableObject {
+public class GameCanceledResponse extends Message {
 
 }

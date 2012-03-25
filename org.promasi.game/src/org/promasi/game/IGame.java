@@ -19,6 +19,12 @@ import org.promasi.game.singleplayer.IClientGameListener;
 public interface IGame 
 {
 	/**
+	 * Will return the game name.
+	 * @return string which represent the name 
+	 * of the game.
+	 */
+	public String getName();
+	/**
 	 * User can call this method in order to
 	 * get the game description.
 	 * @return Instance of {@link String} which contains the game

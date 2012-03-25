@@ -324,4 +324,9 @@ public class MultiPlayerGame implements IGame, IClientListener {
 	@Override
 	public void onConnectionError(ProMaSiClient client) {
 	}
+
+	@Override
+	public String getName() {
+		return _gameId;
+	}
 }

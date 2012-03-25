@@ -1,8 +1,6 @@
 package org.promasi.protocol.messages;
 
-import org.promasi.utilities.serialization.SerializableObject;
-
-public class JoinGameRequest extends SerializableObject 
+public class JoinGameRequest extends Message 
 {
 	/**
 	 * 

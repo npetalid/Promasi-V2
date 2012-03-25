@@ -4,13 +4,12 @@
 package org.promasi.protocol.messages;
 
 import org.promasi.game.GameModelMemento;
-import org.promasi.utilities.serialization.SerializableObject;
 
 /**
  * @author m1cRo
  *
  */
-public class CreateGameRequest extends SerializableObject
+public class CreateGameRequest extends Message
 {
 	/**
 	 * 

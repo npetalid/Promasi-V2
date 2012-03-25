@@ -150,7 +150,6 @@ public class MultiPlayerPlayMode implements IPlayMode, IMenuEntry, IClientListen
 	public void gotoNextPanel(IMainFrame mainFrame) {
         try {
 			LoginJPanel lognPanel = new LoginJPanel(mainFrame, _client);
-			mainFrame.setResizable(false);
 			mainFrame.changePanel(lognPanel);
 		} catch (GuiException e) {
 			// TODO log

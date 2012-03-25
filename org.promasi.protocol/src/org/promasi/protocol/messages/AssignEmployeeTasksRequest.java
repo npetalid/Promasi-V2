@@ -6,13 +6,12 @@ package org.promasi.protocol.messages;
 import java.util.List;
 
 import org.promasi.game.company.EmployeeTaskMemento;
-import org.promasi.utilities.serialization.SerializableObject;
 
 /**
  * @author m1cRo
  *
  */
-public class AssignEmployeeTasksRequest extends SerializableObject 
+public class AssignEmployeeTasksRequest extends Message 
 {
 	/**
 	 * 

@@ -37,7 +37,9 @@ public class MainFrame extends JFrame implements IMainFrame {
 		_statusPanel.setPreferredSize(new Dimension(200,20));
 		_statusPanel.setLayout(new BorderLayout());
 		_statusPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
-		_statusPanel.add(new JLabel("Pro.Ma.Si"), BorderLayout.WEST);
+		JLabel promasiLabel = new JLabel("Pro.Ma.Si");
+		promasiLabel.setPreferredSize(new Dimension(200,200));
+		_statusPanel.add(promasiLabel, BorderLayout.WEST);
 	}
 
 	@Override

@@ -121,7 +121,7 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 			if(object instanceof HireEmployeeRequest){
 				HireEmployeeRequest request=(HireEmployeeRequest)object;
 				if(request.getEmployeeId()==null){
-					client.sendMessage(new WrongProtocolResponse().serialize());
+					client.sendMessage(new WrongProtocolResponse());
 					client.disconnect();
 				}
 				
@@ -129,7 +129,7 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 			}else if(object instanceof DischargeEmployeeRequest){
 				DischargeEmployeeRequest request=(DischargeEmployeeRequest)object;
 				if(request.getEmployeeId()==null){
-					client.sendMessage(new WrongProtocolResponse().serialize());
+					client.sendMessage(new WrongProtocolResponse());
 					client.disconnect();
 				}
 				
@@ -138,7 +138,7 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 			}else if(object instanceof AssignEmployeeTasksRequest){
 				AssignEmployeeTasksRequest request=(AssignEmployeeTasksRequest)object;
 				if(request.getEmployeeId()==null || request.getTasks()==null){
-					client.sendMessage(new WrongProtocolResponse().serialize());
+					client.sendMessage(new WrongProtocolResponse());
 					client.disconnect();
 				}
 				
@@ -147,13 +147,13 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 				_game.removeListener(this);
 				_client.removeListener(this);
 				_client.addListener( new ChooseGameClientState( _server, _client, _clientId));
-				client.sendMessage(new LeaveGameResponse().serialize());
+				client.sendMessage(new LeaveGameResponse());
 			}else{
-				client.sendMessage(new WrongProtocolResponse().serialize());
+				client.sendMessage(new WrongProtocolResponse());
 				client.disconnect();
 			}
 		}catch(Exception e){
-			client.sendMessage(new InternalErrorResponse().serialize());
+			client.sendMessage(new InternalErrorResponse());
 			client.disconnect();
 		}
 	}
@@ -170,7 +170,7 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 			CompanyMemento company, ProjectMemento project,
 			DateTime dateTime) {
 		if(clientId.equals(_clientId)){
-			_client.sendMessage(new ProjectAssignedRequest(company, project, dateTime.toString()).serialize());
+			_client.sendMessage(new ProjectAssignedRequest(company, project, dateTime.toString()));
 		}
 	}
 	
@@ -179,7 +179,7 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 			CompanyMemento company, ProjectMemento project,
 			DateTime dateTime) {
 		if(clientId.equals(_clientId)){
-			_client.sendMessage(new ProjectFinishedRequest(project).serialize());
+			_client.sendMessage(new ProjectFinishedRequest(project));
 		}
 		
 	}
@@ -187,14 +187,14 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 	@Override
 	public void employeeHired(String clientId, IMultiPlayerGame game,MarketPlaceMemento marketPlace, CompanyMemento company,EmployeeMemento employee, DateTime dateTime) {
 		if(clientId.equals(_clientId)){
-			_client.sendMessage(new EmployeeHiredRequest(marketPlace, company, employee, dateTime.toString()).serialize());
+			_client.sendMessage(new EmployeeHiredRequest(marketPlace, company, employee, dateTime.toString()));
 		}	
 	}
 
 	@Override
 	public void employeeDischarged(String clientId, IMultiPlayerGame game,MarketPlaceMemento marketPlace, CompanyMemento company, EmployeeMemento employee, DateTime dateTime) {
 		if(clientId.equals(_clientId)){
-			_client.sendMessage(new EmployeeDischargedRequest(marketPlace, company, employee, dateTime.toString()).serialize());
+			_client.sendMessage(new EmployeeDischargedRequest(marketPlace, company, employee, dateTime.toString()));
 		}	
 	}
 
@@ -223,14 +223,14 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 	public void onExecuteWorkingStep(String clientId, IMultiPlayerGame game,
 			CompanyMemento company, ProjectMemento assignedProject, DateTime dateTime) {
 		if(clientId.equals(_clientId)){
-			_client.sendMessage(new OnExecuteStepRequest(assignedProject, company, dateTime.toString()).serialize());
+			_client.sendMessage(new OnExecuteStepRequest(assignedProject, company, dateTime.toString()));
 		}
 	}
 
 	@Override
 	public void onTick(String clientId, IMultiPlayerGame game, DateTime dateTime) {
 		if(clientId.equals(_clientId)){
-			_client.sendMessage(new OnTickRequest(dateTime.toString()).serialize());
+			_client.sendMessage(new OnTickRequest(dateTime.toString()));
 		}
 	}
 
@@ -263,7 +263,7 @@ public class PlayingGameClientState implements IServerGameListener, IClientListe
 			Map<String, GameModelMemento> models=new TreeMap<String, GameModelMemento>(gameModels);
 			models.remove(_clientId);
 			GameFinishedRequest request=new GameFinishedRequest(_clientId, gameModel, models);
-			_client.sendMessage(request.serialize());
+			_client.sendMessage(request);
 		}
 	}
 }

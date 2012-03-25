@@ -57,7 +57,7 @@ public class SinglePlayerGamesServer extends AGamesServer {
 		_lockObject=new ReentrantLock();
 		_gamesFolder=new File(gamesFolder);
 		if(!_gamesFolder.isDirectory()){
-			_logger.warn("Initializatin failed because games directory doesn't found");
+			_logger.warn("Initializatin failed because games directory doesn't exist");
 			throw new IOException("Wrong argument gamesFolder");
 		}
 		
@@ -76,7 +76,7 @@ public class SinglePlayerGamesServer extends AGamesServer {
 					try{
 						SinglePlayerGameFolder builder;
 						builder = new SinglePlayerGameFolder( _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + gamesFolders[i] );
-						games.add( new SinglePlayerGame(this, builder.getGame(), new Clock() )  );
+						games.add( new SinglePlayerGame(this, builder.readGame(), new Clock() )  );
 					}catch (GameException e) {
 						_logger.warn("Request games list failed because the GameException " + e.toString());
 					}
@@ -107,7 +107,7 @@ public class SinglePlayerGamesServer extends AGamesServer {
 	}
 
 	@Override
-	public boolean createGame(IGame game) {
+	public boolean createGame(String gameId, IGame game) {
 		return false;
 	}
 }

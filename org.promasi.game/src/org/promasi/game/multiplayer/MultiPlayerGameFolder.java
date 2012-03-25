@@ -30,7 +30,7 @@ import org.promasi.utilities.serialization.SerializationException;
  * @author m1cRo
  *
  */
-public class MultiPlayerGameBuilder {	
+public class MultiPlayerGameFolder {	
 	/**
 	 * 
 	 */
@@ -62,7 +62,7 @@ public class MultiPlayerGameBuilder {
 	 * @throws NullArgumentException
 	 * @throws IOException 
 	 */
-	public MultiPlayerGameBuilder(final String gameFolderPath)throws GameException, IOException{
+	public MultiPlayerGameFolder(final String gameFolderPath)throws GameException, IOException{
 		if(gameFolderPath==null){
 			throw new GameException("Wrong argument gameFolderPath==null");
 		}
@@ -132,7 +132,7 @@ public class MultiPlayerGameBuilder {
 	 * 
 	 * @return
 	 */
-	public GameModel getGame(){
+	public GameModel readGame(){
 		return _game;
 	}
 	

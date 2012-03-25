@@ -134,7 +134,7 @@ public class CreateGameJPanel extends JPanel implements IGamesServerListener {
 			public void mouseClicked(MouseEvent arg0) {
 				IGame game = (IGame)_gamesList.getSelectedValue();
 				if( game != null ){
-					_gamesServer.createGame(game);
+					//_gamesServer.createGame(game);
 				}
 			}
 		});
@@ -164,6 +164,6 @@ public class CreateGameJPanel extends JPanel implements IGamesServerListener {
 
 	@Override
 	public void onJoinGame(IGame game) {
-		_gamesServer.createGame(game);
+		//_gamesServer.createGame(game);
 	}
 }

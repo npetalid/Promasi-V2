@@ -48,7 +48,7 @@ public class MultiPlayerGamesServer extends AGamesServer implements IClientListe
 		
 		_client = client;
 		_client.addListener(this);
-		_client.sendMessage(new UpdateAvailableGameListRequest().serialize());
+		_client.sendMessage(new UpdateAvailableGameListRequest());
 	}
 	
 	@Override
@@ -103,7 +103,7 @@ public class MultiPlayerGamesServer extends AGamesServer implements IClientListe
 	}
 
 	@Override
-	public boolean createGame(IGame game) {
+	public boolean createGame(String gameId, IGame game) {
 		// TODO Auto-generated method stub
 		return false;
 	}

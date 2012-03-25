@@ -111,7 +111,7 @@ public class WaitingGameClientState implements IServerGameListener, IClientListe
 			}else if(object instanceof MessageRequest){
 				MessageRequest request=(MessageRequest)object;
 				if(request.getMessage()==null){
-					client.sendMessage(new WrongProtocolResponse().serialize());
+					client.sendMessage(new WrongProtocolResponse());
 					client.disconnect();
 				}else{
 					_game.sendMessage(_clientId, request.getMessage());
@@ -124,13 +124,13 @@ public class WaitingGameClientState implements IServerGameListener, IClientListe
 				client.removeListener(this);
 				client.addListener(new ChooseGameClientState(_server, client, _clientId));
 			}else{
-				client.sendMessage(new WrongProtocolResponse().serialize());
+				client.sendMessage(new WrongProtocolResponse());
 			}
 		}catch(NetworkException e){
-			client.sendMessage(new InternalErrorResponse().serialize());
+			client.sendMessage(new InternalErrorResponse());
 			client.disconnect();
 		}catch(IllegalArgumentException e){
-			client.sendMessage(new InternalErrorResponse().serialize());
+			client.sendMessage(new InternalErrorResponse());
 			client.disconnect();
 		}
 
@@ -150,7 +150,7 @@ public class WaitingGameClientState implements IServerGameListener, IClientListe
 			}
 			
 			gameModel.setProjects(null);
-			_client.sendMessage(new GameStartedRequest(gameModel, dateTime.toString()).serialize());
+			_client.sendMessage(new GameStartedRequest(gameModel, dateTime.toString()));
 		}
 	}
 
@@ -227,7 +227,7 @@ public class WaitingGameClientState implements IServerGameListener, IClientListe
 	@Override
 	public void messageSent(String playerId, IMultiPlayerGame game, String message) {
 		MessageRequest request=new MessageRequest(playerId, message);
-		_client.sendMessage(request.serialize());
+		_client.sendMessage(request);
 	}
 
 	@Override
@@ -250,7 +250,7 @@ public class WaitingGameClientState implements IServerGameListener, IClientListe
 
 	@Override
 	public void playersListUpdated( IMultiPlayerGame game, List<String> gamePlayers) {
-		_client.sendMessage(new UpdateGamePlayersListRequest(gamePlayers).serialize());
+		_client.sendMessage(new UpdateGamePlayersListRequest(gamePlayers));
 	}
 
 	@Override

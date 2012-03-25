@@ -26,6 +26,9 @@ import org.promasi.protocol.messages.LoginRequest;
 import org.promasi.protocol.messages.LoginResponse;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 /**
  * @author alekstheod
@@ -87,42 +90,28 @@ public class LoginJPanel extends JPanel implements IClientListener{
 		_client = client;
 		_mainFrame = mainFrame;
 		
-		setLayout(null);
-		
 		JLabel userNameLabel =  new JLabel("Username");
-		userNameLabel.setBounds(100, 200, 150, 30);
-		add( userNameLabel );
 		userNameLabel.setFont(new Font("Arial", Font.BOLD, 25));
 		
 		JLabel passwordLabel = new JLabel("Password");
-		passwordLabel.setBounds(100, 280, 150, 30);
 		passwordLabel.setFont(new Font("Arial", Font.BOLD, 25));
-		add( passwordLabel );
 		
 		_usernameField = new JTextField();
-		add( _usernameField );
-		_usernameField.setBounds(300, 200, 300, 30);
 		_usernameField.setFont(new Font("Arial", Font.BOLD, 25));
 
 		_passwordField = new JPasswordField();
-		add( _passwordField );
-		_passwordField.setBounds(300, 280, 300, 30);
 		_passwordField.setFont(new Font("Arial", Font.BOLD, 25));
 		
 		JButton loginButton = new JButton("Next");
-		add( loginButton );
-		loginButton.setBounds(500, 380, 100, 30);
 		loginButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				_client.sendMessage(new LoginRequest(_usernameField.getText(), new String(_passwordField.getPassword())).serialize());
+				_client.sendMessage(new LoginRequest(_usernameField.getText(), new String(_passwordField.getPassword())));
 			}
 		});
 		
 		JButton backButton = new JButton("Back");
-		add( backButton );
-		backButton.setBounds(100, 380, 100, 30);
 		backButton.addActionListener(new ActionListener() {
 			
 			@Override
@@ -130,7 +119,6 @@ public class LoginJPanel extends JPanel implements IClientListener{
 				try {
 					PlayModesJPanel panel = new PlayModesJPanel(_mainFrame);
 					_mainFrame.changePanel(panel);
-					_mainFrame.setResizable(true);
 				} catch (GuiException e1) {
 					_logger.error("PlayModesJPanel initialization failed");
 				}
@@ -139,6 +127,44 @@ public class LoginJPanel extends JPanel implements IClientListener{
 		});
 		
 		_client.addListener(this);
+		GroupLayout groupLayout = new GroupLayout(this);
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(32)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED, 262, Short.MAX_VALUE)
+							.addComponent(loginButton, GroupLayout.PREFERRED_SIZE, 100, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(userNameLabel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(_usernameField, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(passwordLabel, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(_passwordField, GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)))
+					.addGap(73))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(101)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(userNameLabel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(_usernameField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+					.addGap(32)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(passwordLabel, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(_passwordField, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+					.addGap(57)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(backButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(loginButton, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+					.addGap(50))
+		);
+		setLayout(groupLayout);
 	}
 
 	@Override
@@ -158,7 +184,6 @@ public class LoginJPanel extends JPanel implements IClientListener{
 						try {
 							final MultiPlayerGamesJPanel gamesPanel = new MultiPlayerGamesJPanel(resp.getUserName(), _mainFrame, _client, gamesServer );
 							_mainFrame.changePanel(gamesPanel);
-							_mainFrame.setResizable(true);
 						} catch (GuiException e) {
 							_logger.error("Unable to create MultiPlayerGamesJPanel because an exception was thrown : " + e.getMessage());
 						}

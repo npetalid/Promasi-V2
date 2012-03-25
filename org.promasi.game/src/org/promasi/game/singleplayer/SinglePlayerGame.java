@@ -276,4 +276,9 @@ public class SinglePlayerGame extends Observer<IClientGameListener> implements I
 	public boolean removeMarketPlaceListener(IMarketPlaceListener listener) {
 		return _gameModel.removeMarketPlaceListener(listener);
 	}
+
+	@Override
+	public String getName() {
+		return _gameModel.getName();
+	}
 }

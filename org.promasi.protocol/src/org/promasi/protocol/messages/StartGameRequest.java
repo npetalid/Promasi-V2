@@ -1,13 +1,11 @@
 package org.promasi.protocol.messages;
 
-import org.promasi.utilities.serialization.SerializableObject;
-
 /**
  * 
  * @author m1cRo
  *
  */
-public class StartGameRequest extends SerializableObject
+public class StartGameRequest extends Message
 {
 	/**
 	 * 

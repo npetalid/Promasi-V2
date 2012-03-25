@@ -14,6 +14,7 @@ import org.promasi.network.tcp.NetworkException;
 import org.promasi.network.tcp.TcpClient;
 import org.promasi.protocol.compression.CompressionException;
 import org.promasi.protocol.compression.ICompression;
+import org.promasi.protocol.messages.Message;
 import org.promasi.utilities.exceptions.NullArgumentException;
 
 /**
@@ -36,7 +37,10 @@ public class ProMaSiClient implements ITcpClientListener
 	private List< IClientListener > _listeners;
 	
 	/**
-	 * 
+	 * Instance of {@link ICompression} interface
+	 * implementation which provides the compression
+	 * algorithm in order to compress and decompress
+	 * the messages.
 	 */
 	private ICompression _compression;
 	
@@ -68,15 +72,15 @@ public class ProMaSiClient implements ITcpClientListener
 	 * @param message
 	 * @return true if message was sent, false otherwise.
 	 */
-	public boolean sendMessage(String message){
+	public boolean sendMessage(Message message){
 		boolean result = false;
 		
 		try{
 			_lockObject.lock();
 			if(message !=null ){
-				byte[] outputMessage = message.getBytes();
+				byte[] outputMessage = message.serialize().getBytes();
 				if( _compression != null ){
-					outputMessage = _compression.compress( message.getBytes() );
+					outputMessage = _compression.compress( message.serialize().getBytes() );
 				}
 				
 				Base64 base64=new Base64();

@@ -9,13 +9,12 @@ import java.util.Queue;
 import org.promasi.game.GameModelMemento;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.game.project.ProjectTaskMemento;
-import org.promasi.utilities.serialization.SerializableObject;
 
 /**
  * @author m1cRo
  *
  */
-public class GameFinishedRequest extends SerializableObject {
+public class GameFinishedRequest extends Message {
 
 	/**
 	 * 

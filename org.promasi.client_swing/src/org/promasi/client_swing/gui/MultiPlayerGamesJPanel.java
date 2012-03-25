@@ -108,7 +108,7 @@ public class MultiPlayerGamesJPanel extends JPanel implements IGamesServerListen
 			}
 		});
 		
-		_client.sendMessage(new UpdateAvailableGameListRequest().serialize());
+		_client.sendMessage(new UpdateAvailableGameListRequest());
 	}
 
 	@Override

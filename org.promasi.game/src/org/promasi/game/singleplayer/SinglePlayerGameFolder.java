@@ -160,7 +160,7 @@ public class SinglePlayerGameFolder
 	 * 
 	 * @return
 	 */
-	public GameModel getGame(){
+	public GameModel readGame(){
 		return _game;
 	}
 	

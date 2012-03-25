@@ -5,13 +5,12 @@ package org.promasi.protocol.messages;
 
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.project.ProjectMemento;
-import org.promasi.utilities.serialization.SerializableObject;
 
 /**
  * @author m1cRo
  *
  */
-public class ProjectAssignedRequest extends SerializableObject 
+public class ProjectAssignedRequest extends Message 
 {
 	/**
 	 * 

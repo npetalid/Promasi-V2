@@ -5,13 +5,11 @@ package org.promasi.protocol.messages;
 
 import java.util.List;
 
-import org.promasi.utilities.serialization.SerializableObject;
-
 /**
  * @author m1cRo
  *
  */
-public class CreateGameResponse extends SerializableObject 
+public class CreateGameResponse extends Message 
 {
 	/**
 	 * 

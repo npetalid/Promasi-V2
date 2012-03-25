@@ -4,13 +4,12 @@
 package org.promasi.protocol.messages;
 
 import org.promasi.game.project.ProjectMemento;
-import org.promasi.utilities.serialization.SerializableObject;
 
 /**
  * @author m1cRo
  *
  */
-public class ProjectFinishedRequest extends SerializableObject
+public class ProjectFinishedRequest extends Message
 {
 	/**
 	 * 

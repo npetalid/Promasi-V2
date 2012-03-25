@@ -113,9 +113,9 @@ public class ChooseGameClientState  implements IClientListener
 					JoinGameResponse response=new JoinGameResponse(game.getGameName(), game.getGameDescription(), game.getGamePlayers());
 					client.removeListener(this);
 					client.addListener(new WaitingGameClientState(_clientId,_server, client,request.getGameId(), game));
-					client.sendMessage(response.serialize());
+					client.sendMessage(response);
 				}catch(IllegalArgumentException e){
-					client.sendMessage(new JoinGameFailedResponse().serialize());
+					client.sendMessage(new JoinGameFailedResponse());
 				}
 
 			}else if(object instanceof CreateGameRequest){
@@ -124,7 +124,7 @@ public class ChooseGameClientState  implements IClientListener
 				GameModelMemento gameModel=request.getGameModel();
 				if(gameModel==null){
 					_logger.warn("Invalid message detected gameModel == null, client will be disconnected");
-					client.sendMessage(new WrongProtocolResponse().serialize());
+					client.sendMessage(new WrongProtocolResponse());
 					client.disconnect();
 					return;
 				}
@@ -132,21 +132,21 @@ public class ChooseGameClientState  implements IClientListener
 				MarketPlaceMemento marketPlace=gameModel.getMarketPlace();
 				if(marketPlace==null){
 					_logger.warn("Invalid message detected marketPlace == null, client will be disconnected");
-					client.sendMessage(new WrongProtocolResponse().serialize());
+					client.sendMessage(new WrongProtocolResponse());
 					client.disconnect();
 				}
 				
 				CompanyMemento company=gameModel.getCompany();
 				if(company==null){
 					_logger.warn("Invalid message detected company == null, client will be disconnected");
-					client.sendMessage(new WrongProtocolResponse().serialize());
+					client.sendMessage(new WrongProtocolResponse());
 					client.disconnect();
 				}
 				
 				Queue<ProjectMemento> sProjects=gameModel.getProjects();
 				if(sProjects==null){
 					_logger.warn("Invalid message detected projects == null, client will be disconnected");
-					client.sendMessage(new WrongProtocolResponse().serialize());
+					client.sendMessage(new WrongProtocolResponse());
 					client.disconnect();
 				}
 				
@@ -164,7 +164,7 @@ public class ChooseGameClientState  implements IClientListener
 				if(_server.createGame(request.getGameId(), game))
 				{
 					CreateGameResponse response=new CreateGameResponse(request.getGameId(), gameModel.getGameDescription(), game.getGamePlayers());
-					client.sendMessage(response.serialize());
+					client.sendMessage(response);
 					client.removeListener(this);
 					client.addListener(new WaitingPlayersClientState(_clientId, request.getGameId(), client, game, _server));
 				}else{
@@ -173,15 +173,15 @@ public class ChooseGameClientState  implements IClientListener
 			}else if(object instanceof UpdateAvailableGameListRequest){
 				_logger.info("Received message :'" + UpdateAvailableGameListRequest.class.toString() + "'");
 				UpdateGameListRequest request=new UpdateGameListRequest(_server.getAvailableGames());
-				client.sendMessage(request.serialize());
+				client.sendMessage(request);
 			}else{
 				_logger.warn("Received an invalid message type '" +object.toString()+"'");
-				client.sendMessage(new WrongProtocolResponse().serialize());
+				client.sendMessage(new WrongProtocolResponse());
 				client.disconnect();
 			}
 		}catch(Exception e){
 			_logger.warn("Internal error client will be disconnected");
-			client.sendMessage(new InternalErrorResponse().serialize());
+			client.sendMessage(new InternalErrorResponse());
 			client.disconnect();
 		}
 	}

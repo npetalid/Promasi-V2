@@ -2,14 +2,12 @@ package org.promasi.protocol.messages;
 
 import java.util.Map;
 
-import org.promasi.utilities.serialization.SerializableObject;
-
 /**
  * 
  * @author m1cRo
  *
  */
-public class UpdateGameListRequest extends SerializableObject 
+public class UpdateGameListRequest extends Message 
 {
 	/**
 	 * 

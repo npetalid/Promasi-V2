@@ -6,13 +6,12 @@ package org.promasi.protocol.messages;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.MarketPlaceMemento;
-import org.promasi.utilities.serialization.SerializableObject;
 
 /**
  * @author m1cRo
  *
  */
-public class EmployeeDischargedRequest extends SerializableObject
+public class EmployeeDischargedRequest extends Message
 {
 	/**
 	 * 
