@@ -156,7 +156,13 @@ public class CreateGameJPanel extends JPanel implements IGamesServerListener {
 	}
 
 	@Override
-	public void onJoinGame(IGame game) {
-		//_gamesServer.createGame(game);
+	public void onJoinGame(final IGame game) {
+		SwingUtilities.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+			}
+		});
 	}
 }

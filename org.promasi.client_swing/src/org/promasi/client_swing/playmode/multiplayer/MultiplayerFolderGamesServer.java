@@ -19,6 +19,7 @@ import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.IGame;
 import org.promasi.game.multiplayer.MultiPlayerGameFolder;
+import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.messages.CreateGameRequest;
 import org.promasi.utilities.file.RootDirectory;
@@ -29,7 +30,7 @@ import org.promasi.utilities.logger.LoggerFactory;
  * @author alekstheod
  *
  */
-public class MultiplayerFolderGamesServer extends AGamesServer {
+public class MultiplayerFolderGamesServer extends AGamesServer implements IClientListener{
 
 	private Lock _lockObject;
 	
@@ -136,6 +137,26 @@ public class MultiplayerFolderGamesServer extends AGamesServer {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public void onReceive(ProMaSiClient client, String recData) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onDisconnect(ProMaSiClient client) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onConnect(ProMaSiClient client) {
+		// TODO Auto-generated method stub	
+	}
+
+	@Override
+	public void onConnectionError(ProMaSiClient client) {
+		// TODO Auto-generated method stub
 	}
 
 }

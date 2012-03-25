@@ -3,7 +3,6 @@
  */
 package org.promasi.protocol.client;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -15,6 +14,7 @@ import org.promasi.network.tcp.TcpClient;
 import org.promasi.protocol.compression.CompressionException;
 import org.promasi.protocol.compression.ICompression;
 import org.promasi.protocol.messages.Message;
+import org.promasi.utilities.design.Observer;
 import org.promasi.utilities.exceptions.NullArgumentException;
 
 /**
@@ -24,17 +24,12 @@ import org.promasi.utilities.exceptions.NullArgumentException;
  * this class provide the state machine engine so user can 
  * change the states of the client in order to receive messages.
  */
-public class ProMaSiClient implements ITcpClientListener
+public class ProMaSiClient extends Observer<IClientListener> implements ITcpClientListener
 {
 	/**
 	 *	TCP communication port for current user.
 	 */
 	private TcpClient _client;
-
-	/**
-	 *	Client states defined in the protocol logic.
-	 */
-	private List< IClientListener > _listeners;
 	
 	/**
 	 * Instance of {@link ICompression} interface
@@ -62,7 +57,6 @@ public class ProMaSiClient implements ITcpClientListener
 
 		_client=client;
 		_client.addListener(this);
-		_listeners = new LinkedList<>();
 		_lockObject = new ReentrantLock();
 		_compression = compression;
 	}
@@ -99,57 +93,7 @@ public class ProMaSiClient implements ITcpClientListener
 
 		return result;
 	}
-	
-	/**
-	 * 
-	 * @param listener
-	 */
-	public boolean addListener(IClientListener listener){
-		boolean result = false;
-		
-		try{
-			_lockObject.lock();
-			if(listener!=null && !_listeners.contains(listener)){
-				result = _listeners.add(listener);
-			}
-		}finally{
-			_lockObject.unlock();
-		}
-		
-		return result;
-	}
 
-	/**
-	 * 
-	 * @param listener
-	 */
-	public boolean removeListener(IClientListener listener){
-		boolean result = false;
-		
-		try{
-			_lockObject.lock();
-			if(listener!=null && _listeners.contains(listener)){
-				result = _listeners.remove(listener);
-			}
-		}finally{
-			_lockObject.unlock();
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * Will remove all client listeners.
-	 */
-	public void removeListeners(){
-		try{
-			_lockObject.lock();
-			_listeners.clear();
-		}finally{
-			_lockObject.unlock();
-		}
-	}
-	
 	/**
 	 * This method will close the connection with current user and will terminate the receive thread.
 	 * @return true if the connection was successfully closed, false otherwise.
@@ -160,7 +104,8 @@ public class ProMaSiClient implements ITcpClientListener
 		try{
 			_lockObject.lock();
 			result = _client.disconnect();
-			for( IClientListener listener : _listeners ){
+			List< IClientListener > listeners = getListeners();
+			for( IClientListener listener : listeners ){
 				listener.onDisconnect(this);
 			}
 		}finally{
@@ -176,7 +121,7 @@ public class ProMaSiClient implements ITcpClientListener
         byte[] messageByte = base64.decode(line.getBytes());
         try {
         	_lockObject.lock();
-        	List< IClientListener > listeners = new LinkedList<>(_listeners);
+        	List< IClientListener > listeners = getListeners();
     		for( IClientListener listener : listeners ){
     			if( _compression != null ){
     				listener.onReceive(this, new String(_compression.deCompress(messageByte)));
@@ -196,7 +141,8 @@ public class ProMaSiClient implements ITcpClientListener
 	public void onConnect() {
 		try{
 			_lockObject.lock();
-			for( IClientListener listener : _listeners ){
+			List< IClientListener > listeners = getListeners();
+			for( IClientListener listener : listeners ){
 				listener.onConnect(this);
 			}
 		}finally{
@@ -209,7 +155,8 @@ public class ProMaSiClient implements ITcpClientListener
 	public void onDisconnect() {
 		try{
 			_lockObject.lock();
-			for( IClientListener listener : _listeners ){
+			List< IClientListener > listeners = getListeners();
+			for( IClientListener listener : listeners ){
 				listener.onDisconnect(this);
 			}
 		}finally{
@@ -221,7 +168,8 @@ public class ProMaSiClient implements ITcpClientListener
 	public void onConnectionError() {
 		try{
 			_lockObject.lock();
-			for( IClientListener listener : _listeners ){
+			List< IClientListener > listeners = getListeners();
+			for( IClientListener listener : listeners ){
 				listener.onConnectionError(this);
 			}
 		}finally{
