@@ -83,14 +83,13 @@ public class TcpClient extends Observer<ITcpClientListener>
 					_isConnected=false;
 				}
 			});
-			
+		
+			_recvThread.start();
 		} catch (UnknownHostException e) {
 			throw new NetworkException(e.toString());
 		} catch (IOException e) {
 			throw new NetworkException(e.toString());
 		}
-
-		_recvThread.start();
 	}
 	
 	/**

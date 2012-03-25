@@ -123,11 +123,13 @@ public class TcpServer extends Observer<ITcpServerListener>
 							}
 							
 							_clients=clients;
-							Thread.sleep(100);
-						}catch( InterruptedException e){
-							
 						}finally{
 							_lockObject.unlock();
+						}
+						
+						try{
+							Thread.sleep(100);
+						}catch( InterruptedException e){
 						}
 					}
 				}
