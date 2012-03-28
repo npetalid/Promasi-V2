@@ -4,16 +4,18 @@ Bundle-Name: Utilities
 Bundle-SymbolicName: org.promasi.utilities;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
-Export-Package: org.apache.log4j,
- org.joda.time,
- org.joda.time.base,
- org.joda.time.chrono,
- org.joda.time.convert,
- org.joda.time.field,
- org.joda.time.format,
- org.joda.time.tz,
+Export-Package: org.apache.commons.codec,
+ org.apache.commons.codec.binary;uses:="org.apache.commons.codec",
+ org.apache.log4j;uses:="org.apache.log4j.helpers,org.apache.log4j.or,org.apache.log4j.spi",
+ org.joda.time;
+  uses:="org.joda.time.base,
+   org.joda.time.field,
+   org.joda.time.chrono,
+   org.joda.time.tz,
+   org.joda.time.format",
+ org.joda.time.base;uses:="org.joda.time,org.joda.time.format",
  org.promasi.utilities,
- org.promasi.utilities.clock,
+ org.promasi.utilities.clock;uses:="org.joda.time",
  org.promasi.utilities.design,
  org.promasi.utilities.exceptions,
  org.promasi.utilities.file,

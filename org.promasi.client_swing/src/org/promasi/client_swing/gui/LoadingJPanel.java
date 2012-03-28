@@ -11,6 +11,7 @@ import org.promasi.game.IGame;
 import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.singleplayer.IClientGameListener;
+import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod

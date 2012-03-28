@@ -21,6 +21,7 @@ import org.promasi.protocol.messages.UpdateAvailableGameListRequest;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
+import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod

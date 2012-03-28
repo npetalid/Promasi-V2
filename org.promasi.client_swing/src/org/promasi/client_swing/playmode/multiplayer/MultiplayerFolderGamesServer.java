@@ -12,7 +12,6 @@ import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.playmode.singleplayer.SinglePlayerGamesServer;
 import org.promasi.game.AGamesServer;
 import org.promasi.game.GameException;
@@ -25,6 +24,7 @@ import org.promasi.protocol.messages.CreateGameRequest;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
+import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod

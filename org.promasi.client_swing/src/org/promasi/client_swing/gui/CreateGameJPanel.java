@@ -20,11 +20,12 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.promasi.client_swing.components.JEditorPane.ExtendedJEditorPane;
-import org.promasi.client_swing.components.JList.MenuCellRenderer;
 import org.promasi.game.AGamesServer;
 import org.promasi.game.IGame;
 import org.promasi.game.IGamesServerListener;
+import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
+import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
 
 /**
  * @author alekstheod

@@ -8,14 +8,14 @@ import java.io.IOException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.promasi.client_swing.components.JList.IMenuEntry;
 import org.promasi.client_swing.gui.GamesJPanel;
-import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.IMainFrame;
 import org.promasi.client_swing.playmode.IPlayMode;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
+import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.components.jlist.IMenuEntry;
 
 /**
  * @author alekstheod

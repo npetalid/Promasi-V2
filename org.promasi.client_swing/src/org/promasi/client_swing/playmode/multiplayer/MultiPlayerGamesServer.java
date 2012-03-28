@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.promasi.client_swing.gui.GuiException;
 import org.promasi.game.AGamesServer;
 import org.promasi.game.IGame;
 import org.promasi.protocol.client.IClientListener;
@@ -18,6 +17,7 @@ import org.promasi.protocol.messages.UpdateAvailableGameListRequest;
 import org.promasi.protocol.messages.UpdateGameListRequest;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
+import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod

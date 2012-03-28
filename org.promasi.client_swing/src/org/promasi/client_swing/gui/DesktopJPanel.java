@@ -14,15 +14,16 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
-import org.promasi.client_swing.gui.desktop.IDesktop;
-import org.promasi.client_swing.gui.desktop.PromasiJDesktopPane;
-import org.promasi.client_swing.gui.desktop.ToolBarJPanel;
-import org.promasi.client_swing.gui.desktop.application.ADesktopApplication;
-import org.promasi.client_swing.gui.desktop.application.QuickStartButton;
+import org.promasi.desktop_swing.IDesktop;
+import org.promasi.desktop_swing.PromasiJDesktopPane;
+import org.promasi.desktop_swing.ToolBarJPanel;
+import org.promasi.desktop_swing.application.ADesktopApplication;
+import org.promasi.desktop_swing.application.QuickStartButton;
 import org.promasi.game.IGame;
 import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.singleplayer.IClientGameListener;
+import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod

@@ -1,6 +1,7 @@
 package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -56,14 +57,13 @@ public class MainFrame extends JFrame implements IMainFrame {
 		
 		this.add(_panel, BorderLayout.CENTER);
 		add(_statusPanel, BorderLayout.SOUTH);
+		_statusPanel.setBackground(Color.gray);
 		this.validate();
 		this.repaint();
 	}
 
 	@Override
 	public void closeMainFrame() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override

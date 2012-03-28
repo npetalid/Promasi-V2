@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Desktop_swing
+Bundle-SymbolicName: org.promasi.desktop_swing
+Bundle-Version: 1.0.0.qualifier
+Require-Bundle: org.promasi.utilities;bundle-version="1.0.0",
+ org.promasi.utils_swing;bundle-version="1.0.0",
+ org.promasi.game;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: org.promasi.desktop_swing,
+ org.promasi.desktop_swing.application,
+ org.promasi.desktop_swing.application.email,
+ org.promasi.desktop_swing.application.marketplace,
+ org.promasi.desktop_swing.application.scheduler,
+ org.promasi.desktop_swing.application.statistics

@@ -10,11 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.MainFrame;
 import org.promasi.client_swing.gui.PlayModesJPanel;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
+import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod

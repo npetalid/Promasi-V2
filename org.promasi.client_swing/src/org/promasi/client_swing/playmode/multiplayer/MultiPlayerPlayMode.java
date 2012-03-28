@@ -14,8 +14,6 @@ import java.io.PrintWriter;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.promasi.client_swing.components.JList.IMenuEntry;
-import org.promasi.client_swing.gui.GuiException;
 import org.promasi.client_swing.gui.IMainFrame;
 import org.promasi.client_swing.gui.LoginJPanel;
 import org.promasi.client_swing.playmode.IPlayMode;
@@ -25,6 +23,8 @@ import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
 import org.promasi.protocol.compression.ZipCompression;
 import org.promasi.utilities.file.RootDirectory;
+import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.components.jlist.IMenuEntry;
 
 /**
  * @author m1cRo

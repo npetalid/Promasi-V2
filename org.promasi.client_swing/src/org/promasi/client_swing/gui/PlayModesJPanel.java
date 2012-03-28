@@ -17,12 +17,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.border.EtchedBorder;
 
-
-import org.promasi.client_swing.components.JEditorPane.ExtendedJEditorPane;
-import org.promasi.client_swing.components.JList.MenuCellRenderer;
 import org.promasi.client_swing.playmode.IPlayMode;
 import org.promasi.client_swing.playmode.multiplayer.MultiPlayerPlayMode;
 import org.promasi.client_swing.playmode.singleplayer.SinglePlayerPlayMode;
+import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
+import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
 
 /**
  * @author alekstheod

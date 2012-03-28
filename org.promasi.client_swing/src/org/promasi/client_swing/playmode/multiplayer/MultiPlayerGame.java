@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.promasi.client_swing.gui.GuiException;
 import org.promasi.game.IGame;
 import org.promasi.game.AGamesServer;
 import org.promasi.game.company.ICompanyListener;
@@ -19,6 +18,7 @@ import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.protocol.client.IClientListener;
 import org.promasi.protocol.client.ProMaSiClient;
+import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod
