@@ -9,7 +9,5 @@
 	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-common.jar"/>
 	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-gantt.jar"/>
 	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-grids.jar"/>
-	<classpathentry exported="true" kind="lib" path="Libs/swingx-1.6.2/swingx-beaninfo-1.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="Libs/swingx-1.6.2/swingx-core-1.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -4,6 +4,7 @@
 package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -21,6 +22,7 @@ import org.promasi.client_swing.playmode.IPlayMode;
 import org.promasi.client_swing.playmode.multiplayer.MultiPlayerPlayMode;
 import org.promasi.client_swing.playmode.singleplayer.SinglePlayerPlayMode;
 import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.components.RoundedJPanel;
 import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
 import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
 
@@ -76,11 +78,15 @@ public class PlayModesJPanel extends JPanel {
 			
 			JSplitPane splitPane = new JSplitPane();
 			
+			RoundedJPanel playModesPanel = new RoundedJPanel();
+			playModesPanel.setLayout(new BorderLayout());
 			_playModesList = new JList<IPlayMode>(listModel);
+			_playModesList.setBackground(new Color(80, 80, 80, 0));
+			playModesPanel.add(_playModesList, BorderLayout.CENTER);
 			setLayout( new BorderLayout() );
 			add(splitPane, BorderLayout.CENTER);
 			
-			splitPane.setLeftComponent(_playModesList);
+			splitPane.setLeftComponent(playModesPanel);
 			_playModesList.addMouseMotionListener(new MouseMotionListener() {
 				
 				@Override

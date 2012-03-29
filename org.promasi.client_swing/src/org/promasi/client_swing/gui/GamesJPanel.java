@@ -4,6 +4,7 @@
 package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -25,6 +26,7 @@ import org.promasi.game.AGamesServer;
 import org.promasi.game.IGame;
 import org.promasi.game.IGamesServerListener;
 import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.components.RoundedJPanel;
 import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
 import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
 
@@ -99,12 +101,15 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		setLayout( new BorderLayout() );
 		JSplitPane splitPane = new JSplitPane();
 		add(splitPane, BorderLayout.CENTER);
-		
 		DefaultListModel<IGame> listModel = new DefaultListModel<IGame>();
 		
+		JPanel gamesPanel = new RoundedJPanel();
+		gamesPanel.setLayout(new BorderLayout());
 		_gamesList = new JList<IGame>(listModel);
+		_gamesList.setBackground(new Color(200, 200, 200, 0));
+		gamesPanel.add(_gamesList, BorderLayout.CENTER);
 		_gamesList.setCellRenderer(new MenuCellRenderer());
-		splitPane.setLeftComponent(_gamesList);
+		splitPane.setLeftComponent(gamesPanel);
 		
 		_gamesList.addMouseMotionListener(new MouseMotionListener() {
 			

@@ -11,6 +11,7 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
 
@@ -51,7 +52,7 @@ public class HtmlCellRenderer extends DefaultListCellRenderer{
 		_htmlPane.setContentType("text/html" );
 		_htmlPane.setPreferredSize(new Dimension(100,200));
 		
-		_htmlPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		_htmlPane.setBorder(new LineBorder(Color.green, 5, true));
 		_htmlPane.setVisible(true);
 		_htmlPane.setFocusable(true);
 		_htmlPane.setAutoscrolls(true);

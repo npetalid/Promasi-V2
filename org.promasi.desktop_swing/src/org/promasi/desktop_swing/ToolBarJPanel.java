@@ -90,9 +90,8 @@ public class ToolBarJPanel extends JPanel {
 		
 		try {
 			Icon startIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + "marketplace.png");
-			_startButton = new JButton();
+			_startButton = new JButton("Menu");
 			_startButton.setIcon(startIcon);
-			_startButton.setText("Menu");
 			_startButton.setIconTextGap(2);
 			_startButton.setFont(new Font("Courier New", Font.BOLD, 15));
 		} catch (IOException e1) {

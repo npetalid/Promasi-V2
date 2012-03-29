@@ -58,12 +58,11 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	public EmployeeCellRenderer(){
 		_mainPanel = new JPanel();
 		_mainPanel.setLayout( new MigLayout( new LC( ).fill( ) ));
-		_mainPanel.setBorder( BorderFactory.createEtchedBorder( ) );
 		_htmlPane = new ExtendedJEditorPane();
 		_htmlPane.setEditable(false);
 		_htmlPane.setContentType("text/html" );
 		_htmlPane.setPreferredSize(new Dimension(100,200));
-		_htmlPane.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+		_htmlPane.setOpaque(false);
 		_htmlPane.setVisible(true);
 		_htmlPane.setFocusable(true);
 		_htmlPane.setAutoscrolls(true);
@@ -75,6 +74,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		_salaryPanel.setBackground(Color.WHITE);
 		_salaryLabel.setFont(new Font("Courier New", Font.PLAIN, 15));
 		_mainPanel.add(_salaryPanel, new CC().spanX().grow().gap("0px", "0px"));
+		_mainPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
 	}
 	
 	/**
