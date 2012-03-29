@@ -1,0 +1,657 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SwingLabs SwingX Release Notes</title>
+<link rel="stylesheet" type="text/css" href="swinglabs.css" />
+</head>
+<body>
+<div id="container">
+<div id="stitch-hack">
+                <div id="banner">
+                </div>
+                <div id="menu">
+                    <img class="menu-left" src="images/menu-left.png" alt="" /><a href="ReleaseNotes.html">Release Notes</a><img class="menu-right" src="images/menu-right.png" alt="" />
+                    <img class="menu-left" src="images/menu-left.png" alt="" /><a href="README.html">Readme</a><img class="menu-right" src="images/menu-right.png" alt="" />
+                    <img class="menu-left" src="images/menu-left.png" alt="" /><a href="docs/api/index.html">JavaDoc</a><img class="menu-right" src="images/menu-right.png" alt="" />
+                    <img class="menu-left" src="images/menu-left.png" alt="" /><a href="http://swinglabs.org/">Main Website</a><img class="menu-right" src="images/menu-right.png" alt="" />
+                </div>
+<div id="content">
+<div id="section">
+<p><h2><center>Release Notes</center></h2>
+<h4 align="right">Release Date: 20. September 2010<br/>
+This is the 1.6.2 release</h4></p>
+<h2>Project: SwingX</h2>
+  <p>This release contains minor bug fixes and refactored code removing the code paths necessary for Java 5 support and further streamlining the APIs.</p>
+
+
+<h5>JXButton and JXLabel</h5>
+
+            <p>Fixed various rendering issues.</p>
+
+<h5>Painter APIs, rendering, UI delegates</h5>
+
+            <p>Refactored the painters and improved the performance.</p>
+
+<h5>Image rendering components</h5>
+
+            <p>Fixed various bugs related to rendering and performance.</p>
+
+<h5>Resolved Issues</h5>
+<p>Following list of 39 items contains all the issues and improvements 
+included in release 1.6.2.</p>
+<p>We would also like to thank to all who actively contributed to this release, namely:</p>
+<ul>
+<li>Karl Schaefer (kschaefe)</li>
+<li>Jeanette Winzenburg (kleopatra)</li>
+<li>Luan O'Carroll (luano)</li>
+</ul>
+<p></p>
+     <table width="100%">
+        <tbody><tr>
+        <th colspan="6">Mon Sep  20 6:24:12 +0000 2010</th>
+        </tr>
+        <tr>
+<th>ID</th>
+<th>Type</th>
+<th>Pri</th>
+<th>Component</th>
+<th>Votes</th>
+<th>Summary</th>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=299">299</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P2</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">Autocomplete will leak memory when redecorating a component</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=302">302</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">DropShadowBorder does not expose setters for line width and </span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=388">388</a>
+	</td>
+	<td class="purple"><span class="issue_type">ENHANC</span>
+	</td>
+	<td class="purple"><span class="priority">P4</span>
+	</td>
+	<td class="purple"><span class="component">swingx</span>
+	</td>
+	<td class="purple"><span class="votes">0</span>
+	</td>
+	<td class="purple"><span class="summary">There should be a TitledSeparatorBorder</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=394">394</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">1</span>
+	</td>
+	<td class="red"><span class="summary">Unable to select autocomplete popup with arrow keys</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=472">472</a>
+	</td>
+	<td class="green"><span class="issue_type">PATCH</span>
+	</td>
+	<td class="green"><span class="priority">P3</span>
+	</td>
+	<td class="green"><span class="component">swingx</span>
+	</td>
+	<td class="green"><span class="votes">0</span>
+	</td>
+	<td class="green"><span class="summary">SwingX-Addon manager build target.</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=523">523</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">Problem with ActionContainerFactory.createMenuBar and Action</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=689">689</a>
+	</td>
+	<td class="purple"><span class="issue_type">ENHANC</span>
+	</td>
+	<td class="purple"><span class="priority">P3</span>
+	</td>
+	<td class="purple"><span class="component">swingx</span>
+	</td>
+	<td class="purple"><span class="votes">0</span>
+	</td>
+	<td class="purple"><span class="summary">Keyboard support in JXImagePanel</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=721">721</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">1</span>
+	</td>
+	<td class="red"><span class="summary">AutoCompleteDecorator(combobox) not using ComboBox.disabledF</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=828">828</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">JXButton painter accessors too limiting</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=887">887</a>
+	</td>
+	<td class="purple"><span class="issue_type">ENHANC</span>
+	</td>
+	<td class="purple"><span class="priority">P3</span>
+	</td>
+	<td class="purple"><span class="component">swingx</span>
+	</td>
+	<td class="purple"><span class="votes">0</span>
+	</td>
+	<td class="purple"><span class="summary">ActionContainerFactory.getAction should not throw Exceptions</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=896">896</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">ComponentProvider should be designed for extension</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=935">935</a>
+	</td>
+	<td class="purple"><span class="issue_type">ENHANC</span>
+	</td>
+	<td class="purple"><span class="priority">P3</span>
+	</td>
+	<td class="purple"><span class="component">swingx</span>
+	</td>
+	<td class="purple"><span class="votes">0</span>
+	</td>
+	<td class="purple"><span class="summary">Integrating of Beans Binding with all JXComponent</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=960">960</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">SearchFactory: must support updateUI of shared find widgets</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=964">964</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">UI delegate installed Painters can hide user background</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=978">978</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">setBackground and JXLabel problem</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=988">988</a>
+	</td>
+	<td class="purple"><span class="issue_type">ENHANC</span>
+	</td>
+	<td class="purple"><span class="priority">P3</span>
+	</td>
+	<td class="purple"><span class="component">swingx</span>
+	</td>
+	<td class="purple"><span class="votes">0</span>
+	</td>
+	<td class="purple"><span class="summary">Remove JXImagePanel</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1023">1023</a>
+	</td>
+	<td class="purple"><span class="issue_type">ENHANC</span>
+	</td>
+	<td class="purple"><span class="priority">P3</span>
+	</td>
+	<td class="purple"><span class="component">swingx</span>
+	</td>
+	<td class="purple"><span class="votes">0</span>
+	</td>
+	<td class="purple"><span class="summary">ImagePainter URL-related code out of place</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1099">1099</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">ImagePainter provides no mechanism to background load image</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1127">1127</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">JXImagePanel loses image (disappears)</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1137">1137</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">ActionContainerFactory should use ActionMap not ActionManage</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1154">1154</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">Regression: JXTable must not sort on click if disabled</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1158">1158</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">2</span>
+	</td>
+	<td class="red"><span class="summary">JXStatusBar + JXButton with icon = infinite repaint</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1176">1176</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">JXImagePanel.setImage(): use ImageObserver</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1212">1212</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">NullPointerException in BasicErrorPaneUI.initWindow listener</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1218">1218</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">CompoundPainter: should fire propertyChange if contained pai</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1239">1239</a>
+	</td>
+	<td class="purple"><span class="issue_type">ENHANC</span>
+	</td>
+	<td class="purple"><span class="priority">P5</span>
+	</td>
+	<td class="purple"><span class="component">swingx</span>
+	</td>
+	<td class="purple"><span class="votes">0</span>
+	</td>
+	<td class="purple"><span class="summary">TaskPane: add convenience constructors</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1294">1294</a>
+	</td>
+	<td class="purple"><span class="issue_type">ENHANC</span>
+	</td>
+	<td class="purple"><span class="priority">P3</span>
+	</td>
+	<td class="purple"><span class="component">swingx</span>
+	</td>
+	<td class="purple"><span class="votes">0</span>
+	</td>
+	<td class="purple"><span class="summary">StrictNumberFormatter and NumberFormatExt should be public</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1316">1316</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">JXImagePanel allows a single Callable to run multiple times</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1320">1320</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">JComboBox with autocompletion ignores first keypress in JTab</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1323">1323</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">Cyclic GradientPaint will never appear cyclic in MattePainte</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1325">1325</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">IndexOutOfBoundsException when adding a column to JXTable</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1330">1330</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">JXLabel does not support underline in wrapped mode</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1331">1331</a>
+	</td>
+	<td class="purple"><span class="issue_type">ENHANC</span>
+	</td>
+	<td class="purple"><span class="priority">P3</span>
+	</td>
+	<td class="purple"><span class="component">swingx</span>
+	</td>
+	<td class="purple"><span class="votes">0</span>
+	</td>
+	<td class="purple"><span class="summary">DefaultDateSelectionModel.setUnselectableDates</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1334">1334</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">JXHyperlink is missing UIManager properties</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1340">1340</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P2</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">DefaultTableColumnModelExt: must fire columnRemoved for hidd</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1341">1341</a>
+	</td>
+	<td class="purple"><span class="issue_type">ENHANC</span>
+	</td>
+	<td class="purple"><span class="priority">P3</span>
+	</td>
+	<td class="purple"><span class="component">swingx</span>
+	</td>
+	<td class="purple"><span class="votes">0</span>
+	</td>
+	<td class="purple"><span class="summary">JXTableHeader: make resizing/dragged/Column/Distance bound p</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1342">1342</a>
+	</td>
+	<td class="red"><span class="issue_type">DEFECT</span>
+	</td>
+	<td class="red"><span class="priority">P3</span>
+	</td>
+	<td class="red"><span class="component">swingx</span>
+	</td>
+	<td class="red"><span class="votes">0</span>
+	</td>
+	<td class="red"><span class="summary">JXLabel bg doesn't show</span>
+	</td>
+</tr>
+<tr class="a">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1345">1345</a>
+	</td>
+	<td class="blue"><span class="issue_type">FEATUR</span>
+	</td>
+	<td class="blue"><span class="priority">P3</span>
+	</td>
+	<td class="blue"><span class="component">swingx</span>
+	</td>
+	<td class="blue"><span class="votes">0</span>
+	</td>
+	<td class="blue"><span class="summary">TableCellContext: make responsible for alternateRow color</span>
+	</td>
+</tr>
+<tr class="b">
+	<td>
+ 	<a href="https://swingx.dev.java.net/issues/show_bug.cgi?id=1348">1348</a>
+	</td>
+	<td class="blue"><span class="issue_type">FEATUR</span>
+	</td>
+	<td class="blue"><span class="priority">P3</span>
+	</td>
+	<td class="blue"><span class="component">swingx</span>
+	</td>
+	<td class="blue"><span class="votes">0</span>
+	</td>
+	<td class="blue"><span class="summary">StringValue: add implementation for localized lookup</span>
+	</td>
+</tr>
+	</tbody></table>
+<p>
+</p>
+</div>
+</div>
+<div id="footer">
+</div>
+</div>
+</div>
+</body>
+</html>
