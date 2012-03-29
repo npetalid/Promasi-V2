@@ -85,7 +85,7 @@ public class PlayModesJPanel extends JPanel {
 			playModesPanel.add(_playModesList, BorderLayout.CENTER);
 			setLayout( new BorderLayout() );
 			add(splitPane, BorderLayout.CENTER);
-			
+
 			splitPane.setLeftComponent(playModesPanel);
 			_playModesList.addMouseMotionListener(new MouseMotionListener() {
 				
