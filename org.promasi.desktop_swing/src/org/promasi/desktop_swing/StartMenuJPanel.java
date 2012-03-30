@@ -4,6 +4,7 @@
 package org.promasi.desktop_swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Point;
@@ -81,6 +82,7 @@ public class StartMenuJPanel extends JPanel {
 			throw new GuiException("Wrong argument game == null");
 		}
 		
+		setOpaque(false);
 		setPreferredSize(new Dimension(CONST_PREFERED_WIDTH, CONST_PREFERED_HEIGHT));
 		_desktop = desktop;
 		

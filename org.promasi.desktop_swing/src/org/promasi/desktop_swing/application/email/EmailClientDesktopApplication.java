@@ -36,6 +36,7 @@ import org.promasi.game.project.ProjectMemento;
 
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.components.RoundedJPanel;
 
 /**
  * @author alekstheod
@@ -121,11 +122,14 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 		splitPane.setMinimumSize(minSize);
 		splitPane.setMinimumSize(minSize);
 		
+		RoundedJPanel messagesPanel = new RoundedJPanel();
 		_msgTableModel =  new MessageTableModel( new Vector<Message>( ) );
 		_messageTable.setModel( _msgTableModel );
+		messagesPanel.setLayout(new BorderLayout());
 		JScrollPane scrollpane = new JScrollPane(_messageTable);
+		messagesPanel.add(scrollpane, BorderLayout.CENTER);
 		
-		splitPane.setLeftComponent(scrollpane);
+		splitPane.setLeftComponent(messagesPanel);
 		
 		_emailPanel = new EmailJPanel();
 		splitPane.setRightComponent(_emailPanel);

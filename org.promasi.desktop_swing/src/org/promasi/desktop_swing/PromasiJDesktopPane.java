@@ -4,6 +4,7 @@
 package org.promasi.desktop_swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.IOException;
@@ -74,6 +75,8 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 		}
 		
 		_startMenu = new JPopupMenu();
+		//_startMenu.setOpaque(false);
+		_startMenu.setBackground(new Color(200, 200, 200, 100));
 		_startMenu.setLayout(new BorderLayout());
 		
 		_desktop = desktop;

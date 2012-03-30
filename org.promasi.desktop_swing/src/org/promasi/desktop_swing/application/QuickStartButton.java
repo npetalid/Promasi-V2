@@ -4,6 +4,7 @@
 package org.promasi.desktop_swing.application;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.MouseAdapter;
@@ -17,6 +18,7 @@ import javax.swing.SwingConstants;
 
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.components.RoundedJPopupMenu;
 
 /**
  * @author alekstheod
@@ -93,7 +95,8 @@ public class QuickStartButton extends JLabel {
 		boolean result = false;
 		
 		if( message != null ){
-	        final JPopupMenu popup = new JPopupMenu( );
+	        final JPopupMenu popup = new RoundedJPopupMenu( );
+	        popup.setBackground(new Color(90,90,90, 100));
 	        popup.setLayout( new BorderLayout());
 	        JLabel label = new JLabel( message, _application.getIcon(), SwingConstants.CENTER );
 	        label.setFont( new Font("Arial", Font.TRUETYPE_FONT, 12));
@@ -107,7 +110,7 @@ public class QuickStartButton extends JLabel {
 	        
 	        popup.add( label, BorderLayout.NORTH );
 	        label.setPreferredSize(new Dimension(label.getPreferredSize().width+20, label.getPreferredSize().height));
-	        popup.show( _desktop.getDesktopPane(), _desktop.getDesktopPane().getWidth() -  label.getPreferredSize().width - 20 , 5 );
+	        popup.show( _desktop.getDesktopPane(), _desktop.getDesktopPane().getWidth() -  label.getPreferredSize().width - 40 , 5 );
 			result = true;
 		}
 		

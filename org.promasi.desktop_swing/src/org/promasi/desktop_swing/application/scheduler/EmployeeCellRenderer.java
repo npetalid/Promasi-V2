@@ -20,6 +20,7 @@ import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
 import org.promasi.desktop_swing.application.Employee;
+import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
 
 /**
@@ -55,7 +56,38 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	/**
 	 * 
 	 */
+	private Color _selectedBgColor =  new Color(70, 150, 235, 150); 
+	
+	/**
+	 * 
+	 */
+	private Color _bgColor = Color.LIGHT_GRAY;
+	
+	/**
+	 * 
+	 */
 	public EmployeeCellRenderer(){
+		init();
+	}
+	
+	/**
+	 * 
+	 */
+	public EmployeeCellRenderer(Color bgColor, Color selectedBgColor)throws GuiException{
+		if( bgColor == null ){
+			throw new GuiException("Wrong argument bgColor == null");
+		}
+		
+		if( selectedBgColor == null ){
+			throw new GuiException("Wrong argument selectedBgColor == null");
+		}
+		
+		_bgColor = bgColor;
+		_selectedBgColor = selectedBgColor;
+		init();
+	}
+	
+	private void init(){
 		_mainPanel = new JPanel();
 		_mainPanel.setLayout( new MigLayout( new LC( ).fill( ) ));
 		_htmlPane = new ExtendedJEditorPane();
@@ -68,10 +100,14 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		_htmlPane.setAutoscrolls(true);
 		_mainPanel.add(_htmlPane, new CC( ).spanX( ).grow( ).gapX( "30px", "0px" ).gapY("0px", "10px"));
 		_salaryLabel = new JLabel();
+		_salaryLabel.setOpaque(false);
+		_salaryLabel.setBackground(new Color(255,255,255,0));
 		_salaryPanel = new JPanel();
+		_salaryPanel.setOpaque(false);
+		_salaryPanel.setBackground(new Color(255,255,255,0));
 		_salaryPanel.setLayout(new BorderLayout());
 		_salaryPanel.add(_salaryLabel, BorderLayout.EAST);
-		_salaryPanel.setBackground(Color.WHITE);
+		_salaryPanel.setBackground(_bgColor);
 		_salaryLabel.setFont(new Font("Courier New", Font.PLAIN, 15));
 		_mainPanel.add(_salaryPanel, new CC().spanX().grow().gap("0px", "0px"));
 		_mainPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
@@ -88,11 +124,11 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		}
 		
 		if( isSelected ){
-			_mainPanel.setBackground(Color.LIGHT_GRAY);
-			_salaryPanel.setBackground(Color.LIGHT_GRAY);
+			_mainPanel.setBackground(_selectedBgColor);
+			_salaryPanel.setBackground(_selectedBgColor);
 		}else{
-			_mainPanel.setBackground(Color.WHITE);
-			_salaryPanel.setBackground(Color.WHITE);
+			_mainPanel.setBackground(_bgColor);
+			_salaryPanel.setBackground(_bgColor);
 		}
 		
 		return _mainPanel;

@@ -38,12 +38,26 @@ public class HtmlCellRenderer extends DefaultListCellRenderer{
 	/**
 	 * 
 	 */
+	private Color _bgColor = new Color(100, 100, 255, 150);
+	
+	/**
+	 * 
+	 */
 	private ExtendedJEditorPane _htmlPane;
 	
 	/**
 	 * 
 	 */
 	public HtmlCellRenderer(){
+		init();
+	}
+	
+	public HtmlCellRenderer( Color bgColor ){
+		_bgColor = bgColor;
+		init();
+	}
+	
+	private void init(){
 		_mainPanel = new JPanel();
 		_mainPanel.setLayout( new MigLayout( new LC( ).fill( ) ));
 		_mainPanel.setBorder( BorderFactory.createEtchedBorder( ) );
@@ -56,6 +70,7 @@ public class HtmlCellRenderer extends DefaultListCellRenderer{
 		_htmlPane.setVisible(true);
 		_htmlPane.setFocusable(true);
 		_htmlPane.setAutoscrolls(true);
+		_mainPanel.setBackground(_bgColor);
 		_mainPanel.add(_htmlPane, new CC( ).spanX( ).grow( ).gapX( "30px", "0px" ));
 	}
 	
@@ -67,7 +82,7 @@ public class HtmlCellRenderer extends DefaultListCellRenderer{
 		if( isSelected ){
 			_mainPanel.setBackground(Color.LIGHT_GRAY);
 		}else{
-			_mainPanel.setBackground(Color.WHITE);
+			_mainPanel.setBackground(_bgColor);
 		}
 		
 		return _mainPanel;
