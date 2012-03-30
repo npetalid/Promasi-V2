@@ -103,7 +103,7 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		add(splitPane, BorderLayout.CENTER);
 		DefaultListModel<IGame> listModel = new DefaultListModel<IGame>();
 		
-		JPanel gamesPanel = new RoundedJPanel();
+		JPanel gamesPanel = new RoundedJPanel( );
 		gamesPanel.setLayout(new BorderLayout());
 		_gamesList = new JList<IGame>(listModel);
 		_gamesList.setBackground(new Color(200, 200, 200, 0));
