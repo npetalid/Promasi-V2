@@ -16,7 +16,7 @@ import javax.swing.SwingUtilities;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.PromasiJDesktopPane;
-import org.promasi.desktop_swing.ToolBarJPanel;
+import org.promasi.desktop_swing.TaskBarJPanel;
 import org.promasi.desktop_swing.application.ADesktopApplication;
 import org.promasi.desktop_swing.application.QuickStartButton;
 import org.promasi.game.IGame;
@@ -27,7 +27,10 @@ import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod
- *
+ * Represent the Desktop on the ProMaSi system,
+ * this class contains all the needed components such
+ * as TaskBar, Workspace and so on in
+ * order to simulate the pc's desktop functionality.
  */
 public class DesktopJPanel extends JPanel implements IClientGameListener , IDesktop{
 
@@ -37,14 +40,16 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * Instance of the {@link IGame} interface implementation
+	 * which represent the running game.
 	 */
 	private IGame _game;
 	
 	/**
-	 * 
+	 * Instance of {@link TaskBarJPanel}
+	 * represent the task bar on ProMaSi desktop.
 	 */
-	private ToolBarJPanel _toolBarPanel;
+	private TaskBarJPanel _taskBar;
 	
 	/**
 	 * 
@@ -82,11 +87,11 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 		_game = game;
 		_game.addListener(this);
 		setLayout(new BorderLayout());
-		_toolBarPanel = new ToolBarJPanel( username, this );
-		add( _toolBarPanel, BorderLayout.NORTH );
+		_taskBar = new TaskBarJPanel( username, this );
+		add( _taskBar, BorderLayout.NORTH );
 		
-		_workspace = new PromasiJDesktopPane( _game, username , this );
-		add(_workspace);
+		_workspace = new PromasiJDesktopPane( _game, username , this);
+		add(_workspace, BorderLayout.CENTER);
 	}
 
 	@Override
@@ -104,7 +109,7 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				_toolBarPanel.updateTime(dateTime);
+				_taskBar.updateTime(dateTime);
 			}
 		});
 		
@@ -177,7 +182,7 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 
 	@Override
 	public boolean addQuickStartButton(QuickStartButton button) {
-		return _toolBarPanel.addQuickStartButton(button);
+		return _taskBar.addQuickStartButton(button);
 	}
 
 	@Override

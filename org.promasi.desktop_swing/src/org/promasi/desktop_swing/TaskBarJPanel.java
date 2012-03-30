@@ -4,6 +4,7 @@
 package org.promasi.desktop_swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -27,9 +28,11 @@ import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod
- *
+ * Represent the task bar in the ProMaSi desktop.
+ * This class contains all the needed components 
+ * in order to simulate the pc's task bar functionality.
  */
-public class ToolBarJPanel extends JPanel {
+public class TaskBarJPanel extends JPanel {
 
 	/**
 	 * 
@@ -37,22 +40,17 @@ public class ToolBarJPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * Default task bar height.
 	 */
 	public static final int CONST_TASKBAR_HEIGHT = 30;
 	
 	/**
-	 * 
+	 * The start button icon image name.
 	 */
 	public static final String CONST_START_ICON = "startbutton.png";
 	
 	/**
-	 * 
-	 */
-	private JButton _startButton;
-	
-	/**
-	 * 
+	 * A clock panel.
 	 */
 	public ClockJPanel _clockPanel;
 	
@@ -74,7 +72,7 @@ public class ToolBarJPanel extends JPanel {
 	/**
 	 * 
 	 */
-	public ToolBarJPanel( String username, IDesktop desktop )throws GuiException{
+	public TaskBarJPanel( String username, IDesktop desktop )throws GuiException{
 		super();
 		
 		if( username == null || username.isEmpty() ){
@@ -87,18 +85,20 @@ public class ToolBarJPanel extends JPanel {
 
 		setPreferredSize( new Dimension( 100, CONST_TASKBAR_HEIGHT ) );
 		setLayout(new BorderLayout());
+		setOpaque(false);
+		setBackground(new Color(255, 255, 255, 100));
 		
+		JButton startButton = new JButton("Menu");
 		try {
 			Icon startIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + "marketplace.png");
-			_startButton = new JButton("Menu");
-			_startButton.setIcon(startIcon);
-			_startButton.setIconTextGap(2);
-			_startButton.setFont(new Font("Courier New", Font.BOLD, 15));
+			startButton.setIcon(startIcon);
+			startButton.setIconTextGap(2);
+			startButton.setFont(new Font("Courier New", Font.BOLD, 15));
 		} catch (IOException e1) {
-			_startButton = new JButton("Menu");
+			//TODO log
 		}
 		
-		_startButton.addActionListener(new ActionListener() {
+		startButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -106,16 +106,16 @@ public class ToolBarJPanel extends JPanel {
 			}
 		});
 		
-		add(_startButton, BorderLayout.WEST);
+		add(startButton, BorderLayout.WEST);
 		
 		_quickMenuPanel = new JPanel();
 		_quickMenuPanel.setLayout(new BorderLayout());
 		_clockPanel = new ClockJPanel();
 		
-		JLabel exitButton = null;
+		JLabel exitButton = new JLabel();
 		try {
 			Icon exitIcon = new ImageIcon(RootDirectory.getInstance().getImagesDirectory() + "exit.png");
-			exitButton = new JLabel(exitIcon);
+			exitButton.setIcon(exitIcon);
 			exitButton.setPreferredSize(new Dimension( exitIcon.getIconHeight(), exitIcon.getIconHeight() ));
 			exitButton.setFocusable(false);
 			exitButton.setBorder(BorderFactory.createEmptyBorder());
@@ -146,7 +146,6 @@ public class ToolBarJPanel extends JPanel {
 		_quickMenuPanel.add(_quickButtonsJPanel, BorderLayout.WEST);
 		
 		add(_quickMenuPanel, BorderLayout.EAST);
-		
 		_desktop = desktop;
 	}
 	

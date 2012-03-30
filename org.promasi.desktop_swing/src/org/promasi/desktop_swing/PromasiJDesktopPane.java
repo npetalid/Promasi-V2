@@ -75,7 +75,7 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 		}
 		
 		_startMenu = new JPopupMenu();
-		//_startMenu.setOpaque(false);
+		_startMenu.setOpaque(false);
 		_startMenu.setBackground(new Color(200, 200, 200, 100));
 		_startMenu.setLayout(new BorderLayout());
 		

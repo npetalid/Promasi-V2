@@ -54,19 +54,22 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	private ExtendedJEditorPane _htmlPane;
 	
 	/**
-	 * 
+	 * Background color for the selected state of
+	 * the cell.
 	 */
-	private Color _selectedBgColor =  new Color(70, 150, 235, 150); 
+	private Color _selectedBgColor; 
 	
 	/**
-	 * 
+	 * Background color for the simple state of the cell.
 	 */
-	private Color _bgColor = Color.LIGHT_GRAY;
+	private Color _bgColor;
 	
 	/**
 	 * 
 	 */
 	public EmployeeCellRenderer(){
+		_selectedBgColor =  new Color(101, 139, 188, 150);
+		_bgColor = Color.LIGHT_GRAY;
 		init();
 	}
 	
