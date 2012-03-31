@@ -16,7 +16,6 @@ import java.util.Vector;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
@@ -29,8 +28,6 @@ import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.PainterFactory;
 import org.promasi.utils_swing.components.HtmlPanel;
-import org.promasi.utils_swing.components.RoundedJPanel;
-import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
 import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
 
 /**
@@ -109,13 +106,10 @@ public class GamesJPanel extends JXPanel implements IGamesServerListener {
 		add(splitPane, BorderLayout.CENTER);
 		DefaultListModel<IGame> listModel = new DefaultListModel<IGame>();
 		
-		RoundedJPanel gamesPanel = new RoundedJPanel( );
-		gamesPanel.setLayout(new BorderLayout());
 		_gamesList = new JList<IGame>(listModel);
 		_gamesList.setBackground(new Color(200, 200, 200, 0));
-		gamesPanel.add(_gamesList, BorderLayout.CENTER);
 		_gamesList.setCellRenderer(new MenuCellRenderer());
-		splitPane.setLeftComponent(gamesPanel);
+		splitPane.setLeftComponent(_gamesList);
 		
 		_gamesList.addMouseMotionListener(new MouseMotionListener() {
 			

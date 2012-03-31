@@ -24,7 +24,6 @@ import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.PainterFactory;
 import org.promasi.utils_swing.components.HtmlPanel;
-import org.promasi.utils_swing.components.RoundedJPanel;
 import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
 
 /**
@@ -82,15 +81,12 @@ public class PlayModesJPanel extends JXPanel {
 			splitPane.setOpaque(false);
 			splitPane.setBackground(Colors.White.alpha(0f));
 
-			RoundedJPanel playModesPanel = new RoundedJPanel();
-			playModesPanel.setLayout(new BorderLayout());
 			_playModesList = new JList<IPlayMode>(listModel);
 			_playModesList.setBackground(new Color(80, 80, 80, 0));
-			playModesPanel.add(_playModesList, BorderLayout.CENTER);
 			setLayout( new BorderLayout() );
 			add(splitPane, BorderLayout.CENTER);
 
-			splitPane.setLeftComponent(playModesPanel);
+			splitPane.setLeftComponent(_playModesList);
 			_playModesList.addMouseMotionListener(new MouseMotionListener() {
 				
 				@Override

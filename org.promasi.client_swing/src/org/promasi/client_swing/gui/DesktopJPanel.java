@@ -94,6 +94,8 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 		add( _taskBar, BorderLayout.NORTH );
 		
 		_workspace = new PromasiJDesktopPane( _game, username , this);
+		_workspace.setOpaque(false);
+		_workspace.setBackground(Colors.White.alpha(0f));
 		add(_workspace, BorderLayout.CENTER);
 	}
 

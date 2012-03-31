@@ -78,6 +78,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	public EmployeeCellRenderer() throws GuiException{
 		_selectedBgColor = Colors.Orange.alpha(0.5f);
 		_bgColor = Colors.Gray.alpha(0.5f);
+		setOpaque(true);
 		init();
 	}
 	
@@ -101,6 +102,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	private void init() throws GuiException{
 		_mainPanel = new JXPanel();
 		_mainPanel.setLayout( new MigLayout( new LC( ).fill( ) ));
+		_mainPanel.setOpaque(true);
 		_htmlPane = new HtmlPanel();
 		_htmlPane.setPreferredSize(new Dimension(100,200));
 		_htmlPane.setOpaque(false);

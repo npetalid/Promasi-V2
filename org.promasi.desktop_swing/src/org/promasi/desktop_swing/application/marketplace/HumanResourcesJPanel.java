@@ -67,6 +67,8 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 		setOpaque(false);
 		setBackground(Colors.White.alpha(0f));
 		_employeesList = new JList<Employee>();
+		_employeesList.setOpaque(false);
+		_employeesList.setBackground(Colors.White.alpha(0f));
 		JScrollPane scrollPane = new JScrollPane(_employeesList);
 		_employeesList.setCellRenderer(new EmployeeCellRenderer());
 		

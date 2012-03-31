@@ -117,7 +117,6 @@ public class StartMenuJPanel extends JPanel {
 
 		internalPanel.add(_appList, BorderLayout.CENTER);
 		
-		
 		_appList.addMouseMotionListener(new MouseMotionListener() {
 			
 			@Override
