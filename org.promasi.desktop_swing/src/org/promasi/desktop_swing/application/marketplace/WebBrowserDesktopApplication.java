@@ -3,16 +3,20 @@
  */
 package org.promasi.desktop_swing.application.marketplace;
 
+import java.awt.BorderLayout;
 import java.io.IOException;
 
 import javax.swing.JTabbedPane;
 
+import org.jdesktop.swingx.JXPanel;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.application.ADesktopApplication;
 import org.promasi.desktop_swing.application.QuickStartButton;
 import org.promasi.game.IGame;
 import org.promasi.utilities.file.RootDirectory;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.PainterFactory;
 
 /**
  * @author alekstheod
@@ -54,8 +58,17 @@ public class WebBrowserDesktopApplication extends ADesktopApplication{
 		
 		_game = game;
 		
+		JXPanel bgPanel = new JXPanel();
+		bgPanel.setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.InactiveBackground));
+		bgPanel.setLayout(new BorderLayout());
+		
 		JTabbedPane tabbedPane = new JTabbedPane();
-		add(tabbedPane);
+		tabbedPane.setOpaque(false);
+		tabbedPane.setBackground(Colors.White.alpha(0f));
+		bgPanel.add(tabbedPane, BorderLayout.CENTER);
+		
+		add(bgPanel);
+		
 		tabbedPane.addTab(MarketPlaceJPanel.CONST_SITENAME, new MarketPlaceJPanel(_game));
 		tabbedPane.addTab(HumanResourcesJPanel.CONST_SITENAME, new HumanResourcesJPanel(_game));
 		desktop.addQuickStartButton(new QuickStartButton(this, desktop));

@@ -13,15 +13,16 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.DefaultListModel;
 
 import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.border.EtchedBorder;
 
+import org.jdesktop.swingx.JXPanel;
 import org.promasi.client_swing.playmode.IPlayMode;
 import org.promasi.client_swing.playmode.multiplayer.MultiPlayerPlayMode;
 import org.promasi.client_swing.playmode.singleplayer.SinglePlayerPlayMode;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.PainterFactory;
 import org.promasi.utils_swing.components.RoundedJPanel;
 import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
 import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
@@ -30,7 +31,7 @@ import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
  * @author alekstheod
  *
  */
-public class PlayModesJPanel extends JPanel {
+public class PlayModesJPanel extends JXPanel {
 	/**
 	 * 
 	 */
@@ -76,8 +77,11 @@ public class PlayModesJPanel extends JPanel {
 				//TODO log.
 			}
 			
+			setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.Background));
 			JSplitPane splitPane = new JSplitPane();
-			
+			splitPane.setOpaque(false);
+			splitPane.setBackground(Colors.White.alpha(0f));
+
 			RoundedJPanel playModesPanel = new RoundedJPanel();
 			playModesPanel.setLayout(new BorderLayout());
 			_playModesList = new JList<IPlayMode>(listModel);
@@ -138,7 +142,8 @@ public class PlayModesJPanel extends JPanel {
 			_infoPane = new ExtendedJEditorPane();
 			_infoPane.setEditable(false);
 			_infoPane.setContentType( "text/html" );
-			splitPane.setRightComponent(new JScrollPane(_infoPane));
+			
+			splitPane.setRightComponent(_infoPane);
 			splitPane.setDividerLocation( 200 );
 		} catch (Exception e) {
 			throw new GuiException(e);

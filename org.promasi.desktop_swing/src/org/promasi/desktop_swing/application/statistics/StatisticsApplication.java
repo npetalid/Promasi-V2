@@ -2,6 +2,8 @@ package org.promasi.desktop_swing.application.statistics;
 
 import java.io.IOException;
 
+import javax.swing.JInternalFrame;
+
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.application.ADesktopApplication;
@@ -39,6 +41,8 @@ public class StatisticsApplication extends ADesktopApplication implements ICompa
 	 */
 	public static final String CONST_APP_ICON = "monitor.png";
 	
+	private JInternalFrame _widget;
+	
 	/**
 	 * 
 	 * @param game
@@ -55,6 +59,8 @@ public class StatisticsApplication extends ADesktopApplication implements ICompa
 		if( desktop == null ){
 			throw new GuiException("Wrong argument desktop == null");
 		}
+		
+		_widget = new JInternalFrame();
 		
 		game.addCompanyListener(this);
 		desktop.addQuickStartButton(new QuickStartButton(this, desktop));

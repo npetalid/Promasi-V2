@@ -23,7 +23,9 @@ import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod
- *
+ * Represent the workspace place on ProMaSi desktop.
+ * the workspace place can accept some internal frames
+ * as a Desktop applications.
  */
 public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 

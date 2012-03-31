@@ -4,6 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="Libs/MigLayout/miglayout-4.0-swing.jar"/>
-	<classpathentry kind="lib" path="Libs/swingx-1.6.2/swingx-core-1.6.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libs/swingx-1.6.2/swingx-core-1.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

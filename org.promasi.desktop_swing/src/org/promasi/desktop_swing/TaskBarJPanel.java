@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.application.QuickStartButton;
 import org.promasi.utilities.file.RootDirectory;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
 /**
@@ -86,7 +87,7 @@ public class TaskBarJPanel extends JPanel {
 		setPreferredSize( new Dimension( 100, CONST_TASKBAR_HEIGHT ) );
 		setLayout(new BorderLayout());
 		setOpaque(false);
-		setBackground(new Color(255, 255, 255, 100));
+		setBackground(Colors.White.alpha(0f));
 		
 		JButton startButton = new JButton("Menu");
 		try {

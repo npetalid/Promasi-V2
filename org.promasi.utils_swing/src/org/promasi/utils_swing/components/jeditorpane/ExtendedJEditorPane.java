@@ -18,7 +18,7 @@ public class ExtendedJEditorPane extends JEditorPane {
 	/**
 	 * 
 	 */
-	private Color _bgColor = new Color(255, 255, 255, 180);
+	private Color _bgColor = new Color(255, 255, 255, 100);
 	
 	/**
 	 * 

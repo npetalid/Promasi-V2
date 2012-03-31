@@ -9,9 +9,9 @@ import java.awt.Dimension;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
 
 /**
@@ -45,6 +45,9 @@ public class EmailJPanel extends JPanel {
 	 */
 	public EmailJPanel(){
 		setLayout(new BorderLayout());
+		setOpaque(false);
+		setBackground(Colors.White.alpha(0f));
+		
 		JPanel topPanel = new JPanel();
 		topPanel.setLayout(new BorderLayout());
 		
@@ -69,10 +72,9 @@ public class EmailJPanel extends JPanel {
 		_bodyPane = new ExtendedJEditorPane();
 		_bodyPane.setEditable(false);
 		_bodyPane.setContentType("text/html");
-		JScrollPane scrollPane = new JScrollPane(_bodyPane);
 		
 		add(topPanel, BorderLayout.NORTH);
-		add(scrollPane, BorderLayout.CENTER);
+		add(_bodyPane, BorderLayout.CENTER);
 	}
 	
 	/**

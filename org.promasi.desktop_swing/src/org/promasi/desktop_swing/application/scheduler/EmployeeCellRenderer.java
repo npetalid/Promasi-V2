@@ -19,7 +19,14 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swing.MigLayout;
 
+import org.jdesktop.swingx.JXPanel;
+import org.jdesktop.swingx.painter.CompoundPainter;
+import org.jdesktop.swingx.painter.GlossPainter;
+import org.jdesktop.swingx.painter.MattePainter;
+import org.jdesktop.swingx.painter.Painter;
+import org.jdesktop.swingx.painter.PinstripePainter;
 import org.promasi.desktop_swing.application.Employee;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
 
@@ -36,7 +43,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	/**
 	 * 
 	 */
-	private JPanel _mainPanel;
+	private JXPanel _mainPanel;
 	
 	/**
 	 * 
@@ -68,8 +75,8 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	 * 
 	 */
 	public EmployeeCellRenderer(){
-		_selectedBgColor =  new Color(101, 139, 188, 150);
-		_bgColor = Color.LIGHT_GRAY;
+		_selectedBgColor = Colors.Orange.alpha(0.5f);
+		_bgColor = Colors.Gray.alpha(0.5f);
 		init();
 	}
 	
@@ -91,7 +98,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	}
 	
 	private void init(){
-		_mainPanel = new JPanel();
+		_mainPanel = new JXPanel();
 		_mainPanel.setLayout( new MigLayout( new LC( ).fill( ) ));
 		_htmlPane = new ExtendedJEditorPane();
 		_htmlPane.setEditable(false);
@@ -114,6 +121,16 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		_salaryLabel.setFont(new Font("Courier New", Font.PLAIN, 15));
 		_mainPanel.add(_salaryPanel, new CC().spanX().grow().gap("0px", "0px"));
 		_mainPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
+		_mainPanel.setBackgroundPainter(getPainter(_bgColor));
+	}
+	
+	private Painter<Component> getPainter(Color bgColor) {
+	    MattePainter mp = new MattePainter(bgColor);
+	    GlossPainter gp = new GlossPainter(Colors.White.alpha(0.3f),
+	                                       GlossPainter.GlossPosition.TOP);
+	    PinstripePainter pp = new PinstripePainter(Colors.Gray.alpha(0.2f),
+	                                               45d);
+	   return (new CompoundPainter<Component>(mp, pp, gp));
 	}
 	
 	/**
@@ -127,11 +144,9 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		}
 		
 		if( isSelected ){
-			_mainPanel.setBackground(_selectedBgColor);
-			_salaryPanel.setBackground(_selectedBgColor);
+			_mainPanel.setBackgroundPainter(getPainter(_selectedBgColor));
 		}else{
-			_mainPanel.setBackground(_bgColor);
-			_salaryPanel.setBackground(_bgColor);
+			_mainPanel.setBackgroundPainter(getPainter(_bgColor));
 		}
 		
 		return _mainPanel;

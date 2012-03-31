@@ -26,6 +26,7 @@ import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.project.ProjectMemento;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
 /**
@@ -62,10 +63,13 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 			throw new GuiException("Wrong argument game == null");
 		}
 		
+		setOpaque(false);
+		setBackground(Colors.White.alpha(0f));
 		_employeesList = new JList<Employee>();
 		JScrollPane scrollPane = new JScrollPane(_employeesList);
-		
 		_employeesList.setCellRenderer(new EmployeeCellRenderer());
+		scrollPane.getViewport().setOpaque(false);
+		
 		setLayout(new BorderLayout());
 		add(scrollPane, BorderLayout.CENTER);
 		

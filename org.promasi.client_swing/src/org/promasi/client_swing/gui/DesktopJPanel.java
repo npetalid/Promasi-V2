@@ -10,9 +10,9 @@ import javax.swing.Icon;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.PromasiJDesktopPane;
@@ -23,7 +23,9 @@ import org.promasi.game.IGame;
 import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.singleplayer.IClientGameListener;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.PainterFactory;
 
 /**
  * @author alekstheod
@@ -32,7 +34,7 @@ import org.promasi.utils_swing.GuiException;
  * as TaskBar, Workspace and so on in
  * order to simulate the pc's desktop functionality.
  */
-public class DesktopJPanel extends JPanel implements IClientGameListener , IDesktop{
+public class DesktopJPanel extends JXPanel implements IClientGameListener , IDesktop{
 
 	/**
 	 * 
@@ -82,6 +84,7 @@ public class DesktopJPanel extends JPanel implements IClientGameListener , IDesk
 			throw new GuiException("Wrong argument mainFrame == null");
 		}
 		
+		setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.InactiveBackground));
 		_username = username;
 		_mainFrame = mainFrame;
 		_game = game;

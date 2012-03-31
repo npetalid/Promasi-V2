@@ -17,15 +17,17 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 
+import org.jdesktop.swingx.JXPanel;
 import org.promasi.game.AGamesServer;
 import org.promasi.game.IGame;
 import org.promasi.game.IGamesServerListener;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.PainterFactory;
 import org.promasi.utils_swing.components.RoundedJPanel;
 import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
 import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
@@ -34,7 +36,7 @@ import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
  * @author alekstheod
  *
  */
-public class GamesJPanel extends JPanel implements IGamesServerListener {
+public class GamesJPanel extends JXPanel implements IGamesServerListener {
 
 	/**
 	 * 
@@ -97,13 +99,16 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		
 		_mainFrame = mainFrame;
 		_gamesServer = gamesServer;
+		setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.Background));
 		
 		setLayout( new BorderLayout() );
 		JSplitPane splitPane = new JSplitPane();
+		splitPane.setOpaque(false);
+		splitPane.setBackground(Colors.White.alpha(0f));
 		add(splitPane, BorderLayout.CENTER);
 		DefaultListModel<IGame> listModel = new DefaultListModel<IGame>();
 		
-		JPanel gamesPanel = new RoundedJPanel( );
+		RoundedJPanel gamesPanel = new RoundedJPanel( );
 		gamesPanel.setLayout(new BorderLayout());
 		_gamesList = new JList<IGame>(listModel);
 		_gamesList.setBackground(new Color(200, 200, 200, 0));
@@ -155,13 +160,12 @@ public class GamesJPanel extends JPanel implements IGamesServerListener {
 		
 		EtchedBorder edge = new EtchedBorder(EtchedBorder.RAISED);
 		_gamesList.setBorder(edge);
-		
+
 		_infoPane = new ExtendedJEditorPane();
-		JScrollPane scrollPane = new JScrollPane(_infoPane);
-		splitPane.setRightComponent(scrollPane);
-		splitPane.setDividerLocation(200);
 		_infoPane.setEditable(false);
 		_infoPane.setContentType("text/html" );
+		splitPane.setRightComponent(_infoPane);
+		splitPane.setDividerLocation(200);
 		
 		_username = username;
 		_gamesServer.addListener(this);

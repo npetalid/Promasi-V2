@@ -22,6 +22,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.application.ADesktopApplication;
@@ -35,7 +36,9 @@ import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.project.ProjectMemento;
 
 import org.promasi.utilities.file.RootDirectory;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.PainterFactory;
 import org.promasi.utils_swing.components.RoundedJPanel;
 
 /**
@@ -107,6 +110,10 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 		desktop.addQuickStartButton(_quickStartButton);
 		setLayout(new BorderLayout());
 		
+		JXPanel bgPanel = new JXPanel();
+		bgPanel.setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.Background));
+		bgPanel.setLayout(new BorderLayout());
+		
 		_messageTable = new JTable();
 		_messageTable.setShowHorizontalLines(false);
 		_messageTable.setShowVerticalLines(true);
@@ -117,6 +124,8 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setDividerLocation(300);
+		splitPane.setOpaque(false);
+		splitPane.setBackground(Colors.White.alpha(0f));
 		
 		Dimension minSize = new Dimension(100, 50);
 		splitPane.setMinimumSize(minSize);
@@ -134,7 +143,8 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 		_emailPanel = new EmailJPanel();
 		splitPane.setRightComponent(_emailPanel);
 		
-		add(splitPane, BorderLayout.CENTER);
+		bgPanel.add(splitPane, BorderLayout.CENTER);
+		add(bgPanel, BorderLayout.CENTER);
 		
 		_messageTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 			
