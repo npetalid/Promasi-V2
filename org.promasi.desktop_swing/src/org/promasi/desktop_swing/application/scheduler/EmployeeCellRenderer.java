@@ -28,7 +28,7 @@ import org.jdesktop.swingx.painter.PinstripePainter;
 import org.promasi.desktop_swing.application.Employee;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
-import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
+import org.promasi.utils_swing.components.HtmlPanel;
 
 /**
  * @author alekstheod
@@ -58,7 +58,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	/**
 	 * 
 	 */
-	private ExtendedJEditorPane _htmlPane;
+	private HtmlPanel _htmlPane;
 	
 	/**
 	 * Background color for the selected state of
@@ -72,9 +72,10 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	private Color _bgColor;
 	
 	/**
+	 * @throws GuiException 
 	 * 
 	 */
-	public EmployeeCellRenderer(){
+	public EmployeeCellRenderer() throws GuiException{
 		_selectedBgColor = Colors.Orange.alpha(0.5f);
 		_bgColor = Colors.Gray.alpha(0.5f);
 		init();
@@ -97,12 +98,10 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		init();
 	}
 	
-	private void init(){
+	private void init() throws GuiException{
 		_mainPanel = new JXPanel();
 		_mainPanel.setLayout( new MigLayout( new LC( ).fill( ) ));
-		_htmlPane = new ExtendedJEditorPane();
-		_htmlPane.setEditable(false);
-		_htmlPane.setContentType("text/html" );
+		_htmlPane = new HtmlPanel();
 		_htmlPane.setPreferredSize(new Dimension(100,200));
 		_htmlPane.setOpaque(false);
 		_htmlPane.setVisible(true);

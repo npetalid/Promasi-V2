@@ -4,7 +4,6 @@
 package org.promasi.desktop_swing;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -56,12 +55,13 @@ public class TaskBarJPanel extends JPanel {
 	public ClockJPanel _clockPanel;
 	
 	/**
-	 * 
+	 * Instance of {@link IDesktop} interface implementation
+	 * needed in order to interact with the desktop workspace.
 	 */
 	private IDesktop _desktop;
 	
 	/**
-	 * 
+	 * The quick buttons menu panel.
 	 */
 	private JPanel _quickMenuPanel;
 	
@@ -71,7 +71,10 @@ public class TaskBarJPanel extends JPanel {
 	private JPanel _quickButtonsJPanel;
 	
 	/**
-	 * 
+	 * Constructor will initialize the object.
+	 * @param username
+	 * @param desktop
+	 * @throws GuiException
 	 */
 	public TaskBarJPanel( String username, IDesktop desktop )throws GuiException{
 		super();

@@ -14,6 +14,7 @@ import org.promasi.desktop_swing.application.ADesktopApplication;
 import org.promasi.desktop_swing.application.QuickStartButton;
 import org.promasi.game.IGame;
 import org.promasi.utilities.file.RootDirectory;
+import org.promasi.utils_swing.AlphaContainer;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.PainterFactory;
@@ -65,7 +66,7 @@ public class WebBrowserDesktopApplication extends ADesktopApplication{
 		JTabbedPane tabbedPane = new JTabbedPane();
 		tabbedPane.setOpaque(false);
 		tabbedPane.setBackground(Colors.White.alpha(0f));
-		bgPanel.add(tabbedPane, BorderLayout.CENTER);
+		bgPanel.add(new AlphaContainer(tabbedPane) , BorderLayout.CENTER);
 		
 		add(bgPanel);
 		

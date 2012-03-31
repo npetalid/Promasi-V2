@@ -1,13 +1,18 @@
 package org.promasi.utils_swing.components.jeditorpane;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.Component;
 
 import javax.swing.JEditorPane;
 import javax.swing.border.EmptyBorder;
+
+import org.jdesktop.swingx.painter.CompoundPainter;
+import org.jdesktop.swingx.painter.GlossPainter;
+import org.jdesktop.swingx.painter.MattePainter;
+import org.jdesktop.swingx.painter.Painter;
+import org.jdesktop.swingx.painter.PinstripePainter;
+import org.promasi.utils_swing.Colors;
+import org.promasi.utils_swing.GuiException;
 
 public class ExtendedJEditorPane extends JEditorPane {
 	/**
@@ -18,20 +23,37 @@ public class ExtendedJEditorPane extends JEditorPane {
 	/**
 	 * 
 	 */
-	private Color _bgColor = new Color(255, 255, 255, 100);
+	private Color _bgColor;
+	
+	/**
+	 * 
+	 */
+	private Color _borderColor;
 	
 	/**
 	 * 
 	 */
 	public ExtendedJEditorPane(){
+		_bgColor = Colors.White.alpha(0.3f);
+		_borderColor = Colors.White.alpha(1f);
 		init();
 	}
 	
 	/**
+	 * @throws GuiException 
 	 * 
 	 */
-	public ExtendedJEditorPane( Color color ){
-		_bgColor = color;
+	public ExtendedJEditorPane( Color bgColor, Color borderColor ) throws GuiException{
+		if( bgColor == null ){
+			throw new GuiException("Wrong argument bgColor == null");
+		}
+		
+		if( borderColor == null ){
+			throw new GuiException("Wrong argument borderColor == null");
+		}
+		
+		_bgColor = bgColor;
+		_borderColor = borderColor;
 		init();
 	}
 	
@@ -40,26 +62,5 @@ public class ExtendedJEditorPane extends JEditorPane {
 		int bpad = 20;
 		setBorder(new EmptyBorder(bpad, bpad, bpad, bpad));
 		setOpaque(false);	
-	}
-	
-	@Override
-	public void paintComponent(Graphics g) {
-	    int x = 10;
-	    int y = 10;
-	    int w = getWidth() - 20;
-	    int h = getHeight() - 20;
-	    int arc = 20;
-	    Graphics2D g2 = (Graphics2D) g.create();
-	    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-	    g2.setColor(_bgColor);
-	    g2.fillRoundRect(x, y, w, h, arc, arc);
-
-	    g2.setStroke(new BasicStroke(3f));
-	    g2.setColor(Color.WHITE);
-	    g2.drawRoundRect(x, y, w, h, arc, arc); 
-	    
-	    super.paintComponent(g2);
-	    g2.dispose();
 	}
 }

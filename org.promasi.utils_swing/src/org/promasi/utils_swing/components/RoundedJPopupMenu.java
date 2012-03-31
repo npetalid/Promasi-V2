@@ -26,13 +26,14 @@ public class RoundedJPopupMenu extends JPopupMenu {
 	/**
 	 * 
 	 */
-	private Color _bgColor = new Color(255, 255, 255, 180);
+	private Color _bgColor;
 	
 	/**
 	 * 
 	 */
 	public RoundedJPopupMenu(){
 		super();
+		_bgColor = new Color(255, 255, 255, 180);
 		init();
 	}
 	
@@ -47,7 +48,7 @@ public class RoundedJPopupMenu extends JPopupMenu {
 	}
 
 	private void init(){
-		int bpad = 20;
+		int bpad = 10;
 		setBorder(new EmptyBorder(bpad, bpad, bpad, bpad));
 		setOpaque(false);
 	}

@@ -4,8 +4,12 @@
 package org.promasi.utils_swing.components;
 
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.border.EmptyBorder;
 import org.jdesktop.swingx.JXPanel;
+import org.jdesktop.swingx.painter.CompoundPainter;
+import org.jdesktop.swingx.painter.Painter;
 import org.jdesktop.swingx.painter.RectanglePainter;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
@@ -24,7 +28,7 @@ public class RoundedJPanel extends JXPanel {
 	/**
 	 * Default offset.
 	 */
-	private static final int CONST_PANEL_OFFSET = 20;
+	private static final int CONST_PANEL_OFFSET = 10;
 	
 	/**
 	 * Empty constructor
@@ -34,16 +38,11 @@ public class RoundedJPanel extends JXPanel {
 	 */
 	public RoundedJPanel(){
 		super();
-		int bpad = 80;
+		int bpad = CONST_PANEL_OFFSET;
 		setBorder(new EmptyBorder(bpad, bpad, bpad, bpad));
 		Color color = Colors.White.alpha(0.5f);
-		RectanglePainter roundRect = new RectanglePainter(	CONST_PANEL_OFFSET,
-															CONST_PANEL_OFFSET,
-															CONST_PANEL_OFFSET,
-															CONST_PANEL_OFFSET, 
-															30,30,true, color, 3, Colors.White.alpha(0.8f)); 
-		setBackgroundPainter(roundRect);
-		init();
+		Color borderColor = Colors.White.alpha(1f);
+		init(color, borderColor);
 	}
 	
 	/**
@@ -63,15 +62,35 @@ public class RoundedJPanel extends JXPanel {
 		if( borderColor == null ){
 			throw new GuiException("Wrong argument borderColor == null");
 		}
-		
-		RectanglePainter roundRect = new RectanglePainter(20,20,20,20, 30,30,true, color, 3, borderColor); 
-		setBackgroundPainter(roundRect);
-		init();
+
+		init(color, borderColor);
 	}
 
-	private void init(){
-		int bpad = CONST_PANEL_OFFSET*2;
+	/**
+	 * 
+	 * @param bgColor
+	 * @param borderColor
+	 */
+	private void init(Color bgColor, Color borderColor){
+		int bpad = CONST_PANEL_OFFSET;
 		setBorder(new EmptyBorder(bpad, bpad, bpad, bpad));
 		setOpaque(false);
+		setBackgroundPainter(getPainter(bgColor, borderColor) );
+	}
+	
+	/**
+	 * 
+	 * @param bgColor
+	 * @param borderColor
+	 * @return
+	 */
+	private Painter<Component> getPainter(Color bgColor, Color borderColor){
+		RectanglePainter roundRect = new RectanglePainter(	CONST_PANEL_OFFSET,
+				CONST_PANEL_OFFSET,
+				CONST_PANEL_OFFSET,
+				CONST_PANEL_OFFSET, 
+				30,30,true, bgColor, 3, borderColor); 
+
+	    return (new CompoundPainter<Component>(roundRect));	
 	}
 }

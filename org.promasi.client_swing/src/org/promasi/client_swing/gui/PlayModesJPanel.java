@@ -23,8 +23,8 @@ import org.promasi.client_swing.playmode.singleplayer.SinglePlayerPlayMode;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.PainterFactory;
+import org.promasi.utils_swing.components.HtmlPanel;
 import org.promasi.utils_swing.components.RoundedJPanel;
-import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
 import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
 
 /**
@@ -55,7 +55,7 @@ public class PlayModesJPanel extends JXPanel {
 	/**
 	 * 
 	 */
-	private ExtendedJEditorPane _infoPane;
+	private HtmlPanel _infoPane;
 	
 	/**
 	 * 
@@ -139,9 +139,7 @@ public class PlayModesJPanel extends JXPanel {
 	
 			_playModesList.setBorder(edge);
 			
-			_infoPane = new ExtendedJEditorPane();
-			_infoPane.setEditable(false);
-			_infoPane.setContentType( "text/html" );
+			_infoPane = new HtmlPanel();
 			
 			splitPane.setRightComponent(_infoPane);
 			splitPane.setDividerLocation( 200 );

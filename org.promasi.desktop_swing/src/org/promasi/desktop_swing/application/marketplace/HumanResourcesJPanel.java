@@ -26,6 +26,7 @@ import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.project.ProjectMemento;
+import org.promasi.utils_swing.AlphaContainer;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
@@ -68,10 +69,11 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 		_employeesList = new JList<Employee>();
 		JScrollPane scrollPane = new JScrollPane(_employeesList);
 		_employeesList.setCellRenderer(new EmployeeCellRenderer());
-		scrollPane.getViewport().setOpaque(false);
 		
 		setLayout(new BorderLayout());
-		add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setOpaque(false);
+		scrollPane.getViewport().setOpaque(false);
+		add(new AlphaContainer(scrollPane), BorderLayout.CENTER);
 		
 		JPanel marketPlaceMenu = new JPanel();
 		marketPlaceMenu.setLayout(new BorderLayout());

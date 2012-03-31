@@ -45,21 +45,14 @@ public class PainterFactory {
 	
 	private static Painter<Component> getBackgroundPainter(){
 	    MattePainter mp = new MattePainter(Colors.Gray.alpha(0.8f));
-	    GlossPainter gp = new GlossPainter(Colors.White.alpha(0.3f),
-	                                       GlossPainter.GlossPosition.TOP);
-	    
-	    PinstripePainter pp = new PinstripePainter(Colors.Gray.alpha(0.2f),
-	                                               45d);
-	   return (new CompoundPainter<Component>(mp, pp, gp));	
+	    PinstripePainter pp = new PinstripePainter(Colors.Gray.alpha(0.2f),45d);
+	   return (new CompoundPainter<Component>(mp, pp));	
 	}
 	
 	private static Painter<Component> getInactiveBackgroundPainter(){
 	    MattePainter mp = new MattePainter(Colors.LightBlue.alpha(0.8f));
-	    GlossPainter gp = new GlossPainter(Colors.White.alpha(0.3f),
-	                                       GlossPainter.GlossPosition.TOP);
-	    
-	    PinstripePainter pp = new PinstripePainter(Colors.Gray.alpha(0.2f),
-	                                               45d);
-	   return (new CompoundPainter<Component>(mp, pp, gp));	
+	    GlossPainter gp = new GlossPainter(Colors.White.alpha(0.3f), GlossPainter.GlossPosition.TOP);
+	    PinstripePainter pp = new PinstripePainter(Colors.Gray.alpha(0.2f), 45d);
+	    return (new CompoundPainter<Component>(mp, pp, gp));	
 	}
 }

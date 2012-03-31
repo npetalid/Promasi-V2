@@ -6,13 +6,13 @@ package org.promasi.desktop_swing.application.email;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
-import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.promasi.utils_swing.Colors;
-import org.promasi.utils_swing.components.jeditorpane.ExtendedJEditorPane;
+import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.components.HtmlPanel;
 
 /**
  * @author alekstheod
@@ -38,12 +38,12 @@ public class EmailJPanel extends JPanel {
 	/**
 	 * 
 	 */
-	private JEditorPane _bodyPane;
+	private HtmlPanel _bodyPane;
 	
 	/**
 	 * 
 	 */
-	public EmailJPanel(){
+	public EmailJPanel()throws GuiException{
 		setLayout(new BorderLayout());
 		setOpaque(false);
 		setBackground(Colors.White.alpha(0f));
@@ -69,10 +69,7 @@ public class EmailJPanel extends JPanel {
 		themePanel.add(_themeField, BorderLayout.CENTER);
 		topPanel.add(themePanel, BorderLayout.SOUTH);
 		
-		_bodyPane = new ExtendedJEditorPane();
-		_bodyPane.setEditable(false);
-		_bodyPane.setContentType("text/html");
-		
+		_bodyPane = new HtmlPanel();
 		add(topPanel, BorderLayout.NORTH);
 		add(_bodyPane, BorderLayout.CENTER);
 	}
