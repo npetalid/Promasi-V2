@@ -9,6 +9,8 @@ import java.awt.FlowLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.promasi.client_swing.gui.MainFrame;
 import org.promasi.client_swing.gui.PlayModesJPanel;
@@ -44,7 +46,7 @@ public class Application {
 					        }
 					    }*/
 			            
-			            //UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
+			            UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
 					} catch (Exception e) {
 					    // If Nimbus is not available, you can set the GUI to another look and feel.
 					}

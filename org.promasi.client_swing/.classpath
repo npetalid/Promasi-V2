@@ -9,5 +9,6 @@
 	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-common.jar"/>
 	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-gantt.jar"/>
 	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-grids.jar"/>
+	<classpathentry kind="lib" path="Libs/Themes/JTattoo.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
