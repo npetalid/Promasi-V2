@@ -133,7 +133,7 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 		
 		JXPanel messagesPanel = new JXPanel();
 		messagesPanel.setOpaque(false);
-		messagesPanel.setBorder(new EmptyBorder(20,20,20,20));
+		messagesPanel.setBorder(new EmptyBorder(10,10,10,10));
 		_msgTableModel =  new MessageTableModel( new Vector<Message>( ) );
 		_messageTable.setModel( _msgTableModel );
 		messagesPanel.setLayout(new BorderLayout());

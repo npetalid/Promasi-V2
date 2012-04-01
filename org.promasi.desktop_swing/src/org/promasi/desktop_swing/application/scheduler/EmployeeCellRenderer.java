@@ -14,10 +14,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-
-import net.miginfocom.layout.CC;
-import net.miginfocom.layout.LC;
-import net.miginfocom.swing.MigLayout;
+import javax.swing.border.EmptyBorder;
 
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.painter.CompoundPainter;
@@ -28,12 +25,15 @@ import org.jdesktop.swingx.painter.PinstripePainter;
 import org.promasi.desktop_swing.application.Employee;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
-import org.promasi.utils_swing.PainterFactory;
 import org.promasi.utils_swing.components.HtmlPanel;
+import org.promasi.utils_swing.components.RoundedJPanel;
 
 /**
  * @author alekstheod
- *
+ * Represent the cell renderer for the employees
+ * selection list. Provide the possibility to render
+ * the employees information such as cv, skills, salary
+ * as a html content.
  */
 public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	/**
@@ -49,7 +49,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	/**
 	 * 
 	 */
-	private JLabel _salaryLabel;
+	private JLabel _infoPanel;
 	
 	/**
 	 * 
@@ -102,8 +102,8 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	
 	private void init() throws GuiException{
 		_mainPanel = new JXPanel();
-		_mainPanel.setLayout( new MigLayout( new LC( ).fill( ) ));
-		_mainPanel.setOpaque(true);
+		_mainPanel.setLayout( new BorderLayout() );
+		_mainPanel.setOpaque(false);
 		
 		_htmlPane = new HtmlPanel();
 		_htmlPane.setPreferredSize(new Dimension(100,200));
@@ -112,19 +112,20 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		_htmlPane.setFocusable(true);
 		_htmlPane.setAutoscrolls(true);
 		
-		_salaryLabel = new JLabel();
-		_salaryLabel.setOpaque(false);
-		_salaryLabel.setBackground(new Color(255,255,255,0));
+		_infoPanel = new JLabel();
+		_infoPanel.setOpaque(false);
+		_infoPanel.setBackground(new Color(255,255,255,0));
 		_salaryPanel = new JPanel();
 		_salaryPanel.setOpaque(false);
-		_salaryPanel.setBackground(new Color(255,255,255,0));
+		int offset = RoundedJPanel.CONST_PANEL_OFFSET;
+		_salaryPanel.setBorder(new EmptyBorder(offset,offset, offset, offset));
 		_salaryPanel.setLayout(new BorderLayout());
-		_salaryPanel.add(_salaryLabel, BorderLayout.EAST);
+		_salaryPanel.add(_infoPanel, BorderLayout.EAST);
 		_salaryPanel.setBackground(_bgColor);
-		_salaryLabel.setFont(new Font("Courier New", Font.PLAIN, 15));
+		_infoPanel.setFont(new Font("Courier New", Font.PLAIN, 15));
 		
-		_mainPanel.add(_htmlPane, new CC( ).spanX( ).grow( ).gapX( "30px", "0px" ).gapY("0px", "10px"));
-		_mainPanel.add(_salaryPanel, new CC().spanX().grow().gap("0px", "0px"));
+		_mainPanel.add(_htmlPane, BorderLayout.CENTER);
+		_mainPanel.add(_salaryPanel, BorderLayout.SOUTH);
 		_mainPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
 		_mainPanel.setBackgroundPainter(getPainter(_bgColor));
 	}
@@ -145,7 +146,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		_htmlPane.setText( value.toString() );
 		if( value instanceof Employee){
 			Employee employee = (Employee)value;
-			_salaryLabel.setText("Salary : " + Double.toString(employee.getEmployeeMemento().getSalary()));
+			_infoPanel.setText("Salary : " + Double.toString(employee.getEmployeeMemento().getSalary()));
 		}
 		
 		if( isSelected ){
