@@ -13,7 +13,9 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.DefaultListModel;
 
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import org.jdesktop.swingx.JXPanel;
@@ -81,12 +83,17 @@ public class PlayModesJPanel extends JXPanel {
 			splitPane.setOpaque(false);
 			splitPane.setBackground(Colors.White.alpha(0f));
 
+			JXPanel playModesPanel = new JXPanel();
+			playModesPanel.setOpaque(false);
+			playModesPanel.setBorder(new EmptyBorder(10,10,10,10));
+			playModesPanel.setLayout(new BorderLayout());
 			_playModesList = new JList<IPlayMode>(listModel);
 			_playModesList.setBackground(new Color(80, 80, 80, 0));
+			playModesPanel.add(new JScrollPane(_playModesList));
+			splitPane.setLeftComponent(playModesPanel);
+			
 			setLayout( new BorderLayout() );
 			add(splitPane, BorderLayout.CENTER);
-
-			splitPane.setLeftComponent(_playModesList);
 			_playModesList.addMouseMotionListener(new MouseMotionListener() {
 				
 				@Override
@@ -114,8 +121,7 @@ public class PlayModesJPanel extends JXPanel {
 				public void mousePressed(MouseEvent arg0) {}
 				
 				@Override
-				public void mouseExited(MouseEvent arg0) {	
-				}
+				public void mouseExited(MouseEvent arg0) {	}
 				
 				@Override
 				public void mouseEntered(MouseEvent arg0) {}

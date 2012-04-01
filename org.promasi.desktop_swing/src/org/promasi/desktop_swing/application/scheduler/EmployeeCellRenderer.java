@@ -28,6 +28,7 @@ import org.jdesktop.swingx.painter.PinstripePainter;
 import org.promasi.desktop_swing.application.Employee;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.PainterFactory;
 import org.promasi.utils_swing.components.HtmlPanel;
 
 /**
@@ -77,7 +78,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	 */
 	public EmployeeCellRenderer() throws GuiException{
 		_selectedBgColor = Colors.Orange.alpha(0.5f);
-		_bgColor = Colors.Gray.alpha(0.5f);
+		_bgColor = Colors.Black.alpha(0.8f);
 		setOpaque(true);
 		init();
 	}
@@ -103,13 +104,14 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		_mainPanel = new JXPanel();
 		_mainPanel.setLayout( new MigLayout( new LC( ).fill( ) ));
 		_mainPanel.setOpaque(true);
+		
 		_htmlPane = new HtmlPanel();
 		_htmlPane.setPreferredSize(new Dimension(100,200));
 		_htmlPane.setOpaque(false);
 		_htmlPane.setVisible(true);
 		_htmlPane.setFocusable(true);
 		_htmlPane.setAutoscrolls(true);
-		_mainPanel.add(_htmlPane, new CC( ).spanX( ).grow( ).gapX( "30px", "0px" ).gapY("0px", "10px"));
+		
 		_salaryLabel = new JLabel();
 		_salaryLabel.setOpaque(false);
 		_salaryLabel.setBackground(new Color(255,255,255,0));
@@ -120,6 +122,8 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		_salaryPanel.add(_salaryLabel, BorderLayout.EAST);
 		_salaryPanel.setBackground(_bgColor);
 		_salaryLabel.setFont(new Font("Courier New", Font.PLAIN, 15));
+		
+		_mainPanel.add(_htmlPane, new CC( ).spanX( ).grow( ).gapX( "30px", "0px" ).gapY("0px", "10px"));
 		_mainPanel.add(_salaryPanel, new CC().spanX().grow().gap("0px", "0px"));
 		_mainPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1, true));
 		_mainPanel.setBackgroundPainter(getPainter(_bgColor));

@@ -3,6 +3,7 @@
  */
 package org.promasi.utils_swing.components;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 
@@ -76,6 +77,7 @@ public class RoundedJPanel extends JXPanel {
 		setBorder(new EmptyBorder(bpad, bpad, bpad, bpad));
 		setOpaque(false);
 		setBackgroundPainter(getPainter(bgColor, borderColor) );
+		setLayout(new BorderLayout());
 	}
 	
 	/**

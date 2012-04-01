@@ -16,8 +16,10 @@ import java.util.Vector;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import org.jdesktop.swingx.JXPanel;
@@ -100,6 +102,12 @@ public class GamesJPanel extends JXPanel implements IGamesServerListener {
 		setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.Background));
 		
 		setLayout( new BorderLayout() );
+		
+		JXPanel gamesPanel = new JXPanel();
+		gamesPanel.setOpaque(false);
+		gamesPanel.setLayout(new BorderLayout());
+		gamesPanel.setBorder(new EmptyBorder(10,10,10,10));
+		
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setOpaque(false);
 		splitPane.setBackground(Colors.White.alpha(0f));
@@ -109,7 +117,9 @@ public class GamesJPanel extends JXPanel implements IGamesServerListener {
 		_gamesList = new JList<IGame>(listModel);
 		_gamesList.setBackground(new Color(200, 200, 200, 0));
 		_gamesList.setCellRenderer(new MenuCellRenderer());
-		splitPane.setLeftComponent(_gamesList);
+		
+		gamesPanel.add(new JScrollPane(_gamesList));
+		splitPane.setLeftComponent(gamesPanel);
 		
 		_gamesList.addMouseMotionListener(new MouseMotionListener() {
 			

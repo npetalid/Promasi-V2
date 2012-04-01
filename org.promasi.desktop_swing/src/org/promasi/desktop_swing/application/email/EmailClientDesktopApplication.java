@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -39,7 +40,6 @@ import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.PainterFactory;
-import org.promasi.utils_swing.components.RoundedJPanel;
 
 /**
  * @author alekstheod
@@ -131,7 +131,9 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 		splitPane.setMinimumSize(minSize);
 		splitPane.setMinimumSize(minSize);
 		
-		RoundedJPanel messagesPanel = new RoundedJPanel();
+		JXPanel messagesPanel = new JXPanel();
+		messagesPanel.setOpaque(false);
+		messagesPanel.setBorder(new EmptyBorder(20,20,20,20));
 		_msgTableModel =  new MessageTableModel( new Vector<Message>( ) );
 		_messageTable.setModel( _msgTableModel );
 		messagesPanel.setLayout(new BorderLayout());
