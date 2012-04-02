@@ -4,7 +4,9 @@
 package org.promasi.desktop_swing;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 import javax.swing.Icon;
 import javax.swing.JDesktopPane;
@@ -13,6 +15,7 @@ import javax.swing.JPopupMenu;
 import org.promasi.desktop_swing.application.ADesktopApplication;
 import org.promasi.desktop_swing.application.QuickStartButton;
 import org.promasi.game.IGame;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
 
@@ -60,7 +63,7 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 		}
 		
 		_startMenu = new JPopupMenu();
-		_startMenu.setBackground(new Color(255, 255, 255, 100));
+		_startMenu.setBackground(Colors.White.alpha(0.8f));
 		_startMenu.setLayout(new BorderLayout());
 		_desktop = desktop;
 		_widgetsFrame = new WidgetsFrame();
@@ -70,6 +73,23 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 		
 		StartMenuJPanel startPanel = new StartMenuJPanel( game, username, this );
 		_startMenu.add(startPanel, BorderLayout.CENTER);
+		
+		addComponentListener(new ComponentListener() {
+			
+			@Override
+			public void componentShown(ComponentEvent e) {}
+			
+			@Override
+			public void componentResized(ComponentEvent e) {
+				_widgetsFrame.setBounds(new Rectangle(getWidth() - 310, 100 , 300, 600));
+			}
+			
+			@Override
+			public void componentMoved(ComponentEvent e) {}
+			
+			@Override
+			public void componentHidden(ComponentEvent e) {}
+		});
 	}
 
 	public void showStartMenu() {
