@@ -3,7 +3,7 @@
  */
 package org.promasi.desktop_swing;
 
-import java.awt.FlowLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JInternalFrame;
 
@@ -27,9 +27,9 @@ public class WidgetsFrame extends JInternalFrame{
 	 */
 	public WidgetsFrame(){
 		setBounds(10 , 10,300,500);
+	    setLayout(new GridLayout(0, 1));
 	    setOpaque(false);  
 	    getContentPane().setBackground(Colors.White.alpha(0.5f));  
-	    setLayout(new FlowLayout());
 	}
 	
 	/**

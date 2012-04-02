@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.jfree.chart.ChartFactory;
@@ -72,18 +73,23 @@ public class BudgetWidget extends Widget implements ICompanyListener {
 	 * 
 	 */
 	public BudgetWidget(){
+		JPanel internalPanel = new JPanel();
+		internalPanel.setLayout(new BorderLayout());
+		
 		setLayout(new BorderLayout());
 		setVisible(true);
 		setPreferredSize(new Dimension(250,200));
 		_budgetLabel = new JLabel("0.0");
+		setOpaque(false);
 		_budgetLabel.setBackground(Colors.White.alpha(0f));
 		
 		_dataset = new DefaultCategoryDataset();
 		_chart = createChart(_dataset);
 		
-		//dataSet.
-		add(new ChartPanel(_chart), BorderLayout.CENTER);
-		add(_budgetLabel, BorderLayout.SOUTH);
+		internalPanel.add(new ChartPanel(_chart), BorderLayout.CENTER);
+		internalPanel.add(_budgetLabel, BorderLayout.SOUTH);
+		
+		add(internalPanel);
 	}
 
 	@Override

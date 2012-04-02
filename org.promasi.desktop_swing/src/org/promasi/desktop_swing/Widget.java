@@ -3,6 +3,8 @@
  */
 package org.promasi.desktop_swing;
 
+import javax.swing.border.EmptyBorder;
+
 import org.jdesktop.swingx.JXPanel;
 
 /**
@@ -19,6 +21,8 @@ public class Widget extends JXPanel {
 	public Widget(){
 		super();
 		setBounds(0, 0, 100, 100);
+		final int pad = 10;
+		setBorder(new EmptyBorder(pad, pad, pad, pad));
 	}
 
 }
