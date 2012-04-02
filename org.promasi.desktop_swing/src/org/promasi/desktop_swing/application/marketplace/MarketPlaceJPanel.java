@@ -11,13 +11,11 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import org.promasi.desktop_swing.application.Employee;
-import org.promasi.desktop_swing.application.scheduler.EmployeeCellRenderer;
+import org.promasi.desktop_swing.application.EmployeesPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.IMarketPlaceListener;
@@ -26,7 +24,9 @@ import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod
- *
+ * The market place panel represent the market
+ * place on ProMaSi system. A player will be able
+ * to hire employees by using this panel.
  */
 public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 
@@ -36,19 +36,21 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * The marketplace panel name.
 	 */
 	public static final String CONST_SITENAME = "Marketplace";
 	
 	/**
-	 * 
+	 * Instance of the {@link IGame} interface
+	 * implementation needed in order to retrieve
+	 * the information from the running game.
 	 */
 	private IGame _game;
 	
 	/**
 	 * 
 	 */
-	private JList<Employee> _employeesList;
+	private EmployeesPanel _employeesPanel;
 	
 	/**
 	 * 
@@ -59,12 +61,10 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 			throw new GuiException("Wrong argument game == null");
 		}
 		
-		_employeesList = new JList<Employee>();
-		JScrollPane scrollPane = new JScrollPane(_employeesList);
-		
-		_employeesList.setCellRenderer(new EmployeeCellRenderer());
 		setLayout(new BorderLayout());
-		add(scrollPane, BorderLayout.CENTER);
+		
+		_employeesPanel = new EmployeesPanel();
+		add(_employeesPanel, BorderLayout.CENTER);
 		
 		JPanel marketPlaceMenu = new JPanel();
 		marketPlaceMenu.setLayout(new BorderLayout());
@@ -74,12 +74,10 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if( !_employeesList.isSelectionEmpty() ){
-					List<Employee> employees = _employeesList.getSelectedValuesList();
-					for( Object employee : employees){
-						if( employee instanceof Employee){
-							_game.hireEmployee(((Employee)employee).getEmployeeMemento().getEmployeeId());
-						}
+				List<Employee> employees = _employeesPanel.getSelectedEmployees();
+				for( Object employee : employees){
+					if( employee instanceof Employee){
+						_game.hireEmployee(((Employee)employee).getEmployeeMemento().getEmployeeId());
 					}
 				}
 			}
@@ -111,7 +109,7 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 						}
 					}
 					
-					_employeesList.setListData(dataSet);
+					_employeesPanel.updateList(dataSet);
 				}
 			}
 		});

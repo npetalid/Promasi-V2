@@ -11,14 +11,12 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JButton;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.application.Employee;
-import org.promasi.desktop_swing.application.scheduler.EmployeeCellRenderer;
+import org.promasi.desktop_swing.application.EmployeesPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.DepartmentMemento;
@@ -26,7 +24,6 @@ import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.project.ProjectMemento;
-import org.promasi.utils_swing.AlphaContainer;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
@@ -54,7 +51,7 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 	/**
 	 * 
 	 */
-	private JList<Employee> _employeesList;
+	private EmployeesPanel _employeesPanel;
 	
 	/**
 	 * 
@@ -66,16 +63,10 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 		
 		setOpaque(false);
 		setBackground(Colors.White.alpha(0f));
-		_employeesList = new JList<Employee>();
-		_employeesList.setOpaque(false);
-		_employeesList.setBackground(Colors.White.alpha(0f));
-		JScrollPane scrollPane = new JScrollPane(_employeesList);
-		_employeesList.setCellRenderer(new EmployeeCellRenderer());
+		_employeesPanel = new EmployeesPanel();
 		
 		setLayout(new BorderLayout());
-		scrollPane.setOpaque(false);
-		scrollPane.getViewport().setOpaque(false);
-		add(new AlphaContainer(scrollPane), BorderLayout.CENTER);
+		add(_employeesPanel, BorderLayout.CENTER);
 		
 		JPanel marketPlaceMenu = new JPanel();
 		marketPlaceMenu.setLayout(new BorderLayout());
@@ -85,12 +76,10 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if( !_employeesList.isSelectionEmpty() ){
-					List<Employee> employees =_employeesList.getSelectedValuesList();
-					for( Object employee : employees){
-						if( employee instanceof Employee){
-							 _game.dischargeEmployee(((Employee)employee).getEmployeeMemento().getEmployeeId());
-						}
+				List<Employee> employees =_employeesPanel.getSelectedEmployees();
+				for( Object employee : employees){
+					if( employee instanceof Employee){
+						 _game.dischargeEmployee(((Employee)employee).getEmployeeMemento().getEmployeeId());
 					}
 				}
 			}
@@ -150,7 +139,7 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 				}
 			}
 			
-			_employeesList.setListData(dataSet);
+			_employeesPanel.updateList(dataSet);
 		}
 	}
 	

@@ -49,6 +49,13 @@ public interface IDesktop {
 	public JDesktopPane getDesktopPane();
 	
 	/**
+	 * Will add a new widget to the ProMaSi desktop.
+	 * @param widget Instance of {@link Widget} class.
+	 * @return true if succeed, false otherwise.
+	 */
+	public boolean addWidget( Widget widget );
+	
+	/**
 	 * 
 	 * @param msgBox
 	 * @return

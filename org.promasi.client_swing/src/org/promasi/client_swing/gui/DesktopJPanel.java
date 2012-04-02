@@ -17,6 +17,7 @@ import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.PromasiJDesktopPane;
 import org.promasi.desktop_swing.TaskBarJPanel;
+import org.promasi.desktop_swing.Widget;
 import org.promasi.desktop_swing.application.ADesktopApplication;
 import org.promasi.desktop_swing.application.QuickStartButton;
 import org.promasi.game.IGame;
@@ -204,5 +205,10 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	@Override
 	public JDesktopPane getDesktopPane() {
 		return _workspace;
+	}
+
+	@Override
+	public boolean addWidget(Widget widget) {
+		return _workspace.addWidget(widget);
 	}
 }

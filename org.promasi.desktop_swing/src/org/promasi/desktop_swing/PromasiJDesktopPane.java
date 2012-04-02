@@ -40,6 +40,11 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 	private IDesktop _desktop;
 	
 	/**
+	 * 
+	 */
+	private WidgetsFrame _widgetsFrame;
+	
+	/**
 	 * @throws GuiException 
 	 * 
 	 */
@@ -57,8 +62,12 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 		_startMenu = new JPopupMenu();
 		_startMenu.setBackground(new Color(255, 255, 255, 100));
 		_startMenu.setLayout(new BorderLayout());
-		
 		_desktop = desktop;
+		_widgetsFrame = new WidgetsFrame();
+
+		add(_widgetsFrame);
+		_widgetsFrame.show();
+		
 		StartMenuJPanel startPanel = new StartMenuJPanel( game, username, this );
 		_startMenu.add(startPanel, BorderLayout.CENTER);
 	}
@@ -92,5 +101,10 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 	@Override
 	public JDesktopPane getDesktopPane() {
 		return this;
+	}
+
+	@Override
+	public boolean addWidget(Widget widget) {
+		return _widgetsFrame.addWidget(widget);
 	}
 }
