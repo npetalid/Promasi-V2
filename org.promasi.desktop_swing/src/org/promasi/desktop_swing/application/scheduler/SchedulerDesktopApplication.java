@@ -78,7 +78,9 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 		desktop.addQuickStartButton(_quickButton);
 		game.addDepartmentListener(this);
 		
-		desktop.addWidget(new ProductivityWidget());
+		ProductivityWidget prodWidget = new ProductivityWidget();
+		desktop.addWidget(prodWidget);
+		game.addCompanyListener(prodWidget);
 	}
 
 	@Override

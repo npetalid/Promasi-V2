@@ -70,6 +70,7 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 
 		add(_widgetsFrame);
 		_widgetsFrame.show();
+		addWidget(new ClockWidget());
 		
 		StartMenuJPanel startPanel = new StartMenuJPanel( game, username, this );
 		_startMenu.add(startPanel, BorderLayout.CENTER);
@@ -81,7 +82,7 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 			
 			@Override
 			public void componentResized(ComponentEvent e) {
-				_widgetsFrame.setBounds(new Rectangle(getWidth() - 310, 100 , 300, 600));
+				_widgetsFrame.setBounds(new Rectangle(getWidth() - _widgetsFrame.getWidth() - 10, getHeight()/2 - _widgetsFrame.getHeight()/2 , _widgetsFrame.getWidth(), _widgetsFrame.getHeight()));
 			}
 			
 			@Override

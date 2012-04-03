@@ -22,14 +22,19 @@ public class WidgetsFrame extends JInternalFrame{
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private int _widgetsNumber;
+	
 	/**
 	 * 
 	 */
 	public WidgetsFrame(){
-		setBounds(10 , 10,300,500);
+		setBounds(10 , 10, 200, 450);
 	    setLayout(new GridLayout(0, 1));
 	    setOpaque(false);  
-	    getContentPane().setBackground(Colors.White.alpha(0.5f));  
+	    getContentPane().setBackground(Colors.White.alpha(0.3f)); 
+	    setBorder(null);
+	    putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
+	    _widgetsNumber = 0;
 	}
 	
 	/**
@@ -42,6 +47,8 @@ public class WidgetsFrame extends JInternalFrame{
 		
 		if( widget != null ){
 			add(widget);
+			_widgetsNumber++;
+			setBounds(10 , 10, 200, Widget.CONST_WIDGET_HEIGHT*_widgetsNumber);
 			result = true;
 		}
 		
