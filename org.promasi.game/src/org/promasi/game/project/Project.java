@@ -201,32 +201,35 @@ public class Project
      * @return
      * @throws NullArgumentException
      */
-    public boolean executeStep(){
+    public boolean executeStep(boolean isWorkingStep){
     	boolean result = false;
     	
     	try{
     		_lockObject.lock();
-        	if( _projectDuration>_currentStep ){
-            	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
-            		entry.getValue().executeTask(_currentStep);
-            		CONST_LOGGER.info("Executing ProjectTask : " + entry.getKey());
-            	}
-            	
-            	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
-            		CONST_LOGGER.info("Executing TaskBridges for task : " + entry.getKey());
-            		entry.getValue().executeBridges();
-            	}
+    		if( isWorkingStep ){
+            	if( _projectDuration>_currentStep ){
+                	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
+                		entry.getValue().executeTask(_currentStep);
+                		CONST_LOGGER.info("Executing ProjectTask : " + entry.getKey());
+                	}
+                	
+                	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
+                		CONST_LOGGER.info("Executing TaskBridges for task : " + entry.getKey());
+                		entry.getValue().executeBridges();
+                	}
 
-            	_overallProgress = 0;
-            	for( Map.Entry<String, ProjectTask> taskEntry : _projectTasks.entrySet()){
-            		_overallProgress += taskEntry.getValue().getProgress();
-            	}
-            	
-            	_overallProgress = _overallProgress/_projectTasks.size();
+                	_overallProgress = 0;
+                	for( Map.Entry<String, ProjectTask> taskEntry : _projectTasks.entrySet()){
+                		_overallProgress += taskEntry.getValue().getProgress();
+                	}
+                	
+                	_overallProgress = _overallProgress/_projectTasks.size();
 
-            	_currentStep++;	
-            	result = true;
-        	}
+                	result = true;
+            	}	
+    		}
+
+    		_currentStep++;	
     	}finally{
     		_lockObject.unlock();
     	}

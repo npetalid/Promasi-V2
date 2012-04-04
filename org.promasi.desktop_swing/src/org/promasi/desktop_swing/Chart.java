@@ -32,6 +32,8 @@ public class Chart extends JXPanel {
 	 */
 	private DefaultCategoryDataset _dataset;
 	
+	public static final int CONST_MAX_COLUMS_NUMBER = 20;
+	
 	/**
 	 * 
 	 */
@@ -112,6 +114,11 @@ public class Chart extends JXPanel {
 		
 		if( xValue != null ){
 			_dataset.addValue(value, _yKey, xValue );
+			
+			if( _dataset.getColumnKeys().size() > CONST_MAX_COLUMS_NUMBER){
+				_dataset.removeColumn(0);
+			}
+			
 			result = true;
 		}
 		

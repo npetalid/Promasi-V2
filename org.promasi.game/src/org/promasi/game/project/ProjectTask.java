@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -43,11 +42,6 @@ public class ProjectTask
      * The completed percentage.
      */
     protected double _progress;
-    
-    /**
-     * 
-     */
-    protected Map<Integer, Double> _history;
     
     /**
      * 
@@ -99,7 +93,6 @@ public class ProjectTask
         
         _progressEquation = progressEquation;
         _employeeSkills=new HashMap<String, Double>();
-        _history=new TreeMap<Integer, Double>();
         _description=description;
         _name=taskName;
         _sdSystem=sdSystem;
@@ -176,25 +169,25 @@ public class ProjectTask
         		_sumEmployees=1;
         	}
         	
-        	if(currentStep<0 || _history.containsKey(currentStep)){
-        		throw new IllegalArgumentException("Wrong arugment currentStep");
+        	if(currentStep>=0){
+            	for(Map.Entry<String, Double> entry : _employeeSkills.entrySet()){
+            		_sdSystem.setInput(entry.getKey(), entry.getValue());
+            	}
+                
+                _sdSystem.executeStep();
+                if( _progress < CONST_PROGRESS_MAX_VALUE ){
+                	_progress=_progressEquation.calculateEquation( _sdSystem.getSystemValues() );
+                }
+            	
+        		for(Map.Entry<String, Double> entry : _employeeSkills.entrySet()){
+        			_sdSystem.setInput(entry.getKey(), 0.0);
+        		}
+            	
+        		_employeeSkills.clear();
+            	_sumEmployees=0;
+            	result = true;
         	}
         	
-        	for(Map.Entry<String, Double> entry : _employeeSkills.entrySet()){
-        		_sdSystem.setInput(entry.getKey(), entry.getValue());
-        	}
-            
-            _sdSystem.executeStep();
-            _progress=_progressEquation.calculateEquation( _sdSystem.getSystemValues() );
-            _history.put(currentStep, _progress);
-        	
-    		for(Map.Entry<String, Double> entry : _employeeSkills.entrySet()){
-    			_sdSystem.setInput(entry.getKey(), 0.0);
-    		}
-        	
-    		_employeeSkills.clear();
-        	_sumEmployees=0;
-        	result = true;
     	}catch(SdSystemException e){
     		result = false;
 		}finally{
@@ -321,7 +314,7 @@ public class ProjectTask
     public boolean isValidTask(){
     	try{
     		_lockObject.lock();
-    		return _progress <= CONST_PROGRESS_MAX_VALUE;
+    		return _progress < CONST_PROGRESS_MAX_VALUE;
     	}finally{
     		_lockObject.unlock();
     	}

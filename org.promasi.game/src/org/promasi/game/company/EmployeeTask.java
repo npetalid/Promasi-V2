@@ -13,7 +13,10 @@ import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
- *
+ * Represent the employee task on ProMaSi system.
+ * An employee task actually is related with and instance of
+ * the {@link ProjectTask} and each employee has a list of {@link EmployeeTask}
+ * assigned to him.
  */
 public class EmployeeTask
 {

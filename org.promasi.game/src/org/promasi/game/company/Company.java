@@ -9,7 +9,6 @@ import org.joda.time.LocalTime;
 import org.promasi.game.GameException;
 import org.promasi.game.project.Project;
 import org.promasi.utilities.design.Observer;
-import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
 
@@ -264,9 +263,7 @@ public class Company extends Observer<ICompanyListener>
      * 
      * @param dateTime
      * @param marketPlace in case if a company is insolvent all employees shoud be assigned to marketPlace
-     * @return
-     * @throws SerializationException
-     * @throws NullArgumentException
+     * @return true if succeed, false otherwise.
      */
     public boolean executeWorkingStep(final DateTime dateTime, MarketPlace marketPlace, DateTime currentDate){
     	boolean result = false;
@@ -310,7 +307,7 @@ public class Company extends Observer<ICompanyListener>
                          	eventHandler.onExecuteWorkingStep(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
                          }
                          
-                         _assignedProject.executeStep();
+                         _assignedProject.executeStep(true);
                          
                      	 if(_assignedProject.isExpired()){
                      		_prestigePoints=_prestigePoints+_assignedProject.getPrestigePoints();
@@ -324,7 +321,8 @@ public class Company extends Observer<ICompanyListener>
                      		_assignedProject=null;
                      	}
                 	}
-
+            	}else if( _assignedProject != null ){
+            		_assignedProject.executeStep(false);
             	}
             	
             	result = true;

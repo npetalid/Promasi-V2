@@ -96,14 +96,23 @@ public class DurationJPanel extends JPanel implements ICompanyListener{
 	 * @return
 	 */
 	public int getFirstStep(){
-		Calendar startDate = Calendar.getInstance();
-		startDate.setTime(_startDatePicket.getDate());
+		int result = 0;
 		
-		Calendar assignDate = Calendar.getInstance();
-		assignDate.setTime(_projectAssignDate.toDate());
-		
-		long differenceFromStart = (startDate.getTimeInMillis() - assignDate.getTimeInMillis())/(60 * 60 * 1000);
-		return (int)differenceFromStart;
+		try{
+			_lockObject.lock();
+			Calendar startDate = Calendar.getInstance();
+			startDate.setTime(_startDatePicket.getDate());
+			
+			Calendar assignDate = Calendar.getInstance();
+			assignDate.setTime(_projectAssignDate.toDate());
+			
+			long differenceFromStart = (startDate.getTimeInMillis() - assignDate.getTimeInMillis());
+			result = (int)differenceFromStart/(60 * 60 * 1000);
+		}finally{
+			_lockObject.unlock();
+		}
+
+		return result;
 	}
 	
 	/**

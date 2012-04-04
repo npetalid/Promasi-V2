@@ -1,8 +1,5 @@
 package org.promasi.game.project;
 
-import java.util.Map;
-import java.util.TreeMap;
-
 import org.promasi.game.GameException;
 import org.promasi.sdsystem.SdSystemMemento;
 import org.promasi.sdsystem.serialization.IEquationMemento;
@@ -34,11 +31,6 @@ public class ProjectTaskMemento extends SerializableObject
     /**
      * 
      */
-    private Map<Integer,Double> _history;
-    
-    /**
-     * 
-     */
     private IEquationMemento _progressEquation;
     
     /**
@@ -62,7 +54,6 @@ public class ProjectTaskMemento extends SerializableObject
 		_name=projectTask._name;
 		_progressEquation=projectTask._progressEquation.getMemento();
 		_description=projectTask._description;
-		setHistory(new TreeMap<Integer, Double>(projectTask._history));
 		setProgress(projectTask._progress);
 	}
 	
@@ -169,19 +160,5 @@ public class ProjectTaskMemento extends SerializableObject
 	 */
 	public void setProgressEquation( IEquationMemento progressEquation ){
 		_progressEquation = progressEquation;
-	}
-
-	/**
-	 * @param _history the _history to set
-	 */
-	public void setHistory(Map<Integer,Double> _history) {
-		this._history = _history;
-	}
-
-	/**
-	 * @return the _history
-	 */
-	public Map<Integer,Double> geHistory() {
-		return _history;
 	}
 }
