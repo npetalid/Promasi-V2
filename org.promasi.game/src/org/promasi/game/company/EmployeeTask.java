@@ -108,7 +108,7 @@ public class EmployeeTask
 	 * @param currentStep
 	 * @return
 	 */
-	public boolean executeTask(Map<String, Double> employeeSkills, double currentStep)
+	public boolean executeTask(Map<String, Double> employeeSkills, int currentStep)
 	{
 		if(currentStep<_firstStep || currentStep>_lastStep){
 			return false;
