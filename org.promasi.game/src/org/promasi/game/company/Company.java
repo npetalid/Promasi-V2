@@ -17,7 +17,10 @@ import org.promasi.utilities.serialization.SerializationException;
  * Represents the company.
  * 
  * @author m1cRo
- * 
+ * Represent the Company on ProMaSi system.
+ * This class can accept a project in order to execute it
+ * also the company has the IT Department where the
+ * employees management is implemented.
  */
 public class Company extends Observer<ICompanyListener>
 {
@@ -53,27 +56,31 @@ public class Company extends Observer<ICompanyListener>
     protected LocalTime _endTime;
     
     /**
-     * 
+     * Instance of the {@link Project} assigned
+     * to the current company.
      */
     private Project _assignedProject;
 
     /**
-     * 
+     * Company's budget. Needed in order
+     * to make the payments to company's employees.
      */
     protected double _budget;
     
     /**
-     * 
+     * Instance of the {@link DateTime} which represent
+     * the last payments date.
      */
     private DateTime _lastPaymentDateTime;
     
     /**
-     * 
+     * Lock object needed in order to synchonize
+     * the content of this class.
      */
     private Lock _lockObject;
     
     /**
-     * 
+     * The owner's Id.
      */
     private String _owner;
     
@@ -83,12 +90,14 @@ public class Company extends Observer<ICompanyListener>
     public static final int CONST_WORKING_DAYS = 23;// TODO add this to the configuration.
 
     /**
-     * 
-     * @param name
-     * @param description
-     * @param startTime
-     * @param endTime
-     * @param budget
+     * Constructor will initialize the object.
+     * @param name the company's name.
+     * @param description company's description.
+     * @param startTime a working day start time.
+     * @param endTime a working day end time.
+     * @param budget budget of the company.
+     * @param prestigePoints initialization value for the prestige points
+     * @throws GameException in case of invalid arguments.
      */
     public Company( String name, String description, LocalTime startTime, LocalTime endTime, double budget, double prestigePoints)throws GameException
     {
@@ -142,8 +151,9 @@ public class Company extends Observer<ICompanyListener>
     }
     
     /**
-     * 
-     * @return
+     * Will return the budget of the
+     * current company.
+     * @return The {@link #_budget}
      */
     public double getBudget()
     {
@@ -193,12 +203,12 @@ public class Company extends Observer<ICompanyListener>
     }
 
     /**
-     * Assigns a {@link Project} to this {@link Company}, and notifies the
-     * {@link Notifier}.
-     * 
-     * @param project
-     *            The {@link Project} to assign to the company.
-     * @throws SerializationException 
+     * Will assign the {@link Project} to the
+     * current company and notify the listeners about 
+     * that action.
+     * @param project instance of the {@link Project}
+     * which will be assigned to the current company.
+     * @param currentDate the system's date time.
      */
     public boolean assignProject ( Project project, DateTime currentDate )
     {
@@ -222,8 +232,9 @@ public class Company extends Observer<ICompanyListener>
     }
     
     /**
-     * 
-     * @return
+     * Will check the company for the assigned projects.
+     * @return true in case if the current
+     * company has a assigned project to execution.
      */
     public boolean hasAssignedProject()
     {
@@ -236,16 +247,18 @@ public class Company extends Observer<ICompanyListener>
     }
     
     /**
-     * 
-     * @return
+     * Will return the company's working
+     * day start time.
+     * @return {@link #_startTime}
      */
     public LocalTime getStartWorkingTime(){
     	return _startTime;
     }
     
     /**
-     * 
-     * @return
+     * Will return the company's working
+     * day end time.
+     * @return {@link #_endTime}
      */
     public LocalTime getEndWorkingTime(){
     	return _endTime;
@@ -260,8 +273,11 @@ public class Company extends Observer<ICompanyListener>
     }
     
     /**
-     * 
-     * @param dateTime
+     * Will execute the working step for the current company. The execution
+     * of the working step will execute the project assigned to the company.
+     * The working step will be executed if and only if the given current date is
+     * in between the {@link #_startTime} and {@link #_endTime} dates.
+     * @param dateTime the system's date time.
      * @param marketPlace in case if a company is insolvent all employees shoud be assigned to marketPlace
      * @return true if succeed, false otherwise.
      */
