@@ -177,6 +177,9 @@ public class ProjectTask
                 _sdSystem.executeStep();
                 if( _progress < CONST_PROGRESS_MAX_VALUE ){
                 	_progress=_progressEquation.calculateEquation( _sdSystem.getSystemValues() );
+                	if(_progress > CONST_PROGRESS_MAX_VALUE){
+                		_progress = CONST_PROGRESS_MAX_VALUE;
+                	}
                 }
             	
         		for(Map.Entry<String, Double> entry : _employeeSkills.entrySet()){

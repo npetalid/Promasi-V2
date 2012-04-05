@@ -11,10 +11,10 @@
    <string>Tutorial</string>
   </void>
   <void property="projectDuration">
-   <int>100000</int>
+   <int>900000</int>
   </void>
   <void property="projectPrice">
-   <double>6000.0</double>
+   <double>15000.0</double>
   </void>
   <void property="projectTasks">
    <object class="java.util.TreeMap">
