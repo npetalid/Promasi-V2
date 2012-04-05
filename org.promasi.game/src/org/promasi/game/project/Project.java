@@ -199,15 +199,16 @@ public class Project
      * 
      * @param systemClock
      * @return
-     * @throws NullArgumentException
      */
-    public boolean executeStep(boolean isWorkingStep){
-    	boolean result = false;
+    public double executeStep(boolean isWorkingStep){
+    	double result = 0;
     	
     	try{
     		_lockObject.lock();
     		if( isWorkingStep ){
             	if( _projectDuration>_currentStep ){
+            		double lastProgress = _overallProgress;
+            		
                 	for(Map.Entry<String, ProjectTask> entry : _projectTasks.entrySet()){
                 		entry.getValue().executeTask(_currentStep);
                 		CONST_LOGGER.info("Executing ProjectTask : " + entry.getKey());
@@ -225,7 +226,7 @@ public class Project
                 	
                 	_overallProgress = _overallProgress/_projectTasks.size();
 
-                	result = true;
+                	result = _overallProgress - lastProgress;
             	}	
     		}
 

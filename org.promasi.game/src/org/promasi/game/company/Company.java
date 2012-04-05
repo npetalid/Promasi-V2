@@ -307,11 +307,10 @@ public class Company extends Observer<ICompanyListener>
                          	eventHandler.onExecuteWorkingStep(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
                          }
                          
-                         _assignedProject.executeStep(true);
-                         
+                         double progress = _assignedProject.executeStep(true);
+                         _budget=_budget+progress*_assignedProject.getProjectPrice()/100;
                      	 if(_assignedProject.isExpired()){
                      		_prestigePoints=_prestigePoints+_assignedProject.getPrestigePoints();
-                     		_budget=_budget+_assignedProject.getProjectPrice();
                      		_itDepartment.removeAssignedTasks();
                      		
                              for(ICompanyListener listener : getListeners()){

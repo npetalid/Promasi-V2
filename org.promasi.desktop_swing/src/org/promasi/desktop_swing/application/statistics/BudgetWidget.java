@@ -111,8 +111,8 @@ public class BudgetWidget extends Widget implements ICompanyListener {
 			
 			@Override
 			public void run() {
-				_budgetLabel.setText( new String("Budget : ") + company.getBudget() + "$" );
-				if( _lastUpdateDate != null && _lastUpdateDate.plusWeeks(1).isBefore(dateTime)){
+				_budgetLabel.setText( new String(String.format("Budget : %.2f$", company.getBudget())));
+				if( _lastUpdateDate != null && _lastUpdateDate.plusDays(1).isBefore(dateTime)){
 					Calendar calendar = new GregorianCalendar();
 					calendar.setTime(dateTime.toDate());
 					SimpleDateFormat dateFromat = new SimpleDateFormat("dd MMMMM yyyy");
