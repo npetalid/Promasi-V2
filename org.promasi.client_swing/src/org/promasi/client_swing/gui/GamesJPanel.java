@@ -4,7 +4,6 @@
 package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -105,6 +104,7 @@ public class GamesJPanel extends JXPanel implements IGamesServerListener {
 		
 		JXPanel gamesPanel = new JXPanel();
 		gamesPanel.setOpaque(false);
+		gamesPanel.setBackground(Colors.White.alpha(0f));
 		gamesPanel.setLayout(new BorderLayout());
 		gamesPanel.setBorder(new EmptyBorder(10,10,10,10));
 		
@@ -115,10 +115,17 @@ public class GamesJPanel extends JXPanel implements IGamesServerListener {
 		DefaultListModel<IGame> listModel = new DefaultListModel<IGame>();
 		
 		_gamesList = new JList<IGame>(listModel);
-		_gamesList.setBackground(new Color(200, 200, 200, 0));
+		_gamesList.setBackground(Colors.White.alpha(0f));
+		_gamesList.setOpaque(false);
 		_gamesList.setCellRenderer(new MenuCellRenderer());
 		
-		gamesPanel.add(new JScrollPane(_gamesList));
+		JScrollPane gamesScroll = new JScrollPane(_gamesList);
+		/*gamesScroll.setBackground(Colors.White.alpha(0f));
+		gamesScroll.setOpaque(false);
+		gamesScroll.getViewport().setBackground(Colors.White.alpha(0f));
+		gamesScroll.getViewport().setOpaque(false);
+		gamesScroll.setBorder(new EmptyBorder(0, 0, 0, 0));*/
+		gamesPanel.add(gamesScroll);
 		splitPane.setLeftComponent(gamesPanel);
 		
 		_gamesList.addMouseMotionListener(new MouseMotionListener() {
@@ -166,7 +173,7 @@ public class GamesJPanel extends JXPanel implements IGamesServerListener {
 		EtchedBorder edge = new EtchedBorder(EtchedBorder.RAISED);
 		_gamesList.setBorder(edge);
 
-		_infoPane = new HtmlPanel();
+		_infoPane = new HtmlPanel(true);
 
 		splitPane.setRightComponent(_infoPane);
 		splitPane.setDividerLocation(200);

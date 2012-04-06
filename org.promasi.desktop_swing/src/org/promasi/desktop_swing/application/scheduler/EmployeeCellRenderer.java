@@ -105,8 +105,8 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		_mainPanel.setLayout( new BorderLayout() );
 		_mainPanel.setOpaque(false);
 		
-		_htmlPane = new HtmlPanel();
-		_htmlPane.setPreferredSize(new Dimension(100,200));
+		_htmlPane = new HtmlPanel(false);
+		_htmlPane.setPreferredSize(new Dimension(100,230));
 		_htmlPane.setOpaque(false);
 		_htmlPane.setVisible(true);
 		_htmlPane.setFocusable(true);
@@ -114,7 +114,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		
 		_infoPanel = new JLabel();
 		_infoPanel.setOpaque(false);
-		_infoPanel.setBackground(new Color(255,255,255,0));
+		_infoPanel.setBackground(Colors.White.alpha(0f));
 		_salaryPanel = new JPanel();
 		_salaryPanel.setOpaque(false);
 		int offset = RoundedJPanel.CONST_PANEL_OFFSET;
@@ -122,7 +122,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 		_salaryPanel.setLayout(new BorderLayout());
 		_salaryPanel.add(_infoPanel, BorderLayout.EAST);
 		_salaryPanel.setBackground(_bgColor);
-		_infoPanel.setFont(new Font("Courier New", Font.PLAIN, 15));
+		_infoPanel.setFont(new Font("Courier New", Font.BOLD, 15));
 		
 		_mainPanel.add(_htmlPane, BorderLayout.CENTER);
 		_mainPanel.add(_salaryPanel, BorderLayout.SOUTH);

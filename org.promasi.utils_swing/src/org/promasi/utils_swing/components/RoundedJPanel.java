@@ -30,7 +30,7 @@ public class RoundedJPanel extends JXPanel {
 	 * Default offset.
 	 */
 	public static final int CONST_PANEL_OFFSET = 10;
-	
+
 	/**
 	 * Empty constructor
 	 * will initialize the object

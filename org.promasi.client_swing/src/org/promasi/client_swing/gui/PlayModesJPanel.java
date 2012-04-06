@@ -141,7 +141,7 @@ public class PlayModesJPanel extends JXPanel {
 	
 			_playModesList.setBorder(edge);
 			
-			_infoPane = new HtmlPanel();
+			_infoPane = new HtmlPanel(true);
 			
 			splitPane.setRightComponent(_infoPane);
 			splitPane.setDividerLocation( 200 );

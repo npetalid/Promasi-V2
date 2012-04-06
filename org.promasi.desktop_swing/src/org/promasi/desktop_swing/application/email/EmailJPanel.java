@@ -69,7 +69,7 @@ public class EmailJPanel extends JPanel {
 		themePanel.add(_themeField, BorderLayout.CENTER);
 		topPanel.add(themePanel, BorderLayout.SOUTH);
 		
-		_bodyPane = new HtmlPanel();
+		_bodyPane = new HtmlPanel(true);
 		add(topPanel, BorderLayout.NORTH);
 		add(_bodyPane, BorderLayout.CENTER);
 	}
