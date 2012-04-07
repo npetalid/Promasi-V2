@@ -75,6 +75,12 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	private DateTime _currentDate;
 	
 	/**
+	 * Deadline marker needed in order to draw
+	 * the project's start and deadlines.
+	 */
+	private  IntervalMarker<Date> _deadlineMarker;
+	
+	/**
 	 * Instance of {@link = GanttChartPane} which will
 	 * draw the gantt chart representation of the running
 	 * projects.
@@ -108,7 +114,6 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 
 		_ganttPane= new DateGanttChartPane<DefaultGanttEntry<Date>>(new DefaultGanttModel<Date, DefaultGanttEntry<Date>>());
 		_ganttPane.getGanttChart().setShowGrid(false);
-		_ganttPane.getGanttChart().add(new GanttChartPopupMenu());
 		
 		_lockObject = new ReentrantLock();
 		setBorder(BorderFactory.createTitledBorder("Scheduler"));
@@ -146,6 +151,9 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
                 return _currentDate.toDate();
             }
         };
+        
+        _deadlineMarker = new IntervalMarker<Date>();
+        _ganttPane.getGanttChart().addPeriodBackgroundPainter(_deadlineMarker);
         
         _currentDate = new DateTime();
 		_ganttPane.getGanttChart().addPeriodBackgroundPainter(todayMarker);
@@ -277,6 +285,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		try{
 			_lockObject.lock();
 			_projectAssignDate = dateTime;
+			_deadlineMarker.setStartInstant(_projectAssignDate.toDate());
+			_deadlineMarker.setEndInstant(_projectAssignDate.plusHours(project.getProjectDuration()).toDate());
 			SwingUtilities.invokeLater(new Runnable() {
 				
 				@Override

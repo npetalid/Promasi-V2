@@ -11,7 +11,7 @@
    <string>Tutorial</string>
   </void>
   <void property="projectDuration">
-   <int>900000</int>
+   <int>8000</int>
   </void>
   <void property="projectPrice">
    <double>10000.0</double>
