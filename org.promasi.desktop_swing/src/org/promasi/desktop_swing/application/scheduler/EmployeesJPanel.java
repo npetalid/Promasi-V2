@@ -16,6 +16,7 @@ import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.application.Employee;
+import org.promasi.desktop_swing.application.EmployeeCellRenderer;
 import org.promasi.game.IGame;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.DepartmentMemento;

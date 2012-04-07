@@ -11,7 +11,6 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXPanel;
-import org.promasi.desktop_swing.application.scheduler.EmployeeCellRenderer;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.PainterFactory;

@@ -55,7 +55,8 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	private TaskBarJPanel _taskBar;
 	
 	/**
-	 * 
+	 * Instance of {@link PromasiJDesktopPane} which represents the desktop
+	 * in the promasi system.
 	 */
 	private PromasiJDesktopPane _workspace;
 	
@@ -70,7 +71,13 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	private String _username;
 	
 	/**
-	 * 
+	 * Constructor will initialize the object.
+	 * @param mainFrame instance of {@link IMainFrame} interface
+	 * implementation needed in order to interact with the main frame.
+	 * @param game instance of {@link IGame} interface implementation
+	 * needed in order to interact with the running game.
+	 * @param username a user id needed in order to determine the user.
+	 * @throws GuiException in case of invalid arguments.
 	 */
 	public DesktopJPanel( IMainFrame mainFrame, IGame game, String username )throws GuiException{
 		if( game == null ){

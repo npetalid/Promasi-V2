@@ -42,10 +42,12 @@ public class HtmlPanel extends RoundedJPanel {
 	}
 	
 	/**
-	 * 
-	 * @param color
-	 * @param borderColor
-	 * @throws GuiException
+	 * Constructor will initialize the object.
+	 * @param color The background color.
+	 * @param borderColor The border color.
+	 * @param useScrollPane true if the instance of {@link JScrollPane} should
+	 * be placed, so scrollbars will be used.
+	 * @throws GuiException in case of invalid arguments.
 	 */
 	public HtmlPanel(Color color, Color borderColor, boolean useScrollPane) throws GuiException{
 		super(color, borderColor);
@@ -53,7 +55,9 @@ public class HtmlPanel extends RoundedJPanel {
 	}
 	
 	/**
-	 * 
+	 * Will initialize the gui objects.
+	 * @param useScrollPane true if the scrollpane will be
+	 * used, false otherwise.
 	 */
 	private void init(boolean useScrollPane){
 		setLayout(new BorderLayout());
@@ -81,8 +85,8 @@ public class HtmlPanel extends RoundedJPanel {
 	}
 	
 	/**
-	 * 
-	 * @param text
+	 * Will set the content to the html panel
+	 * @param text a string which represents a content.
 	 */
 	public void setText( String text ){
 		_htmlPane.setText(text);

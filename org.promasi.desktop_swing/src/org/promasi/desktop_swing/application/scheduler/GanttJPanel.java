@@ -13,6 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
@@ -30,9 +31,11 @@ import org.promasi.utils_swing.GuiException;
 import com.jidesoft.gantt.DateGanttChartPane;
 import com.jidesoft.gantt.DefaultGanttEntry;
 import com.jidesoft.gantt.DefaultGanttEntryRelation;
+import com.jidesoft.gantt.DefaultGanttLabelRenderer;
 import com.jidesoft.gantt.DefaultGanttModel;
 import com.jidesoft.gantt.GanttChartPane;
 import com.jidesoft.gantt.GanttEntryRelation;
+import com.jidesoft.gantt.IntervalMarker;
 import com.jidesoft.grid.TableUtils;
 import com.jidesoft.range.TimeRange;
 import com.jidesoft.scale.DateScaleModel;
@@ -65,6 +68,11 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	 * Date-Time when the project was assigned.
 	 */
 	private DateTime _projectAssignDate;
+	
+	/**
+	 * Current date time received from the company.
+	 */
+	private DateTime _currentDate;
 	
 	/**
 	 * Instance of {@link = GanttChartPane} which will
@@ -100,6 +108,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 
 		_ganttPane= new DateGanttChartPane<DefaultGanttEntry<Date>>(new DefaultGanttModel<Date, DefaultGanttEntry<Date>>());
 		_ganttPane.getGanttChart().setShowGrid(false);
+		_ganttPane.getGanttChart().add(new GanttChartPopupMenu());
+		
 		_lockObject = new ReentrantLock();
 		setBorder(BorderFactory.createTitledBorder("Scheduler"));
 		setLayout(new BorderLayout());
@@ -124,6 +134,23 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		_ganttPane.setProportions(proportions);
 		TableUtils.autoResizeAllColumns(_ganttPane.getTreeTable());
 		_runningTasks = new TreeMap<>();
+		
+        final IntervalMarker<Date> todayMarker = new IntervalMarker<Date>(Color.RED, null, null){ 
+            @Override
+            public Date getStartInstant() {
+                return _currentDate.toDate();
+            }
+
+            @Override
+            public Date getEndInstant() {
+                return _currentDate.toDate();
+            }
+        };
+        
+        _currentDate = new DateTime();
+		_ganttPane.getGanttChart().addPeriodBackgroundPainter(todayMarker);
+		_ganttPane.getGanttChart().setDefaultLabelRenderer(new DefaultGanttLabelRenderer());
+		_ganttPane.getGanttChart().setLabelPosition(SwingConstants.TRAILING);
 	}
 	
 	/**
@@ -296,7 +323,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 			public void run() {
 				try{
 					_lockObject.lock();
-
+					_currentDate = dateTime;
 					final Map<String, EmployeeTaskMemento> projectTasks = new TreeMap<String, EmployeeTaskMemento>();
 					if( company != null && company.getITDepartment() != null && company.getITDepartment().getEmployees() != null ){
 						Map<String, EmployeeMemento> employees = company.getITDepartment().getEmployees();
@@ -344,7 +371,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 							}
 						}
 					}
-										
+							
+					_ganttPane.repaint();
 				}finally{
 					_lockObject.unlock();
 				}	

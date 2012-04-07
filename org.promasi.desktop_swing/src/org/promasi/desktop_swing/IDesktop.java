@@ -9,7 +9,7 @@ import org.promasi.desktop_swing.application.QuickStartButton;
 public interface IDesktop {
 
 	/**
-	 * 
+	 * Will show the start menu on the ProMaSi's desktop.
 	 */
 	public void showStartMenu();
 	

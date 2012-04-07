@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.promasi.desktop_swing.application.scheduler;
+package org.promasi.desktop_swing.application;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -22,7 +22,6 @@ import org.jdesktop.swingx.painter.GlossPainter;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
 import org.jdesktop.swingx.painter.PinstripePainter;
-import org.promasi.desktop_swing.application.Employee;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.components.HtmlPanel;

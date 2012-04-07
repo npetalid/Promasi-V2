@@ -14,7 +14,7 @@
    <int>900000</int>
   </void>
   <void property="projectPrice">
-   <double>15000.0</double>
+   <double>10000.0</double>
   </void>
   <void property="projectTasks">
    <object class="java.util.TreeMap">
