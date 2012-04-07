@@ -23,6 +23,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
 import org.promasi.game.IGame;
 import org.promasi.game.company.CompanyMemento;
@@ -35,6 +36,7 @@ import org.promasi.game.project.ProjectMemento;
 import org.promasi.game.project.ProjectTaskMemento;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
 /**
@@ -172,7 +174,8 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 		JPanel bottomPanel = new JPanel();
 		bottomPanel.setLayout(new BorderLayout());
 		
-		JPanel controlPanel = new JPanel();
+		JXPanel controlPanel = new JXPanel();
+		controlPanel.setBackground(Colors.LightBlue.alpha(1f));
 		controlPanel.setLayout(new BorderLayout());
 		JButton createTaskButton = new JButton("Add Task");
 		controlPanel.add(createTaskButton, BorderLayout.EAST);
@@ -222,9 +225,6 @@ public class TaskJPanel extends JPanel implements ICompanyListener ,IDepartmentL
 		bottomPanel.add(_durationPanel, BorderLayout.EAST);
 		bottomPanel.add(controlPanel, BorderLayout.SOUTH);
 		add(bottomPanel, BorderLayout.SOUTH);
-		
-		// Setup scheduled tasks
-
 		
 		_tasksPanel = new DependenciesJPanel(game);
 		_tasksPanel.setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height));

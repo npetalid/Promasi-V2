@@ -104,8 +104,13 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	public static final int CONST_DURATION_MULTIPLIER = 10;
 	
 	/**
-	 * @throws GuiException 
-	 * 
+	 * Constructor will initialize the object.
+	 * While initialization of the instance it will be
+	 * registered as Department and Company listener on the
+	 * given {@link IGame} interface implementation instance.
+	 * @param game instance of {@link IGame} interface implementation
+	 * which represent the game on the ProMaSi system.
+	 * @throws GuiException in case of invalid arguments.
 	 */
 	public GanttJPanel( IGame game ) throws GuiException{
 		if( game == null ){

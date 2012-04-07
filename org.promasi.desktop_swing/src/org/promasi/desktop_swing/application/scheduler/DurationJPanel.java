@@ -17,18 +17,20 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXDatePicker;
+import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
 import org.promasi.game.IGame;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.project.ProjectMemento;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod
  *
  */
-public class DurationJPanel extends JPanel implements ICompanyListener{
+public class DurationJPanel extends JXPanel implements ICompanyListener{
 
 	/**
 	 * 
@@ -89,6 +91,8 @@ public class DurationJPanel extends JPanel implements ICompanyListener{
 		add(endDatePanel, BorderLayout.EAST);
 		
 		game.addCompanyListener(this);
+		setOpaque(false);
+		setBackground(Colors.White.alpha(0f));
 	}
 	
 	/**

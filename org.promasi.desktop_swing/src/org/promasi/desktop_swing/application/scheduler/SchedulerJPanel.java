@@ -12,8 +12,10 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import org.jdesktop.swingx.JXPanel;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.game.IGame;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
 /**
@@ -67,7 +69,9 @@ public class SchedulerJPanel extends JPanel {
 		setLayout(new BorderLayout());
 		_scheduler = new GanttJPanel(game);
 		
-		JPanel wizardPanel = new JPanel();
+		JXPanel wizardPanel = new JXPanel();
+		wizardPanel.setBackground(Colors.LightBlue.alpha(1.f));
+		
 		wizardPanel.setLayout(new BorderLayout());
 		JButton createButton = new JButton("Create Task");
 		wizardPanel.add( createButton, BorderLayout.EAST);

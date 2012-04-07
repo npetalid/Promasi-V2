@@ -24,7 +24,9 @@ import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod
- *
+ * Represent the tasks scheduler application in the ProMaSi system.
+ * This class contains a Gantt chart implementation whcih will present 
+ * to the user the scheduled gantt chart.
  */
 public class SchedulerDesktopApplication extends ADesktopApplication implements ISchedulerApplication, IDepartmentListener {
 
@@ -54,10 +56,13 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 	private JPanel _internalPanel;
 	
 	/**
-	 * 
-	 * @param game
-	 * @throws GuiException
-	 * @throws IOException
+	 * Constructor will initialize the object.
+	 * When the constructor is called the instance of the
+	 * current class will register the department listener on 
+	 * the given instance of {@link IGame} interface implementation.
+	 * @param game instance of {@link IGame} inteface implementation.
+	 * @throws GuiException in case of invalid arguments.
+	 * @throws IOException in case of initialization fail.
 	 */
 	public SchedulerDesktopApplication( IGame game, IDesktop desktop ) throws GuiException, IOException{
 		super(CONST_APPNAME, RootDirectory.getInstance().getImagesDirectory() + CONST_APP_ICON);

@@ -23,6 +23,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
+import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.game.IGame;
@@ -36,11 +37,13 @@ import org.promasi.game.project.ProjectMemento;
 import org.promasi.game.project.ProjectTaskMemento;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod
- *
+ * Represent the menu which is needed in order to 
+ * create a new tasks to the Gantt scheduler.
  */
 public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartmentListener{
 
@@ -55,7 +58,8 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * Instance of the {@link IGame} interface implementation
+	 * represents the running game.
 	 */
 	private IGame _game;
 	
@@ -108,6 +112,8 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	 * 
 	 * @param game
 	 * @param app
+	 * @param prevPanel
+	 * @param desktop
 	 * @throws GuiException
 	 */
 	public NewTaskJPanel( IGame game, ISchedulerApplication app, JPanel prevPanel, final IDesktop desktop)throws GuiException{
@@ -156,7 +162,8 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 		taskDesignPanel.setLayout(new BorderLayout());
 
 		//Setup project tasks
-		JPanel prjTasksPanel = new JPanel();
+		JXPanel prjTasksPanel = new JXPanel();
+		prjTasksPanel.setBackground(Colors.LightBlue.alpha(1f));
 		_projectTasks = new JComboBox<ProjectTask>();
 		_projectTasks.addActionListener(new ActionListener() {
 			
@@ -176,10 +183,12 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 		add( tabbedPane, BorderLayout.CENTER);
 		
 		//Setup control panel
-		JPanel bottomPanel = new JPanel();
+		JXPanel bottomPanel = new JXPanel();
 		bottomPanel.setLayout(new BorderLayout());
+		bottomPanel.setBackground(Colors.LightBlue.alpha(1f));
 		
 		JPanel controlPanel = new JPanel();
+		controlPanel.setBackground(Colors.LightBlue.alpha(1f));
 		controlPanel.setLayout(new BorderLayout());
 		JButton createTaskButton = new JButton("Add Task");
 		controlPanel.add(createTaskButton, BorderLayout.EAST);
@@ -226,7 +235,9 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 			}
 		});
 		
-		JPanel taskNamePanel = new JPanel();
+		JXPanel taskNamePanel = new JXPanel();
+		taskNamePanel.setBackground(Colors.LightBlue.alpha(1f));
+		
 		taskNamePanel.setBorder(BorderFactory.createTitledBorder("Task Name"));
 		taskNamePanel.setLayout(new BorderLayout());
 		_taskNameField = new JTextField();
