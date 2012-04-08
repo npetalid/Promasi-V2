@@ -136,7 +136,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		_ganttChart.setEditable(false);
 		_ganttChart.setOpaque(false);
 		_ganttChart.setBackground(Colors.White.alpha(0f));
-		_ganttChart.setSelectionBackground(Color.WHITE) ;
+		_ganttChart.setSelectionBackground(Colors.White.alpha(0f)) ;
 		_ganttChart.setShowGrid(true);
 		_ganttChart.setEnabled(false);
 		_ganttChart.getScaleArea().addPopupMenuCustomizer(new VisiblePeriodsPopupMenuCustomizer<Date>());
@@ -286,6 +286,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 				
 				@Override
 				public void run() {
+					_ganttChart.getScaleArea().setStart(_projectAssignDate.toDate());
+					_ganttChart.getScaleArea().setEnd(_projectAssignDate.plusHours(project.getProjectDuration()).toDate());
 					updateGanttDiagramm( new TreeMap<String, EmployeeTaskMemento>(), project, dateTime);
 				}
 			});
@@ -371,6 +373,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 						}
 					}
 							
+					_ganttChart.getScaleArea().setStart(_currentDate.minusDays(30).toDate());
 					_ganttChart.repaint();
 				}finally{
 					_lockObject.unlock();

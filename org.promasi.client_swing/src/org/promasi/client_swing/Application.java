@@ -10,7 +10,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.promasi.client_swing.gui.MainFrame;
 import org.promasi.client_swing.gui.PlayModesJPanel;
