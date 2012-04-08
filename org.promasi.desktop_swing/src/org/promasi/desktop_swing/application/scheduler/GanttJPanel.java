@@ -38,6 +38,7 @@ import com.jidesoft.gantt.GanttChart;
 import com.jidesoft.gantt.GanttEntryRelation;
 import com.jidesoft.gantt.IntervalMarker;
 import com.jidesoft.range.TimeRange;
+import com.jidesoft.scale.DatePeriod;
 import com.jidesoft.scale.DateScaleModel;
 import com.jidesoft.scale.ResizePeriodsPopupMenuCustomizer;
 import com.jidesoft.scale.VisiblePeriodsPopupMenuCustomizer;
@@ -163,8 +164,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
         _currentDate = new DateTime();
 		_ganttChart.addPeriodBackgroundPainter(todayMarker);
 		_ganttChart.setDefaultLabelRenderer(new DefaultGanttLabelRenderer());
-		_ganttChart.setLabelPosition(SwingConstants.TRAILING);
-		_ganttChart.getScaleArea().addPopupMenuCustomizer(new VisiblePeriodsPopupMenuCustomizer<Date>());
+		_ganttChart.setLabelPosition(SwingConstants.TRAILING);	
 	}
 	
 	/**
@@ -210,7 +210,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		try{
 			_lockObject.lock();
 			DefaultGanttModel<Date, DefaultGanttEntry<Date>> model = new DefaultGanttModel<Date, DefaultGanttEntry<Date>>();
-	        DateScaleModel scaleModel = new DateScaleModel( );
+	        DateScaleModel scaleModel = new DateScaleModel( DatePeriod.MONTH, DatePeriod.YEAR );
 		    model.setScaleModel(scaleModel);
 
 		    Calendar projectStartDate = Calendar.getInstance(Locale.getDefault());
