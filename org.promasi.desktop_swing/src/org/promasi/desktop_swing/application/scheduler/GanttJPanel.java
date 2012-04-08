@@ -26,17 +26,17 @@ import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.project.ProjectMemento;
 import org.promasi.game.project.ProjectTaskMemento;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
-import com.jidesoft.gantt.DateGanttChartPane;
+import com.jidesoft.gantt.DateGanttChart;
 import com.jidesoft.gantt.DefaultGanttEntry;
 import com.jidesoft.gantt.DefaultGanttEntryRelation;
 import com.jidesoft.gantt.DefaultGanttLabelRenderer;
 import com.jidesoft.gantt.DefaultGanttModel;
-import com.jidesoft.gantt.GanttChartPane;
+import com.jidesoft.gantt.GanttChart;
 import com.jidesoft.gantt.GanttEntryRelation;
 import com.jidesoft.gantt.IntervalMarker;
-import com.jidesoft.grid.TableUtils;
 import com.jidesoft.range.TimeRange;
 import com.jidesoft.scale.DateScaleModel;
 import com.jidesoft.scale.ResizePeriodsPopupMenuCustomizer;
@@ -85,7 +85,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	 * draw the gantt chart representation of the running
 	 * projects.
 	 */
-	private GanttChartPane< Date, DefaultGanttEntry<Date> > _ganttPane;
+	private GanttChart< Date, DefaultGanttEntry<Date> > _ganttChart;
 	
 	/**
 	 * List of the running tasks.
@@ -117,14 +117,15 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 			throw new GuiException("Wrong argument game");
 		}
 
-		_ganttPane= new DateGanttChartPane<DefaultGanttEntry<Date>>(new DefaultGanttModel<Date, DefaultGanttEntry<Date>>());
-		_ganttPane.getGanttChart().setShowGrid(false);
+		_ganttChart= new DateGanttChart<DefaultGanttEntry<Date>>(new DefaultGanttModel<Date, DefaultGanttEntry<Date>>());
+		_ganttChart.setShowGrid(false);
 		
 		_lockObject = new ReentrantLock();
+		setBackground(Colors.LightBlue.alpha(1f));
 		setBorder(BorderFactory.createTitledBorder("Scheduler"));
 		setLayout(new BorderLayout());
 		
-        JScrollPane chartScroll = new JScrollPane(_ganttPane);
+        JScrollPane chartScroll = new JScrollPane(_ganttChart);
         chartScroll.setCorner(JScrollPane.LOWER_RIGHT_CORNER, new CornerScroller(chartScroll));
         
 		add(chartScroll, BorderLayout.CENTER);
@@ -132,17 +133,16 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		game.addDepartmentListener(this);
 		
 		//_employees = new TreeMap<>();
-		_ganttPane.getGanttChart().setEditable(false);
-		_ganttPane.getGanttChart().setSelectionBackground(Color.WHITE) ;
-		_ganttPane.getGanttChart().setShowGrid(true);
-		_ganttPane.getTreeTable().setEnabled(false);
-		_ganttPane.getGanttChart().getScaleArea().addPopupMenuCustomizer(new VisiblePeriodsPopupMenuCustomizer<Date>());
-		_ganttPane.getGanttChart().getScaleArea().addPopupMenuCustomizer(new ResizePeriodsPopupMenuCustomizer<Date>(_ganttPane.getGanttChart()));
-		_ganttPane.getGanttChart().setEditable(false);
-		_ganttPane.setProportionalLayout(true);
-		double[] proportions={0.29};
-		_ganttPane.setProportions(proportions);
-		TableUtils.autoResizeAllColumns(_ganttPane.getTreeTable());
+		_ganttChart.setEditable(false);
+		_ganttChart.setOpaque(false);
+		_ganttChart.setBackground(Colors.White.alpha(0f));
+		_ganttChart.setSelectionBackground(Color.WHITE) ;
+		_ganttChart.setShowGrid(true);
+		_ganttChart.setEnabled(false);
+		_ganttChart.getScaleArea().addPopupMenuCustomizer(new VisiblePeriodsPopupMenuCustomizer<Date>());
+		_ganttChart.getScaleArea().addPopupMenuCustomizer(new ResizePeriodsPopupMenuCustomizer<Date>(_ganttChart));
+		_ganttChart.setEditable(false);
+
 		_runningTasks = new TreeMap<>();
 		
         final IntervalMarker<Date> todayMarker = new IntervalMarker<Date>(Color.RED, null, null){ 
@@ -158,12 +158,13 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
         };
         
         _deadlineMarker = new IntervalMarker<Date>();
-        _ganttPane.getGanttChart().addPeriodBackgroundPainter(_deadlineMarker);
+        _ganttChart.addPeriodBackgroundPainter(_deadlineMarker);
         
         _currentDate = new DateTime();
-		_ganttPane.getGanttChart().addPeriodBackgroundPainter(todayMarker);
-		_ganttPane.getGanttChart().setDefaultLabelRenderer(new DefaultGanttLabelRenderer());
-		_ganttPane.getGanttChart().setLabelPosition(SwingConstants.TRAILING);
+		_ganttChart.addPeriodBackgroundPainter(todayMarker);
+		_ganttChart.setDefaultLabelRenderer(new DefaultGanttLabelRenderer());
+		_ganttChart.setLabelPosition(SwingConstants.TRAILING);
+		_ganttChart.getScaleArea().addPopupMenuCustomizer(new VisiblePeriodsPopupMenuCustomizer<Date>());
 	}
 	
 	/**
@@ -180,6 +181,22 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		}finally{
 			_lockObject.unlock();
 		}
+	}
+	
+	private boolean setTaskDuration(DefaultGanttEntry<Date> task, double completion ){
+		boolean result = false;
+		
+		if( task != null ){
+			if( completion >= 1 ){
+				task.setCompletion(1);
+			}else if( completion < 0 ){
+				task.setCompletion(0);
+			}else{
+				task.setCompletion(completion);
+			}
+		}
+		
+		return result;
 	}
 	
 	/**
@@ -221,14 +238,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					
 					if( assignedProject.getProjectTasks() != null && assignedProject.getProjectTasks().containsKey(employeeTask.getProjectTaskName() ) ){
 						ProjectTaskMemento prjTask = assignedProject.getProjectTasks().get(employeeTask.getProjectTaskName());
-						newTask.setCompletion(prjTask.getProgress()/100.0);
-						if( prjTask.getProgress() > 100 ){
-							newTask.setCompletion(100.0);
-						}else if( prjTask.getProgress() < 0 ){
-							newTask.setCompletion(0);
-						}else{
-							newTask.setCompletion(prjTask.getProgress()/100.0);
-						}
+						setTaskDuration(newTask, prjTask.getProgress()/100.0);
 					}
 
 					_runningTasks.put(entry.getKey(), newTask);
@@ -255,31 +265,11 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					}
 				}
 				
-				_ganttPane.setGanttModel(model);
+				_ganttChart.setModel(model);
 			}
 		}finally{
 			_lockObject.unlock();
 		}
-	}
-
-	@Override
-	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
-	}
-
-	@Override
-	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
-	}
-
-	@Override
-	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {
-	}
-
-	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {
-	}
-
-	@Override
-	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {
 	}
 	
 	/**
@@ -375,19 +365,13 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 								String taskName = projectTasks.get(entry.getKey()).getProjectTaskName();
 								if( assignedProject.getProjectTasks() != null && assignedProject.getProjectTasks().containsKey( taskName ) ){
 									ProjectTaskMemento prjTask = assignedProject.getProjectTasks().get(projectTasks.get(entry.getKey()).getProjectTaskName());
-									if( prjTask.getProgress() > 100 ){
-										entry.getValue().setCompletion(100.0);
-									}else if( prjTask.getProgress() < 0 ){
-										entry.getValue().setCompletion(0);
-									}else{
-										entry.getValue().setCompletion(prjTask.getProgress()/100.0);
-									}
+									setTaskDuration(entry.getValue(), prjTask.getProgress()/100.0);
 								}
 							}
 						}
 					}
 							
-					_ganttPane.repaint();
+					_ganttChart.repaint();
 				}finally{
 					_lockObject.unlock();
 				}	
@@ -396,7 +380,20 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	}
 
 	@Override
-	public void companyAssigned(String owner, CompanyMemento company) {
-	}
+	public void companyAssigned(String owner, CompanyMemento company) {}
 
+	@Override
+	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {}
+
+	@Override
+	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {}
+
+	@Override
+	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {}
+
+	@Override
+	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {}
+
+	@Override
+	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {}
 }

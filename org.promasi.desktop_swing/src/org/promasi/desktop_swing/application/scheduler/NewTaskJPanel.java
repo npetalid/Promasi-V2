@@ -109,12 +109,18 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	private DependenciesJPanel _tasksPanel;
 
 	/**
-	 * 
-	 * @param game
-	 * @param app
-	 * @param prevPanel
-	 * @param desktop
-	 * @throws GuiException
+	 * Constructor will initialize the object. 
+	 * While initialization the object will be registered
+	 * as a company and department listener in the given instance
+	 * of {@link IGame} interface implementation which represents the running game.
+	 * @param game Instance of {@link IGame} interface implementation.
+	 * @param app instance of {@link ISchedulerApplication} interface implementation
+	 * which represents the scheduler application in ProMaSi system.
+	 * @param prevPanel instance of the preview panel needed in order to exchange
+	 * the frame of the scheduler when the scheduling is canceled.
+	 * @param desktop instance of the {@link IDesktop} interface implementation
+	 * needed in order to interact with the ProMaSi's desktop.
+	 * @throws GuiException in case of invalid arguments.
 	 */
 	public NewTaskJPanel( IGame game, ISchedulerApplication app, JPanel prevPanel, final IDesktop desktop)throws GuiException{
 		if( game == null ){
@@ -250,9 +256,6 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 		bottomPanel.add(controlPanel, BorderLayout.SOUTH);
 		add(bottomPanel, BorderLayout.SOUTH);
 		
-		// Setup scheduled tasks
-
-		
 		_tasksPanel = new DependenciesJPanel(game);
 		_tasksPanel.setPreferredSize(new Dimension(getPreferredSize().width, getPreferredSize().height));
 		
@@ -263,6 +266,8 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 		ganttPanel.setLayout(new BorderLayout());
 
 		_scheduler = new GanttJPanel(game);
+		_scheduler.setBackground(Colors.White.alpha(0f));
+		_scheduler.setOpaque(false);
 		schedulerPanel.add(_scheduler, BorderLayout.CENTER);
 		
 		_game.addDepartmentListener(this);
