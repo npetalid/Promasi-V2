@@ -3,7 +3,6 @@
  */
 package org.promasi.game;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.locks.Lock;
@@ -23,44 +22,47 @@ import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
- *
+ * Represent the running game on the ProMaSi system.
+ * A GameModel uses all the required components
+ * such as instance of {@link MarketPlace}, {@link Company} a
+ * queue of {@link Project}s in order to run the ProMaSi's game.
  */
 public class GameModel extends Observer<IGameModelListener>
 {
 	/**
-	 * 
+	 * The game's name.
 	 */
 	protected String _gameName;
 	
 	/**
-	 * 
+	 * Game's description string.
 	 */
 	protected String _gameDescription;
 	
 	/**
-	 * 
+	 * Instance of {@link MarketPlace} needed
+	 * in order to simulate the marketplace.
 	 */
 	protected MarketPlace _marketPlace;
 	
 	/**
-	 * 
+	 * Instance of {@link Company} needed in
+	 * order to simulate the company in ProMaSi sysstem.
 	 */
 	protected Company _company;
 	
 	/**
-	 * 
+	 * A lock object needed in order to 
+	 * synchronize between the system's clock
+	 * and command threads.
 	 */
 	private Lock _lockObject;
 	
 	/**
-	 * 
+	 * A queue of {@link Project} which will
+	 * be executed by the company {@link Company}.
 	 */
 	protected Queue<Project> _projects;
-	
-	/**
-	 * 
-	 */
-	protected Queue<Project> _runnedProjects;
 	
 	/**
 	 * 
@@ -68,16 +70,23 @@ public class GameModel extends Observer<IGameModelListener>
 	private boolean _gameFinished;
 	
 	/**
-	 * 
-	 * @param gameName
-	 * @param gameDescription
-	 * @param marketPlace
-	 * @param company
-	 * @param projects
-	 * @throws IllegalArgumentException
-	 * @throws NullArgumentException
+	 * Constructor will initialize the object.
+	 * @param gameName the games's name.
+	 * @param gameDescription a game's description.
+	 * @param marketPlace instance of {@link MarketPlace}
+	 * needed in order to handle the employees.
+	 * @param company instance of {@link Company} needed in 
+	 * order to simulate the company's work.
+	 * @param projects queue of {@link Project}s which
+	 * will be executed by the company.
+	 * @throws GameException in case of invalid arguments.
 	 */
-	public GameModel(final String gameName, final String gameDescription, final MarketPlace marketPlace, final Company company,final Queue<Project> projects)throws GameException{
+	public GameModel(	final String gameName, 
+						final String gameDescription, 
+						final MarketPlace marketPlace, 
+						final Company company,
+						final Queue<Project> projects)throws GameException{
+		
 		if(company==null){
 			throw new GameException("Wrong argument company==null");
 		}
@@ -107,7 +116,6 @@ public class GameModel extends Observer<IGameModelListener>
 		_company=company;
 		_gameName=gameName;
 		_gameDescription=gameDescription;
-		_runnedProjects=new LinkedList<Project>();
 		_gameFinished=false;
 		_lockObject = new ReentrantLock();
 	}
@@ -234,7 +242,6 @@ public class GameModel extends Observer<IGameModelListener>
 					Project project=_projects.poll();
 					if( project!=null ){
 						_company.assignProject(project, currentDateTime);
-						_runnedProjects.add(project);
 					}
 				}else if(_projects.size()==0 && !_company.hasAssignedProject() && !_gameFinished){
 					for(IGameModelListener listener : getListeners()){

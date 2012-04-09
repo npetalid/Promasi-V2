@@ -108,23 +108,6 @@ public class GameFinishedRequest extends Message {
 					}
 				}
 			}
-			
-			Queue<ProjectMemento> oldProjects=gameModel.getRunnedProjects();
-			if(projects!=null){
-				for(ProjectMemento project : oldProjects){
-					if(project!=null){
-						Map<String, ProjectTaskMemento> tasks=project.getProjectTasks();
-						if(tasks!=null){
-							for(Map.Entry<String, ProjectTaskMemento> entry : tasks.entrySet()){
-								if(entry.getValue()!=null){
-									ProjectTaskMemento task=entry.getValue();
-									task.setSdSystem(null);
-								}
-							}
-						}
-					}
-				}
-			}
 		}
 	}
 

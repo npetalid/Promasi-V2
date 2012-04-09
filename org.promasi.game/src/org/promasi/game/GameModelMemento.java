@@ -15,7 +15,9 @@ import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
- *
+ * Represent the {@link GameModel}'s memento
+ * needed in order to retrieve the game model state.
+ * Needed for the {@link GameModel} serialization.
  */
 public class GameModelMemento 
 {
@@ -43,11 +45,6 @@ public class GameModelMemento
 	 * 
 	 */
 	private Queue<ProjectMemento> _projects;
-	
-	/**
-	 * 
-	 */
-	private Queue<ProjectMemento> _runnedProjects;
 
 	/**
 	 * 
@@ -68,13 +65,8 @@ public class GameModelMemento
 		_marketPlace=gameModel._marketPlace.getMemento();
 		_company=gameModel._company.getMemento();
 		_projects=new LinkedList<ProjectMemento>();
-		_runnedProjects=new LinkedList<ProjectMemento>();
 		for(Project project : gameModel._projects){
 			_projects.add(project.getMemento());
-		}
-		
-		for(Project project : gameModel._runnedProjects){
-			_runnedProjects.add(project.getMemento());
 		}
 	}
 
@@ -190,19 +182,5 @@ public class GameModelMemento
 	 */
 	public String getGameName() {
 		return _gameName;
-	}
-
-	/**
-	 * @param _runnedProjects the _runnedProjects to set
-	 */
-	public void setRunnedProjects(Queue<ProjectMemento> _runnedProjects) {
-		this._runnedProjects = _runnedProjects;
-	}
-
-	/**
-	 * @return the _runnedProjects
-	 */
-	public Queue<ProjectMemento> getRunnedProjects() {
-		return _runnedProjects;
 	}
 }
