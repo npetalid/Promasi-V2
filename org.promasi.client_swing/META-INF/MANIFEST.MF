@@ -5,8 +5,6 @@ Bundle-SymbolicName: org.promasi.client_swing
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.promasi.game;bundle-version="1.0.0";visibility:=reexport,
  org.promasi.utilities;bundle-version="1.0.0";visibility:=reexport,
- org.promasi.network;bundle-version="1.0.0";visibility:=reexport,
- org.promasi.protocol;bundle-version="1.0.0";visibility:=reexport,
  org.promasi.sdsystem;bundle-version="1.0.0";visibility:=reexport,
  org.promasi.utils_swing;bundle-version="1.0.0",
  org.promasi.desktop_swing;bundle-version="1.0.0"

@@ -20,7 +20,6 @@ import javax.swing.border.EtchedBorder;
 
 import org.jdesktop.swingx.JXPanel;
 import org.promasi.client_swing.playmode.IPlayMode;
-import org.promasi.client_swing.playmode.multiplayer.MultiPlayerPlayMode;
 import org.promasi.client_swing.playmode.singleplayer.SinglePlayerPlayMode;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
@@ -71,12 +70,6 @@ public class PlayModesJPanel extends JXPanel {
 			_mainFrame = listener;
 			DefaultListModel<IPlayMode> listModel = new DefaultListModel<IPlayMode>();
 			listModel.addElement( new SinglePlayerPlayMode() );
-			
-			try{
-				listModel.addElement( new MultiPlayerPlayMode() );
-			}catch( Exception e){
-				//TODO log.
-			}
 			
 			setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.Background));
 			JSplitPane splitPane = new JSplitPane();
