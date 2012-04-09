@@ -77,7 +77,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	 */
 	public EmployeeCellRenderer() throws GuiException{
 		_selectedBgColor = Colors.Orange.alpha(0.5f);
-		_bgColor = Colors.Black.alpha(0.8f);
+		_bgColor = Colors.White.alpha(0.8f);
 		setOpaque(true);
 		init();
 	}

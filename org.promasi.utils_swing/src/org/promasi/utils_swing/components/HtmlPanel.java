@@ -37,7 +37,7 @@ public class HtmlPanel extends RoundedJPanel {
 	 * @throws GuiException 
 	 */
 	public HtmlPanel(boolean useScrollPane) throws GuiException{
-		super(Colors.White.alpha(0.2f), Colors.White.alpha(1f));
+		super(Colors.Gray.alpha(0.2f), Colors.Gray.alpha(1f));
 		init(useScrollPane);
 	}
 	
