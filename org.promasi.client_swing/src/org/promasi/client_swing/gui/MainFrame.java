@@ -11,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
+import org.promasi.desktop_swing.IMainFrame;
+
 public class MainFrame extends JFrame implements IMainFrame {
 	/**
 	 * 
@@ -41,6 +43,7 @@ public class MainFrame extends JFrame implements IMainFrame {
 		JLabel promasiLabel = new JLabel("Pro.Ma.Si");
 		promasiLabel.setPreferredSize(new Dimension(200,200));
 		_statusPanel.add(promasiLabel, BorderLayout.WEST);
+		getGlassPane().setVisible(true);
 	}
 
 	@Override

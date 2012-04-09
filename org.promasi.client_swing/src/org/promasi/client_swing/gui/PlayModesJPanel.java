@@ -21,6 +21,7 @@ import javax.swing.border.EtchedBorder;
 import org.jdesktop.swingx.JXPanel;
 import org.promasi.client_swing.playmode.IPlayMode;
 import org.promasi.client_swing.playmode.singleplayer.SinglePlayerPlayMode;
+import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.PainterFactory;

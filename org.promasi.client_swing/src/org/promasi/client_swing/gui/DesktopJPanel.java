@@ -11,10 +11,14 @@ import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.InternalFrameListener;
 
 import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
+import org.promasi.desktop_swing.GameFinishedPanel;
 import org.promasi.desktop_swing.IDesktop;
+import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.desktop_swing.PromasiJDesktopPane;
 import org.promasi.desktop_swing.TaskBarJPanel;
 import org.promasi.desktop_swing.Widget;
@@ -27,6 +31,8 @@ import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.PainterFactory;
+
+import sun.misc.InvalidJarIndexException;
 
 /**
  * @author alekstheod
@@ -71,6 +77,11 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	private String _username;
 	
 	/**
+	 * 
+	 */
+	private JInternalFrame _gameFinishedFrame;
+	
+	/**
 	 * Constructor will initialize the object.
 	 * @param mainFrame instance of {@link IMainFrame} interface
 	 * implementation needed in order to interact with the main frame.
@@ -104,6 +115,44 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 		_workspace = new PromasiJDesktopPane( _game, username , this);
 		_workspace.setOpaque(false);
 		_workspace.setBackground(Colors.White.alpha(0f));
+		
+		_gameFinishedFrame = new JInternalFrame();
+		_gameFinishedFrame.setLayout(new BorderLayout());
+		_gameFinishedFrame.add(new GameFinishedPanel(_game, _mainFrame));
+		_gameFinishedFrame.addInternalFrameListener(new InternalFrameListener() {
+			
+			@Override
+			public void internalFrameOpened(InternalFrameEvent e) {}
+			
+			@Override
+			public void internalFrameIconified(InternalFrameEvent e) {}
+			
+			@Override
+			public void internalFrameDeiconified(InternalFrameEvent e) {}
+			
+			@Override
+			public void internalFrameDeactivated(InternalFrameEvent e) {}
+			
+			@Override
+			public void internalFrameClosing(InternalFrameEvent e) {}
+			
+			@Override
+			public void internalFrameClosed(InternalFrameEvent e) {
+				try {
+					_mainFrame.changePanel( new GamesJPanel(_mainFrame, _game.getGamesServer(), _username));
+					_mainFrame.enableWizardMode();
+				} catch (GuiException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+			
+			@Override
+			public void internalFrameActivated(InternalFrameEvent e) {}
+		});
+		
+		_workspace.add(_gameFinishedFrame);
+		
 		add(_workspace, BorderLayout.CENTER);
 	}
 
@@ -134,14 +183,8 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				try {
-					_game.stopGame();
-					_mainFrame.changePanel( new GamesJPanel(_mainFrame, _game.getGamesServer(), _username));
-					_mainFrame.enableWizardMode();
-				} catch (GuiException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				_game.stopGame();
+				_gameFinishedFrame.show();
 			}
 		});
 	}

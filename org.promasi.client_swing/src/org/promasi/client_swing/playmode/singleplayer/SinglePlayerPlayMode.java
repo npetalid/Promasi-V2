@@ -9,8 +9,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.promasi.client_swing.gui.GamesJPanel;
-import org.promasi.client_swing.gui.IMainFrame;
 import org.promasi.client_swing.playmode.IPlayMode;
+import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;

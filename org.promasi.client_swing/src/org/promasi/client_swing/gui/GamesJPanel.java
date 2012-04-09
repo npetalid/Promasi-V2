@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 import org.jdesktop.swingx.JXPanel;
+import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.game.AGamesServer;
 import org.promasi.game.IGame;
 import org.promasi.game.IGamesServerListener;
@@ -33,7 +34,10 @@ import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
 
 /**
  * @author alekstheod
- *
+ * Represents the games panel, contains a list
+ * of the games available on the given games server.
+ * Provides to the user the opportunity to select and
+ * run the selected game.
  */
 public class GamesJPanel extends JXPanel implements IGamesServerListener {
 
@@ -120,11 +124,6 @@ public class GamesJPanel extends JXPanel implements IGamesServerListener {
 		_gamesList.setCellRenderer(new MenuCellRenderer());
 		
 		JScrollPane gamesScroll = new JScrollPane(_gamesList);
-		/*gamesScroll.setBackground(Colors.White.alpha(0f));
-		gamesScroll.setOpaque(false);
-		gamesScroll.getViewport().setBackground(Colors.White.alpha(0f));
-		gamesScroll.getViewport().setOpaque(false);
-		gamesScroll.setBorder(new EmptyBorder(0, 0, 0, 0));*/
 		gamesPanel.add(gamesScroll);
 		splitPane.setLeftComponent(gamesPanel);
 		

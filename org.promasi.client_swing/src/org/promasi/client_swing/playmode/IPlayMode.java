@@ -5,7 +5,7 @@ package org.promasi.client_swing.playmode;
 
 import java.io.IOException;
 
-import org.promasi.client_swing.gui.IMainFrame;
+import org.promasi.desktop_swing.IMainFrame;
 
 /**
  * @author alekstheod
