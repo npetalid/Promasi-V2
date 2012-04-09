@@ -32,8 +32,6 @@ import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.PainterFactory;
 
-import sun.misc.InvalidJarIndexException;
-
 /**
  * @author alekstheod
  * Represent the Desktop on the ProMaSi system,

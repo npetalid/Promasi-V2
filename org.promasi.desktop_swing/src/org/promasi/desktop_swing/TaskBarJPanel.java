@@ -89,7 +89,7 @@ public class TaskBarJPanel extends JPanel {
 
 		setPreferredSize( new Dimension( 100, CONST_TASKBAR_HEIGHT ) );
 		setLayout(new BorderLayout());
-		setBackground(Colors.White.alpha(0.5f));
+		setBackground(Colors.Gray.alpha(0.2f));
 		
 		JButton startButton = new JButton("Menu");
 		try {

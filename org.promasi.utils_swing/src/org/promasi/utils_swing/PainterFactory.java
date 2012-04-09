@@ -51,7 +51,7 @@ public class PainterFactory {
 	
 	private static Painter<Component> getInactiveBackgroundPainter(){
 	    MattePainter mp = new MattePainter(Colors.White.alpha(1f));
-	    GlossPainter gp = new GlossPainter(Colors.Gray.alpha(0.1f), GlossPainter.GlossPosition.TOP);
+	    GlossPainter gp = new GlossPainter(Colors.Gray.alpha(0.1f), GlossPainter.GlossPosition.BOTTOM);
 	    PinstripePainter pp = new PinstripePainter(Colors.Gray.alpha(0.2f), 45d);
 	    return (new CompoundPainter<Component>(mp, pp, gp));	
 	}
