@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<bean id="CalculatedEquation" class="org.promasi.sdsystem.sdobject.equation.CalculatedEquation" scope="prototype">
+		<constructor-arg type="java.lang.String" value="1"/>
+	</bean>
+
+	<bean id="FlowSdObject" class="org.promasi.sdsystem.sdobject.FlowSdObject" scope="prototype">
+		<constructor-arg>
+			<ref bean="CalculatedEquation"/>
+		</constructor-arg>
+	</bean>	
+
+	<bean id="StockSdObject" class="org.promasi.sdsystem.sdobject.StockSdObject" scope="prototype">
+		<constructor-arg type="org.promasi.sdsystem.sdobject.equation.IEquation">
+			<ref bean="CalculatedEquation"/>
+		</constructor-arg>
+		<constructor-arg type="Double" value="0"/>
+	</bean>
+
+	<bean id="InputSdObject" class="org.promasi.sdsystem.sdobject.InputSdObject" scope="prototype"/>
+
+	<bean id="OutputSdObject" class="org.promasi.sdsystem.sdobject.OutputSdObject" scope="prototype">
+		<constructor-arg>
+			<ref bean="CalculatedEquation"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="TimeSdObject" class = "org.promasi.sdsystem.sdobject.TimeSdObject" scope="prototype"/>
+
+	<bean id="SdSystem" class="org.promasi.sdsystem.SdSystem" scope="prototype">
+	  <constructor-arg>
+	  	<util:map key-type="java.lang.String" value-type="org.promasi.sdsystem.sdobject.InputSdObject">
+	  	<entry key="Object1">
+	  		<ref bean="FlowSdObject"/>
+	  	</entry>
+	  	<entry key="Object2">
+	  		<ref bean="StockSdObject"/>
+	  	</entry>
+	  	</util:map>
+	  </constructor-arg>
+	</bean>
+	
+</beans>

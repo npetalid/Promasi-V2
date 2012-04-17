@@ -23,7 +23,6 @@ import org.promasi.utilities.clock.IClock;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utilities.spring.SpringApplicationContext;
-import org.promasi.utilities.spring.SpringException;
 import org.promasi.utils_swing.GuiException;
 
 /**

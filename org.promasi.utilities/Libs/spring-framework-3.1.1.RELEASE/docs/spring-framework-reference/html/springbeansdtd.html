@@ -1,0 +1,689 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>Appendix&nbsp;E.&nbsp;spring-beans-2.0.dtd</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.74.0"><link rel="home" href="index.html" title="Reference Documentation"><link rel="up" href="spring-appendices.html" title="Part&nbsp;VII.&nbsp;Appendices"><link rel="prev" href="extensible-xml.html" title="Appendix&nbsp;D.&nbsp;Extensible XML authoring"><link rel="next" href="spring.tld.html" title="Appendix&nbsp;F.&nbsp;spring.tld"><!--Begin Google Analytics code--><script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script><script type="text/javascript">
+			var pageTracker = _gat._getTracker("UA-2728886-3");
+			pageTracker._setDomainName("none");
+			pageTracker._setAllowLinker(true);
+			pageTracker._trackPageview();
+		</script><!--End Google Analytics code--></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">Appendix&nbsp;E.&nbsp;spring-beans-2.0.dtd</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="extensible-xml.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;VII.&nbsp;Appendices</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="spring.tld.html">Next</a></td></tr></table><hr></div><div class="appendix" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="springbeansdtd"></a>Appendix&nbsp;E.&nbsp;<code class="literal">spring-beans-2.0.dtd</code></h2></div></div></div><pre class="programlisting">&lt;<span class="hl-comment">!--
+	Spring XML Beans DTD, version 2.0
+	Authors: Rod Johnson, Juergen Hoeller, Alef Arendsen, Colin Sampaleanu, Rob Harrop
+
+	This defines a simple and consistent way of creating a namespace
+	of JavaBeans objects, managed by a Spring BeanFactory, read by
+	XmlBeanDefinitionReader (with DefaultBeanDefinitionDocumentReader).
+
+	This document type is used by most Spring functionality, including
+	web application contexts, which are based on bean factories.
+
+	Each "bean" element in this document defines a JavaBean.
+	Typically the bean class is specified, along with JavaBean properties
+	and/or constructor arguments.
+
+	A bean instance can be a "singleton" (shared instance) or a "prototype"
+	(independent instance). Further scopes can be provided by extended
+	bean factories, for example in a web environment.
+
+	References among beans are supported, that is, setting a JavaBean property
+	or a constructor argument to refer to another bean in the same factory
+	(or an ancestor factory).
+
+	As alternative to bean references, "inner bean definitions" can be used.
+	Singleton flags of such inner bean definitions are effectively ignored:
+	Inner beans are typically anonymous prototypes.
+
+	There is also support for lists, sets, maps, and java.util.Properties
+	as bean property types or constructor argument types.
+
+	For simple purposes, this DTD is sufficient. As of Spring 2.0,
+	XSD-based bean definitions are supported as more powerful alternative.
+
+	XML documents that conform to this DTD should declare the following doctype:
+
+	&lt;!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN"
+		"http://www.springframework.org/dtd/spring-beans-2.0.dtd"&gt;
+--</span>&gt;
+
+
+&lt;<span class="hl-comment">!--
+	The document root. A document can contain bean definitions only,
+	imports only, or a mixture of both (typically with imports first).
+--</span>&gt;
+&lt;<span class="hl-tag">!ELEMENT</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">(</span>
+	<span class="hl-attribute">description?,</span>
+	<span class="hl-attribute">(import</span> <span class="hl-attribute">|</span> <span class="hl-attribute">alias</span> <span class="hl-attribute">|</span> <span class="hl-attribute">bean)*</span>
+<span class="hl-attribute">)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Default</span> <span class="hl-attribute">values</span> <span class="hl-attribute">for</span> <span class="hl-attribute">all</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definitions.</span> <span class="hl-attribute">Can</span> <span class="hl-attribute">be</span> <span class="hl-attribute">overridden</span> <span class="hl-attribute">at</span>
+	<span class="hl-attribute">the</span> <span class="hl-attribute">"bean"</span> <span class="hl-attribute">level.</span> <span class="hl-attribute">See</span> <span class="hl-attribute">those</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">definitions</span> <span class="hl-attribute">for</span> <span class="hl-attribute">details.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">default-lazy-init</span> <span class="hl-attribute">(true</span> <span class="hl-attribute">|</span> <span class="hl-attribute">false)</span> <span class="hl-attribute">"false"&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">default-autowire</span> <span class="hl-attribute">(no</span> <span class="hl-attribute">|</span> <span class="hl-attribute">byName</span> <span class="hl-attribute">|</span> <span class="hl-attribute">byType</span> <span class="hl-attribute">|</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">|</span> <span class="hl-attribute">autodetect)</span> <span class="hl-attribute">"no"&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">default-dependency-check</span> <span class="hl-attribute">(none</span> <span class="hl-attribute">|</span> <span class="hl-attribute">objects</span> <span class="hl-attribute">|</span> <span class="hl-attribute">simple</span> <span class="hl-attribute">|</span> <span class="hl-attribute">all)</span> <span class="hl-attribute">"none"&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">default-init-method</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">default-destroy-method</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">default-merge</span> <span class="hl-attribute">(true</span> <span class="hl-attribute">|</span> <span class="hl-attribute">false)</span> <span class="hl-attribute">"false"&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Element</span> <span class="hl-attribute">containing</span> <span class="hl-attribute">informative</span> <span class="hl-attribute">text</span> <span class="hl-attribute">describing</span> <span class="hl-attribute">the</span> <span class="hl-attribute">purpose</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">enclosing</span>
+	<span class="hl-attribute">element.</span> <span class="hl-attribute">Always</span> <span class="hl-attribute">optional.</span>
+	<span class="hl-attribute">Used</span> <span class="hl-attribute">primarily</span> <span class="hl-attribute">for</span> <span class="hl-attribute">user</span> <span class="hl-attribute">documentation</span> <span class="hl-attribute">of</span> <span class="hl-attribute">XML</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition</span> <span class="hl-attribute">documents.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">description</span> <span class="hl-attribute">(#PCDATA)&gt;</span>
+
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Specifies</span> <span class="hl-attribute">an</span> <span class="hl-attribute">XML</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition</span> <span class="hl-attribute">resource</span> <span class="hl-attribute">to</span> <span class="hl-attribute">import.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">import</span> <span class="hl-attribute">EMPTY&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">relative</span> <span class="hl-attribute">resource</span> <span class="hl-attribute">location</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">XML</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition</span> <span class="hl-attribute">file</span> <span class="hl-attribute">to</span> <span class="hl-attribute">import,</span>
+	<span class="hl-attribute">for</span> <span class="hl-attribute">example</span> <span class="hl-attribute">"myImport.xml"</span> <span class="hl-attribute">or</span> <span class="hl-attribute">"includes/myImport.xml"</span> <span class="hl-attribute">or</span> <span class="hl-attribute">"../myImport.xml".</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">import</span> <span class="hl-attribute">resource</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#REQUIRED&gt;</span>
+
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Defines</span> <span class="hl-attribute">an</span> <span class="hl-attribute">alias</span> <span class="hl-attribute">for</span> <span class="hl-attribute">a</span> <span class="hl-attribute">bean,</span> <span class="hl-attribute">which</span> <span class="hl-attribute">can</span> <span class="hl-attribute">reside</span> <span class="hl-attribute">in</span> <span class="hl-attribute">a</span> <span class="hl-attribute">different</span> <span class="hl-attribute">definition</span> <span class="hl-attribute">file.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">alias</span> <span class="hl-attribute">EMPTY&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">to</span> <span class="hl-attribute">define</span> <span class="hl-attribute">an</span> <span class="hl-attribute">alias</span> <span class="hl-attribute">for.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">alias</span> <span class="hl-attribute">name</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#REQUIRED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">alias</span> <span class="hl-attribute">name</span> <span class="hl-attribute">to</span> <span class="hl-attribute">define</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">alias</span> <span class="hl-attribute">alias</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#REQUIRED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+  <span class="hl-attribute">Allows</span> <span class="hl-attribute">for</span> <span class="hl-attribute">arbitrary</span> <span class="hl-attribute">metadata</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">attached</span> <span class="hl-attribute">to</span> <span class="hl-attribute">a</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">meta</span> <span class="hl-attribute">EMPTY&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+  <span class="hl-attribute">Specifies</span> <span class="hl-attribute">the</span> <span class="hl-attribute">key</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">metadata</span> <span class="hl-attribute">parameter</span> <span class="hl-attribute">being</span> <span class="hl-attribute">defined.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">meta</span> <span class="hl-attribute">key</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#REQUIRED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+  <span class="hl-attribute">Specifies</span> <span class="hl-attribute">the</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">metadata</span> <span class="hl-attribute">parameter</span> <span class="hl-attribute">being</span> <span class="hl-attribute">defined</span> <span class="hl-attribute">as</span> <span class="hl-attribute">a</span> <span class="hl-attribute">String.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">meta</span> <span class="hl-attribute">value</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#REQUIRED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">single</span> <span class="hl-attribute">(usually</span> <span class="hl-attribute">named)</span> <span class="hl-attribute">bean.</span>
+
+	<span class="hl-attribute">A</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition</span> <span class="hl-attribute">may</span> <span class="hl-attribute">contain</span> <span class="hl-attribute">nested</span> <span class="hl-attribute">tags</span> <span class="hl-attribute">for</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">arguments,</span>
+	<span class="hl-attribute">property</span> <span class="hl-attribute">values,</span> <span class="hl-attribute">lookup</span> <span class="hl-attribute">methods,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">replaced</span> <span class="hl-attribute">methods.</span> <span class="hl-attribute">Mixing</span> <span class="hl-attribute">constructor</span>
+	<span class="hl-attribute">injection</span> <span class="hl-attribute">and</span> <span class="hl-attribute">setter</span> <span class="hl-attribute">injection</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">same</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">is</span> <span class="hl-attribute">explicitly</span> <span class="hl-attribute">supported.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">(</span>
+	<span class="hl-attribute">description?,</span>
+	<span class="hl-attribute">(meta</span> <span class="hl-attribute">|</span> <span class="hl-attribute">constructor-arg</span> <span class="hl-attribute">|</span> <span class="hl-attribute">property</span> <span class="hl-attribute">|</span> <span class="hl-attribute">lookup-method</span> <span class="hl-attribute">|</span> <span class="hl-attribute">replaced-method)*</span>
+<span class="hl-attribute">)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Beans</span> <span class="hl-attribute">can</span> <span class="hl-attribute">be</span> <span class="hl-attribute">identified</span> <span class="hl-attribute">by</span> <span class="hl-attribute">an</span> <span class="hl-attribute">id,</span> <span class="hl-attribute">to</span> <span class="hl-attribute">enable</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">checking.</span>
+
+	<span class="hl-attribute">There</span> <span class="hl-attribute">are</span> <span class="hl-attribute">constraints</span> <span class="hl-attribute">on</span> <span class="hl-attribute">a</span> <span class="hl-attribute">valid</span> <span class="hl-attribute">XML</span> <span class="hl-attribute">id:</span> <span class="hl-attribute">if</span> <span class="hl-attribute">you</span> <span class="hl-attribute">want</span> <span class="hl-attribute">to</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">your</span> <span class="hl-attribute">bean</span>
+	<span class="hl-attribute">in</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">code</span> <span class="hl-attribute">using</span> <span class="hl-attribute">a</span> <span class="hl-attribute">name</span> <span class="hl-attribute">that's</span> <span class="hl-attribute">illegal</span> <span class="hl-attribute">as</span> <span class="hl-attribute">an</span> <span class="hl-attribute">XML</span> <span class="hl-attribute">id,</span> <span class="hl-attribute">use</span> <span class="hl-attribute">the</span> <span class="hl-attribute">optional</span>
+	<span class="hl-attribute">"name"</span> <span class="hl-attribute">attribute.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">neither</span> <span class="hl-attribute">is</span> <span class="hl-attribute">given,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">class</span> <span class="hl-attribute">name</span> <span class="hl-attribute">is</span> <span class="hl-attribute">used</span> <span class="hl-attribute">as</span> <span class="hl-attribute">id</span>
+	<span class="hl-attribute">(with</span> <span class="hl-attribute">an</span> <span class="hl-attribute">appended</span> <span class="hl-attribute">counter</span> <span class="hl-attribute">like</span> <span class="hl-attribute">"#2"</span> <span class="hl-attribute">if</span> <span class="hl-attribute">there</span> <span class="hl-attribute">is</span> <span class="hl-attribute">already</span> <span class="hl-attribute">a</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">with</span> <span class="hl-attribute">that</span> <span class="hl-attribute">name).</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">id</span> <span class="hl-attribute">ID</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Optional.</span> <span class="hl-attribute">Can</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">create</span> <span class="hl-attribute">one</span> <span class="hl-attribute">or</span> <span class="hl-attribute">more</span> <span class="hl-attribute">aliases</span> <span class="hl-attribute">illegal</span> <span class="hl-attribute">in</span> <span class="hl-attribute">an</span> <span class="hl-attribute">id.</span>
+	<span class="hl-attribute">Multiple</span> <span class="hl-attribute">aliases</span> <span class="hl-attribute">can</span> <span class="hl-attribute">be</span> <span class="hl-attribute">separated</span> <span class="hl-attribute">by</span> <span class="hl-attribute">any</span> <span class="hl-attribute">number</span> <span class="hl-attribute">of</span> <span class="hl-attribute">spaces,</span> <span class="hl-attribute">commas,</span> <span class="hl-attribute">or</span>
+	<span class="hl-attribute">semi-colons</span> <span class="hl-attribute">(or</span> <span class="hl-attribute">indeed</span> <span class="hl-attribute">any</span> <span class="hl-attribute">mixture</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">three).</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">name</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Each</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition</span> <span class="hl-attribute">must</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">the</span> <span class="hl-attribute">fully</span> <span class="hl-attribute">qualified</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">class,</span>
+	<span class="hl-attribute">except</span> <span class="hl-attribute">if</span> <span class="hl-attribute">it</span> <span class="hl-attribute">pure</span> <span class="hl-attribute">serves</span> <span class="hl-attribute">as</span> <span class="hl-attribute">parent</span> <span class="hl-attribute">for</span> <span class="hl-attribute">child</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definitions.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">class</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Optionally</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">a</span> <span class="hl-attribute">parent</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition.</span>
+
+	<span class="hl-attribute">Will</span> <span class="hl-attribute">use</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">class</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">parent</span> <span class="hl-attribute">if</span> <span class="hl-attribute">none</span> <span class="hl-attribute">specified,</span> <span class="hl-attribute">but</span> <span class="hl-attribute">can</span>
+	<span class="hl-attribute">also</span> <span class="hl-attribute">override</span> <span class="hl-attribute">it.</span> <span class="hl-attribute">In</span> <span class="hl-attribute">the</span> <span class="hl-attribute">latter</span> <span class="hl-attribute">case,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">child</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">class</span> <span class="hl-attribute">must</span> <span class="hl-attribute">be</span>
+	<span class="hl-attribute">compatible</span> <span class="hl-attribute">with</span> <span class="hl-attribute">the</span> <span class="hl-attribute">parent,</span> <span class="hl-attribute">i.e.</span> <span class="hl-attribute">accept</span> <span class="hl-attribute">the</span> <span class="hl-attribute">parent's</span> <span class="hl-attribute">property</span> <span class="hl-attribute">values</span>
+	<span class="hl-attribute">and</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">argument</span> <span class="hl-attribute">values,</span> <span class="hl-attribute">if</span> <span class="hl-attribute">any.</span>
+
+	<span class="hl-attribute">A</span> <span class="hl-attribute">child</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition</span> <span class="hl-attribute">will</span> <span class="hl-attribute">inherit</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">argument</span> <span class="hl-attribute">values,</span>
+	<span class="hl-attribute">property</span> <span class="hl-attribute">values</span> <span class="hl-attribute">and</span> <span class="hl-attribute">method</span> <span class="hl-attribute">overrides</span> <span class="hl-attribute">from</span> <span class="hl-attribute">the</span> <span class="hl-attribute">parent,</span> <span class="hl-attribute">with</span> <span class="hl-attribute">the</span> <span class="hl-attribute">option</span>
+	<span class="hl-attribute">to</span> <span class="hl-attribute">add</span> <span class="hl-attribute">new</span> <span class="hl-attribute">values.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">init</span> <span class="hl-attribute">method,</span> <span class="hl-attribute">destroy</span> <span class="hl-attribute">method,</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">and/or</span> <span class="hl-attribute">factory</span>
+	<span class="hl-attribute">method</span> <span class="hl-attribute">are</span> <span class="hl-attribute">specified,</span> <span class="hl-attribute">they</span> <span class="hl-attribute">will</span> <span class="hl-attribute">override</span> <span class="hl-attribute">the</span> <span class="hl-attribute">corresponding</span> <span class="hl-attribute">parent</span> <span class="hl-attribute">settings.</span>
+
+	<span class="hl-attribute">The</span> <span class="hl-attribute">remaining</span> <span class="hl-attribute">settings</span> <span class="hl-attribute">will</span> <span class="hl-attribute">always</span> <span class="hl-attribute">be</span> <span class="hl-attribute">taken</span> <span class="hl-attribute">from</span> <span class="hl-attribute">the</span> <span class="hl-attribute">child</span> <span class="hl-attribute">definition:</span>
+	<span class="hl-attribute">depends</span> <span class="hl-attribute">on,</span> <span class="hl-attribute">autowire</span> <span class="hl-attribute">mode,</span> <span class="hl-attribute">dependency</span> <span class="hl-attribute">check,</span> <span class="hl-attribute">scope,</span> <span class="hl-attribute">lazy</span> <span class="hl-attribute">init.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">parent</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">scope</span> <span class="hl-attribute">of</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bean:</span> <span class="hl-attribute">typically</span> <span class="hl-attribute">"singleton"</span> <span class="hl-attribute">(one</span> <span class="hl-attribute">shared</span> <span class="hl-attribute">instance,</span>
+	<span class="hl-attribute">which</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">returned</span> <span class="hl-attribute">by</span> <span class="hl-attribute">all</span> <span class="hl-attribute">calls</span> <span class="hl-attribute">to</span> <span class="hl-attribute">getBean()</span> <span class="hl-attribute">with</span> <span class="hl-attribute">the</span> <span class="hl-attribute">id),</span>
+	<span class="hl-attribute">or</span> <span class="hl-attribute">"prototype"</span> <span class="hl-attribute">(independent</span> <span class="hl-attribute">instance</span> <span class="hl-attribute">resulting</span> <span class="hl-attribute">from</span> <span class="hl-attribute">each</span> <span class="hl-attribute">call</span> <span class="hl-attribute">to</span>
+	<span class="hl-attribute">getBean().</span> <span class="hl-attribute">Default</span> <span class="hl-attribute">is</span> <span class="hl-attribute">"singleton".</span>
+
+	<span class="hl-attribute">Singletons</span> <span class="hl-attribute">are</span> <span class="hl-attribute">most</span> <span class="hl-attribute">commonly</span> <span class="hl-attribute">used,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">are</span> <span class="hl-attribute">ideal</span> <span class="hl-attribute">for</span> <span class="hl-attribute">multi-threaded</span>
+	<span class="hl-attribute">service</span> <span class="hl-attribute">objects.</span> <span class="hl-attribute">Further</span> <span class="hl-attribute">scopes,</span> <span class="hl-attribute">such</span> <span class="hl-attribute">as</span> <span class="hl-attribute">"request"</span> <span class="hl-attribute">or</span> <span class="hl-attribute">"session",</span>
+	<span class="hl-attribute">might</span> <span class="hl-attribute">be</span> <span class="hl-attribute">supported</span> <span class="hl-attribute">by</span> <span class="hl-attribute">extended</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factories</span> <span class="hl-attribute">(for</span> <span class="hl-attribute">example,</span> <span class="hl-attribute">in</span> <span class="hl-attribute">a</span>
+	<span class="hl-attribute">web</span> <span class="hl-attribute">environment).</span>
+
+	<span class="hl-attribute">Note:</span> <span class="hl-attribute">This</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">will</span> <span class="hl-attribute">not</span> <span class="hl-attribute">be</span> <span class="hl-attribute">inherited</span> <span class="hl-attribute">by</span> <span class="hl-attribute">child</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definitions.</span>
+	<span class="hl-attribute">Hence,</span> <span class="hl-attribute">it</span> <span class="hl-attribute">needs</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">specified</span> <span class="hl-attribute">per</span> <span class="hl-attribute">concrete</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition.</span>
+
+	<span class="hl-attribute">Inner</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definitions</span> <span class="hl-attribute">inherit</span> <span class="hl-attribute">the</span> <span class="hl-attribute">singleton</span> <span class="hl-attribute">status</span> <span class="hl-attribute">of</span> <span class="hl-attribute">their</span> <span class="hl-attribute">containing</span>
+	<span class="hl-attribute">bean</span> <span class="hl-attribute">definition,</span> <span class="hl-attribute">unless</span> <span class="hl-attribute">explicitly</span> <span class="hl-attribute">specified:</span> <span class="hl-attribute">The</span> <span class="hl-attribute">inner</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">a</span>
+	<span class="hl-attribute">singleton</span> <span class="hl-attribute">if</span> <span class="hl-attribute">the</span> <span class="hl-attribute">containing</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">is</span> <span class="hl-attribute">a</span> <span class="hl-attribute">singleton,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">a</span> <span class="hl-attribute">prototype</span> <span class="hl-attribute">if</span>
+	<span class="hl-attribute">the</span> <span class="hl-attribute">containing</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">has</span> <span class="hl-attribute">any</span> <span class="hl-attribute">other</span> <span class="hl-attribute">scope.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">scope</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Is</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">"abstract",</span> <span class="hl-attribute">i.e.</span> <span class="hl-attribute">not</span> <span class="hl-attribute">meant</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">instantiated</span> <span class="hl-attribute">itself</span> <span class="hl-attribute">but</span>
+	<span class="hl-attribute">rather</span> <span class="hl-attribute">just</span> <span class="hl-attribute">serving</span> <span class="hl-attribute">as</span> <span class="hl-attribute">parent</span> <span class="hl-attribute">for</span> <span class="hl-attribute">concrete</span> <span class="hl-attribute">child</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definitions.</span>
+	<span class="hl-attribute">Default</span> <span class="hl-attribute">is</span> <span class="hl-attribute">"false".</span> <span class="hl-attribute">Specify</span> <span class="hl-attribute">"true"</span> <span class="hl-attribute">to</span> <span class="hl-attribute">tell</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">to</span> <span class="hl-attribute">not</span> <span class="hl-attribute">try</span> <span class="hl-attribute">to</span>
+	<span class="hl-attribute">instantiate</span> <span class="hl-attribute">that</span> <span class="hl-attribute">particular</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">in</span> <span class="hl-attribute">any</span> <span class="hl-attribute">case.</span>
+
+	<span class="hl-attribute">Note:</span> <span class="hl-attribute">This</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">will</span> <span class="hl-attribute">not</span> <span class="hl-attribute">be</span> <span class="hl-attribute">inherited</span> <span class="hl-attribute">by</span> <span class="hl-attribute">child</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definitions.</span>
+	<span class="hl-attribute">Hence,</span> <span class="hl-attribute">it</span> <span class="hl-attribute">needs</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">specified</span> <span class="hl-attribute">per</span> <span class="hl-attribute">abstract</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">abstract</span> <span class="hl-attribute">(true</span> <span class="hl-attribute">|</span> <span class="hl-attribute">false)</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">If</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">should</span> <span class="hl-attribute">be</span> <span class="hl-attribute">lazily</span> <span class="hl-attribute">initialized.</span>
+	<span class="hl-attribute">If</span> <span class="hl-attribute">false,</span> <span class="hl-attribute">it</span> <span class="hl-attribute">will</span> <span class="hl-attribute">get</span> <span class="hl-attribute">instantiated</span> <span class="hl-attribute">on</span> <span class="hl-attribute">startup</span> <span class="hl-attribute">by</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factories</span>
+	<span class="hl-attribute">that</span> <span class="hl-attribute">perform</span> <span class="hl-attribute">eager</span> <span class="hl-attribute">initialization</span> <span class="hl-attribute">of</span> <span class="hl-attribute">singletons.</span>
+
+	<span class="hl-attribute">Note:</span> <span class="hl-attribute">This</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">will</span> <span class="hl-attribute">not</span> <span class="hl-attribute">be</span> <span class="hl-attribute">inherited</span> <span class="hl-attribute">by</span> <span class="hl-attribute">child</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definitions.</span>
+	<span class="hl-attribute">Hence,</span> <span class="hl-attribute">it</span> <span class="hl-attribute">needs</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">specified</span> <span class="hl-attribute">per</span> <span class="hl-attribute">concrete</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">lazy-init</span> <span class="hl-attribute">(true</span> <span class="hl-attribute">|</span> <span class="hl-attribute">false</span> <span class="hl-attribute">|</span> <span class="hl-attribute">default)</span> <span class="hl-attribute">"default"&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+  <span class="hl-attribute">Indicates</span> <span class="hl-attribute">whether</span> <span class="hl-attribute">or</span> <span class="hl-attribute">not</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">should</span> <span class="hl-attribute">be</span> <span class="hl-attribute">considered</span> <span class="hl-attribute">when</span> <span class="hl-attribute">looking</span>
+  <span class="hl-attribute">for</span> <span class="hl-attribute">candidates</span> <span class="hl-attribute">to</span> <span class="hl-attribute">satisfy</span> <span class="hl-attribute">another</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">autowiring</span> <span class="hl-attribute">requirements.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">autowire-candidate</span> <span class="hl-attribute">(true</span> <span class="hl-attribute">|</span> <span class="hl-attribute">false)</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Optional</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">controlling</span> <span class="hl-attribute">whether</span> <span class="hl-attribute">to</span> <span class="hl-attribute">"autowire"</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">properties.</span>
+	<span class="hl-attribute">This</span> <span class="hl-attribute">is</span> <span class="hl-attribute">an</span> <span class="hl-attribute">automagical</span> <span class="hl-attribute">process</span> <span class="hl-attribute">in</span> <span class="hl-attribute">which</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">references</span> <span class="hl-attribute">don't</span> <span class="hl-attribute">need</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">coded</span>
+	<span class="hl-attribute">explicitly</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">XML</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition</span> <span class="hl-attribute">file,</span> <span class="hl-attribute">but</span> <span class="hl-attribute">Spring</span> <span class="hl-attribute">works</span> <span class="hl-attribute">out</span> <span class="hl-attribute">dependencies.</span>
+
+	<span class="hl-attribute">There</span> <span class="hl-attribute">are</span> <span class="hl-attribute">5</span> <span class="hl-attribute">modes:</span>
+
+	<span class="hl-attribute">1.</span> <span class="hl-attribute">"no"</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">traditional</span> <span class="hl-attribute">Spring</span> <span class="hl-attribute">default.</span> <span class="hl-attribute">No</span> <span class="hl-attribute">automagical</span> <span class="hl-attribute">wiring.</span> <span class="hl-attribute">Bean</span> <span class="hl-attribute">references</span>
+	<span class="hl-attribute">must</span> <span class="hl-attribute">be</span> <span class="hl-attribute">defined</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">XML</span> <span class="hl-attribute">file</span> <span class="hl-attribute">via</span> <span class="hl-attribute">the</span> <span class="hl-attribute">&lt;ref&gt;</span> <span class="hl-attribute">element.</span> <span class="hl-attribute">We</span> <span class="hl-attribute">recommend</span> <span class="hl-attribute">this</span>
+	<span class="hl-attribute">in</span> <span class="hl-attribute">most</span> <span class="hl-attribute">cases</span> <span class="hl-attribute">as</span> <span class="hl-attribute">it</span> <span class="hl-attribute">makes</span> <span class="hl-attribute">documentation</span> <span class="hl-attribute">more</span> <span class="hl-attribute">explicit.</span>
+
+	<span class="hl-attribute">2.</span> <span class="hl-attribute">"byName"</span>
+	<span class="hl-attribute">Autowiring</span> <span class="hl-attribute">by</span> <span class="hl-attribute">property</span> <span class="hl-attribute">name.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">a</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">of</span> <span class="hl-attribute">class</span> <span class="hl-attribute">Cat</span> <span class="hl-attribute">exposes</span> <span class="hl-attribute">a</span> <span class="hl-attribute">dog</span> <span class="hl-attribute">property,</span>
+	<span class="hl-attribute">Spring</span> <span class="hl-attribute">will</span> <span class="hl-attribute">try</span> <span class="hl-attribute">to</span> <span class="hl-attribute">set</span> <span class="hl-attribute">this</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">"dog"</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">current</span> <span class="hl-attribute">factory.</span>
+	<span class="hl-attribute">If</span> <span class="hl-attribute">there</span> <span class="hl-attribute">is</span> <span class="hl-attribute">no</span> <span class="hl-attribute">matching</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">by</span> <span class="hl-attribute">name,</span> <span class="hl-attribute">nothing</span> <span class="hl-attribute">special</span> <span class="hl-attribute">happens;</span>
+	<span class="hl-attribute">use</span> <span class="hl-attribute">dependency-check</span>=<span class="hl-value">"objects"</span> <span class="hl-attribute">to</span> <span class="hl-attribute">raise</span> <span class="hl-attribute">an</span> <span class="hl-attribute">error</span> <span class="hl-attribute">in</span> <span class="hl-attribute">that</span> <span class="hl-attribute">case.</span>
+
+	<span class="hl-attribute">3.</span> <span class="hl-attribute">"byType"</span>
+	<span class="hl-attribute">Autowiring</span> <span class="hl-attribute">if</span> <span class="hl-attribute">there</span> <span class="hl-attribute">is</span> <span class="hl-attribute">exactly</span> <span class="hl-attribute">one</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">property</span> <span class="hl-attribute">type</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory.</span>
+	<span class="hl-attribute">If</span> <span class="hl-attribute">there</span> <span class="hl-attribute">is</span> <span class="hl-attribute">more</span> <span class="hl-attribute">than</span> <span class="hl-attribute">one,</span> <span class="hl-attribute">a</span> <span class="hl-attribute">fatal</span> <span class="hl-attribute">error</span> <span class="hl-attribute">is</span> <span class="hl-attribute">raised,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">you</span> <span class="hl-attribute">can't</span> <span class="hl-attribute">use</span> <span class="hl-attribute">byType</span>
+	<span class="hl-attribute">autowiring</span> <span class="hl-attribute">for</span> <span class="hl-attribute">that</span> <span class="hl-attribute">bean.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">there</span> <span class="hl-attribute">is</span> <span class="hl-attribute">none,</span> <span class="hl-attribute">nothing</span> <span class="hl-attribute">special</span> <span class="hl-attribute">happens;</span>
+	<span class="hl-attribute">use</span> <span class="hl-attribute">dependency-check</span>=<span class="hl-value">"objects"</span> <span class="hl-attribute">to</span> <span class="hl-attribute">raise</span> <span class="hl-attribute">an</span> <span class="hl-attribute">error</span> <span class="hl-attribute">in</span> <span class="hl-attribute">that</span> <span class="hl-attribute">case.</span>
+
+	<span class="hl-attribute">4.</span> <span class="hl-attribute">"constructor"</span>
+	<span class="hl-attribute">Analogous</span> <span class="hl-attribute">to</span> <span class="hl-attribute">"byType"</span> <span class="hl-attribute">for</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">arguments.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">there</span> <span class="hl-attribute">isn't</span> <span class="hl-attribute">exactly</span> <span class="hl-attribute">one</span> <span class="hl-attribute">bean</span>
+	<span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">argument</span> <span class="hl-attribute">type</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory,</span> <span class="hl-attribute">a</span> <span class="hl-attribute">fatal</span> <span class="hl-attribute">error</span> <span class="hl-attribute">is</span> <span class="hl-attribute">raised.</span>
+
+	<span class="hl-attribute">5.</span> <span class="hl-attribute">"autodetect"</span>
+	<span class="hl-attribute">Chooses</span> <span class="hl-attribute">"constructor"</span> <span class="hl-attribute">or</span> <span class="hl-attribute">"byType"</span> <span class="hl-attribute">through</span> <span class="hl-attribute">introspection</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">class.</span>
+	<span class="hl-attribute">If</span> <span class="hl-attribute">a</span> <span class="hl-attribute">default</span> <span class="hl-attribute">no-arg</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">is</span> <span class="hl-attribute">found,</span> <span class="hl-attribute">"byType"</span> <span class="hl-attribute">gets</span> <span class="hl-attribute">applied.</span>
+
+	<span class="hl-attribute">The</span> <span class="hl-attribute">latter</span> <span class="hl-attribute">two</span> <span class="hl-attribute">are</span> <span class="hl-attribute">similar</span> <span class="hl-attribute">to</span> <span class="hl-attribute">PicoContainer</span> <span class="hl-attribute">and</span> <span class="hl-attribute">make</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factories</span> <span class="hl-attribute">simple</span> <span class="hl-attribute">to</span>
+	<span class="hl-attribute">configure</span> <span class="hl-attribute">for</span> <span class="hl-attribute">small</span> <span class="hl-attribute">namespaces,</span> <span class="hl-attribute">but</span> <span class="hl-attribute">doesn't</span> <span class="hl-attribute">work</span> <span class="hl-attribute">as</span> <span class="hl-attribute">well</span> <span class="hl-attribute">as</span> <span class="hl-attribute">standard</span> <span class="hl-attribute">Spring</span>
+	<span class="hl-attribute">behaviour</span> <span class="hl-attribute">for</span> <span class="hl-attribute">bigger</span> <span class="hl-attribute">applications.</span>
+
+	<span class="hl-attribute">Note</span> <span class="hl-attribute">that</span> <span class="hl-attribute">explicit</span> <span class="hl-attribute">dependencies,</span> <span class="hl-attribute">i.e.</span> <span class="hl-attribute">"property"</span> <span class="hl-attribute">and</span> <span class="hl-attribute">"constructor-arg"</span> <span class="hl-attribute">elements,</span>
+	<span class="hl-attribute">always</span> <span class="hl-attribute">override</span> <span class="hl-attribute">autowiring.</span> <span class="hl-attribute">Autowire</span> <span class="hl-attribute">behavior</span> <span class="hl-attribute">can</span> <span class="hl-attribute">be</span> <span class="hl-attribute">combined</span> <span class="hl-attribute">with</span> <span class="hl-attribute">dependency</span>
+	<span class="hl-attribute">checking,</span> <span class="hl-attribute">which</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">performed</span> <span class="hl-attribute">after</span> <span class="hl-attribute">all</span> <span class="hl-attribute">autowiring</span> <span class="hl-attribute">has</span> <span class="hl-attribute">been</span> <span class="hl-attribute">completed.</span>
+
+	<span class="hl-attribute">Note:</span> <span class="hl-attribute">This</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">will</span> <span class="hl-attribute">not</span> <span class="hl-attribute">be</span> <span class="hl-attribute">inherited</span> <span class="hl-attribute">by</span> <span class="hl-attribute">child</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definitions.</span>
+	<span class="hl-attribute">Hence,</span> <span class="hl-attribute">it</span> <span class="hl-attribute">needs</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">specified</span> <span class="hl-attribute">per</span> <span class="hl-attribute">concrete</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">autowire</span> <span class="hl-attribute">(no</span> <span class="hl-attribute">|</span> <span class="hl-attribute">byName</span> <span class="hl-attribute">|</span> <span class="hl-attribute">byType</span> <span class="hl-attribute">|</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">|</span> <span class="hl-attribute">autodetect</span> <span class="hl-attribute">|</span> <span class="hl-attribute">default)</span> <span class="hl-attribute">"default"&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Optional</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">controlling</span> <span class="hl-attribute">whether</span> <span class="hl-attribute">to</span> <span class="hl-attribute">check</span> <span class="hl-attribute">whether</span> <span class="hl-attribute">all</span> <span class="hl-attribute">this</span>
+	<span class="hl-attribute">beans</span> <span class="hl-attribute">dependencies,</span> <span class="hl-attribute">expressed</span> <span class="hl-attribute">in</span> <span class="hl-attribute">its</span> <span class="hl-attribute">properties,</span> <span class="hl-attribute">are</span> <span class="hl-attribute">satisfied.</span>
+	<span class="hl-attribute">Default</span> <span class="hl-attribute">is</span> <span class="hl-attribute">no</span> <span class="hl-attribute">dependency</span> <span class="hl-attribute">checking.</span>
+
+	<span class="hl-attribute">"simple"</span> <span class="hl-attribute">type</span> <span class="hl-attribute">dependency</span> <span class="hl-attribute">checking</span> <span class="hl-attribute">includes</span> <span class="hl-attribute">primitives</span> <span class="hl-attribute">and</span> <span class="hl-attribute">String;</span>
+	<span class="hl-attribute">"objects"</span> <span class="hl-attribute">includes</span> <span class="hl-attribute">collaborators</span> <span class="hl-attribute">(other</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">factory);</span>
+	<span class="hl-attribute">"all"</span> <span class="hl-attribute">includes</span> <span class="hl-attribute">both</span> <span class="hl-attribute">types</span> <span class="hl-attribute">of</span> <span class="hl-attribute">dependency</span> <span class="hl-attribute">checking.</span>
+
+	<span class="hl-attribute">Note:</span> <span class="hl-attribute">This</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">will</span> <span class="hl-attribute">not</span> <span class="hl-attribute">be</span> <span class="hl-attribute">inherited</span> <span class="hl-attribute">by</span> <span class="hl-attribute">child</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definitions.</span>
+	<span class="hl-attribute">Hence,</span> <span class="hl-attribute">it</span> <span class="hl-attribute">needs</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">specified</span> <span class="hl-attribute">per</span> <span class="hl-attribute">concrete</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">dependency-check</span> <span class="hl-attribute">(none</span> <span class="hl-attribute">|</span> <span class="hl-attribute">objects</span> <span class="hl-attribute">|</span> <span class="hl-attribute">simple</span> <span class="hl-attribute">|</span> <span class="hl-attribute">all</span> <span class="hl-attribute">|</span> <span class="hl-attribute">default)</span> <span class="hl-attribute">"default"&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">names</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">that</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">depends</span> <span class="hl-attribute">on</span> <span class="hl-attribute">being</span> <span class="hl-attribute">initialized.</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">will</span> <span class="hl-attribute">guarantee</span> <span class="hl-attribute">that</span> <span class="hl-attribute">these</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">get</span> <span class="hl-attribute">initialized</span> <span class="hl-attribute">before.</span>
+
+	<span class="hl-attribute">Note</span> <span class="hl-attribute">that</span> <span class="hl-attribute">dependencies</span> <span class="hl-attribute">are</span> <span class="hl-attribute">normally</span> <span class="hl-attribute">expressed</span> <span class="hl-attribute">through</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">properties</span> <span class="hl-attribute">or</span>
+	<span class="hl-attribute">constructor</span> <span class="hl-attribute">arguments.</span> <span class="hl-attribute">This</span> <span class="hl-attribute">property</span> <span class="hl-attribute">should</span> <span class="hl-attribute">just</span> <span class="hl-attribute">be</span> <span class="hl-attribute">necessary</span> <span class="hl-attribute">for</span> <span class="hl-attribute">other</span> <span class="hl-attribute">kinds</span>
+	<span class="hl-attribute">of</span> <span class="hl-attribute">dependencies</span> <span class="hl-attribute">like</span> <span class="hl-attribute">statics</span> <span class="hl-attribute">(*ugh*)</span> <span class="hl-attribute">or</span> <span class="hl-attribute">database</span> <span class="hl-attribute">preparation</span> <span class="hl-attribute">on</span> <span class="hl-attribute">startup.</span>
+
+	<span class="hl-attribute">Note:</span> <span class="hl-attribute">This</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">will</span> <span class="hl-attribute">not</span> <span class="hl-attribute">be</span> <span class="hl-attribute">inherited</span> <span class="hl-attribute">by</span> <span class="hl-attribute">child</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definitions.</span>
+	<span class="hl-attribute">Hence,</span> <span class="hl-attribute">it</span> <span class="hl-attribute">needs</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">specified</span> <span class="hl-attribute">per</span> <span class="hl-attribute">concrete</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">definition.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">depends-on</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Optional</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">custom</span> <span class="hl-attribute">initialization</span> <span class="hl-attribute">method</span>
+	<span class="hl-attribute">to</span> <span class="hl-attribute">invoke</span> <span class="hl-attribute">after</span> <span class="hl-attribute">setting</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">properties.</span> <span class="hl-attribute">The</span> <span class="hl-attribute">method</span> <span class="hl-attribute">must</span> <span class="hl-attribute">have</span> <span class="hl-attribute">no</span> <span class="hl-attribute">arguments,</span>
+	<span class="hl-attribute">but</span> <span class="hl-attribute">may</span> <span class="hl-attribute">throw</span> <span class="hl-attribute">any</span> <span class="hl-attribute">exception.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">init-method</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Optional</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">custom</span> <span class="hl-attribute">destroy</span> <span class="hl-attribute">method</span> <span class="hl-attribute">to</span> <span class="hl-attribute">invoke</span>
+	<span class="hl-attribute">on</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">shutdown.</span> <span class="hl-attribute">The</span> <span class="hl-attribute">method</span> <span class="hl-attribute">must</span> <span class="hl-attribute">have</span> <span class="hl-attribute">no</span> <span class="hl-attribute">arguments,</span>
+	<span class="hl-attribute">but</span> <span class="hl-attribute">may</span> <span class="hl-attribute">throw</span> <span class="hl-attribute">any</span> <span class="hl-attribute">exception.</span>
+
+	<span class="hl-attribute">Note:</span> <span class="hl-attribute">Only</span> <span class="hl-attribute">invoked</span> <span class="hl-attribute">on</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">whose</span> <span class="hl-attribute">lifecycle</span> <span class="hl-attribute">is</span> <span class="hl-attribute">under</span> <span class="hl-attribute">full</span> <span class="hl-attribute">control</span>
+	<span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">-</span> <span class="hl-attribute">which</span> <span class="hl-attribute">is</span> <span class="hl-attribute">always</span> <span class="hl-attribute">the</span> <span class="hl-attribute">case</span> <span class="hl-attribute">for</span> <span class="hl-attribute">singletons,</span> <span class="hl-attribute">but</span> <span class="hl-attribute">not</span>
+	<span class="hl-attribute">guaranteed</span> <span class="hl-attribute">for</span> <span class="hl-attribute">any</span> <span class="hl-attribute">other</span> <span class="hl-attribute">scope.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">destroy-method</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Optional</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">specifying</span> <span class="hl-attribute">the</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">a</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">method</span> <span class="hl-attribute">to</span> <span class="hl-attribute">use</span> <span class="hl-attribute">to</span>
+	<span class="hl-attribute">create</span> <span class="hl-attribute">this</span> <span class="hl-attribute">object.</span> <span class="hl-attribute">Use</span> <span class="hl-attribute">constructor-arg</span> <span class="hl-attribute">elements</span> <span class="hl-attribute">to</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">arguments</span>
+	<span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">method,</span> <span class="hl-attribute">if</span> <span class="hl-attribute">it</span> <span class="hl-attribute">takes</span> <span class="hl-attribute">arguments.</span> <span class="hl-attribute">Autowiring</span> <span class="hl-attribute">does</span> <span class="hl-attribute">not</span> <span class="hl-attribute">apply</span>
+	<span class="hl-attribute">to</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">methods.</span>
+
+	<span class="hl-attribute">If</span> <span class="hl-attribute">the</span> <span class="hl-attribute">"class"</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">is</span> <span class="hl-attribute">present,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">method</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">a</span> <span class="hl-attribute">static</span>
+	<span class="hl-attribute">method</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">class</span> <span class="hl-attribute">specified</span> <span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">"class"</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">on</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bean</span>
+	<span class="hl-attribute">definition.</span> <span class="hl-attribute">Often</span> <span class="hl-attribute">this</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">the</span> <span class="hl-attribute">same</span> <span class="hl-attribute">class</span> <span class="hl-attribute">as</span> <span class="hl-attribute">that</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">constructed</span>
+	<span class="hl-attribute">object</span> <span class="hl-attribute">-</span> <span class="hl-attribute">for</span> <span class="hl-attribute">example,</span> <span class="hl-attribute">when</span> <span class="hl-attribute">the</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">method</span> <span class="hl-attribute">is</span> <span class="hl-attribute">used</span> <span class="hl-attribute">as</span> <span class="hl-attribute">an</span> <span class="hl-attribute">alternative</span>
+	<span class="hl-attribute">to</span> <span class="hl-attribute">a</span> <span class="hl-attribute">constructor.</span> <span class="hl-attribute">However,</span> <span class="hl-attribute">it</span> <span class="hl-attribute">may</span> <span class="hl-attribute">be</span> <span class="hl-attribute">on</span> <span class="hl-attribute">a</span> <span class="hl-attribute">different</span> <span class="hl-attribute">class.</span> <span class="hl-attribute">In</span> <span class="hl-attribute">that</span> <span class="hl-attribute">case,</span>
+	<span class="hl-attribute">the</span> <span class="hl-attribute">created</span> <span class="hl-attribute">object</span> <span class="hl-attribute">will</span> <span class="hl-attribute">*not*</span> <span class="hl-attribute">be</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">class</span> <span class="hl-attribute">specified</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">"class"</span>
+	<span class="hl-attribute">attribute.</span> <span class="hl-attribute">This</span> <span class="hl-attribute">is</span> <span class="hl-attribute">analogous</span> <span class="hl-attribute">to</span> <span class="hl-attribute">FactoryBean</span> <span class="hl-attribute">behavior.</span>
+
+	<span class="hl-attribute">If</span> <span class="hl-attribute">the</span> <span class="hl-attribute">"factory-bean"</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">is</span> <span class="hl-attribute">present,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">"class"</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">is</span> <span class="hl-attribute">not</span>
+	<span class="hl-attribute">used,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">the</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">method</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">an</span> <span class="hl-attribute">instance</span> <span class="hl-attribute">method</span> <span class="hl-attribute">on</span> <span class="hl-attribute">the</span> <span class="hl-attribute">object</span>
+	<span class="hl-attribute">returned</span> <span class="hl-attribute">from</span> <span class="hl-attribute">a</span> <span class="hl-attribute">getBean</span> <span class="hl-attribute">call</span> <span class="hl-attribute">with</span> <span class="hl-attribute">the</span> <span class="hl-attribute">specified</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">name.</span> <span class="hl-attribute">The</span> <span class="hl-attribute">factory</span>
+	<span class="hl-attribute">bean</span> <span class="hl-attribute">may</span> <span class="hl-attribute">be</span> <span class="hl-attribute">defined</span> <span class="hl-attribute">as</span> <span class="hl-attribute">a</span> <span class="hl-attribute">singleton</span> <span class="hl-attribute">or</span> <span class="hl-attribute">a</span> <span class="hl-attribute">prototype.</span>
+
+	<span class="hl-attribute">The</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">method</span> <span class="hl-attribute">can</span> <span class="hl-attribute">have</span> <span class="hl-attribute">any</span> <span class="hl-attribute">number</span> <span class="hl-attribute">of</span> <span class="hl-attribute">arguments.</span> <span class="hl-attribute">Autowiring</span> <span class="hl-attribute">is</span> <span class="hl-attribute">not</span>
+	<span class="hl-attribute">supported.</span> <span class="hl-attribute">Use</span> <span class="hl-attribute">indexed</span> <span class="hl-attribute">constructor-arg</span> <span class="hl-attribute">elements</span> <span class="hl-attribute">in</span> <span class="hl-attribute">conjunction</span> <span class="hl-attribute">with</span> <span class="hl-attribute">the</span>
+	<span class="hl-attribute">factory-method</span> <span class="hl-attribute">attribute.</span>
+
+	<span class="hl-attribute">Setter</span> <span class="hl-attribute">Injection</span> <span class="hl-attribute">can</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">in</span> <span class="hl-attribute">conjunction</span> <span class="hl-attribute">with</span> <span class="hl-attribute">a</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">method.</span>
+	<span class="hl-attribute">Method</span> <span class="hl-attribute">Injection</span> <span class="hl-attribute">cannot,</span> <span class="hl-attribute">as</span> <span class="hl-attribute">the</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">method</span> <span class="hl-attribute">returns</span> <span class="hl-attribute">an</span> <span class="hl-attribute">instance,</span>
+	<span class="hl-attribute">which</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">when</span> <span class="hl-attribute">the</span> <span class="hl-attribute">container</span> <span class="hl-attribute">creates</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory-method</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Alternative</span> <span class="hl-attribute">to</span> <span class="hl-attribute">class</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">for</span> <span class="hl-attribute">factory-method</span> <span class="hl-attribute">usage.</span>
+	<span class="hl-attribute">If</span> <span class="hl-attribute">this</span> <span class="hl-attribute">is</span> <span class="hl-attribute">specified,</span> <span class="hl-attribute">no</span> <span class="hl-attribute">class</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">should</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used.</span>
+	<span class="hl-attribute">This</span> <span class="hl-attribute">should</span> <span class="hl-attribute">be</span> <span class="hl-attribute">set</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">a</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">current</span> <span class="hl-attribute">or</span>
+	<span class="hl-attribute">ancestor</span> <span class="hl-attribute">factories</span> <span class="hl-attribute">that</span> <span class="hl-attribute">contains</span> <span class="hl-attribute">the</span> <span class="hl-attribute">relevant</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">method.</span>
+	<span class="hl-attribute">This</span> <span class="hl-attribute">allows</span> <span class="hl-attribute">the</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">itself</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">configured</span> <span class="hl-attribute">using</span> <span class="hl-attribute">Dependency</span>
+	<span class="hl-attribute">Injection,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">an</span> <span class="hl-attribute">instance</span> <span class="hl-attribute">(rather</span> <span class="hl-attribute">than</span> <span class="hl-attribute">static)</span> <span class="hl-attribute">method</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory-bean</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Bean</span> <span class="hl-attribute">definitions</span> <span class="hl-attribute">can</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">zero</span> <span class="hl-attribute">or</span> <span class="hl-attribute">more</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">arguments.</span>
+	<span class="hl-attribute">This</span> <span class="hl-attribute">is</span> <span class="hl-attribute">an</span> <span class="hl-attribute">alternative</span> <span class="hl-attribute">to</span> <span class="hl-attribute">"autowire</span> <span class="hl-attribute">constructor".</span>
+	<span class="hl-attribute">Arguments</span> <span class="hl-attribute">correspond</span> <span class="hl-attribute">to</span> <span class="hl-attribute">either</span> <span class="hl-attribute">a</span> <span class="hl-attribute">specific</span> <span class="hl-attribute">index</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">argument</span>
+	<span class="hl-attribute">list</span> <span class="hl-attribute">or</span> <span class="hl-attribute">are</span> <span class="hl-attribute">supposed</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">matched</span> <span class="hl-attribute">generically</span> <span class="hl-attribute">by</span> <span class="hl-attribute">type.</span>
+
+	<span class="hl-attribute">Note:</span> <span class="hl-attribute">A</span> <span class="hl-attribute">single</span> <span class="hl-attribute">generic</span> <span class="hl-attribute">argument</span> <span class="hl-attribute">value</span> <span class="hl-attribute">will</span> <span class="hl-attribute">just</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">once,</span> <span class="hl-attribute">rather</span> <span class="hl-attribute">than</span>
+	<span class="hl-attribute">potentially</span> <span class="hl-attribute">matched</span> <span class="hl-attribute">multiple</span> <span class="hl-attribute">times</span> <span class="hl-attribute">(as</span> <span class="hl-attribute">of</span> <span class="hl-attribute">Spring</span> <span class="hl-attribute">1.1).</span>
+
+	<span class="hl-attribute">constructor-arg</span> <span class="hl-attribute">elements</span> <span class="hl-attribute">are</span> <span class="hl-attribute">also</span> <span class="hl-attribute">used</span> <span class="hl-attribute">in</span> <span class="hl-attribute">conjunction</span> <span class="hl-attribute">with</span> <span class="hl-attribute">the</span> <span class="hl-attribute">factory-method</span>
+	<span class="hl-attribute">element</span> <span class="hl-attribute">to</span> <span class="hl-attribute">construct</span> <span class="hl-attribute">beans</span> <span class="hl-attribute">using</span> <span class="hl-attribute">static</span> <span class="hl-attribute">or</span> <span class="hl-attribute">instance</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">methods.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">constructor-arg</span> <span class="hl-attribute">(</span>
+	<span class="hl-attribute">description?,</span>
+	<span class="hl-attribute">(bean</span> <span class="hl-attribute">|</span> <span class="hl-attribute">ref</span> <span class="hl-attribute">|</span> <span class="hl-attribute">idref</span> <span class="hl-attribute">|</span> <span class="hl-attribute">value</span> <span class="hl-attribute">|</span> <span class="hl-attribute">null</span> <span class="hl-attribute">|</span> <span class="hl-attribute">list</span> <span class="hl-attribute">|</span> <span class="hl-attribute">set</span> <span class="hl-attribute">|</span> <span class="hl-attribute">map</span> <span class="hl-attribute">|</span> <span class="hl-attribute">props)?</span>
+<span class="hl-attribute">)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">constructor-arg</span> <span class="hl-attribute">tag</span> <span class="hl-attribute">can</span> <span class="hl-attribute">have</span> <span class="hl-attribute">an</span> <span class="hl-attribute">optional</span> <span class="hl-attribute">index</span> <span class="hl-attribute">attribute,</span>
+	<span class="hl-attribute">to</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">the</span> <span class="hl-attribute">exact</span> <span class="hl-attribute">index</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">argument</span> <span class="hl-attribute">list.</span> <span class="hl-attribute">Only</span> <span class="hl-attribute">needed</span>
+	<span class="hl-attribute">to</span> <span class="hl-attribute">avoid</span> <span class="hl-attribute">ambiguities,</span> <span class="hl-attribute">e.g.</span> <span class="hl-attribute">in</span> <span class="hl-attribute">case</span> <span class="hl-attribute">of</span> <span class="hl-attribute">2</span> <span class="hl-attribute">arguments</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">same</span> <span class="hl-attribute">type.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">constructor-arg</span> <span class="hl-attribute">index</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">constructor-arg</span> <span class="hl-attribute">tag</span> <span class="hl-attribute">can</span> <span class="hl-attribute">have</span> <span class="hl-attribute">an</span> <span class="hl-attribute">optional</span> <span class="hl-attribute">type</span> <span class="hl-attribute">attribute,</span>
+	<span class="hl-attribute">to</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">the</span> <span class="hl-attribute">exact</span> <span class="hl-attribute">type</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">argument.</span> <span class="hl-attribute">Only</span> <span class="hl-attribute">needed</span>
+	<span class="hl-attribute">to</span> <span class="hl-attribute">avoid</span> <span class="hl-attribute">ambiguities,</span> <span class="hl-attribute">e.g.</span> <span class="hl-attribute">in</span> <span class="hl-attribute">case</span> <span class="hl-attribute">of</span> <span class="hl-attribute">2</span> <span class="hl-attribute">single</span> <span class="hl-attribute">argument</span> <span class="hl-attribute">constructors</span>
+	<span class="hl-attribute">that</span> <span class="hl-attribute">can</span> <span class="hl-attribute">both</span> <span class="hl-attribute">be</span> <span class="hl-attribute">converted</span> <span class="hl-attribute">from</span> <span class="hl-attribute">a</span> <span class="hl-attribute">String.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">constructor-arg</span> <span class="hl-attribute">type</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+  <span class="hl-attribute">A</span> <span class="hl-attribute">short-cut</span> <span class="hl-attribute">alternative</span> <span class="hl-attribute">to</span> <span class="hl-attribute">a</span> <span class="hl-attribute">child</span> <span class="hl-attribute">element</span> <span class="hl-attribute">"ref</span> <span class="hl-attribute">bean</span>=<span class="hl-value">".
+--&gt;
+&lt;!ATTLIST constructor-arg ref CDATA #IMPLIED&gt;
+
+&lt;!--
+  A short-cut alternative to a child element "</span><span class="hl-attribute">value".</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">constructor-arg</span> <span class="hl-attribute">value</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Bean</span> <span class="hl-attribute">definitions</span> <span class="hl-attribute">can</span> <span class="hl-attribute">have</span> <span class="hl-attribute">zero</span> <span class="hl-attribute">or</span> <span class="hl-attribute">more</span> <span class="hl-attribute">properties.</span>
+	<span class="hl-attribute">Property</span> <span class="hl-attribute">elements</span> <span class="hl-attribute">correspond</span> <span class="hl-attribute">to</span> <span class="hl-attribute">JavaBean</span> <span class="hl-attribute">setter</span> <span class="hl-attribute">methods</span> <span class="hl-attribute">exposed</span>
+	<span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">classes.</span> <span class="hl-attribute">Spring</span> <span class="hl-attribute">supports</span> <span class="hl-attribute">primitives,</span> <span class="hl-attribute">references</span> <span class="hl-attribute">to</span> <span class="hl-attribute">other</span>
+	<span class="hl-attribute">beans</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">same</span> <span class="hl-attribute">or</span> <span class="hl-attribute">related</span> <span class="hl-attribute">factories,</span> <span class="hl-attribute">lists,</span> <span class="hl-attribute">maps</span> <span class="hl-attribute">and</span> <span class="hl-attribute">properties.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">property</span> <span class="hl-attribute">(</span>
+	<span class="hl-attribute">description?,</span> <span class="hl-attribute">meta*,</span>
+	<span class="hl-attribute">(bean</span> <span class="hl-attribute">|</span> <span class="hl-attribute">ref</span> <span class="hl-attribute">|</span> <span class="hl-attribute">idref</span> <span class="hl-attribute">|</span> <span class="hl-attribute">value</span> <span class="hl-attribute">|</span> <span class="hl-attribute">null</span> <span class="hl-attribute">|</span> <span class="hl-attribute">list</span> <span class="hl-attribute">|</span> <span class="hl-attribute">set</span> <span class="hl-attribute">|</span> <span class="hl-attribute">map</span> <span class="hl-attribute">|</span> <span class="hl-attribute">props)?</span>
+<span class="hl-attribute">)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">property</span> <span class="hl-attribute">name</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">is</span> <span class="hl-attribute">the</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">JavaBean</span> <span class="hl-attribute">property.</span>
+	<span class="hl-attribute">This</span> <span class="hl-attribute">follows</span> <span class="hl-attribute">JavaBean</span> <span class="hl-attribute">conventions:</span> <span class="hl-attribute">a</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">"age"</span> <span class="hl-attribute">would</span> <span class="hl-attribute">correspond</span>
+	<span class="hl-attribute">to</span> <span class="hl-attribute">setAge()/optional</span> <span class="hl-attribute">getAge()</span> <span class="hl-attribute">methods.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">property</span> <span class="hl-attribute">name</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#REQUIRED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+  <span class="hl-attribute">A</span> <span class="hl-attribute">short-cut</span> <span class="hl-attribute">alternative</span> <span class="hl-attribute">to</span> <span class="hl-attribute">a</span> <span class="hl-attribute">child</span> <span class="hl-attribute">element</span> <span class="hl-attribute">"ref</span> <span class="hl-attribute">bean</span>=<span class="hl-value">".
+--&gt;
+&lt;!ATTLIST property ref CDATA #IMPLIED&gt;
+
+&lt;!--
+  A short-cut alternative to a child element "</span><span class="hl-attribute">value".</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">property</span> <span class="hl-attribute">value</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">A</span> <span class="hl-attribute">lookup</span> <span class="hl-attribute">method</span> <span class="hl-attribute">causes</span> <span class="hl-attribute">the</span> <span class="hl-attribute">IoC</span> <span class="hl-attribute">container</span> <span class="hl-attribute">to</span> <span class="hl-attribute">override</span> <span class="hl-attribute">the</span> <span class="hl-attribute">given</span> <span class="hl-attribute">method</span> <span class="hl-attribute">and</span> <span class="hl-attribute">return</span>
+	<span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">with</span> <span class="hl-attribute">the</span> <span class="hl-attribute">name</span> <span class="hl-attribute">given</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">attribute.</span> <span class="hl-attribute">This</span> <span class="hl-attribute">is</span> <span class="hl-attribute">a</span> <span class="hl-attribute">form</span> <span class="hl-attribute">of</span> <span class="hl-attribute">Method</span> <span class="hl-attribute">Injection.</span>
+	<span class="hl-attribute">It's</span> <span class="hl-attribute">particularly</span> <span class="hl-attribute">useful</span> <span class="hl-attribute">as</span> <span class="hl-attribute">an</span> <span class="hl-attribute">alternative</span> <span class="hl-attribute">to</span> <span class="hl-attribute">implementing</span> <span class="hl-attribute">the</span> <span class="hl-attribute">BeanFactoryAware</span>
+	<span class="hl-attribute">interface,</span> <span class="hl-attribute">in</span> <span class="hl-attribute">order</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">able</span> <span class="hl-attribute">to</span> <span class="hl-attribute">make</span> <span class="hl-attribute">getBean()</span> <span class="hl-attribute">calls</span> <span class="hl-attribute">for</span> <span class="hl-attribute">non-singleton</span> <span class="hl-attribute">instances</span>
+	<span class="hl-attribute">at</span> <span class="hl-attribute">runtime.</span> <span class="hl-attribute">In</span> <span class="hl-attribute">this</span> <span class="hl-attribute">case,</span> <span class="hl-attribute">Method</span> <span class="hl-attribute">Injection</span> <span class="hl-attribute">is</span> <span class="hl-attribute">a</span> <span class="hl-attribute">less</span> <span class="hl-attribute">invasive</span> <span class="hl-attribute">alternative.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">lookup-method</span> <span class="hl-attribute">EMPTY&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">a</span> <span class="hl-attribute">lookup</span> <span class="hl-attribute">method.</span> <span class="hl-attribute">This</span> <span class="hl-attribute">method</span> <span class="hl-attribute">should</span> <span class="hl-attribute">take</span> <span class="hl-attribute">no</span> <span class="hl-attribute">arguments.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">lookup-method</span> <span class="hl-attribute">name</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">current</span> <span class="hl-attribute">or</span> <span class="hl-attribute">ancestor</span> <span class="hl-attribute">factories</span> <span class="hl-attribute">that</span> <span class="hl-attribute">the</span> <span class="hl-attribute">lookup</span> <span class="hl-attribute">method</span>
+	<span class="hl-attribute">should</span> <span class="hl-attribute">resolve</span> <span class="hl-attribute">to.</span> <span class="hl-attribute">Often</span> <span class="hl-attribute">this</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">a</span> <span class="hl-attribute">prototype,</span> <span class="hl-attribute">in</span> <span class="hl-attribute">which</span> <span class="hl-attribute">case</span> <span class="hl-attribute">the</span>
+	<span class="hl-attribute">lookup</span> <span class="hl-attribute">method</span> <span class="hl-attribute">will</span> <span class="hl-attribute">return</span> <span class="hl-attribute">a</span> <span class="hl-attribute">distinct</span> <span class="hl-attribute">instance</span> <span class="hl-attribute">on</span> <span class="hl-attribute">every</span> <span class="hl-attribute">invocation.</span> <span class="hl-attribute">This</span>
+	<span class="hl-attribute">is</span> <span class="hl-attribute">useful</span> <span class="hl-attribute">for</span> <span class="hl-attribute">single-threaded</span> <span class="hl-attribute">objects.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">lookup-method</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Similar</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">lookup</span> <span class="hl-attribute">method</span> <span class="hl-attribute">mechanism,</span> <span class="hl-attribute">the</span> <span class="hl-attribute">replaced-method</span> <span class="hl-attribute">element</span> <span class="hl-attribute">is</span> <span class="hl-attribute">used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">control</span>
+	<span class="hl-attribute">IoC</span> <span class="hl-attribute">container</span> <span class="hl-attribute">method</span> <span class="hl-attribute">overriding:</span> <span class="hl-attribute">Method</span> <span class="hl-attribute">Injection.</span> <span class="hl-attribute">This</span> <span class="hl-attribute">mechanism</span> <span class="hl-attribute">allows</span> <span class="hl-attribute">the</span> <span class="hl-attribute">overriding</span>
+	<span class="hl-attribute">of</span> <span class="hl-attribute">a</span> <span class="hl-attribute">method</span> <span class="hl-attribute">with</span> <span class="hl-attribute">arbitrary</span> <span class="hl-attribute">code.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">replaced-method</span> <span class="hl-attribute">(</span>
+	<span class="hl-attribute">(arg-type)*</span>
+<span class="hl-attribute">)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">method</span> <span class="hl-attribute">whose</span> <span class="hl-attribute">implementation</span> <span class="hl-attribute">should</span> <span class="hl-attribute">be</span> <span class="hl-attribute">replaced</span> <span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">IoC</span> <span class="hl-attribute">container.</span>
+	<span class="hl-attribute">If</span> <span class="hl-attribute">this</span> <span class="hl-attribute">method</span> <span class="hl-attribute">is</span> <span class="hl-attribute">not</span> <span class="hl-attribute">overloaded,</span> <span class="hl-attribute">there's</span> <span class="hl-attribute">no</span> <span class="hl-attribute">need</span> <span class="hl-attribute">to</span> <span class="hl-attribute">use</span> <span class="hl-attribute">arg-type</span> <span class="hl-attribute">subelements.</span>
+	<span class="hl-attribute">If</span> <span class="hl-attribute">this</span> <span class="hl-attribute">method</span> <span class="hl-attribute">is</span> <span class="hl-attribute">overloaded,</span> <span class="hl-attribute">arg-type</span> <span class="hl-attribute">subelements</span> <span class="hl-attribute">must</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">for</span> <span class="hl-attribute">all</span>
+	<span class="hl-attribute">override</span> <span class="hl-attribute">definitions</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">method.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">replaced-method</span> <span class="hl-attribute">name</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Bean</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">an</span> <span class="hl-attribute">implementation</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">MethodReplacer</span> <span class="hl-attribute">interface</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">current</span>
+	<span class="hl-attribute">or</span> <span class="hl-attribute">ancestor</span> <span class="hl-attribute">factories.</span> <span class="hl-attribute">This</span> <span class="hl-attribute">may</span> <span class="hl-attribute">be</span> <span class="hl-attribute">a</span> <span class="hl-attribute">singleton</span> <span class="hl-attribute">or</span> <span class="hl-attribute">prototype</span> <span class="hl-attribute">bean.</span> <span class="hl-attribute">If</span> <span class="hl-attribute">it's</span>
+	<span class="hl-attribute">a</span> <span class="hl-attribute">prototype,</span> <span class="hl-attribute">a</span> <span class="hl-attribute">new</span> <span class="hl-attribute">instance</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">for</span> <span class="hl-attribute">each</span> <span class="hl-attribute">method</span> <span class="hl-attribute">replacement.</span>
+	<span class="hl-attribute">Singleton</span> <span class="hl-attribute">usage</span> <span class="hl-attribute">is</span> <span class="hl-attribute">the</span> <span class="hl-attribute">norm.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">replaced-method</span> <span class="hl-attribute">replacer</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Subelement</span> <span class="hl-attribute">of</span> <span class="hl-attribute">replaced-method</span> <span class="hl-attribute">identifying</span> <span class="hl-attribute">an</span> <span class="hl-attribute">argument</span> <span class="hl-attribute">for</span> <span class="hl-attribute">a</span> <span class="hl-attribute">replaced</span> <span class="hl-attribute">method</span>
+	<span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">event</span> <span class="hl-attribute">of</span> <span class="hl-attribute">method</span> <span class="hl-attribute">overloading.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">arg-type</span> <span class="hl-attribute">(#PCDATA)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Specification</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">type</span> <span class="hl-attribute">of</span> <span class="hl-attribute">an</span> <span class="hl-attribute">overloaded</span> <span class="hl-attribute">method</span> <span class="hl-attribute">argument</span> <span class="hl-attribute">as</span> <span class="hl-attribute">a</span> <span class="hl-attribute">String.</span>
+	<span class="hl-attribute">For</span> <span class="hl-attribute">convenience,</span> <span class="hl-attribute">this</span> <span class="hl-attribute">may</span> <span class="hl-attribute">be</span> <span class="hl-attribute">a</span> <span class="hl-attribute">substring</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">FQN.</span> <span class="hl-attribute">E.g.</span> <span class="hl-attribute">all</span> <span class="hl-attribute">the</span>
+	<span class="hl-attribute">following</span> <span class="hl-attribute">would</span> <span class="hl-attribute">match</span> <span class="hl-attribute">"java.lang.String":</span>
+	<span class="hl-attribute">-</span> <span class="hl-attribute">java.lang.String</span>
+	<span class="hl-attribute">-</span> <span class="hl-attribute">String</span>
+	<span class="hl-attribute">-</span> <span class="hl-attribute">Str</span>
+
+	<span class="hl-attribute">As</span> <span class="hl-attribute">the</span> <span class="hl-attribute">number</span> <span class="hl-attribute">of</span> <span class="hl-attribute">arguments</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">checked</span> <span class="hl-attribute">also,</span> <span class="hl-attribute">this</span> <span class="hl-attribute">convenience</span> <span class="hl-attribute">can</span> <span class="hl-attribute">often</span>
+	<span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">to</span> <span class="hl-attribute">save</span> <span class="hl-attribute">typing.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">arg-type</span> <span class="hl-attribute">match</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">to</span> <span class="hl-attribute">another</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">in</span> <span class="hl-attribute">this</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">or</span> <span class="hl-attribute">an</span> <span class="hl-attribute">external</span>
+	<span class="hl-attribute">factory</span> <span class="hl-attribute">(parent</span> <span class="hl-attribute">or</span> <span class="hl-attribute">included</span> <span class="hl-attribute">factory).</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">ref</span> <span class="hl-attribute">EMPTY&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">References</span> <span class="hl-attribute">must</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">a</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">target</span> <span class="hl-attribute">bean.</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">"bean"</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">can</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">any</span> <span class="hl-attribute">name</span> <span class="hl-attribute">from</span> <span class="hl-attribute">any</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">context,</span>
+	<span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">checked</span> <span class="hl-attribute">at</span> <span class="hl-attribute">runtime.</span>
+	<span class="hl-attribute">Local</span> <span class="hl-attribute">references,</span> <span class="hl-attribute">using</span> <span class="hl-attribute">the</span> <span class="hl-attribute">"local"</span> <span class="hl-attribute">attribute,</span> <span class="hl-attribute">have</span> <span class="hl-attribute">to</span> <span class="hl-attribute">use</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">ids;</span>
+	<span class="hl-attribute">they</span> <span class="hl-attribute">can</span> <span class="hl-attribute">be</span> <span class="hl-attribute">checked</span> <span class="hl-attribute">by</span> <span class="hl-attribute">this</span> <span class="hl-attribute">DTD,</span> <span class="hl-attribute">thus</span> <span class="hl-attribute">should</span> <span class="hl-attribute">be</span> <span class="hl-attribute">preferred</span> <span class="hl-attribute">for</span> <span class="hl-attribute">references</span>
+	<span class="hl-attribute">within</span> <span class="hl-attribute">the</span> <span class="hl-attribute">same</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">XML</span> <span class="hl-attribute">file.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">ref</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">ref</span> <span class="hl-attribute">local</span> <span class="hl-attribute">IDREF</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">ref</span> <span class="hl-attribute">parent</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Defines</span> <span class="hl-attribute">a</span> <span class="hl-attribute">string</span> <span class="hl-attribute">property</span> <span class="hl-attribute">value,</span> <span class="hl-attribute">which</span> <span class="hl-attribute">must</span> <span class="hl-attribute">also</span> <span class="hl-attribute">be</span> <span class="hl-attribute">the</span> <span class="hl-attribute">id</span> <span class="hl-attribute">of</span> <span class="hl-attribute">another</span>
+	<span class="hl-attribute">bean</span> <span class="hl-attribute">in</span> <span class="hl-attribute">this</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">or</span> <span class="hl-attribute">an</span> <span class="hl-attribute">external</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">(parent</span> <span class="hl-attribute">or</span> <span class="hl-attribute">included</span> <span class="hl-attribute">factory).</span>
+	<span class="hl-attribute">While</span> <span class="hl-attribute">a</span> <span class="hl-attribute">regular</span> <span class="hl-attribute">'value'</span> <span class="hl-attribute">element</span> <span class="hl-attribute">could</span> <span class="hl-attribute">instead</span> <span class="hl-attribute">be</span> <span class="hl-attribute">used</span> <span class="hl-attribute">for</span> <span class="hl-attribute">the</span> <span class="hl-attribute">same</span> <span class="hl-attribute">effect,</span>
+	<span class="hl-attribute">using</span> <span class="hl-attribute">idref</span> <span class="hl-attribute">in</span> <span class="hl-attribute">this</span> <span class="hl-attribute">case</span> <span class="hl-attribute">allows</span> <span class="hl-attribute">validation</span> <span class="hl-attribute">of</span> <span class="hl-attribute">local</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">ids</span> <span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">XML</span>
+	<span class="hl-attribute">parser,</span> <span class="hl-attribute">and</span> <span class="hl-attribute">name</span> <span class="hl-attribute">completion</span> <span class="hl-attribute">by</span> <span class="hl-attribute">supporting</span> <span class="hl-attribute">tools.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">idref</span> <span class="hl-attribute">EMPTY&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">ID</span> <span class="hl-attribute">refs</span> <span class="hl-attribute">must</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">a</span> <span class="hl-attribute">name</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">target</span> <span class="hl-attribute">bean.</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">"bean"</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">can</span> <span class="hl-attribute">reference</span> <span class="hl-attribute">any</span> <span class="hl-attribute">name</span> <span class="hl-attribute">from</span> <span class="hl-attribute">any</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">in</span> <span class="hl-attribute">the</span> <span class="hl-attribute">context,</span>
+	<span class="hl-attribute">potentially</span> <span class="hl-attribute">to</span> <span class="hl-attribute">be</span> <span class="hl-attribute">checked</span> <span class="hl-attribute">at</span> <span class="hl-attribute">runtime</span> <span class="hl-attribute">by</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">implementations.</span>
+	<span class="hl-attribute">Local</span> <span class="hl-attribute">references,</span> <span class="hl-attribute">using</span> <span class="hl-attribute">the</span> <span class="hl-attribute">"local"</span> <span class="hl-attribute">attribute,</span> <span class="hl-attribute">have</span> <span class="hl-attribute">to</span> <span class="hl-attribute">use</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">ids;</span>
+	<span class="hl-attribute">they</span> <span class="hl-attribute">can</span> <span class="hl-attribute">be</span> <span class="hl-attribute">checked</span> <span class="hl-attribute">by</span> <span class="hl-attribute">this</span> <span class="hl-attribute">DTD,</span> <span class="hl-attribute">thus</span> <span class="hl-attribute">should</span> <span class="hl-attribute">be</span> <span class="hl-attribute">preferred</span> <span class="hl-attribute">for</span> <span class="hl-attribute">references</span>
+	<span class="hl-attribute">within</span> <span class="hl-attribute">the</span> <span class="hl-attribute">same</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">factory</span> <span class="hl-attribute">XML</span> <span class="hl-attribute">file.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">idref</span> <span class="hl-attribute">bean</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">idref</span> <span class="hl-attribute">local</span> <span class="hl-attribute">IDREF</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Contains</span> <span class="hl-attribute">a</span> <span class="hl-attribute">string</span> <span class="hl-attribute">representation</span> <span class="hl-attribute">of</span> <span class="hl-attribute">a</span> <span class="hl-attribute">property</span> <span class="hl-attribute">value.</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">property</span> <span class="hl-attribute">may</span> <span class="hl-attribute">be</span> <span class="hl-attribute">a</span> <span class="hl-attribute">string,</span> <span class="hl-attribute">or</span> <span class="hl-attribute">may</span> <span class="hl-attribute">be</span> <span class="hl-attribute">converted</span> <span class="hl-attribute">to</span> <span class="hl-attribute">the</span> <span class="hl-attribute">required</span>
+	<span class="hl-attribute">type</span> <span class="hl-attribute">using</span> <span class="hl-attribute">the</span> <span class="hl-attribute">JavaBeans</span> <span class="hl-attribute">PropertyEditor</span> <span class="hl-attribute">machinery.</span> <span class="hl-attribute">This</span> <span class="hl-attribute">makes</span> <span class="hl-attribute">it</span>
+	<span class="hl-attribute">possible</span> <span class="hl-attribute">for</span> <span class="hl-attribute">application</span> <span class="hl-attribute">developers</span> <span class="hl-attribute">to</span> <span class="hl-attribute">write</span> <span class="hl-attribute">custom</span> <span class="hl-attribute">PropertyEditor</span>
+	<span class="hl-attribute">implementations</span> <span class="hl-attribute">that</span> <span class="hl-attribute">can</span> <span class="hl-attribute">convert</span> <span class="hl-attribute">strings</span> <span class="hl-attribute">to</span> <span class="hl-attribute">arbitrary</span> <span class="hl-attribute">target</span> <span class="hl-attribute">objects.</span>
+
+	<span class="hl-attribute">Note</span> <span class="hl-attribute">that</span> <span class="hl-attribute">this</span> <span class="hl-attribute">is</span> <span class="hl-attribute">recommended</span> <span class="hl-attribute">for</span> <span class="hl-attribute">simple</span> <span class="hl-attribute">objects</span> <span class="hl-attribute">only.</span>
+	<span class="hl-attribute">Configure</span> <span class="hl-attribute">more</span> <span class="hl-attribute">complex</span> <span class="hl-attribute">objects</span> <span class="hl-attribute">by</span> <span class="hl-attribute">populating</span> <span class="hl-attribute">JavaBean</span>
+	<span class="hl-attribute">properties</span> <span class="hl-attribute">with</span> <span class="hl-attribute">references</span> <span class="hl-attribute">to</span> <span class="hl-attribute">other</span> <span class="hl-attribute">beans.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">value</span> <span class="hl-attribute">(#PCDATA)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">value</span> <span class="hl-attribute">tag</span> <span class="hl-attribute">can</span> <span class="hl-attribute">have</span> <span class="hl-attribute">an</span> <span class="hl-attribute">optional</span> <span class="hl-attribute">type</span> <span class="hl-attribute">attribute,</span> <span class="hl-attribute">to</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">the</span>
+	<span class="hl-attribute">exact</span> <span class="hl-attribute">type</span> <span class="hl-attribute">that</span> <span class="hl-attribute">the</span> <span class="hl-attribute">value</span> <span class="hl-attribute">should</span> <span class="hl-attribute">be</span> <span class="hl-attribute">converted</span> <span class="hl-attribute">to.</span> <span class="hl-attribute">Only</span> <span class="hl-attribute">needed</span>
+	<span class="hl-attribute">if</span> <span class="hl-attribute">the</span> <span class="hl-attribute">type</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">target</span> <span class="hl-attribute">property</span> <span class="hl-attribute">or</span> <span class="hl-attribute">constructor</span> <span class="hl-attribute">argument</span> <span class="hl-attribute">is</span>
+	<span class="hl-attribute">too</span> <span class="hl-attribute">generic:</span> <span class="hl-attribute">for</span> <span class="hl-attribute">example,</span> <span class="hl-attribute">in</span> <span class="hl-attribute">case</span> <span class="hl-attribute">of</span> <span class="hl-attribute">a</span> <span class="hl-attribute">collection</span> <span class="hl-attribute">element.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">value</span> <span class="hl-attribute">type</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Denotes</span> <span class="hl-attribute">a</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">null</span> <span class="hl-attribute">value.</span> <span class="hl-attribute">Necessary</span> <span class="hl-attribute">because</span> <span class="hl-attribute">an</span> <span class="hl-attribute">empty</span> <span class="hl-attribute">"value"</span> <span class="hl-attribute">tag</span>
+	<span class="hl-attribute">will</span> <span class="hl-attribute">resolve</span> <span class="hl-attribute">to</span> <span class="hl-attribute">an</span> <span class="hl-attribute">empty</span> <span class="hl-attribute">String,</span> <span class="hl-attribute">which</span> <span class="hl-attribute">will</span> <span class="hl-attribute">not</span> <span class="hl-attribute">be</span> <span class="hl-attribute">resolved</span> <span class="hl-attribute">to</span> <span class="hl-attribute">a</span>
+	<span class="hl-attribute">null</span> <span class="hl-attribute">value</span> <span class="hl-attribute">unless</span> <span class="hl-attribute">a</span> <span class="hl-attribute">special</span> <span class="hl-attribute">PropertyEditor</span> <span class="hl-attribute">does</span> <span class="hl-attribute">so.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">null</span> <span class="hl-attribute">(#PCDATA)&gt;</span>
+
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">A</span> <span class="hl-attribute">list</span> <span class="hl-attribute">can</span> <span class="hl-attribute">contain</span> <span class="hl-attribute">multiple</span> <span class="hl-attribute">inner</span> <span class="hl-attribute">bean,</span> <span class="hl-attribute">ref,</span> <span class="hl-attribute">collection,</span> <span class="hl-attribute">or</span> <span class="hl-attribute">value</span> <span class="hl-attribute">elements.</span>
+	<span class="hl-attribute">Java</span> <span class="hl-attribute">lists</span> <span class="hl-attribute">are</span> <span class="hl-attribute">untyped,</span> <span class="hl-attribute">pending</span> <span class="hl-attribute">generics</span> <span class="hl-attribute">support</span> <span class="hl-attribute">in</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">1.5,</span>
+	<span class="hl-attribute">although</span> <span class="hl-attribute">references</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">strongly</span> <span class="hl-attribute">typed.</span>
+	<span class="hl-attribute">A</span> <span class="hl-attribute">list</span> <span class="hl-attribute">can</span> <span class="hl-attribute">also</span> <span class="hl-attribute">map</span> <span class="hl-attribute">to</span> <span class="hl-attribute">an</span> <span class="hl-attribute">array</span> <span class="hl-attribute">type.</span> <span class="hl-attribute">The</span> <span class="hl-attribute">necessary</span> <span class="hl-attribute">conversion</span>
+	<span class="hl-attribute">is</span> <span class="hl-attribute">automatically</span> <span class="hl-attribute">performed</span> <span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">BeanFactory.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">list</span> <span class="hl-attribute">(</span>
+	<span class="hl-attribute">(bean</span> <span class="hl-attribute">|</span> <span class="hl-attribute">ref</span> <span class="hl-attribute">|</span> <span class="hl-attribute">idref</span> <span class="hl-attribute">|</span> <span class="hl-attribute">value</span> <span class="hl-attribute">|</span> <span class="hl-attribute">null</span> <span class="hl-attribute">|</span> <span class="hl-attribute">list</span> <span class="hl-attribute">|</span> <span class="hl-attribute">set</span> <span class="hl-attribute">|</span> <span class="hl-attribute">map</span> <span class="hl-attribute">|</span> <span class="hl-attribute">props)*</span>
+<span class="hl-attribute">)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Enable/disable</span> <span class="hl-attribute">merging</span> <span class="hl-attribute">for</span> <span class="hl-attribute">collections</span> <span class="hl-attribute">when</span> <span class="hl-attribute">using</span> <span class="hl-attribute">parent/child</span> <span class="hl-attribute">beans.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">list</span> <span class="hl-attribute">merge</span> <span class="hl-attribute">(true</span> <span class="hl-attribute">|</span> <span class="hl-attribute">false</span> <span class="hl-attribute">|</span> <span class="hl-attribute">default)</span> <span class="hl-attribute">"default"&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Specify</span> <span class="hl-attribute">the</span> <span class="hl-attribute">default</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">type</span> <span class="hl-attribute">for</span> <span class="hl-attribute">nested</span> <span class="hl-attribute">values.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">list</span> <span class="hl-attribute">value-type</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">A</span> <span class="hl-attribute">set</span> <span class="hl-attribute">can</span> <span class="hl-attribute">contain</span> <span class="hl-attribute">multiple</span> <span class="hl-attribute">inner</span> <span class="hl-attribute">bean,</span> <span class="hl-attribute">ref,</span> <span class="hl-attribute">collection,</span> <span class="hl-attribute">or</span> <span class="hl-attribute">value</span> <span class="hl-attribute">elements.</span>
+	<span class="hl-attribute">Java</span> <span class="hl-attribute">sets</span> <span class="hl-attribute">are</span> <span class="hl-attribute">untyped,</span> <span class="hl-attribute">pending</span> <span class="hl-attribute">generics</span> <span class="hl-attribute">support</span> <span class="hl-attribute">in</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">1.5,</span>
+	<span class="hl-attribute">although</span> <span class="hl-attribute">references</span> <span class="hl-attribute">will</span> <span class="hl-attribute">be</span> <span class="hl-attribute">strongly</span> <span class="hl-attribute">typed.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">set</span> <span class="hl-attribute">(</span>
+	<span class="hl-attribute">(bean</span> <span class="hl-attribute">|</span> <span class="hl-attribute">ref</span> <span class="hl-attribute">|</span> <span class="hl-attribute">idref</span> <span class="hl-attribute">|</span> <span class="hl-attribute">value</span> <span class="hl-attribute">|</span> <span class="hl-attribute">null</span> <span class="hl-attribute">|</span> <span class="hl-attribute">list</span> <span class="hl-attribute">|</span> <span class="hl-attribute">set</span> <span class="hl-attribute">|</span> <span class="hl-attribute">map</span> <span class="hl-attribute">|</span> <span class="hl-attribute">props)*</span>
+<span class="hl-attribute">)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Enable/disable</span> <span class="hl-attribute">merging</span> <span class="hl-attribute">for</span> <span class="hl-attribute">collections</span> <span class="hl-attribute">when</span> <span class="hl-attribute">using</span> <span class="hl-attribute">parent/child</span> <span class="hl-attribute">beans.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">set</span> <span class="hl-attribute">merge</span> <span class="hl-attribute">(true</span> <span class="hl-attribute">|</span> <span class="hl-attribute">false</span> <span class="hl-attribute">|</span> <span class="hl-attribute">default)</span> <span class="hl-attribute">"default"&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Specify</span> <span class="hl-attribute">the</span> <span class="hl-attribute">default</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">type</span> <span class="hl-attribute">for</span> <span class="hl-attribute">nested</span> <span class="hl-attribute">values.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">set</span> <span class="hl-attribute">value-type</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">A</span> <span class="hl-attribute">Spring</span> <span class="hl-attribute">map</span> <span class="hl-attribute">is</span> <span class="hl-attribute">a</span> <span class="hl-attribute">mapping</span> <span class="hl-attribute">from</span> <span class="hl-attribute">a</span> <span class="hl-attribute">string</span> <span class="hl-attribute">key</span> <span class="hl-attribute">to</span> <span class="hl-attribute">object.</span>
+	<span class="hl-attribute">Maps</span> <span class="hl-attribute">may</span> <span class="hl-attribute">be</span> <span class="hl-attribute">empty.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">map</span> <span class="hl-attribute">(</span>
+	<span class="hl-attribute">(entry)*</span>
+<span class="hl-attribute">)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Enable/disable</span> <span class="hl-attribute">merging</span> <span class="hl-attribute">for</span> <span class="hl-attribute">collections</span> <span class="hl-attribute">when</span> <span class="hl-attribute">using</span> <span class="hl-attribute">parent/child</span> <span class="hl-attribute">beans.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">map</span> <span class="hl-attribute">merge</span> <span class="hl-attribute">(true</span> <span class="hl-attribute">|</span> <span class="hl-attribute">false</span> <span class="hl-attribute">|</span> <span class="hl-attribute">default)</span> <span class="hl-attribute">"default"&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Specify</span> <span class="hl-attribute">the</span> <span class="hl-attribute">default</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">type</span> <span class="hl-attribute">for</span> <span class="hl-attribute">nested</span> <span class="hl-attribute">entry</span> <span class="hl-attribute">keys.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">map</span> <span class="hl-attribute">key-type</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Specify</span> <span class="hl-attribute">the</span> <span class="hl-attribute">default</span> <span class="hl-attribute">Java</span> <span class="hl-attribute">type</span> <span class="hl-attribute">for</span> <span class="hl-attribute">nested</span> <span class="hl-attribute">entry</span> <span class="hl-attribute">values.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">map</span> <span class="hl-attribute">value-type</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">A</span> <span class="hl-attribute">map</span> <span class="hl-attribute">entry</span> <span class="hl-attribute">can</span> <span class="hl-attribute">be</span> <span class="hl-attribute">an</span> <span class="hl-attribute">inner</span> <span class="hl-attribute">bean,</span> <span class="hl-attribute">ref,</span> <span class="hl-attribute">value,</span> <span class="hl-attribute">or</span> <span class="hl-attribute">collection.</span>
+	<span class="hl-attribute">The</span> <span class="hl-attribute">key</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">entry</span> <span class="hl-attribute">is</span> <span class="hl-attribute">given</span> <span class="hl-attribute">by</span> <span class="hl-attribute">the</span> <span class="hl-attribute">"key"</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">or</span> <span class="hl-attribute">child</span> <span class="hl-attribute">element.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">entry</span> <span class="hl-attribute">(</span>
+  <span class="hl-attribute">key?,</span>
+	<span class="hl-attribute">(bean</span> <span class="hl-attribute">|</span> <span class="hl-attribute">ref</span> <span class="hl-attribute">|</span> <span class="hl-attribute">idref</span> <span class="hl-attribute">|</span> <span class="hl-attribute">value</span> <span class="hl-attribute">|</span> <span class="hl-attribute">null</span> <span class="hl-attribute">|</span> <span class="hl-attribute">list</span> <span class="hl-attribute">|</span> <span class="hl-attribute">set</span> <span class="hl-attribute">|</span> <span class="hl-attribute">map</span> <span class="hl-attribute">|</span> <span class="hl-attribute">props)?</span>
+<span class="hl-attribute">)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Each</span> <span class="hl-attribute">map</span> <span class="hl-attribute">element</span> <span class="hl-attribute">must</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">its</span> <span class="hl-attribute">key</span> <span class="hl-attribute">as</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">or</span> <span class="hl-attribute">as</span> <span class="hl-attribute">child</span> <span class="hl-attribute">element.</span>
+	<span class="hl-attribute">A</span> <span class="hl-attribute">key</span> <span class="hl-attribute">attribute</span> <span class="hl-attribute">is</span> <span class="hl-attribute">always</span> <span class="hl-attribute">a</span> <span class="hl-attribute">String</span> <span class="hl-attribute">value.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">entry</span> <span class="hl-attribute">key</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+  <span class="hl-attribute">A</span> <span class="hl-attribute">short-cut</span> <span class="hl-attribute">alternative</span> <span class="hl-attribute">to</span> <span class="hl-attribute">a</span> <span class="hl-attribute">"key"</span> <span class="hl-attribute">element</span> <span class="hl-attribute">with</span> <span class="hl-attribute">a</span> <span class="hl-attribute">"ref</span> <span class="hl-attribute">bean</span>=<span class="hl-value">" child element.
+--&gt;
+&lt;!ATTLIST entry key-ref CDATA #IMPLIED&gt;
+
+&lt;!--
+  A short-cut alternative to a child element "</span><span class="hl-attribute">value".</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">entry</span> <span class="hl-attribute">value</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#IMPLIED&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+  <span class="hl-attribute">A</span> <span class="hl-attribute">short-cut</span> <span class="hl-attribute">alternative</span> <span class="hl-attribute">to</span> <span class="hl-attribute">a</span> <span class="hl-attribute">child</span> <span class="hl-attribute">element</span> <span class="hl-attribute">"ref</span> <span class="hl-attribute">bean</span>=<span class="hl-value">".
+--&gt;
+&lt;!ATTLIST entry value-ref CDATA #IMPLIED&gt;
+
+&lt;!--
+	A key element can contain an inner bean, ref, value, or collection.
+--&gt;
+&lt;!ELEMENT key (
+	(bean | ref | idref | value | null | list | set | map | props)
+)&gt;
+
+
+&lt;!--
+	Props elements differ from map elements in that values must be strings.
+	Props may be empty.
+--&gt;
+&lt;!ELEMENT props (
+	(prop)*
+)&gt;
+
+&lt;!--
+	Enable/disable merging for collections when using parent/child beans.
+--&gt;
+&lt;!ATTLIST props merge (true | false | default) "</span><span class="hl-attribute">default"&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Element</span> <span class="hl-attribute">content</span> <span class="hl-attribute">is</span> <span class="hl-attribute">the</span> <span class="hl-attribute">string</span> <span class="hl-attribute">value</span> <span class="hl-attribute">of</span> <span class="hl-attribute">the</span> <span class="hl-attribute">property.</span>
+	<span class="hl-attribute">Note</span> <span class="hl-attribute">that</span> <span class="hl-attribute">whitespace</span> <span class="hl-attribute">is</span> <span class="hl-attribute">trimmed</span> <span class="hl-attribute">off</span> <span class="hl-attribute">to</span> <span class="hl-attribute">avoid</span> <span class="hl-attribute">unwanted</span> <span class="hl-attribute">whitespace</span>
+	<span class="hl-attribute">caused</span> <span class="hl-attribute">by</span> <span class="hl-attribute">typical</span> <span class="hl-attribute">XML</span> <span class="hl-attribute">formatting.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ELEMENT</span> <span class="hl-attribute">prop</span> <span class="hl-attribute">(#PCDATA)&gt;</span>
+
+<span class="hl-attribute">&lt;!--</span>
+	<span class="hl-attribute">Each</span> <span class="hl-attribute">property</span> <span class="hl-attribute">element</span> <span class="hl-attribute">must</span> <span class="hl-attribute">specify</span> <span class="hl-attribute">its</span> <span class="hl-attribute">key.</span>
+<span class="hl-attribute">--&gt;</span>
+<span class="hl-attribute">&lt;!ATTLIST</span> <span class="hl-attribute">prop</span> <span class="hl-attribute">key</span> <span class="hl-attribute">CDATA</span> <span class="hl-attribute">#REQUIRED&gt;</span></pre></div><!--Begin LoopFuse code--><script src="http://loopfuse.net/webrecorder/js/listen.js" type="text/javascript"></script><script type="text/javascript">
+			_lf_cid = "LF_48be82fa";
+			_lf_remora();
+		</script><!--End LoopFuse code--><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="extensible-xml.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="spring-appendices.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="spring.tld.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">Appendix&nbsp;D.&nbsp;Extensible XML authoring&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Appendix&nbsp;F.&nbsp;spring.tld</td></tr></table></div></body></html>

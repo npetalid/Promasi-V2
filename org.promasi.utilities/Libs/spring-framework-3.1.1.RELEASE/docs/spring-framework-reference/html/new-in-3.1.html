@@ -1,0 +1,174 @@
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <title>3.&nbsp;New Features and Enhancements in Spring 3.1</title><link rel="stylesheet" href="css/stylesheet.css" type="text/css"><meta name="generator" content="DocBook XSL Stylesheets V1.74.0"><link rel="home" href="index.html" title="Reference Documentation"><link rel="up" href="spring-whats-new.html" title="Part&nbsp;II.&nbsp;What's New in Spring 3"><link rel="prev" href="new-in-3.0.html" title="2.&nbsp;New Features and Enhancements in Spring 3.0"><link rel="next" href="spring-core.html" title="Part&nbsp;III.&nbsp;Core Technologies"><!--Begin Google Analytics code--><script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script><script type="text/javascript">
+			var pageTracker = _gat._getTracker("UA-2728886-3");
+			pageTracker._setDomainName("none");
+			pageTracker._setAllowLinker(true);
+			pageTracker._trackPageview();
+		</script><!--End Google Analytics code--></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="navheader"><table width="100%" summary="Navigation header"><tr><th colspan="3" align="center">3.&nbsp;New Features and Enhancements in Spring 3.1</th></tr><tr><td width="20%" align="left"><a accesskey="p" href="new-in-3.0.html">Prev</a>&nbsp;</td><th width="60%" align="center">Part&nbsp;II.&nbsp;What's New in Spring 3</th><td width="20%" align="right">&nbsp;<a accesskey="n" href="spring-core.html">Next</a></td></tr></table><hr></div><div class="chapter" lang="en"><div class="titlepage"><div><div><h2 class="title"><a name="new-in-3.1"></a>3.&nbsp;New Features and Enhancements in Spring 3.1</h2></div></div></div><p>Building on the support introduced in Spring 3.0, Spring 3.1 is
+  currently under development, and at the time of this writing Spring 3.1 RC1
+  is being prepared for release.</p><div class="section" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="new-in-3.1-features-overview"></a>3.1&nbsp;Overview of new features</h2></div></div></div><p>This is a list of new features for Spring 3.1. Most features do not
+    yet have dedicated reference documentation but do have Javadoc. In such
+    cases, fully-qualified class names are given.</p><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1281"></a>3.1.1&nbsp;Cache Abstraction</h3></div></div></div><div class="itemizedlist"><ul type="disc"><li><p><a class="xref" href="cache.html" title="28.&nbsp;Cache Abstraction">Chapter&nbsp;28, <i>Cache Abstraction</i></a></p></li><li><p><a class="ulink" href="http://blog.springsource.com/2011/02/23/spring-3-1-m1-caching/" target="_top">
+          Cache Abstraction</a> (SpringSource team blog)</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1293"></a>3.1.2&nbsp;Bean Definition Profiles</h3></div></div></div><div class="itemizedlist"><ul type="disc"><li><p><a class="ulink" href="http://blog.springsource.com/2011/02/11/spring-framework-3-1-m1-released/" target="_top">
+          XML profiles</a> (SpringSource Team Blog)</p></li><li><p><a class="ulink" href="http://blog.springsource.com/2011/02/14/spring-3-1-m1-introducing-profile/" target="_top">
+          Introducing @Profile</a> (SpringSource Team Blog)</p></li><li><p>See org.springframework.context.annotation.Configuration
+          Javadoc</p></li><li><p>See org.springframework.context.annotation.Profile
+          Javadoc</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1313"></a>3.1.3&nbsp;Environment Abstraction</h3></div></div></div><div class="itemizedlist"><ul type="disc"><li><p><a class="ulink" href="http://blog.springsource.com/2011/02/11/spring-framework-3-1-m1-released/" target="_top">
+          Environment Abstraction</a> (SpringSource Team Blog)</p></li><li><p>See org.springframework.core.env.Environment Javadoc</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1325"></a>3.1.4&nbsp;PropertySource Abstraction</h3></div></div></div><div class="itemizedlist"><ul type="disc"><li><p><a class="ulink" href="http://blog.springsource.com/2011/02/15/spring-3-1-m1-unified-property-management/" target="_top">
+          Unified Property Management</a> (SpringSource Team Blog)</p></li><li><p>See org.springframework.core.env.Environment Javadoc</p></li><li><p>See org.springframework.core.env.PropertySource Javadoc</p></li><li><p>See org.springframework.context.annotation.PropertySource
+          Javadoc</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1343"></a>3.1.5&nbsp;Code equivalents for Spring's XML namespaces</h3></div></div></div><p>Code-based equivalents to popular Spring XML namespace elements
+      &lt;context:component-scan/&gt;, &lt;tx:annotation-driven/&gt;
+      and &lt;mvc:annotation-driven&gt; have been developed, most in the
+      form of <code class="interfacename">@Enable</code> annotations. These are
+      designed for use in conjunction with Spring's
+      <code class="interfacename">@Configuration</code> classes, which were
+      introduced in Spring 3.0.</p><div class="itemizedlist"><ul type="disc"><li><p>See org.springframework.context.annotation.Configuration
+          Javadoc</p></li><li><p>See org.springframework.context.annotation.ComponentScan
+          Javadoc</p></li><li><p>See
+          org.springframework.transaction.annotation.EnableTransactionManagement
+          Javadoc</p></li><li><p>See
+          org.springframework.cache.annotation.EnableCaching Javadoc</p></li><li><p>See org.springframework.web.servlet.config.annotation.EnableWebMvc
+          Javadoc</p></li><li><p>See org.springframework.scheduling.annotation.EnableScheduling
+          Javadoc</p></li><li><p>See org.springframework.scheduling.annotation.EnableAsync
+          Javadoc</p></li><li><p>See
+          org.springframework.context.annotation.EnableAspectJAutoProxy
+          Javadoc</p></li><li><p>See
+          org.springframework.context.annotation.EnableLoadTimeWeaving
+          Javadoc</p></li><li><p>See
+          org.springframework.beans.factory.aspectj.EnableSpringConfigured
+          Javadoc</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1385"></a>3.1.6&nbsp;Support for Hibernate 4.x</h3></div></div></div><div class="itemizedlist"><ul type="disc"><li><p>See Javadoc for classes within the new
+          org.springframework.orm.hibernate4 package</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1392"></a>3.1.7&nbsp;TestContext framework support for @Configuration classes and bean
+      definition profiles</h3></div></div></div><p>The <code class="interfacename">@ContextConfiguration</code>
+      annotation now supports supplying
+      <code class="interfacename">@Configuration</code> classes for configuring
+      the Spring <code class="classname">TestContext</code>. In addition, a new
+      <code class="interfacename">@ActiveProfiles</code> annotation has been
+      introduced to support declarative configuration of active bean
+      definition profiles in <code class="interfacename">ApplicationContext</code>
+      integration tests.</p><div class="itemizedlist"><ul type="disc"><li><p><a class="ulink" href="http://blog.springsource.com/2011/06/21/spring-3-1-m2-testing-with-configuration-classes-and-profiles/" target="_top">Spring
+          3.1 M2: Testing with @Configuration Classes and Profiles</a>
+          (SpringSource Team Blog)</p></li><li><p>See <a class="xref" href="testing.html#testcontext-framework" title="10.3.5&nbsp;Spring TestContext Framework">Section&nbsp;10.3.5, &#8220;Spring TestContext Framework&#8221;</a></p></li><li><p>See <a class="xref" href="testing.html#testcontext-ctx-management-javaconfig" title="Context configuration with @Configuration classes">the section called &#8220;Context configuration with @Configuration classes&#8221;</a>
+          and
+          <code class="interfacename">org.springframework.test.context.ContextConfiguration</code>
+          Javadoc</p></li><li><p>See
+          <code class="interfacename">org.springframework.test.context.ActiveProfiles</code>
+          Javadoc</p></li><li><p>See
+          <code class="interfacename">org.springframework.test.context.SmartContextLoader</code>
+          Javadoc</p></li><li><p>See
+          <code class="interfacename">org.springframework.test.context.support.DelegatingSmartContextLoader</code>
+          Javadoc</p></li><li><p>See
+          <code class="interfacename">org.springframework.test.context.support.AnnotationConfigContextLoader</code>
+          Javadoc</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1454"></a>3.1.8&nbsp;c: namespace for more concise constructor injection</h3></div></div></div><div class="itemizedlist"><ul type="disc"><li><p><a class="xref" href="beans.html#beans-c-namespace" title="4.4.2.7&nbsp;XML shortcut with the c-namespace">Section&nbsp;4.4.2.7, &#8220;XML shortcut with the c-namespace&#8221;</a></p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1461"></a>3.1.9&nbsp;Support for injection against non-standard JavaBeans
+      setters</h3></div></div></div><p>Prior to Spring 3.1, in order to inject against a property method
+      it had to conform strictly to JavaBeans property signature rules, namely
+      that any 'setter' method must be void-returning. It is now possible in
+      Spring XML to specify setter methods that return any object type. This
+      is useful when considering designing APIs for method-chaining, where
+      setter methods return a reference to 'this'.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1466"></a>3.1.10&nbsp;Support for Servlet 3 code-based configuration of Servlet
+      Container</h3></div></div></div><p>The new <code class="interfacename">WebApplicationInitializer</code>
+      builds atop Servlet 3.0's
+      <code class="interfacename">ServletContainerInitializer</code> support to
+      provide a programmatic alternative to the traditional web.xml.</p><div class="itemizedlist"><ul type="disc"><li><p>See org.springframework.web.WebApplicationInitializer
+          Javadoc</p></li><li><p><a class="ulink" href="http://bit.ly/lrDHja" target="_top">Diff from Spring's
+          Greenhouse reference application</a> demonstrating migration
+          from web.xml to
+          <code class="interfacename">WebApplicationInitializer</code></p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1488"></a>3.1.11&nbsp;Support for Servlet 3 MultipartResolver</h3></div></div></div><div class="itemizedlist"><ul type="disc"><li><p>See
+          org.springframework.web.multipart.support.StandardServletMultipartResolver
+          Javadoc</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1495"></a>3.1.12&nbsp;JPA EntityManagerFactory bootstrapping without
+      persistence.xml</h3></div></div></div><p>In standard JPA, persistence units get defined through
+      <code class="literal">META-INF/persistence.xml</code> files in specific jar files
+      which will in turn get searched for <code class="literal">@Entity</code> classes.
+      In many cases, persistence.xml does not contain more than a unit name
+      and relies on defaults and/or external setup for all other concerns
+      (such as the DataSource to use, etc). For that reason, Spring 3.1
+      provides an alternative:
+      <code class="classname">LocalContainerEntityManagerFactoryBean</code> accepts a
+      'packagesToScan' property, specifying base packages to scan for
+      <code class="literal">@Entity</code> classes. This is analogous to
+      <code class="classname">AnnotationSessionFactoryBean</code>'s property of the
+      same name for native Hibernate setup, and also to Spring's
+      component-scan feature for regular Spring beans. Effectively, this
+      allows for XML-free JPA setup at the mere expense of specifying a base
+      package for entity scanning: a particularly fine match for Spring
+      applications which rely on component scanning for Spring beans as well,
+      possibly even bootstrapped using a code-based Servlet 3.0
+      initializer.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1515"></a>3.1.13&nbsp;New HandlerMethod-based Support Classes For Annotated Controller
+      Processing</h3></div></div></div><p>Spring 3.1 introduces a new set of support classes for processing
+      requests with annotated controllers:</p><div class="itemizedlist"><ul type="disc"><li><p><code class="classname">RequestMappingHandlerMapping</code></p></li><li><p><code class="classname">RequestMappingHandlerAdapter</code></p></li><li><p><code class="classname">ExceptionHandlerExceptionResolver</code></p></li></ul></div><p>These classes are a replacement for the existing:</p><div class="itemizedlist"><ul type="disc"><li><p><code class="classname">DefaultAnnotationHandlerMapping</code></p></li><li><p><code class="classname">AnnotationMethodHandlerAdapter</code></p></li><li><p><code class="classname">AnnotationMethodHandlerExceptionResolver</code></p></li></ul></div><p>The new classes were developed in response to many requests to
+      make annotation controller support classes more customizable and open
+      for extension. Whereas previously you could configure a custom annotated
+      controller method argument resolver, with the new support classes you
+      can customize the processing for any supported method argument or return
+      value type.</p><div class="itemizedlist"><ul type="disc"><li><p>See
+          org.springframework.web.method.support.HandlerMethodArgumentResolver
+          Javadoc</p></li><li><p>See
+          org.springframework.web.method.support.HandlerMethodReturnValueHandler
+          Javadoc</p></li></ul></div><p>A second notable difference is the introduction of a
+      <code class="classname">HandlerMethod</code> abstraction to represent an
+      <span class="interface">@RequestMapping</span> method. This abstraction is used
+      throughout by the new support classes as the <code class="literal">handler</code>
+      instance. For example a <code class="classname">HandlerInterceptor</code> can
+      cast the <code class="literal">handler</code> from <code class="classname">Object</code>
+      to <code class="classname">HandlerMethod</code> and get access to the target
+      controller method, its annotations, etc.</p><p>The new classes are enabled by default by the MVC namespace and by
+      Java-based configuration via <span class="interface">@EnableWebMvc</span>. The
+      existing classes will continue to be available but use of the new
+      classes is recommended going forward.</p><p>See <a class="xref" href="mvc.html#mvc-ann-requestmapping-31-vs-30" title="16.3.2.1&nbsp;New Support Classes for @RequestMapping methods in Spring MVC 3.1">Section&nbsp;16.3.2.1, &#8220;New Support Classes for @RequestMapping methods in Spring MVC 3.1&#8221;</a> for additional
+      details and a list of features not available with the new support classes.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1589"></a>3.1.14&nbsp;"consumes" and "produces" conditions in
+      <span class="interface">@RequestMapping</span></h3></div></div></div><p>Improved support for specifying media types consumed by a method
+      through the <code class="literal">'Content-Type'</code> header as well as for
+      producible types specified through the <code class="literal">'Accept'</code>
+      header. See <a class="xref" href="mvc.html#mvc-ann-requestmapping-consumes" title="16.3.2.5&nbsp;Consumable Media Types">Section&nbsp;16.3.2.5, &#8220;Consumable Media Types&#8221;</a> and <a class="xref" href="mvc.html#mvc-ann-requestmapping-produces" title="16.3.2.6&nbsp;Producible Media Types">Section&nbsp;16.3.2.6, &#8220;Producible Media Types&#8221;</a></p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1605"></a>3.1.15&nbsp;Flash Attributes and
+      <code class="interfacename">RedirectAttributes</code></h3></div></div></div><p>Flash attributes can now be stored in a
+      <code class="classname">FlashMap</code> and saved in the HTTP session to survive
+      a redirect. For an overview of the general support for flash attributes
+      in Spring MVC see <a class="xref" href="mvc.html#mvc-flash-attributes" title="16.6&nbsp;Using flash attributes">Section&nbsp;16.6, &#8220;Using flash attributes&#8221;</a>.</p><p>In annotated controllers, an
+      <code class="interfacename">@RequestMapping</code> method can add flash
+      attributes by declaring a method argument of type
+      <code class="interfacename">RedirectAttributes</code>. This method argument
+      can now also be used to get precise control over the attributes used in
+      a redirect scenario. See <a class="xref" href="mvc.html#mvc-ann-redirect-attributes" title="16.3.3.10&nbsp;Specifying redirect and flash attributes">Section&nbsp;16.3.3.10, &#8220;Specifying redirect and flash attributes&#8221;</a>
+      for more details.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1627"></a>3.1.16&nbsp;URI Template Variable Enhancements</h3></div></div></div><p>URI template variables from the current request are used in more
+      places: </p><div class="itemizedlist"><ul type="disc"><li><p>URI template variables are used in addition to request
+            parameters when binding a request to
+            <code class="interfacename">@ModelAttribute</code> method
+            arguments.</p></li><li><p>@PathVariable method argument values are merged into the
+            model before rendering, except in views that generate content in
+            an automated fashion such as JSON serialization or XML
+            marshalling.</p></li><li><p>A redirect string can contain placeholders for URI variables
+            (e.g. <code class="literal">"redirect:/blog/{year}/{month}"</code>). When
+            expanding the placeholders, URI template variables from the
+            current request are automatically considered.</p></li><li><p>An <code class="interfacename">@ModelAttribute</code> method
+            argument can be instantiated from a URI template variable provided
+            there is a registered Converter or PropertyEditor to convert from
+            a String to the target object type.</p></li></ul></div></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1654"></a>3.1.17&nbsp;<code class="interfacename">@Valid</code> On
+      <span class="interface">@RequestBody</span> Controller Method Arguments</h3></div></div></div><p>An <span class="interface">@RequestBody</span> method argument can be
+      annotated with <span class="interface">@Valid</span> to invoke automatic
+      validation similar to the support for
+      <span class="interface">@ModelAttribute</span> method arguments. A resulting
+      <code class="classname">MethodArgumentNotValidException</code> is handled in the
+      <code class="classname">DefaultHandlerExceptionResolver</code> and results in a
+      <code class="literal">400</code> response code.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1682"></a>3.1.18&nbsp;<code class="interfacename">@RequestPart</code> Annotation On
+      Controller Method Arguments</h3></div></div></div><p>This new annotation provides access to the content of a
+      "multipart/form-data" request part. See <a class="xref" href="mvc.html#mvc-multipart-forms-non-browsers" title="16.10.5&nbsp;Handling a file upload request from programmatic clients">Section&nbsp;16.10.5, &#8220;Handling a file upload request from programmatic clients&#8221;</a> and <a class="xref" href="mvc.html#mvc-multipart" title="16.10&nbsp;Spring's multipart (file upload) support">Section&nbsp;16.10, &#8220;Spring's multipart (file upload) support&#8221;</a>.</p></div><div class="section" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="d0e1693"></a>3.1.19&nbsp;<code class="classname">UriComponentsBuilder</code> and <code class="classname">UriComponents</code></h3></div></div></div><p>A new <code class="classname">UriComponents</code> class has been added,
+      which is an immutable container of URI components providing
+      access to all contained URI components.
+      A nenw <code class="classname">UriComponentsBuilder</code> class is also
+      provided to help create <code class="classname">UriComponents</code> instances.
+      Together the two classes give fine-grained control over all
+      aspects of preparing a URI including construction, expansion
+      from URI template variables, and encoding.</p><p>In most cases the new classes can be used as a more flexible
+      alternative to the existing <code class="classname">UriTemplate</code>
+      especially since <code class="classname">UriTemplate</code> relies on those
+      same classes internally.
+      </p><p>A <code class="classname">ServletUriComponentsBuilder</code> sub-class
+      provides static factory methods to copy information from
+      a Servlet request. See <a class="xref" href="mvc.html#mvc-construct-encode-uri" title="16.7&nbsp;Building URIs">Section&nbsp;16.7, &#8220;Building URIs&#8221;</a>.
+      </p></div></div></div><!--Begin LoopFuse code--><script src="http://loopfuse.net/webrecorder/js/listen.js" type="text/javascript"></script><script type="text/javascript">
+			_lf_cid = "LF_48be82fa";
+			_lf_remora();
+		</script><!--End LoopFuse code--><div class="navfooter"><hr><table width="100%" summary="Navigation footer"><tr><td width="40%" align="left"><a accesskey="p" href="new-in-3.0.html">Prev</a>&nbsp;</td><td width="20%" align="center"><a accesskey="u" href="spring-whats-new.html">Up</a></td><td width="40%" align="right">&nbsp;<a accesskey="n" href="spring-core.html">Next</a></td></tr><tr><td width="40%" align="left" valign="top">2.&nbsp;New Features and Enhancements in Spring 3.0&nbsp;</td><td width="20%" align="center"><a accesskey="h" href="index.html">Home</a></td><td width="40%" align="right" valign="top">&nbsp;Part&nbsp;III.&nbsp;Core Technologies</td></tr></table></div></body></html>

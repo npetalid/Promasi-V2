@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="http://ivyrep.jayasoft.org/ivy-doc.xsl"?>
+<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://incubator.apache.org/ivy/schemas/ivy.xsd" version="1.3">
+
+	<info organisation="org.springframework" module="spring-framework-reference" revision="3.1.1.RELEASE" status="release" publication="20120216222751"/>
+
+	<configurations>
+		<conf name="compile" visibility="public" extends="aspects" description="Maven compile dependencies"/>
+		<conf name="optional" visibility="public" extends="compile" description="Maven optional dependencies"/>
+		<conf name="provided" visibility="public" description="Maven provided dependencies"/>
+		<conf name="dm-server-provided" visibility="public" description="Maven provided dependencies that already exist in the platform"/>
+		<conf name="runtime" visibility="public" extends="compile" description="Runtime dependencies"/>
+		<conf name="test" visibility="private" description="Test dependencies"/>
+		<conf name="aspects" visibility="private" description="Aspects to be woven"/>
+		<conf name="external" visibility="private" description="External candidates to be woven"/>
+		<conf name="additional" visibility="private" description="Additional candidates to be included in the PAR"/>
+		<conf name="doc" visibility="public" description="Documentation"/>
+	</configurations>
+
+	<publications>
+		<artifact name="spring-framework-reference" ext="pdf" type="pdf"/>
+		<artifact name="spring-framework-reference" ext="zip" type="zip"/>
+		<artifact name="spring-framework-reference-single" ext="zip" type="zip"/>
+		<artifact name="license" type="license" ext="txt"/>
+		<artifact name="notice" type="notice" ext="txt"/>
+	</publications>
+
+	<dependencies/>
+
+</ivy-module>
