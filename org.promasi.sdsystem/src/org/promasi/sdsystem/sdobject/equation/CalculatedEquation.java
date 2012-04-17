@@ -73,8 +73,9 @@ public class CalculatedEquation implements IEquation{
 					return 2;
 				}
 
+				@SuppressWarnings("unchecked")
 				@Override
-				public void run(Stack stack) throws ParseException {
+				public void run(@SuppressWarnings("rawtypes") Stack stack) throws ParseException {
 			        double var1 = (Double) stack.pop( );
 			        double var2 = (Double) stack.pop( );
 			        stack.push( Math.max( var1, var2 ) );
@@ -100,8 +101,9 @@ public class CalculatedEquation implements IEquation{
 					return 2;
 				}
 
+				@SuppressWarnings("unchecked")
 				@Override
-				public void run(Stack stack) throws ParseException {
+				public void run(@SuppressWarnings("rawtypes") Stack stack) throws ParseException {
 			        double var1 = (Double) stack.pop( );
 			        double var2 = (Double) stack.pop( );
 			        stack.push( Math.min( var1, var2 ) );
@@ -127,8 +129,9 @@ public class CalculatedEquation implements IEquation{
 					return 2;
 				}
 
+				@SuppressWarnings("unchecked")
 				@Override
-				public void run(Stack stack) throws ParseException {
+				public void run(@SuppressWarnings("rawtypes") Stack stack) throws ParseException {
 			        double var2 = (Double) stack.pop( );
 			        double var1 = (Double) stack.pop( );
 

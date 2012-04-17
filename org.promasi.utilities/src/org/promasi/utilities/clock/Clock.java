@@ -1,18 +1,17 @@
 package org.promasi.utilities.clock;
 
-import java.util.List;
-import java.util.Vector;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.joda.time.DateTime;
+import org.promasi.utilities.design.Observer;
 
 /**
  * 
  * @author m1cRo
  *
  */
-public final class Clock
+public final class Clock extends Observer<IClockListener> implements IClock
 {
     /**
      * The Current date time of the clock.
@@ -35,11 +34,6 @@ public final class Clock
     private Lock _lockObject;
 
     /**
-     * All the {@link IClockListener}s.
-     */
-    private List<IClockListener> _listeners;
-
-    /**
      * The speed of the clock. Basically how milliseconds it will wait before it
      * ticks again. By default it is set to 1000.
      */
@@ -60,7 +54,6 @@ public final class Clock
      */
     public Clock( )
     {
-        _listeners = new Vector<IClockListener>( );
         _clockThread = new Thread( new Runnable() {
 			
 			@Override
@@ -78,7 +71,7 @@ public final class Clock
 		            	_lockObject.lock();
 		            	running = _isRunning;
 		                _currentDateTime=_currentDateTime.plusHours(1);
-		            	for(IClockListener listener : _listeners){
+		            	for(IClockListener listener : getListeners()){
 		            		listener.onTick(_currentDateTime);
 		            	}
 		            }finally{
@@ -112,52 +105,6 @@ public final class Clock
     		_lockObject.unlock();
     	}
     	return result;
-    }
-
-    /**
-     * @param listener
-     *            The {@link IClockListener} to add to the {@link #_listeners}.
-     */
-    public boolean addListener ( IClockListener listener )
-    {
-    	boolean result = false;
-    	try{
-    		_lockObject.lock();
-        	if(listener!=null)
-        	{
-                if ( !_listeners.contains( listener ) )
-                {
-                  result = _listeners.add( listener );
-                }
-        	}
-
-    	}finally{
-    		_lockObject.unlock();
-    	}
-
-        return result;
-    }
-
-    /**
-     * @param listener
-     *            The {@link IClockListener} to remove from the
-     *            {@link #_listeners}.
-     */
-    public boolean removeListener ( IClockListener listener )
-    {
-		boolean result = false;
-		try{
-			_lockObject.lock();
-			if(listener != null){
-			     if ( _listeners.contains( listener ) ){
-			        result = _listeners.remove( listener );
-			     }
-			}
-		}finally{
-			_lockObject.unlock();
-		}
-
-        return result;
     }
 
     /**

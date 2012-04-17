@@ -282,22 +282,6 @@ public class ProjectTask
 	
 	/**
 	 * 
-	 * @return
-	 */
-	public List<String> getOutputs(){
-		return _sdSystem.getInputs();
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public List<String> getInputs(){
-		return _sdSystem.getInputs();
-	}
-	
-	/**
-	 * 
 	 * @param outputId
 	 * @return
 	 * @throws NullArgumentException

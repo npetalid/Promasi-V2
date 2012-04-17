@@ -101,13 +101,10 @@ public class QuickStartButton extends JLabel {
 		        popup.setOpaque(false);
 		        popup.setBorder(new EmptyBorder(0,0,0,0));
 		        popup.setLayout( new BorderLayout());
-		        RoundedJPanel bgPanel;
-				
-					bgPanel = new RoundedJPanel(Colors.Gray.alpha(0.3f), Colors.Gray.alpha(1f));
-	
-		        
+		        RoundedJPanel bgPanel = new RoundedJPanel(Colors.Orange.alpha(0.3f), Colors.Gray.alpha(0.5f));     
 		        JLabel label = new JLabel( message, _application.getIcon(), SwingConstants.CENTER );
-		        label.setFont( new Font("Arial", Font.TRUETYPE_FONT, 12));
+		        label.setForeground(Colors.Gray.alpha(1f));
+		        label.setFont( new Font("Arial", Font.BOLD, 12));
 		        label.setOpaque(false);
 		        label.addMouseListener( new MouseAdapter( ){
 		            @Override

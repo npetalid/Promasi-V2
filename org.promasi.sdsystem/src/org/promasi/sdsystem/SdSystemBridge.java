@@ -11,7 +11,9 @@ import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
- *
+ * Represent the bridge between different
+ * instances of {@link SdSystem}. Needed in order
+ * to pass information between Sd systems.
  */
 public class SdSystemBridge 
 {
@@ -51,12 +53,16 @@ public class SdSystemBridge
 			throw new SdSystemException("Wrong argument inputSdSystem==null");
 		}
 		
+		if( inputSdSystem == outputSdSystem ){
+			throw new SdSystemException("Wrong arguments inputSdSystem and outputSdSystem are the same");
+		}
+		
 		if(!inputSdSystem._sdObjects.containsKey(inputSdObjectId) || !(inputSdSystem._sdObjects.get(inputSdObjectId) instanceof InputSdObject) ){
-			throw new IllegalArgumentException("Wrong arguments input named '"+inputSdObjectId+"' does not exist in inputSdSystem");
+			throw new SdSystemException("Wrong arguments input named '"+inputSdObjectId+"' does not exist in inputSdSystem");
 		}
 		
 		if(!outputSdSystem._sdObjects.containsKey(outputSdObjectId) || !(outputSdSystem._sdObjects.get(outputSdObjectId) instanceof OutputSdObject) ){
-			throw new IllegalArgumentException("Wrong arguments input named '" + inputSdObjectId+ "' does not exist in outputSdSystem");
+			throw new SdSystemException("Wrong arguments input named '" + inputSdObjectId+ "' does not exist in outputSdSystem");
 		}
 		
 		_inputSdObject=(InputSdObject) inputSdSystem._sdObjects.get(inputSdObjectId);

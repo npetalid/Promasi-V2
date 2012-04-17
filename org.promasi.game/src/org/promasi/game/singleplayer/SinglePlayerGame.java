@@ -20,15 +20,15 @@ import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.utilities.clock.Clock;
+import org.promasi.utilities.clock.IClock;
 import org.promasi.utilities.clock.IClockListener;
 import org.promasi.utilities.design.Observer;
-import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
 
 /**
  * @author m1cRo
- *
+ * Represent the single player game.
  */
 public class SinglePlayerGame extends Observer<IClientGameListener> implements IGame, IClockListener, IGameModelListener
 {
@@ -43,9 +43,10 @@ public class SinglePlayerGame extends Observer<IClientGameListener> implements I
 	private GameModel _gameModel;
 	
 	/**
-	 * 
+	 * Instance of {@link IClock} interface
+	 * implementation which represents the clock.
 	 */
-	private Clock _systemClock;
+	private IClock _systemClock;
 	
 	/**
 	 * 
@@ -69,8 +70,10 @@ public class SinglePlayerGame extends Observer<IClientGameListener> implements I
 	
 	/**
 	 * 
+	 * @param gamesServer
 	 * @param gameModel
-	 * @throws NullArgumentException
+	 * @param systemClock
+	 * @throws GameException
 	 */
 	public SinglePlayerGame(AGamesServer gamesServer, GameModel gameModel, Clock systemClock)throws GameException{
 		if(gameModel==null){

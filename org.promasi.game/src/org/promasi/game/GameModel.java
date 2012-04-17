@@ -17,8 +17,6 @@ import org.promasi.game.company.MarketPlace;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.project.Project;
 import org.promasi.utilities.design.Observer;
-import org.promasi.utilities.exceptions.NullArgumentException;
-import org.promasi.utilities.serialization.SerializationException;
 
 /**
  * @author m1cRo
@@ -108,7 +106,7 @@ public class GameModel extends Observer<IGameModelListener>
 		}
 		
 		if(projects.isEmpty()){
-			throw new IllegalArgumentException("Wrong argument projects is empty");
+			throw new GameException("Wrong argument projects is empty");
 		}
 		
 		_projects=projects;
@@ -121,9 +119,10 @@ public class GameModel extends Observer<IGameModelListener>
 	}
 	
 	/**
-	 * 
-	 * @return
-	 * @throws SerializationException
+	 * Will return the current state of
+	 * the object.
+	 * @return instance of {@link GameModelMemento} - the current state of
+	 * the object.
 	 */
 	public GameModelMemento getMemento(){
 		try {

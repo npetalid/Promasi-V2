@@ -3,9 +3,8 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Desktop_swing
 Bundle-SymbolicName: org.promasi.desktop_swing
 Bundle-Version: 1.0.0.qualifier
-Require-Bundle: org.promasi.utilities;bundle-version="1.0.0",
- org.promasi.utils_swing;bundle-version="1.0.0",
- org.promasi.game;bundle-version="1.0.0"
+Require-Bundle: org.promasi.utils_swing;bundle-version="1.0.0";visibility:=reexport,
+ org.promasi.game;bundle-version="1.0.0";visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.promasi.desktop_swing,

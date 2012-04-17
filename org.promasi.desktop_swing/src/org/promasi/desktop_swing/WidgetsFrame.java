@@ -31,7 +31,7 @@ public class WidgetsFrame extends JInternalFrame{
 		setBounds(10 , 10, 200, 450);
 	    setLayout(new GridLayout(0, 1));
 	    setOpaque(false);  
-	    getContentPane().setBackground(Colors.Gray.alpha(0.3f)); 
+	    getContentPane().setBackground(Colors.Orange.alpha(0.3f)); 
 	    setBorder(null);
 	    putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
 	    _widgetsNumber = 0;

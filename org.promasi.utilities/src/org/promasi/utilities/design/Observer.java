@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Generic implementation of Observer
  * design pattern.
  */
-public class Observer<Listener> {
+public abstract class Observer<Listener> implements IObservable<Listener> {
 	/**
 	 * A list of listeners.
 	 */
@@ -36,7 +36,7 @@ public class Observer<Listener> {
 	 * Will return the copy of listeners list.
 	 * @return A copy of the listeners list.
 	 */
-	protected List< Listener > getListeners(){
+	public List< Listener > getListeners(){
 		try{
 			_lockObject.lock();
 			return new LinkedList<>(_listeners);

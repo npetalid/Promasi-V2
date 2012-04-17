@@ -1,9 +1,7 @@
 package org.promasi.sdsystem;
 
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Vector;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
@@ -15,9 +13,6 @@ import org.promasi.sdsystem.sdobject.InputSdObject;
 import org.promasi.sdsystem.sdobject.OutputSdObject;
 import org.promasi.sdsystem.sdobject.StockSdObject;
 import org.promasi.sdsystem.sdobject.TimeSdObject;
-import org.promasi.utilities.exceptions.NullArgumentException;
-import org.promasi.utilities.logger.ILogger;
-import org.promasi.utilities.logger.LoggerFactory;
 
 /**
  * 
@@ -28,13 +23,8 @@ import org.promasi.utilities.logger.LoggerFactory;
  * represents the system dynamics objects, such as stock,
  * flow, input, output and so on.
  */
-public class SdSystem
+public class SdSystem implements ISdSystem
 {
-	/**
-	 * Instance of {@link=ILogger} needed for logging.
-	 */
-	private static final ILogger CONST_LOGGER = LoggerFactory.getInstance(SdSystem.class);
-	
 	/**
 	 * Name of dynamically generated time object.
 	 * Needed to count the clock ticks. Time object will be generated
@@ -138,11 +128,7 @@ public class SdSystem
 					result &= entry.getValue().executeStep(_sdObjects);
 				}
 			}
-			
-			for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
-				CONST_LOGGER.debug(String.format("SdObject : %S, %.2f", entry.getKey(), entry.getValue().getValue()));
-			}
-			
+
 			ISdObject time=_sdObjects.get(CONST_TIME_SDOBJECT_NAME);
 			result &= time.executeStep(_sdObjects);
 		}finally{
@@ -216,68 +202,6 @@ public class SdSystem
 	
 	/**
 	 * 
-	 * @param inputId
-	 * @return
-	 * @throws NullArgumentException
-	 */
-	protected InputSdObject getInput(String inputId)throws SdSystemException{
-		if(inputId==null){
-			throw new SdSystemException("Wrong argument inputId==null");
-		}
-		
-		if(!_sdObjects.containsKey(inputId)){
-			throw new SdSystemException("Wrong argument inputId");
-		}
-		
-		ISdObject sdObject=_sdObjects.get(inputId);
-		if(sdObject instanceof InputSdObject){
-			return (InputSdObject)sdObject;
-		}else{
-			throw new SdSystemException("Wrong argument inputId");
-		}
-	}
-
-	/**
-	 * 
-	 * @param outputId
-	 * @return
-	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
-	 */
-	protected OutputSdObject getOutputSdObject(String outputId)throws SdSystemException{
-		if(outputId==null){
-			throw new SdSystemException("Wrong argument outputId==null");
-		}
-		
-		if(!_sdObjects.containsKey(outputId)){
-			throw new SdSystemException("Wrong argument outputId");
-		}
-		
-		ISdObject sdObject=_sdObjects.get(outputId);
-		if(sdObject instanceof OutputSdObject){
-			return (OutputSdObject)sdObject;
-		}else{
-			throw new SdSystemException("Wrong argument outputId");
-		}
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public List<String> getOutputs() {
-		List<String> outputs=new Vector<String>();
-		for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
-			if(entry.getValue() instanceof OutputSdObject){
-				outputs.add(entry.getKey());
-			}
-		}
-		
-		return outputs;
-	}
-	
-	/**
-	 * 
 	 * @return
 	 */
 	public Map< String, Double > getSystemValues(){
@@ -287,21 +211,6 @@ public class SdSystem
 		}
 		
 		return values;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public List<String> getInputs() {
-		List<String> inputs=new Vector<String>();
-		for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){
-			if(entry.getValue() instanceof InputSdObject){
-				inputs.add(entry.getKey());
-			}
-		}
-		
-		return inputs;
 	}
 
 	/**
@@ -327,10 +236,11 @@ public class SdSystem
 	}
 
 	/**
-	 * 
-	 * @param outputName
-	 * @return
-	 * @throws NullArgumentException
+	 * Will check if a current instance of {@link SdSystem}
+	 * contains an output object with the given name.
+	 * @param outputName the output object's name.
+	 * @exception SdSystemException in case of invalid
+	 * arguments.
 	 */
 	public boolean hasOutput(String outputName) throws SdSystemException {
 		if(outputName==null){

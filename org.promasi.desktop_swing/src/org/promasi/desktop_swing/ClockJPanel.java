@@ -4,6 +4,7 @@
 package org.promasi.desktop_swing;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -38,6 +39,7 @@ public class ClockJPanel extends JPanel {
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEtchedBorder());
 		_clockLabel = new JLabel();
+		_clockLabel.setFont(new Font("Courier New", Font.BOLD, 12));
 		add(_clockLabel, BorderLayout.CENTER);
 	}
 	
