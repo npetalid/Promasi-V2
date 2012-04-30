@@ -30,7 +30,7 @@ import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
-import org.promasi.utils_swing.PainterFactory;
+import org.promasi.utils_swing.Painters;
 
 /**
  * @author alekstheod
@@ -101,7 +101,7 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 			throw new GuiException("Wrong argument mainFrame == null");
 		}
 		
-		setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.InactiveBackground));
+		setBackgroundPainter(Painters.InactiveBackground);
 		_username = username;
 		_mainFrame = mainFrame;
 		_game = game;

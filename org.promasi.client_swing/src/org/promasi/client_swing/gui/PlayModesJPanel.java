@@ -24,7 +24,7 @@ import org.promasi.client_swing.playmode.singleplayer.SinglePlayerPlayMode;
 import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
-import org.promasi.utils_swing.PainterFactory;
+import org.promasi.utils_swing.Painters;
 import org.promasi.utils_swing.components.HtmlPanel;
 import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
 
@@ -72,7 +72,7 @@ public class PlayModesJPanel extends JXPanel {
 			DefaultListModel<IPlayMode> listModel = new DefaultListModel<IPlayMode>();
 			listModel.addElement( new SinglePlayerPlayMode() );
 			
-			setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.Background));
+			setBackgroundPainter(Painters.Background);
 			JSplitPane splitPane = new JSplitPane();
 			splitPane.setOpaque(false);
 			splitPane.setBackground(Colors.White.alpha(0f));

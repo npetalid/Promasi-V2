@@ -40,12 +40,7 @@ public class SpringApplicationContext {
 	 * @param fileName
 	 * @throws SpringException 
 	 */
-	private SpringApplicationContext( String fileName ) throws SpringException{
-		try{
-			_context = new ClassPathXmlApplicationContext(fileName);
-		}catch( Exception e ){
-			throw new SpringException(e.getMessage(), e);
-		}
+	private SpringApplicationContext( ){
 	}
 	
 	/**
@@ -57,11 +52,35 @@ public class SpringApplicationContext {
 		return _context.getBean(clazz);
 	}
 	
-	public static SpringApplicationContext getInstance(String configFileName) throws SpringException{
+	/**
+	 * 
+	 * @param fileName
+	 * @return
+	 */
+	public boolean init( String fileName ){
+		boolean result = false;
+		
+		try{
+			if( _context == null ){
+				_context = new ClassPathXmlApplicationContext(fileName);
+				result = true;
+			}
+		}catch( Exception e ){
+			result = false;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public static SpringApplicationContext getInstance(){
 		try{
 			_lockObject.lock();
 			if( _instance == null ){
-				_instance = new SpringApplicationContext(configFileName);
+				_instance = new SpringApplicationContext();
 			}
 		}finally{
 			_lockObject.unlock();

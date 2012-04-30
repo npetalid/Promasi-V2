@@ -17,7 +17,7 @@ import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utils_swing.AlphaContainer;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
-import org.promasi.utils_swing.PainterFactory;
+import org.promasi.utils_swing.Painters;
 
 /**
  * @author alekstheod
@@ -60,7 +60,7 @@ public class WebBrowserDesktopApplication extends ADesktopApplication{
 		_game = game;
 		
 		JXPanel bgPanel = new JXPanel();
-		bgPanel.setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.InactiveBackground));
+		bgPanel.setBackgroundPainter(Painters.InactiveBackground);
 		bgPanel.setLayout(new BorderLayout());
 		
 		JTabbedPane tabbedPane = new JTabbedPane();

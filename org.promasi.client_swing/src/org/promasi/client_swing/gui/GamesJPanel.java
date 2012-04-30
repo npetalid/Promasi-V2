@@ -28,7 +28,7 @@ import org.promasi.game.IGame;
 import org.promasi.game.IGamesServerListener;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
-import org.promasi.utils_swing.PainterFactory;
+import org.promasi.utils_swing.Painters;
 import org.promasi.utils_swing.components.HtmlPanel;
 import org.promasi.utils_swing.components.jlist.MenuCellRenderer;
 
@@ -102,7 +102,7 @@ public class GamesJPanel extends JXPanel implements IGamesServerListener {
 		
 		_mainFrame = mainFrame;
 		_gamesServer = gamesServer;
-		setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.Background));
+		setBackgroundPainter(Painters.Background);
 		
 		setLayout( new BorderLayout() );
 		

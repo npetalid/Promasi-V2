@@ -13,7 +13,7 @@ import javax.swing.JScrollPane;
 import org.jdesktop.swingx.JXPanel;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
-import org.promasi.utils_swing.PainterFactory;
+import org.promasi.utils_swing.Painters;
 import org.promasi.utils_swing.components.RoundedJPanel;
 
 /**
@@ -53,7 +53,7 @@ public class EmployeesPanel extends JXPanel {
 		
 		_bgPanel = new RoundedJPanel();
 		_bgPanel.add(scrollPane);
-		_bgPanel.setBackgroundPainter(PainterFactory.getInstance(PainterFactory.ENUM_PAINTER.Background));
+		_bgPanel.setBackgroundPainter(Painters.Background);
 		
 		add(_bgPanel);
 	}
