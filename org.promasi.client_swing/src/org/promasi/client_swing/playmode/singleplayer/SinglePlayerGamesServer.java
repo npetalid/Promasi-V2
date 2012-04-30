@@ -15,10 +15,11 @@ import org.promasi.game.GameException;
 import org.promasi.game.IGame;
 import org.promasi.game.singleplayer.SinglePlayerGame;
 import org.promasi.game.singleplayer.SinglePlayerGameFolder;
-import org.promasi.utilities.clock.Clock;
+import org.promasi.utilities.clock.IClock;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
+import org.promasi.utilities.spring.SpringApplicationContext;
 
 /**
  * @author alekstheod
@@ -76,7 +77,7 @@ public class SinglePlayerGamesServer extends AGamesServer {
 					try{
 						SinglePlayerGameFolder builder;
 						builder = new SinglePlayerGameFolder( _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + gamesFolders[i] );
-						games.add( new SinglePlayerGame(this, builder.readGame(), new Clock() )  );
+						games.add( new SinglePlayerGame(this, builder.readGame(), SpringApplicationContext.getInstance().getBean("Clock", IClock.class) )  );
 					}catch (GameException e) {
 						_logger.warn("Request games list failed because the GameException " + e.toString());
 					}

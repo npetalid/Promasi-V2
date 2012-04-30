@@ -14,6 +14,5 @@
 
 
 	<import resource="sdsystem_beans.xml"/>
-	<bean id="Clock" class="org.promasi.utilities.clock.Clock"></bean>
-	
+	<bean id="Clock" class="org.promasi.utilities.clock.Clock" scope="prototype"/>
 </beans>

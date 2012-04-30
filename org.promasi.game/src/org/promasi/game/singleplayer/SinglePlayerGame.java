@@ -19,7 +19,6 @@ import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IMarketPlaceListener;
-import org.promasi.utilities.clock.Clock;
 import org.promasi.utilities.clock.IClock;
 import org.promasi.utilities.clock.IClockListener;
 import org.promasi.utilities.design.Observer;
@@ -75,7 +74,7 @@ public class SinglePlayerGame extends Observer<IClientGameListener> implements I
 	 * @param systemClock
 	 * @throws GameException
 	 */
-	public SinglePlayerGame(AGamesServer gamesServer, GameModel gameModel, Clock systemClock)throws GameException{
+	public SinglePlayerGame(AGamesServer gamesServer, GameModel gameModel, IClock systemClock)throws GameException{
 		if(gameModel==null){
 			throw new GameException("Wrong argument gameModel==null");
 		}
