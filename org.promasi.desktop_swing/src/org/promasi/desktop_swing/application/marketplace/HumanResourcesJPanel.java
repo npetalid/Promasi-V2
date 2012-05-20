@@ -109,10 +109,11 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 	}
 
 	@Override
-	public void companyIsInsolvent(String owner, CompanyMemento company,
+	public void companyIsInsolvent(String owner, final CompanyMemento company,
 			ProjectMemento assignedProject, DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
+		if( company != null && company.getITDepartment() != null){
+			updateEmployeeList(company.getITDepartment().getEmployees() );
+		}
 	}
 
 	@Override
@@ -128,32 +129,33 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 	 */
 	private void updateEmployeeList( final Map<String, EmployeeMemento> employees ){
 		if( employees != null ){
-			Vector<Employee> dataSet = new Vector<Employee>();
-			for(Map.Entry<String,EmployeeMemento> entry : employees.entrySet() ){
-				if( entry.getValue() !=null && entry.getValue().getEmployeeId() != null ){
-					try {
-						dataSet.add(new Employee(entry.getValue()));
-					} catch (GuiException e) {
-						// TODO log
+			SwingUtilities.invokeLater(new Runnable() {
+				
+				@Override
+				public void run() {
+					Vector<Employee> dataSet = new Vector<Employee>();
+					for(Map.Entry<String,EmployeeMemento> entry : employees.entrySet() ){
+						if( entry.getValue() !=null && entry.getValue().getEmployeeId() != null ){
+							try {
+								dataSet.add(new Employee(entry.getValue()));
+							} catch (GuiException e) {
+								// TODO log
+							}
+						}
 					}
+					
+					_employeesPanel.updateList(dataSet);
 				}
-			}
-			
-			_employeesPanel.updateList(dataSet);
+			});
+
 		}
 	}
 	
 	@Override
 	public void companyAssigned(final String owner, final CompanyMemento company) {
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				if( company != null && company.getITDepartment() != null){
-					updateEmployeeList(company.getITDepartment().getEmployees() );
-				}
-			}
-		});
+		if( company != null && company.getITDepartment() != null){
+			updateEmployeeList(company.getITDepartment().getEmployees() );
+		}
 	}
 
 	@Override

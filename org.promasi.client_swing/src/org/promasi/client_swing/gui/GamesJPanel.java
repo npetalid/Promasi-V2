@@ -206,7 +206,7 @@ public class GamesJPanel extends JXPanel implements IGamesServerListener {
 			@Override
 			public void run() {
 				try {
-					_mainFrame.changePanel(new LoadingJPanel(_mainFrame,game, _username));
+					_mainFrame.changePanel(new LoadingJPanel(_mainFrame,game, _username, GamesJPanel.this));
 				} catch (GuiException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

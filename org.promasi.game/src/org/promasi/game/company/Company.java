@@ -203,6 +203,16 @@ public class Company extends Observer<ICompanyListener>
     }
 
     /**
+     * Will return the state of the company.
+     * If the company's budget is <= 0 then the 
+     * company is bankrupt so this method will return true.
+     * @return true in case if the company's budget is <= 0, false otherwise.
+     */
+    public boolean isBancrupt(){
+    	return _budget <= 0;
+    }
+    
+    /**
      * Will assign the {@link Project} to the
      * current company and notify the listeners about 
      * that action.
@@ -293,24 +303,21 @@ public class Company extends Observer<ICompanyListener>
             		if( _lastPaymentDateTime.plusDays(1).isBefore(currentDateTime))
                 	{
             			_budget=_budget-_itDepartment.calculateFees();
-            			if(_budget<0){
+            			if(_budget<=0){
             				if(_assignedProject!=null){
             					_prestigePoints=_prestigePoints-_assignedProject.getPrestigePoints();
             				}
             				
-                    		if(_budget<0){
-                		        for(ICompanyListener listener : getListeners()){
-                		        	if( _assignedProject != null ){
-                    		        	listener.companyIsInsolvent(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
-                    		        	_assignedProject=null;
-                		        	}else{
-                		        		listener.companyIsInsolvent(_owner, getMemento(), null, currentDate);
-                		        	}
-
-                		        }
-                		        
-                		        _itDepartment.dischargeEmployees( marketPlace );
-                    		}
+            		        for(ICompanyListener listener : getListeners()){
+            		        	if( _assignedProject != null ){
+                		        	listener.companyIsInsolvent(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
+                		        	_assignedProject=null;
+            		        	}else{
+            		        		listener.companyIsInsolvent(_owner, getMemento(), null, currentDate);
+            		        	}
+            		        }
+            		        
+            		        _itDepartment.dischargeEmployees( marketPlace );
             			}
                 		
                 		_lastPaymentDateTime=currentDateTime;

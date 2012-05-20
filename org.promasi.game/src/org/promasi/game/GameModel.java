@@ -248,6 +248,11 @@ public class GameModel extends Observer<IGameModelListener>
 					}
 					
 					_gameFinished=true;
+				}else if( _company.isBancrupt() ){
+					for(IGameModelListener listener : getListeners()){
+						listener.gameFinished(this, _company.getMemento());
+					}
+					
 				}else{
 					_company.executeWorkingStep(currentDateTime,_marketPlace, currentDateTime);
 				}

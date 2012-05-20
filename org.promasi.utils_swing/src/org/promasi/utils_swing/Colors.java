@@ -10,7 +10,7 @@ import java.awt.Color;
 * @version 1.0
 * @since Apr 21, 2007, 125524 PM
 */
-public enum Colors {
+public enum Colors{
 
 	Pink(255, 175, 175),
 	Green(159, 205, 20),

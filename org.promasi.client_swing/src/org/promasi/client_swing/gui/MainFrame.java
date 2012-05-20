@@ -61,6 +61,7 @@ public class MainFrame extends JFrame implements IMainFrame {
 		this.add(_panel, BorderLayout.CENTER);
 		add(_statusPanel, BorderLayout.SOUTH);
 		_statusPanel.setBackground(Color.gray);
+		panel.setVisible(true);
 		this.validate();
 		this.repaint();
 	}

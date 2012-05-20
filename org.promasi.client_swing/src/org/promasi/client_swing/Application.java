@@ -38,7 +38,9 @@ public class Application {
 						try {
 							
 							try{
-					            UIManager.setLookAndFeel("com.jtattoo.plaf.acryl.AcrylLookAndFeel");
+								//com.jtattoo.plaf.acryl.AcrylLookAndFeel.setTheme("Blue", "INSERT YOUR LICENSE KEY HERE", "my company");
+					            UIManager.setLookAndFeel("com.jtattoo.plaf.smart.SmartLookAndFeel");
+					            //com.jtattoo.plaf.smart.SmartLookAndFeel;
 							} catch (Exception e) {
 								_logger.warn("Theme applying failed");
 							}

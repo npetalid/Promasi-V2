@@ -5,18 +5,17 @@ package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
 import java.beans.PropertyVetoException;
+import java.io.IOException;
 
 import javax.swing.Icon;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.InternalFrameListener;
 
 import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
-import org.promasi.desktop_swing.GameFinishedPanel;
+import org.promasi.client_swing.application.gamestatistics.GameFinishedApplication;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.desktop_swing.PromasiJDesktopPane;
@@ -77,7 +76,7 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	/**
 	 * 
 	 */
-	private JInternalFrame _gameFinishedFrame;
+	private ADesktopApplication _gameFinishedApp;
 	
 	/**
 	 * Constructor will initialize the object.
@@ -88,7 +87,7 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	 * @param username a user id needed in order to determine the user.
 	 * @throws GuiException in case of invalid arguments.
 	 */
-	public DesktopJPanel( IMainFrame mainFrame, IGame game, String username )throws GuiException{
+	public DesktopJPanel( IMainFrame mainFrame, IGame game, String username)throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
 		}
@@ -114,52 +113,17 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 		_workspace.setOpaque(false);
 		_workspace.setBackground(Colors.White.alpha(0f));
 		
-		_gameFinishedFrame = new JInternalFrame();
-		_gameFinishedFrame.setLayout(new BorderLayout());
-		_gameFinishedFrame.add(new GameFinishedPanel(_game, _mainFrame));
-		_gameFinishedFrame.addInternalFrameListener(new InternalFrameListener() {
-			
-			@Override
-			public void internalFrameOpened(InternalFrameEvent e) {}
-			
-			@Override
-			public void internalFrameIconified(InternalFrameEvent e) {}
-			
-			@Override
-			public void internalFrameDeiconified(InternalFrameEvent e) {}
-			
-			@Override
-			public void internalFrameDeactivated(InternalFrameEvent e) {}
-			
-			@Override
-			public void internalFrameClosing(InternalFrameEvent e) {}
-			
-			@Override
-			public void internalFrameClosed(InternalFrameEvent e) {
-				try {
-					_mainFrame.changePanel( new GamesJPanel(_mainFrame, _game.getGamesServer(), _username));
-					_mainFrame.enableWizardMode();
-				} catch (GuiException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-			
-			@Override
-			public void internalFrameActivated(InternalFrameEvent e) {}
-		});
-		
-		_workspace.add(_gameFinishedFrame);
+		try {
+			_gameFinishedApp = new GameFinishedApplication(_username, _mainFrame, _game , new GamesJPanel(mainFrame, game.getGamesServer(), username));
+		} catch (IOException e) {
+			throw new GuiException(e);
+		}
 		
 		add(_workspace, BorderLayout.CENTER);
 	}
 
 	@Override
-	public void gameStarted(IGame game, GameModelMemento gameModel,
-			DateTime dateTime) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void gameStarted(IGame game, GameModelMemento gameModel,DateTime dateTime) {}
 
 	@Override
 	public void onExecuteStep(IGame game, CompanyMemento company, DateTime dateTime) {}
@@ -182,7 +146,7 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 			@Override
 			public void run() {
 				_game.stopGame();
-				_gameFinishedFrame.show();
+				runApplication(_gameFinishedApp);
 			}
 		});
 	}

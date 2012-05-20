@@ -11,5 +11,4 @@ Export-Package: org.promasi.desktop_swing,
  org.promasi.desktop_swing.application,
  org.promasi.desktop_swing.application.email,
  org.promasi.desktop_swing.application.marketplace,
- org.promasi.desktop_swing.application.scheduler,
- org.promasi.desktop_swing.application.statistics
+ org.promasi.desktop_swing.application.scheduler

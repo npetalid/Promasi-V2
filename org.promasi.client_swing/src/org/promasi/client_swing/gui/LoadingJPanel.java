@@ -6,6 +6,7 @@ package org.promasi.client_swing.gui;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.game.IGame;
@@ -56,7 +57,7 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 	 * @param game
 	 * @throws GuiException
 	 */
-	public LoadingJPanel( IMainFrame mainFrame, IGame game, String username )throws GuiException{
+	public LoadingJPanel( IMainFrame mainFrame, IGame game, String username, JXPanel gamesPanel )throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game == null");
 		}
