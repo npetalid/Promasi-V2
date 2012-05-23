@@ -93,6 +93,6 @@ public class RoundedJPanel extends JXPanel {
 				CONST_PANEL_OFFSET, 
 				30,30,true, bgColor, 3, borderColor); 
 
-	    return (new CompoundPainter<Component>(roundRect));	
+	    return new CompoundPainter<Component>(roundRect);	
 	}
 }

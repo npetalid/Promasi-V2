@@ -33,12 +33,14 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * Instance of {@link JPopupMenu} represents
+	 * the start menu on ProMaSi system.
 	 */
 	private JPopupMenu _startMenu;
 	
 	/**
-	 * 
+	 * Instance of {@link IDesktop} interface implementation
+	 * represents the desktop workspace.
 	 */
 	private IDesktop _desktop;
 	
@@ -48,8 +50,8 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 	private WidgetsFrame _widgetsFrame;
 	
 	/**
-	 * @throws GuiException 
-	 * 
+	 * Constructor will initialize the object.
+	 * @throws GuiException in case of invalid arguments.
 	 */
 	public PromasiJDesktopPane( IGame game, String username , IDesktop desktop) throws GuiException{
 		super();
@@ -82,7 +84,9 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 			
 			@Override
 			public void componentResized(ComponentEvent e) {
-				_widgetsFrame.setBounds(new Rectangle(getWidth() - _widgetsFrame.getWidth() - 10, getHeight()/2 - _widgetsFrame.getHeight()/2 , _widgetsFrame.getWidth(), _widgetsFrame.getHeight()));
+				_widgetsFrame.setBounds(new Rectangle(getWidth() - _widgetsFrame.getWidth() - 10, 
+										getHeight() - _widgetsFrame.getHeight() , 
+										_widgetsFrame.getWidth(), _widgetsFrame.getHeight()));
 			}
 			
 			@Override

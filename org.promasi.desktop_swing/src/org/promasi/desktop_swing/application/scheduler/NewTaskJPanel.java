@@ -169,7 +169,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 
 		//Setup project tasks
 		JXPanel prjTasksPanel = new JXPanel();
-		prjTasksPanel.setBackground(Colors.LightBlue.alpha(1f));
+		prjTasksPanel.setBackground(Colors.Blue.alpha(1f));
 		_projectTasks = new JComboBox<ProjectTask>();
 		_projectTasks.addActionListener(new ActionListener() {
 			

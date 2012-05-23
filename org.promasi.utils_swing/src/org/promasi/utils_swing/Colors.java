@@ -18,9 +18,10 @@ public enum Colors{
 	Yellow(Color.yellow),
 	Red(189, 67, 67),
 	LightBlue(208, 223, 245),
-	Blue(Color.blue),
+	Blue(0x71,0x97,0xce),
 	Black(0, 0, 0),
 	White(255, 255, 255),
+	PastelPetrol(0xd5, 0xdf, 0xe5),
 	Gray(Color.gray.getRed(), Color.gray.getGreen(), Color.gray.getBlue());
 
 	Colors(Color c) {

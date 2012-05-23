@@ -32,12 +32,12 @@ public class HtmlPanel extends RoundedJPanel {
 	private ExtendedJEditorPane _htmlPane;
 	
 	/**
-	 * Emtry contructor will initialize the object
+	 * Empty contructor will initialize the object
 	 * with default values.
 	 * @throws GuiException 
 	 */
 	public HtmlPanel(boolean useScrollPane) throws GuiException{
-		super(Colors.Gray.alpha(0.2f), Colors.Gray.alpha(1f));
+		super(Colors.Blue.alpha(0.4f), Colors.LightBlue.alpha(1f));
 		init(useScrollPane);
 	}
 	

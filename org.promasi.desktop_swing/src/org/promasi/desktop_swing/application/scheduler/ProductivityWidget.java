@@ -4,11 +4,13 @@
 package org.promasi.desktop_swing.application.scheduler;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import javax.swing.JLabel;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
@@ -17,7 +19,6 @@ import org.promasi.desktop_swing.Widget;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.project.ProjectMemento;
-import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
 /**
@@ -69,12 +70,23 @@ public class ProductivityWidget extends Widget implements ICompanyListener{
 	 */
 	public ProductivityWidget() throws GuiException{
 		setLayout(new BorderLayout());
-		add(new JLabel("TEST"));
-		setOpaque(false);
-		setBackground(Colors.White.alpha(0f));
+		JPanel internalPanel = new JPanel();
+		internalPanel.setLayout(new BorderLayout());
 		
-		_chart = new Chart(CONST_CHART_NAME, CONST_X_KEY, CONST_Y_KEY);
-		add(_chart);
+		setLayout(new BorderLayout());
+		setVisible(true);
+		setOpaque(false);
+		setPreferredSize(new Dimension(250,200));
+		
+		_chart = new Chart(CONST_CHART_NAME, "Date", CONST_Y_KEY);
+		internalPanel.setOpaque(false);
+		internalPanel.setBorder(BorderFactory.createEmptyBorder(Widget.CONST_PANEL_OFFSET, 
+																Widget.CONST_PANEL_OFFSET, 
+																Widget.CONST_PANEL_OFFSET, 
+																Widget.CONST_PANEL_OFFSET));
+		internalPanel.add(_chart, BorderLayout.CENTER);
+		
+		add(internalPanel);
 	}
 
 	@Override

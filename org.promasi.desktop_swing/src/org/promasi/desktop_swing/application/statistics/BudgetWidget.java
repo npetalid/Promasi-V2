@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -24,7 +25,9 @@ import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod
- *
+ * Represent's the budget widget in ProMaSi system.
+ * This widget will draw the company's budget diagram
+ * during the simulation process.
  */
 public class BudgetWidget extends Widget implements ICompanyListener {
 
@@ -34,33 +37,36 @@ public class BudgetWidget extends Widget implements ICompanyListener {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * The budget label. Will
+	 * present the current state of the 
+	 * company's budget.
 	 */
 	private JLabel _budgetLabel;
 	
 	/**
-	 * 
+	 * Instance of {@link DateTime}
+	 * represents the last diagram update date.
 	 */
 	private DateTime _lastUpdateDate;
 	
 	/**
-	 * 
+	 * Instance of {@link Chart}
 	 */
 	private Chart _chart;
 	
 	/**
-	 * 
+	 * The name of the current widget.
 	 */
 	private static final String CONST_CHART_NAME = "Financial Report";
 	
 	/**
-	 * 
+	 * The Y axis key needed in order to draw the chart.
 	 */
 	private static final String CONST_Y_AXIS_KEY = "budget";
 	
 	/**
-	 * @throws GuiException 
-	 * 
+	 * Constructor will initialize the object.
+	 * @throws GuiException in case of initialization error.
 	 */
 	public BudgetWidget() throws GuiException{
 		JPanel internalPanel = new JPanel();
@@ -68,12 +74,17 @@ public class BudgetWidget extends Widget implements ICompanyListener {
 		
 		setLayout(new BorderLayout());
 		setVisible(true);
+		setOpaque(false);
 		setPreferredSize(new Dimension(250,200));
 		_budgetLabel = new JLabel("0.0");
-		setOpaque(false);
 		_budgetLabel.setBackground(Colors.White.alpha(0f));
 		
 		_chart = new Chart(CONST_CHART_NAME, "Date", CONST_Y_AXIS_KEY);
+		internalPanel.setOpaque(false);
+		internalPanel.setBorder(BorderFactory.createEmptyBorder(Widget.CONST_PANEL_OFFSET, 
+																Widget.CONST_PANEL_OFFSET, 
+																Widget.CONST_PANEL_OFFSET, 
+																Widget.CONST_PANEL_OFFSET));
 		internalPanel.add(_chart, BorderLayout.CENTER);
 		internalPanel.add(_budgetLabel, BorderLayout.SOUTH);
 		

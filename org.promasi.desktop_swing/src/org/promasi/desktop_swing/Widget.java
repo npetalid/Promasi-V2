@@ -3,16 +3,16 @@
  */
 package org.promasi.desktop_swing;
 
-import javax.swing.border.EmptyBorder;
-
-import org.jdesktop.swingx.JXPanel;
+import org.promasi.utils_swing.Colors;
+import org.promasi.utils_swing.GuiException;
+import org.promasi.utils_swing.components.RoundedJPanel;
 
 /**
  * @author alekstheod
  * Represent the widget on ProMaSi
  * system.
  */
-public class Widget extends JXPanel {
+public class Widget extends RoundedJPanel {
 
 	/**
 	 * 
@@ -34,12 +34,11 @@ public class Widget extends JXPanel {
 	/**
 	 * Constructor will initialize the
 	 * object.
+	 * @throws GuiException in case of initialization error.
 	 */
-	public Widget(){
-		super();
+	public Widget() throws GuiException{
+		super(Colors.Blue.alpha(0.5f), Colors.LightBlue.alpha(1f));
 		setBounds(0, 0, CONST_WIDGET_WIDTH, CONST_WIDGET_HEIGHT);
-		final int pad = 10;
-		setBorder(new EmptyBorder(pad, pad, pad, pad));
 	}
 
 	@Override

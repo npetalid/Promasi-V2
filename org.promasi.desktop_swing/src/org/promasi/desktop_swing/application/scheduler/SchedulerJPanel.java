@@ -70,7 +70,7 @@ public class SchedulerJPanel extends JPanel {
 		_scheduler = new GanttJPanel(game);
 		
 		JXPanel wizardPanel = new JXPanel();
-		wizardPanel.setBackground(Colors.LightBlue.alpha(1.f));
+		wizardPanel.setBackground(Colors.Blue.alpha(1.f));
 		
 		wizardPanel.setLayout(new BorderLayout());
 		JButton createButton = new JButton("Create Task");

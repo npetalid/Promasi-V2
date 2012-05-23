@@ -3,23 +3,16 @@
  */
 package org.promasi.desktop_swing.application;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 
 import org.promasi.desktop_swing.IDesktop;
-import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
-import org.promasi.utils_swing.components.RoundedJPanel;
 
 /**
  * @author alekstheod
@@ -88,7 +81,6 @@ public class QuickStartButton extends JLabel {
 	
 	/**
 	 * 
-	 * @param title
 	 * @param message
 	 * @return
 	 */
@@ -97,29 +89,10 @@ public class QuickStartButton extends JLabel {
 		
 		if( message != null ){
 			try {
-		        final JPopupMenu popup = new JPopupMenu( );
-		        popup.setOpaque(false);
-		        popup.setBorder(new EmptyBorder(0,0,0,0));
-		        popup.setLayout( new BorderLayout());
-		        RoundedJPanel bgPanel = new RoundedJPanel(Colors.Orange.alpha(0.3f), Colors.Gray.alpha(0.5f));     
-		        JLabel label = new JLabel( message, _application.getIcon(), SwingConstants.CENTER );
-		        label.setForeground(Colors.Gray.alpha(1f));
-		        label.setFont( new Font("Arial", Font.BOLD, 12));
-		        label.setOpaque(false);
-		        label.addMouseListener( new MouseAdapter( ){
-		            @Override
-		            public void mouseClicked ( MouseEvent e ){
-		                popup.setVisible( false );
-		            }
-		        });
-		        
-		        bgPanel.add( label, BorderLayout.NORTH );
-		        popup.add(bgPanel);
-		        label.setPreferredSize(new Dimension(label.getPreferredSize().width+20, label.getPreferredSize().height));
-		        popup.show( _desktop.getDesktopPane(), _desktop.getDesktopPane().getWidth() -  label.getPreferredSize().width - 40 , 5 );
+		        final JPopupMenu popup = new NotificationJPopupMenu( message, _application.getIcon());
+		        popup.show( _desktop.getDesktopPane(), _desktop.getDesktopPane().getWidth() -  popup.getPreferredSize().width - 40 , 5 );
 				result = true;
 			} catch (GuiException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}

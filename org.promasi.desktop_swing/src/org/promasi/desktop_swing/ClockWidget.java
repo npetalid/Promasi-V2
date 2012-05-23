@@ -8,6 +8,8 @@ import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
+import org.promasi.utils_swing.GuiException;
+
 /**
  * @author alekstheod
  * Represent the Clock widget in the ProMaSi's 
@@ -23,9 +25,10 @@ public class ClockWidget extends Widget {
 	/**
 	 * Constructor will initialize the object.
 	 */
-	public ClockWidget(){
+	public ClockWidget()throws GuiException{
 		JPanel internalPanel = new JPanel();
 		internalPanel.setLayout(new BorderLayout());
+		internalPanel.setOpaque(false);
 		
 		setLayout(new BorderLayout());
 		setVisible(true);

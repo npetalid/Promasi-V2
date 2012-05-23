@@ -15,6 +15,12 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.promasi.utils_swing.GuiException;
 
+/**
+ * 
+ * @author alekstheod
+ * Represent the chart diagram
+ * in ProMaSi system.
+ */
 public class Chart extends JXPanel {
 
 	/**
@@ -23,33 +29,37 @@ public class Chart extends JXPanel {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * Instance of {@link JFreeChart}
+	 * which represents the visual chart diagram.
 	 */
 	private JFreeChart _chart;
 	
 	/**
-	 * 
+	 * Chart's data set.
 	 */
 	private DefaultCategoryDataset _dataset;
 	
-	public static final int CONST_MAX_COLUMS_NUMBER = 20;
+	/**
+	 * The maximum number of columns in this chart.
+	 */
+	public static final int CONST_MAX_COLUMS_NUMBER = 30;
 	
 	/**
-	 * 
+	 * A x axis key.
 	 */
 	private String _xKey;
 	
 	/**
-	 * 
+	 * A y axis key.
 	 */
 	private String _yKey;
 	
 	/**
-	 * 
-	 * @param chartName
-	 * @param xKey
-	 * @param yKey
-	 * @throws GuiException
+	 * Constructor will initialize the object.
+	 * @param chartName a chart name.
+	 * @param xKey a x axis key.
+	 * @param yKey a y axis key.
+	 * @throws GuiException in case of invalid arguments.
 	 */
 	public Chart(String chartName, String xKey, String yKey) throws GuiException{
 		if( chartName == null ){
@@ -78,10 +88,8 @@ public class Chart extends JXPanel {
 	            false                      
 	        );
 
-        _chart.setBackgroundPaint(Color.white);
-
         final CategoryPlot plot = (CategoryPlot) _chart.getPlot();
-        plot.setBackgroundPaint(Color.lightGray);
+        plot.setBackgroundPaint(Color.BLACK);
         plot.setRangeGridlinePaint(Color.white);
 
         // customise the range axis...
@@ -90,7 +98,6 @@ public class Chart extends JXPanel {
         rangeAxis.setAutoRangeIncludesZero(true);
 
         final LineAndShapeRenderer renderer = (LineAndShapeRenderer) plot.getRenderer();
-//	        renderer.setDrawShapes(true);
 
         renderer.setSeriesStroke(
             0, new BasicStroke(

@@ -9,7 +9,6 @@ import org.joda.time.LocalTime;
 import org.promasi.game.GameException;
 import org.promasi.game.project.Project;
 import org.promasi.utilities.design.Observer;
-import org.promasi.utilities.serialization.SerializationException;
 
 
 /**
@@ -358,8 +357,10 @@ public class Company extends Observer<ICompanyListener>
 
     /**
      * 
-     * @param employee
-     * @param employeeTask
+     * @param employeeId
+     * @param employeeTasks
+     * @param time
+     * @return
      */
     public boolean assignTasks(final String employeeId, List<EmployeeTaskMemento> employeeTasks, DateTime time){
     	boolean result = false;
@@ -379,6 +380,7 @@ public class Company extends Observer<ICompanyListener>
     /**
      * 
      * @param employee
+     * @param time
      * @return
      */
     public boolean hireEmployee( Employee employee, DateTime time ){
@@ -395,10 +397,11 @@ public class Company extends Observer<ICompanyListener>
     }
     
     /**
-     * 
-     * @param employeeId
-     * @param _marketPlace
-     * @return
+     * Will discharge the employee with a given employee id.
+     * @param employeeId employee id of employee who will be discharged.
+     * @param _marketPlace instance of {@link MarketPlace}, after employee
+     * discharging a employee should be inserted on the given marketplace.
+     * @return true if succeed, false otherwise.
      */
 	public boolean dischargeEmployee(String employeeId, MarketPlace marketPlace, DateTime time) {
     	boolean result = false;
@@ -414,9 +417,10 @@ public class Company extends Observer<ICompanyListener>
 	}
     
 	/**
-	 * 
-	 * @param listener
-	 * @return
+	 * Will add the department listener for the it department of
+	 * the current company.
+	 * @param listener instance of {@link IDepartmentListener} which will be added.
+	 * @return true if succeed, false otherwise.
 	 */
 	public boolean addITDepartmentListener( IDepartmentListener listener ){
 		return _itDepartment.addListener(listener);
@@ -452,15 +456,14 @@ public class Company extends Observer<ICompanyListener>
     /**
      * 
      * @return
-     * @throws SerializationException
      */
     public CompanyMemento getMemento(){
 		return new CompanyMemento(this);
     }
     
     /**
-     * 
-     * @param owner
+     * Will set the owner's name.
+     * @param owner the owner's name.
      */
     public void setOwner( String owner ){
     	try{
@@ -473,8 +476,8 @@ public class Company extends Observer<ICompanyListener>
     }
     
     /**
-     * 
-     * @return
+     * Will return the company's owner name.
+     * @return string which represents the owner's name.
      */
     public String getOwner(){
     	try{

@@ -3,6 +3,7 @@
  */
 package org.promasi.utils_swing;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 
@@ -48,16 +49,14 @@ public enum Painters implements Painter<Component>{
     }
 
     private static Painter<Component> getBackgroundPainter(){
-        MattePainter mp = new MattePainter(Colors.White.alpha(1f));
-        PinstripePainter pp = new PinstripePainter(Colors.Gray.alpha(0.2f),45d);
-       return (new CompoundPainter<Component>(mp, pp)); 
+        MattePainter mp = new MattePainter(Colors.PastelPetrol.alpha(1f));
+       return (new CompoundPainter<Component>(mp)); 
     }
 
     private static Painter<Component> getInactiveBackgroundPainter(){
-        MattePainter mp = new MattePainter(Colors.White.alpha(1f));
+        MattePainter mp = new MattePainter(Colors.PastelPetrol.alpha(1f));
         GlossPainter gp = new GlossPainter(Colors.Gray.alpha(0.1f), GlossPainter.GlossPosition.BOTTOM);
-        PinstripePainter pp = new PinstripePainter(Colors.Gray.alpha(0.2f), 45d);
-        return (new CompoundPainter<Component>(mp, pp, gp));    
+        return (new CompoundPainter<Component>(mp, gp));    
     }
 
 	@Override

@@ -21,7 +21,6 @@ import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.GlossPainter;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
-import org.jdesktop.swingx.painter.PinstripePainter;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 import org.promasi.utils_swing.components.HtmlPanel;
@@ -77,7 +76,7 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	 */
 	public EmployeeCellRenderer() throws GuiException{
 		_selectedBgColor = Colors.Orange.alpha(0.3f);
-		_bgColor = Colors.White.alpha(0.8f);
+		_bgColor = Colors.PastelPetrol.alpha(0.8f);
 		setOpaque(true);
 		init();
 	}
@@ -133,9 +132,8 @@ public class EmployeeCellRenderer extends DefaultListCellRenderer{
 	    MattePainter mp = new MattePainter(bgColor);
 	    GlossPainter gp = new GlossPainter(Colors.White.alpha(0.3f),
 	                                       GlossPainter.GlossPosition.TOP);
-	    PinstripePainter pp = new PinstripePainter(Colors.Gray.alpha(0.2f),
-	                                               45d);
-	   return (new CompoundPainter<Component>(mp, pp, gp));
+	 
+	   return (new CompoundPainter<Component>(mp, gp));
 	}
 	
 	/**

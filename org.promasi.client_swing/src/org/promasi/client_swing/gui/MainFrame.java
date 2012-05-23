@@ -1,7 +1,6 @@
 package org.promasi.client_swing.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -12,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 import org.promasi.desktop_swing.IMainFrame;
+import org.promasi.utils_swing.Colors;
 
 public class MainFrame extends JFrame implements IMainFrame {
 	/**
@@ -60,7 +60,7 @@ public class MainFrame extends JFrame implements IMainFrame {
 		
 		this.add(_panel, BorderLayout.CENTER);
 		add(_statusPanel, BorderLayout.SOUTH);
-		_statusPanel.setBackground(Color.gray);
+		_statusPanel.setBackground(Colors.Blue.alpha(1f));
 		panel.setVisible(true);
 		this.validate();
 		this.repaint();
