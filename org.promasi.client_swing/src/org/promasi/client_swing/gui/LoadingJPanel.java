@@ -3,6 +3,8 @@
  */
 package org.promasi.client_swing.gui;
 
+import java.util.Map;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -100,8 +102,7 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 	}
 
 	@Override
-	public void gameFinished(IGame game, GameModelMemento gameModel,
-			CompanyMemento company) {
+	public void gameFinished(IGame game, Map<String, CompanyMemento> players) {
 		_game.removeListeners();
 	}
 

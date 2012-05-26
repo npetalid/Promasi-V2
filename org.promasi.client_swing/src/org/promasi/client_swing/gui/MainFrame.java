@@ -13,6 +13,12 @@ import javax.swing.border.BevelBorder;
 import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.utils_swing.Colors;
 
+/**
+ * Represents the main window on ProMaSi
+ * system.
+ * @author alekstheod
+ *
+ */
 public class MainFrame extends JFrame implements IMainFrame {
 	/**
 	 * 
@@ -60,7 +66,7 @@ public class MainFrame extends JFrame implements IMainFrame {
 		
 		this.add(_panel, BorderLayout.CENTER);
 		add(_statusPanel, BorderLayout.SOUTH);
-		_statusPanel.setBackground(Colors.Blue.alpha(1f));
+		_statusPanel.setBackground(Colors.LightBlue.alpha(1f));
 		panel.setVisible(true);
 		this.validate();
 		this.repaint();

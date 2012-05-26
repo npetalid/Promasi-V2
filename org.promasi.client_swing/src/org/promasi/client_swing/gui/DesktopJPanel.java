@@ -6,6 +6,7 @@ package org.promasi.client_swing.gui;
 import java.awt.BorderLayout;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JDesktopPane;
@@ -15,14 +16,14 @@ import javax.swing.SwingUtilities;
 
 import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
-import org.promasi.client_swing.application.gamestatistics.GameFinishedApplication;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.desktop_swing.PromasiJDesktopPane;
 import org.promasi.desktop_swing.TaskBarJPanel;
 import org.promasi.desktop_swing.Widget;
 import org.promasi.desktop_swing.application.ADesktopApplication;
-import org.promasi.desktop_swing.application.QuickStartButton;
+import org.promasi.desktop_swing.application.TaskBarIcon;
+import org.promasi.desktop_swing.application.gamestatistics.GameFinishedApplication;
 import org.promasi.game.IGame;
 import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.CompanyMemento;
@@ -74,11 +75,6 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	private String _username;
 	
 	/**
-	 * 
-	 */
-	private ADesktopApplication _gameFinishedApp;
-	
-	/**
 	 * Constructor will initialize the object.
 	 * @param mainFrame instance of {@link IMainFrame} interface
 	 * implementation needed in order to interact with the main frame.
@@ -114,7 +110,7 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 		_workspace.setBackground(Colors.White.alpha(0f));
 		
 		try {
-			_gameFinishedApp = new GameFinishedApplication(_username, _mainFrame, _game , new GamesJPanel(mainFrame, game.getGamesServer(), username));
+			_game.addListener(new GameFinishedApplication(_mainFrame, new GamesJPanel(mainFrame, game.getGamesServer(), username), this));
 		} catch (IOException e) {
 			throw new GuiException(e);
 		}
@@ -140,13 +136,11 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	}
 
 	@Override
-	public void gameFinished(IGame game, GameModelMemento gameModel,
-			CompanyMemento company) {	
+	public void gameFinished(IGame game, Map<String, CompanyMemento> company) {	
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				_game.stopGame();
-				runApplication(_gameFinishedApp);
 			}
 		});
 	}
@@ -199,7 +193,7 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	}
 
 	@Override
-	public boolean addQuickStartButton(QuickStartButton button) {
+	public boolean addQuickStartButton(TaskBarIcon button) {
 		return _taskBar.addQuickStartButton(button);
 	}
 

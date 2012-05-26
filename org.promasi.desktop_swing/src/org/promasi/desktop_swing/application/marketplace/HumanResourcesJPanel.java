@@ -70,6 +70,7 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 		
 		JPanel marketPlaceMenu = new JPanel();
 		marketPlaceMenu.setLayout(new BorderLayout());
+		marketPlaceMenu.setBackground(Colors.LightBlue.alpha(1f));
 		
 		JButton dischargeButton = new JButton("Discharge Employee");
 		dischargeButton.addActionListener(new ActionListener() {

@@ -3,13 +3,15 @@
  */
 package org.promasi.game.singleplayer;
 
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.promasi.game.IGame;
 import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.CompanyMemento;
 
 /**
- * @author m1cRo
+ * @author alekstheod
  *
  */
 public interface IClientGameListener 
@@ -31,8 +33,9 @@ public interface IClientGameListener
 	/**
 	 * 
 	 * @param game
+	 * @param players
 	 */
-	public void gameFinished(IGame game,final GameModelMemento gameModel, final CompanyMemento company);
+	public void gameFinished(IGame game, Map<String, CompanyMemento> players);
 	
 	/**
 	 * 

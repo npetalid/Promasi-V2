@@ -40,6 +40,11 @@ public class SinglePlayerGamesServer extends AGamesServer {
 	private File _gamesFolder;
 	
 	/**
+	 * The player's name for the single player play mode.
+	 */
+	public static final String CONST_SINGLEPLAYER_NAME = "Player";
+	
+	/**
 	 * Logger needed for logging.
 	 */
 	private ILogger _logger = LoggerFactory.getInstance(SinglePlayerGamesServer.class);
@@ -76,7 +81,7 @@ public class SinglePlayerGamesServer extends AGamesServer {
 				for(int i=0;i<gamesFolders.length;i++){
 					try{
 						SinglePlayerGameFolder builder;
-						builder = new SinglePlayerGameFolder( _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + gamesFolders[i] );
+						builder = new SinglePlayerGameFolder( _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + gamesFolders[i], CONST_SINGLEPLAYER_NAME );
 						games.add( new SinglePlayerGame(this, builder.readGame(), SpringApplicationContext.getInstance().getBean("Clock", IClock.class) )  );
 					}catch (GameException e) {
 						_logger.warn("Request games list failed because the GameException " + e.toString());

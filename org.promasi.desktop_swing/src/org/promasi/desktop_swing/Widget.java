@@ -37,7 +37,7 @@ public class Widget extends RoundedJPanel {
 	 * @throws GuiException in case of initialization error.
 	 */
 	public Widget() throws GuiException{
-		super(Colors.Blue.alpha(0.5f), Colors.LightBlue.alpha(1f));
+		super(Colors.Blue.alpha(0.2f), Colors.LightBlue.alpha(0.6f));
 		setBounds(0, 0, CONST_WIDGET_WIDTH, CONST_WIDGET_HEIGHT);
 	}
 

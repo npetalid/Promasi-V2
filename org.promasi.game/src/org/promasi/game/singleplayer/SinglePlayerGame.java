@@ -5,6 +5,7 @@ package org.promasi.game.singleplayer;
 
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -227,7 +228,9 @@ public class SinglePlayerGame extends Observer<IClientGameListener> implements I
 		try{
 			_lockObject.lock();
 			for( IClientGameListener gameEventHandler : getListeners()){
-				gameEventHandler.gameFinished(this, gameModel.getMemento(),company);
+				Map<String, CompanyMemento> players = new TreeMap<String, CompanyMemento>();
+				players.put(_gameModel.getPlayerId(), company);
+				gameEventHandler.gameFinished(this, players);
 			}
 		}finally{
 			_lockObject.unlock();

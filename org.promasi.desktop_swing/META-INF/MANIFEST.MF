@@ -10,5 +10,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.promasi.desktop_swing,
  org.promasi.desktop_swing.application,
  org.promasi.desktop_swing.application.email,
+ org.promasi.desktop_swing.application.gamestatistics,
  org.promasi.desktop_swing.application.marketplace,
  org.promasi.desktop_swing.application.scheduler

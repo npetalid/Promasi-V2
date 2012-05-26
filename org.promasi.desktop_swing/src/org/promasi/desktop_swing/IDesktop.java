@@ -4,7 +4,7 @@ import javax.swing.Icon;
 import javax.swing.JDesktopPane;
 
 import org.promasi.desktop_swing.application.ADesktopApplication;
-import org.promasi.desktop_swing.application.QuickStartButton;
+import org.promasi.desktop_swing.application.TaskBarIcon;
 
 public interface IDesktop {
 
@@ -40,7 +40,7 @@ public interface IDesktop {
 	 * Should add an new button to the quick start menu.
 	 * @param button Instance of the new button
 	 */
-	public boolean addQuickStartButton( QuickStartButton button );
+	public boolean addQuickStartButton( TaskBarIcon button );
 	
 	/**
 	 * 

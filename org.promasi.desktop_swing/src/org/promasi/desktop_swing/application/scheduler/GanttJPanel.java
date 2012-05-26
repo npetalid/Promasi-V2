@@ -122,7 +122,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		_ganttChart.setShowGrid(false);
 		
 		_lockObject = new ReentrantLock();
-		setBackground(Colors.Blue.alpha(1f));
+		setBackground(Colors.LightBlue.alpha(1f));
 		setBorder(BorderFactory.createTitledBorder("Scheduler"));
 		setLayout(new BorderLayout());
 		

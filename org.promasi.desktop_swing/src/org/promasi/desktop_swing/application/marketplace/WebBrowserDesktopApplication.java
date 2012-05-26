@@ -11,7 +11,7 @@ import javax.swing.JTabbedPane;
 import org.jdesktop.swingx.JXPanel;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.application.ADesktopApplication;
-import org.promasi.desktop_swing.application.QuickStartButton;
+import org.promasi.desktop_swing.application.TaskBarIcon;
 import org.promasi.game.IGame;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utils_swing.AlphaContainer;
@@ -72,6 +72,6 @@ public class WebBrowserDesktopApplication extends ADesktopApplication{
 		
 		tabbedPane.addTab(MarketPlaceJPanel.CONST_SITENAME, new MarketPlaceJPanel(_game));
 		tabbedPane.addTab(HumanResourcesJPanel.CONST_SITENAME, new HumanResourcesJPanel(_game));
-		desktop.addQuickStartButton(new QuickStartButton(this, desktop));
+		desktop.addQuickStartButton(new TaskBarIcon(this, desktop));
 	}
 }

@@ -13,7 +13,7 @@ import javax.swing.JDesktopPane;
 import javax.swing.JPopupMenu;
 
 import org.promasi.desktop_swing.application.ADesktopApplication;
-import org.promasi.desktop_swing.application.QuickStartButton;
+import org.promasi.desktop_swing.application.TaskBarIcon;
 import org.promasi.game.IGame;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
@@ -114,7 +114,7 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 	}
 
 	@Override
-	public boolean addQuickStartButton(QuickStartButton button) {
+	public boolean addQuickStartButton(TaskBarIcon button) {
 		return _desktop.addQuickStartButton(button);
 	}
 

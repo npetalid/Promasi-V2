@@ -27,7 +27,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.application.ADesktopApplication;
-import org.promasi.desktop_swing.application.QuickStartButton;
+import org.promasi.desktop_swing.application.TaskBarIcon;
 import org.promasi.game.IGame;
 import org.promasi.game.company.DepartmentMemento;
 import org.promasi.game.company.EmployeeMemento;
@@ -65,7 +65,7 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 	/**
 	 * 
 	 */
-	private QuickStartButton _quickStartButton;
+	private TaskBarIcon _quickStartButton;
 	
 	/**
 	 * A list with received messages \see="Message"
@@ -106,7 +106,7 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 		
 		_lockObject = new ReentrantLock();
 		_game = game;
-		_quickStartButton = new QuickStartButton(this, desktop);
+		_quickStartButton = new TaskBarIcon(this, desktop);
 		desktop.addQuickStartButton(_quickStartButton);
 		setLayout(new BorderLayout());
 		

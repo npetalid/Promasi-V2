@@ -21,7 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.joda.time.DateTime;
-import org.promasi.desktop_swing.application.QuickStartButton;
+import org.promasi.desktop_swing.application.TaskBarIcon;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
@@ -165,7 +165,7 @@ public class TaskBarJPanel extends JPanel {
 	 * @param button
 	 * @return
 	 */
-	public boolean addQuickStartButton( QuickStartButton button ){
+	public boolean addQuickStartButton( TaskBarIcon button ){
 		boolean result = false;
 		if( button != null ){
 			_quickButtonsJPanel.add(button);

@@ -20,6 +20,7 @@ import org.promasi.game.IGame;
 import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.game.company.MarketPlaceMemento;
+import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
 /**
@@ -68,6 +69,7 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 		
 		JPanel marketPlaceMenu = new JPanel();
 		marketPlaceMenu.setLayout(new BorderLayout());
+		marketPlaceMenu.setBackground(Colors.LightBlue.alpha(1.f));
 		
 		JButton hireButton = new JButton("Hire Employee");
 		hireButton.addActionListener(new ActionListener() {

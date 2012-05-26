@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.application.ADesktopApplication;
-import org.promasi.desktop_swing.application.QuickStartButton;
+import org.promasi.desktop_swing.application.TaskBarIcon;
 import org.promasi.game.IGame;
 import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.ICompanyListener;
@@ -57,7 +57,7 @@ public class StatisticsApplication extends ADesktopApplication implements ICompa
 		}
 		
 		game.addCompanyListener(this);
-		desktop.addQuickStartButton(new QuickStartButton(this, desktop));
+		desktop.addQuickStartButton(new TaskBarIcon(this, desktop));
 		
 		BudgetWidget budgetWidget = new BudgetWidget();
 		desktop.addWidget(budgetWidget);

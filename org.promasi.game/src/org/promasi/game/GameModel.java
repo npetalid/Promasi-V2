@@ -271,6 +271,15 @@ public class GameModel extends Observer<IGameModelListener>
 	}
 	
 	/**
+	 * Will return the player's id.
+	 * @return {@link String} which represents the player's id.
+	 * which is the same with a company's owner id.
+	 */
+	public String getPlayerId(){
+		return _company.getOwner();
+	}
+	
+	/**
 	 * 
 	 */
 	public void removeAllListeners(){

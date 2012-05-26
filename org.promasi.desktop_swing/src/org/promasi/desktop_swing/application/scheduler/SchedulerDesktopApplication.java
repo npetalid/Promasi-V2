@@ -12,7 +12,7 @@ import javax.swing.SwingUtilities;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.application.ADesktopApplication;
-import org.promasi.desktop_swing.application.QuickStartButton;
+import org.promasi.desktop_swing.application.TaskBarIcon;
 import org.promasi.game.IGame;
 import org.promasi.game.company.DepartmentMemento;
 import org.promasi.game.company.EmployeeMemento;
@@ -48,7 +48,7 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 	/**
 	 * 
 	 */
-	private QuickStartButton _quickButton;
+	private TaskBarIcon _quickButton;
 	
 	/**
 	 * 
@@ -79,7 +79,7 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 		_internalPanel.setLayout(new BorderLayout());
 		add(_internalPanel, BorderLayout.CENTER);
 		_internalPanel.add( new SchedulerJPanel( game , this, desktop), BorderLayout.CENTER);
-		_quickButton = new QuickStartButton(this, desktop); 
+		_quickButton = new TaskBarIcon(this, desktop); 
 		desktop.addQuickStartButton(_quickButton);
 		game.addDepartmentListener(this);
 		

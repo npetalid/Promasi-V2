@@ -16,9 +16,10 @@ import org.promasi.utils_swing.GuiException;
 
 /**
  * @author alekstheod
- *
+ * Represent the task bar icon on the
+ * ProMaSi's desktop's task bar.
  */
-public class QuickStartButton extends JLabel {
+public class TaskBarIcon extends JLabel {
 
 	/**
 	 * 
@@ -26,7 +27,8 @@ public class QuickStartButton extends JLabel {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * 
+	 * Instance of {@link IDesktop} interface implementation.
+	 * Needed in order to interact with the desktop space.
 	 */
 	private IDesktop _desktop;
 	
@@ -41,7 +43,7 @@ public class QuickStartButton extends JLabel {
 	 * @param desktop instance of \see = IDesktop interface implementation.
 	 * @throws GuiException will be thrown in case of invalid argument
 	 */
-	public QuickStartButton( ADesktopApplication applicaiton, IDesktop desktop)throws GuiException{
+	public TaskBarIcon( ADesktopApplication applicaiton, IDesktop desktop)throws GuiException{
 		if( applicaiton == null ){
 			throw new GuiException("Wrong argument application == null");
 		}

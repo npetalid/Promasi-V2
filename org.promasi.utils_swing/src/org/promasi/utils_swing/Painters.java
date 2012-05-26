@@ -3,7 +3,6 @@
  */
 package org.promasi.utils_swing;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
 
@@ -11,7 +10,6 @@ import org.jdesktop.swingx.painter.CompoundPainter;
 import org.jdesktop.swingx.painter.GlossPainter;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.painter.Painter;
-import org.jdesktop.swingx.painter.PinstripePainter;
 
 /**
  * @author alekstheod
@@ -48,6 +46,10 @@ public enum Painters implements Painter<Component>{
         return _painter;
     }
 
+    /**
+     * Will create the background painter.
+     * @return instance of background {@link Painter}
+     */
     private static Painter<Component> getBackgroundPainter(){
         MattePainter mp = new MattePainter(Colors.PastelPetrol.alpha(1f));
        return (new CompoundPainter<Component>(mp)); 

@@ -19,7 +19,6 @@ import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.MarketPlaceMemento;
 import org.promasi.game.project.Project;
 import org.promasi.game.project.ProjectMemento;
-import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
@@ -70,10 +69,10 @@ public class SinglePlayerGameFolder
 	/**
 	 * 
 	 * @param gameFolderPath
-	 * @throws NullArgumentException
-	 * @throws IOException 
+	 * @param playerName
+	 * @throws GameException
 	 */
-	public SinglePlayerGameFolder(final String gameFolderPath)throws GameException{
+	public SinglePlayerGameFolder(final String gameFolderPath, String playerName)throws GameException{
 		CONST_LOGGER.info("Start reading game from : " + gameFolderPath);
 		if(gameFolderPath==null){
 			throw new GameException("Wrong argument gameFolderPath==null");
@@ -154,6 +153,8 @@ public class SinglePlayerGameFolder
 			CONST_LOGGER.warn("unable to make game");
 			throw new GameException("Wrong gameFolderPath");
 		}
+		
+		company.setOwner(playerName);
 	}
 
 	/**
