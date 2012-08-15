@@ -323,7 +323,7 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
      * @param marketPlace
      * @return
      */
-    public boolean dischargeEmployees(MarketPlace marketPlace){
+    public boolean dischargeEmployees(MarketPlace marketPlace, DateTime time){
     	boolean result = false;
     	
     	if( marketPlace != null ){
@@ -337,6 +337,10 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
         		}
         		
         		_employees.clear();
+                for(IDepartmentListener listener : getListeners()){
+                	listener.employeeDischarged(_director, getMemento(), null, time);
+                }
+                
         	}finally{
         		_lockObject.unlock();
         	}	

@@ -179,7 +179,7 @@ public class MultiPlayerGameFolder {
 		Object object=xmlDecoder.readObject();
 		if(object instanceof MarketPlaceMemento){
 			MarketPlaceMemento sMarketPlace=(MarketPlaceMemento)object;
-			MarketPlace marketPlace=sMarketPlace.getMarketPlace();
+			MarketPlace marketPlace=sMarketPlace.getMemento();
 			return marketPlace;
 		}
 		

@@ -106,7 +106,7 @@ public class GameModelMemento
 		}
 		
 		try {
-			return new GameModel(_gameName, _gameDescription, _marketPlace.getMarketPlace(), _company.getCompany(), projects);
+			return new GameModel(_gameName, _gameDescription, _marketPlace.getMemento(), _company.getCompany(), projects);
 		} catch (IllegalArgumentException e) {
 			throw new SerializationException("Serialization failed because " + e.getMessage());
 		} catch (GameException e) {

@@ -316,7 +316,7 @@ public class Company extends Observer<ICompanyListener>
             		        	}
             		        }
             		        
-            		        _itDepartment.dischargeEmployees( marketPlace );
+            		        _itDepartment.dischargeEmployees( marketPlace, currentDate );
             			}
                 		
                 		_lastPaymentDateTime=currentDateTime;

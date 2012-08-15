@@ -35,7 +35,7 @@ public class MarketPlaceMemento extends SerializableObject
 		}
 	}
 	
-	public MarketPlace getMarketPlace()throws SerializationException{
+	public MarketPlace getMemento()throws SerializationException{
 		if(_availableEmployees==null){
 			throw new SerializationException("Serialization failed because _availableEmployees property is null");
 		}

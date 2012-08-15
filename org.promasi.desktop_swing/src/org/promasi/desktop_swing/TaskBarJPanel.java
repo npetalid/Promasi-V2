@@ -20,10 +20,10 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.application.TaskBarIcon;
 import org.promasi.utilities.file.RootDirectory;
-import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
 /**
@@ -32,7 +32,7 @@ import org.promasi.utils_swing.GuiException;
  * This class contains all the needed components 
  * in order to simulate the pc's task bar functionality.
  */
-public class TaskBarJPanel extends JPanel {
+public class TaskBarJPanel extends JXPanel {
 
 	/**
 	 * 
@@ -89,7 +89,7 @@ public class TaskBarJPanel extends JPanel {
 
 		setPreferredSize( new Dimension( 100, CONST_TASKBAR_HEIGHT ) );
 		setLayout(new BorderLayout());
-		setBackground(Colors.Gray.alpha(0.2f));
+		//setBackgroundPainter(Painters.DesktopBackground);
 		
 		JButton startButton = new JButton("Menu");
 		try {
