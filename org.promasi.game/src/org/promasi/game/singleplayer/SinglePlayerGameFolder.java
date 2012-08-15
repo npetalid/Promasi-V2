@@ -177,6 +177,7 @@ public class SinglePlayerGameFolder
 		FileInputStream fileInputStream=new FileInputStream(companyFile);
 		XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
 		Object object=xmlDecoder.readObject();
+		xmlDecoder.close();
 		if(object instanceof CompanyMemento){
 			CompanyMemento sCompany=(CompanyMemento)object;
 			Company company=sCompany.getCompany();
@@ -198,6 +199,7 @@ public class SinglePlayerGameFolder
 		FileInputStream fileInputStream=new FileInputStream(marketPlaceFile);
 		XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
 		Object object=xmlDecoder.readObject();
+		xmlDecoder.close();
 		if(object instanceof MarketPlaceMemento){
 			MarketPlaceMemento sMarketPlace=(MarketPlaceMemento)object;
 			MarketPlace marketPlace=sMarketPlace.getMemento();
@@ -231,6 +233,7 @@ public class SinglePlayerGameFolder
 	    	}
 	    }while(line!=null);
 	 
+	    bufferedReader.close();
 		return gameInfo;
 	}
 	
@@ -259,6 +262,7 @@ public class SinglePlayerGameFolder
 				FileInputStream fileInputStream=new FileInputStream(projectFile);
 				XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
 				Object object=xmlDecoder.readObject();
+				xmlDecoder.close();
 				if(object instanceof ProjectMemento){
 					ProjectMemento sProject=(ProjectMemento)object;
 					Project project;
