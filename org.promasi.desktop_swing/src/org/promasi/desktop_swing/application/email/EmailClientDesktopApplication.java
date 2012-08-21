@@ -225,12 +225,14 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 			public void run() {
 				try {
 					_lockObject.lock();
-					Message msg = new Message("IT Department", "Employee discharged", dateTime, employee.getCurriculumVitae());
-					List< Message > messages = _msgTableModel.getMessages();
-					messages.add(0, msg);
-					_msgTableModel = new MessageTableModel(messages);
-					_messageTable.setModel(_msgTableModel);
-					_quickStartButton.showPopupNotifier("You have " + getUnreadMessages() + " unread messages");
+					if( employee != null ){
+						Message msg = new Message("IT Department", "Employee discharged", dateTime, employee.getCurriculumVitae());
+						List< Message > messages = _msgTableModel.getMessages();
+						messages.add(0, msg);
+						_msgTableModel = new MessageTableModel(messages);
+						_messageTable.setModel(_msgTableModel);
+						_quickStartButton.showPopupNotifier("You have " + getUnreadMessages() + " unread messages");
+					}
 				} catch (GuiException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
