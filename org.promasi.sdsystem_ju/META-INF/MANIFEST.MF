@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Sdsystem_ju
+Bundle-SymbolicName: org.promasi.sdsystem_ju
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: org.junit,
+ org.promasi.sdsystem;bundle-version="1.0.0",
+ org.promasi.utilities;bundle-version="1.0.0"
+Export-Package: org.promasi.sdsystem_ju.sdsystem

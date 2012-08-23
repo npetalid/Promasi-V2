@@ -8,8 +8,8 @@ import org.promasi.utilities.design.Observer;
 
 /**
  * 
- * @author m1cRo
- *
+ * @author alekstheod
+ * Represent the clock.
  */
 public final class Clock extends Observer<IClockListener> implements IClock
 {
