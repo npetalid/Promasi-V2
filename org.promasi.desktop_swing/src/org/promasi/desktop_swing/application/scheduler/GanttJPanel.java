@@ -2,8 +2,6 @@ package org.promasi.desktop_swing.application.scheduler;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -19,7 +17,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.BorderFactory;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -154,9 +154,10 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		_ganttChart.getScaleArea().addPopupMenuCustomizer(new ResizePeriodsPopupMenuCustomizer<Date>(_ganttChart));
 		_ganttChart.setEditable(false);
 		
-		final PopupMenu popup = new PopupMenu(CONST_TITLE);
+		final JPopupMenu popup = new JPopupMenu();
+		
 		_ganttChart.add(popup);
-		final MenuItem clearItem = new MenuItem("Clear");
+		final JMenuItem clearItem = new JMenuItem("Clear");
 		popup.add(clearItem);
 		clearItem.addActionListener(new ActionListener() {
 			@Override
@@ -187,7 +188,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					if( _ganttChart.getSelectedRow() >= 0 ){
 						popup.removeAll();
 						popup.add(clearItem);
-						MenuItem removeTaskItem = new MenuItem("Remove");
+						JMenuItem removeTaskItem = new JMenuItem("Remove");
 						removeTaskItem.addActionListener(new ActionListener() {
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
