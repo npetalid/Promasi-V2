@@ -2,8 +2,16 @@ package org.promasi.desktop_swing.application.scheduler;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
@@ -57,6 +65,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	public static final String CONST_TITLE = "Scheduler";
 	
 	/**
 	 * Lock object. Needed to synchronize
@@ -113,7 +123,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	 * which represent the game on the ProMaSi system.
 	 * @throws GuiException in case of invalid arguments.
 	 */
-	public GanttJPanel( IGame game ) throws GuiException{
+	public GanttJPanel( final IGame game ) throws GuiException{
 		if( game == null ){
 			throw new GuiException("Wrong argument game");
 		}
@@ -123,7 +133,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		
 		_lockObject = new ReentrantLock();
 		setBackground(Colors.LightBlue.alpha(1f));
-		setBorder(BorderFactory.createTitledBorder("Scheduler"));
+		setBorder(BorderFactory.createTitledBorder(CONST_TITLE));
 		setLayout(new BorderLayout());
 		
         JScrollPane chartScroll = new JScrollPane(_ganttChart);
@@ -143,6 +153,60 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		_ganttChart.getScaleArea().addPopupMenuCustomizer(new VisiblePeriodsPopupMenuCustomizer<Date>());
 		_ganttChart.getScaleArea().addPopupMenuCustomizer(new ResizePeriodsPopupMenuCustomizer<Date>(_ganttChart));
 		_ganttChart.setEditable(false);
+		
+		final PopupMenu popup = new PopupMenu(CONST_TITLE);
+		_ganttChart.add(popup);
+		final MenuItem clearItem = new MenuItem("Clear");
+		popup.add(clearItem);
+		clearItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				List< EmployeeTaskMemento > tasks = new LinkedList<>();
+				for( Map.Entry<String, DefaultGanttEntry<Date> > entry : _runningTasks.entrySet()   ){
+					EmployeeTaskMemento memento = new EmployeeTaskMemento();
+					memento.setProjectTaskName(entry.getKey());
+					tasks.add(memento);
+				}
+				
+				game.removeTasks(tasks);
+			}
+		});
+		
+		_ganttChart.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent arg0) {}
+			@Override
+			public void mousePressed(MouseEvent arg0) {}
+			@Override
+			public void mouseExited(MouseEvent arg0) {}
+			@Override
+			public void mouseEntered(MouseEvent arg0) {}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if(arg0.getButton() == MouseEvent.BUTTON3 ){
+					if( _ganttChart.getSelectedRow() >= 0 ){
+						popup.removeAll();
+						popup.add(clearItem);
+						MenuItem removeTaskItem = new MenuItem("Remove");
+						removeTaskItem.addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								DefaultGanttEntry<Date> entry = _ganttChart.getEntryAt(_ganttChart.getSelectedRow());
+								EmployeeTaskMemento memento = new EmployeeTaskMemento();
+								memento.setProjectTaskName(entry.getName());
+								List<EmployeeTaskMemento> tasks = new LinkedList<>();
+								tasks.add(memento);
+								game.removeTasks(tasks);
+							}
+						});
+						
+						popup.add(removeTaskItem);
+					}
+					
+					popup.show(_ganttChart, arg0.getX(), arg0.getY());
+				}
+			}
+		});
 
 		_runningTasks = new TreeMap<>();
 		

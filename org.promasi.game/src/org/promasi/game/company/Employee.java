@@ -301,10 +301,10 @@ public class Employee extends Observer< IEmployeeListener >
     	try{
     		_lockObject.lock();
         	if(employeeTask!=null){
-            	if(_employeeTasks.containsKey(employeeTask.getFirstStep() ) ){
-            		EmployeeTask task=_employeeTasks.get(employeeTask.getFirstStep() );
+            	if(_employeeTasks.containsKey(employeeTask.getTaskName() ) ){
+            		EmployeeTask task=_employeeTasks.get(employeeTask.getTaskName() );
             		if(task==employeeTask){
-            			_employeeTasks.remove(task.getFirstStep());
+            			_employeeTasks.remove(task.getTaskName());
             			result = true;
             			for ( IEmployeeListener listener : getListeners() ){
             				listener.taskDetached(_supervisor, getMemento(), task.getMemento());
@@ -314,6 +314,21 @@ public class Employee extends Observer< IEmployeeListener >
         	}
     	}finally{
     		_lockObject.unlock();
+    	}
+    	
+    	return result;
+    }
+    
+    /**
+     * 
+     * @param employeeTask
+     * @return true in case of remove task succeed, false otherwise.
+     */
+    public boolean removeEmployeeTask(String taskName){
+    	boolean result = false;
+    	
+    	if( _employeeTasks.containsKey(taskName) ){
+    		result = removeEmployeeTask(_employeeTasks.get(taskName));
     	}
     	
     	return result;

@@ -265,5 +265,9 @@ public class SdSystemTest{
 		Mockito.when(flowObject.getValue()).thenReturn(0.6);
 		Mockito.when(outputObject.getValue()).thenReturn(0.7);
 		ISdSystem sdSystem = new SdSystem(sdObjects);
+		Assert.assertTrue(sdSystem.hasOutput("output"));
+		Assert.assertFalse(sdSystem.hasOutput("stock"));
+		Assert.assertFalse(sdSystem.hasOutput("flow"));
+		Assert.assertFalse(sdSystem.hasOutput("input"));
 	}
 }
