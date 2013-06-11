@@ -487,4 +487,8 @@ public class Company extends Observer<ICompanyListener>
     		_lockObject.unlock();
     	}
     }
+    
+    public boolean removeTasks( List< EmployeeTaskMemento > tasks ){
+    	return _itDepartment.removeTasks(tasks);
+    }
 }

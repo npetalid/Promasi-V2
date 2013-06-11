@@ -231,6 +231,24 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
     	return result;
     }
     
+    public boolean removeTasks( List< EmployeeTaskMemento > tasks ){
+    	boolean result = true;
+    	try{
+    		_lockObject.lock();
+    		if( tasks != null ){
+	    		for(Map.Entry<String, Employee> entry : _employees.entrySet()){
+	    			for(EmployeeTaskMemento task : tasks ){
+	    				result &= entry.getValue().removeEmployeeTask(task.getProjectTaskName());
+	    			}
+	    		}
+    		}
+    	}finally{
+    		_lockObject.unlock();
+    	}
+    	
+    	return result;
+    }
+    
     /**
      * 
      * @param employee

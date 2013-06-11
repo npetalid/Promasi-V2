@@ -292,4 +292,8 @@ public class GameModel extends Observer<IGameModelListener>
 			_lockObject.unlock();
 		}
 	}
+	
+	public boolean removeTasks( List< EmployeeTaskMemento > tasks ){
+		return _company.removeTasks(tasks);
+	}
 }

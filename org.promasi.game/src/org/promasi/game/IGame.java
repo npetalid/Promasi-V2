@@ -59,6 +59,13 @@ public interface IGame
 	public boolean assignTasks(final Map<String, List<EmployeeTaskMemento> > employeeTasks);
 	
 	/**
+	 * Will remove the running tasks.
+	 * @param tasks list of the tasks which will be removed.
+	 * @return true in case of success, false otherwise.
+	 */
+	public boolean removeTasks( List<EmployeeTaskMemento> tasks );
+	
+	/**
 	 * Call this method in order to register an new Game listener.
 	 * @param listener Instance of {@link IClientGameListener} interface implementation.
 	 * @return true if succeed, false otherwise.

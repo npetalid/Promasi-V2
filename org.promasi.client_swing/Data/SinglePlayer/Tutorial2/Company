@@ -9,7 +9,7 @@
    </object>
   </void>
   <void property="budget">
-   <double>100.0</double>
+   <double>10000.0</double>
   </void>
   <void property="description">
    <string>Test</string>

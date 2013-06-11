@@ -82,13 +82,6 @@ public class SdSystem implements ISdSystem
 		
 		Map<String, ISdObject> systemObjects=new TreeMap<String, ISdObject>(sdObjects);
 		systemObjects.put(CONST_TIME_SDOBJECT_NAME, new TimeSdObject());
-		
-		for(Map.Entry<String, ISdObject> entry : systemObjects.entrySet()){
-			if(!entry.getValue().executeStep(systemObjects)){
-				throw new SdSystemException("Wrong argument sdObjects invalid system");
-			}
-		}
-		
 		_sdObjects=systemObjects;
 		
 		for(Map.Entry<String, ISdObject> entry : _sdObjects.entrySet()){

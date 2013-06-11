@@ -65,12 +65,12 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	private PromasiJDesktopPane _workspace;
 	
 	/**
-	 * 
+	 * Instance of the main frame.
 	 */
 	private IMainFrame _mainFrame;
 	
 	/**
-	 * 
+	 * A player's name.
 	 */
 	private String _username;
 	
