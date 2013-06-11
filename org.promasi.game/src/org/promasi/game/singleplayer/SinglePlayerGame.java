@@ -286,4 +286,9 @@ public class SinglePlayerGame extends Observer<IClientGameListener> implements I
 	public String getName() {
 		return _gameModel.getName();
 	}
+
+	@Override
+	public boolean removeTasks(List<EmployeeTaskMemento> tasks) {
+		return _gameModel.removeTasks(tasks);
+	}
 }

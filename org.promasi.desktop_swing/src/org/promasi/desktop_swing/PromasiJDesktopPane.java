@@ -72,7 +72,7 @@ public class PromasiJDesktopPane extends JDesktopPane  implements IDesktop {
 
 		add(_widgetsFrame);
 		_widgetsFrame.show();
-		addWidget(new ClockWidget());
+		//addWidget(new ClockWidget());
 		
 		StartMenuJPanel startPanel = new StartMenuJPanel( game, username, this );
 		_startMenu.add(startPanel, BorderLayout.CENTER);
