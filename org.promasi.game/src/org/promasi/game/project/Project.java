@@ -9,6 +9,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.GameException;
+import org.promasi.game.model.ProjectModel;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
@@ -252,13 +253,31 @@ public class Project
      * @return
      * @throws SerializationException
      */
-    public ProjectMemento getMemento(){
+    public ProjectModel getMemento(){
+    	ProjectModel result = new ProjectModel();
+    	
     	try {
     		_lockObject.lock();
-			return new ProjectMemento(this);
+    		ProjectModel.ProjectTasks tasks = new ProjectModel.ProjectTasks();
+    		for( Map.Entry<String, ProjectTask > entry : _projectTasks.entrySet() ){
+    			ProjectModel.ProjectTasks.Entry newEntry = new ProjectModel.ProjectTasks.Entry();
+    			newEntry.setKey(entry.getKey());
+    			newEntry.setValue(entry.getValue().getMemento());
+    			tasks.getEntry().add(newEntry);
+    		}
+    		
+			result.setDescription(_description);
+			result.setDifficultyLevel(_difficultyLevel);
+			result.setName(_name);
+			result.setOverallProgress(_overallProgress);
+			result.setProjectDuration(_projectDuration);
+			result.setProjectPrice(_projectPrice);
+			result.setProjectTasks(tasks);
 		}finally{
 			_lockObject.unlock();
 		}
+    	
+    	return result;
     }
     
     /**

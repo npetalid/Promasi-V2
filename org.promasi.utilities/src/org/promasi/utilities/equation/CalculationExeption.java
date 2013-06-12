@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.promasi.sdsystem.sdobject.equation;
+package org.promasi.utilities.equation;
 
 /**
  * @author m1cRo

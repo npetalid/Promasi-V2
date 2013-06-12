@@ -1,7 +1,7 @@
 /**
  * 
  */
-package org.promasi.sdsystem.sdobject.equation;
+package org.promasi.utilities.equation;
 
 import java.util.Map;
 import java.util.Stack;
@@ -12,8 +12,6 @@ import org.nfunk.jep.ParseException;
 import org.nfunk.jep.SymbolTable;
 import org.nfunk.jep.Variable;
 import org.nfunk.jep.function.PostfixMathCommandI;
-import org.promasi.sdsystem.SdSystemException;
-import org.promasi.sdsystem.serialization.IEquationMemento;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
 
@@ -52,10 +50,10 @@ public class CalculatedEquation implements IEquation{
 	 * 
 	 * @param equationString
 	 */
-	public CalculatedEquation(final String equationString)throws SdSystemException
+	public CalculatedEquation(final String equationString)throws CalculationExeption
 	{
 		if(equationString==null){
-			throw new SdSystemException("Wrong argument equationString==null");
+			throw new CalculationExeption("Wrong argument equationString==null");
 		}
 			
 		_jep = new JEP( );
@@ -164,10 +162,10 @@ public class CalculatedEquation implements IEquation{
 	}
 
 	@Override
-	public Double calculateEquation(Map<String, Double> systemValues)throws SdSystemException {
+	public Double calculateEquation(Map<String, Double> systemValues)throws CalculationExeption {
 		if(systemValues==null){
 			_logger.error("Wrong argument systemValues==null"); 
-			throw new SdSystemException("Wrong argument systemValues==null");
+			throw new CalculationExeption("Wrong argument systemValues==null");
 		}
 		
 		for(Map.Entry<String, Double> entry : systemValues.entrySet()){
@@ -191,12 +189,12 @@ public class CalculatedEquation implements IEquation{
 						_jep.setVarValue(var.getName(),value);
 					}else{
 						_logger.error("Calculation failed value for object named " + var.getName() + " not found in equation : '" + _equationString +"'"); 
-						throw new SdSystemException("Calculation failed value for object named " + var.getName() + " not found");
+						throw new CalculationExeption("Calculation failed value for object named " + var.getName() + " not found");
 					}
 				}		
 			}else{
 				_logger.error("Calculation error JEP failed for equation : '" + _equationString +"'");
-				throw new SdSystemException("Calculation error JEP failed");
+				throw new CalculationExeption("Calculation error JEP failed");
 			}
 		}
 		
@@ -209,7 +207,9 @@ public class CalculatedEquation implements IEquation{
 	}
 
 	@Override
-	public IEquationMemento getMemento() {
-		return new CalculatedEquationMemento(this);
+	public EquationModel getMemento() {
+		CalculatedEquationModel model = new CalculatedEquationModel();
+		model.setEquationString(_equationString);
+		return model;
 	}
 }

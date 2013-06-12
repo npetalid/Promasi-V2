@@ -15,20 +15,21 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.joda.time.DateTime;
 import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
+import org.promasi.game.IGameFactory;
 import org.promasi.game.IGameModelListener;
-import org.promasi.game.GameModelMemento;
 import org.promasi.game.company.Company;
-import org.promasi.game.company.DepartmentMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IEmployeeListener;
 import org.promasi.game.company.MarketPlace;
-import org.promasi.game.company.CompanyMemento;
-import org.promasi.game.company.EmployeeMemento;
-import org.promasi.game.company.EmployeeTaskMemento;
-import org.promasi.game.company.MarketPlaceMemento;
+import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.DepartmentModel;
+import org.promasi.game.model.EmployeeModel;
+import org.promasi.game.model.EmployeeTaskModel;
+import org.promasi.game.model.GameModelModel;
+import org.promasi.game.model.MarketPlaceModel;
+import org.promasi.game.model.ProjectModel;
 import org.promasi.game.project.Project;
-import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.clock.Clock;
 import org.promasi.utilities.clock.IClockListener;
 import org.promasi.utilities.logger.ILogger;
@@ -41,31 +42,23 @@ import org.promasi.utilities.logger.LoggerFactory;
  */
 public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameModelListener, IEmployeeListener, ICompanyListener, IDepartmentListener
 {
-	/**
-	 * A shared market place.
-	 */
-	private MarketPlace _marketPlace;
+
+	private GameModelModel _gameModel;
 	
 	/**
 	 * List of running game models each for one player.
 	 */
-	private Map<String, GameModel> _gameModels;
+	private Map<String, GameModel> _gameModels = new TreeMap<String, GameModel>();
 	
 	/**
 	 * 
 	 */
-	private Map<String, GameModelMemento> _finishedGames;
+	private Map<String, GameModelModel> _finishedGames = new TreeMap<String, GameModelModel>();
 	
 	/**
 	 * 
 	 */
 	private List<IServerGameListener> _listeners;
-	
-	/**
-	 * Game model prototype. Will be used in order to create a
-	 * new {@link = GameModel} instance for a new player.
-	 */
-	private GameModelMemento _gameModel;
 	
 	/**
 	 * 
@@ -86,6 +79,10 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	 * Current date time.
 	 */
 	private DateTime _currentDateTime;
+	
+	private IGameFactory _factory;
+	
+	private MarketPlace _marketPlace;
 	
 	/**
 	 * Instance of {@link = ILogger} interface implementation.
@@ -108,42 +105,23 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	 * @param projects List of available projects.
 	 * @throws GameException in case of initialization error.
 	 */
-	public MultiPlayerGame(String clientId, String gameName, String gameDescription, MarketPlace marketPlace, Company company, Queue<Project> projects)throws GameException{
-		if(company==null){
-			throw new GameException("Wrong argument company==null");
+	public MultiPlayerGame(String clientId, GameModelModel model, MarketPlace marketPlace, IGameFactory factory)throws GameException{
+		if( factory == null ){
+			throw new GameException("Wrong argument factory");
+		}
+		
+		GameModel gameModel = factory.createGameModel(model);
+		if( gameModel == null ){
+			throw new GameException("Wrong argument memento");
+		}
+		
+		if( marketPlace == null ){
+			throw new GameException("Wrong argument marketPlace");
 		}
 
-		if(marketPlace==null){
-			throw new GameException("Wrong argument marketPlace==null");
-		}
-		
-		if(projects==null){
-			throw new GameException("Wrong argument projects==null");
-		}
-		
-		if(gameName==null){
-			throw new GameException("Wrong argument gameName==null");
-		}
-		
-		if(gameDescription==null){
-			throw new GameException("Wrong argument gameDescription==null");
-		}
-		
-		if(projects.isEmpty()){
-			throw new GameException("Wrong argument projects is empty");
-		}
-		
-		if(clientId==null){
-			throw new GameException("Wrong argument client==null");
-		}
-		
-		GameModel gameModel=new GameModel(gameName,gameDescription,marketPlace,company,projects);
-		_gameModel=gameModel.getMemento();
-
-		_marketPlace=marketPlace;
-
-		_gameModels=new TreeMap<String, GameModel>(); 
-		_finishedGames=new TreeMap<String, GameModelMemento>();
+		_marketPlace = marketPlace;
+		_factory = factory;
+		_gameModel = model;
 		gameModel.addListener(this);
 		gameModel.addCompanyListener(this);
 		_gameModels.put(clientId, gameModel);
@@ -154,7 +132,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		_systemClock.addListener(this);
 		_gameOwnerId=clientId;
 		_lockObject=new ReentrantLock();
-		_logger.info("New multiplayer game initialization complete game owner:" + clientId + " game id:" + gameName );
+		_logger.info("New multiplayer game initialization complete game owner:" + clientId + " game id:" + _gameModel.getGameName() );
 	}
 
 
@@ -213,7 +191,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	 * @see org.promasi.game.IGame#assignTasks(java.lang.String, java.util.List)
 	 */
 	@Override
-	public boolean assignTasks(final String clientId, String employeeId,List<EmployeeTaskMemento> employeeTasks) {
+	public boolean assignTasks(final String clientId, String employeeId,List<EmployeeTaskModel> employeeTasks) {
 		boolean result = false;
 		
 		try{
@@ -319,11 +297,11 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 			_lockObject.lock();
 			if(playerId!=null && !_gameModels.containsKey(playerId)){
 				Queue<Project> projects=new LinkedList<Project>();
-				for(ProjectMemento project : _gameModel.getProjects()){
-					projects.add(project.getProject());
+				for(ProjectModel project : _gameModel.getProjects()){
+					projects.add(_factory.createProject(project));
 				}
 				
-				Company company = _gameModel.getCompany().getCompany();
+				Company company = _factory.createCompany(_gameModel.getCompany());
 				GameModel gameModel=new GameModel(_gameModel.getGameName(), _gameModel.getGameDescription(), _marketPlace, company,projects);
 				company.setOwner(playerId);
 				gameModel.addListener(this);
@@ -432,7 +410,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 	}
 
 	@Override
-	public void onExecuteStep(GameModel game, CompanyMemento company) {
+	public void onExecuteStep(GameModel game, CompanyModel company) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			if(entry.getValue()==game){
 				for(IServerGameListener listener : _listeners){
@@ -450,7 +428,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void gameFinished(GameModel game, CompanyMemento company) {
+	public void gameFinished(GameModel game, CompanyModel company) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			if(entry.getValue()==game){
 				if(!_finishedGames.containsKey(entry.getKey())){
@@ -468,7 +446,7 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void projectAssigned(String owner, CompanyMemento company, ProjectMemento project, DateTime dateTime) {
+	public void projectAssigned(String owner, CompanyModel company, ProjectModel project, DateTime dateTime) {
 		for(IServerGameListener listener : _listeners){
 			listener.projectAssigned(owner, this, company, project, dateTime);
 		}
@@ -476,21 +454,21 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void projectFinished(String owner, CompanyMemento company, ProjectMemento project, DateTime dateTime) {
+	public void projectFinished(String owner, CompanyModel company, ProjectModel project, DateTime dateTime) {
 		for(IServerGameListener listener : _listeners){
 			listener.projectFinished(owner, this, company, project, dateTime);
 		}
 	}
 
 	@Override
-	public void companyIsInsolvent(String owner, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime) {
+	public void companyIsInsolvent(String owner, CompanyModel company,ProjectModel assignedProject, DateTime dateTime) {
 		for(IServerGameListener listener : _listeners){
 			listener.companyIsInsolvent(owner, this, company, dateTime);
 		}
 	}
 
 	@Override
-	public void onExecuteWorkingStep(String owner, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime) {
+	public void onExecuteWorkingStep(String owner, CompanyModel company,ProjectModel assignedProject, DateTime dateTime) {
 		for(IServerGameListener listener : _listeners){
 			listener.onExecuteStep(owner, this, company, dateTime);
 		}
@@ -498,20 +476,20 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void taskAssigned(String supervisor,EmployeeMemento employee) {}
+	public void taskAssigned(String supervisor,EmployeeModel employee) {}
 
 
 	@Override
-	public void taskDetached(String supervisor,EmployeeMemento employee, EmployeeTaskMemento employeeTask) {}
+	public void taskDetached(String supervisor,EmployeeModel employee, EmployeeTaskModel employeeTask) {}
 
 
 	@Override
-	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
+	public void employeeDischarged(String director, DepartmentModel department, EmployeeModel employee, DateTime dateTime) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
-				GameModelMemento gameModel=entry.getValue().getMemento();
-				MarketPlaceMemento sMarketPlace=gameModel.getMarketPlace();
-				CompanyMemento sCompany=gameModel.getCompany();
+				GameModelModel gameModel=entry.getValue().getMemento();
+				MarketPlaceModel sMarketPlace=gameModel.getMarketPlace();
+				CompanyModel sCompany=gameModel.getCompany();
 				listener.employeeDischarged(entry.getKey(), this, sMarketPlace, sCompany, employee, dateTime);
 			}
 		}
@@ -519,12 +497,12 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
+	public void employeeHired(String director, DepartmentModel department, EmployeeModel employee, DateTime dateTime) {
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
-				GameModelMemento gameModel=entry.getValue().getMemento();
-				MarketPlaceMemento sMarketPlace=gameModel.getMarketPlace();
-				CompanyMemento sCompany=gameModel.getCompany();
+				GameModelModel gameModel=entry.getValue().getMemento();
+				MarketPlaceModel sMarketPlace=gameModel.getMarketPlace();
+				CompanyModel sCompany=gameModel.getCompany();
 				listener.employeeHired(entry.getKey(), this, sMarketPlace, sCompany, employee, dateTime);
 			}
 		}
@@ -532,21 +510,21 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 
 
 	@Override
-	public void companyAssigned(String owner, CompanyMemento company) {}
+	public void companyAssigned(String owner, CompanyModel company) {}
 
 
 	@Override
-	public void tasksAssignFailed(String supervisor, EmployeeMemento employee) {}
+	public void tasksAssignFailed(String supervisor, EmployeeModel employee) {}
 
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {}
+	public void tasksAssigned(String director, DepartmentModel department, DateTime dateTime) {}
 
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {}
+	public void tasksAssignFailed(String director, DepartmentModel department, DateTime dateTime) {}
 
 
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {}
+	public void departmentAssigned(String director, DepartmentModel department, DateTime dateTime) {}
 }

@@ -9,7 +9,7 @@ package org.promasi.game.multiplayer;
  */
 import java.util.List;
 
-import org.promasi.game.company.EmployeeTaskMemento;
+import org.promasi.game.model.EmployeeTaskModel;
 import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
 
@@ -68,7 +68,7 @@ public interface IMultiPlayerGame
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public boolean assignTasks(final String playerId, final String employeeId, List<EmployeeTaskMemento> employeeTasks);
+	public boolean assignTasks(final String playerId, final String employeeId, List<EmployeeTaskModel> employeeTasks);
 	
 	/**
 	 * 

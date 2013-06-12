@@ -12,6 +12,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.joda.time.DateTime;
 import org.promasi.game.GameException;
+import org.promasi.game.model.DepartmentModel;
+import org.promasi.game.model.EmployeeModel;
+import org.promasi.game.model.EmployeeTaskModel;
 import org.promasi.game.project.ProjectTask;
 import org.promasi.utilities.design.Observer;
 import org.promasi.utilities.exceptions.NullArgumentException;
@@ -58,9 +61,9 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
      * @return The {@link #_employees}. The list cannot be modified.
      * @throws SerializationException 
      */
-    public Map<String,EmployeeMemento> getEmployees ( )
+    public Map<String,EmployeeModel> getEmployees ( )
     {
-    	Map<String,EmployeeMemento> employees=new TreeMap<String, EmployeeMemento>();
+    	Map<String,EmployeeModel> employees=new TreeMap<String, EmployeeModel>();
     	
     	try{
     		_lockObject.lock();
@@ -89,7 +92,7 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
             	if( !_employees.containsKey( employee.getEmployeeId() ) ){
                 	_employees.put(employee.getEmployeeId(), employee);
                 	employee.addListener(this);
-                	DepartmentMemento memento = getMemento();
+                	DepartmentModel memento = getMemento();
                     for(IDepartmentListener listener : getListeners()){
                     	listener.employeeHired(_director, memento, employee.getMemento(), time);
                     }
@@ -156,8 +159,18 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
      * 
      * @return
      */
-    public DepartmentMemento getMemento(){
-    	return new DepartmentMemento(this);
+    public DepartmentModel getMemento(){
+    	DepartmentModel result = new DepartmentModel();
+    	
+    	DepartmentModel.Employees employees = new DepartmentModel.Employees();
+    	for( Map.Entry<String, Employee > entry : _employees.entrySet() ){
+    		DepartmentModel.Employees.Entry newEntry = new DepartmentModel.Employees.Entry();
+    		newEntry.setKey(entry.getKey());
+    		newEntry.setValue(entry.getValue().getMemento());
+    	}
+    	
+    	result.setEmployees(employees);
+    	return result;
     }
     
     /**
@@ -177,7 +190,7 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
                 	_employees.get(employeeId).removeListener(this);
                 	_employees.remove(employeeId);
                 	if(marketPlace.dischargeEmployee(currentEmployee)){
-                		DepartmentMemento memento = getMemento();
+                		DepartmentModel memento = getMemento();
                         for(IDepartmentListener listener : getListeners()){
                         	listener.employeeDischarged(_director, memento, currentEmployee.getMemento(), time);
                         }
@@ -231,13 +244,13 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
     	return result;
     }
     
-    public boolean removeTasks( List< EmployeeTaskMemento > tasks ){
+    public boolean removeTasks( List< EmployeeTaskModel > tasks ){
     	boolean result = true;
     	try{
     		_lockObject.lock();
     		if( tasks != null ){
 	    		for(Map.Entry<String, Employee> entry : _employees.entrySet()){
-	    			for(EmployeeTaskMemento task : tasks ){
+	    			for(EmployeeTaskModel task : tasks ){
 	    				result &= entry.getValue().removeEmployeeTask(task.getProjectTaskName());
 	    			}
 	    		}
@@ -254,7 +267,7 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
      * @param employee
      * @param employeeTask
      */
-    public boolean assignTasks( String employeeId, List<EmployeeTaskMemento> employeeTasks , Map<String, ProjectTask> projectTasks, DateTime time ){
+    public boolean assignTasks( String employeeId, List<EmployeeTaskModel> employeeTasks , Map<String, ProjectTask> projectTasks, DateTime time ){
     	boolean result = false;
     	
     	try{
@@ -273,7 +286,7 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
         		
         		List<EmployeeTask> tasks=new  LinkedList<EmployeeTask>();
         		try {
-    	    		for(EmployeeTaskMemento employeeTask : employeeTasks){
+    	    		for(EmployeeTaskModel employeeTask : employeeTasks){
     	    			
     	        		String taskName=employeeTask.getProjectTaskName();
     	    			ProjectTask projectTask=projectTasks.get(taskName);
@@ -314,23 +327,6 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
         	}
     	}finally{
     		_lockObject.unlock();
-    	}
-    	
-    	return result;
-    }
-    
-    /**
-     * 
-     * @param memento
-     */
-    public boolean setMemento(DepartmentMemento memento){
-    	boolean result = false;
-    	
-    	try{
-    		Department department = memento.getDepartment();
-    		_employees = department._employees;
-    	}catch( SerializationException e){
-    		result = false;
     	}
     	
     	return result;
@@ -449,16 +445,16 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
     }
 
 	@Override
-	public void taskAssigned(String supervisor, EmployeeMemento employee) {}
+	public void taskAssigned(String supervisor, EmployeeModel employee) {}
 
 	@Override
-	public void taskDetached(String supervisor, EmployeeMemento employee,
-			EmployeeTaskMemento task) {
+	public void taskDetached(String supervisor, EmployeeModel employee,
+			EmployeeTaskModel task) {
 		for( Map.Entry<String, Employee> entry : _employees.entrySet() ){
 			entry.getValue().removeEmployeeTaskDependencie(task.getTaskName());
 		}
 	}
 
 	@Override
-	public void tasksAssignFailed(String supervisor, EmployeeMemento employee) {}
+	public void tasksAssignFailed(String supervisor, EmployeeModel employee) {}
 }

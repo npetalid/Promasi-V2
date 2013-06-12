@@ -6,6 +6,7 @@ package org.promasi.game.project;
 import java.util.Map;
 
 import org.promasi.game.GameException;
+import org.promasi.game.model.TaskBridgeModel;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 
@@ -67,22 +68,22 @@ public class TaskBridge
 		}
 		
 		if(!tasks.containsKey(inputTaskName)){
-			throw new IllegalArgumentException("Wrong argument tasks does not contain inputTask");
+			throw new GameException("Wrong argument tasks does not contain inputTask");
 		}
 		
 		if(!tasks.containsKey(outputTaskName)){
-			throw new IllegalArgumentException("Wrong argument tasks does not contain outputTask");
+			throw new GameException("Wrong argument tasks does not contain outputTask");
 		}
 		
 		if(outputTaskName.equals(inputTaskName)){
-			throw new IllegalArgumentException("Wrong argument outputTaskName, inputTaskName");
+			throw new GameException("Wrong argument outputTaskName, inputTaskName");
 		}
 		
 		ProjectTask outputTask=tasks.get(outputTaskName);
 		ProjectTask inputTask=tasks.get(inputTaskName);
 		
 		if(!outputTask.makeBridge(outputSdObjectId, inputSdObjectId, inputTask)){
-			throw new IllegalArgumentException("Make bridge failed");
+			throw new GameException("Make bridge failed");
 		}
 		
 		_outputTaskName=outputTaskName;
@@ -96,7 +97,14 @@ public class TaskBridge
 	 * @return
 	 * @throws SerializationException
 	 */
-	public synchronized TaskBridgeMemento getSerializableTaskBridge(){
-		return new TaskBridgeMemento(this);
+	public synchronized TaskBridgeModel getMemento(){
+		TaskBridgeModel result = new TaskBridgeModel();
+		
+		result.setInputSdObjectId(_inputSdObjectId);
+		result.setInputTaskName(_inputTaskName);
+		result.setOutputSdObjectId(_outputSdObjectId);
+		result.setOutputTaskName(_outputTaskName);
+		
+		return result;
 	}
 }

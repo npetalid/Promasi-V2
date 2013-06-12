@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-	<bean id="CalculatedEquation" class="org.promasi.sdsystem.sdobject.equation.CalculatedEquation" scope="prototype">
+	<bean id="CalculatedEquation" class="org.promasi.utilities.equation.CalculatedEquation" scope="prototype">
 		<constructor-arg type="java.lang.String" value="1"/>
 	</bean>
 
@@ -23,7 +23,7 @@
 	</bean>	
 
 	<bean id="StockSdObject" class="org.promasi.sdsystem.sdobject.StockSdObject" scope="prototype">
-		<constructor-arg type="org.promasi.sdsystem.sdobject.equation.IEquation">
+		<constructor-arg type="org.promasi.utilities.equation.IEquation">
 			<ref bean="CalculatedEquation"/>
 		</constructor-arg>
 		<constructor-arg type="Double" value="0"/>
@@ -38,18 +38,5 @@
 	</bean>
 	
 	<bean id="TimeSdObject" class = "org.promasi.sdsystem.sdobject.TimeSdObject" scope="prototype"/>
-
-	<bean id="SdSystem" class="org.promasi.sdsystem.SdSystem" scope="prototype">
-	  <constructor-arg>
-	  	<util:map key-type="java.lang.String" value-type="org.promasi.sdsystem.sdobject.InputSdObject">
-	  	<entry key="Object1">
-	  		<ref bean="FlowSdObject"/>
-	  	</entry>
-	  	<entry key="Object2">
-	  		<ref bean="StockSdObject"/>
-	  	</entry>
-	  	</util:map>
-	  </constructor-arg>
-	</bean>
 	
 </beans>

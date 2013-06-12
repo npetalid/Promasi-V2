@@ -6,11 +6,12 @@ package org.promasi.game;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.promasi.game.company.CompanyMemento;
-import org.promasi.game.company.EmployeeMemento;
-import org.promasi.game.company.EmployeeTaskMemento;
-import org.promasi.game.company.MarketPlaceMemento;
-import org.promasi.game.project.ProjectMemento;
+import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.EmployeeModel;
+import org.promasi.game.model.EmployeeTaskModel;
+import org.promasi.game.model.MarketPlaceModel;
+import org.promasi.game.model.ProjectModel;
+
 
 /**
  * @author m1cRo
@@ -23,19 +24,19 @@ public interface IGameListener
 	 * @param marketPlace
 	 * @param company
 	 */
-	public void gameStarted(final MarketPlaceMemento marketPlace, CompanyMemento company);
+	public void gameStarted(final MarketPlaceModel marketPlace, CompanyModel company);
 	
 	/**
 	 * 
 	 * @param project
 	 */
-	public void projectAssigned(final CompanyMemento company, final ProjectMemento project, final DateTime dateTime);
+	public void projectAssigned(final CompanyModel company, final ProjectModel project, final DateTime dateTime);
 	
 	/**
 	 * 
 	 * @param project
 	 */
-	public void projectFinished(final CompanyMemento company, final ProjectMemento project, final DateTime dateTime);
+	public void projectFinished(final CompanyModel company, final ProjectModel project, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -44,7 +45,7 @@ public interface IGameListener
 	 * @param employee
 	 * @param dateTime
 	 */
-	public void employeeHired(final MarketPlaceMemento marketPlace, final CompanyMemento company, final EmployeeMemento employee, final DateTime dateTime);
+	public void employeeHired(final MarketPlaceModel marketPlace, final CompanyModel company, final EmployeeModel employee, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -53,7 +54,7 @@ public interface IGameListener
 	 * @param employee
 	 * @param dateTime
 	 */
-	public void employeeDischarged(final MarketPlaceMemento marketPlace, final CompanyMemento company, final EmployeeMemento employee, final DateTime dateTime);
+	public void employeeDischarged(final MarketPlaceModel marketPlace, final CompanyModel company, final EmployeeModel employee, final DateTime dateTime);
 	
 	/**
 	 * 
@@ -61,7 +62,7 @@ public interface IGameListener
 	 * @param employee
 	 * @param employeeTask
 	 */
-	public void employeeTasksAssigned(final CompanyMemento company, final EmployeeMemento employee, final List<EmployeeTaskMemento> employeeTasks);
+	public void employeeTasksAssigned(final CompanyModel company, final EmployeeModel employee, final List<EmployeeTaskModel> employeeTasks);
 	
 	/**
 	 * 
@@ -69,24 +70,24 @@ public interface IGameListener
 	 * @param employee
 	 * @param employeeTask
 	 */
-	public void employeeTaskDetached(final MarketPlaceMemento marketPlace, final CompanyMemento company, final EmployeeMemento employee, final EmployeeTaskMemento employeeTask);
+	public void employeeTaskDetached(final MarketPlaceModel marketPlace, final CompanyModel company, final EmployeeModel employee, final EmployeeTaskModel employeeTask);
 	
 	/**
 	 * 
 	 * @param employee
 	 * @param salary
 	 */
-	public void onPay(final CompanyMemento company, final EmployeeMemento employee,final Double salary, final DateTime dateTime);
+	public void onPay(final CompanyModel company, final EmployeeModel employee,final Double salary, final DateTime dateTime);
 	
 	/**
 	 * 
 	 */
-	public void companyIsInsolvent(final CompanyMemento company, final DateTime dateTime);
+	public void companyIsInsolvent(final CompanyModel company, final DateTime dateTime);
 	
 	/**
 	 * 
 	 */
-	public void onExecuteStep(final CompanyMemento company,final ProjectMemento assignedProject, final DateTime dateTime);
+	public void onExecuteStep(final CompanyModel company,final ProjectModel assignedProject, final DateTime dateTime);
 	
 	
 	/**

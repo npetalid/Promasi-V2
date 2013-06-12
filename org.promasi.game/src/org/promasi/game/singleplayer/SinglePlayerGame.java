@@ -16,10 +16,10 @@ import org.promasi.game.GameModel;
 import org.promasi.game.IGame;
 import org.promasi.game.IGameModelListener;
 import org.promasi.game.company.ICompanyListener;
-import org.promasi.game.company.CompanyMemento;
-import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IMarketPlaceListener;
+import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.EmployeeTaskModel;
 import org.promasi.utilities.clock.IClock;
 import org.promasi.utilities.clock.IClockListener;
 import org.promasi.utilities.design.Observer;
@@ -139,12 +139,12 @@ public class SinglePlayerGame extends Observer<IClientGameListener> implements I
 	}
 
 	@Override
-	public boolean assignTasks(final Map<String, List<EmployeeTaskMemento> > employeeTasks) {
+	public boolean assignTasks(final Map<String, List<EmployeeTaskModel> > employeeTasks) {
 		boolean result = true;
 		try
 		{
 			_lockObject.lock();
-			for( Map.Entry<String, List<EmployeeTaskMemento> > entry : employeeTasks.entrySet()){
+			for( Map.Entry<String, List<EmployeeTaskModel> > entry : employeeTasks.entrySet()){
 				result &=_gameModel.assignTasks(entry.getKey(), entry.getValue(), _currentDateTime);
 			}
 		}finally{
@@ -195,7 +195,7 @@ public class SinglePlayerGame extends Observer<IClientGameListener> implements I
 	}
 
 	@Override
-	public void onExecuteStep(GameModel game, CompanyMemento company) {
+	public void onExecuteStep(GameModel game, CompanyModel company) {
 		for(IClientGameListener listener : getListeners()){
 			listener.onExecuteStep(this, company, _systemClock.getCurrentDateTime());
 		}
@@ -224,11 +224,11 @@ public class SinglePlayerGame extends Observer<IClientGameListener> implements I
 	}
 
 	@Override
-	public void gameFinished(GameModel gameModel, CompanyMemento company) {
+	public void gameFinished(GameModel gameModel, CompanyModel company) {
 		try{
 			_lockObject.lock();
 			for( IClientGameListener gameEventHandler : getListeners()){
-				Map<String, CompanyMemento> players = new TreeMap<String, CompanyMemento>();
+				Map<String, CompanyModel> players = new TreeMap<String, CompanyModel>();
 				players.put(_gameModel.getPlayerId(), company);
 				gameEventHandler.gameFinished(this, players);
 			}
@@ -288,7 +288,7 @@ public class SinglePlayerGame extends Observer<IClientGameListener> implements I
 	}
 
 	@Override
-	public boolean removeTasks(List<EmployeeTaskMemento> tasks) {
+	public boolean removeTasks(List<EmployeeTaskModel> tasks) {
 		return _gameModel.removeTasks(tasks);
 	}
 }

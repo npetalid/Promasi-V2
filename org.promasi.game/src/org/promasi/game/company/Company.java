@@ -7,6 +7,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.promasi.game.GameException;
+import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.EmployeeTaskModel;
 import org.promasi.game.project.Project;
 import org.promasi.utilities.design.Observer;
 
@@ -325,8 +327,8 @@ public class Company extends Observer<ICompanyListener>
                 	if(_assignedProject!=null){
                     	 _itDepartment.executeWorkingStep(_assignedProject.getCurrentStep());
                     	 
-                         for(ICompanyListener eventHandler : getListeners()){
-                         	eventHandler.onExecuteWorkingStep(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
+                         for(ICompanyListener listener : getListeners()){
+                        	 listener.onExecuteWorkingStep(_owner, getMemento(), _assignedProject.getMemento(), currentDate);
                          }
                          
                          double progress = _assignedProject.executeStep(true);
@@ -362,7 +364,7 @@ public class Company extends Observer<ICompanyListener>
      * @param time
      * @return
      */
-    public boolean assignTasks(final String employeeId, List<EmployeeTaskMemento> employeeTasks, DateTime time){
+    public boolean assignTasks(final String employeeId, List<EmployeeTaskModel> employeeTasks, DateTime time){
     	boolean result = false;
     	
     	try{
@@ -457,8 +459,18 @@ public class Company extends Observer<ICompanyListener>
      * 
      * @return
      */
-    public CompanyMemento getMemento(){
-		return new CompanyMemento(this);
+    public CompanyModel getMemento(){
+    	CompanyModel result = new CompanyModel();
+    	
+    	result.setBudget( _budget );
+    	result.setDescription( _description );
+    	result.setEndTime( _endTime.toString() );
+    	result.setItDepartment( _itDepartment.getMemento() );
+    	result.setName(_name);
+    	result.setPrestigePoints(_prestigePoints);
+    	result.setStartTime(_startTime.toString());
+    	
+    	return result;
     }
     
     /**
@@ -488,7 +500,7 @@ public class Company extends Observer<ICompanyListener>
     	}
     }
     
-    public boolean removeTasks( List< EmployeeTaskMemento > tasks ){
+    public boolean removeTasks( List< EmployeeTaskModel > tasks ){
     	return _itDepartment.removeTasks(tasks);
     }
 }

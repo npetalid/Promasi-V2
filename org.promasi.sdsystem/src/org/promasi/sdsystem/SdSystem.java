@@ -7,6 +7,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.promasi.sdsystem.model.SdObjectModel;
+import org.promasi.sdsystem.model.SdSystemModel;
 import org.promasi.sdsystem.sdobject.FlowSdObject;
 import org.promasi.sdsystem.sdobject.ISdObject;
 import org.promasi.sdsystem.sdobject.InputSdObject;
@@ -189,8 +191,15 @@ public class SdSystem implements ISdSystem
 	 * @return instance of {@link = SdSystemMemento} which
 	 * represent the state of the object.
 	 */
-	public SdSystemMemento getMemento() {
-		return new SdSystemMemento(this);
+	public SdSystemModel getMemento() {
+		SdSystemModel model = new SdSystemModel();
+		
+		Map<String, SdObjectModel> sdObjects = new TreeMap<>();
+		for( Map.Entry<String, ISdObject> entry : _sdObjects.entrySet() ){
+			sdObjects.put(entry.getKey(), entry.getValue().getMemento());
+		}
+		
+		return model;
 	}
 	
 	/**

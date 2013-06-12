@@ -8,13 +8,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.GameException;
-import org.promasi.sdsystem.SdSystem;
-import org.promasi.sdsystem.SdSystemBridge;
-import org.promasi.sdsystem.SdSystemException;
-import org.promasi.sdsystem.sdobject.equation.IEquation;
-import org.promasi.utilities.exceptions.NullArgumentException;
-import org.promasi.utilities.serialization.SerializationException;
-
+import org.promasi.game.model.ProjectTaskModel;
+import org.promasi.utilities.equation.CalculationExeption;
+import org.promasi.utilities.equation.IEquation;
 
 public class ProjectTask
 {
@@ -36,7 +32,7 @@ public class ProjectTask
     /**
      * 
      */
-    protected SdSystem _sdSystem;
+    protected ISimulator _simulator;
     
     /**
      * The completed percentage.
@@ -51,7 +47,7 @@ public class ProjectTask
     /**
      * 
      */
-    protected List<SdSystemBridge> _sdSystemBridges;
+    protected List<SimulatorBridge> _sdSystemBridges;
     
     /**
      * 
@@ -71,7 +67,7 @@ public class ProjectTask
     /**
      * Initializes the object.
      */
-    public ProjectTask( String taskName, String description, SdSystem sdSystem, IEquation progressEquation )throws GameException
+    public ProjectTask( String taskName, String description, ISimulator simulator, IEquation progressEquation )throws GameException
     {
         if(description==null)
         {
@@ -83,7 +79,7 @@ public class ProjectTask
         	throw new GameException("Wrong argument taskName==null");
         }
         
-        if(sdSystem==null){
+        if(simulator==null){
         	throw new GameException("Wrong argument sdSystem==null"); 
         }
         
@@ -95,8 +91,8 @@ public class ProjectTask
         _employeeSkills=new HashMap<String, Double>();
         _description=description;
         _name=taskName;
-        _sdSystem=sdSystem;
-        _sdSystemBridges=new LinkedList<SdSystemBridge>();
+        _simulator=simulator;
+        _sdSystemBridges=new LinkedList<SimulatorBridge>();
         
         _lockObject = new ReentrantLock();
         
@@ -116,11 +112,11 @@ public class ProjectTask
     	try{
     		_lockObject.lock();
         	if(outputSdObjectId != null && inputSdObjectId != null && inputProjectTask != null){
-            	SdSystemBridge bridge=new SdSystemBridge(outputSdObjectId, _sdSystem, inputSdObjectId, inputProjectTask._sdSystem);
+            	SimulatorBridge bridge=new SimulatorBridge(outputSdObjectId, _simulator, inputSdObjectId, inputProjectTask._simulator);//TODO fix it.
             	_sdSystemBridges.add(bridge);
             	result = true;
         	}
-    	}catch( SdSystemException e){
+    	}catch( GameException e){
     		result = false;
     	}finally{
     		_lockObject.unlock();
@@ -171,28 +167,27 @@ public class ProjectTask
         	
         	if(currentStep>=0){
             	for(Map.Entry<String, Double> entry : _employeeSkills.entrySet()){
-            		_sdSystem.setInput(entry.getKey(), entry.getValue());
+            		_simulator.setInput(entry.getKey(), entry.getValue());
             	}
                 
-                _sdSystem.executeStep();
+                _simulator.executeStep();
                 if( _progress < CONST_PROGRESS_MAX_VALUE ){
-                	_progress=_progressEquation.calculateEquation( _sdSystem.getSystemValues() );
+                	_progress=_progressEquation.calculateEquation( _simulator.getValues() );
                 	if(_progress > CONST_PROGRESS_MAX_VALUE){
                 		_progress = CONST_PROGRESS_MAX_VALUE;
                 	}
                 }
             	
         		for(Map.Entry<String, Double> entry : _employeeSkills.entrySet()){
-        			_sdSystem.setInput(entry.getKey(), 0.0);
+        			_simulator.setInput(entry.getKey(), 0.0);
         		}
             	
         		_employeeSkills.clear();
             	_sumEmployees=0;
             	result = true;
         	}
-        	
-    	}catch(SdSystemException e){
-    		result = false;
+    	}catch( CalculationExeption ex){
+    		ex.printStackTrace();
 		}finally{
 			_lockObject.unlock();
 		}
@@ -208,7 +203,7 @@ public class ProjectTask
     	
     	try{
     		_lockObject.lock();
-        	for(SdSystemBridge bridge :_sdSystemBridges){
+        	for(SimulatorBridge bridge :_sdSystemBridges){
         		result &= bridge.executeStep();
         	}
     	}finally{
@@ -221,11 +216,20 @@ public class ProjectTask
 	/**
 	 * 
 	 * @return
-	 * @throws SerializationException 
-	 * @throws NullArgumentException 
 	 */
-	public ProjectTaskMemento getMemento(){
-		return new ProjectTaskMemento(this);
+	public ProjectTaskModel getMemento(){
+		ProjectTaskModel result = new ProjectTaskModel();
+		
+		result.setDescription(_description);
+		result.setName(_name);
+		result.setProgress(_progress);
+		
+		EquationProgressModel progressModel = new EquationProgressModel();
+		progressModel.setEquationModel(_progressEquation.getMemento());
+		result.setProgressEquation( progressModel );
+		result.setSimulationModel(_simulator.getMemento());
+		
+		return result;
 	}
 
 	/**
@@ -267,14 +271,14 @@ public class ProjectTask
 	 * @throws NullArgumentException
 	 * @throws IllegalArgumentException
 	 */
-	public Double getOutput(final String outputId)throws SdSystemException{
+	public Double getOutput(final String outputId)throws GameException{
 		if(outputId==null){
-			throw new SdSystemException("Wrong argument outputId==null");
+			throw new GameException("Wrong argument outputId==null");
 		}
 		
 		try{
 			_lockObject.lock();
-			return _sdSystem.getValue(outputId);
+			return _simulator.getValue(outputId);
 		}finally{
 			_lockObject.unlock();
 		}
@@ -286,12 +290,12 @@ public class ProjectTask
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean hasOutput(final String outputId)throws SdSystemException{
+	public boolean hasOutput(final String outputId)throws GameException{
 		if(outputId==null){
-			throw new SdSystemException("Wrong argument outputId==null");
+			throw new GameException("Wrong argument outputId==null");
 		}
 		
-		return _sdSystem.hasOutput(outputId);
+		return _simulator.hasOutput(outputId);
 	}
 
     /**

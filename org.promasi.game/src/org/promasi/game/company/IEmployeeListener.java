@@ -1,5 +1,8 @@
 package org.promasi.game.company;
 
+import org.promasi.game.model.EmployeeModel;
+import org.promasi.game.model.EmployeeTaskModel;
+
 /**
  * 
  * @author m1cRo
@@ -11,13 +14,13 @@ public interface IEmployeeListener
 	 * 
 	 * @param employee
 	 */
-	public void taskAssigned(String supervisor, EmployeeMemento employee);
+	public void taskAssigned(String supervisor, EmployeeModel employee);
 	
 	/**
 	 * 
 	 * @param employee
 	 */
-	public void taskDetached(String supervisor, EmployeeMemento employee, EmployeeTaskMemento task);
+	public void taskDetached(String supervisor, EmployeeModel employee, EmployeeTaskModel task);
 	
 	/**
 	 * 
@@ -25,5 +28,5 @@ public interface IEmployeeListener
 	 * @param employee
 	 * @param employeeTasks
 	 */
-	public void tasksAssignFailed(String supervisor, EmployeeMemento employee );
+	public void tasksAssignFailed(String supervisor, EmployeeModel employee );
 }

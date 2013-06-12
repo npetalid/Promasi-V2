@@ -13,12 +13,13 @@ import java.util.regex.Pattern;
 
 import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
+import org.promasi.game.IGameFactory;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.MarketPlace;
-import org.promasi.game.company.CompanyMemento;
-import org.promasi.game.company.MarketPlaceMemento;
+import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.MarketPlaceModel;
+import org.promasi.game.model.ProjectModel;
 import org.promasi.game.project.Project;
-import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
@@ -66,18 +67,25 @@ public class SinglePlayerGameFolder
 	 */
 	private GameModel _game;
 	
+	private IGameFactory _factory;
+	
 	/**
 	 * 
 	 * @param gameFolderPath
 	 * @param playerName
 	 * @throws GameException
 	 */
-	public SinglePlayerGameFolder(final String gameFolderPath, String playerName)throws GameException{
+	public SinglePlayerGameFolder(IGameFactory factory, final String gameFolderPath, String playerName)throws GameException{
 		CONST_LOGGER.info("Start reading game from : " + gameFolderPath);
 		if(gameFolderPath==null){
 			throw new GameException("Wrong argument gameFolderPath==null");
 		}
 		
+		if( factory == null ){
+			throw new GameException("Wrong argument factory==null");
+		}
+		
+		_factory = factory;
 		String separator;
 		try {
 			separator = RootDirectory.getInstance().getSeparator();
@@ -178,9 +186,9 @@ public class SinglePlayerGameFolder
 		XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
 		Object object=xmlDecoder.readObject();
 		xmlDecoder.close();
-		if(object instanceof CompanyMemento){
-			CompanyMemento sCompany=(CompanyMemento)object;
-			Company company=sCompany.getCompany();
+		if(object instanceof CompanyModel){
+			CompanyModel sCompany=(CompanyModel)object;
+			Company company=_factory.createCompany(sCompany);
 			return company;
 		}
 		
@@ -200,9 +208,9 @@ public class SinglePlayerGameFolder
 		XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
 		Object object=xmlDecoder.readObject();
 		xmlDecoder.close();
-		if(object instanceof MarketPlaceMemento){
-			MarketPlaceMemento sMarketPlace=(MarketPlaceMemento)object;
-			MarketPlace marketPlace=sMarketPlace.getMemento();
+		if(object instanceof MarketPlaceModel){
+			MarketPlaceModel sMarketPlace=(MarketPlaceModel)object;
+			MarketPlace marketPlace=_factory.createMarketPlace( sMarketPlace );
 			return marketPlace;
 		}
 		
@@ -263,15 +271,11 @@ public class SinglePlayerGameFolder
 				XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
 				Object object=xmlDecoder.readObject();
 				xmlDecoder.close();
-				if(object instanceof ProjectMemento){
-					ProjectMemento sProject=(ProjectMemento)object;
+				if(object instanceof ProjectModel){
+					ProjectModel sProject=(ProjectModel)object;
 					Project project;
-					try {
-						project = sProject.getProject();
-						projects.add(project);
-					} catch (SerializationException e) {
-						e.printStackTrace();
-					}
+					project = _factory.createProject(sProject);
+					projects.add(project);
 				}
 			}catch(FileNotFoundException e){
 				//Log wrong file

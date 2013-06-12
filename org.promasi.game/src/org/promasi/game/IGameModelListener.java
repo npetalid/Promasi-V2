@@ -3,8 +3,7 @@
  */
 package org.promasi.game;
 
-
-import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.model.CompanyModel;
 
 
 /**
@@ -16,12 +15,12 @@ public interface IGameModelListener
 	/**
 	 * 
 	 */
-	public void onExecuteStep( GameModel game, CompanyMemento company);
+	public void onExecuteStep( GameModel game, CompanyModel company);
 	
 	/**
 	 * 
 	 * @param game
 	 * @param company
 	 */
-	public void gameFinished( GameModel game, CompanyMemento company);
+	public void gameFinished( GameModel game, CompanyModel company);
 }

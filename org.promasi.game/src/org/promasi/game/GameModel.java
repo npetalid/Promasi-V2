@@ -14,7 +14,8 @@ import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.game.company.MarketPlace;
-import org.promasi.game.company.EmployeeTaskMemento;
+import org.promasi.game.model.EmployeeTaskModel;
+import org.promasi.game.model.GameModelModel;
 import org.promasi.game.project.Project;
 import org.promasi.utilities.design.Observer;
 
@@ -124,13 +125,18 @@ public class GameModel extends Observer<IGameModelListener>
 	 * @return instance of {@link GameModelMemento} - the current state of
 	 * the object.
 	 */
-	public GameModelMemento getMemento(){
+	public GameModelModel getMemento(){
+		GameModelModel result = null;
+		
 		try {
 			_lockObject.lock();
-			return new GameModelMemento(this);
+			result = new GameModelModel();
+			result.setCompany(_company.getMemento());
 		} finally {
 			_lockObject.unlock();
 		}
+		
+		return result;
 	}
 
 	public boolean hireEmployee(String employeeId, DateTime dateTime) {
@@ -155,7 +161,7 @@ public class GameModel extends Observer<IGameModelListener>
 	 * @param employeeTasks
 	 * @return
 	 */
-	public boolean assignTasks(String employeeId,List<EmployeeTaskMemento> employeeTasks, DateTime dateTime) {
+	public boolean assignTasks(String employeeId,List<EmployeeTaskModel> employeeTasks, DateTime dateTime) {
 		try {
 			return _company.assignTasks(employeeId, employeeTasks, dateTime);
 		} catch (IllegalArgumentException e) {
@@ -293,7 +299,7 @@ public class GameModel extends Observer<IGameModelListener>
 		}
 	}
 	
-	public boolean removeTasks( List< EmployeeTaskMemento > tasks ){
+	public boolean removeTasks( List< EmployeeTaskModel > tasks ){
 		return _company.removeTasks(tasks);
 	}
 }
