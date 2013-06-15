@@ -29,13 +29,12 @@ import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.application.ADesktopApplication;
 import org.promasi.desktop_swing.application.TaskBarIcon;
 import org.promasi.game.IGame;
-import org.promasi.game.company.DepartmentMemento;
-import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.ICompanyListener;
-import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.IDepartmentListener;
-import org.promasi.game.project.ProjectMemento;
-
+import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.DepartmentModel;
+import org.promasi.game.model.EmployeeModel;
+import org.promasi.game.model.ProjectModel;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
@@ -167,8 +166,8 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 	}
 
 	@Override
-	public void projectAssigned(final String owner, CompanyMemento company,
-			final ProjectMemento project, final DateTime dateTime) {
+	public void projectAssigned(final String owner, CompanyModel company,
+			final ProjectModel project, final DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
@@ -191,34 +190,34 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 	}
 
 	@Override
-	public void projectFinished(String owner, CompanyMemento company,
-			ProjectMemento project, DateTime dateTime) {
+	public void projectFinished(String owner, CompanyModel company,
+			ProjectModel project, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void companyIsInsolvent(String owner, CompanyMemento company,
-			ProjectMemento assignedProject, DateTime dateTime) {
+	public void companyIsInsolvent(String owner, CompanyModel company,
+			ProjectModel assignedProject, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onExecuteWorkingStep(String owner, CompanyMemento company,
-			ProjectMemento assignedProject, DateTime dateTime) {
+	public void onExecuteWorkingStep(String owner, CompanyModel company,
+			ProjectModel assignedProject, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void companyAssigned(String owner, CompanyMemento company) {
+	public void companyAssigned(String owner, CompanyModel company) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void employeeDischarged(String director, DepartmentMemento department, final EmployeeMemento employee, final DateTime dateTime) {
+	public void employeeDischarged(String director, DepartmentModel department, final EmployeeModel employee, final DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
@@ -244,7 +243,7 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 	}
 
 	@Override
-	public void employeeHired(String director, DepartmentMemento department, final EmployeeMemento employee, final DateTime dateTime) {
+	public void employeeHired(String director, DepartmentModel department, final EmployeeModel employee, final DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
@@ -268,19 +267,19 @@ public class EmailClientDesktopApplication extends ADesktopApplication implement
 	}
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department, final DateTime dateTime) {
+	public void tasksAssigned(String director, DepartmentModel department, final DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department, final DateTime dateTime) {
+	public void tasksAssignFailed(String director, DepartmentModel department, final DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department, final DateTime dateTime) {
+	public void departmentAssigned(String director, DepartmentModel department, final DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}

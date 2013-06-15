@@ -297,11 +297,11 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 			_lockObject.lock();
 			if(playerId!=null && !_gameModels.containsKey(playerId)){
 				Queue<Project> projects=new LinkedList<Project>();
-				for(ProjectModel project : _gameModel.getProjects()){
+				for(ProjectModel project : _gameModel.getProjectModel()){
 					projects.add(_factory.createProject(project));
 				}
 				
-				Company company = _factory.createCompany(_gameModel.getCompany());
+				Company company = _factory.createCompany(_gameModel.getCompanyModel());
 				GameModel gameModel=new GameModel(_gameModel.getGameName(), _gameModel.getGameDescription(), _marketPlace, company,projects);
 				company.setOwner(playerId);
 				gameModel.addListener(this);
@@ -488,8 +488,8 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
 				GameModelModel gameModel=entry.getValue().getMemento();
-				MarketPlaceModel sMarketPlace=gameModel.getMarketPlace();
-				CompanyModel sCompany=gameModel.getCompany();
+				MarketPlaceModel sMarketPlace=gameModel.getMarketPlaceModel();
+				CompanyModel sCompany=gameModel.getCompanyModel();
 				listener.employeeDischarged(entry.getKey(), this, sMarketPlace, sCompany, employee, dateTime);
 			}
 		}
@@ -501,8 +501,8 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		for(Map.Entry<String, GameModel> entry : _gameModels.entrySet()){
 			for(IServerGameListener listener : _listeners){
 				GameModelModel gameModel=entry.getValue().getMemento();
-				MarketPlaceModel sMarketPlace=gameModel.getMarketPlace();
-				CompanyModel sCompany=gameModel.getCompany();
+				MarketPlaceModel sMarketPlace=gameModel.getMarketPlaceModel();
+				CompanyModel sCompany=gameModel.getCompanyModel();
 				listener.employeeHired(entry.getKey(), this, sMarketPlace, sCompany, employee, dateTime);
 			}
 		}

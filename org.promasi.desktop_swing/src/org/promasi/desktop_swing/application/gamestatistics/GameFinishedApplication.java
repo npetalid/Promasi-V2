@@ -16,9 +16,9 @@ import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.desktop_swing.application.ADesktopApplication;
-import org.promasi.game.GameModelMemento;
 import org.promasi.game.IGame;
-import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.GameModelModel;
 import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utils_swing.GuiException;
@@ -98,7 +98,7 @@ public class GameFinishedApplication extends ADesktopApplication implements ICli
 	}
 
 	@Override
-	public void gameStarted(IGame game, GameModelMemento gameModel,
+	public void gameStarted(IGame game, GameModelModel gameModel,
 			DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
@@ -111,7 +111,7 @@ public class GameFinishedApplication extends ADesktopApplication implements ICli
 	}
 
 	@Override
-	public void gameFinished(final IGame game, final Map<String, CompanyMemento> players) {
+	public void gameFinished(final IGame game, final Map<String, CompanyModel> players) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
@@ -129,7 +129,7 @@ public class GameFinishedApplication extends ADesktopApplication implements ICli
 	}
 
 	@Override
-	public void onExecuteStep(IGame game, CompanyMemento company,
+	public void onExecuteStep(IGame game, CompanyModel company,
 			DateTime dateTime) {
 		// TODO Auto-generated method stub
 		

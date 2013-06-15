@@ -3,7 +3,7 @@
  */
 package org.promasi.desktop_swing.application.scheduler;
 
-import org.promasi.game.project.ProjectTaskMemento;
+import org.promasi.game.model.ProjectTaskModel;
 import org.promasi.utils_swing.GuiException;
 
 /**
@@ -15,23 +15,23 @@ public class ProjectTask {
 	/**
 	 * 
 	 */
-	private ProjectTaskMemento _memento;
+	private ProjectTaskModel _model;
 	
 	/**
 	 * 
-	 * @param memento
+	 * @param Model
 	 * @throws GuiException 
 	 */
-	public ProjectTask( ProjectTaskMemento memento ) throws GuiException{
-		if( memento == null ){
-			throw new GuiException("Wrong argument memento == null");
+	public ProjectTask( ProjectTaskModel Model ) throws GuiException{
+		if( Model == null ){
+			throw new GuiException("Wrong argument Model == null");
 		}
 		
-		_memento = memento;
+		_model = Model;
 	}
 	
 	@Override
 	public String toString(){
-		return _memento.getName();
+		return _model.getName();
 	}
 }

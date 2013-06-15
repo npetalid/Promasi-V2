@@ -11,8 +11,8 @@ import javax.swing.SwingUtilities;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.game.IGame;
-import org.promasi.game.GameModelMemento;
-import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.GameModelModel;
 import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.utils_swing.GuiException;
 
@@ -80,7 +80,7 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 	}
 
 	@Override
-	public void gameStarted(IGame game, GameModelMemento gameModel,
+	public void gameStarted(IGame game, GameModelModel gameModel,
 			DateTime dateTime) {
 		
 		SwingUtilities.invokeLater(new Runnable() {
@@ -93,7 +93,7 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 	}
 
 	@Override
-	public void onExecuteStep(IGame game, CompanyMemento company, DateTime dateTime) {}
+	public void onExecuteStep(IGame game, CompanyModel company, DateTime dateTime) {}
 
 	@Override
 	public void onTick(IGame game, DateTime dateTime) {
@@ -102,7 +102,7 @@ public class LoadingJPanel extends JPanel implements IClientGameListener {
 	}
 
 	@Override
-	public void gameFinished(IGame game, Map<String, CompanyMemento> players) {
+	public void gameFinished(IGame game, Map<String, CompanyModel> players) {
 		_game.removeListeners();
 	}
 

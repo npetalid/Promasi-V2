@@ -7,7 +7,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -17,9 +16,8 @@ import javax.swing.SwingUtilities;
 import org.promasi.desktop_swing.application.Employee;
 import org.promasi.desktop_swing.application.EmployeesPanel;
 import org.promasi.game.IGame;
-import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.IMarketPlaceListener;
-import org.promasi.game.company.MarketPlaceMemento;
+import org.promasi.game.model.MarketPlaceModel;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
@@ -94,23 +92,25 @@ public class MarketPlaceJPanel extends JPanel implements IMarketPlaceListener{
 	}
 	
 	@Override
-	public void MarketPlaceChanged(final MarketPlaceMemento marketPlace) {
+	public void MarketPlaceChanged(final MarketPlaceModel marketPlace) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
 			public void run() {
 				if( marketPlace != null && marketPlace.getAvailableEmployees() != null ){
 					Vector<Employee> dataSet = new Vector<Employee>();
-					for(Map.Entry<String,EmployeeMemento> entry : marketPlace.getAvailableEmployees().entrySet() ){
-						if( entry.getValue() !=null && entry.getValue().getEmployeeId() != null ){
+					
+					for(MarketPlaceModel.AvailableEmployees.Entry entry : marketPlace.getAvailableEmployees().getEntry() ){
+						if(entry.getValue() !=null && entry.getValue().getEmployeeId() != null){
 							try {
 								dataSet.add(new Employee(entry.getValue()));
 							} catch (GuiException e) {
-								// TODO log
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
 						}
 					}
-					
+
 					_employeesPanel.updateList(dataSet);
 				}
 			}

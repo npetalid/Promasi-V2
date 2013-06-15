@@ -27,14 +27,14 @@ import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IDesktop;
 import org.promasi.game.IGame;
-import org.promasi.game.company.CompanyMemento;
-import org.promasi.game.company.DepartmentMemento;
-import org.promasi.game.company.EmployeeMemento;
-import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
-import org.promasi.game.project.ProjectMemento;
-import org.promasi.game.project.ProjectTaskMemento;
+import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.DepartmentModel;
+import org.promasi.game.model.EmployeeModel;
+import org.promasi.game.model.EmployeeTaskModel;
+import org.promasi.game.model.ProjectModel;
+import org.promasi.game.model.ProjectModel.ProjectTasks.Entry;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utils_swing.Colors;
@@ -205,19 +205,19 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 				String taskName = _taskNameField.getText();
 				if(!_scheduler.hasRunningTask(taskName)){
 					ProjectTask prjTask = (ProjectTask) _projectTasks.getSelectedItem();
-					EmployeeTaskMemento memento = new EmployeeTaskMemento();
-					memento.setFirstStep(_durationPanel.getFirstStep());
-					memento.setLastStep(_durationPanel.getLastStep());
-					memento.setDependencies(_tasksPanel.getSelectedDependencies());
-					memento.setProjectTaskName(prjTask.toString());
-					memento.setTaskName(taskName);
+					EmployeeTaskModel Model = new EmployeeTaskModel();
+					Model.setFirstStep(_durationPanel.getFirstStep());
+					Model.setLastStep(_durationPanel.getLastStep());
+					Model.getDependencies().addAll(_tasksPanel.getSelectedDependencies());
+					Model.setProjectTaskName(prjTask.toString());
+					Model.setTaskName(taskName);
 					
-					final Map<String, List<EmployeeTaskMemento> > tasks = new TreeMap<String, List<EmployeeTaskMemento> >();
-					Map<String, EmployeeMemento> selectedEmployees = _employeesPanel.getSelectedEmployees();
+					final Map<String, List<EmployeeTaskModel> > tasks = new TreeMap<String, List<EmployeeTaskModel> >();
+					Map<String, EmployeeModel> selectedEmployees = _employeesPanel.getSelectedEmployees();
 					if( !selectedEmployees.isEmpty() ){
-						for( Map.Entry<String, EmployeeMemento> entry : selectedEmployees.entrySet()){
-							List<EmployeeTaskMemento> tasksList = new LinkedList<EmployeeTaskMemento>();
-							tasksList.add(memento);
+						for( Map.Entry<String, EmployeeModel> entry : selectedEmployees.entrySet()){
+							List<EmployeeTaskModel> tasksList = new LinkedList<EmployeeTaskModel>();
+							tasksList.add(Model);
 							tasks.put(entry.getKey(), tasksList);
 						}
 						
@@ -275,7 +275,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	}
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {
+	public void tasksAssigned(String director, DepartmentModel department, DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
@@ -288,12 +288,12 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	}
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {
+	public void tasksAssignFailed(String director, DepartmentModel department, DateTime dateTime) {
 		CONST_LOGGER.info("Task assign failed");
 	}
 
 	@Override
-	public void projectAssigned(final String owner, final CompanyMemento company, final ProjectMemento project, final DateTime dateTime) {
+	public void projectAssigned(final String owner, final CompanyModel company, final ProjectModel project, final DateTime dateTime) {
 		if( project != null ){
 			SwingUtilities.invokeLater( new Runnable() {
 				
@@ -303,7 +303,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 						_lockObject.lock();
 						_scheduler.projectAssigned(owner, company, project, dateTime);
 						if( project.getProjectTasks() != null){
-							for ( Map.Entry<String, ProjectTaskMemento> entry : project.getProjectTasks().entrySet() ){
+							for ( Entry entry : project.getProjectTasks().getEntry() ){
 								try {
 									_projectTasks.addItem(new ProjectTask(entry.getValue()));
 								} catch (GuiException e) {
@@ -323,17 +323,17 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 	}
 
 	@Override
-	public void projectFinished(String owner, CompanyMemento company,ProjectMemento project, DateTime dateTime) {}
+	public void projectFinished(String owner, CompanyModel company,ProjectModel project, DateTime dateTime) {}
 	@Override
-	public void companyIsInsolvent(String owner, CompanyMemento company,ProjectMemento assignedProject, DateTime dateTime) {projectFinished(owner, company, assignedProject, dateTime);}
+	public void companyIsInsolvent(String owner, CompanyModel company,ProjectModel assignedProject, DateTime dateTime) {projectFinished(owner, company, assignedProject, dateTime);}
 	@Override
-	public void onExecuteWorkingStep(String owner, CompanyMemento company, ProjectMemento assignedProject, DateTime dateTime) {}
+	public void onExecuteWorkingStep(String owner, CompanyModel company, ProjectModel assignedProject, DateTime dateTime) {}
 	@Override
-	public void companyAssigned(String owner, CompanyMemento company) {}
+	public void companyAssigned(String owner, CompanyModel company) {}
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {}
+	public void departmentAssigned(String director, DepartmentModel department, DateTime dateTime) {}
 	@Override
-	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {}
+	public void employeeDischarged(String director, DepartmentModel department, EmployeeModel employee, DateTime dateTime) {}
 	@Override
-	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {}
+	public void employeeHired(String director, DepartmentModel department, EmployeeModel employee, DateTime dateTime) {}
 }

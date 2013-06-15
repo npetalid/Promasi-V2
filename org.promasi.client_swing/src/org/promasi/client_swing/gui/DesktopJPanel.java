@@ -25,8 +25,8 @@ import org.promasi.desktop_swing.application.ADesktopApplication;
 import org.promasi.desktop_swing.application.TaskBarIcon;
 import org.promasi.desktop_swing.application.gamestatistics.GameFinishedApplication;
 import org.promasi.game.IGame;
-import org.promasi.game.GameModelMemento;
-import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.GameModelModel;
 import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
@@ -119,10 +119,10 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	}
 
 	@Override
-	public void gameStarted(IGame game, GameModelMemento gameModel,DateTime dateTime) {}
+	public void gameStarted(IGame game, GameModelModel gameModel,DateTime dateTime) {}
 
 	@Override
-	public void onExecuteStep(IGame game, CompanyMemento company, DateTime dateTime) {}
+	public void onExecuteStep(IGame game, CompanyModel company, DateTime dateTime) {}
 
 	@Override
 	public void onTick(IGame game, final DateTime dateTime) {
@@ -136,7 +136,7 @@ public class DesktopJPanel extends JXPanel implements IClientGameListener , IDes
 	}
 
 	@Override
-	public void gameFinished(IGame game, Map<String, CompanyMemento> company) {	
+	public void gameFinished(IGame game, Map<String, CompanyModel> company) {	
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
 			public void run() {

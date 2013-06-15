@@ -18,6 +18,8 @@ import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utilities.spring.SpringApplicationContext;
 import org.promasi.utils_swing.GuiException;
 
+import GameBuilder.GameMaker;
+
 /**
  * @author alekstheod
  *
@@ -69,6 +71,7 @@ public class Application {
 	 * @param args 
 	 */
 	public static void main(String[] args) {
+		GameMaker.makeGame();
 		run();
 	}
 

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="GameModelModel">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element ref="companyModel" minOccurs="1"/>
+      <xs:element name="gameDescription" type="xs:string" minOccurs="1"/>
+      <xs:element name="gameName" type="xs:string" minOccurs="1"/>
+      <xs:element ref="marketPlaceModel" minOccurs="1"/>
+      <xs:element ref="projectModel" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  </xs:element>
+
+<xs:element name="companyModel">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="model">
+        <xs:sequence>
+          <xs:element name="_name" type="xs:string" minOccurs="0"/>
+          <xs:element name="_description" type="xs:string" minOccurs="0"/>
+          <xs:element name="_startTime" type="xs:string" minOccurs="0"/>
+          <xs:element name="_endTime" type="xs:string" minOccurs="0"/>
+          <xs:element name="_itDepartment" type="departmentModel" minOccurs="0"/>
+          <xs:element name="_budget" type="xs:double"/>
+          <xs:element name="_prestigePoints" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+
+  <xs:complexType name="model">
+    <xs:sequence/>
+  </xs:complexType>
+  
+  <xs:complexType name="departmentModel">
+    <xs:sequence>
+      <xs:element name="employees">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element name="key" minOccurs="0" type="xs:string"/>
+                  <xs:element name="value" minOccurs="0" type="employeeModel"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="employeeModel">
+    <xs:complexContent>
+      <xs:extension base="model">
+        <xs:sequence>
+          <xs:element name="_firstName" type="xs:string" minOccurs="0"/>
+          <xs:element name="_lastName" type="xs:string" minOccurs="0"/>
+          <xs:element name="_employeeId" type="xs:string" minOccurs="0"/>
+          <xs:element name="_salary" type="xs:double"/>
+          <xs:element name="_curriculumVitae" type="xs:string" minOccurs="0"/>
+          <xs:element name="_tasks">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="employeeTaskModel"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="_employeeSkills">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="xs:double"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="employeeTaskModel">
+    <xs:complexContent>
+      <xs:extension base="model">
+        <xs:sequence>
+          <xs:element name="_projectTaskName" type="xs:string" minOccurs="0"/>
+          <xs:element name="_firstStep" type="xs:int"/>
+          <xs:element name="_lastStep" type="xs:int"/>
+          <xs:element name="_dependencies" type="xs:string" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="_taskName" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+<xs:element name="marketPlaceModel">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="model">
+        <xs:sequence>
+          <xs:element name="_availableEmployees">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="employeeModel"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+
+<xs:element name="projectModel">
+  <xs:complexType>
+    <xs:complexContent>
+      <xs:extension base="model">
+        <xs:sequence>
+          <xs:element name="_name" type="xs:string" minOccurs="0"/>
+          <xs:element name="_description" type="xs:string" minOccurs="0"/>
+          <xs:element name="_projectDuration" type="xs:int"/>
+          <xs:element name="_overallProgress" type="xs:double"/>
+          <xs:element name="_projectPrice" type="xs:double"/>
+          <xs:element name="_difficultyLevel" type="xs:double"/>
+          <xs:element name="_projectTasks">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="key" minOccurs="0" type="xs:string"/>
+                      <xs:element name="value" minOccurs="0" type="projectTaskModel"/>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="_taskBridges" type="taskBridgeModel" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:element>
+
+  <xs:complexType name="simulatorModel">
+  	<xs:complexContent>
+  		<xs:extension base="model">
+	    	<xs:sequence>
+	    	</xs:sequence>
+    	</xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+    <xs:complexType name="progressModel">
+  	<xs:complexContent>
+  		<xs:extension base="model">
+	    	<xs:sequence>
+	    	</xs:sequence>
+    	</xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  
+  <xs:complexType name="projectTaskModel">
+    <xs:complexContent>
+      <xs:extension base="model">
+        <xs:sequence>
+          <xs:element name="_name" type="xs:string" minOccurs="0"/>
+          <xs:element name="_description" type="xs:string" minOccurs="0"/>
+          <xs:element name="_progress" type="xs:double"/>
+          <xs:element name="_progressEquation" type="progressModel" minOccurs="0"/>
+          <xs:element name="_simulationModel" type="simulatorModel" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="taskBridgeModel">
+    <xs:sequence>
+      <xs:element name="inputSdObjectId" type="xs:string" minOccurs="0"/>
+      <xs:element name="inputTaskName" type="xs:string" minOccurs="0"/>
+      <xs:element name="outputSdObjectId" type="xs:string" minOccurs="0"/>
+      <xs:element name="outputTaskName" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+</xs:schema>
+

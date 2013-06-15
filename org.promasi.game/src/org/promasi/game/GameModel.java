@@ -131,7 +131,7 @@ public class GameModel extends Observer<IGameModelListener>
 		try {
 			_lockObject.lock();
 			result = new GameModelModel();
-			result.setCompany(_company.getMemento());
+			result.setCompanyModel(_company.getMemento());
 		} finally {
 			_lockObject.unlock();
 		}

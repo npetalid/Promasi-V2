@@ -17,9 +17,9 @@ import javax.swing.SwingUtilities;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.Chart;
 import org.promasi.desktop_swing.Widget;
-import org.promasi.game.company.CompanyMemento;
 import org.promasi.game.company.ICompanyListener;
-import org.promasi.game.project.ProjectMemento;
+import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.ProjectModel;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
@@ -92,8 +92,8 @@ public class BudgetWidget extends Widget implements ICompanyListener {
 	}
 
 	@Override
-	public void projectAssigned(String owner, CompanyMemento company,
-			ProjectMemento project, final DateTime dateTime) {
+	public void projectAssigned(String owner, CompanyModel company,
+			ProjectModel project, final DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
@@ -104,20 +104,20 @@ public class BudgetWidget extends Widget implements ICompanyListener {
 	}
 
 	@Override
-	public void projectFinished(String owner, CompanyMemento company,
-			ProjectMemento project, DateTime dateTime) {
+	public void projectFinished(String owner, CompanyModel company,
+			ProjectModel project, DateTime dateTime) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void companyIsInsolvent(String owner, CompanyMemento company,
-			ProjectMemento assignedProject, DateTime dateTime) {
+	public void companyIsInsolvent(String owner, CompanyModel company,
+			ProjectModel assignedProject, DateTime dateTime) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void onExecuteWorkingStep(String owner, final CompanyMemento company,
-			ProjectMemento assignedProject, final DateTime dateTime) {
+	public void onExecuteWorkingStep(String owner, final CompanyModel company,
+			ProjectModel assignedProject, final DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
@@ -135,7 +135,7 @@ public class BudgetWidget extends Widget implements ICompanyListener {
 	}
 
 	@Override
-	public void companyAssigned(String owner, CompanyMemento company) {
+	public void companyAssigned(String owner, CompanyModel company) {
 		// TODO Auto-generated method stub
 	}
 }
