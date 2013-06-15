@@ -7,8 +7,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.promasi.sdsystem.SdSystemException;
-import org.promasi.sdsystem.model.FlowSdObjectModel;
-import org.promasi.sdsystem.model.SdObjectModel;
+import org.promasi.sdsystem.model.SdEquationModel;
+import org.promasi.sdsystem.model.generated.FlowSdObjectModel;
+import org.promasi.sdsystem.model.generated.SdObjectModel;
 import org.promasi.utilities.equation.CalculationExeption;
 import org.promasi.utilities.equation.IEquation;
 import org.promasi.utilities.exceptions.NullArgumentException;
@@ -79,7 +80,9 @@ public class FlowSdObject implements ISdObject
 	@Override
 	public SdObjectModel getMemento() {
 		FlowSdObjectModel model = new FlowSdObjectModel();
-		model.setEquation(_equation.getMemento());
+		SdEquationModel eqModel = new SdEquationModel();
+		eqModel.setEquationModel(_equation.getMemento() );
+		model.setEquation( eqModel  );
 		return model;
 	}
 }

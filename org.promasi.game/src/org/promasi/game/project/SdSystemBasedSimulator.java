@@ -6,6 +6,7 @@ package org.promasi.game.project;
 import java.util.Map;
 
 import org.promasi.game.GameException;
+import org.promasi.game.model.SdSystemBasedSimulatorModel;
 import org.promasi.game.model.SimulatorModel;
 import org.promasi.sdsystem.SdSystem;
 

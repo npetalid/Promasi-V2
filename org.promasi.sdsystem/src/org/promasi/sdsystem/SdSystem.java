@@ -7,8 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.promasi.sdsystem.model.SdObjectModel;
-import org.promasi.sdsystem.model.SdSystemModel;
+import org.promasi.sdsystem.model.generated.SdSystemModel;
 import org.promasi.sdsystem.sdobject.FlowSdObject;
 import org.promasi.sdsystem.sdobject.ISdObject;
 import org.promasi.sdsystem.sdobject.InputSdObject;
@@ -68,7 +67,7 @@ public class SdSystem implements ISdSystem
 		}
 		
 		if(sdObjects.containsKey(CONST_TIME_SDOBJECT_NAME)){
-			throw new SdSystemException("Wrong argument sdObjects contains time");
+			sdObjects.remove(CONST_TIME_SDOBJECT_NAME);
 		}
 		
 		for(Map.Entry<String, ISdObject> entry : sdObjects.entrySet()){
@@ -193,10 +192,13 @@ public class SdSystem implements ISdSystem
 	 */
 	public SdSystemModel getMemento() {
 		SdSystemModel model = new SdSystemModel();
-		
-		Map<String, SdObjectModel> sdObjects = new TreeMap<>();
+
+		model.setSdObjects(new SdSystemModel.SdObjects());
 		for( Map.Entry<String, ISdObject> entry : _sdObjects.entrySet() ){
-			sdObjects.put(entry.getKey(), entry.getValue().getMemento());
+			SdSystemModel.SdObjects.Entry newEntry = new SdSystemModel.SdObjects.Entry();
+			newEntry.setKey(entry.getKey());
+			newEntry.setValue(entry.getValue().getMemento());
+			model.getSdObjects().getEntry().add(newEntry);
 		}
 		
 		return model;

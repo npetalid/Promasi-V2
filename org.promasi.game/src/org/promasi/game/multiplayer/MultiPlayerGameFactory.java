@@ -9,12 +9,16 @@ import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
 import org.promasi.game.IGameFactory;
 import org.promasi.game.company.Company;
+import org.promasi.game.company.Employee;
 import org.promasi.game.company.MarketPlace;
 import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.EmployeeModel;
 import org.promasi.game.model.GameModelModel;
 import org.promasi.game.model.MarketPlaceModel;
 import org.promasi.game.model.ProjectModel;
+import org.promasi.game.model.ProjectTaskModel;
 import org.promasi.game.project.Project;
+import org.promasi.game.project.ProjectTask;
 
 /**
  * @author alekstheod
@@ -98,6 +102,18 @@ public class MultiPlayerGameFactory implements IGameFactory {
 	@Override
 	public MarketPlace createMarketPlace(MarketPlaceModel marketPlace) {
 		return _marketPlace;
+	}
+
+	@Override
+	public ProjectTask createProjectTask(ProjectTaskModel projectTask) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Employee createEmployee(EmployeeModel employee) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

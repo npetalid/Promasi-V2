@@ -1,15 +1,17 @@
 /**
  * 
  */
-package org.promasi.game.project;
+package org.promasi.game.model;
 
-import org.promasi.game.model.ProgressModel;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.promasi.utilities.equation.EquationModel;
 
 /**
  * @author alekstheod
  *
  */
+@XmlRootElement(name = "equationProgressModel")
 public class EquationProgressModel extends ProgressModel {
 	private EquationModel _equationModel;
 
