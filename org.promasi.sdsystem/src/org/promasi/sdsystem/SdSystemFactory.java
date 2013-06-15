@@ -6,13 +6,15 @@ package org.promasi.sdsystem;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.promasi.sdsystem.model.FlowSdObjectModel;
-import org.promasi.sdsystem.model.InputSdObjectModel;
-import org.promasi.sdsystem.model.OutputSdObjectModel;
-import org.promasi.sdsystem.model.SdObjectModel;
-import org.promasi.sdsystem.model.SdSystemModel;
-import org.promasi.sdsystem.model.StockSdObjectModel;
-import org.promasi.sdsystem.model.TimeSdObjectModel;
+import org.promasi.sdsystem.model.SdEquationModel;
+import org.promasi.sdsystem.model.generated.ASdEquationModel;
+import org.promasi.sdsystem.model.generated.FlowSdObjectModel;
+import org.promasi.sdsystem.model.generated.InputSdObjectModel;
+import org.promasi.sdsystem.model.generated.OutputSdObjectModel;
+import org.promasi.sdsystem.model.generated.SdObjectModel;
+import org.promasi.sdsystem.model.generated.SdSystemModel;
+import org.promasi.sdsystem.model.generated.StockSdObjectModel;
+import org.promasi.sdsystem.model.generated.TimeSdObjectModel;
 import org.promasi.sdsystem.sdobject.FlowSdObject;
 import org.promasi.sdsystem.sdobject.ISdObject;
 import org.promasi.sdsystem.sdobject.InputSdObject;
@@ -88,15 +90,28 @@ public class SdSystemFactory implements ISdSystemFactory {
 	 * @see org.promasi.sdsystem.ISdSystemFactory#createEquation(org.promasi.sdsystem.model.EquationModel)
 	 */
 	@Override
+	public IEquation createEquation(ASdEquationModel model) {
+		IEquation result = null;
+		
+		if( model instanceof SdEquationModel ){
+			SdEquationModel sdModel = (SdEquationModel)model;
+			EquationModel eqModel = sdModel.getEquationModel();
+			result = createEquation(eqModel);
+		}
+		
+		return result;
+	}
+
+	@Override
 	public IEquation createEquation(EquationModel model) {
 		IEquation result = null;
 		
-		if( model instanceof CalculatedEquationModel ){
-			try {
-				result = new CalculatedEquation(((CalculatedEquationModel) model).getEquationString());
-			} catch (CalculationExeption e) {
-				e.printStackTrace();
+		try {
+			if( model instanceof CalculatedEquationModel ){
+				result = new CalculatedEquation( ( (CalculatedEquationModel)model ).getEquationString() );
 			}
+		}catch( CalculationExeption e){
+			e.printStackTrace();
 		}
 		
 		return result;

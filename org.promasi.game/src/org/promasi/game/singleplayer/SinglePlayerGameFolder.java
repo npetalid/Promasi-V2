@@ -1,6 +1,5 @@
 package org.promasi.game.singleplayer;
 
-import java.beans.XMLDecoder;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,6 +9,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.regex.Pattern;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
@@ -124,7 +127,7 @@ public class SinglePlayerGameFolder
 					projects=makeProjects(gameFolderPath+separator+projectFiles[i]);
 				}
 			}
-		}catch(SerializationException e){
+		}catch(JAXBException e){
 			throw new GameException("Wrong gameFolderPath");
 		}catch(IllegalArgumentException e){
 			throw new GameException("Wrong gameFolderPath");
@@ -179,13 +182,16 @@ public class SinglePlayerGameFolder
 	 * @return
 	 * @throws FileNotFoundException 
 	 * @throws SerializationException 
+	 * @throws JAXBException 
 	 */
-	private Company makeCompany(final String filePath) throws FileNotFoundException, SerializationException{
+	private Company makeCompany(final String filePath) throws FileNotFoundException, JAXBException{
 		File companyFile=new File(filePath);
 		FileInputStream fileInputStream=new FileInputStream(companyFile);
-		XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
-		Object object=xmlDecoder.readObject();
-		xmlDecoder.close();
+		
+		JAXBContext jc = JAXBContext.newInstance( CompanyModel.class );
+	    Unmarshaller unmarshaller = jc.createUnmarshaller();
+	    Object object = unmarshaller.unmarshal( fileInputStream );
+
 		if(object instanceof CompanyModel){
 			CompanyModel sCompany=(CompanyModel)object;
 			Company company=_factory.createCompany(sCompany);
@@ -201,13 +207,16 @@ public class SinglePlayerGameFolder
 	 * @return
 	 * @throws FileNotFoundException 
 	 * @throws SerializationException 
+	 * @throws JAXBException 
 	 */
-	private MarketPlace makeMarketPlace(final String filePath) throws FileNotFoundException, SerializationException{
+	private MarketPlace makeMarketPlace(final String filePath) throws FileNotFoundException, JAXBException{
 		File marketPlaceFile=new File(filePath);
 		FileInputStream fileInputStream=new FileInputStream(marketPlaceFile);
-		XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
-		Object object=xmlDecoder.readObject();
-		xmlDecoder.close();
+
+		JAXBContext jc = JAXBContext.newInstance( MarketPlaceModel.class );
+	    Unmarshaller unmarshaller = jc.createUnmarshaller();
+	    Object object = unmarshaller.unmarshal( fileInputStream );
+	    
 		if(object instanceof MarketPlaceModel){
 			MarketPlaceModel sMarketPlace=(MarketPlaceModel)object;
 			MarketPlace marketPlace=_factory.createMarketPlace( sMarketPlace );
@@ -268,9 +277,9 @@ public class SinglePlayerGameFolder
 			try{
 				File projectFile=new File(filePath+RootDirectory.getInstance().getSeparator()+files[i]);
 				FileInputStream fileInputStream=new FileInputStream(projectFile);
-				XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
-				Object object=xmlDecoder.readObject();
-				xmlDecoder.close();
+				JAXBContext jc = JAXBContext.newInstance( ProjectModel.class );
+			    Unmarshaller unmarshaller = jc.createUnmarshaller();
+			    Object object = unmarshaller.unmarshal( fileInputStream );
 				if(object instanceof ProjectModel){
 					ProjectModel sProject=(ProjectModel)object;
 					Project project;
@@ -278,9 +287,9 @@ public class SinglePlayerGameFolder
 					projects.add(project);
 				}
 			}catch(FileNotFoundException e){
-				//Log wrong file
+				e.printStackTrace();
 			}catch( Exception e ){
-				//Log wrong file
+				e.printStackTrace();
 			}
 		}
 		

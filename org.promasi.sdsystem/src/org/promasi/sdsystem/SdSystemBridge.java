@@ -3,7 +3,7 @@
  */
 package org.promasi.sdsystem;
 
-import org.promasi.sdsystem.model.SdSystemBridgeModel;
+import org.promasi.sdsystem.model.generated.SdSystemBridgeModel;
 import org.promasi.sdsystem.sdobject.InputSdObject;
 import org.promasi.sdsystem.sdobject.OutputSdObject;
 

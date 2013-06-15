@@ -10,7 +10,6 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.GameException;
 import org.promasi.game.model.ProjectModel;
-import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utilities.serialization.SerializationException;
@@ -82,26 +81,26 @@ public class Project
     /**
      * Initializes the object.
      */
-    public Project(  String name, String description, int projectDuration, Map<String, ProjectTask> projectTasks, double projectPrice, double difficultyLevel)throws NullArgumentException, IllegalArgumentException
+    public Project(  String name, String description, int projectDuration, Map<String, ProjectTask> projectTasks, double projectPrice, double difficultyLevel)throws GameException
     {
     	if(name==null)
     	{
-    		throw new NullArgumentException("Wrong argument name==null");
+    		throw new GameException("Wrong argument name==null");
     	}
     	
     	if(description==null)
     	{
-    		throw new NullArgumentException("Wrong argument description==null");
+    		throw new GameException("Wrong argument description==null");
     	}
     	
     	if(projectDuration<=0)
     	{
-    		throw new NullArgumentException("Wrong argument projectDuration");
+    		throw new GameException("Wrong argument projectDuration");
     	}
     	
     	if(projectTasks==null)
     	{
-    		throw new NullArgumentException("Wrong argument projectTasks==null");
+    		throw new GameException("Wrong argument projectTasks==null");
     	}
     	
     	if(difficultyLevel<=0){

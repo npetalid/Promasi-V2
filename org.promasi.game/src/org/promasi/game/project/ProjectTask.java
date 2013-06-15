@@ -8,6 +8,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.GameException;
+import org.promasi.game.model.EquationProgressModel;
 import org.promasi.game.model.ProjectTaskModel;
 import org.promasi.utilities.equation.CalculationExeption;
 import org.promasi.utilities.equation.IEquation;

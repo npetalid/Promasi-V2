@@ -27,5 +27,5 @@ public interface IEquation {
 	 * @return
 	 * @throws SerializationException
 	 */
-	public org.promasi.utilities.equation.EquationModel getMemento();
+	public EquationModel getMemento();
 }

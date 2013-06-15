@@ -91,7 +91,7 @@ public class SinglePlayerGamesServer extends AGamesServer {
 				
 				updateGamesList(games);
 			}catch(IOException e){
-				
+				e.printStackTrace();
 			}
 
 		}finally{

@@ -5,7 +5,8 @@ package org.promasi.sdsystem.sdobject;
 
 import java.util.Map;
 
-import org.promasi.sdsystem.model.TimeSdObjectModel;
+import org.promasi.sdsystem.model.generated.TimeSdObjectModel;
+
 
 /**
  * @author m1cRo

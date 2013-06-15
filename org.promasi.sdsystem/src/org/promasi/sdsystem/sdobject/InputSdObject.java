@@ -5,8 +5,8 @@ package org.promasi.sdsystem.sdobject;
 
 import java.util.Map;
 
-import org.promasi.sdsystem.model.InputSdObjectModel;
-import org.promasi.sdsystem.model.SdObjectModel;
+import org.promasi.sdsystem.model.generated.InputSdObjectModel;
+import org.promasi.sdsystem.model.generated.SdObjectModel;
 import org.promasi.utilities.exceptions.NullArgumentException;
 
 /**
