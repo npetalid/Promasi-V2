@@ -6,11 +6,11 @@ package org.promasi.game;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.EmployeeModel;
-import org.promasi.game.model.EmployeeTaskModel;
-import org.promasi.game.model.MarketPlaceModel;
-import org.promasi.game.model.ProjectModel;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.EmployeeModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
+import org.promasi.game.model.generated.MarketPlaceModel;
+import org.promasi.game.model.generated.ProjectModel;
 
 
 /**

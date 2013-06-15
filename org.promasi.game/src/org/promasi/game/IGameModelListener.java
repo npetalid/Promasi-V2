@@ -3,8 +3,7 @@
  */
 package org.promasi.game;
 
-import org.promasi.game.model.CompanyModel;
-
+import org.promasi.game.model.generated.CompanyModel;
 
 /**
  * @author m1cRo

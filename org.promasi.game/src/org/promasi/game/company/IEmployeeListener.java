@@ -1,7 +1,7 @@
 package org.promasi.game.company;
 
-import org.promasi.game.model.EmployeeModel;
-import org.promasi.game.model.EmployeeTaskModel;
+import org.promasi.game.model.generated.EmployeeModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
 
 /**
  * 

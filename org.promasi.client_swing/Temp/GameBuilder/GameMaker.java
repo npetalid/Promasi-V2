@@ -17,9 +17,9 @@ import org.joda.time.LocalTime;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.Employee;
 import org.promasi.game.company.MarketPlace;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.MarketPlaceModel;
-import org.promasi.game.model.ProjectModel;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.MarketPlaceModel;
+import org.promasi.game.model.generated.ProjectModel;
 import org.promasi.game.project.ISimulator;
 import org.promasi.game.project.Project;
 import org.promasi.game.project.ProjectTask;
@@ -134,6 +134,7 @@ public class GameMaker {
 			StringWriter writer = new StringWriter();
 			JAXBContext context = JAXBContext.newInstance(ProjectModel.class);
 			Marshaller m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			m.marshal(sProject, writer);
 			String xmlString  = writer.toString();
 
@@ -156,6 +157,7 @@ public class GameMaker {
 			writer = new StringWriter();
 			context = JAXBContext.newInstance(CompanyModel.class);
 			m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			m.marshal(sCompany, writer);
 			
 			out.print(writer.toString());
@@ -681,6 +683,7 @@ public class GameMaker {
 			writer = new StringWriter();
 			context = JAXBContext.newInstance(MarketPlaceModel.class);
 			m = context.createMarshaller();
+			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			m.marshal(marketPlace.getMemento(), writer);
 			
 			xmlString = writer.toString();

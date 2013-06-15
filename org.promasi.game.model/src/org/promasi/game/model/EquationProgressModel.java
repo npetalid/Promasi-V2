@@ -5,6 +5,7 @@ package org.promasi.game.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.promasi.game.model.generated.ProgressModel;
 import org.promasi.utilities.equation.EquationModel;
 
 /**

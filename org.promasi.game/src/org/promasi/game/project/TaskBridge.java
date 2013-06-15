@@ -6,7 +6,7 @@ package org.promasi.game.project;
 import java.util.Map;
 
 import org.promasi.game.GameException;
-import org.promasi.game.model.TaskBridgeModel;
+import org.promasi.game.model.generated.TaskBridgeModel;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
 

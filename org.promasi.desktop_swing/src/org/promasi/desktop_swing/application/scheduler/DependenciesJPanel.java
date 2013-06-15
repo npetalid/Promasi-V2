@@ -24,12 +24,12 @@ import org.joda.time.DateTime;
 import org.promasi.game.IGame;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.DepartmentModel;
-import org.promasi.game.model.DepartmentModel.Employees.Entry;
-import org.promasi.game.model.EmployeeModel;
-import org.promasi.game.model.EmployeeTaskModel;
-import org.promasi.game.model.ProjectModel;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.DepartmentModel;
+import org.promasi.game.model.generated.DepartmentModel.Employees.Entry;
+import org.promasi.game.model.generated.EmployeeModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
+import org.promasi.game.model.generated.ProjectModel;
 import org.promasi.utils_swing.components.jlist.CheckBoxCellRenderer;
 import org.promasi.utils_swing.components.jlist.CheckBoxListEntry;
 
@@ -148,7 +148,7 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 						Map<String, EmployeeTaskModel> scheduledTasks = new TreeMap<String, EmployeeTaskModel>();
 						for( Entry entry : company.getItDepartment().getEmployees().getEntry() ){
 							if( entry != null ){
-								for( org.promasi.game.model.EmployeeModel.Tasks.Entry taskEntry : entry.getValue().getTasks().getEntry()){
+								for( org.promasi.game.model.generated.EmployeeModel.Tasks.Entry taskEntry : entry.getValue().getTasks().getEntry()){
 									if( !scheduledTasks.containsKey( taskEntry.getValue().getTaskName() ) ){
 										scheduledTasks.put(taskEntry.getKey(), taskEntry.getValue());
 									}

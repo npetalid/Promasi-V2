@@ -8,8 +8,8 @@ import org.promasi.desktop_swing.application.ADesktopApplication;
 import org.promasi.desktop_swing.application.TaskBarIcon;
 import org.promasi.game.IGame;
 import org.promasi.game.company.ICompanyListener;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.ProjectModel;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.ProjectModel;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utils_swing.GuiException;
 

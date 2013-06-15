@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.promasi.game.GameException;
-import org.promasi.game.model.EmployeeTaskModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
 import org.promasi.game.project.ProjectTask;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;

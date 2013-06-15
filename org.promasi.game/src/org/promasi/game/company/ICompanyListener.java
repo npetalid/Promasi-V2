@@ -4,9 +4,8 @@
 package org.promasi.game.company;
 
 import org.joda.time.DateTime;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.ProjectModel;
-
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.ProjectModel;
 /**
  * @author m1cRo
  * Represent an interface of

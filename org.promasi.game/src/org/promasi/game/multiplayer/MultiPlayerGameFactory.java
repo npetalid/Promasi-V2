@@ -11,12 +11,12 @@ import org.promasi.game.IGameFactory;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.Employee;
 import org.promasi.game.company.MarketPlace;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.EmployeeModel;
-import org.promasi.game.model.GameModelModel;
-import org.promasi.game.model.MarketPlaceModel;
-import org.promasi.game.model.ProjectModel;
-import org.promasi.game.model.ProjectTaskModel;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.EmployeeModel;
+import org.promasi.game.model.generated.GameModelModel;
+import org.promasi.game.model.generated.MarketPlaceModel;
+import org.promasi.game.model.generated.ProjectModel;
+import org.promasi.game.model.generated.ProjectTaskModel;
 import org.promasi.game.project.Project;
 import org.promasi.game.project.ProjectTask;
 

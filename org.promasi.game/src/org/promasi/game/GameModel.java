@@ -14,8 +14,8 @@ import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.game.company.MarketPlace;
-import org.promasi.game.model.EmployeeTaskModel;
-import org.promasi.game.model.GameModelModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
+import org.promasi.game.model.generated.GameModelModel;
 import org.promasi.game.project.Project;
 import org.promasi.utilities.design.Observer;
 

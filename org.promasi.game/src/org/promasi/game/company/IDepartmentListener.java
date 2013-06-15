@@ -4,9 +4,8 @@
 package org.promasi.game.company;
 
 import org.joda.time.DateTime;
-import org.promasi.game.model.DepartmentModel;
-import org.promasi.game.model.EmployeeModel;
-
+import org.promasi.game.model.generated.DepartmentModel;
+import org.promasi.game.model.generated.EmployeeModel;
 /**
  * @author alekstheod
  *

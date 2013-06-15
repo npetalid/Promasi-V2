@@ -9,7 +9,7 @@ package org.promasi.game.multiplayer;
  */
 import java.util.List;
 
-import org.promasi.game.model.EmployeeTaskModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
 import org.promasi.game.multiplayer.IServerGameListener;
 import org.promasi.utilities.exceptions.NullArgumentException;
 

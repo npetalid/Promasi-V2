@@ -3,7 +3,7 @@
  */
 package org.promasi.desktop_swing.application;
 
-import org.promasi.game.model.EmployeeModel;
+import org.promasi.game.model.generated.EmployeeModel;
 import org.promasi.utils_swing.GuiException;
 
 /**

@@ -12,9 +12,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.joda.time.DateTime;
 import org.promasi.game.GameException;
-import org.promasi.game.model.DepartmentModel;
-import org.promasi.game.model.EmployeeModel;
-import org.promasi.game.model.EmployeeTaskModel;
+import org.promasi.game.model.generated.DepartmentModel;
+import org.promasi.game.model.generated.EmployeeModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
 import org.promasi.game.project.ProjectTask;
 import org.promasi.utilities.design.Observer;
 import org.promasi.utilities.exceptions.NullArgumentException;

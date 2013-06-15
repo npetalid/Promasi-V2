@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.promasi.game.model.EmployeeModel;
+import org.promasi.game.model.generated.EmployeeModel;
 import org.promasi.utils_swing.GuiException;
 
 /**

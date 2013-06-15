@@ -21,8 +21,8 @@ import org.jdesktop.swingx.JXPanel;
 import org.joda.time.DateTime;
 import org.promasi.game.IGame;
 import org.promasi.game.company.ICompanyListener;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.ProjectModel;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.ProjectModel;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 

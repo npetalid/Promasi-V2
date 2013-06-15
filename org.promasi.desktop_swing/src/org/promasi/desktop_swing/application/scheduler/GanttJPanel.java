@@ -28,14 +28,14 @@ import org.joda.time.DateTime;
 import org.promasi.game.IGame;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.DepartmentModel;
-import org.promasi.game.model.DepartmentModel.Employees.Entry;
-import org.promasi.game.model.EmployeeModel;
-import org.promasi.game.model.EmployeeTaskModel;
-import org.promasi.game.model.ProjectModel;
-import org.promasi.game.model.ProjectModel.ProjectTasks;
-import org.promasi.game.model.ProjectTaskModel;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.DepartmentModel;
+import org.promasi.game.model.generated.DepartmentModel.Employees.Entry;
+import org.promasi.game.model.generated.EmployeeModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
+import org.promasi.game.model.generated.ProjectModel;
+import org.promasi.game.model.generated.ProjectModel.ProjectTasks;
+import org.promasi.game.model.generated.ProjectTaskModel;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
@@ -269,7 +269,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	static boolean isTaskInList( String taskName, ProjectTasks tasks){
 		boolean result = false;
 		
-		for( org.promasi.game.model.ProjectModel.ProjectTasks.Entry entry : tasks.getEntry() ){
+		for( org.promasi.game.model.generated.ProjectModel.ProjectTasks.Entry entry : tasks.getEntry() ){
 			if( entry.getKey().equals(taskName)){
 				result = true;
 				break;
@@ -282,7 +282,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	static ProjectTaskModel getTask(String taskName, ProjectTasks tasks){
 		ProjectTaskModel result = null;
 		
-		for( org.promasi.game.model.ProjectModel.ProjectTasks.Entry entry : tasks.getEntry() ){
+		for( org.promasi.game.model.generated.ProjectModel.ProjectTasks.Entry entry : tasks.getEntry() ){
 			if( entry.getKey().equals(taskName)){
 				result = entry.getValue();
 				break;
@@ -427,8 +427,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					final Map<String, EmployeeTaskModel> projectTasks = new TreeMap<String, EmployeeTaskModel>();
 					if( company != null && company.getItDepartment() != null && company.getItDepartment().getEmployees() != null ){
 						for (Entry entry : company.getItDepartment().getEmployees().getEntry()){
-							List<org.promasi.game.model.EmployeeModel.Tasks.Entry> tasks = entry.getValue().getTasks().getEntry();
-							for (org.promasi.game.model.EmployeeModel.Tasks.Entry taskEntry : tasks ){
+							List<org.promasi.game.model.generated.EmployeeModel.Tasks.Entry> tasks = entry.getValue().getTasks().getEntry();
+							for (org.promasi.game.model.generated.EmployeeModel.Tasks.Entry taskEntry : tasks ){
 								if( !projectTasks.containsKey(taskEntry.getValue().getTaskName())){
 									projectTasks.put(taskEntry.getValue().getTaskName(), taskEntry.getValue() );
 								}

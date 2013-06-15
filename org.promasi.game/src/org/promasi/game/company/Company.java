@@ -7,8 +7,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
 import org.promasi.game.GameException;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.EmployeeTaskModel;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
 import org.promasi.game.project.Project;
 import org.promasi.utilities.design.Observer;
 

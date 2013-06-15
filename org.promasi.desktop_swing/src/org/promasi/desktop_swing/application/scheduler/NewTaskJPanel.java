@@ -29,12 +29,11 @@ import org.promasi.desktop_swing.IDesktop;
 import org.promasi.game.IGame;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.DepartmentModel;
-import org.promasi.game.model.EmployeeModel;
-import org.promasi.game.model.EmployeeTaskModel;
-import org.promasi.game.model.ProjectModel;
-import org.promasi.game.model.ProjectModel.ProjectTasks.Entry;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.DepartmentModel;
+import org.promasi.game.model.generated.EmployeeModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
+import org.promasi.game.model.generated.ProjectModel;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
 import org.promasi.utils_swing.Colors;
@@ -303,7 +302,7 @@ public class NewTaskJPanel extends JPanel implements ICompanyListener ,IDepartme
 						_lockObject.lock();
 						_scheduler.projectAssigned(owner, company, project, dateTime);
 						if( project.getProjectTasks() != null){
-							for ( Entry entry : project.getProjectTasks().getEntry() ){
+							for ( ProjectModel.ProjectTasks.Entry entry : project.getProjectTasks().getEntry() ){
 								try {
 									_projectTasks.addItem(new ProjectTask(entry.getValue()));
 								} catch (GuiException e) {

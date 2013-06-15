@@ -8,7 +8,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.GameException;
-import org.promasi.game.model.EmployeeModel;
+import org.promasi.game.model.generated.EmployeeModel;
 import org.promasi.utilities.design.Observer;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;

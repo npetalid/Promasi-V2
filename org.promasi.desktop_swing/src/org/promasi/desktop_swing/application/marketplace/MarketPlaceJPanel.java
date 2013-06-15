@@ -17,7 +17,7 @@ import org.promasi.desktop_swing.application.Employee;
 import org.promasi.desktop_swing.application.EmployeesPanel;
 import org.promasi.game.IGame;
 import org.promasi.game.company.IMarketPlaceListener;
-import org.promasi.game.model.MarketPlaceModel;
+import org.promasi.game.model.generated.MarketPlaceModel;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 

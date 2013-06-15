@@ -18,8 +18,8 @@ import org.joda.time.DateTime;
 import org.promasi.desktop_swing.Chart;
 import org.promasi.desktop_swing.Widget;
 import org.promasi.game.company.ICompanyListener;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.ProjectModel;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.ProjectModel;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 

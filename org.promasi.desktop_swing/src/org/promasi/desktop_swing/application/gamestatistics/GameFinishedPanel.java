@@ -11,7 +11,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXPanel;
-import org.promasi.game.model.CompanyModel;
+import org.promasi.game.model.generated.CompanyModel;
 import org.promasi.utils_swing.GuiException;
 
 /**

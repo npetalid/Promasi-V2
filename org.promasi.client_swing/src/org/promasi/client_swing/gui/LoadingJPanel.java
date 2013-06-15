@@ -11,8 +11,8 @@ import javax.swing.SwingUtilities;
 import org.joda.time.DateTime;
 import org.promasi.desktop_swing.IMainFrame;
 import org.promasi.game.IGame;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.GameModelModel;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.GameModelModel;
 import org.promasi.game.singleplayer.IClientGameListener;
 import org.promasi.utils_swing.GuiException;
 

@@ -3,7 +3,7 @@
  */
 package org.promasi.game.company;
 
-import org.promasi.game.model.MarketPlaceModel;
+import org.promasi.game.model.generated.MarketPlaceModel;
 
 /**
  * @author alekstheod

@@ -3,7 +3,7 @@
  */
 package org.promasi.desktop_swing.application.scheduler;
 
-import org.promasi.game.model.ProjectTaskModel;
+import org.promasi.game.model.generated.ProjectTaskModel;
 import org.promasi.utils_swing.GuiException;
 
 /**

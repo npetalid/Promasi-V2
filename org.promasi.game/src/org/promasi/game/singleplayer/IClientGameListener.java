@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.promasi.game.IGame;
-import org.promasi.game.model.CompanyModel;
-import org.promasi.game.model.GameModelModel;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.GameModelModel;
 
 /**
  * @author alekstheod
