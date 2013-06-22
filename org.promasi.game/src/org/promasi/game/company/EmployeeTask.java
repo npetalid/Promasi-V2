@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.promasi.game.GameException;
+import org.promasi.game.model.generated.EmployeeTaskModel;
 import org.promasi.game.project.ProjectTask;
 import org.promasi.utilities.exceptions.NullArgumentException;
 import org.promasi.utilities.serialization.SerializationException;
@@ -98,8 +99,15 @@ public class EmployeeTask
 	 * @return
 	 * @throws SerializationException
 	 */
-	public EmployeeTaskMemento getMemento(){
-		return new EmployeeTaskMemento(this);
+	public EmployeeTaskModel getMemento(){
+		EmployeeTaskModel result = new EmployeeTaskModel();
+		
+		result.setFirstStep(_firstStep);
+		result.setLastStep(_lastStep);
+		result.setProjectTaskName(_taskName);
+		result.setTaskName(_taskName);
+		
+		return result;
 	}
 	
 	/**

@@ -3,10 +3,9 @@
  */
 package org.promasi.sdsystem;
 
+import org.promasi.sdsystem.model.generated.SdSystemBridgeModel;
 import org.promasi.sdsystem.sdobject.InputSdObject;
 import org.promasi.sdsystem.sdobject.OutputSdObject;
-import org.promasi.utilities.exceptions.NullArgumentException;
-import org.promasi.utilities.serialization.SerializationException;
 
 
 /**
@@ -33,8 +32,6 @@ public class SdSystemBridge
 	 * @param outputSdSystem
 	 * @param inputSdObjectId
 	 * @param inputSdSystem
-	 * @throws NullArgumentException
-	 * @throws IllegalArgumentException
 	 */
 	public SdSystemBridge(String outputSdObjectId, SdSystem outputSdSystem, String inputSdObjectId, SdSystem inputSdSystem)throws SdSystemException{
 		if(outputSdObjectId==null){
@@ -92,12 +89,11 @@ public class SdSystemBridge
 	 * @return
 	 * @throws SerializationException
 	 */
-	public SerializableSdSystemBridge getSerializableSdSystemBridge()throws SerializationException{
-		try {
-			return new SerializableSdSystemBridge(_inputSdObject.getMemento(), _outputSdObject.getMemento());
-		} catch (NullArgumentException e) {
-			throw new SerializationException("Serialization failed because "  +  e.getMessage() );
-		}
+	public SdSystemBridgeModel getSerializableSdSystemBridge(){
+		SdSystemBridgeModel model = new SdSystemBridgeModel();
+		model.setInputSdObject(_inputSdObject.getMemento());
+		model.setOutputSdObject(_outputSdObject.getMemento());
+		return model;
 	}
 	
 	/**

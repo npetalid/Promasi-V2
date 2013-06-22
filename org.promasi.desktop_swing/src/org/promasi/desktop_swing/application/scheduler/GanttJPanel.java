@@ -26,14 +26,16 @@ import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
 import org.promasi.game.IGame;
-import org.promasi.game.company.CompanyMemento;
-import org.promasi.game.company.DepartmentMemento;
-import org.promasi.game.company.EmployeeMemento;
-import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
-import org.promasi.game.project.ProjectMemento;
-import org.promasi.game.project.ProjectTaskMemento;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.DepartmentModel;
+import org.promasi.game.model.generated.DepartmentModel.Employees.Entry;
+import org.promasi.game.model.generated.EmployeeModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
+import org.promasi.game.model.generated.ProjectModel;
+import org.promasi.game.model.generated.ProjectModel.ProjectTasks;
+import org.promasi.game.model.generated.ProjectTaskModel;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
@@ -106,7 +108,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	/**
 	 * Represent the mapping of task to working on it employees.
 	 */
-	//private Map< DefaultGanttEntry<Date> , List< EmployeeMemento > > _employees;
+	//private Map< DefaultGanttEntry<Date> , List< EmployeeModel > > _employees;
 	
 	/**
 	 * Project step per hour multiplier. Needed in order
@@ -162,11 +164,11 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		clearItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				List< EmployeeTaskMemento > tasks = new LinkedList<>();
+				List< EmployeeTaskModel > tasks = new LinkedList<>();
 				for( Map.Entry<String, DefaultGanttEntry<Date> > entry : _runningTasks.entrySet()   ){
-					EmployeeTaskMemento memento = new EmployeeTaskMemento();
-					memento.setProjectTaskName(entry.getKey());
-					tasks.add(memento);
+					EmployeeTaskModel Model = new EmployeeTaskModel();
+					Model.setProjectTaskName(entry.getKey());
+					tasks.add(Model);
 				}
 				
 				game.removeTasks(tasks);
@@ -193,10 +195,10 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 							@Override
 							public void actionPerformed(ActionEvent arg0) {
 								DefaultGanttEntry<Date> entry = _ganttChart.getEntryAt(_ganttChart.getSelectedRow());
-								EmployeeTaskMemento memento = new EmployeeTaskMemento();
-								memento.setProjectTaskName(entry.getName());
-								List<EmployeeTaskMemento> tasks = new LinkedList<>();
-								tasks.add(memento);
+								EmployeeTaskModel Model = new EmployeeTaskModel();
+								Model.setProjectTaskName(entry.getName());
+								List<EmployeeTaskModel> tasks = new LinkedList<>();
+								tasks.add(Model);
 								game.removeTasks(tasks);
 							}
 						});
@@ -264,14 +266,40 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 		return result;
 	}
 	
+	static boolean isTaskInList( String taskName, ProjectTasks tasks){
+		boolean result = false;
+		
+		for( org.promasi.game.model.generated.ProjectModel.ProjectTasks.Entry entry : tasks.getEntry() ){
+			if( entry.getKey().equals(taskName)){
+				result = true;
+				break;
+			}
+		}
+		
+		return result;
+	}
+	
+	static ProjectTaskModel getTask(String taskName, ProjectTasks tasks){
+		ProjectTaskModel result = null;
+		
+		for( org.promasi.game.model.generated.ProjectModel.ProjectTasks.Entry entry : tasks.getEntry() ){
+			if( entry.getKey().equals(taskName)){
+				result = entry.getValue();
+				break;
+			}
+		}
+		
+		return result;
+	}
+	
 	/**
 	 * Will update the Gantt diagram presentation.
 	 * @param scheduledTasks list of the scheduled tasks.
-	 * @param assignedProject Instance of {@link = ProjectMemento} which represent the
+	 * @param assignedProject Instance of {@link = ProjectModel} which represent the
 	 * assigned project.
 	 * @param dateTime the current date-time.
 	 */
-	private void updateGanttDiagramm( Map<String, EmployeeTaskMemento> scheduledTasks, ProjectMemento assignedProject, DateTime dateTime ){
+	private void updateGanttDiagramm( Map<String, EmployeeTaskModel> scheduledTasks, ProjectModel assignedProject, DateTime dateTime ){
 		try{
 			_lockObject.lock();
 			DefaultGanttModel<Date, DefaultGanttEntry<Date>> model = new DefaultGanttModel<Date, DefaultGanttEntry<Date>>();
@@ -289,8 +317,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 				_runningTasks.clear();
 				Map<String, DefaultGanttEntry<Date>> ganttTasks = new TreeMap<String,  DefaultGanttEntry<Date>>();
 				Map<Integer, DefaultGanttEntry<Date>> sortedTasks = new TreeMap<>();
-				for (Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet() ){
-					EmployeeTaskMemento employeeTask = entry.getValue();
+				for (Map.Entry<String, EmployeeTaskModel> entry : scheduledTasks.entrySet() ){
+					EmployeeTaskModel employeeTask = entry.getValue();
 					Date startDate = _projectAssignDate.plusHours( employeeTask.getFirstStep() ).toDate();
 					Calendar startTime = Calendar.getInstance(Locale.getDefault());
 					startTime.setTime(startDate);
@@ -301,8 +329,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					DefaultGanttEntry<Date> newTask = new DefaultGanttEntry<Date>(employeeTask.getTaskName(), Date.class, new TimeRange(startTime, endTime), 0);
 					ganttTasks.put(employeeTask.getTaskName(), newTask);
 					
-					if( assignedProject.getProjectTasks() != null && assignedProject.getProjectTasks().containsKey(employeeTask.getProjectTaskName() ) ){
-						ProjectTaskMemento prjTask = assignedProject.getProjectTasks().get(employeeTask.getProjectTaskName());
+					if( assignedProject.getProjectTasks() != null && isTaskInList(employeeTask.getProjectTaskName(), assignedProject.getProjectTasks())){
+						ProjectTaskModel prjTask = getTask(employeeTask.getProjectTaskName(), assignedProject.getProjectTasks() );
 						setTaskDuration(newTask, prjTask.getProgress()/100.0);
 					}
 
@@ -319,8 +347,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					model.addGanttEntry(entry.getValue());
 				}
 				
-				for (Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet() ){
-					EmployeeTaskMemento employeeTask = entry.getValue();
+				for (Map.Entry<String, EmployeeTaskModel> entry : scheduledTasks.entrySet() ){
+					EmployeeTaskModel employeeTask = entry.getValue();
 					if(  employeeTask.getDependencies() != null ){
 						for( String taskName : employeeTask.getDependencies() ){
 							if( ganttTasks.containsKey(taskName) && ganttTasks.containsKey(employeeTask.getTaskName() ) ){
@@ -341,7 +369,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	 * Called when the new project assigned.
 	 */
 	@Override
-	public void projectAssigned(String owner, CompanyMemento company,final ProjectMemento project, final DateTime dateTime) {
+	public void projectAssigned(String owner, CompanyModel company,final ProjectModel project, final DateTime dateTime) {
 		try{
 			_lockObject.lock();
 			_projectAssignDate = dateTime;
@@ -353,7 +381,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 				public void run() {
 					_ganttChart.getScaleArea().setStart(_projectAssignDate.toDate());
 					_ganttChart.getScaleArea().setEnd(_projectAssignDate.plusHours(project.getProjectDuration()).toDate());
-					updateGanttDiagramm( new TreeMap<String, EmployeeTaskMemento>(), project, dateTime);
+					updateGanttDiagramm( new TreeMap<String, EmployeeTaskModel>(), project, dateTime);
 				}
 			});
 		}finally{
@@ -362,8 +390,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	}
 
 	@Override
-	public void projectFinished(String owner, CompanyMemento company,
-			final ProjectMemento project, final DateTime dateTime) {
+	public void projectFinished(String owner, CompanyModel company,
+			final ProjectModel project, final DateTime dateTime) {
 		try{
 			_lockObject.lock();
 			_projectAssignDate = dateTime;
@@ -371,7 +399,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 				
 				@Override
 				public void run() {
-					updateGanttDiagramm( new TreeMap<String, EmployeeTaskMemento>(), project, dateTime);
+					updateGanttDiagramm( new TreeMap<String, EmployeeTaskModel>(), project, dateTime);
 				}
 			});
 		}finally{
@@ -380,15 +408,15 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	}
 
 	@Override
-	public void companyIsInsolvent(String owner, CompanyMemento company,
-			ProjectMemento assignedProject, DateTime dateTime) {
+	public void companyIsInsolvent(String owner, CompanyModel company,
+			ProjectModel assignedProject, DateTime dateTime) {
 	}
 
 	/**
 	 * Called on step execution.
 	 */
 	@Override
-	public void onExecuteWorkingStep(String owner, final CompanyMemento company, final ProjectMemento assignedProject, final DateTime dateTime) {
+	public void onExecuteWorkingStep(String owner, final CompanyModel company, final ProjectModel assignedProject, final DateTime dateTime) {
 		SwingUtilities.invokeLater( new Runnable() {
 			
 			@Override
@@ -396,12 +424,11 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 				try{
 					_lockObject.lock();
 					_currentDate = dateTime;
-					final Map<String, EmployeeTaskMemento> projectTasks = new TreeMap<String, EmployeeTaskMemento>();
-					if( company != null && company.getITDepartment() != null && company.getITDepartment().getEmployees() != null ){
-						Map<String, EmployeeMemento> employees = company.getITDepartment().getEmployees();
-						for (Map.Entry<String, EmployeeMemento> entry : employees.entrySet()){
-							Map<String, EmployeeTaskMemento> tasks = entry.getValue().getTasks();
-							for (Map.Entry<String, EmployeeTaskMemento> taskEntry : tasks.entrySet() ){
+					final Map<String, EmployeeTaskModel> projectTasks = new TreeMap<String, EmployeeTaskModel>();
+					if( company != null && company.getItDepartment() != null && company.getItDepartment().getEmployees() != null ){
+						for (Entry entry : company.getItDepartment().getEmployees().getEntry()){
+							List<org.promasi.game.model.generated.EmployeeModel.Tasks.Entry> tasks = entry.getValue().getTasks().getEntry();
+							for (org.promasi.game.model.generated.EmployeeModel.Tasks.Entry taskEntry : tasks ){
 								if( !projectTasks.containsKey(taskEntry.getValue().getTaskName())){
 									projectTasks.put(taskEntry.getValue().getTaskName(), taskEntry.getValue() );
 								}
@@ -410,7 +437,7 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 					}
 
 					boolean needUpdate = false;
-					for( Map.Entry<String, EmployeeTaskMemento> entry : projectTasks.entrySet()){
+					for( Map.Entry<String, EmployeeTaskModel> entry : projectTasks.entrySet()){
 						if( !_runningTasks.containsKey(entry.getKey()) ){
 							needUpdate = true;
 							break;
@@ -430,8 +457,8 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 						for( Map.Entry<String, DefaultGanttEntry<Date>> entry : _runningTasks.entrySet()){
 							if( projectTasks.containsKey(entry.getKey())){
 								String taskName = projectTasks.get(entry.getKey()).getProjectTaskName();
-								if( assignedProject.getProjectTasks() != null && assignedProject.getProjectTasks().containsKey( taskName ) ){
-									ProjectTaskMemento prjTask = assignedProject.getProjectTasks().get(projectTasks.get(entry.getKey()).getProjectTaskName());
+								if( assignedProject.getProjectTasks() != null && isTaskInList(taskName, assignedProject.getProjectTasks()) ){
+									ProjectTaskModel prjTask = getTask(taskName, assignedProject.getProjectTasks());
 									setTaskDuration(entry.getValue(), prjTask.getProgress()/100.0);
 								}
 							}
@@ -448,20 +475,20 @@ public class GanttJPanel extends JPanel  implements ICompanyListener, IDepartmen
 	}
 
 	@Override
-	public void companyAssigned(String owner, CompanyMemento company) {}
+	public void companyAssigned(String owner, CompanyModel company) {}
 
 	@Override
-	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {}
+	public void employeeDischarged(String director, DepartmentModel department, EmployeeModel employee, DateTime dateTime) {}
 
 	@Override
-	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {}
+	public void employeeHired(String director, DepartmentModel department, EmployeeModel employee, DateTime dateTime) {}
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {}
+	public void tasksAssigned(String director, DepartmentModel department, DateTime dateTime) {}
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {}
+	public void tasksAssignFailed(String director, DepartmentModel department, DateTime dateTime) {}
 
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {}
+	public void departmentAssigned(String director, DepartmentModel department, DateTime dateTime) {}
 }

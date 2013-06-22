@@ -11,7 +11,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import org.jdesktop.swingx.JXPanel;
-import org.promasi.game.company.CompanyMemento;
+import org.promasi.game.model.generated.CompanyModel;
 import org.promasi.utils_swing.GuiException;
 
 /**
@@ -29,7 +29,7 @@ public class GameFinishedPanel extends JXPanel {
 	/**
 	 * Constructor 
 	 */
-	public GameFinishedPanel(Map<String, CompanyMemento> players)throws GuiException{
+	public GameFinishedPanel(Map<String, CompanyModel> players)throws GuiException{
 		String[] columnNames = {"Name","Reputation","Budget"};
 		
 		DefaultTableModel model = new DefaultTableModel();
@@ -45,7 +45,7 @@ public class GameFinishedPanel extends JXPanel {
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane, BorderLayout.CENTER);
 		
-		for( Map.Entry<String, CompanyMemento> entry : players.entrySet() ){
+		for( Map.Entry<String, CompanyModel> entry : players.entrySet() ){
 			model.addRow(new Object[] {entry.getKey(), entry.getValue().getPrestigePoints(), entry.getValue().getBudget()});
 		}
 	}

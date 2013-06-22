@@ -3,7 +3,7 @@
  */
 package org.promasi.desktop_swing.application;
 
-import org.promasi.game.company.EmployeeMemento;
+import org.promasi.game.model.generated.EmployeeModel;
 import org.promasi.utils_swing.GuiException;
 
 /**
@@ -19,7 +19,7 @@ public class Employee{
 	 * Instance of {@link = EmployeeMemento} which represent
 	 * the employee.
 	 */
-	private EmployeeMemento _employee;
+	private EmployeeModel _employee;
 	
 	/**
 	 * Constructor will initialize the object.
@@ -28,7 +28,7 @@ public class Employee{
 	 * @exception {@link = GuiException} will be thrown in case of
 	 * initialization error.
 	 */
-	public Employee(EmployeeMemento employee )throws GuiException{
+	public Employee(EmployeeModel employee )throws GuiException{
 		if( employee == null || employee.getCurriculumVitae() == null ){
 			throw new GuiException("Wrong argument employee == null");
 		}
@@ -45,7 +45,7 @@ public class Employee{
 	 * Will return the containing instance of {@link = EmployeeMemento}
 	 * @return EmployeeMemento.
 	 */
-	public EmployeeMemento getEmployeeMemento(){
+	public EmployeeModel getEmployeeMemento(){
 		return _employee;
 	}
 }

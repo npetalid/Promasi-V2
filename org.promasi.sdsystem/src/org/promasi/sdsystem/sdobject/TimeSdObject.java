@@ -5,7 +5,8 @@ package org.promasi.sdsystem.sdobject;
 
 import java.util.Map;
 
-import org.promasi.sdsystem.serialization.ISerializableSdObject;
+import org.promasi.sdsystem.model.generated.TimeSdObjectModel;
+
 
 /**
  * @author m1cRo
@@ -39,8 +40,8 @@ public class TimeSdObject implements ISdObject
 	 * @see org.promasi.sdsystem.sdobject.ISdObject#getSerializableSdObject()
 	 */
 	@Override
-	public ISerializableSdObject getMemento() {
-		return new TimeSdObjectMemento();
+	public TimeSdObjectModel getMemento() {
+		return new TimeSdObjectModel();
 	}
 
 }
