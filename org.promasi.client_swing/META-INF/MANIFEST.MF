@@ -4,7 +4,8 @@ Bundle-Name: client_swing
 Bundle-SymbolicName: org.promasi.client_swing
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.promasi.utils_swing;bundle-version="1.0.0",
- org.promasi.desktop_swing;bundle-version="1.0.0"
+ org.promasi.desktop_swing;bundle-version="1.0.0",
+ org.promasi.game.model;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.apache.commons.codec,

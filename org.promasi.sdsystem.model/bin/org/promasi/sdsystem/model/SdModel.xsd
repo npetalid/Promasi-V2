@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:complexType name="aSdEquationModel" abstract="true">
+		<xs:sequence />
+	</xs:complexType>
+
+	<xs:complexType name="aSdModel" abstract="true">
+		<xs:sequence />
+	</xs:complexType>
+
+	<xs:complexType name="outputSdObjectModel">
+		<xs:complexContent>
+			<xs:extension base="sdObjectModel">
+				<xs:sequence>
+					<xs:element name="equation" type="aSdEquationModel"
+						minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="sdObjectModel">
+		<xs:complexContent>
+			<xs:extension base="aSdModel">
+				<xs:sequence />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:element name="sdSystemModel">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="aSdModel">
+					<xs:sequence>
+						<xs:element name="sdObjects">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="entry" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="key" minOccurs="0" type="xs:string" />
+												<xs:element name="value" minOccurs="0"
+													type="sdObjectModel" />
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="flowSdObjectModel">
+		<xs:complexContent>
+			<xs:extension base="sdObjectModel">
+				<xs:sequence>
+					<xs:element name="equation" type="aSdEquationModel"
+						minOccurs="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="inputSdObjectModel">
+		<xs:complexContent>
+			<xs:extension base="sdObjectModel">
+				<xs:sequence />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="timeSdObjectModel">
+		<xs:complexContent>
+			<xs:extension base="sdObjectModel">
+				<xs:sequence />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="sdSystemBridgeModel">
+		<xs:sequence>
+			<xs:element name="inputSdObject" type="sdObjectModel"
+				minOccurs="0" />
+			<xs:element name="outputSdObject" type="sdObjectModel"
+				minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="stockSdObjectModel">
+		<xs:complexContent>
+			<xs:extension base="sdObjectModel">
+				<xs:sequence>
+					<xs:element name="equation" type="aSdEquationModel"
+						minOccurs="1" />
+					<xs:element name="value" type="xs:double" minOccurs="1" default="0" />
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>
+

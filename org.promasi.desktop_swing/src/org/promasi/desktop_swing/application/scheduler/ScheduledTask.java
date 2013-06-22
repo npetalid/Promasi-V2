@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.joda.time.DateTime;
-import org.promasi.game.company.EmployeeMemento;
+import org.promasi.game.model.generated.EmployeeModel;
 import org.promasi.utils_swing.GuiException;
 
 /**
@@ -19,7 +19,7 @@ public class ScheduledTask {
 	/**
 	 * 
 	 */
-	private Map<String, EmployeeMemento > _employees;
+	private Map<String, EmployeeModel > _employees;
 	
 	/**
 	 * 
@@ -46,7 +46,7 @@ public class ScheduledTask {
 	 * @param taskName
 	 * @param employees
 	 */
-	public ScheduledTask( String taskName, Map<String, EmployeeMemento> employees, DateTime startTime, DateTime endTime, List<String> dependencies)throws GuiException{
+	public ScheduledTask( String taskName, Map<String, EmployeeModel> employees, DateTime startTime, DateTime endTime, List<String> dependencies)throws GuiException{
 		if( taskName == null ){
 			throw new GuiException("Wrong argument taskName == null");
 		}
@@ -77,7 +77,7 @@ public class ScheduledTask {
 	/**
 	 * @return the _employees
 	 */
-	public Map<String, EmployeeMemento > getEmployees() {
+	public Map<String, EmployeeModel > getEmployees() {
 		return _employees;
 	}
 

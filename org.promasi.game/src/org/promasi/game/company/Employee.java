@@ -8,6 +8,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.GameException;
+import org.promasi.game.model.generated.EmployeeModel;
 import org.promasi.utilities.design.Observer;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
@@ -200,8 +201,37 @@ public class Employee extends Observer< IEmployeeListener >
 	 * @return
 	 * @throws SerializationException
 	 */
-	public EmployeeMemento getMemento(){
-		return new EmployeeMemento(this);
+	public EmployeeModel getMemento(){
+		EmployeeModel result = new EmployeeModel();
+		
+		result.setEmployeeId(_employeeId);
+		result.setEmployeeId(_employeeId);
+		result.setFirstName(_firstName);
+		result.setLastName(_lastName);
+		result.setSalary(_salary);
+		result.setCurriculumVitae(_curriculumVitae);
+		
+		EmployeeModel.Tasks tasks = new EmployeeModel.Tasks();
+		for( Map.Entry<String, EmployeeTask> entry : _employeeTasks.entrySet() ){
+			EmployeeModel.Tasks.Entry newEntry = new EmployeeModel.Tasks.Entry();
+			newEntry.setKey( entry.getKey() );
+			newEntry.setValue( entry.getValue().getMemento() );
+			tasks.getEntry().add(newEntry);
+		}
+		
+		result.setTasks(tasks);
+		
+		EmployeeModel.EmployeeSkills skills = new EmployeeModel.EmployeeSkills();
+		for( Map.Entry<String, Double> entry : _employeeSkills.entrySet() ){
+			EmployeeModel.EmployeeSkills.Entry newEntry = new EmployeeModel.EmployeeSkills.Entry();
+			newEntry.setKey( entry.getKey() );
+			newEntry.setValue( entry.getValue() );
+			skills.getEntry().add(newEntry);
+		}
+		
+		result.setEmployeeSkills(skills);
+		
+		return result;
 	}
 
     /**

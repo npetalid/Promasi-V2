@@ -5,7 +5,8 @@ package org.promasi.sdsystem.sdobject;
 
 import java.util.Map;
 
-import org.promasi.sdsystem.serialization.ISerializableSdObject;
+import org.promasi.sdsystem.model.generated.InputSdObjectModel;
+import org.promasi.sdsystem.model.generated.SdObjectModel;
 import org.promasi.utilities.exceptions.NullArgumentException;
 
 /**
@@ -22,7 +23,7 @@ public class InputSdObject implements ISdObject
 	/**
 	 * 
 	 */
-	public InputSdObject()throws NullArgumentException{
+	public InputSdObject(){
 	}
 	
 	@Override
@@ -49,8 +50,8 @@ public class InputSdObject implements ISdObject
 	}
 
 	@Override
-	public ISerializableSdObject getMemento() {
-		return new InputSdObjectMemento(this);
+	public SdObjectModel getMemento() {
+		return new InputSdObjectModel();
 	}
 	
 }

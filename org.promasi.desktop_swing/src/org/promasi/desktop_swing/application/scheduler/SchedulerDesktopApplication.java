@@ -14,9 +14,9 @@ import org.promasi.desktop_swing.IDesktop;
 import org.promasi.desktop_swing.application.ADesktopApplication;
 import org.promasi.desktop_swing.application.TaskBarIcon;
 import org.promasi.game.IGame;
-import org.promasi.game.company.DepartmentMemento;
-import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.IDepartmentListener;
+import org.promasi.game.model.generated.DepartmentModel;
+import org.promasi.game.model.generated.EmployeeModel;
 
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utils_swing.GuiException;
@@ -100,20 +100,20 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 
 	@Override
 	public void employeeDischarged(String director,
-			DepartmentMemento department, EmployeeMemento employee,
+			DepartmentModel department, EmployeeModel employee,
 			DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void employeeHired(String director, DepartmentMemento department,
-			EmployeeMemento employee, DateTime dateTime) {
+	public void employeeHired(String director, DepartmentModel department,
+			EmployeeModel employee, DateTime dateTime) {
 		// TODO Auto-generated method stub
 	}
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department,
+	public void tasksAssigned(String director, DepartmentModel department,
 			DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
@@ -126,7 +126,7 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 
 	@Override
 	public void tasksAssignFailed(String director,
-			DepartmentMemento department, DateTime dateTime) {
+			DepartmentModel department, DateTime dateTime) {
 		SwingUtilities.invokeLater(new Runnable() {
 			
 			@Override
@@ -138,7 +138,7 @@ public class SchedulerDesktopApplication extends ADesktopApplication implements 
 
 	@Override
 	public void departmentAssigned(String director,
-			DepartmentMemento department, DateTime dateTime) {
+			DepartmentModel department, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}

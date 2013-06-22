@@ -1,6 +1,5 @@
 package org.promasi.game.singleplayer;
 
-import java.beans.XMLDecoder;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,14 +10,19 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.regex.Pattern;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+
 import org.promasi.game.GameException;
 import org.promasi.game.GameModel;
+import org.promasi.game.IGameFactory;
 import org.promasi.game.company.Company;
 import org.promasi.game.company.MarketPlace;
-import org.promasi.game.company.CompanyMemento;
-import org.promasi.game.company.MarketPlaceMemento;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.MarketPlaceModel;
+import org.promasi.game.model.generated.ProjectModel;
 import org.promasi.game.project.Project;
-import org.promasi.game.project.ProjectMemento;
 import org.promasi.utilities.file.RootDirectory;
 import org.promasi.utilities.logger.ILogger;
 import org.promasi.utilities.logger.LoggerFactory;
@@ -66,18 +70,25 @@ public class SinglePlayerGameFolder
 	 */
 	private GameModel _game;
 	
+	private IGameFactory _factory;
+	
 	/**
 	 * 
 	 * @param gameFolderPath
 	 * @param playerName
 	 * @throws GameException
 	 */
-	public SinglePlayerGameFolder(final String gameFolderPath, String playerName)throws GameException{
+	public SinglePlayerGameFolder(IGameFactory factory, final String gameFolderPath, String playerName)throws GameException{
 		CONST_LOGGER.info("Start reading game from : " + gameFolderPath);
 		if(gameFolderPath==null){
 			throw new GameException("Wrong argument gameFolderPath==null");
 		}
 		
+		if( factory == null ){
+			throw new GameException("Wrong argument factory==null");
+		}
+		
+		_factory = factory;
 		String separator;
 		try {
 			separator = RootDirectory.getInstance().getSeparator();
@@ -116,7 +127,7 @@ public class SinglePlayerGameFolder
 					projects=makeProjects(gameFolderPath+separator+projectFiles[i]);
 				}
 			}
-		}catch(SerializationException e){
+		}catch(JAXBException e){
 			throw new GameException("Wrong gameFolderPath");
 		}catch(IllegalArgumentException e){
 			throw new GameException("Wrong gameFolderPath");
@@ -171,16 +182,19 @@ public class SinglePlayerGameFolder
 	 * @return
 	 * @throws FileNotFoundException 
 	 * @throws SerializationException 
+	 * @throws JAXBException 
 	 */
-	private Company makeCompany(final String filePath) throws FileNotFoundException, SerializationException{
+	private Company makeCompany(final String filePath) throws FileNotFoundException, JAXBException{
 		File companyFile=new File(filePath);
 		FileInputStream fileInputStream=new FileInputStream(companyFile);
-		XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
-		Object object=xmlDecoder.readObject();
-		xmlDecoder.close();
-		if(object instanceof CompanyMemento){
-			CompanyMemento sCompany=(CompanyMemento)object;
-			Company company=sCompany.getCompany();
+		
+		JAXBContext jc = JAXBContext.newInstance( CompanyModel.class );
+	    Unmarshaller unmarshaller = jc.createUnmarshaller();
+	    Object object = unmarshaller.unmarshal( fileInputStream );
+
+		if(object instanceof CompanyModel){
+			CompanyModel sCompany=(CompanyModel)object;
+			Company company=_factory.createCompany(sCompany);
 			return company;
 		}
 		
@@ -193,16 +207,19 @@ public class SinglePlayerGameFolder
 	 * @return
 	 * @throws FileNotFoundException 
 	 * @throws SerializationException 
+	 * @throws JAXBException 
 	 */
-	private MarketPlace makeMarketPlace(final String filePath) throws FileNotFoundException, SerializationException{
+	private MarketPlace makeMarketPlace(final String filePath) throws FileNotFoundException, JAXBException{
 		File marketPlaceFile=new File(filePath);
 		FileInputStream fileInputStream=new FileInputStream(marketPlaceFile);
-		XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
-		Object object=xmlDecoder.readObject();
-		xmlDecoder.close();
-		if(object instanceof MarketPlaceMemento){
-			MarketPlaceMemento sMarketPlace=(MarketPlaceMemento)object;
-			MarketPlace marketPlace=sMarketPlace.getMemento();
+
+		JAXBContext jc = JAXBContext.newInstance( MarketPlaceModel.class );
+	    Unmarshaller unmarshaller = jc.createUnmarshaller();
+	    Object object = unmarshaller.unmarshal( fileInputStream );
+	    
+		if(object instanceof MarketPlaceModel){
+			MarketPlaceModel sMarketPlace=(MarketPlaceModel)object;
+			MarketPlace marketPlace=_factory.createMarketPlace( sMarketPlace );
 			return marketPlace;
 		}
 		
@@ -260,23 +277,19 @@ public class SinglePlayerGameFolder
 			try{
 				File projectFile=new File(filePath+RootDirectory.getInstance().getSeparator()+files[i]);
 				FileInputStream fileInputStream=new FileInputStream(projectFile);
-				XMLDecoder xmlDecoder=new XMLDecoder(fileInputStream);
-				Object object=xmlDecoder.readObject();
-				xmlDecoder.close();
-				if(object instanceof ProjectMemento){
-					ProjectMemento sProject=(ProjectMemento)object;
+				JAXBContext jc = JAXBContext.newInstance( ProjectModel.class );
+			    Unmarshaller unmarshaller = jc.createUnmarshaller();
+			    Object object = unmarshaller.unmarshal( fileInputStream );
+				if(object instanceof ProjectModel){
+					ProjectModel sProject=(ProjectModel)object;
 					Project project;
-					try {
-						project = sProject.getProject();
-						projects.add(project);
-					} catch (SerializationException e) {
-						e.printStackTrace();
-					}
+					project = _factory.createProject(sProject);
+					projects.add(project);
 				}
 			}catch(FileNotFoundException e){
-				//Log wrong file
+				e.printStackTrace();
 			}catch( Exception e ){
-				//Log wrong file
+				e.printStackTrace();
 			}
 		}
 		

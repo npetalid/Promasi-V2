@@ -22,13 +22,14 @@ import javax.swing.SwingUtilities;
 
 import org.joda.time.DateTime;
 import org.promasi.game.IGame;
-import org.promasi.game.company.CompanyMemento;
-import org.promasi.game.company.DepartmentMemento;
-import org.promasi.game.company.EmployeeMemento;
-import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
-import org.promasi.game.project.ProjectMemento;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.DepartmentModel;
+import org.promasi.game.model.generated.DepartmentModel.Employees.Entry;
+import org.promasi.game.model.generated.EmployeeModel;
+import org.promasi.game.model.generated.EmployeeTaskModel;
+import org.promasi.game.model.generated.ProjectModel;
 import org.promasi.utils_swing.components.jlist.CheckBoxCellRenderer;
 import org.promasi.utils_swing.components.jlist.CheckBoxListEntry;
 
@@ -46,12 +47,12 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 	/**
 	 * 
 	 */
-	private JList<CheckBoxListEntry<EmployeeTaskMemento>> _tasksList;
+	private JList<CheckBoxListEntry<EmployeeTaskModel>> _tasksList;
 	
 	/**
 	 * 
 	 */
-	private Map<String, CheckBoxListEntry<EmployeeTaskMemento>> _tasks;
+	private Map<String, CheckBoxListEntry<EmployeeTaskModel>> _tasks;
 	
 	/**
 	 * 
@@ -62,8 +63,8 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 	 * 
 	 */
 	public DependenciesJPanel(IGame game){
-		_tasksList = new JList<CheckBoxListEntry<EmployeeTaskMemento>>();
-		_tasks= new TreeMap<String, CheckBoxListEntry<EmployeeTaskMemento>>();
+		_tasksList = new JList<CheckBoxListEntry<EmployeeTaskModel>>();
+		_tasks= new TreeMap<String, CheckBoxListEntry<EmployeeTaskModel>>();
 		_tasksList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		_tasksList.setCellRenderer(new CheckBoxCellRenderer<Object>());
 		_tasksList.addMouseListener(new MouseListener() {
@@ -77,7 +78,7 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 			public void mouseEntered(MouseEvent arg0) {}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				CheckBoxListEntry<EmployeeTaskMemento> entry = _tasksList.getSelectedValue();
+				CheckBoxListEntry<EmployeeTaskModel> entry = _tasksList.getSelectedValue();
 				if( entry != null ){
 					entry.onClick();
 					_tasksList.repaint();
@@ -102,7 +103,7 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 		
 		try{
 			_lockObject.lock();
-			for( Map.Entry<String, CheckBoxListEntry<EmployeeTaskMemento>> entry : _tasks.entrySet()){
+			for( Map.Entry<String, CheckBoxListEntry<EmployeeTaskModel>> entry : _tasks.entrySet()){
 				if( entry.getValue().isSelected() ){
 					result.add(entry.getKey());
 				}
@@ -115,26 +116,26 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 	}
 
 	@Override
-	public void projectAssigned(String owner, CompanyMemento company,
-			ProjectMemento project, DateTime dateTime) {
+	public void projectAssigned(String owner, CompanyModel company,
+			ProjectModel project, DateTime dateTime) {
 	}
 
 	@Override
-	public void projectFinished(String owner, CompanyMemento company,
-			ProjectMemento project, DateTime dateTime) {
+	public void projectFinished(String owner, CompanyModel company,
+			ProjectModel project, DateTime dateTime) {
 	}
 
 	@Override
-	public void companyIsInsolvent(String owner, CompanyMemento company,
-			ProjectMemento assignedProject, DateTime dateTime) {
+	public void companyIsInsolvent(String owner, CompanyModel company,
+			ProjectModel assignedProject, DateTime dateTime) {
 	}
 
 	@Override
-	public void onExecuteWorkingStep(String owner, final CompanyMemento company,
-			ProjectMemento assignedProject, DateTime dateTime) {
+	public void onExecuteWorkingStep(String owner, final CompanyModel company,
+			ProjectModel assignedProject, DateTime dateTime) {
 		if( 	company != null && 
-				company.getITDepartment() != null && 
-				company.getITDepartment().getEmployees() != null){
+				company.getItDepartment() != null && 
+				company.getItDepartment().getEmployees() != null){
 			
 			SwingUtilities.invokeLater(new Runnable() {
 				
@@ -144,10 +145,10 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 						_lockObject.lock();
 						
 						boolean newTasksFound = false;
-						Map<String, EmployeeTaskMemento> scheduledTasks = new TreeMap<String, EmployeeTaskMemento>();
-						for( Map.Entry<String, EmployeeMemento> employeeEntry : company.getITDepartment().getEmployees().entrySet() ){
-							if( employeeEntry.getValue() != null ){
-								for( Map.Entry<String, EmployeeTaskMemento> taskEntry : employeeEntry.getValue().getTasks().entrySet()){
+						Map<String, EmployeeTaskModel> scheduledTasks = new TreeMap<String, EmployeeTaskModel>();
+						for( Entry entry : company.getItDepartment().getEmployees().getEntry() ){
+							if( entry != null ){
+								for( org.promasi.game.model.generated.EmployeeModel.Tasks.Entry taskEntry : entry.getValue().getTasks().getEntry()){
 									if( !scheduledTasks.containsKey( taskEntry.getValue().getTaskName() ) ){
 										scheduledTasks.put(taskEntry.getKey(), taskEntry.getValue());
 									}
@@ -155,15 +156,15 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 							}
 						}
 						
-						for( Map.Entry<String, EmployeeTaskMemento> entry : scheduledTasks.entrySet() ){
+						for( Map.Entry<String, EmployeeTaskModel> entry : scheduledTasks.entrySet() ){
 							if(!_tasks.containsKey(entry.getKey())){
-								_tasks.put(entry.getKey(), new CheckBoxListEntry<EmployeeTaskMemento>(entry.getValue(), entry.getKey()));
+								_tasks.put(entry.getKey(), new CheckBoxListEntry<EmployeeTaskModel>(entry.getValue(), entry.getKey()));
 								newTasksFound = true;
 							}
 						}
 						
-						Map<String, CheckBoxListEntry<EmployeeTaskMemento>> tmp = new TreeMap<String, CheckBoxListEntry<EmployeeTaskMemento>>(_tasks);
-						for(Map.Entry<String, CheckBoxListEntry<EmployeeTaskMemento>> entry : tmp.entrySet()){
+						Map<String, CheckBoxListEntry<EmployeeTaskModel>> tmp = new TreeMap<String, CheckBoxListEntry<EmployeeTaskModel>>(_tasks);
+						for(Map.Entry<String, CheckBoxListEntry<EmployeeTaskModel>> entry : tmp.entrySet()){
 							if( !scheduledTasks.containsKey(entry.getKey())){
 								_tasks.remove(entry.getKey());
 								newTasksFound = true;
@@ -171,8 +172,8 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 						}
 						
 						if( newTasksFound){
-							Vector<CheckBoxListEntry<EmployeeTaskMemento>> tasks = new Vector<CheckBoxListEntry<EmployeeTaskMemento>>();
-							for( Map.Entry<String,  CheckBoxListEntry<EmployeeTaskMemento>> entry : _tasks.entrySet()){
+							Vector<CheckBoxListEntry<EmployeeTaskModel>> tasks = new Vector<CheckBoxListEntry<EmployeeTaskModel>>();
+							for( Map.Entry<String,  CheckBoxListEntry<EmployeeTaskModel>> entry : _tasks.entrySet()){
 								tasks.add(entry.getValue());
 							}
 							
@@ -189,27 +190,27 @@ public class DependenciesJPanel extends JPanel implements ICompanyListener, IDep
 	}
 
 	@Override
-	public void companyAssigned(String owner, CompanyMemento company) {
+	public void companyAssigned(String owner, CompanyModel company) {
 	}
 
 	@Override
-	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
+	public void employeeDischarged(String director, DepartmentModel department, EmployeeModel employee, DateTime dateTime) {
 	}
 
 	@Override
-	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
+	public void employeeHired(String director, DepartmentModel department, EmployeeModel employee, DateTime dateTime) {
 	}
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {
+	public void tasksAssigned(String director, DepartmentModel department, DateTime dateTime) {
 	}
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {
+	public void tasksAssignFailed(String director, DepartmentModel department, DateTime dateTime) {
 	}
 
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {
+	public void departmentAssigned(String director, DepartmentModel department, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -9,6 +9,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.joda.time.DateTime;
 import org.promasi.game.GameException;
+import org.promasi.game.model.generated.EmployeeModel;
+import org.promasi.game.model.generated.MarketPlaceModel;
 import org.promasi.utilities.design.Observer;
 import org.promasi.utilities.exceptions.NullArgumentException;
 
@@ -58,11 +60,20 @@ public class MarketPlace extends Observer<IMarketPlaceListener>
 	 * 
 	 * @return
 	 */
-	public MarketPlaceMemento getMemento(){
-		MarketPlaceMemento result = null;
+	public MarketPlaceModel getMemento(){
+		MarketPlaceModel result = null;
 		try {
 			_lockObject.lock();
-			result = new MarketPlaceMemento(this);
+			result = new MarketPlaceModel();
+			MarketPlaceModel.AvailableEmployees employees = new MarketPlaceModel.AvailableEmployees();
+			for( Map.Entry<String, Employee > entry : _availabelEmployees.entrySet() ){
+				MarketPlaceModel.AvailableEmployees.Entry newEntry = new MarketPlaceModel.AvailableEmployees.Entry();
+				newEntry.setKey(entry.getKey());
+				newEntry.setValue(entry.getValue().getMemento());
+				employees.getEntry().add(newEntry);
+			}
+			
+			result.setAvailableEmployees(employees);
 		} finally{
 			_lockObject.unlock();
 		}
@@ -76,7 +87,7 @@ public class MarketPlace extends Observer<IMarketPlaceListener>
 	 * @return
 	 * @throws NullArgumentException
 	 */
-	public boolean isEmployeeAvailable(final EmployeeMemento employee){
+	public boolean isEmployeeAvailable(final EmployeeModel employee){
 		boolean result = false;
 		
 		try{

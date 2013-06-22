@@ -7,7 +7,6 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Map;
 import java.util.Vector;
 
 import javax.swing.JButton;
@@ -18,12 +17,12 @@ import org.joda.time.DateTime;
 import org.promasi.desktop_swing.application.Employee;
 import org.promasi.desktop_swing.application.EmployeesPanel;
 import org.promasi.game.IGame;
-import org.promasi.game.company.CompanyMemento;
-import org.promasi.game.company.DepartmentMemento;
-import org.promasi.game.company.EmployeeMemento;
 import org.promasi.game.company.ICompanyListener;
 import org.promasi.game.company.IDepartmentListener;
-import org.promasi.game.project.ProjectMemento;
+import org.promasi.game.model.generated.CompanyModel;
+import org.promasi.game.model.generated.DepartmentModel;
+import org.promasi.game.model.generated.EmployeeModel;
+import org.promasi.game.model.generated.ProjectModel;
 import org.promasi.utils_swing.Colors;
 import org.promasi.utils_swing.GuiException;
 
@@ -96,30 +95,30 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 	}
 
 	@Override
-	public void projectAssigned(String owner, CompanyMemento company,
-			ProjectMemento project, DateTime dateTime) {
+	public void projectAssigned(String owner, CompanyModel company,
+			ProjectModel project, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void projectFinished(String owner, CompanyMemento company,
-			ProjectMemento project, DateTime dateTime) {
+	public void projectFinished(String owner, CompanyModel company,
+			ProjectModel project, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void companyIsInsolvent(String owner, final CompanyMemento company,
-			ProjectMemento assignedProject, DateTime dateTime) {
-		if( company != null && company.getITDepartment() != null){
-			updateEmployeeList(company.getITDepartment().getEmployees() );
+	public void companyIsInsolvent(String owner, final CompanyModel company,
+			ProjectModel assignedProject, DateTime dateTime) {
+		if( company != null && company.getItDepartment() != null){
+			updateEmployeeList(company.getItDepartment().getEmployees() );
 		}
 	}
 
 	@Override
-	public void onExecuteWorkingStep(String owner, CompanyMemento company,
-			ProjectMemento assignedProject, DateTime dateTime) {
+	public void onExecuteWorkingStep(String owner, CompanyModel company,
+			ProjectModel assignedProject, DateTime dateTime) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -128,23 +127,25 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 	 * 
 	 * @param employees
 	 */
-	private void updateEmployeeList( final Map<String, EmployeeMemento> employees ){
+	private void updateEmployeeList( final DepartmentModel.Employees employees ){
 		if( employees != null ){
 			SwingUtilities.invokeLater(new Runnable() {
 				
 				@Override
 				public void run() {
 					Vector<Employee> dataSet = new Vector<Employee>();
-					for(Map.Entry<String,EmployeeMemento> entry : employees.entrySet() ){
-						if( entry.getValue() !=null && entry.getValue().getEmployeeId() != null ){
+					
+					for(DepartmentModel.Employees.Entry entry : employees.getEntry() ){
+						if(entry.getValue() !=null && entry.getValue().getEmployeeId() != null){
 							try {
 								dataSet.add(new Employee(entry.getValue()));
 							} catch (GuiException e) {
-								// TODO log
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
 						}
 					}
-					
+
 					_employeesPanel.updateList(dataSet);
 				}
 			});
@@ -153,42 +154,42 @@ public class HumanResourcesJPanel extends JPanel implements ICompanyListener, ID
 	}
 	
 	@Override
-	public void companyAssigned(final String owner, final CompanyMemento company) {
-		if( company != null && company.getITDepartment() != null){
-			updateEmployeeList(company.getITDepartment().getEmployees() );
+	public void companyAssigned(final String owner, final CompanyModel company) {
+		if( company != null && company.getItDepartment() != null){
+			updateEmployeeList(company.getItDepartment().getEmployees() );
 		}
 	}
 
 	@Override
-	public void employeeDischarged(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
+	public void employeeDischarged(String director, DepartmentModel department, EmployeeModel employee, DateTime dateTime) {
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}
 	}
 
 	@Override
-	public void employeeHired(String director, DepartmentMemento department, EmployeeMemento employee, DateTime dateTime) {
+	public void employeeHired(String director, DepartmentModel department, EmployeeModel employee, DateTime dateTime) {
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}
 	}
 
 	@Override
-	public void tasksAssigned(String director, DepartmentMemento department, DateTime dateTime) {
+	public void tasksAssigned(String director, DepartmentModel department, DateTime dateTime) {
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}
 	}
 
 	@Override
-	public void tasksAssignFailed(String director, DepartmentMemento department, DateTime dateTime) {
+	public void tasksAssignFailed(String director, DepartmentModel department, DateTime dateTime) {
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}
 	}
 
 	@Override
-	public void departmentAssigned(String director, DepartmentMemento department, DateTime dateTime) {
+	public void departmentAssigned(String director, DepartmentModel department, DateTime dateTime) {
 		if( department != null ){
 			updateEmployeeList(department.getEmployees());
 		}

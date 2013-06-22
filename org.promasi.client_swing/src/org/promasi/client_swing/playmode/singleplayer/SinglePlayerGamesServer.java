@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.promasi.game.AGamesServer;
 import org.promasi.game.GameException;
+import org.promasi.game.GameFactory;
 import org.promasi.game.IGame;
 import org.promasi.game.singleplayer.SinglePlayerGame;
 import org.promasi.game.singleplayer.SinglePlayerGameFolder;
@@ -81,7 +82,7 @@ public class SinglePlayerGamesServer extends AGamesServer {
 				for(int i=0;i<gamesFolders.length;i++){
 					try{
 						SinglePlayerGameFolder builder;
-						builder = new SinglePlayerGameFolder( _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + gamesFolders[i], CONST_SINGLEPLAYER_NAME );
+						builder = new SinglePlayerGameFolder( new GameFactory(), _gamesFolder.getAbsolutePath() + RootDirectory.getInstance().getSeparator() + gamesFolders[i], CONST_SINGLEPLAYER_NAME );
 						games.add( new SinglePlayerGame(this, builder.readGame(), SpringApplicationContext.getInstance().getBean("Clock", IClock.class) )  );
 					}catch (GameException e) {
 						_logger.warn("Request games list failed because the GameException " + e.toString());
@@ -90,7 +91,7 @@ public class SinglePlayerGamesServer extends AGamesServer {
 				
 				updateGamesList(games);
 			}catch(IOException e){
-				
+				e.printStackTrace();
 			}
 
 		}finally{

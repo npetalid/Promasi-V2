@@ -7,10 +7,11 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.promasi.sdsystem.SdSystemException;
-
-import org.promasi.sdsystem.sdobject.equation.IEquation;
-import org.promasi.sdsystem.serialization.ISerializableSdObject;
-import org.promasi.utilities.exceptions.NullArgumentException;
+import org.promasi.sdsystem.model.SdEquationModel;
+import org.promasi.sdsystem.model.generated.OutputSdObjectModel;
+import org.promasi.sdsystem.model.generated.SdObjectModel;
+import org.promasi.utilities.equation.CalculationExeption;
+import org.promasi.utilities.equation.IEquation;
 
 
 /**
@@ -55,7 +56,7 @@ public class OutputSdObject implements ISdObject
 			}
 			
 			_value=_equation.calculateEquation(systemValues);		
-		}catch(SdSystemException e){
+		}catch(CalculationExeption e){
 			return false;
 		}
 		
@@ -74,8 +75,12 @@ public class OutputSdObject implements ISdObject
 	 * @see org.promasi.sdsystem.sdobject.ISdObject#getSerializableSdObject()
 	 */
 	@Override
-	public ISerializableSdObject getMemento() {
-		return new OutputSdObjectMemento(this);
+	public SdObjectModel getMemento() {
+		OutputSdObjectModel model = new OutputSdObjectModel();
+		SdEquationModel eqModel = new SdEquationModel();
+		eqModel.setEquationModel(_equation.getMemento());
+		model.setEquation(eqModel);
+		return model;
 	}
 
 }

@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.promasi.game.company.ICompanyListener;
-import org.promasi.game.company.EmployeeTaskMemento;
 import org.promasi.game.company.IDepartmentListener;
 import org.promasi.game.company.IMarketPlaceListener;
 import org.promasi.game.company.MarketPlace;
+import org.promasi.game.model.generated.EmployeeTaskModel;
 import org.promasi.game.singleplayer.IClientGameListener;
 
 /**
@@ -52,18 +52,18 @@ public interface IGame
 	 * Call this method in order to assign the tasks to
 	 * employees.
 	 * @param employeeTasks Instance of {@link Map} interface implementation
-	 * which contains the pairs of employeeId mapped to the list of the {@link EmployeeTaskMemento}
+	 * which contains the pairs of employeeId mapped to the list of the {@link EmployeeTaskModel}
 	 * which represents the tasks.
 	 * @return true if succeed, false otherwise.
 	 */
-	public boolean assignTasks(final Map<String, List<EmployeeTaskMemento> > employeeTasks);
+	public boolean assignTasks(final Map<String, List<EmployeeTaskModel> > employeeTasks);
 	
 	/**
 	 * Will remove the running tasks.
 	 * @param tasks list of the tasks which will be removed.
 	 * @return true in case of success, false otherwise.
 	 */
-	public boolean removeTasks( List<EmployeeTaskMemento> tasks );
+	public boolean removeTasks( List<EmployeeTaskModel> tasks );
 	
 	/**
 	 * Call this method in order to register an new Game listener.
