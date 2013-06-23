@@ -106,6 +106,7 @@ public class EmployeeTask
 		result.setLastStep(_lastStep);
 		result.setProjectTaskName(_taskName);
 		result.setTaskName(_taskName);
+		result.getDependencies().addAll(_dependencies);
 		
 		return result;
 	}

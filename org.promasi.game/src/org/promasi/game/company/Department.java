@@ -167,6 +167,7 @@ public class Department extends Observer<IDepartmentListener> implements IEmploy
     		DepartmentModel.Employees.Entry newEntry = new DepartmentModel.Employees.Entry();
     		newEntry.setKey(entry.getKey());
     		newEntry.setValue(entry.getValue().getMemento());
+    		employees.getEntry().add(newEntry);
     	}
     	
     	result.setEmployees(employees);
