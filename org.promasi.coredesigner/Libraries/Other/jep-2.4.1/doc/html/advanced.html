@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><!-- #BeginTemplate "/Templates/maintemplate.dwt" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- #BeginEditable "doctitle" --><title>JEP - Java Math Expression Parser</title><!-- #EndEditable --> 
+<link rel="stylesheet" type="text/css" href="main.css" title="style1">
+</head>
+
+<body>
+
+
+
+<!-- NAVIGATION ---------------------------------------------------- -->
+<div id="navcontainer"> 
+  <ul>
+    <li><a href="../javadoc/index.html" target="_blank">JavaDoc <img src="img/new-window-icon.gif" width="15" height="11"></a></li>
+  </ul>
+  <h1>JEP</h1>
+  <ul>
+    <li><a href="index.html">Basic Usage</a></li>
+    <li><a href="variables.html">Variables</a></li>
+    <li><a href="types.html">Data types</a></li>
+    <li><a href="operators.html">Operators</a></li>
+    <li><a href="functions.html">Functions</a></li>
+    <li><a href="advanced.html">Advanced Features</a></li>
+    <li><a href="grammar.html">Grammar</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="version.html">Version History</a></li>
+  </ul>
+  <h1>Extensions</h1>
+  <ul>
+    <li><a href="extensions/index.html">Overview</a></li>
+    <li><a href="extensions/xjep.html">XJep</a></li>
+    <li><a href="extensions/djep.html">Differentiation</a></li>
+    <li><a href="extensions/vectorjep.html">Vectors and Matrices</a></li>
+    <li><a href="extensions/groupjep.html">Groups</a></li>
+    <li><a href="extensions/version.html">Version History</a></li>
+  </ul>
+</div>
+
+
+
+<div id="centercontent">
+<!-- CENTER CONTENT -------------------------------------------------- -->
+<!-- #BeginEditable "Text" --> 
+  <h1><a name="top"></a>Advanced features</h1>
+     
+  <h2><a name="manipulating"></a>Manipulating expressions</h2>
+  <p>The <a href="../javadoc/org/nfunk/jep/JEP.html#getTopNode()" target="_blank">getTopNode()</a> 
+    method can be used to get the expression tree after parsing an expression. 
+    This will be useful if you want to do more than just evaluate the expressions 
+    you parse. For example, you may want to determine the derivative of an expression. 
+    In order to be able to this, you will need direct access to the expression 
+    tree.</p>
+  <p>The expression tree consists of nodes. Each of the nodes in the parse tree 
+    is an object of one of the following types:</p>
+  <ul>
+    <li><a href="../javadoc/org/nfunk/jep/ASTFunNode.html" target="_blank">ASTFunNode</a> 
+      - Functions and operators</li>
+    <li><a href="../javadoc/org/nfunk/jep/ASTConstant.html" target="_blank">ASTConstant</a> 
+      - Constants</li>
+    <li><a href="../javadoc/org/nfunk/jep/ASTVarNode.html" target="_blank">ASTVarNode</a> 
+      - Variables</li>
+  </ul>
+  <p>All of them extend the <a href="../javadoc/org/nfunk/jep/SimpleNode.html" target="_blank">SimpleNode</a> 
+    class (which implements the <a href="../javadoc/org/nfunk/jep/Node.html" target="_blank">Node</a> 
+    interface). Binary operators (+,-,*,/...) and functions are ASTFunNodes. The 
+    type of operator (the function class) is stored in the pfmc member, and as 
+    a string in the name member. Use the <a href="../javadoc/org/nfunk/jep/ASTFunNode.html#getPFMC()" target="_blank">getPFMC()</a> 
+    and <a href="../javadoc/org/nfunk/jep/ASTFunNode.html#getName()" target="_blank">getName()</a> 
+    methods to access these members.</p>
+  <p>To traverse the expression tree you can use a visitor class (<a href="../javadoc/org/nfunk/jep/ParserDumpVisitor.html" target="_blank">ParserDumpVisitor</a> 
+    is an example class used to print out all the nodes). Look at the <a href="../javadoc/org/nfunk/jep/EvaluatorVisitor.html" target="_blank">EvaluatorVisitor</a> 
+    class to see how expressions are evaluated using the Visitor design pattern.</p>
+  <!-- #BeginLibraryItem "/Library/top bar.lbi" -->
+<div class="topbar"><a href="#top"><img src="img/top.gif" width="38" height="15" name="top"></a></div>
+<!-- #EndLibraryItem --> 
+  <!-- #EndEditable -->
+
+
+
+
+<!-- FOOTER ---------------------------------------------------------- -->
+<div id="footer">
+<a href="http://sourceforge.net/tracker/?func=add&group_id=24711&atid=382402">Report bugs / documentation errors</a><br/>
+<br/>
+&copy; 2006 <a href="http://www.singularsys.com" target="_blank">Singular Systems</a>
+</div>
+</div> <!-- centercontent -->
+
+</body>
+<!-- #EndTemplate --></html>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.promasi.coredesigner.ui.editor.SdGraphicalEditor"
+            contributorClass="org.promasi.coredesigner.ui.editor.SdGraphicalEditorActionBarContributor"
+            default="false"
+            id="org.promasi.coredesigner.ui.editor.maineditor"
+            name="Visual Editor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="org.promasi.coredesigner.Perspective"
+            id="org.promasi.coredesigner.perspective"
+            name="Perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            description="Pro.ma.si"
+            id="org.promasi.coredesigner.category"
+            name="Pro.ma.si">
+      </category>
+      <command
+            categoryId="org.promasi.coredesigner.category"
+            defaultHandler="org.promasi.coredesigner.handlers.NewEditorHandler"
+            description="Create a new project"
+            id="org.promasi.coredesigner.commands.newEditor"
+            name="New Project">
+      </command>
+      <command
+            categoryId="org.promasi.coredesigner.category"
+            defaultHandler="org.promasi.coredesigner.handlers.OpenEditorHandler"
+            description="Open an existing project"
+            id="org.promasi.coredesigner.commands.openModel"
+            name="Open project">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               id="org.promasi.menus.coredesignermenu"
+               label="Pro.Ma.Si"
+               mnemonic="v">
+            <command
+                  commandId="org.promasi.coredesigner.commands.newEditor"
+                  id="org.promasi.coredesigner.menus.newEditor"
+                  mnemonic="O"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.promasi.coredesigner.commands.openModel"
+                  id="org.promasi.coredesigner.menus.openEditor"
+                  mnemonic="s"
+                  style="push">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
+
+
+</plugin>

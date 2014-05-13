@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Rcp
+Bundle-SymbolicName: org.promasi.coredesigner.rcp; singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.promasi.coredesigner.rcp.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.promasi.coredesigner;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .,
+ Libraries/jep-2.4.1/dist/ext-1.1.1.jar,
+ Libraries/jep-2.4.1/dist/jep-2.4.1.jar

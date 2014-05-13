@@ -1,0 +1,137 @@
+<html><!-- #BeginTemplate "/Templates/maintemplate.dwt" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- #BeginEditable "doctitle" --> 
+<title>JEP - Java Math Expression Parser</title>
+<!-- #EndEditable --> 
+<link rel="stylesheet" type="text/css" href="main.css" title="style1">
+</head>
+
+<body>
+
+
+
+<!-- NAVIGATION ---------------------------------------------------- -->
+<div id="navcontainer"> 
+  <ul>
+    <li><a href="../javadoc/index.html" target="_blank">JavaDoc <img src="img/new-window-icon.gif" width="15" height="11"></a></li>
+  </ul>
+  <h1>JEP</h1>
+  <ul>
+    <li><a href="index.html">Basic Usage</a></li>
+    <li><a href="variables.html">Variables</a></li>
+    <li><a href="types.html">Data types</a></li>
+    <li><a href="operators.html">Operators</a></li>
+    <li><a href="functions.html">Functions</a></li>
+    <li><a href="advanced.html">Advanced Features</a></li>
+    <li><a href="grammar.html">Grammar</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="version.html">Version History</a></li>
+  </ul>
+  <h1>Extensions</h1>
+  <ul>
+    <li><a href="extensions/index.html">Overview</a></li>
+    <li><a href="extensions/xjep.html">XJep</a></li>
+    <li><a href="extensions/djep.html">Differentiation</a></li>
+    <li><a href="extensions/vectorjep.html">Vectors and Matrices</a></li>
+    <li><a href="extensions/groupjep.html">Groups</a></li>
+    <li><a href="extensions/version.html">Version History</a></li>
+  </ul>
+</div>
+
+
+
+<div id="centercontent">
+<!-- CENTER CONTENT -------------------------------------------------- -->
+<!-- #BeginEditable "Text" --> 
+        
+  <h1>Frequently Asked Questions</h1>
+        
+  <p><b>Q: I've noticed that JEP does not give accurate results for certain expressions. 
+    Why is this? What can I do about it?</b></p>
+  <blockquote> 
+    <p><b>A:</b> You will notice that when you evaluate something as simple as 
+      &quot;8 - 7.9&quot; the result will be 0.09999999999999964 rather than 0.1. 
+      These inaccuracies are the result of <b>floating point arithmetic</b>. Internally 
+      JEP uses the <code>double</code> type to represent numbers by default. Unfortunately, 
+      even for trivial calculations such as &quot;8 - 7.9&quot; the calculation 
+      can not be performed accurately.</p>
+    <p>You will notice the same if you run</p>
+    <pre>  double a=8, b=7.9;
+  System.out.println(&quot;a-b = &quot; + (a-b));</pre>
+    <p>in a Java program.</p>
+    <p>Although floating point numbers are accurate enough for many applications, 
+      these types of errors should not be ignored in applications where accuracy 
+      is critical.</p>
+    <p>The DJEP library provides tools to perform accurate calculations using 
+      more sophisiticated number types. DJEP includes GroupJep which is intended 
+      for exact arithmetic on groups. See the Groups documentation for details. 
+      It utilizes the BigInteger and BigDecimal classes to represent numbers rather 
+      than the double type. </p>
+  </blockquote>
+  <p><b>Q: I don't need all the functions supplied by JEP. Is there a way 
+          to not load some of them, or completely remove some from the package?</b></p>
+        <blockquote> 
+          <p><b>A:</b> Stripping down JEP into a lean mean arithmetic machine!</p>
+          <p><b>Option 1:</b><br>
+            In some cases you will not require all the built in functions supported 
+            by JEP. The easiest way to accomplish this is simply not calling the 
+            addStandardFunctions() method before parsing. Then, you can call addFunction() 
+            for any specific functions you may require.</p>
+          <p><b>Option 2:</b><br>
+            If you think it is necessary to minimize the size of JEP to a minimum, 
+            you can remove all function classes other than the operators (if you 
+            don't need them). This will leave you with a parser that can still 
+            do basic arithmetic, but not the fancy functions like sin() and cos(). 
+            It saves you about 17KB of classes (15% of JEP in total). </p>
+          <p><b>Instructions:</b><br>
+            - The function classes are all located in the org.nfunk.jep.function 
+            package. Operators (+, -, *, /,&#133;) are also implemented as functions. 
+            These should NOT be removed if you still want JEP to work properly. 
+            The following function classes are used to implement operators:</p>
+          <blockquote> 
+            <table width="400" border="0" cellspacing="0" cellpadding="2">
+              <tr> 
+                <td>Add</td>
+                <td>Modulus</td>
+                <td>Subtract</td>
+              </tr>
+              <tr> 
+                <td>Comparative</td>
+                <td>Multiply</td>
+                <td>UMinus</td>
+              </tr>
+              <tr> 
+                <td>Divide</td>
+                <td>Not</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr> 
+                <td>Logical</td>
+                <td>Power</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+          </blockquote>
+          <p> - Open the source code for JEP and look for the addStandardFunctions() 
+            method. It contains a list of almost all non-operator functions. For 
+            every function class you remove from the function directory, you must 
+            also remove the associated line from this method.<br>
+            - Recompile JEP, and you should have a lean mean arithmetic machine!<br>
+          </p>
+        </blockquote>
+        <!-- #EndEditable -->
+
+
+
+
+<!-- FOOTER ---------------------------------------------------------- -->
+<div id="footer">
+<a href="http://sourceforge.net/tracker/?func=add&group_id=24711&atid=382402">Report bugs / documentation errors</a><br/>
+<br/>
+&copy; 2006 <a href="http://www.singularsys.com" target="_blank">Singular Systems</a>
+</div>
+</div> <!-- centercontent -->
+
+</body>
+<!-- #EndTemplate --></html>

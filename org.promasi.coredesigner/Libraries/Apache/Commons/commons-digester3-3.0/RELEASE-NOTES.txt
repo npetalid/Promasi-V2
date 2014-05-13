@@ -1,0 +1,121 @@
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+$Id: RELEASE-NOTES.txt 1140240 2011-06-27 17:02:03Z simonetripodi $
+
+
+                          Commons Digester Package
+                                Version 3.0
+                               Release Notes
+
+
+INTRODUCTION
+============
+
+This is major release with new features. New projects are encouraged to
+use this release of digester. There is no urgency for existing projects to
+upgrade; Digester 2.1 has proven to be a stable release.
+
+IMPORTANT NOTES
+================
+
+BREAKING CHANGES:
+
+ * APIs are not retro-compatibles.
+
+DEPENDENCIES
+=============
+
+Digester 3.0 users should upgrade to the recommended dependency set below
+where possible.
+
+The Recommended Dependency Set for Digester 3.0 is:
+   Digester 3.0 + Logging 1.1.1 + BeanUtils 1.8.3
+
+It is also possible to use Logging 1.0.x or BeanUtils 1.7.0 instead.
+
+NEW FEATURES
+=============
+
+ * ONLY ONE UNIVERSAL LOADER
+       No more Loaders from XML, Annotations, ... only one loader is
+       able to create Digester instances and manage all the extensions.
+
+
+ * CONFIGURATIONS REUSABILITY
+       Users configure Digesters implementing a RulesModule.
+       Users pass to the DigesterLoader a list of RulesModule which
+       receive a RulesBinder to configure rules binding.
+       Modules can be reused across multiple DigesterLoader instances.
+
+
+ * RULES EXPRESSED VIA EDSL
+       The key feature of DIgester3 is expressing Rule bindings via
+       the RulesBinder EDSL fluent APIs.
+
+
+ * IMPROVED ERROR REPORTING
+       Debug made easier, error list is reported at binding time,
+       no more at runtime.
+
+BUGS FROM PREVIOUS RELEASE
+===========================
+
+ * [DIGESTER-28] Default ClassLoader policy unusable in EAR archive
+
+ * [DIGESTER-103] xmlrules does not support NodeCreateRule
+
+ * [DIGESTER-118] ObjectCreateRule shouldn't keep className as a field
+
+ * [DIGESTER-123] xmlrules dtd does not define xmlattrs for node-create-rule
+
+ * [DIGESTER-134] Bug in SetPropertyRule
+
+IMPROVEMENTS OVER PREVIOUS RELEASE
+===================================
+
+ * [DIGESTER-72] Allow SetNextRule to fire on begin
+
+ * [DIGESTER-85] Include filename or uri if Digester.parse(File file or String uri throws a SAXException
+
+ * [DIGESTER-90] xmlrules does not support setNamespaceURI
+
+ * [DIGESTER-105] Need to process [attribute id="name"]somename[/attribute]
+
+ * [DIGESTER-127] Allow DigesterLoader to accept an instance of a preconfigured Digester
+
+ * [DIGESTER-131] Allow recursive match in ExtendedBaseRules
+
+ * [DIGESTER-132] Add a CompoundSubstitutor to support more than one Substitutors at a time
+
+ * [DIGESTER-137] Public/protected static fields which intended as constants,
+                  but which are not marked final
+
+DEPRECATIONS
+============
+
+ * org.apache.commons.digester.xmlrules.FromXmlRuleSet and org.apache.commons.digester.xmlrules.DigesterLoader
+   do not exist anymore.
+
+ * org.apache.commons.digester.annotations.FromAnnotationsRuleSet and
+   org.apache.commons.digester.annotations.DigesterLoader do not exist anymore.
+
+OTHER NOTES
+============
+
+ * APIs are not compatible with Digester 2.X or Digester 1.X.
+
+ * this is the first Digester release that provides a way to reuse Digester configurations.

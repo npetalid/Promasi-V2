@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry exported="true" kind="lib" path="Libraries/Apache/log4j-1.2.16/log4j-1.2.16.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Other/nebula/tablecombo-1.0.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Other/jdom/build/jdom.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Other/jcommon-1.0.8/jcommon-1.0.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Other/jcommon-1.0.8/jcommon-xml-1.0.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Other/jep-2.4.1/dist/ext-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Other/jep-2.4.1/dist/jep-2.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Other/stax-1.2/stax-1.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Other/stax-1.2/stax-api-1.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Other/jfreechart-1.0.13/lib/jfreechart-1.0.13-swt.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Other/jfreechart-1.0.13/lib/jfreechart-1.0.13.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Other/dom4j-1.6.1/dom4j-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Apache/xerces/xerces-2_11_0/xml-apis.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Apache/Commons/commons-logging-1.1.1/commons-logging-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Apache/Commons/commons-logging-1.1.1/commons-logging-adapters-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Apache/Commons/commons-logging-1.1.1/commons-logging-api-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Apache/Commons/commons-digester3-3.0/commons-digester3-3.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Apache/Commons/commons-beanutils-1.8.3/commons-beanutils-1.8.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Apache/Commons/commons-beanutils-1.8.3/commons-beanutils-bean-collections-1.8.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libraries/Apache/Commons/commons-beanutils-1.8.3/commons-beanutils-core-1.8.3.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,1297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Project>
+    <Name>wf2</Name>
+    <Models>2</Models>
+    <Model>
+        <Name>Experience</Name>
+        <Objects>27</Objects>
+        <Object>
+            <Name>Market Condition</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>187</x>
+                <y>49</y>
+                <Height>30</Height>
+                <Width>100</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>Unexperienced Hiring Delay</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>112</x>
+                <y>113</y>
+                <Height>30</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Market Condition</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Company Reputation</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>Company Reputation</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>267</x>
+                <y>155</y>
+                <Height>30</Height>
+                <Width>106</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>Experienced Hiring Delay</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>450</x>
+                <y>76</y>
+                <Height>30</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Market Condition</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Company Reputation</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>Hire Rate Copy</Name>
+            <Type>Flow</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>619</x>
+                <y>56</y>
+                <Height>61</Height>
+                <Width>76</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Experienced Hiring Delay</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>DoHire Experienced</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>DoHire Experienced</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>808</x>
+                <y>133</y>
+                <Height>30</Height>
+                <Width>107</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>Hire Rate</Name>
+            <Type>Flow</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>169</x>
+                <y>203</y>
+                <Height>58</Height>
+                <Width>60</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Unexperienced Hiring Delay</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>DoHire Unexperienced</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>DoHire Unexperienced</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>43</x>
+                <y>303</y>
+                <Height>30</Height>
+                <Width>119</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>Unexperienced Personnel</Name>
+            <Type>Stock</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>355</x>
+                <y>204</y>
+                <Height>60</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type>UnexperiencedPersonnelEquation</Type>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Hire Rate</Name>
+                    <Type>Flow</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>Experience Gain Rate</Name>
+            <Type>Flow</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>541</x>
+                <y>197</y>
+                <Height>65</Height>
+                <Width>103</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Unexperienced Personnel</Name>
+                    <Type>Stock</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>actual experience delay</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>actual experience delay</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>430</x>
+                <y>361</y>
+                <Height>30</Height>
+                <Width>123</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>normal experience gain delay</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>effect of time to experience gain delay</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>effect of pct of experienced personnel to gain delay</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>normal experience gain delay</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>309</x>
+                <y>439</y>
+                <Height>30</Height>
+                <Width>143</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>effect of time to experience gain delay</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>519</x>
+                <y>432</y>
+                <Height>30</Height>
+                <Width>123</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>pct of time left for tutoring</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>effect of pct of experienced personnel to gain delay</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>870</x>
+                <y>411</y>
+                <Height>30</Height>
+                <Width>140</Width>
+            </VisualPoints>
+            <Equation>
+                <Type>lookup1</Type>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>Experienced Personnel</Name>
+            <Type>Stock</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>715</x>
+                <y>195</y>
+                <Height>60</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type>ExperiencedPersonnelEquation</Type>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Experience Gain Rate</Name>
+                    <Type>Flow</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>Quit Rate</Name>
+            <Type>Flow</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>279</x>
+                <y>349</y>
+                <Height>65</Height>
+                <Width>60</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Unexperienced Personnel</Name>
+                    <Type>Stock</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>DoQuit Inexperienced</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Market Condition</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Company Reputation</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>DoQuit Inexperienced</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>81</x>
+                <y>404</y>
+                <Height>30</Height>
+                <Width>117</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>Quit Rate Copy</Name>
+            <Type>Flow</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>595</x>
+                <y>320</y>
+                <Height>65</Height>
+                <Width>87</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Experienced Personnel</Name>
+                    <Type>Stock</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Market Condition</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>DoQuit Experienced</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>DoQuit Experienced</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>842</x>
+                <y>263</y>
+                <Height>30</Height>
+                <Width>111</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>pct of time left for tutoring</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>661</x>
+                <y>533</y>
+                <Height>30</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>nominal workday</Name>
+                    <Type>Input</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>actual workday</Name>
+                    <Type>Input</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>forced rest is on</Name>
+                    <Type>Input</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>nominal workday</Name>
+            <Type>Input</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>895</x>
+                <y>467</y>
+                <Height>65</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Connections>
+                <!--Model connections , the output objects-->
+                <Connection>
+                    <Name>nominal workday</Name>
+                    <Model>Burnout</Model>
+                </Connection>
+            </Connections>
+        </Object>
+        <Object>
+            <Name>actual workday</Name>
+            <Type>Input</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>899</x>
+                <y>544</y>
+                <Height>65</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Connections>
+                <!--Model connections , the output objects-->
+                <Connection>
+                    <Name>actual workday</Name>
+                    <Model>Burnout</Model>
+                </Connection>
+            </Connections>
+        </Object>
+        <Object>
+            <Name>forced rest is on</Name>
+            <Type>Input</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>905</x>
+                <y>610</y>
+                <Height>65</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Connections>
+                <!--Model connections , the output objects-->
+                <Connection>
+                    <Name>forced rest is on</Name>
+                    <Model>Burnout</Model>
+                </Connection>
+            </Connections>
+        </Object>
+        <Object>
+            <Name>pct of experienced to unexperienced</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>834</x>
+                <y>342</y>
+                <Height>30</Height>
+                <Width>113</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Unexperienced Personnel</Name>
+                    <Type>Stock</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Experience</Model>
+                    <Name>Experienced Personnel</Name>
+                    <Type>Stock</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>UnexperiencedPersonnelEquation</Name>
+            <Type>Calculate</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>32</x>
+                <y>491</y>
+                <Height>83</Height>
+                <Width>100</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue>Hire Rate-Experience Gain Rate-Quit Rate</CalculatedEquationValue>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>ExperiencedPersonnelEquation</Name>
+            <Type>Calculate</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>32</x>
+                <y>554</y>
+                <Height>77</Height>
+                <Width>97</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue>Experience Gain Rate+Hire Rate Copy-Quit Rate Copy</CalculatedEquationValue>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>lookup1</Name>
+            <Type>Lookup</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>49</x>
+                <y>638</y>
+                <Height>65</Height>
+                <Width>70</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                    <Point>
+                        <x>0.008172759675508337</x>
+                        <y>0.02172003400396713</y>
+                    </Point>
+                    <Point>
+                        <x>0.013447834310062726</x>
+                        <y>0.03441484839897989</y>
+                    </Point>
+                </LookupPoints>
+            </Equation>
+        </Object>
+    </Model>
+    <Model>
+        <Name>Burnout</Name>
+        <Objects>22</Objects>
+        <Object>
+            <Name>effect of overtime to exhaustion</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>72</x>
+                <y>77</y>
+                <Height>30</Height>
+                <Width>115</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>actual workday</Name>
+                    <Type>Output</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>exhaustion increase</Name>
+            <Type>Flow</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>224</x>
+                <y>195</y>
+                <Height>65</Height>
+                <Width>105</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>effect of overtime to exhaustion</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>actual workday</Name>
+                    <Type>Output</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>actual workday</Name>
+            <Type>Output</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>235</x>
+                <y>296</y>
+                <Height>65</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>requested workday</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>forced rest is on</Name>
+                    <Type>Output</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>Exhaustion Level</Name>
+            <Type>Stock</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>435</x>
+                <y>193</y>
+                <Height>60</Height>
+                <Width>105</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>exhaustion increase</Name>
+                    <Type>Flow</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>requested workday</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>104</x>
+                <y>422</y>
+                <Height>30</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>forced rest is on</Name>
+            <Type>Output</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>901</x>
+                <y>227</y>
+                <Height>65</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>Exhaustion Level</Name>
+                    <Type>Stock</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>max tolerable exhaustion</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>forced rest was on</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>Exhaustion depletion</Name>
+            <Type>Flow</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>653</x>
+                <y>190</y>
+                <Height>65</Height>
+                <Width>100</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>Exhaustion Level</Name>
+                    <Type>Stock</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>time to recover</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>time to recover</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>615</x>
+                <y>51</y>
+                <Height>30</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>effect of exhaustion on time to recover</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>normal time to recover</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>effect of exhaustion on time to recover</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>422</x>
+                <y>60</y>
+                <Height>30</Height>
+                <Width>120</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>Exhaustion Level</Name>
+                    <Type>Stock</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>normal time to recover</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>846</x>
+                <y>57</y>
+                <Height>30</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>max tolerable exhaustion</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>898</x>
+                <y>150</y>
+                <Height>30</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>forced rest was on</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>1083</x>
+                <y>219</y>
+                <Height>30</Height>
+                <Width>97</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>forced rest is on</Name>
+                    <Type>Output</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>DoRequestLeave</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>1037</x>
+                <y>154</y>
+                <Height>30</Height>
+                <Width>97</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>forced rest was on</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>nominal workday</Name>
+            <Type>Output</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>263</x>
+                <y>441</y>
+                <Height>65</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>productivity</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>476</x>
+                <y>405</y>
+                <Height>30</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>actual workday</Name>
+                    <Type>Output</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>nominal workday</Name>
+                    <Type>Output</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>effect of exhaustion on productivity</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>nominal productivity</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>effect of experience in productivity</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>effect of exhaustion on productivity</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>576</x>
+                <y>328</y>
+                <Height>30</Height>
+                <Width>122</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>Exhaustion Level</Name>
+                    <Type>Stock</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>nominal productivity</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>643</x>
+                <y>423</y>
+                <Height>30</Height>
+                <Width>108</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>effect of experience in productivity</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>552</x>
+                <y>494</y>
+                <Height>30</Height>
+                <Width>119</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>effect of exhaustion on quality</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>788</x>
+                <y>355</y>
+                <Height>30</Height>
+                <Width>107</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>Exhaustion Level</Name>
+                    <Type>Stock</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>nominal quality</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>820</x>
+                <y>426</y>
+                <Height>30</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+        <Object>
+            <Name>quality</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>1036</x>
+                <y>392</y>
+                <Height>20</Height>
+                <Width>80</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+            <Dependencies>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>effect of exhaustion on quality</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>nominal quality</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+                <Dependency>
+                    <Model>Burnout</Model>
+                    <Name>effect of experience in quality</Name>
+                    <Type>Variable</Type>
+                </Dependency>
+            </Dependencies>
+        </Object>
+        <Object>
+            <Name>effect of experience in quality</Name>
+            <Type>Variable</Type>
+            <!--Coordinates and size of visual object-->
+            <VisualPoints>
+                <x>810</x>
+                <y>487</y>
+                <Height>30</Height>
+                <Width>100</Width>
+            </VisualPoints>
+            <Equation>
+                <Type/>
+                <InitialValue>0.0</InitialValue>
+                <CalculatedEquationValue/>
+                <LookupPoints>
+                    <!--Lookup Equation (x,y) points-->
+                </LookupPoints>
+            </Equation>
+        </Object>
+    </Model>
+</Project>
