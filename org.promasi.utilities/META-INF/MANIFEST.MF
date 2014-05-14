@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Utilities
+Bundle-Name: %Bundle-Name
 Bundle-SymbolicName: org.promasi.utilities;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ActivationPolicy: lazy
@@ -9,7 +9,7 @@ Export-Package: org.apache.commons.codec,
  org.apache.commons.codec.digest,
  org.apache.commons.codec.language,
  org.apache.commons.codec.net,
- org.apache.log4j;uses:="org.apache.log4j.helpers,org.apache.log4j.or,org.apache.log4j.spi",
+ org.apache.log4j;version="1.0.0";uses:="org.apache.log4j.helpers,org.apache.log4j.or,org.apache.log4j.spi",
  org.apache.log4j.chainsaw,
  org.apache.log4j.config,
  org.apache.log4j.helpers,
@@ -28,7 +28,7 @@ Export-Package: org.apache.commons.codec,
  org.apache.log4j.pattern,
  org.apache.log4j.spi,
  org.apache.log4j.varia,
- org.apache.log4j.xml,
+ org.apache.log4j.xml;version="1.0.0",
  org.joda.time;
   uses:="org.joda.time.base,
    org.joda.time.field,
@@ -41,6 +41,8 @@ Export-Package: org.apache.commons.codec,
  org.joda.time.field,
  org.joda.time.format,
  org.joda.time.tz,
+ org.nfunk.jep;version="1.0.0",
+ org.nfunk.jep.function;version="1.0.0",
  org.promasi.utilities,
  org.promasi.utilities.clock;uses:="org.joda.time",
  org.promasi.utilities.design,
@@ -295,4 +297,7 @@ Export-Package: org.apache.commons.codec,
  org.springframework.validation.annotation,
  org.springframework.validation.beanvalidation,
  org.springframework.validation.support
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ClassPath: Libs/jep-2.4.1/jep-2.4.1.jar,
+ .,
+ Libs/jep-2.4.1/ext-1.1.1.jar,
+ Libs/apache-log4j-1.2.16/log4j-1.2.16.jar

@@ -39,7 +39,6 @@ import org.promasi.coredesigner.ui.dialogs.model.simulation.TreeTableSubNode;
 import org.promasi.coredesigner.ui.dialogs.table.simulation.TableLabelProvider;
 import org.promasi.coredesigner.ui.dialogs.table.simulation.TreeContentProvider;
 
-
 public class SimulationDialog extends ApplicationWindow implements SelectionListener {
 	
 	
@@ -214,18 +213,11 @@ public class SimulationDialog extends ApplicationWindow implements SelectionList
 			builder.setModel(sdProject);
 			final XmlProject xmlProject = (XmlProject) builder.getModel();
 			
-			
-			
-			
-			
-			
-			
 			ProgressMonitorDialog resourcesProgress = new ProgressMonitorDialog(null);
 			resourcesProgress.setCancelable(true);
 			try {
 				resourcesProgress.run(true, true, new IRunnableWithProgress() {
-					public void run(IProgressMonitor monitor)
-							throws InvocationTargetException {
+					public void run(IProgressMonitor monitor) throws InvocationTargetException {
 						try {
 							try {
 								monitor.beginTask("Simulating...", IProgressMonitor.UNKNOWN);

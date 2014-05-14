@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<companyModel>
+    <_name>Test</_name>
+    <_description>Test</_description>
+    <_startTime>00:17:23.930</_startTime>
+    <_endTime>23:17:23.932</_endTime>
+    <_itDepartment>
+        <employees/>
+    </_itDepartment>
+    <_budget>10000.0</_budget>
+    <_prestigePoints>0.0</_prestigePoints>
+</companyModel>

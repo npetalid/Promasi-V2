@@ -1,0 +1,462 @@
+2014-05-11 20:13:36,475 main DEBUG org.promasi.game.company.Department - Initialization succeed
+2014-05-11 20:13:36,498 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332211
+2014-05-11 20:13:36,498 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332212
+2014-05-11 20:13:36,498 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332213
+2014-05-11 20:13:36,573 main INFO  org.promasi.client_swing.Application - Start application
+2014-05-11 20:13:36,643 main DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Found Equinox FileLocator for OSGi bundle URL resolution
+2014-05-11 20:13:36,659 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:13:36,661 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:13:36,662 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:13:36,662 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:13:36,667 main INFO  org.springframework.context.support.ClassPathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@26a7b76d: startup date [Sun May 11 20:13:36 CEST 2014]; root of context hierarchy
+2014-05-11 20:13:36,697 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:13:36,697 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:13:36,697 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:13:36,697 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:13:36,698 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:13:36,698 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:13:36,698 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:13:36,698 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:13:36,705 main INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from class path resource [promasi_beans.xml]
+2014-05-11 20:13:36,706 main DEBUG org.springframework.beans.factory.xml.DefaultDocumentLoader - Using JAXP provider [com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl]
+2014-05-11 20:13:36,719 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Loading schema mappings from [META-INF/spring.schemas]
+2014-05-11 20:13:36,721 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Loaded schema mappings: {http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd=org/springframework/oxm/config/spring-oxm-3.0.xsd, http://www.springframework.org/schema/util/spring-util.xsd=org/springframework/beans/factory/xml/spring-util-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-3.0.xsd=org/springframework/jms/config/spring-jms-3.0.xsd, http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd=org/springframework/web/servlet/config/spring-mvc-3.1.xsd, http://www.springframework.org/schema/task/spring-task.xsd=org/springframework/scheduling/config/spring-task-3.1.xsd, http://www.springframework.org/schema/beans/spring-beans-3.1.xsd=org/springframework/beans/factory/xml/spring-beans-3.1.xsd, http://www.springframework.org/schema/cache/spring-cache.xsd=org/springframework/cache/config/spring-cache-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-3.0.xsd=org/springframework/aop/config/spring-aop-3.0.xsd, http://www.springframework.org/schema/task/spring-task-3.1.xsd=org/springframework/scheduling/config/spring-task-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-2.0.xsd=org/springframework/aop/config/spring-aop-2.0.xsd, http://www.springframework.org/schema/oxm/spring-oxm.xsd=org/springframework/oxm/config/spring-oxm-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-2.5.xsd=org/springframework/beans/factory/xml/spring-tool-2.5.xsd, http://www.springframework.org/schema/beans/spring-beans.xsd=org/springframework/beans/factory/xml/spring-beans-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-2.5.xsd=org/springframework/ejb/config/spring-jee-2.5.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd=org/springframework/jdbc/config/spring-jdbc-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-3.1.xsd=org/springframework/beans/factory/xml/spring-tool-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-3.1.xsd=org/springframework/ejb/config/spring-jee-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop.xsd=org/springframework/aop/config/spring-aop-3.1.xsd, http://www.springframework.org/schema/beans/spring-beans-2.0.xsd=org/springframework/beans/factory/xml/spring-beans-2.0.xsd, http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd=org/springframework/web/servlet/config/spring-mvc-3.0.xsd, http://www.springframework.org/schema/beans/spring-beans-3.0.xsd=org/springframework/beans/factory/xml/spring-beans-3.0.xsd, http://www.springframework.org/schema/task/spring-task-3.0.xsd=org/springframework/scheduling/config/spring-task-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx-2.5.xsd=org/springframework/transaction/config/spring-tx-2.5.xsd, http://www.springframework.org/schema/context/spring-context-2.5.xsd=org/springframework/context/config/spring-context-2.5.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd=org/springframework/jdbc/config/spring-jdbc-3.0.xsd, http://www.springframework.org/schema/tool/spring-tool-3.0.xsd=org/springframework/beans/factory/xml/spring-tool-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx.xsd=org/springframework/transaction/config/spring-tx-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-2.0.xsd=org/springframework/beans/factory/xml/spring-tool-2.0.xsd, http://www.springframework.org/schema/util/spring-util-2.5.xsd=org/springframework/beans/factory/xml/spring-util-2.5.xsd, http://www.springframework.org/schema/lang/spring-lang.xsd=org/springframework/scripting/config/spring-lang-3.1.xsd, http://www.springframework.org/schema/lang/spring-lang-2.5.xsd=org/springframework/scripting/config/spring-lang-2.5.xsd, http://www.springframework.org/schema/jee/spring-jee-3.0.xsd=org/springframework/ejb/config/spring-jee-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx-3.1.xsd=org/springframework/transaction/config/spring-tx-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-2.0.xsd=org/springframework/ejb/config/spring-jee-2.0.xsd, http://www.springframework.org/schema/context/spring-context-3.1.xsd=org/springframework/context/config/spring-context-3.1.xsd, http://www.springframework.org/schema/util/spring-util-3.1.xsd=org/springframework/beans/factory/xml/spring-util-3.1.xsd, http://www.springframework.org/schema/lang/spring-lang-3.1.xsd=org/springframework/scripting/config/spring-lang-3.1.xsd, http://www.springframework.org/schema/cache/spring-cache-3.1.xsd=org/springframework/cache/config/spring-cache-3.1.xsd, http://www.springframework.org/schema/context/spring-context.xsd=org/springframework/context/config/spring-context-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee.xsd=org/springframework/ejb/config/spring-jee-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-2.5.xsd=org/springframework/jms/config/spring-jms-2.5.xsd, http://www.springframework.org/schema/oxm/spring-oxm-3.1.xsd=org/springframework/oxm/config/spring-oxm-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms.xsd=org/springframework/jms/config/spring-jms-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-2.5.xsd=org/springframework/aop/config/spring-aop-2.5.xsd, http://www.springframework.org/schema/mvc/spring-mvc.xsd=org/springframework/web/servlet/config/spring-mvc-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-3.1.xsd=org/springframework/jms/config/spring-jms-3.1.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc.xsd=org/springframework/jdbc/config/spring-jdbc-3.1.xsd, http://www.springframework.org/schema/tx/spring-tx-2.0.xsd=org/springframework/transaction/config/spring-tx-2.0.xsd, http://www.springframework.org/schema/aop/spring-aop-3.1.xsd=org/springframework/aop/config/spring-aop-3.1.xsd, http://www.springframework.org/schema/tx/spring-tx-3.0.xsd=org/springframework/transaction/config/spring-tx-3.0.xsd, http://www.springframework.org/schema/context/spring-context-3.0.xsd=org/springframework/context/config/spring-context-3.0.xsd, http://www.springframework.org/schema/tool/spring-tool.xsd=org/springframework/beans/factory/xml/spring-tool-3.1.xsd, http://www.springframework.org/schema/util/spring-util-3.0.xsd=org/springframework/beans/factory/xml/spring-util-3.0.xsd, http://www.springframework.org/schema/lang/spring-lang-3.0.xsd=org/springframework/scripting/config/spring-lang-3.0.xsd, http://www.springframework.org/schema/util/spring-util-2.0.xsd=org/springframework/beans/factory/xml/spring-util-2.0.xsd, http://www.springframework.org/schema/lang/spring-lang-2.0.xsd=org/springframework/scripting/config/spring-lang-2.0.xsd, http://www.springframework.org/schema/beans/spring-beans-2.5.xsd=org/springframework/beans/factory/xml/spring-beans-2.5.xsd}
+2014-05-11 20:13:36,721 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/beans/spring-beans.xsd] in classpath: org/springframework/beans/factory/xml/spring-beans-3.1.xsd
+2014-05-11 20:13:36,748 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Loading bean definitions
+2014-05-11 20:13:36,752 main INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from class path resource [sdsystem_beans.xml]
+2014-05-11 20:13:36,753 main DEBUG org.springframework.beans.factory.xml.DefaultDocumentLoader - Using JAXP provider [com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl]
+2014-05-11 20:13:36,754 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/beans/spring-beans.xsd] in classpath: org/springframework/beans/factory/xml/spring-beans-3.1.xsd
+2014-05-11 20:13:36,767 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Loading bean definitions
+2014-05-11 20:13:36,773 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Imported 6 bean definitions from relative location [sdsystem_beans.xml]
+2014-05-11 20:13:36,773 main DEBUG org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loaded 7 bean definitions from location pattern [promasi_beans.xml]
+2014-05-11 20:13:36,774 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Bean factory for org.springframework.context.support.ClassPathXmlApplicationContext@26a7b76d: org.springframework.beans.factory.support.DefaultListableBeanFactory@691a7f8f: defining beans [CalculatedEquation,FlowSdObject,StockSdObject,InputSdObject,OutputSdObject,TimeSdObject,Clock]; root of factory hierarchy
+2014-05-11 20:13:36,782 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate MessageSource with name 'messageSource': using default [org.springframework.context.support.DelegatingMessageSource@13c10b87]
+2014-05-11 20:13:36,784 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate ApplicationEventMulticaster with name 'applicationEventMulticaster': using default [org.springframework.context.event.SimpleApplicationEventMulticaster@7d3a22a9]
+2014-05-11 20:13:36,784 main INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@691a7f8f: defining beans [CalculatedEquation,FlowSdObject,StockSdObject,InputSdObject,OutputSdObject,TimeSdObject,Clock]; root of factory hierarchy
+2014-05-11 20:13:36,785 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate LifecycleProcessor with name 'lifecycleProcessor': using default [org.springframework.context.support.DefaultLifecycleProcessor@7692d9cc]
+2014-05-11 20:13:36,786 main DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'lifecycleProcessor'
+2014-05-11 20:13:38,367 AWT-EventQueue-0 DEBUG org.promasi.client_swing.playmode.singleplayer.SinglePlayerGamesServer - Initialization complete
+2014-05-11 20:13:38,873 Timer-0 INFO  org.promasi.game.singleplayer.SinglePlayerGameFolder - Start reading game from : /home/alekstheod/git/Promasi-V2/org.promasi.client_swing/Data/SinglePlayer/Tutorial
+2014-05-11 20:13:38,906 Timer-0 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332211
+2014-05-11 20:13:38,906 Timer-0 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332212
+2014-05-11 20:13:38,906 Timer-0 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332213
+2014-05-11 20:13:38,938 Timer-0 DEBUG org.promasi.game.company.Department - Initialization succeed
+2014-05-11 20:13:38,967 Timer-0 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'Clock'
+2014-05-11 20:13:38,979 Timer-0 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'Clock'
+2014-05-11 20:13:40,196 AWT-EventQueue-0 INFO  org.promasi.game.singleplayer.SinglePlayerGame - SinglePlayer game started
+2014-05-11 20:13:40,694 Timer-1 INFO  org.promasi.game.singleplayer.SinglePlayerGameFolder - Start reading game from : /home/alekstheod/git/Promasi-V2/org.promasi.client_swing/Data/SinglePlayer/Tutorial
+2014-05-11 20:13:40,713 Timer-1 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332211
+2014-05-11 20:13:40,713 Timer-1 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332212
+2014-05-11 20:13:40,713 Timer-1 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332213
+2014-05-11 20:13:40,733 Timer-1 DEBUG org.promasi.game.company.Department - Initialization succeed
+2014-05-11 20:13:40,753 Timer-1 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'Clock'
+2014-05-11 20:13:40,754 Timer-1 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'Clock'
+2014-05-11 20:13:42,204 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:42,204 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:42,204 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:42,204 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:42,204 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:42,204 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:44,206 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:44,206 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:44,206 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:44,206 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:44,206 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:44,206 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:45,207 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:45,207 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:45,207 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:45,207 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:45,207 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:45,207 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:46,208 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:46,208 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:46,208 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:46,209 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:46,209 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:46,209 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:47,209 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:47,209 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:47,212 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:47,212 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:47,212 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:47,212 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:48,213 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:48,213 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:48,213 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:48,213 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:48,213 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:48,213 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:49,214 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:49,214 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:49,214 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:49,214 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:49,214 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:49,214 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:50,215 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:50,215 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:50,215 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:50,215 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:50,215 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:50,215 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:51,216 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:51,217 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:51,217 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:51,217 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:51,217 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:51,217 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:52,217 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:52,218 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:52,218 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:52,218 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:52,218 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:52,218 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:53,218 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:53,218 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:53,218 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:53,219 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:53,219 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:53,219 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:54,219 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:54,219 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:54,219 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:54,219 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:54,219 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:54,219 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:55,220 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:55,220 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:55,221 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:55,221 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:55,221 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:55,221 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:56,221 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:56,222 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:56,222 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:56,222 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:56,222 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:56,222 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:57,222 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:57,222 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:57,224 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:57,224 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:57,224 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:57,224 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:58,225 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:58,225 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:58,225 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:58,225 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:58,225 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:58,225 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:13:59,226 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:13:59,226 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:13:59,226 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:13:59,226 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:13:59,226 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:13:59,226 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:15:23,921 main DEBUG org.promasi.game.company.Department - Initialization succeed
+2014-05-11 20:15:23,949 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332211
+2014-05-11 20:15:23,949 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332212
+2014-05-11 20:15:23,949 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332213
+2014-05-11 20:15:24,035 main INFO  org.promasi.client_swing.Application - Start application
+2014-05-11 20:15:24,101 main DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Found Equinox FileLocator for OSGi bundle URL resolution
+2014-05-11 20:15:24,116 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:15:24,117 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:15:24,118 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:15:24,118 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:15:24,121 main INFO  org.springframework.context.support.ClassPathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@26a7b76d: startup date [Sun May 11 20:15:24 CEST 2014]; root of context hierarchy
+2014-05-11 20:15:24,144 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:15:24,144 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:15:24,144 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:15:24,145 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:15:24,145 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:15:24,145 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:15:24,145 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:15:24,145 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:15:24,151 main INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from class path resource [promasi_beans.xml]
+2014-05-11 20:15:24,152 main DEBUG org.springframework.beans.factory.xml.DefaultDocumentLoader - Using JAXP provider [com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl]
+2014-05-11 20:15:24,164 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Loading schema mappings from [META-INF/spring.schemas]
+2014-05-11 20:15:24,166 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Loaded schema mappings: {http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd=org/springframework/oxm/config/spring-oxm-3.0.xsd, http://www.springframework.org/schema/util/spring-util.xsd=org/springframework/beans/factory/xml/spring-util-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-3.0.xsd=org/springframework/jms/config/spring-jms-3.0.xsd, http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd=org/springframework/web/servlet/config/spring-mvc-3.1.xsd, http://www.springframework.org/schema/task/spring-task.xsd=org/springframework/scheduling/config/spring-task-3.1.xsd, http://www.springframework.org/schema/beans/spring-beans-3.1.xsd=org/springframework/beans/factory/xml/spring-beans-3.1.xsd, http://www.springframework.org/schema/cache/spring-cache.xsd=org/springframework/cache/config/spring-cache-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-3.0.xsd=org/springframework/aop/config/spring-aop-3.0.xsd, http://www.springframework.org/schema/task/spring-task-3.1.xsd=org/springframework/scheduling/config/spring-task-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-2.0.xsd=org/springframework/aop/config/spring-aop-2.0.xsd, http://www.springframework.org/schema/oxm/spring-oxm.xsd=org/springframework/oxm/config/spring-oxm-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-2.5.xsd=org/springframework/beans/factory/xml/spring-tool-2.5.xsd, http://www.springframework.org/schema/beans/spring-beans.xsd=org/springframework/beans/factory/xml/spring-beans-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-2.5.xsd=org/springframework/ejb/config/spring-jee-2.5.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd=org/springframework/jdbc/config/spring-jdbc-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-3.1.xsd=org/springframework/beans/factory/xml/spring-tool-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-3.1.xsd=org/springframework/ejb/config/spring-jee-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop.xsd=org/springframework/aop/config/spring-aop-3.1.xsd, http://www.springframework.org/schema/beans/spring-beans-2.0.xsd=org/springframework/beans/factory/xml/spring-beans-2.0.xsd, http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd=org/springframework/web/servlet/config/spring-mvc-3.0.xsd, http://www.springframework.org/schema/beans/spring-beans-3.0.xsd=org/springframework/beans/factory/xml/spring-beans-3.0.xsd, http://www.springframework.org/schema/task/spring-task-3.0.xsd=org/springframework/scheduling/config/spring-task-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx-2.5.xsd=org/springframework/transaction/config/spring-tx-2.5.xsd, http://www.springframework.org/schema/context/spring-context-2.5.xsd=org/springframework/context/config/spring-context-2.5.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd=org/springframework/jdbc/config/spring-jdbc-3.0.xsd, http://www.springframework.org/schema/tool/spring-tool-3.0.xsd=org/springframework/beans/factory/xml/spring-tool-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx.xsd=org/springframework/transaction/config/spring-tx-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-2.0.xsd=org/springframework/beans/factory/xml/spring-tool-2.0.xsd, http://www.springframework.org/schema/util/spring-util-2.5.xsd=org/springframework/beans/factory/xml/spring-util-2.5.xsd, http://www.springframework.org/schema/lang/spring-lang.xsd=org/springframework/scripting/config/spring-lang-3.1.xsd, http://www.springframework.org/schema/lang/spring-lang-2.5.xsd=org/springframework/scripting/config/spring-lang-2.5.xsd, http://www.springframework.org/schema/jee/spring-jee-3.0.xsd=org/springframework/ejb/config/spring-jee-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx-3.1.xsd=org/springframework/transaction/config/spring-tx-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-2.0.xsd=org/springframework/ejb/config/spring-jee-2.0.xsd, http://www.springframework.org/schema/context/spring-context-3.1.xsd=org/springframework/context/config/spring-context-3.1.xsd, http://www.springframework.org/schema/util/spring-util-3.1.xsd=org/springframework/beans/factory/xml/spring-util-3.1.xsd, http://www.springframework.org/schema/lang/spring-lang-3.1.xsd=org/springframework/scripting/config/spring-lang-3.1.xsd, http://www.springframework.org/schema/cache/spring-cache-3.1.xsd=org/springframework/cache/config/spring-cache-3.1.xsd, http://www.springframework.org/schema/context/spring-context.xsd=org/springframework/context/config/spring-context-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee.xsd=org/springframework/ejb/config/spring-jee-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-2.5.xsd=org/springframework/jms/config/spring-jms-2.5.xsd, http://www.springframework.org/schema/oxm/spring-oxm-3.1.xsd=org/springframework/oxm/config/spring-oxm-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms.xsd=org/springframework/jms/config/spring-jms-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-2.5.xsd=org/springframework/aop/config/spring-aop-2.5.xsd, http://www.springframework.org/schema/mvc/spring-mvc.xsd=org/springframework/web/servlet/config/spring-mvc-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-3.1.xsd=org/springframework/jms/config/spring-jms-3.1.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc.xsd=org/springframework/jdbc/config/spring-jdbc-3.1.xsd, http://www.springframework.org/schema/tx/spring-tx-2.0.xsd=org/springframework/transaction/config/spring-tx-2.0.xsd, http://www.springframework.org/schema/aop/spring-aop-3.1.xsd=org/springframework/aop/config/spring-aop-3.1.xsd, http://www.springframework.org/schema/tx/spring-tx-3.0.xsd=org/springframework/transaction/config/spring-tx-3.0.xsd, http://www.springframework.org/schema/context/spring-context-3.0.xsd=org/springframework/context/config/spring-context-3.0.xsd, http://www.springframework.org/schema/tool/spring-tool.xsd=org/springframework/beans/factory/xml/spring-tool-3.1.xsd, http://www.springframework.org/schema/util/spring-util-3.0.xsd=org/springframework/beans/factory/xml/spring-util-3.0.xsd, http://www.springframework.org/schema/lang/spring-lang-3.0.xsd=org/springframework/scripting/config/spring-lang-3.0.xsd, http://www.springframework.org/schema/util/spring-util-2.0.xsd=org/springframework/beans/factory/xml/spring-util-2.0.xsd, http://www.springframework.org/schema/lang/spring-lang-2.0.xsd=org/springframework/scripting/config/spring-lang-2.0.xsd, http://www.springframework.org/schema/beans/spring-beans-2.5.xsd=org/springframework/beans/factory/xml/spring-beans-2.5.xsd}
+2014-05-11 20:15:24,167 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/beans/spring-beans.xsd] in classpath: org/springframework/beans/factory/xml/spring-beans-3.1.xsd
+2014-05-11 20:15:24,193 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Loading bean definitions
+2014-05-11 20:15:24,197 main INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from class path resource [sdsystem_beans.xml]
+2014-05-11 20:15:24,197 main DEBUG org.springframework.beans.factory.xml.DefaultDocumentLoader - Using JAXP provider [com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl]
+2014-05-11 20:15:24,199 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/beans/spring-beans.xsd] in classpath: org/springframework/beans/factory/xml/spring-beans-3.1.xsd
+2014-05-11 20:15:24,212 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Loading bean definitions
+2014-05-11 20:15:24,217 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Imported 6 bean definitions from relative location [sdsystem_beans.xml]
+2014-05-11 20:15:24,217 main DEBUG org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loaded 7 bean definitions from location pattern [promasi_beans.xml]
+2014-05-11 20:15:24,217 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Bean factory for org.springframework.context.support.ClassPathXmlApplicationContext@26a7b76d: org.springframework.beans.factory.support.DefaultListableBeanFactory@691a7f8f: defining beans [CalculatedEquation,FlowSdObject,StockSdObject,InputSdObject,OutputSdObject,TimeSdObject,Clock]; root of factory hierarchy
+2014-05-11 20:15:24,225 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate MessageSource with name 'messageSource': using default [org.springframework.context.support.DelegatingMessageSource@13c10b87]
+2014-05-11 20:15:24,226 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate ApplicationEventMulticaster with name 'applicationEventMulticaster': using default [org.springframework.context.event.SimpleApplicationEventMulticaster@7d3a22a9]
+2014-05-11 20:15:24,226 main INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@691a7f8f: defining beans [CalculatedEquation,FlowSdObject,StockSdObject,InputSdObject,OutputSdObject,TimeSdObject,Clock]; root of factory hierarchy
+2014-05-11 20:15:24,227 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate LifecycleProcessor with name 'lifecycleProcessor': using default [org.springframework.context.support.DefaultLifecycleProcessor@7692d9cc]
+2014-05-11 20:15:24,227 main DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'lifecycleProcessor'
+2014-05-11 20:17:09,254 main DEBUG org.promasi.game.company.Department - Initialization succeed
+2014-05-11 20:17:09,276 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332211
+2014-05-11 20:17:09,276 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332212
+2014-05-11 20:17:09,276 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332213
+2014-05-11 20:17:09,351 main INFO  org.promasi.client_swing.Application - Start application
+2014-05-11 20:17:09,422 main DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Found Equinox FileLocator for OSGi bundle URL resolution
+2014-05-11 20:17:09,444 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:17:09,446 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:17:09,447 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:17:09,448 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:17:09,451 main INFO  org.springframework.context.support.ClassPathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@26a7b76d: startup date [Sun May 11 20:17:09 CEST 2014]; root of context hierarchy
+2014-05-11 20:17:09,485 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:17:09,485 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:17:09,485 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:17:09,485 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:17:09,486 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:17:09,486 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:17:09,486 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:17:09,486 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:17:09,493 main INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from class path resource [promasi_beans.xml]
+2014-05-11 20:17:09,495 main DEBUG org.springframework.beans.factory.xml.DefaultDocumentLoader - Using JAXP provider [com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl]
+2014-05-11 20:17:09,511 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Loading schema mappings from [META-INF/spring.schemas]
+2014-05-11 20:17:09,514 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Loaded schema mappings: {http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd=org/springframework/oxm/config/spring-oxm-3.0.xsd, http://www.springframework.org/schema/util/spring-util.xsd=org/springframework/beans/factory/xml/spring-util-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-3.0.xsd=org/springframework/jms/config/spring-jms-3.0.xsd, http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd=org/springframework/web/servlet/config/spring-mvc-3.1.xsd, http://www.springframework.org/schema/task/spring-task.xsd=org/springframework/scheduling/config/spring-task-3.1.xsd, http://www.springframework.org/schema/beans/spring-beans-3.1.xsd=org/springframework/beans/factory/xml/spring-beans-3.1.xsd, http://www.springframework.org/schema/cache/spring-cache.xsd=org/springframework/cache/config/spring-cache-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-3.0.xsd=org/springframework/aop/config/spring-aop-3.0.xsd, http://www.springframework.org/schema/task/spring-task-3.1.xsd=org/springframework/scheduling/config/spring-task-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-2.0.xsd=org/springframework/aop/config/spring-aop-2.0.xsd, http://www.springframework.org/schema/oxm/spring-oxm.xsd=org/springframework/oxm/config/spring-oxm-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-2.5.xsd=org/springframework/beans/factory/xml/spring-tool-2.5.xsd, http://www.springframework.org/schema/beans/spring-beans.xsd=org/springframework/beans/factory/xml/spring-beans-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-2.5.xsd=org/springframework/ejb/config/spring-jee-2.5.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd=org/springframework/jdbc/config/spring-jdbc-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-3.1.xsd=org/springframework/beans/factory/xml/spring-tool-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-3.1.xsd=org/springframework/ejb/config/spring-jee-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop.xsd=org/springframework/aop/config/spring-aop-3.1.xsd, http://www.springframework.org/schema/beans/spring-beans-2.0.xsd=org/springframework/beans/factory/xml/spring-beans-2.0.xsd, http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd=org/springframework/web/servlet/config/spring-mvc-3.0.xsd, http://www.springframework.org/schema/beans/spring-beans-3.0.xsd=org/springframework/beans/factory/xml/spring-beans-3.0.xsd, http://www.springframework.org/schema/task/spring-task-3.0.xsd=org/springframework/scheduling/config/spring-task-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx-2.5.xsd=org/springframework/transaction/config/spring-tx-2.5.xsd, http://www.springframework.org/schema/context/spring-context-2.5.xsd=org/springframework/context/config/spring-context-2.5.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd=org/springframework/jdbc/config/spring-jdbc-3.0.xsd, http://www.springframework.org/schema/tool/spring-tool-3.0.xsd=org/springframework/beans/factory/xml/spring-tool-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx.xsd=org/springframework/transaction/config/spring-tx-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-2.0.xsd=org/springframework/beans/factory/xml/spring-tool-2.0.xsd, http://www.springframework.org/schema/util/spring-util-2.5.xsd=org/springframework/beans/factory/xml/spring-util-2.5.xsd, http://www.springframework.org/schema/lang/spring-lang.xsd=org/springframework/scripting/config/spring-lang-3.1.xsd, http://www.springframework.org/schema/lang/spring-lang-2.5.xsd=org/springframework/scripting/config/spring-lang-2.5.xsd, http://www.springframework.org/schema/jee/spring-jee-3.0.xsd=org/springframework/ejb/config/spring-jee-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx-3.1.xsd=org/springframework/transaction/config/spring-tx-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-2.0.xsd=org/springframework/ejb/config/spring-jee-2.0.xsd, http://www.springframework.org/schema/context/spring-context-3.1.xsd=org/springframework/context/config/spring-context-3.1.xsd, http://www.springframework.org/schema/util/spring-util-3.1.xsd=org/springframework/beans/factory/xml/spring-util-3.1.xsd, http://www.springframework.org/schema/lang/spring-lang-3.1.xsd=org/springframework/scripting/config/spring-lang-3.1.xsd, http://www.springframework.org/schema/cache/spring-cache-3.1.xsd=org/springframework/cache/config/spring-cache-3.1.xsd, http://www.springframework.org/schema/context/spring-context.xsd=org/springframework/context/config/spring-context-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee.xsd=org/springframework/ejb/config/spring-jee-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-2.5.xsd=org/springframework/jms/config/spring-jms-2.5.xsd, http://www.springframework.org/schema/oxm/spring-oxm-3.1.xsd=org/springframework/oxm/config/spring-oxm-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms.xsd=org/springframework/jms/config/spring-jms-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-2.5.xsd=org/springframework/aop/config/spring-aop-2.5.xsd, http://www.springframework.org/schema/mvc/spring-mvc.xsd=org/springframework/web/servlet/config/spring-mvc-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-3.1.xsd=org/springframework/jms/config/spring-jms-3.1.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc.xsd=org/springframework/jdbc/config/spring-jdbc-3.1.xsd, http://www.springframework.org/schema/tx/spring-tx-2.0.xsd=org/springframework/transaction/config/spring-tx-2.0.xsd, http://www.springframework.org/schema/aop/spring-aop-3.1.xsd=org/springframework/aop/config/spring-aop-3.1.xsd, http://www.springframework.org/schema/tx/spring-tx-3.0.xsd=org/springframework/transaction/config/spring-tx-3.0.xsd, http://www.springframework.org/schema/context/spring-context-3.0.xsd=org/springframework/context/config/spring-context-3.0.xsd, http://www.springframework.org/schema/tool/spring-tool.xsd=org/springframework/beans/factory/xml/spring-tool-3.1.xsd, http://www.springframework.org/schema/util/spring-util-3.0.xsd=org/springframework/beans/factory/xml/spring-util-3.0.xsd, http://www.springframework.org/schema/lang/spring-lang-3.0.xsd=org/springframework/scripting/config/spring-lang-3.0.xsd, http://www.springframework.org/schema/util/spring-util-2.0.xsd=org/springframework/beans/factory/xml/spring-util-2.0.xsd, http://www.springframework.org/schema/lang/spring-lang-2.0.xsd=org/springframework/scripting/config/spring-lang-2.0.xsd, http://www.springframework.org/schema/beans/spring-beans-2.5.xsd=org/springframework/beans/factory/xml/spring-beans-2.5.xsd}
+2014-05-11 20:17:09,514 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/beans/spring-beans.xsd] in classpath: org/springframework/beans/factory/xml/spring-beans-3.1.xsd
+2014-05-11 20:17:09,542 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Loading bean definitions
+2014-05-11 20:17:09,546 main INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from class path resource [sdsystem_beans.xml]
+2014-05-11 20:17:09,547 main DEBUG org.springframework.beans.factory.xml.DefaultDocumentLoader - Using JAXP provider [com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl]
+2014-05-11 20:17:09,548 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/beans/spring-beans.xsd] in classpath: org/springframework/beans/factory/xml/spring-beans-3.1.xsd
+2014-05-11 20:17:09,561 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Loading bean definitions
+2014-05-11 20:17:09,566 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Imported 6 bean definitions from relative location [sdsystem_beans.xml]
+2014-05-11 20:17:09,567 main DEBUG org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loaded 7 bean definitions from location pattern [promasi_beans.xml]
+2014-05-11 20:17:09,567 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Bean factory for org.springframework.context.support.ClassPathXmlApplicationContext@26a7b76d: org.springframework.beans.factory.support.DefaultListableBeanFactory@691a7f8f: defining beans [CalculatedEquation,FlowSdObject,StockSdObject,InputSdObject,OutputSdObject,TimeSdObject,Clock]; root of factory hierarchy
+2014-05-11 20:17:09,575 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate MessageSource with name 'messageSource': using default [org.springframework.context.support.DelegatingMessageSource@13c10b87]
+2014-05-11 20:17:09,576 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate ApplicationEventMulticaster with name 'applicationEventMulticaster': using default [org.springframework.context.event.SimpleApplicationEventMulticaster@7d3a22a9]
+2014-05-11 20:17:09,576 main INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@691a7f8f: defining beans [CalculatedEquation,FlowSdObject,StockSdObject,InputSdObject,OutputSdObject,TimeSdObject,Clock]; root of factory hierarchy
+2014-05-11 20:17:09,577 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate LifecycleProcessor with name 'lifecycleProcessor': using default [org.springframework.context.support.DefaultLifecycleProcessor@7692d9cc]
+2014-05-11 20:17:09,577 main DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'lifecycleProcessor'
+2014-05-11 20:17:23,933 main DEBUG org.promasi.game.company.Department - Initialization succeed
+2014-05-11 20:17:23,956 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332211
+2014-05-11 20:17:23,956 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332212
+2014-05-11 20:17:23,956 main DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332213
+2014-05-11 20:17:24,029 main INFO  org.promasi.client_swing.Application - Start application
+2014-05-11 20:17:24,093 main DEBUG org.springframework.core.io.support.PathMatchingResourcePatternResolver - Found Equinox FileLocator for OSGi bundle URL resolution
+2014-05-11 20:17:24,112 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:17:24,113 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:17:24,114 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:17:24,114 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:17:24,118 main INFO  org.springframework.context.support.ClassPathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@26a7b76d: startup date [Sun May 11 20:17:24 CEST 2014]; root of context hierarchy
+2014-05-11 20:17:24,144 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:17:24,144 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:17:24,144 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:17:24,144 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:17:24,145 main DEBUG org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+2014-05-11 20:17:24,145 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+2014-05-11 20:17:24,145 main DEBUG org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+2014-05-11 20:17:24,145 main DEBUG org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+2014-05-11 20:17:24,151 main INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from class path resource [promasi_beans.xml]
+2014-05-11 20:17:24,152 main DEBUG org.springframework.beans.factory.xml.DefaultDocumentLoader - Using JAXP provider [com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl]
+2014-05-11 20:17:24,166 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Loading schema mappings from [META-INF/spring.schemas]
+2014-05-11 20:17:24,169 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Loaded schema mappings: {http://www.springframework.org/schema/oxm/spring-oxm-3.0.xsd=org/springframework/oxm/config/spring-oxm-3.0.xsd, http://www.springframework.org/schema/util/spring-util.xsd=org/springframework/beans/factory/xml/spring-util-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-3.0.xsd=org/springframework/jms/config/spring-jms-3.0.xsd, http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd=org/springframework/web/servlet/config/spring-mvc-3.1.xsd, http://www.springframework.org/schema/task/spring-task.xsd=org/springframework/scheduling/config/spring-task-3.1.xsd, http://www.springframework.org/schema/beans/spring-beans-3.1.xsd=org/springframework/beans/factory/xml/spring-beans-3.1.xsd, http://www.springframework.org/schema/cache/spring-cache.xsd=org/springframework/cache/config/spring-cache-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-3.0.xsd=org/springframework/aop/config/spring-aop-3.0.xsd, http://www.springframework.org/schema/task/spring-task-3.1.xsd=org/springframework/scheduling/config/spring-task-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-2.0.xsd=org/springframework/aop/config/spring-aop-2.0.xsd, http://www.springframework.org/schema/oxm/spring-oxm.xsd=org/springframework/oxm/config/spring-oxm-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-2.5.xsd=org/springframework/beans/factory/xml/spring-tool-2.5.xsd, http://www.springframework.org/schema/beans/spring-beans.xsd=org/springframework/beans/factory/xml/spring-beans-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-2.5.xsd=org/springframework/ejb/config/spring-jee-2.5.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd=org/springframework/jdbc/config/spring-jdbc-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-3.1.xsd=org/springframework/beans/factory/xml/spring-tool-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-3.1.xsd=org/springframework/ejb/config/spring-jee-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop.xsd=org/springframework/aop/config/spring-aop-3.1.xsd, http://www.springframework.org/schema/beans/spring-beans-2.0.xsd=org/springframework/beans/factory/xml/spring-beans-2.0.xsd, http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd=org/springframework/web/servlet/config/spring-mvc-3.0.xsd, http://www.springframework.org/schema/beans/spring-beans-3.0.xsd=org/springframework/beans/factory/xml/spring-beans-3.0.xsd, http://www.springframework.org/schema/task/spring-task-3.0.xsd=org/springframework/scheduling/config/spring-task-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx-2.5.xsd=org/springframework/transaction/config/spring-tx-2.5.xsd, http://www.springframework.org/schema/context/spring-context-2.5.xsd=org/springframework/context/config/spring-context-2.5.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd=org/springframework/jdbc/config/spring-jdbc-3.0.xsd, http://www.springframework.org/schema/tool/spring-tool-3.0.xsd=org/springframework/beans/factory/xml/spring-tool-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx.xsd=org/springframework/transaction/config/spring-tx-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-2.0.xsd=org/springframework/beans/factory/xml/spring-tool-2.0.xsd, http://www.springframework.org/schema/util/spring-util-2.5.xsd=org/springframework/beans/factory/xml/spring-util-2.5.xsd, http://www.springframework.org/schema/lang/spring-lang.xsd=org/springframework/scripting/config/spring-lang-3.1.xsd, http://www.springframework.org/schema/lang/spring-lang-2.5.xsd=org/springframework/scripting/config/spring-lang-2.5.xsd, http://www.springframework.org/schema/jee/spring-jee-3.0.xsd=org/springframework/ejb/config/spring-jee-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx-3.1.xsd=org/springframework/transaction/config/spring-tx-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-2.0.xsd=org/springframework/ejb/config/spring-jee-2.0.xsd, http://www.springframework.org/schema/context/spring-context-3.1.xsd=org/springframework/context/config/spring-context-3.1.xsd, http://www.springframework.org/schema/util/spring-util-3.1.xsd=org/springframework/beans/factory/xml/spring-util-3.1.xsd, http://www.springframework.org/schema/lang/spring-lang-3.1.xsd=org/springframework/scripting/config/spring-lang-3.1.xsd, http://www.springframework.org/schema/cache/spring-cache-3.1.xsd=org/springframework/cache/config/spring-cache-3.1.xsd, http://www.springframework.org/schema/context/spring-context.xsd=org/springframework/context/config/spring-context-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee.xsd=org/springframework/ejb/config/spring-jee-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-2.5.xsd=org/springframework/jms/config/spring-jms-2.5.xsd, http://www.springframework.org/schema/oxm/spring-oxm-3.1.xsd=org/springframework/oxm/config/spring-oxm-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms.xsd=org/springframework/jms/config/spring-jms-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-2.5.xsd=org/springframework/aop/config/spring-aop-2.5.xsd, http://www.springframework.org/schema/mvc/spring-mvc.xsd=org/springframework/web/servlet/config/spring-mvc-3.1.xsd, http://www.springframework.org/schema/jms/spring-jms-3.1.xsd=org/springframework/jms/config/spring-jms-3.1.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc.xsd=org/springframework/jdbc/config/spring-jdbc-3.1.xsd, http://www.springframework.org/schema/tx/spring-tx-2.0.xsd=org/springframework/transaction/config/spring-tx-2.0.xsd, http://www.springframework.org/schema/aop/spring-aop-3.1.xsd=org/springframework/aop/config/spring-aop-3.1.xsd, http://www.springframework.org/schema/tx/spring-tx-3.0.xsd=org/springframework/transaction/config/spring-tx-3.0.xsd, http://www.springframework.org/schema/context/spring-context-3.0.xsd=org/springframework/context/config/spring-context-3.0.xsd, http://www.springframework.org/schema/tool/spring-tool.xsd=org/springframework/beans/factory/xml/spring-tool-3.1.xsd, http://www.springframework.org/schema/util/spring-util-3.0.xsd=org/springframework/beans/factory/xml/spring-util-3.0.xsd, http://www.springframework.org/schema/lang/spring-lang-3.0.xsd=org/springframework/scripting/config/spring-lang-3.0.xsd, http://www.springframework.org/schema/util/spring-util-2.0.xsd=org/springframework/beans/factory/xml/spring-util-2.0.xsd, http://www.springframework.org/schema/lang/spring-lang-2.0.xsd=org/springframework/scripting/config/spring-lang-2.0.xsd, http://www.springframework.org/schema/beans/spring-beans-2.5.xsd=org/springframework/beans/factory/xml/spring-beans-2.5.xsd}
+2014-05-11 20:17:24,170 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/beans/spring-beans.xsd] in classpath: org/springframework/beans/factory/xml/spring-beans-3.1.xsd
+2014-05-11 20:17:24,201 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Loading bean definitions
+2014-05-11 20:17:24,205 main INFO  org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from class path resource [sdsystem_beans.xml]
+2014-05-11 20:17:24,206 main DEBUG org.springframework.beans.factory.xml.DefaultDocumentLoader - Using JAXP provider [com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl]
+2014-05-11 20:17:24,207 main DEBUG org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/beans/spring-beans.xsd] in classpath: org/springframework/beans/factory/xml/spring-beans-3.1.xsd
+2014-05-11 20:17:24,220 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Loading bean definitions
+2014-05-11 20:17:24,225 main DEBUG org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Imported 6 bean definitions from relative location [sdsystem_beans.xml]
+2014-05-11 20:17:24,226 main DEBUG org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loaded 7 bean definitions from location pattern [promasi_beans.xml]
+2014-05-11 20:17:24,226 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Bean factory for org.springframework.context.support.ClassPathXmlApplicationContext@26a7b76d: org.springframework.beans.factory.support.DefaultListableBeanFactory@691a7f8f: defining beans [CalculatedEquation,FlowSdObject,StockSdObject,InputSdObject,OutputSdObject,TimeSdObject,Clock]; root of factory hierarchy
+2014-05-11 20:17:24,233 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate MessageSource with name 'messageSource': using default [org.springframework.context.support.DelegatingMessageSource@13c10b87]
+2014-05-11 20:17:24,235 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate ApplicationEventMulticaster with name 'applicationEventMulticaster': using default [org.springframework.context.event.SimpleApplicationEventMulticaster@7d3a22a9]
+2014-05-11 20:17:24,235 main INFO  org.springframework.beans.factory.support.DefaultListableBeanFactory - Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@691a7f8f: defining beans [CalculatedEquation,FlowSdObject,StockSdObject,InputSdObject,OutputSdObject,TimeSdObject,Clock]; root of factory hierarchy
+2014-05-11 20:17:24,236 main DEBUG org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate LifecycleProcessor with name 'lifecycleProcessor': using default [org.springframework.context.support.DefaultLifecycleProcessor@7692d9cc]
+2014-05-11 20:17:24,236 main DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'lifecycleProcessor'
+2014-05-11 20:17:25,761 AWT-EventQueue-0 DEBUG org.promasi.client_swing.playmode.singleplayer.SinglePlayerGamesServer - Initialization complete
+2014-05-11 20:17:26,267 Timer-0 INFO  org.promasi.game.singleplayer.SinglePlayerGameFolder - Start reading game from : /home/alekstheod/git/Promasi-V2/org.promasi.client_swing/Data/SinglePlayer/Tutorial
+2014-05-11 20:17:26,308 Timer-0 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332211
+2014-05-11 20:17:26,308 Timer-0 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332212
+2014-05-11 20:17:26,308 Timer-0 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332213
+2014-05-11 20:17:26,343 Timer-0 DEBUG org.promasi.game.company.Department - Initialization succeed
+2014-05-11 20:17:26,378 Timer-0 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'Clock'
+2014-05-11 20:17:26,385 Timer-0 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'Clock'
+2014-05-11 20:17:27,180 AWT-EventQueue-0 INFO  org.promasi.game.singleplayer.SinglePlayerGame - SinglePlayer game started
+2014-05-11 20:17:27,678 Timer-1 INFO  org.promasi.game.singleplayer.SinglePlayerGameFolder - Start reading game from : /home/alekstheod/git/Promasi-V2/org.promasi.client_swing/Data/SinglePlayer/Tutorial
+2014-05-11 20:17:27,701 Timer-1 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332211
+2014-05-11 20:17:27,701 Timer-1 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332212
+2014-05-11 20:17:27,701 Timer-1 DEBUG org.promasi.game.company.Employee - Employee initialization succeed :xd332213
+2014-05-11 20:17:27,721 Timer-1 DEBUG org.promasi.game.company.Department - Initialization succeed
+2014-05-11 20:17:27,740 Timer-1 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'Clock'
+2014-05-11 20:17:27,740 Timer-1 DEBUG org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'Clock'
+2014-05-11 20:17:29,187 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:29,187 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:29,187 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:29,187 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:29,187 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:29,187 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:31,189 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:31,189 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:31,189 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:31,189 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:31,189 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:31,189 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:32,190 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:32,190 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:32,192 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:32,192 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:32,192 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:32,192 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:33,194 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:33,194 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:33,194 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:33,194 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:33,194 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:33,194 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:34,195 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:34,195 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:34,195 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:34,195 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:34,195 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:34,195 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:35,196 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:35,196 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:35,196 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:35,196 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:35,196 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:35,196 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:36,198 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:36,198 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:36,198 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:36,198 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:36,198 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:36,198 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:37,199 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:37,199 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:37,199 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:37,199 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:37,199 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:37,199 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:38,200 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:38,201 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:38,201 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:38,201 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:38,201 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:38,201 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:39,201 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:39,202 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:39,202 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:39,202 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:39,202 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:39,202 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:40,202 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:40,203 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:40,203 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:40,203 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:40,203 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:40,203 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:41,203 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:41,203 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:41,204 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:41,204 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:41,204 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:41,204 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:42,204 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:42,205 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:42,207 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:42,207 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:42,207 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:42,207 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:43,207 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:43,208 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:43,208 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:43,208 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:43,208 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:43,208 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:44,209 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:44,209 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:44,209 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:44,209 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:44,209 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:44,209 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:45,210 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:45,210 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:45,210 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:45,210 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:45,210 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:45,210 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:46,211 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:46,211 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:46,211 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:46,211 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:46,211 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:46,211 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:47,212 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:47,212 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:47,214 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:47,214 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:47,214 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:47,214 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:48,215 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:48,215 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:48,215 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:48,215 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:48,215 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:48,215 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:49,216 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:49,216 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:49,216 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:49,216 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:49,216 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:49,216 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:50,216 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:50,216 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:50,217 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:50,217 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:50,217 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:50,217 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:51,217 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:51,217 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:51,217 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:51,217 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:51,217 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:51,217 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:52,218 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:52,218 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:52,218 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:52,218 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:52,218 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:52,218 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:53,218 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:53,219 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:53,219 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:53,219 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:53,219 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:53,219 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:55,219 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:55,220 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:55,220 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:55,220 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:55,220 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:55,220 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:56,220 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:56,220 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:56,222 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:56,222 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:56,223 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:56,223 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:57,223 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:57,223 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:57,223 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:57,223 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:57,223 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:57,223 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:58,224 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:58,224 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:58,224 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:58,224 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:58,224 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:58,224 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:17:59,224 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:17:59,225 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:17:59,225 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:17:59,225 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:17:59,225 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:17:59,225 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3
+2014-05-11 20:18:00,225 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test1
+2014-05-11 20:18:00,225 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test2
+2014-05-11 20:18:00,225 Clock-Main INFO  org.promasi.game.project.Project - Executing ProjectTask : Test3
+2014-05-11 20:18:00,225 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test1
+2014-05-11 20:18:00,225 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test2
+2014-05-11 20:18:00,225 Clock-Main INFO  org.promasi.game.project.Project - Executing TaskBridges for task : Test3

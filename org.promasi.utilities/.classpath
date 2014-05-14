@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry exported="true" kind="lib" path="Libs/Joda-Time-1.6/joda-time-1.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="Libs/apache-log4j-1.2.16/log4j-1.2.16.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="Libs/apache_commons-codec-1.4/commons-codec-1.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="Libs/spring-framework-3.1.1.RELEASE/dist/org.springframework.aop-3.1.1.RELEASE.jar"/>
 	<classpathentry exported="true" kind="lib" path="Libs/spring-framework-3.1.1.RELEASE/dist/org.springframework.asm-3.1.1.RELEASE.jar"/>
@@ -32,7 +31,8 @@
 	<classpathentry exported="true" kind="lib" path="Libs/commons-logging-1.1.1/commons-logging-adapters-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="Libs/commons-logging-1.1.1/commons-logging-api-1.1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="Libs/commons-logging-1.1.1/commons-logging-tests.jar"/>
-	<classpathentry kind="lib" path="Libs/jep-2.4.1/ext-1.1.1.jar"/>
-	<classpathentry kind="lib" path="Libs/jep-2.4.1/jep-2.4.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libs/jep-2.4.1/ext-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="Libs/jep-2.4.1/jep-2.4.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
