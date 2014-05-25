@@ -1,0 +1,169 @@
+<html><!-- #BeginTemplate "/Templates/maintemplate.dwt" -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<!-- #BeginEditable "doctitle" --> 
+<title>JEP - Java Math Expression Parser</title>
+<!-- #EndEditable --> 
+<link rel="stylesheet" type="text/css" href="main.css" title="style1">
+</head>
+
+<body>
+
+
+
+<!-- NAVIGATION ---------------------------------------------------- -->
+<div id="navcontainer"> 
+  <ul>
+    <li><a href="../javadoc/index.html" target="_blank">JavaDoc <img src="img/new-window-icon.gif" width="15" height="11"></a></li>
+  </ul>
+  <h1>JEP</h1>
+  <ul>
+    <li><a href="index.html">Basic Usage</a></li>
+    <li><a href="variables.html">Variables</a></li>
+    <li><a href="types.html">Data types</a></li>
+    <li><a href="operators.html">Operators</a></li>
+    <li><a href="functions.html">Functions</a></li>
+    <li><a href="advanced.html">Advanced Features</a></li>
+    <li><a href="grammar.html">Grammar</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="version.html">Version History</a></li>
+  </ul>
+  <h1>Extensions</h1>
+  <ul>
+    <li><a href="extensions/index.html">Overview</a></li>
+    <li><a href="extensions/xjep.html">XJep</a></li>
+    <li><a href="extensions/djep.html">Differentiation</a></li>
+    <li><a href="extensions/vectorjep.html">Vectors and Matrices</a></li>
+    <li><a href="extensions/groupjep.html">Groups</a></li>
+    <li><a href="extensions/version.html">Version History</a></li>
+  </ul>
+</div>
+
+
+
+<div id="centercontent">
+<!-- CENTER CONTENT -------------------------------------------------- -->
+<!-- #BeginEditable "Text" --> 
+  <h1><a name="top"></a>Basic Usage</h1>
+  <ul>
+    <li><a href="#gettingstarted">Getting started</a></li>
+    <li><a href="#errorhandling">Error handling</a></li>
+    <li><a href="#evaluatingexpressions">Evaluating expressions</a></li>
+    <li><a href="#alternate">Alternate parsing and evaluation functions</a></li>
+    <li><a href="#implicitmul">Implicit multiplication</a></li>
+  </ul>
+  <h2><a name="gettingstarted"></a>Getting started</h2>
+  <p>Using the JEP package of classes in your project is simple! The following 
+    steps will get you started quickly.</p>
+  <ol>
+    <li>Download the JEP package</li>
+    <li>Unpack the archive</li>
+    <li>Move the jep-x.x.x.jar file to a directory of your choice (optional)</li>
+    <li>IMPORTANT: For the Java compiler to be able to find the JEP classes when 
+      compiling your program, it needs to know their location. So you will need 
+      to add the location of the .jar file to your CLASSPATH environment variable 
+      (if you don't know how, <a href="http://java.sun.com/j2se/1.5.0/docs/tooldocs/windows/classpath.html" target="_blank">read 
+      this</a>). Your CLASSPATH variable should contain something like C:\java\packages\jep-x.x.x.jar, 
+      depending on where you place the jar file. Alternatively you may need to 
+      set the location of the jar archive in your Java IDE so that the compiler 
+      finds the library.</li>
+    <li>In your program, create a new parser object with 
+      <pre>org.nfunk.jep.JEP myParser = new org.nfunk.jep.<a href="../javadoc/org/nfunk/jep/JEP.html" target="_blank">JEP</a>();</pre>
+    </li>
+    <li>Add the standard functions and constants if you want to be able to evaluate 
+      expressions with trigonometric functions and the constants <i>pi</i> and 
+      <i>e</i>. 
+      <pre>myParser.<a href="../javadoc/org/nfunk/jep/JEP.html#addStandardFunctions()" target="_blank">addStandardFunctions()</a>;
+myParser.<a href="../javadoc/org/nfunk/jep/JEP.html#addStandardConstants()" target="_blank">addStandardConstants()</a>;</pre>
+    </li>
+    <li> By default you need to specify which variables can be used in the expression. 
+      If a variable is not added before the expression is parsed, the parser will 
+      claim that the expression is invalid (this can be changed by <a href="variables.html#allowingundeclared">allowing 
+      undeclared variables</a>).<br>
+      To add the variable <i>x</i> and initialize it to 0 for example, write 
+      <pre>myParser.<a href="../javadoc/org/nfunk/jep/JEP.html#addVariable(java.lang.String, double)" target="_blank">addVariable(&quot;x&quot;, 0)</a>;</pre>
+    </li>
+    <li>Parse the expression, and evaluate it: 
+      <pre>myParser.<a href="../javadoc/org/nfunk/jep/JEP.html#parseExpression(java.lang.String)" target="_blank">parseExpression(ExpressionString)</a>;
+result = myParser.<a href="../javadoc/org/nfunk/jep/JEP.html#getValue()" target="_blank">getValue()</a>;</pre>
+    </li>
+    <li> The values of variables can be changed with the <a href="../javadoc/org/nfunk/jep/JEP.html#addVariable(java.lang.String, double)" target="_blank">addVariable(String, 
+      double)</a> method.<br>
+    </li>
+  </ol>
+  <p>The code of the sample applets provide more extensive look at how the parser 
+    methods are used.</p>
+  <!-- #BeginLibraryItem "/Library/top bar.lbi" -->
+<div class="topbar"><a href="#top"><img src="img/top.gif" width="38" height="15" name="top"></a></div>
+<!-- #EndLibraryItem --> 
+  <h2><a name="errorhandling"></a>Error handling</h2>
+  <p>Errors can occur both while parsing an expression and while evaluating an 
+    expression. The <a href="../javadoc/org/nfunk/jep/JEP.html#hasError()" target="_blank">hasError()</a> 
+    method reports whether an error has occurred during the most recent action 
+    (either parsing or evaluation). If the result is <code>true</code>, you can 
+    then use <a href="../javadoc/org/nfunk/jep/JEP.html#getErrorInfo()" target="_blank">getErrorInfo()</a> 
+    to obtain further information on the errors that have occurred.</p>
+  <!-- #BeginLibraryItem "/Library/top bar.lbi" -->
+<div class="topbar"><a href="#top"><img src="img/top.gif" width="38" height="15" name="top"></a></div>
+<!-- #EndLibraryItem --> 
+  <h2><a name="evaluatingexpressions"></a>Evaluating expressions</h2>
+  <p>Four methods for evaluating an expression are available:</p>
+  <ul>
+    <li><a href="../javadoc/org/nfunk/jep/JEP.html#getValue()" target="_blank">getValue()</a>: 
+      Use this if you are expecting a normal floating point value.</li>
+    <li><a href="../javadoc/org/nfunk/jep/JEP.html#getComplexValue()" target="_blank">getComplexValue()</a>: 
+      Use this if you are expecting a complex value.</li>
+    <li><a href="../javadoc/org/nfunk/jep/JEP.html#getValueAsObject()" target="_blank">getValueAsObject()</a>: 
+      Returns the result as an Object (any type)</li>
+    <li><a href="../javadoc/org/nfunk/jep/JEP.html#evaluate(org.nfunk.jep.Node)" target="_blank">evaluate(Node 
+      root)</a>: Evaluates a tree with from a root node and returns the result 
+      as an Object.</li>
+  </ul>
+  <p>The first two methods call <a href="../javadoc/org/nfunk/jep/JEP.html#getValueAsObject()" target="_blank">getValueAsObject()</a> 
+    internally, and perform the necessary conversions into either a <code>double</code> 
+    value, or a <code>Complex</code> object. </p>
+  <!-- #BeginLibraryItem "/Library/top bar.lbi" -->
+<div class="topbar"><a href="#top"><img src="img/top.gif" width="38" height="15" name="top"></a></div>
+<!-- #EndLibraryItem --> 
+  <h2><a name="alternate"></a>Alternate parsing and evaluation functions</h2>
+  <p>There is an alternative method to parsing and evaluating expression which 
+    allows a little more flexibility in applications especially when working with 
+    a set of related equations. These are: </p>
+  <pre>public Node <a href="../javadoc/org/nfunk/jep/JEP.html#parse(java.lang.String)">parse(String expression)</a> throws ParseException<br>public Object <a href="../javadoc/org/nfunk/jep/JEP.html#evaluate(org.nfunk.jep.Node)">evaluate(Node node)</a> throws Exception</pre>
+  which parse and evaluate the expression. These can be used like 
+  <pre>try<br>{<br>	// Alternative syntax<br>	Node node1 = j.parse("z=i*pi");<br>	j.evaluate(node1);<br>	Node node2 = j.parse("exp(z)");<br>	Object val2 = j.evaluate(node2);<br>	System.out.println("Value: "+val2);<br>}<br>catch(ParseException e)	{<br>	System.out.println("Error with parsing");<br>}<br>catch(Exception e)	{<br>	System.out.println("Error with evaluation");<br>}</pre>
+  <p>Hence its a bit easier to keep track of a number of equations. Note that 
+    using this syntax Exceptions need to be caught and the <a href="../javadoc/org/nfunk/jep/JEP.html#getTopNode()">getTopNode()</a> 
+    method will not return meaningful results.</p>
+  <!-- #BeginLibraryItem "/Library/top bar.lbi" -->
+<div class="topbar"><a href="#top"><img src="img/top.gif" width="38" height="15" name="top"></a></div>
+<!-- #EndLibraryItem --> 
+  <h2><a name="implicitmul"></a>Implicit multiplication</h2>
+  <p>You can enable the implicit multiplication option with <a href="../javadoc/org/nfunk/jep/JEP.html#setImplicitMul(boolean)" target="_blank">setImplicitMul(true)</a>. 
+    The default setting is false (no implicit multiplication).</p>
+  <p>Implicit multiplication allows expressions such as &quot;2 x&quot; to be 
+    interpreted as &quot;2*x&quot;. Note that a space is required between two 
+    variables for them to be interpreted as being multiplied. The same holds for 
+    a variable followed by a number. For example &quot;y 3&quot; is interpreted 
+    as &quot;y*3&quot;, but &quot;y3&quot; is interpreted as a single variable 
+    with the name y3. If a variable is preceded by a number, no space is required 
+    between them for implicit multiplication to come in effect.</p>
+  <!-- #BeginLibraryItem "/Library/top bar.lbi" -->
+<div class="topbar"><a href="#top"><img src="img/top.gif" width="38" height="15" name="top"></a></div>
+<!-- #EndLibraryItem --><br>
+
+  <!-- #EndEditable -->
+
+
+
+
+<!-- FOOTER ---------------------------------------------------------- -->
+<div id="footer">
+<a href="http://sourceforge.net/tracker/?func=add&group_id=24711&atid=382402">Report bugs / documentation errors</a><br/>
+<br/>
+&copy; 2006 <a href="http://www.singularsys.com" target="_blank">Singular Systems</a>
+</div>
+</div> <!-- centercontent -->
+
+</body>
+<!-- #EndTemplate --></html>

@@ -1,0 +1,122 @@
+<companies>
+<company>
+	<companyName>UBM</companyName>
+	<description>company description</description>
+	<htmlDescription><![CDATA[
+		<h2>Welcome to UBM</h2><br>Since this is your first day here you must first start<br>to
+	        									learn using our tools.<p>As you already know you are going to work remotely from your house
+	        									.<p>What you see is a virtual machine with Promasi installed, Promasi is our custom OS<br>The
+	        									OS contains all the necessary tools in order to do your job.<br><p>All of our programs can be 
+	        									found in the Quick Launch menu.<br>Here is a short description of every program we have:<br><ul>
+	        									<li><b>Evolution Bird:</b> The evolution bird is used in order to read mails.<br>All of the communication
+	        									is done through mail.<br>When the evolution bird is closed it will notify you if you have any new messages.
+	        									</li><li><b>Market place:</b> In the market place you can hire employees.<br>You are free to hire any employee
+	        									 you want. The market place has only employees that we have approved<br>and are already working in the company.
+	        									If you decide to hire one, he will be immediately transfered<br>to your team. If an employee is transfered to your
+	        									team, his salary is going to be taken off the budget of<br>your current project.</li><li><b>Planner :</b> With
+	        									planner you can assign tasks to your employees. <li><b>Infogate :</b> Infogate provides information about UBM 
+	        									and your current project.</li></ul><p>When we assign a project to you normally we give you 1-2 days in order 
+	        									to prepare for the project.<p><h3>Promasi BugFixes</h3><p>When we hire a new project manager we normally give
+	        									him a couple of bug fixes to our promasi OS<br>or other internal products in order to train him. 
+	        									The following bugs have been assigned to you :<ul><li><b>312 :</b> 
+	        									Low priority bug, fairly easy.</li><li><b>313 :</b> Low priority bug, but it might affect other systems needs 
+	        									testing.</ul><p> You have 1 day to prepare your team , and 4 days to finish the bug fixes.<p><b>Good Luck !</b>
+	]]>
+	</htmlDescription>
+	<startTime>09:10:02</startTime>
+	<endTime>10:11:22</endTime>
+	<budget>10000</budget>
+	<prestigePoints>0.0</prestigePoints>
+	<imagePath>icons/companies/UBM.png</imagePath>
+</company>
+<company>
+	<companyName>LCR</companyName>
+	<description>company description</description>
+	<startTime>10:12:32</startTime>
+	<endTime>11:12:53</endTime>
+	<htmlDescription><![CDATA[
+		<h2>Welcome to LCR</h2><br>Since this is your first day here you must first start<br>to
+	        									learn using our tools.<p>As you already know you are going to work remotely from your house
+	        									.<p>What you see is a virtual machine with Promasi installed, Promasi is our custom OS<br>The
+	        									OS contains all the necessary tools in order to do your job.<br><p>All of our programs can be 
+	        									found in the Quick Launch menu.<br>Here is a short description of every program we have:<br><ul>
+	        									<li><b>Evolution Bird:</b> The evolution bird is used in order to read mails.<br>All of the communication
+	        									is done through mail.<br>When the evolution bird is closed it will notify you if you have any new messages.
+	        									</li><li><b>Market place:</b> In the market place you can hire employees.<br>You are free to hire any employee
+	        									 you want. The market place has only employees that we have approved<br>and are already working in the company.
+	        									If you decide to hire one, he will be immediately transfered<br>to your team. If an employee is transfered to your
+	        									team, his salary is going to be taken off the budget of<br>your current project.</li><li><b>Planner :</b> With
+	        									planner you can assign tasks to your employees. <li><b>Infogate :</b> Infogate provides information about UBM 
+	        									and your current project.</li></ul><p>When we assign a project to you normally we give you 1-2 days in order 
+	        									to prepare for the project.<p><h3>Promasi BugFixes</h3><p>When we hire a new project manager we normally give
+	        									him a couple of bug fixes to our promasi OS<br>or other internal products in order to train him. 
+	        									The following bugs have been assigned to you :<ul><li><b>312 :</b> 
+	        									Low priority bug, fairly easy.</li><li><b>313 :</b> Low priority bug, but it might affect other systems needs 
+	        									testing.</ul><p> You have 1 day to prepare your team , and 4 days to finish the bug fixes.<p><b>Good Luck !</b>
+	]]>
+	</htmlDescription>
+	<budget>210.00</budget>
+	<prestigePoints>340</prestigePoints>
+	<imagePath>icons/companies/LCR.png</imagePath>
+</company>
+<company>
+	<companyName>MDS</companyName>
+	<description>company description</description>
+	<htmlDescription><![CDATA[
+		<h2>Welcome to MDS</h2><br>Since this is your first day here you must first start<br>to
+	        									learn using our tools.<p>As you already know you are going to work remotely from your house
+	        									.<p>What you see is a virtual machine with Promasi installed, Promasi is our custom OS<br>The
+	        									OS contains all the necessary tools in order to do your job.<br><p>All of our programs can be 
+	        									found in the Quick Launch menu.<br>Here is a short description of every program we have:<br><ul>
+	        									<li><b>Evolution Bird:</b> The evolution bird is used in order to read mails.<br>All of the communication
+	        									is done through mail.<br>When the evolution bird is closed it will notify you if you have any new messages.
+	        									</li><li><b>Market place:</b> In the market place you can hire employees.<br>You are free to hire any employee
+	        									 you want. The market place has only employees that we have approved<br>and are already working in the company.
+	        									If you decide to hire one, he will be immediately transfered<br>to your team. If an employee is transfered to your
+	        									team, his salary is going to be taken off the budget of<br>your current project.</li><li><b>Planner :</b> With
+	        									planner you can assign tasks to your employees. <li><b>Infogate :</b> Infogate provides information about UBM 
+	        									and your current project.</li></ul><p>When we assign a project to you normally we give you 1-2 days in order 
+	        									to prepare for the project.<p><h3>Promasi BugFixes</h3><p>When we hire a new project manager we normally give
+	        									him a couple of bug fixes to our promasi OS<br>or other internal products in order to train him. 
+	        									The following bugs have been assigned to you :<ul><li><b>312 :</b> 
+	        									Low priority bug, fairly easy.</li><li><b>313 :</b> Low priority bug, but it might affect other systems needs 
+	        									testing.</ul><p> You have 1 day to prepare your team , and 4 days to finish the bug fixes.<p><b>Good Luck !</b>
+	]]>
+	</htmlDescription>
+	<startTime>10:22:19</startTime>
+	<endTime>11:03:10</endTime>
+	<budget>210.00</budget>
+	<prestigePoints>340</prestigePoints>
+	<imagePath>icons/companies/MDS.png</imagePath>
+</company>
+<company>
+	<companyName>SDC</companyName>
+	<description>company description</description>
+	<startTime>04:20:19</startTime>
+	<endTime>05:10:19</endTime>
+	<htmlDescription><![CDATA[
+		<h2>Welcome to SDC</h2><br>Since this is your first day here you must first start<br>to
+	        									learn using our tools.<p>As you already know you are going to work remotely from your house
+	        									.<p>What you see is a virtual machine with Promasi installed, Promasi is our custom OS<br>The
+	        									OS contains all the necessary tools in order to do your job.<br><p>All of our programs can be 
+	        									found in the Quick Launch menu.<br>Here is a short description of every program we have:<br><ul>
+	        									<li><b>Evolution Bird:</b> The evolution bird is used in order to read mails.<br>All of the communication
+	        									is done through mail.<br>When the evolution bird is closed it will notify you if you have any new messages.
+	        									</li><li><b>Market place:</b> In the market place you can hire employees.<br>You are free to hire any employee
+	        									 you want. The market place has only employees that we have approved<br>and are already working in the company.
+	        									If you decide to hire one, he will be immediately transfered<br>to your team. If an employee is transfered to your
+	        									team, his salary is going to be taken off the budget of<br>your current project.</li><li><b>Planner :</b> With
+	        									planner you can assign tasks to your employees. <li><b>Infogate :</b> Infogate provides information about UBM 
+	        									and your current project.</li></ul><p>When we assign a project to you normally we give you 1-2 days in order 
+	        									to prepare for the project.<p><h3>Promasi BugFixes</h3><p>When we hire a new project manager we normally give
+	        									him a couple of bug fixes to our promasi OS<br>or other internal products in order to train him. 
+	        									The following bugs have been assigned to you :<ul><li><b>312 :</b> 
+	        									Low priority bug, fairly easy.</li><li><b>313 :</b> Low priority bug, but it might affect other systems needs 
+	        									testing.</ul><p> You have 1 day to prepare your team , and 4 days to finish the bug fixes.<p><b>Good Luck !</b>
+	]]>
+	</htmlDescription>
+	<budget>210.00</budget>
+	<prestigePoints>340</prestigePoints>
+	<imagePath>icons/companies/SDC.png</imagePath>
+</company>
+</companies>

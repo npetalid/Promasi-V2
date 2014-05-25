@@ -1,0 +1,242 @@
+== org.nfunk.* =======================================================
+
+---- 2.4.1 release (Apr 25, 2007) ------------------------------------
+
+Apr 23 06 njf - added rounding functions round, ceil, and floor
+              - added tests and updated JEPTest
+              - applied fix for [ 1563324 ] getValueAsObject always returns null after an error
+              - applied fix for [ 1670974 ] String to double <= comparison message incorrect
+              - applied fix for [ 1706295 ] Wrong error output when evaluating variables
+
+Apr 22 06 njf - created branch for JEP 2.4.0 patches
+              - updated build.xml (automatic building of commercial dist)
+              - added classes for additional tests
+              - added new license files
+              
+---- 2.4.0 release (Jun 8, 2006) ------------------------------------
+
+Jun  8 06 njf - Revisions to the documentation
+
+Jun  6 06 njf - Added a COPYRIGHT.txt file including copyright and license 
+                information
+              - Enabled deprecation output while compiling with build.xml
+              
+May 26 06 njf - Switched back to JavaCC 3.2 to maintain compatibility with 
+                Java 1.2
+                
+May 20 06 rjm - Added a ElementComparative function, changed visability of field 
+                in Comparative.
+                
+May 18 06 rjm - Changes to allow the a[5] syntax for access to array elements
+			  - Changed parser to handle the a[5] syntax 
+			  - Added an LValueI interface for functions which can be used on 
+			    lhs of an asignment,
+			  - Change Assign to work with LValueI.
+			  - Added new OP_ELEMENT to OperatorSet
+			  
+May 12 06 njf - Changed GraphCanvas to use Java2D anti aliasing for prettier 
+                curve drawing in function plotter applet
+                
+Apr 27 06 njf - changed build.xml to rely on setting a JRE instead of a JDK 
+                enviroment variable
+              - changed build.xml to allow compiling without having a 1.2 JRE 
+                env. var. set (doesn't ensure compatibility to old version then)
+                
+Apr 26 06 njf - switched to JavaCC 4.0. Needed to regenerated 
+                JavaCharStream.java.
+                
+Mar 11 06 rjm - Added serial version tags where needed
+
+Feb 18 06 njf - removed creative commons references from all source files
+
+Feb 15 06 njf - updated documentation by fixing some broken links and
+                reapplying the dreamweaver template to all files
+              - merged new tests from version 2.3.1 into JEPTestExpressions.txt
+
+Jan    06 njf - Created a new branch "v230-patches" on which version 2.3.1
+                was developed.
+
+Dec 16 05 rjm - Added a checkNumberofParameters method to PostfixMathCommandI,
+	and a default method to PostfixMathCommand and implementations for necessary functions.
+	
+May 02 05 rjm - Added more functionality to NumberFactory.
+		CreateNumber(double) etc. and getZero() etc.
+
+May 02 05 rjm - Changed error behaviour for addVariable and setVarValue.
+		These now throw IllegalStateExceptions.
+ 
+Apr 24 05 rjm - Created a CallbackEvaluationI interface which 
+			replaces SpecialEvaluationI. This facilitates functions
+			which need access to the node tree.
+			
+Apr 01 05 rjm - Variable: Fixed setting validValue for constants.
+			Passes value to observers on setValue.
+			
+Apr 01 05 rjm - SymbolTable can now have observes passed to it.
+			Added a clearNoConstants method.
+			
+Apr 01 05 rjm - Changed behaviour on errors. Removed references to
+			Error list in EvaluationVisitor. ParseExceptions are thrown instead.
+			
+			getValueAsObject() traps all errors including RuntimeExceptions.			
+			evaluate() now only throws ParseException.
+
+Apr 01 05 rjm - trapNulls flag in evaluation visitor. Switchable to trap null nulles or not.
+
+Apr 01 05 rjm - Jep copy constructor fixed.
+
+Apr 01 05 rjm - If now works with Numbers
+	
+Feb 13 05 rjm - Added binom, conj functions.
+
+Dec 19 njf - figured out documentation linking issues. Leaving docs as they were
+             before Nov 1 (no frames, javadoc at /doc/javadoc)
+             
+Dec 10 rjm - nodeAccept method added to jep.EvaluationVisitor so that it
+			 can be easier for sub classes to use visitor pattern.
+			 
+		   - Improved printing facilities for complex numbers.
+		   
+Nov  6 njf - Merged JEPTester and JEPTest into JEPTest, now in the JUnit framework
+
+Nov  3 rjm - JEP.evaluate() method will throw an exception if this.hasErrors() is true.
+
+Nov  1 njf - changed documentation to frames
+           - added new FAQ item
+
+Oct 23 njf - added source="1.2" to javac options in build.xml
+             avoids compile time error with 1.5 compiler by ensuring
+             1.2 source compatibility
+       njf - fixed [ 1046349 ] bug in sum()
+       njf - fixed [ 1051988 ] JEPTester falsely reports "No errors"
+       njf - improved value comparison and error reporting in JEPTester
+       njf - reformated Comparative.java, added comments
+
+Oct 22 njf - added simple sum test to JEPTesterExpressions.txt
+
+Oct  4 rjm - Changes the SpecialEvaluationI interface to include a 
+             SymbolTable parameter.
+       rjm - Added rules to differentiate atan2 removed support for angle
+       rjm - Doc update for GroupJep, improved consol and unit test or 
+
+---- 2.3.0 release (Oct 3, 2004) ------------------------------------
+Oct  3 njf - created new features document for the core JEP and moved
+             appropriate text from DJEP index.html there
+       njf - changed "jar" and "dist" targets to create a separate djep
+             jar without examples and test cases, then include both jars
+             in a jep-djep-2.3.0.zip file
+       njf - new jjdoc target in build.xml to generate grammar documentation
+       njf - removed compile.bat and grammardoc.bat
+
+Oct  2 njf - build.xml now creates javadoc using new breakiterator
+             (gets rid of all the "helpful" output when running javadoc)
+       njf - added package.html files to package directories
+       njf - updated details in documentation
+       njf - documented error handling using hasError() and getErrorInfo()
+       njf - added 1.2 compatibility checking in build.xml
+       
+Oct  1 njf - removed org.lsmp.* from compile in build.xml
+       njf - commented out addToErrorList("No expression entered"); from
+             Start() in Parser.jjt
+       njf - added getTraverse() method
+       njf - changed @since version names in org.nfunk.* according to:
+             2.3.0   ->  2.3.0 alpha
+             2.3.1   ->  2.3.0 beta 1
+             2.3.2   ->  2.3.0 beta 2
+             2.3.3   ->  2.3.0 beta 2
+             2.3.0.1 ->  2.3.0 alpha
+---- 2.3.0 beta 2 ---------------------------------------------------
+
+---- 2.3.0 beta 1 ---------------------------------------------------
+
+---- 2.3.0 alpha ----------------------------------------------------
+?      njf - NumberFactory has been changed to create the number from a String
+             representation (in order to allow creation of arbitrary precision
+             numbers without the limitations of double)
+
+Many previous changes not included here. See the documentation for details.
+
+===============================================================================
+== org.lsmp.* =================================================================
+
+-- 1.1.1 (Apr 25, 2007) --------------------------------------------
+
+Apr 25 07 njf - Added an AllTests class for easy execution of all tests from ant
+Apr 24 07 njf - Applied patch for bug [ 1567116 ] VectorJep division
+                in MDivide.java
+              - made a few spelling corrections for the package.html files
+
+-- 1.1.0 (Jun 9, 2006) --------------------------------------------
+
+May 20 06 rjm - Fixed bug with differentation visitor. isConstant method returned true for b=a; a=x; when differentiating wrt x.
+May 20 06 rjm - Added a ElementComparative function, changed visability of field in Comparative.
+May 18 06 rjm - Changes to allow the a[5] syntax for access to array elements
+			  - Created a ArrayAccess function 
+			  - Modified OperatorSets
+			  - Print rule for array access in MatrixJep.
+Apr 07 06 rjm - Added several functions to allow interegation of command lists
+Apr 04 06 rjm - Fixed bug with conversion of (a+b)-(c+d) to polynomial in sjep.
+Mar 11 06 rjm - Added serial version tags where needed
+Mar 4  06 rjm - fixed bug in SJep 2x+x now correctly simplifies to 3x.
+Dec 16 05 rjm - Added implementations of checkNumberOfParameters
+		for necessary functions.
+
+Dec 08 05 rjm  - Added MDivide function
+			   - Fixed bug in MMultiply dividing Tensor by a scaler.
+				 
+July 28 05 rjm - Added a Define function
+			   - NodeFactory now calls the jep evaluator in buildConstantNode.
+			   - SimplificationVisitor returns now returns null if null is parsed
+			   	rather than throwing an error.
+			   - added exp() function to XJep
+			   - added macrocomplex to xjep (Why?)
+			   	
+July 14 05 rjm - Restructured DJep so standard diffrules in DJep rather than DiffVisitor
+
+June 07 05 rjm - Fixed bug in ele which only accepted Double arguments.
+
+May 02 05 rjm - added toBase pfmc and a BaseFormat NumberFormat object.
+
+Apr 24 05 rjm - Reworked junit tests using inheretance.
+
+Apr 24 05 rjm - Simpson and Trapesium functionsa added to XJep.
+
+Apr 03 05 rjm - DifferentationVisitor is now smarter when calculating zero derivatives
+			  - PrintVisitor.getMode(int testmode) added.
+			  
+Apr 01 05 rjm - MVector, Matrix, Tensor no longer extend number.
+
+Apr 01 05 rjm - Added det(), trace(), vsum(), trans(), getDiag(), diag(), id(),
+	GenMat, Map function to vectorJep. Need to check diff and matrixJep functionality.
+
+Apr 01 05 rjm - added SpecialPreprocessorI interface for matrixJep functions.
+
+Feb 13 05 rjm - added len() and size() functions
+		   - added Scaler.getInstance() and Vector.getInstance() methods.
+		   
+Dec 21 rjm - xjep.PrintVisitor can now work with three or more arguments to + and *.
+
+Dec 10 rjm - Implemented element by element multiplication in VectorJep
+			 nodeAccept method added to jep.EvaluationVisitor so that it
+			 can be easier for sub classes to use visitor pattern.
+			 
+		   - Improved printing facilities for complex numbers.
+		   
+		   - xjep.PrintVisitor now allows a NumberFormat object to be specified to control 
+		     the printing of double values.
+		     
+		   - ExtendedFreeGroup added to GroupJep this allows a limited 
+		     use of ^ and / for polynomials. Polynomials can be raised to 
+		     positive integer powers and divided by constants.
+
+Oct 4  rjm - Added rules to differentiate atan2 removed support for angle
+       rjm - Doc update for GroupJep, improved consol and unit test or working with polynomials over the reals (Doubles).
+
+Oct 1 rjm  - RewriteRulesI interface added and RewriteVisitor added.
+			Begining of an improved simplification algorithm.
+
+Sept  rjm  - added SumType functions equivilent to sigma notation.
+
+-- 1.0.0 (Oct 3rd, 2004) --------------------------------------------
+
+Many previous changes not included here. See the documentation for details.

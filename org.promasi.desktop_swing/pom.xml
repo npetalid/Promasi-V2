@@ -44,26 +44,20 @@
             <groupId>com.jidesoft</groupId>
             <artifactId>jide-common</artifactId>
             <version>3.3.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/jidesoft/jide-common.jar</systemPath>
         </dependency>
-	
+
         <dependency>
             <groupId>com.jidesoft</groupId>
             <artifactId>jide-grids</artifactId>
             <version>3.3.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/jidesoft/jide-grids.jar</systemPath>
-        </dependency>	
-		
+        </dependency>
+        
         <dependency>
             <groupId>com.jidesoft</groupId>
             <artifactId>jide-gantt</artifactId>
             <version>3.3.3</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/libs/jidesoft/jide-gantt.jar</systemPath>
         </dependency>
-    
+
     </dependencies>
   
     <build>
@@ -86,6 +80,55 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
+            </plugin>
+      
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>install-jide-common</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.basedir}/libs/jidesoft/jide-common.jar</file>
+                            <groupId>com.jidesoft</groupId>
+                            <artifactId>jide-common</artifactId>
+                            <version>3.3.3</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-jide-grids</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.basedir}/libs/jidesoft/jide-grids.jar</file>
+                            <groupId>com.jidesoft</groupId>
+                            <artifactId>jide-grids</artifactId>
+                            <version>3.3.3</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-jide-gantt</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.basedir}/libs/jidesoft/jide-gantt.jar</file>
+                            <groupId>com.jidesoft</groupId>
+                            <artifactId>jide-gantt</artifactId>
+                            <version>3.3.3</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
       
             <plugin>

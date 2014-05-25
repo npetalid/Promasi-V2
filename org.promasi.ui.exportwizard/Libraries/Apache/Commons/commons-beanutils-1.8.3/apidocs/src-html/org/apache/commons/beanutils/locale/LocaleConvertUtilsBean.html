@@ -1,0 +1,632 @@
+<HTML>
+<BODY BGCOLOR="white">
+<PRE>
+<FONT color="green">001</FONT>    /*<a name="line.1"></a>
+<FONT color="green">002</FONT>     * Licensed to the Apache Software Foundation (ASF) under one or more<a name="line.2"></a>
+<FONT color="green">003</FONT>     * contributor license agreements.  See the NOTICE file distributed with<a name="line.3"></a>
+<FONT color="green">004</FONT>     * this work for additional information regarding copyright ownership.<a name="line.4"></a>
+<FONT color="green">005</FONT>     * The ASF licenses this file to You under the Apache License, Version 2.0<a name="line.5"></a>
+<FONT color="green">006</FONT>     * (the "License"); you may not use this file except in compliance with<a name="line.6"></a>
+<FONT color="green">007</FONT>     * the License.  You may obtain a copy of the License at<a name="line.7"></a>
+<FONT color="green">008</FONT>     *<a name="line.8"></a>
+<FONT color="green">009</FONT>     *      http://www.apache.org/licenses/LICENSE-2.0<a name="line.9"></a>
+<FONT color="green">010</FONT>     *<a name="line.10"></a>
+<FONT color="green">011</FONT>     * Unless required by applicable law or agreed to in writing, software<a name="line.11"></a>
+<FONT color="green">012</FONT>     * distributed under the License is distributed on an "AS IS" BASIS,<a name="line.12"></a>
+<FONT color="green">013</FONT>     * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.<a name="line.13"></a>
+<FONT color="green">014</FONT>     * See the License for the specific language governing permissions and<a name="line.14"></a>
+<FONT color="green">015</FONT>     * limitations under the License.<a name="line.15"></a>
+<FONT color="green">016</FONT>     */<a name="line.16"></a>
+<FONT color="green">017</FONT>     <a name="line.17"></a>
+<FONT color="green">018</FONT>    package org.apache.commons.beanutils.locale;<a name="line.18"></a>
+<FONT color="green">019</FONT>    <a name="line.19"></a>
+<FONT color="green">020</FONT>    import org.apache.commons.beanutils.BeanUtils;<a name="line.20"></a>
+<FONT color="green">021</FONT>    import org.apache.commons.beanutils.locale.converters.BigDecimalLocaleConverter;<a name="line.21"></a>
+<FONT color="green">022</FONT>    import org.apache.commons.beanutils.locale.converters.BigIntegerLocaleConverter;<a name="line.22"></a>
+<FONT color="green">023</FONT>    import org.apache.commons.beanutils.locale.converters.ByteLocaleConverter;<a name="line.23"></a>
+<FONT color="green">024</FONT>    import org.apache.commons.beanutils.locale.converters.DoubleLocaleConverter;<a name="line.24"></a>
+<FONT color="green">025</FONT>    import org.apache.commons.beanutils.locale.converters.FloatLocaleConverter;<a name="line.25"></a>
+<FONT color="green">026</FONT>    import org.apache.commons.beanutils.locale.converters.IntegerLocaleConverter;<a name="line.26"></a>
+<FONT color="green">027</FONT>    import org.apache.commons.beanutils.locale.converters.LongLocaleConverter;<a name="line.27"></a>
+<FONT color="green">028</FONT>    import org.apache.commons.beanutils.locale.converters.ShortLocaleConverter;<a name="line.28"></a>
+<FONT color="green">029</FONT>    import org.apache.commons.beanutils.locale.converters.StringLocaleConverter;<a name="line.29"></a>
+<FONT color="green">030</FONT>    import org.apache.commons.beanutils.locale.converters.SqlDateLocaleConverter;<a name="line.30"></a>
+<FONT color="green">031</FONT>    import org.apache.commons.beanutils.locale.converters.SqlTimeLocaleConverter;<a name="line.31"></a>
+<FONT color="green">032</FONT>    import org.apache.commons.beanutils.locale.converters.SqlTimestampLocaleConverter;<a name="line.32"></a>
+<FONT color="green">033</FONT>    <a name="line.33"></a>
+<FONT color="green">034</FONT>    import org.apache.commons.collections.FastHashMap;<a name="line.34"></a>
+<FONT color="green">035</FONT>    import org.apache.commons.logging.Log;<a name="line.35"></a>
+<FONT color="green">036</FONT>    import org.apache.commons.logging.LogFactory;<a name="line.36"></a>
+<FONT color="green">037</FONT>    <a name="line.37"></a>
+<FONT color="green">038</FONT>    import java.lang.reflect.Array;<a name="line.38"></a>
+<FONT color="green">039</FONT>    import java.math.BigDecimal;<a name="line.39"></a>
+<FONT color="green">040</FONT>    import java.math.BigInteger;<a name="line.40"></a>
+<FONT color="green">041</FONT>    import java.util.Collection;<a name="line.41"></a>
+<FONT color="green">042</FONT>    import java.util.Locale;<a name="line.42"></a>
+<FONT color="green">043</FONT>    import java.util.Map;<a name="line.43"></a>
+<FONT color="green">044</FONT>    import java.util.Set;<a name="line.44"></a>
+<FONT color="green">045</FONT>    <a name="line.45"></a>
+<FONT color="green">046</FONT>    /**<a name="line.46"></a>
+<FONT color="green">047</FONT>     * &lt;p&gt;Utility methods for converting locale-sensitive String scalar values to objects of the<a name="line.47"></a>
+<FONT color="green">048</FONT>     * specified Class, String arrays to arrays of the specified Class and<a name="line.48"></a>
+<FONT color="green">049</FONT>     * object to locale-sensitive String scalar value.&lt;/p&gt;<a name="line.49"></a>
+<FONT color="green">050</FONT>     *<a name="line.50"></a>
+<FONT color="green">051</FONT>     * &lt;p&gt;This class provides the implementations used by the static utility methods in <a name="line.51"></a>
+<FONT color="green">052</FONT>     * {@link LocaleConvertUtils}.&lt;/p&gt;<a name="line.52"></a>
+<FONT color="green">053</FONT>     * <a name="line.53"></a>
+<FONT color="green">054</FONT>     * &lt;p&gt;The actual {@link LocaleConverter} instance to be used<a name="line.54"></a>
+<FONT color="green">055</FONT>     * can be registered for each possible destination Class. Unless you override them, standard<a name="line.55"></a>
+<FONT color="green">056</FONT>     * {@link LocaleConverter} instances are provided for all of the following<a name="line.56"></a>
+<FONT color="green">057</FONT>     * destination Classes:&lt;/p&gt;<a name="line.57"></a>
+<FONT color="green">058</FONT>     * &lt;ul&gt;<a name="line.58"></a>
+<FONT color="green">059</FONT>     * &lt;li&gt;java.lang.BigDecimal&lt;/li&gt;<a name="line.59"></a>
+<FONT color="green">060</FONT>     * &lt;li&gt;java.lang.BigInteger&lt;/li&gt;<a name="line.60"></a>
+<FONT color="green">061</FONT>     * &lt;li&gt;byte and java.lang.Byte&lt;/li&gt;<a name="line.61"></a>
+<FONT color="green">062</FONT>     * &lt;li&gt;double and java.lang.Double&lt;/li&gt;<a name="line.62"></a>
+<FONT color="green">063</FONT>     * &lt;li&gt;float and java.lang.Float&lt;/li&gt;<a name="line.63"></a>
+<FONT color="green">064</FONT>     * &lt;li&gt;int and java.lang.Integer&lt;/li&gt;<a name="line.64"></a>
+<FONT color="green">065</FONT>     * &lt;li&gt;long and java.lang.Long&lt;/li&gt;<a name="line.65"></a>
+<FONT color="green">066</FONT>     * &lt;li&gt;short and java.lang.Short&lt;/li&gt;<a name="line.66"></a>
+<FONT color="green">067</FONT>     * &lt;li&gt;java.lang.String&lt;/li&gt;<a name="line.67"></a>
+<FONT color="green">068</FONT>     * &lt;li&gt;java.sql.Date&lt;/li&gt;<a name="line.68"></a>
+<FONT color="green">069</FONT>     * &lt;li&gt;java.sql.Time&lt;/li&gt;<a name="line.69"></a>
+<FONT color="green">070</FONT>     * &lt;li&gt;java.sql.Timestamp&lt;/li&gt;<a name="line.70"></a>
+<FONT color="green">071</FONT>     * &lt;/ul&gt;<a name="line.71"></a>
+<FONT color="green">072</FONT>     *<a name="line.72"></a>
+<FONT color="green">073</FONT>     * &lt;p&gt;For backwards compatibility, the standard locale converters<a name="line.73"></a>
+<FONT color="green">074</FONT>     * for primitive types (and the corresponding wrapper classes).<a name="line.74"></a>
+<FONT color="green">075</FONT>     *<a name="line.75"></a>
+<FONT color="green">076</FONT>     * If you prefer to have another {@link LocaleConverter}<a name="line.76"></a>
+<FONT color="green">077</FONT>     * thrown instead, replace the standard {@link LocaleConverter} instances<a name="line.77"></a>
+<FONT color="green">078</FONT>     * with ones created with the one of the appropriate constructors.<a name="line.78"></a>
+<FONT color="green">079</FONT>     *<a name="line.79"></a>
+<FONT color="green">080</FONT>     * It's important that {@link LocaleConverter} should be registered for<a name="line.80"></a>
+<FONT color="green">081</FONT>     * the specified locale and Class (or primitive type).<a name="line.81"></a>
+<FONT color="green">082</FONT>     *<a name="line.82"></a>
+<FONT color="green">083</FONT>     * @author Yauheny Mikulski<a name="line.83"></a>
+<FONT color="green">084</FONT>     * @since 1.7<a name="line.84"></a>
+<FONT color="green">085</FONT>     */<a name="line.85"></a>
+<FONT color="green">086</FONT>    public class LocaleConvertUtilsBean {<a name="line.86"></a>
+<FONT color="green">087</FONT>        <a name="line.87"></a>
+<FONT color="green">088</FONT>        /** <a name="line.88"></a>
+<FONT color="green">089</FONT>         * Gets singleton instance.<a name="line.89"></a>
+<FONT color="green">090</FONT>         * This is the same as the instance used by the default {@link LocaleBeanUtilsBean} singleton.<a name="line.90"></a>
+<FONT color="green">091</FONT>         * @return the singleton instance<a name="line.91"></a>
+<FONT color="green">092</FONT>         */<a name="line.92"></a>
+<FONT color="green">093</FONT>        public static LocaleConvertUtilsBean getInstance() {<a name="line.93"></a>
+<FONT color="green">094</FONT>            return LocaleBeanUtilsBean.getLocaleBeanUtilsInstance().getLocaleConvertUtils();<a name="line.94"></a>
+<FONT color="green">095</FONT>        }<a name="line.95"></a>
+<FONT color="green">096</FONT>    <a name="line.96"></a>
+<FONT color="green">097</FONT>        // ----------------------------------------------------- Instance Variables<a name="line.97"></a>
+<FONT color="green">098</FONT>    <a name="line.98"></a>
+<FONT color="green">099</FONT>        /** The locale - default for convertion. */<a name="line.99"></a>
+<FONT color="green">100</FONT>        private Locale defaultLocale = Locale.getDefault();<a name="line.100"></a>
+<FONT color="green">101</FONT>    <a name="line.101"></a>
+<FONT color="green">102</FONT>        /** Indicate whether the pattern is localized or not */<a name="line.102"></a>
+<FONT color="green">103</FONT>        private boolean applyLocalized = false;<a name="line.103"></a>
+<FONT color="green">104</FONT>    <a name="line.104"></a>
+<FONT color="green">105</FONT>        /** The &lt;code&gt;Log&lt;/code&gt; instance for this class. */<a name="line.105"></a>
+<FONT color="green">106</FONT>        private Log log = LogFactory.getLog(LocaleConvertUtils.class);<a name="line.106"></a>
+<FONT color="green">107</FONT>    <a name="line.107"></a>
+<FONT color="green">108</FONT>        /** Every entry of the mapConverters is:<a name="line.108"></a>
+<FONT color="green">109</FONT>         *  key = locale<a name="line.109"></a>
+<FONT color="green">110</FONT>         *  value = FastHashMap of converters for the certain locale.<a name="line.110"></a>
+<FONT color="green">111</FONT>         */<a name="line.111"></a>
+<FONT color="green">112</FONT>        private FastHashMap mapConverters = new DelegateFastHashMap(BeanUtils.createCache());<a name="line.112"></a>
+<FONT color="green">113</FONT>    <a name="line.113"></a>
+<FONT color="green">114</FONT>        // --------------------------------------------------------- Constructors<a name="line.114"></a>
+<FONT color="green">115</FONT>    <a name="line.115"></a>
+<FONT color="green">116</FONT>        /**<a name="line.116"></a>
+<FONT color="green">117</FONT>         *  Makes the state by default (deregisters all converters for all locales)<a name="line.117"></a>
+<FONT color="green">118</FONT>         *  and then registers default locale converters.<a name="line.118"></a>
+<FONT color="green">119</FONT>         */<a name="line.119"></a>
+<FONT color="green">120</FONT>        public LocaleConvertUtilsBean() {<a name="line.120"></a>
+<FONT color="green">121</FONT>            mapConverters.setFast(false);<a name="line.121"></a>
+<FONT color="green">122</FONT>            deregister();<a name="line.122"></a>
+<FONT color="green">123</FONT>            mapConverters.setFast(true);<a name="line.123"></a>
+<FONT color="green">124</FONT>        }<a name="line.124"></a>
+<FONT color="green">125</FONT>        <a name="line.125"></a>
+<FONT color="green">126</FONT>        // --------------------------------------------------------- Properties<a name="line.126"></a>
+<FONT color="green">127</FONT>         <a name="line.127"></a>
+<FONT color="green">128</FONT>        /**<a name="line.128"></a>
+<FONT color="green">129</FONT>         * getter for defaultLocale.<a name="line.129"></a>
+<FONT color="green">130</FONT>         * @return the default locale<a name="line.130"></a>
+<FONT color="green">131</FONT>         */<a name="line.131"></a>
+<FONT color="green">132</FONT>        public Locale getDefaultLocale() {<a name="line.132"></a>
+<FONT color="green">133</FONT>    <a name="line.133"></a>
+<FONT color="green">134</FONT>            return defaultLocale;<a name="line.134"></a>
+<FONT color="green">135</FONT>        }<a name="line.135"></a>
+<FONT color="green">136</FONT>    <a name="line.136"></a>
+<FONT color="green">137</FONT>        /**<a name="line.137"></a>
+<FONT color="green">138</FONT>         * setter for defaultLocale.<a name="line.138"></a>
+<FONT color="green">139</FONT>         * @param locale the default locale<a name="line.139"></a>
+<FONT color="green">140</FONT>         */<a name="line.140"></a>
+<FONT color="green">141</FONT>        public void setDefaultLocale(Locale locale) {<a name="line.141"></a>
+<FONT color="green">142</FONT>    <a name="line.142"></a>
+<FONT color="green">143</FONT>            if (locale == null) {<a name="line.143"></a>
+<FONT color="green">144</FONT>                defaultLocale = Locale.getDefault();<a name="line.144"></a>
+<FONT color="green">145</FONT>            }<a name="line.145"></a>
+<FONT color="green">146</FONT>            else {<a name="line.146"></a>
+<FONT color="green">147</FONT>                defaultLocale = locale;<a name="line.147"></a>
+<FONT color="green">148</FONT>            }<a name="line.148"></a>
+<FONT color="green">149</FONT>        }<a name="line.149"></a>
+<FONT color="green">150</FONT>        <a name="line.150"></a>
+<FONT color="green">151</FONT>        /**<a name="line.151"></a>
+<FONT color="green">152</FONT>         * getter for applyLocalized<a name="line.152"></a>
+<FONT color="green">153</FONT>         *<a name="line.153"></a>
+<FONT color="green">154</FONT>         * @return &lt;code&gt;true&lt;/code&gt; if pattern is localized,<a name="line.154"></a>
+<FONT color="green">155</FONT>         * otherwise &lt;code&gt;false&lt;/code&gt;<a name="line.155"></a>
+<FONT color="green">156</FONT>         */<a name="line.156"></a>
+<FONT color="green">157</FONT>        public boolean getApplyLocalized() {<a name="line.157"></a>
+<FONT color="green">158</FONT>            return applyLocalized;<a name="line.158"></a>
+<FONT color="green">159</FONT>        }<a name="line.159"></a>
+<FONT color="green">160</FONT>    <a name="line.160"></a>
+<FONT color="green">161</FONT>        /**<a name="line.161"></a>
+<FONT color="green">162</FONT>         * setter for applyLocalized<a name="line.162"></a>
+<FONT color="green">163</FONT>         *<a name="line.163"></a>
+<FONT color="green">164</FONT>         * @param newApplyLocalized &lt;code&gt;true&lt;/code&gt; if pattern is localized,<a name="line.164"></a>
+<FONT color="green">165</FONT>         * otherwise &lt;code&gt;false&lt;/code&gt;<a name="line.165"></a>
+<FONT color="green">166</FONT>         */<a name="line.166"></a>
+<FONT color="green">167</FONT>        public void setApplyLocalized(boolean newApplyLocalized) {<a name="line.167"></a>
+<FONT color="green">168</FONT>            applyLocalized = newApplyLocalized;<a name="line.168"></a>
+<FONT color="green">169</FONT>        }<a name="line.169"></a>
+<FONT color="green">170</FONT>    <a name="line.170"></a>
+<FONT color="green">171</FONT>        // --------------------------------------------------------- Methods<a name="line.171"></a>
+<FONT color="green">172</FONT>    <a name="line.172"></a>
+<FONT color="green">173</FONT>        /**<a name="line.173"></a>
+<FONT color="green">174</FONT>         * Convert the specified locale-sensitive value into a String.<a name="line.174"></a>
+<FONT color="green">175</FONT>         *<a name="line.175"></a>
+<FONT color="green">176</FONT>         * @param value The Value to be converted<a name="line.176"></a>
+<FONT color="green">177</FONT>         * @return the converted value<a name="line.177"></a>
+<FONT color="green">178</FONT>         *<a name="line.178"></a>
+<FONT color="green">179</FONT>         * @throws org.apache.commons.beanutils.ConversionException if thrown by an<a name="line.179"></a>
+<FONT color="green">180</FONT>         * underlying Converter<a name="line.180"></a>
+<FONT color="green">181</FONT>         */<a name="line.181"></a>
+<FONT color="green">182</FONT>        public String convert(Object value) {<a name="line.182"></a>
+<FONT color="green">183</FONT>            return convert(value, defaultLocale, null);<a name="line.183"></a>
+<FONT color="green">184</FONT>        }<a name="line.184"></a>
+<FONT color="green">185</FONT>    <a name="line.185"></a>
+<FONT color="green">186</FONT>        /**<a name="line.186"></a>
+<FONT color="green">187</FONT>         * Convert the specified locale-sensitive value into a String<a name="line.187"></a>
+<FONT color="green">188</FONT>         * using the conversion pattern.<a name="line.188"></a>
+<FONT color="green">189</FONT>         *<a name="line.189"></a>
+<FONT color="green">190</FONT>         * @param value The Value to be converted<a name="line.190"></a>
+<FONT color="green">191</FONT>         * @param pattern       The convertion pattern<a name="line.191"></a>
+<FONT color="green">192</FONT>         * @return the converted value<a name="line.192"></a>
+<FONT color="green">193</FONT>         *<a name="line.193"></a>
+<FONT color="green">194</FONT>         * @throws org.apache.commons.beanutils.ConversionException if thrown by an<a name="line.194"></a>
+<FONT color="green">195</FONT>         * underlying Converter<a name="line.195"></a>
+<FONT color="green">196</FONT>         */<a name="line.196"></a>
+<FONT color="green">197</FONT>        public String convert(Object value, String pattern) {<a name="line.197"></a>
+<FONT color="green">198</FONT>            return convert(value, defaultLocale, pattern);<a name="line.198"></a>
+<FONT color="green">199</FONT>        }<a name="line.199"></a>
+<FONT color="green">200</FONT>    <a name="line.200"></a>
+<FONT color="green">201</FONT>        /**<a name="line.201"></a>
+<FONT color="green">202</FONT>         * Convert the specified locale-sensitive value into a String<a name="line.202"></a>
+<FONT color="green">203</FONT>         * using the paticular convertion pattern.<a name="line.203"></a>
+<FONT color="green">204</FONT>         *<a name="line.204"></a>
+<FONT color="green">205</FONT>         * @param value The Value to be converted<a name="line.205"></a>
+<FONT color="green">206</FONT>         * @param locale The locale<a name="line.206"></a>
+<FONT color="green">207</FONT>         * @param pattern The convertion pattern<a name="line.207"></a>
+<FONT color="green">208</FONT>         * @return the converted value<a name="line.208"></a>
+<FONT color="green">209</FONT>         *<a name="line.209"></a>
+<FONT color="green">210</FONT>         * @throws org.apache.commons.beanutils.ConversionException if thrown by an<a name="line.210"></a>
+<FONT color="green">211</FONT>         * underlying Converter<a name="line.211"></a>
+<FONT color="green">212</FONT>         */<a name="line.212"></a>
+<FONT color="green">213</FONT>        public String convert(Object value, Locale locale, String pattern) {<a name="line.213"></a>
+<FONT color="green">214</FONT>    <a name="line.214"></a>
+<FONT color="green">215</FONT>            LocaleConverter converter = lookup(String.class, locale);<a name="line.215"></a>
+<FONT color="green">216</FONT>    <a name="line.216"></a>
+<FONT color="green">217</FONT>            return (String) converter.convert(String.class, value, pattern);<a name="line.217"></a>
+<FONT color="green">218</FONT>        }<a name="line.218"></a>
+<FONT color="green">219</FONT>    <a name="line.219"></a>
+<FONT color="green">220</FONT>        /**<a name="line.220"></a>
+<FONT color="green">221</FONT>         * Convert the specified value to an object of the specified class (if<a name="line.221"></a>
+<FONT color="green">222</FONT>         * possible).  Otherwise, return a String representation of the value.<a name="line.222"></a>
+<FONT color="green">223</FONT>         *<a name="line.223"></a>
+<FONT color="green">224</FONT>         * @param value The String scalar value to be converted<a name="line.224"></a>
+<FONT color="green">225</FONT>         * @param clazz The Data type to which this value should be converted.<a name="line.225"></a>
+<FONT color="green">226</FONT>         * @return the converted value<a name="line.226"></a>
+<FONT color="green">227</FONT>         *<a name="line.227"></a>
+<FONT color="green">228</FONT>         * @throws org.apache.commons.beanutils.ConversionException if thrown by an<a name="line.228"></a>
+<FONT color="green">229</FONT>         * underlying Converter<a name="line.229"></a>
+<FONT color="green">230</FONT>         */<a name="line.230"></a>
+<FONT color="green">231</FONT>        public Object convert(String value, Class clazz) {<a name="line.231"></a>
+<FONT color="green">232</FONT>    <a name="line.232"></a>
+<FONT color="green">233</FONT>            return convert(value, clazz, defaultLocale, null);<a name="line.233"></a>
+<FONT color="green">234</FONT>        }<a name="line.234"></a>
+<FONT color="green">235</FONT>    <a name="line.235"></a>
+<FONT color="green">236</FONT>        /**<a name="line.236"></a>
+<FONT color="green">237</FONT>         * Convert the specified value to an object of the specified class (if<a name="line.237"></a>
+<FONT color="green">238</FONT>         * possible) using the convertion pattern. Otherwise, return a String<a name="line.238"></a>
+<FONT color="green">239</FONT>         * representation of the value.<a name="line.239"></a>
+<FONT color="green">240</FONT>         *<a name="line.240"></a>
+<FONT color="green">241</FONT>         * @param value The String scalar value to be converted<a name="line.241"></a>
+<FONT color="green">242</FONT>         * @param clazz The Data type to which this value should be converted.<a name="line.242"></a>
+<FONT color="green">243</FONT>         * @param pattern The convertion pattern<a name="line.243"></a>
+<FONT color="green">244</FONT>         * @return the converted value<a name="line.244"></a>
+<FONT color="green">245</FONT>         *<a name="line.245"></a>
+<FONT color="green">246</FONT>         * @throws org.apache.commons.beanutils.ConversionException if thrown by an<a name="line.246"></a>
+<FONT color="green">247</FONT>         * underlying Converter<a name="line.247"></a>
+<FONT color="green">248</FONT>         */<a name="line.248"></a>
+<FONT color="green">249</FONT>        public Object convert(String value, Class clazz, String pattern) {<a name="line.249"></a>
+<FONT color="green">250</FONT>    <a name="line.250"></a>
+<FONT color="green">251</FONT>            return convert(value, clazz, defaultLocale, pattern);<a name="line.251"></a>
+<FONT color="green">252</FONT>        }<a name="line.252"></a>
+<FONT color="green">253</FONT>    <a name="line.253"></a>
+<FONT color="green">254</FONT>        /**<a name="line.254"></a>
+<FONT color="green">255</FONT>         * Convert the specified value to an object of the specified class (if<a name="line.255"></a>
+<FONT color="green">256</FONT>         * possible) using the convertion pattern. Otherwise, return a String<a name="line.256"></a>
+<FONT color="green">257</FONT>         * representation of the value.<a name="line.257"></a>
+<FONT color="green">258</FONT>         *<a name="line.258"></a>
+<FONT color="green">259</FONT>         * @param value The String scalar value to be converted<a name="line.259"></a>
+<FONT color="green">260</FONT>         * @param clazz The Data type to which this value should be converted.<a name="line.260"></a>
+<FONT color="green">261</FONT>         * @param locale The locale<a name="line.261"></a>
+<FONT color="green">262</FONT>         * @param pattern The convertion pattern<a name="line.262"></a>
+<FONT color="green">263</FONT>         * @return the converted value<a name="line.263"></a>
+<FONT color="green">264</FONT>         *<a name="line.264"></a>
+<FONT color="green">265</FONT>         * @throws org.apache.commons.beanutils.ConversionException if thrown by an<a name="line.265"></a>
+<FONT color="green">266</FONT>         * underlying Converter<a name="line.266"></a>
+<FONT color="green">267</FONT>         */<a name="line.267"></a>
+<FONT color="green">268</FONT>        public Object convert(String value, Class clazz, Locale locale, String pattern) {<a name="line.268"></a>
+<FONT color="green">269</FONT>    <a name="line.269"></a>
+<FONT color="green">270</FONT>            if (log.isDebugEnabled()) {<a name="line.270"></a>
+<FONT color="green">271</FONT>                log.debug("Convert string " + value + " to class " +<a name="line.271"></a>
+<FONT color="green">272</FONT>                        clazz.getName() + " using " + locale +<a name="line.272"></a>
+<FONT color="green">273</FONT>                        " locale and " + pattern + " pattern");<a name="line.273"></a>
+<FONT color="green">274</FONT>            }<a name="line.274"></a>
+<FONT color="green">275</FONT>    <a name="line.275"></a>
+<FONT color="green">276</FONT>            LocaleConverter converter = lookup(clazz, locale);<a name="line.276"></a>
+<FONT color="green">277</FONT>    <a name="line.277"></a>
+<FONT color="green">278</FONT>            if (converter == null) {<a name="line.278"></a>
+<FONT color="green">279</FONT>                converter = lookup(String.class, locale);<a name="line.279"></a>
+<FONT color="green">280</FONT>            }<a name="line.280"></a>
+<FONT color="green">281</FONT>            if (log.isTraceEnabled()) {<a name="line.281"></a>
+<FONT color="green">282</FONT>                log.trace("  Using converter " + converter);<a name="line.282"></a>
+<FONT color="green">283</FONT>            }<a name="line.283"></a>
+<FONT color="green">284</FONT>    <a name="line.284"></a>
+<FONT color="green">285</FONT>            return (converter.convert(clazz, value, pattern));<a name="line.285"></a>
+<FONT color="green">286</FONT>        }<a name="line.286"></a>
+<FONT color="green">287</FONT>    <a name="line.287"></a>
+<FONT color="green">288</FONT>        /**<a name="line.288"></a>
+<FONT color="green">289</FONT>         * Convert an array of specified values to an array of objects of the<a name="line.289"></a>
+<FONT color="green">290</FONT>         * specified class (if possible) using the convertion pattern.<a name="line.290"></a>
+<FONT color="green">291</FONT>         *<a name="line.291"></a>
+<FONT color="green">292</FONT>         * @param values Value to be converted (may be null)<a name="line.292"></a>
+<FONT color="green">293</FONT>         * @param clazz Java array or element class to be converted to<a name="line.293"></a>
+<FONT color="green">294</FONT>         * @param pattern The convertion pattern<a name="line.294"></a>
+<FONT color="green">295</FONT>         * @return the converted value<a name="line.295"></a>
+<FONT color="green">296</FONT>         *<a name="line.296"></a>
+<FONT color="green">297</FONT>         * @throws org.apache.commons.beanutils.ConversionException if thrown by an<a name="line.297"></a>
+<FONT color="green">298</FONT>         * underlying Converter<a name="line.298"></a>
+<FONT color="green">299</FONT>         */<a name="line.299"></a>
+<FONT color="green">300</FONT>        public Object convert(String[] values, Class clazz, String pattern) {<a name="line.300"></a>
+<FONT color="green">301</FONT>    <a name="line.301"></a>
+<FONT color="green">302</FONT>            return convert(values, clazz, getDefaultLocale(), pattern);<a name="line.302"></a>
+<FONT color="green">303</FONT>        }<a name="line.303"></a>
+<FONT color="green">304</FONT>    <a name="line.304"></a>
+<FONT color="green">305</FONT>       /**<a name="line.305"></a>
+<FONT color="green">306</FONT>        * Convert an array of specified values to an array of objects of the<a name="line.306"></a>
+<FONT color="green">307</FONT>        * specified class (if possible) .<a name="line.307"></a>
+<FONT color="green">308</FONT>        *<a name="line.308"></a>
+<FONT color="green">309</FONT>        * @param values Value to be converted (may be null)<a name="line.309"></a>
+<FONT color="green">310</FONT>        * @param clazz Java array or element class to be converted to<a name="line.310"></a>
+<FONT color="green">311</FONT>        * @return the converted value<a name="line.311"></a>
+<FONT color="green">312</FONT>        *<a name="line.312"></a>
+<FONT color="green">313</FONT>         * @throws org.apache.commons.beanutils.ConversionException if thrown by an<a name="line.313"></a>
+<FONT color="green">314</FONT>         * underlying Converter<a name="line.314"></a>
+<FONT color="green">315</FONT>        */<a name="line.315"></a>
+<FONT color="green">316</FONT>       public Object convert(String[] values, Class clazz) {<a name="line.316"></a>
+<FONT color="green">317</FONT>    <a name="line.317"></a>
+<FONT color="green">318</FONT>           return convert(values, clazz, getDefaultLocale(), null);<a name="line.318"></a>
+<FONT color="green">319</FONT>       }<a name="line.319"></a>
+<FONT color="green">320</FONT>    <a name="line.320"></a>
+<FONT color="green">321</FONT>        /**<a name="line.321"></a>
+<FONT color="green">322</FONT>         * Convert an array of specified values to an array of objects of the<a name="line.322"></a>
+<FONT color="green">323</FONT>         * specified class (if possible) using the convertion pattern.<a name="line.323"></a>
+<FONT color="green">324</FONT>         *<a name="line.324"></a>
+<FONT color="green">325</FONT>         * @param values Value to be converted (may be null)<a name="line.325"></a>
+<FONT color="green">326</FONT>         * @param clazz Java array or element class to be converted to<a name="line.326"></a>
+<FONT color="green">327</FONT>         * @param locale The locale<a name="line.327"></a>
+<FONT color="green">328</FONT>         * @param pattern The convertion pattern<a name="line.328"></a>
+<FONT color="green">329</FONT>         * @return the converted value<a name="line.329"></a>
+<FONT color="green">330</FONT>         *<a name="line.330"></a>
+<FONT color="green">331</FONT>         * @throws org.apache.commons.beanutils.ConversionException if thrown by an<a name="line.331"></a>
+<FONT color="green">332</FONT>         * underlying Converter<a name="line.332"></a>
+<FONT color="green">333</FONT>         */<a name="line.333"></a>
+<FONT color="green">334</FONT>        public Object convert(String[] values, Class clazz, Locale locale, String pattern) {<a name="line.334"></a>
+<FONT color="green">335</FONT>    <a name="line.335"></a>
+<FONT color="green">336</FONT>            Class type = clazz;<a name="line.336"></a>
+<FONT color="green">337</FONT>            if (clazz.isArray()) {<a name="line.337"></a>
+<FONT color="green">338</FONT>                type = clazz.getComponentType();<a name="line.338"></a>
+<FONT color="green">339</FONT>            }<a name="line.339"></a>
+<FONT color="green">340</FONT>            if (log.isDebugEnabled()) {<a name="line.340"></a>
+<FONT color="green">341</FONT>                log.debug("Convert String[" + values.length + "] to class " +<a name="line.341"></a>
+<FONT color="green">342</FONT>                        type.getName() + "[] using " + locale +<a name="line.342"></a>
+<FONT color="green">343</FONT>                        " locale and " + pattern + " pattern");<a name="line.343"></a>
+<FONT color="green">344</FONT>            }<a name="line.344"></a>
+<FONT color="green">345</FONT>    <a name="line.345"></a>
+<FONT color="green">346</FONT>            Object array = Array.newInstance(type, values.length);<a name="line.346"></a>
+<FONT color="green">347</FONT>            for (int i = 0; i &lt; values.length; i++) {<a name="line.347"></a>
+<FONT color="green">348</FONT>                Array.set(array, i, convert(values[i], type, locale, pattern));<a name="line.348"></a>
+<FONT color="green">349</FONT>            }<a name="line.349"></a>
+<FONT color="green">350</FONT>    <a name="line.350"></a>
+<FONT color="green">351</FONT>            return (array);<a name="line.351"></a>
+<FONT color="green">352</FONT>        }<a name="line.352"></a>
+<FONT color="green">353</FONT>    <a name="line.353"></a>
+<FONT color="green">354</FONT>        /**<a name="line.354"></a>
+<FONT color="green">355</FONT>         * Register a custom {@link LocaleConverter} for the specified destination<a name="line.355"></a>
+<FONT color="green">356</FONT>         * &lt;code&gt;Class&lt;/code&gt;, replacing any previously registered converter.<a name="line.356"></a>
+<FONT color="green">357</FONT>         *<a name="line.357"></a>
+<FONT color="green">358</FONT>         * @param converter The LocaleConverter to be registered<a name="line.358"></a>
+<FONT color="green">359</FONT>         * @param clazz The Destination class for conversions performed by this<a name="line.359"></a>
+<FONT color="green">360</FONT>         *  Converter<a name="line.360"></a>
+<FONT color="green">361</FONT>         * @param locale The locale<a name="line.361"></a>
+<FONT color="green">362</FONT>         */<a name="line.362"></a>
+<FONT color="green">363</FONT>        public void register(LocaleConverter converter, Class clazz, Locale locale) {<a name="line.363"></a>
+<FONT color="green">364</FONT>    <a name="line.364"></a>
+<FONT color="green">365</FONT>            lookup(locale).put(clazz, converter);<a name="line.365"></a>
+<FONT color="green">366</FONT>        }<a name="line.366"></a>
+<FONT color="green">367</FONT>    <a name="line.367"></a>
+<FONT color="green">368</FONT>        /**<a name="line.368"></a>
+<FONT color="green">369</FONT>         * Remove any registered {@link LocaleConverter}.<a name="line.369"></a>
+<FONT color="green">370</FONT>         */<a name="line.370"></a>
+<FONT color="green">371</FONT>        public void deregister() {<a name="line.371"></a>
+<FONT color="green">372</FONT>    <a name="line.372"></a>
+<FONT color="green">373</FONT>            FastHashMap defaultConverter = lookup(defaultLocale);<a name="line.373"></a>
+<FONT color="green">374</FONT>    <a name="line.374"></a>
+<FONT color="green">375</FONT>            mapConverters.setFast(false);<a name="line.375"></a>
+<FONT color="green">376</FONT>    <a name="line.376"></a>
+<FONT color="green">377</FONT>            mapConverters.clear();<a name="line.377"></a>
+<FONT color="green">378</FONT>            mapConverters.put(defaultLocale, defaultConverter);<a name="line.378"></a>
+<FONT color="green">379</FONT>    <a name="line.379"></a>
+<FONT color="green">380</FONT>            mapConverters.setFast(true);<a name="line.380"></a>
+<FONT color="green">381</FONT>        }<a name="line.381"></a>
+<FONT color="green">382</FONT>    <a name="line.382"></a>
+<FONT color="green">383</FONT>    <a name="line.383"></a>
+<FONT color="green">384</FONT>        /**<a name="line.384"></a>
+<FONT color="green">385</FONT>         * Remove any registered {@link LocaleConverter} for the specified locale<a name="line.385"></a>
+<FONT color="green">386</FONT>         *<a name="line.386"></a>
+<FONT color="green">387</FONT>         * @param locale The locale<a name="line.387"></a>
+<FONT color="green">388</FONT>         */<a name="line.388"></a>
+<FONT color="green">389</FONT>        public void deregister(Locale locale) {<a name="line.389"></a>
+<FONT color="green">390</FONT>    <a name="line.390"></a>
+<FONT color="green">391</FONT>            mapConverters.remove(locale);<a name="line.391"></a>
+<FONT color="green">392</FONT>        }<a name="line.392"></a>
+<FONT color="green">393</FONT>    <a name="line.393"></a>
+<FONT color="green">394</FONT>    <a name="line.394"></a>
+<FONT color="green">395</FONT>        /**<a name="line.395"></a>
+<FONT color="green">396</FONT>         * Remove any registered {@link LocaleConverter} for the specified locale and Class.<a name="line.396"></a>
+<FONT color="green">397</FONT>         *<a name="line.397"></a>
+<FONT color="green">398</FONT>         * @param clazz Class for which to remove a registered Converter<a name="line.398"></a>
+<FONT color="green">399</FONT>         * @param locale The locale<a name="line.399"></a>
+<FONT color="green">400</FONT>         */<a name="line.400"></a>
+<FONT color="green">401</FONT>        public void deregister(Class clazz, Locale locale) {<a name="line.401"></a>
+<FONT color="green">402</FONT>    <a name="line.402"></a>
+<FONT color="green">403</FONT>            lookup(locale).remove(clazz);<a name="line.403"></a>
+<FONT color="green">404</FONT>        }<a name="line.404"></a>
+<FONT color="green">405</FONT>    <a name="line.405"></a>
+<FONT color="green">406</FONT>        /**<a name="line.406"></a>
+<FONT color="green">407</FONT>         * Look up and return any registered {@link LocaleConverter} for the specified<a name="line.407"></a>
+<FONT color="green">408</FONT>         * destination class and locale; if there is no registered Converter, return<a name="line.408"></a>
+<FONT color="green">409</FONT>         * &lt;code&gt;null&lt;/code&gt;.<a name="line.409"></a>
+<FONT color="green">410</FONT>         *<a name="line.410"></a>
+<FONT color="green">411</FONT>         * @param clazz Class for which to return a registered Converter<a name="line.411"></a>
+<FONT color="green">412</FONT>         * @param locale The Locale<a name="line.412"></a>
+<FONT color="green">413</FONT>         * @return The registered locale Converter, if any<a name="line.413"></a>
+<FONT color="green">414</FONT>         */<a name="line.414"></a>
+<FONT color="green">415</FONT>        public LocaleConverter lookup(Class clazz, Locale locale) {<a name="line.415"></a>
+<FONT color="green">416</FONT>    <a name="line.416"></a>
+<FONT color="green">417</FONT>            LocaleConverter converter = (LocaleConverter) lookup(locale).get(clazz);<a name="line.417"></a>
+<FONT color="green">418</FONT>            <a name="line.418"></a>
+<FONT color="green">419</FONT>            if (log.isTraceEnabled()) {<a name="line.419"></a>
+<FONT color="green">420</FONT>                log.trace("LocaleConverter:" + converter);<a name="line.420"></a>
+<FONT color="green">421</FONT>            }<a name="line.421"></a>
+<FONT color="green">422</FONT>            <a name="line.422"></a>
+<FONT color="green">423</FONT>            return converter;<a name="line.423"></a>
+<FONT color="green">424</FONT>        }<a name="line.424"></a>
+<FONT color="green">425</FONT>    <a name="line.425"></a>
+<FONT color="green">426</FONT>        /**<a name="line.426"></a>
+<FONT color="green">427</FONT>         * Look up and return any registered FastHashMap instance for the specified locale;<a name="line.427"></a>
+<FONT color="green">428</FONT>         * if there is no registered one, return &lt;code&gt;null&lt;/code&gt;.<a name="line.428"></a>
+<FONT color="green">429</FONT>         *<a name="line.429"></a>
+<FONT color="green">430</FONT>         * @param locale The Locale<a name="line.430"></a>
+<FONT color="green">431</FONT>         * @return The FastHashMap instance contains the all {@link LocaleConverter} types for<a name="line.431"></a>
+<FONT color="green">432</FONT>         *  the specified locale.<a name="line.432"></a>
+<FONT color="green">433</FONT>         * @deprecated This method will be modified to return a Map in the next release.<a name="line.433"></a>
+<FONT color="green">434</FONT>         */<a name="line.434"></a>
+<FONT color="green">435</FONT>        protected FastHashMap lookup(Locale locale) {<a name="line.435"></a>
+<FONT color="green">436</FONT>            FastHashMap localeConverters;<a name="line.436"></a>
+<FONT color="green">437</FONT>    <a name="line.437"></a>
+<FONT color="green">438</FONT>            if (locale == null) {<a name="line.438"></a>
+<FONT color="green">439</FONT>                localeConverters = (FastHashMap) mapConverters.get(defaultLocale);<a name="line.439"></a>
+<FONT color="green">440</FONT>            }<a name="line.440"></a>
+<FONT color="green">441</FONT>            else {<a name="line.441"></a>
+<FONT color="green">442</FONT>                localeConverters = (FastHashMap) mapConverters.get(locale);<a name="line.442"></a>
+<FONT color="green">443</FONT>    <a name="line.443"></a>
+<FONT color="green">444</FONT>                if (localeConverters == null) {<a name="line.444"></a>
+<FONT color="green">445</FONT>                    localeConverters = create(locale);<a name="line.445"></a>
+<FONT color="green">446</FONT>                    mapConverters.put(locale, localeConverters);<a name="line.446"></a>
+<FONT color="green">447</FONT>                }<a name="line.447"></a>
+<FONT color="green">448</FONT>            }<a name="line.448"></a>
+<FONT color="green">449</FONT>    <a name="line.449"></a>
+<FONT color="green">450</FONT>            return localeConverters;<a name="line.450"></a>
+<FONT color="green">451</FONT>        }<a name="line.451"></a>
+<FONT color="green">452</FONT>    <a name="line.452"></a>
+<FONT color="green">453</FONT>        /**<a name="line.453"></a>
+<FONT color="green">454</FONT>         *  Create all {@link LocaleConverter} types for specified locale.<a name="line.454"></a>
+<FONT color="green">455</FONT>         *<a name="line.455"></a>
+<FONT color="green">456</FONT>         * @param locale The Locale<a name="line.456"></a>
+<FONT color="green">457</FONT>         * @return The FastHashMap instance contains the all {@link LocaleConverter} types<a name="line.457"></a>
+<FONT color="green">458</FONT>         *  for the specified locale.<a name="line.458"></a>
+<FONT color="green">459</FONT>         * @deprecated This method will be modified to return a Map in the next release.<a name="line.459"></a>
+<FONT color="green">460</FONT>         */<a name="line.460"></a>
+<FONT color="green">461</FONT>        protected FastHashMap create(Locale locale) {<a name="line.461"></a>
+<FONT color="green">462</FONT>    <a name="line.462"></a>
+<FONT color="green">463</FONT>            FastHashMap converter = new DelegateFastHashMap(BeanUtils.createCache());<a name="line.463"></a>
+<FONT color="green">464</FONT>            converter.setFast(false);<a name="line.464"></a>
+<FONT color="green">465</FONT>    <a name="line.465"></a>
+<FONT color="green">466</FONT>            converter.put(BigDecimal.class, new BigDecimalLocaleConverter(locale, applyLocalized));<a name="line.466"></a>
+<FONT color="green">467</FONT>            converter.put(BigInteger.class, new BigIntegerLocaleConverter(locale, applyLocalized));<a name="line.467"></a>
+<FONT color="green">468</FONT>    <a name="line.468"></a>
+<FONT color="green">469</FONT>            converter.put(Byte.class, new ByteLocaleConverter(locale, applyLocalized));<a name="line.469"></a>
+<FONT color="green">470</FONT>            converter.put(Byte.TYPE, new ByteLocaleConverter(locale, applyLocalized));<a name="line.470"></a>
+<FONT color="green">471</FONT>    <a name="line.471"></a>
+<FONT color="green">472</FONT>            converter.put(Double.class, new DoubleLocaleConverter(locale, applyLocalized));<a name="line.472"></a>
+<FONT color="green">473</FONT>            converter.put(Double.TYPE, new DoubleLocaleConverter(locale, applyLocalized));<a name="line.473"></a>
+<FONT color="green">474</FONT>    <a name="line.474"></a>
+<FONT color="green">475</FONT>            converter.put(Float.class, new FloatLocaleConverter(locale, applyLocalized));<a name="line.475"></a>
+<FONT color="green">476</FONT>            converter.put(Float.TYPE, new FloatLocaleConverter(locale, applyLocalized));<a name="line.476"></a>
+<FONT color="green">477</FONT>    <a name="line.477"></a>
+<FONT color="green">478</FONT>            converter.put(Integer.class, new IntegerLocaleConverter(locale, applyLocalized));<a name="line.478"></a>
+<FONT color="green">479</FONT>            converter.put(Integer.TYPE, new IntegerLocaleConverter(locale, applyLocalized));<a name="line.479"></a>
+<FONT color="green">480</FONT>    <a name="line.480"></a>
+<FONT color="green">481</FONT>            converter.put(Long.class, new LongLocaleConverter(locale, applyLocalized));<a name="line.481"></a>
+<FONT color="green">482</FONT>            converter.put(Long.TYPE, new LongLocaleConverter(locale, applyLocalized));<a name="line.482"></a>
+<FONT color="green">483</FONT>    <a name="line.483"></a>
+<FONT color="green">484</FONT>            converter.put(Short.class, new ShortLocaleConverter(locale, applyLocalized));<a name="line.484"></a>
+<FONT color="green">485</FONT>            converter.put(Short.TYPE, new ShortLocaleConverter(locale, applyLocalized));<a name="line.485"></a>
+<FONT color="green">486</FONT>    <a name="line.486"></a>
+<FONT color="green">487</FONT>            converter.put(String.class, new StringLocaleConverter(locale, applyLocalized));<a name="line.487"></a>
+<FONT color="green">488</FONT>    <a name="line.488"></a>
+<FONT color="green">489</FONT>            // conversion format patterns of java.sql.* types should correspond to default<a name="line.489"></a>
+<FONT color="green">490</FONT>            // behaviour of toString and valueOf methods of these classes<a name="line.490"></a>
+<FONT color="green">491</FONT>            converter.put(java.sql.Date.class, new SqlDateLocaleConverter(locale, "yyyy-MM-dd"));<a name="line.491"></a>
+<FONT color="green">492</FONT>            converter.put(java.sql.Time.class, new SqlTimeLocaleConverter(locale, "HH:mm:ss"));<a name="line.492"></a>
+<FONT color="green">493</FONT>            converter.put( java.sql.Timestamp.class,<a name="line.493"></a>
+<FONT color="green">494</FONT>                           new SqlTimestampLocaleConverter(locale, "yyyy-MM-dd HH:mm:ss.S")<a name="line.494"></a>
+<FONT color="green">495</FONT>                         );<a name="line.495"></a>
+<FONT color="green">496</FONT>    <a name="line.496"></a>
+<FONT color="green">497</FONT>            converter.setFast(true);<a name="line.497"></a>
+<FONT color="green">498</FONT>    <a name="line.498"></a>
+<FONT color="green">499</FONT>            return converter;<a name="line.499"></a>
+<FONT color="green">500</FONT>        }<a name="line.500"></a>
+<FONT color="green">501</FONT>    <a name="line.501"></a>
+<FONT color="green">502</FONT>        /**<a name="line.502"></a>
+<FONT color="green">503</FONT>         * FastHashMap implementation that uses WeakReferences to overcome<a name="line.503"></a>
+<FONT color="green">504</FONT>         * memory leak problems.<a name="line.504"></a>
+<FONT color="green">505</FONT>         *<a name="line.505"></a>
+<FONT color="green">506</FONT>         * This is a hack to retain binary compatibility with previous<a name="line.506"></a>
+<FONT color="green">507</FONT>         * releases (where FastHashMap is exposed in the API), but<a name="line.507"></a>
+<FONT color="green">508</FONT>         * use WeakHashMap to resolve memory leaks.<a name="line.508"></a>
+<FONT color="green">509</FONT>         */<a name="line.509"></a>
+<FONT color="green">510</FONT>        private static class DelegateFastHashMap extends FastHashMap {<a name="line.510"></a>
+<FONT color="green">511</FONT>    <a name="line.511"></a>
+<FONT color="green">512</FONT>            private final Map map;<a name="line.512"></a>
+<FONT color="green">513</FONT>    <a name="line.513"></a>
+<FONT color="green">514</FONT>            private DelegateFastHashMap(Map map) {<a name="line.514"></a>
+<FONT color="green">515</FONT>                this.map = map;<a name="line.515"></a>
+<FONT color="green">516</FONT>            }<a name="line.516"></a>
+<FONT color="green">517</FONT>            public void clear() {<a name="line.517"></a>
+<FONT color="green">518</FONT>                map.clear();<a name="line.518"></a>
+<FONT color="green">519</FONT>            }<a name="line.519"></a>
+<FONT color="green">520</FONT>            public boolean containsKey(Object key) {<a name="line.520"></a>
+<FONT color="green">521</FONT>                return map.containsKey(key);<a name="line.521"></a>
+<FONT color="green">522</FONT>            }<a name="line.522"></a>
+<FONT color="green">523</FONT>            public boolean containsValue(Object value) {<a name="line.523"></a>
+<FONT color="green">524</FONT>                return map.containsValue(value);<a name="line.524"></a>
+<FONT color="green">525</FONT>            }<a name="line.525"></a>
+<FONT color="green">526</FONT>            public Set entrySet() {<a name="line.526"></a>
+<FONT color="green">527</FONT>                return map.entrySet();<a name="line.527"></a>
+<FONT color="green">528</FONT>            }<a name="line.528"></a>
+<FONT color="green">529</FONT>            public boolean equals(Object o) {<a name="line.529"></a>
+<FONT color="green">530</FONT>                return map.equals(o);<a name="line.530"></a>
+<FONT color="green">531</FONT>            }<a name="line.531"></a>
+<FONT color="green">532</FONT>            public Object get(Object key) {<a name="line.532"></a>
+<FONT color="green">533</FONT>                return map.get(key);<a name="line.533"></a>
+<FONT color="green">534</FONT>            }<a name="line.534"></a>
+<FONT color="green">535</FONT>            public int hashCode() {<a name="line.535"></a>
+<FONT color="green">536</FONT>                return map.hashCode();<a name="line.536"></a>
+<FONT color="green">537</FONT>            }<a name="line.537"></a>
+<FONT color="green">538</FONT>            public boolean isEmpty() {<a name="line.538"></a>
+<FONT color="green">539</FONT>                return map.isEmpty();<a name="line.539"></a>
+<FONT color="green">540</FONT>            }<a name="line.540"></a>
+<FONT color="green">541</FONT>            public Set keySet() {<a name="line.541"></a>
+<FONT color="green">542</FONT>                return map.keySet();<a name="line.542"></a>
+<FONT color="green">543</FONT>            }<a name="line.543"></a>
+<FONT color="green">544</FONT>            public Object put(Object key, Object value) {<a name="line.544"></a>
+<FONT color="green">545</FONT>                return map.put(key, value);<a name="line.545"></a>
+<FONT color="green">546</FONT>            }<a name="line.546"></a>
+<FONT color="green">547</FONT>            public void putAll(Map m) {<a name="line.547"></a>
+<FONT color="green">548</FONT>                map.putAll(m);<a name="line.548"></a>
+<FONT color="green">549</FONT>            }<a name="line.549"></a>
+<FONT color="green">550</FONT>            public Object remove(Object key) {<a name="line.550"></a>
+<FONT color="green">551</FONT>                return map.remove(key);<a name="line.551"></a>
+<FONT color="green">552</FONT>            }<a name="line.552"></a>
+<FONT color="green">553</FONT>            public int size() {<a name="line.553"></a>
+<FONT color="green">554</FONT>                return map.size();<a name="line.554"></a>
+<FONT color="green">555</FONT>            }<a name="line.555"></a>
+<FONT color="green">556</FONT>            public Collection values() {<a name="line.556"></a>
+<FONT color="green">557</FONT>                return map.values();<a name="line.557"></a>
+<FONT color="green">558</FONT>            }<a name="line.558"></a>
+<FONT color="green">559</FONT>            public boolean getFast() {<a name="line.559"></a>
+<FONT color="green">560</FONT>                return BeanUtils.getCacheFast(map);<a name="line.560"></a>
+<FONT color="green">561</FONT>            }<a name="line.561"></a>
+<FONT color="green">562</FONT>            public void setFast(boolean fast) {<a name="line.562"></a>
+<FONT color="green">563</FONT>                BeanUtils.setCacheFast(map, fast);<a name="line.563"></a>
+<FONT color="green">564</FONT>            }<a name="line.564"></a>
+<FONT color="green">565</FONT>        }<a name="line.565"></a>
+<FONT color="green">566</FONT>    }<a name="line.566"></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</PRE>
+</BODY>
+</HTML>
