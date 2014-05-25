@@ -10,6 +10,7 @@
 		<module>org.promasi.utilities</module>
 		<module>org.promasi.sdsystem.model</module>
 		<module>org.promasi.sdsystem</module>
+		<module>org.promasi.sdsystem_ju</module>
 		<module>org.promasi.game.model</module>
 		<module>org.promasi.game</module>
 		<module>org.promasi.utils_swing</module>
