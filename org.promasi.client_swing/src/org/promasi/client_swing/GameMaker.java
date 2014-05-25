@@ -1,4 +1,4 @@
-package GameBuilder;
+package org.promasi.client_swing;
 
 /**
  * 

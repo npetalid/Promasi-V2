@@ -39,6 +39,30 @@
 		<artifactId>swingx</artifactId>
 		<version>1.6.1</version>
 	</dependency>
+	
+	<dependency>
+		<groupId>com.jidesoft</groupId>
+		<artifactId>jide-common</artifactId>
+		<version>3.3.3</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/libs/jidesoft/jide-common.jar</systemPath>
+	</dependency>
+	
+	<dependency>
+		<groupId>com.jidesoft</groupId>
+		<artifactId>jide-grids</artifactId>
+		<version>3.3.3</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/libs/jidesoft/jide-grids.jar</systemPath>
+	</dependency>	
+		
+	<dependency>
+		<groupId>com.jidesoft</groupId>
+		<artifactId>jide-gantt</artifactId>
+		<version>3.3.3</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/libs/jidesoft/jide-gantt.jar</systemPath>
+	</dependency>
     
   </dependencies>
   
