@@ -32,7 +32,8 @@ public class Application {
 	private static final ILogger _logger = LoggerFactory.getInstance(Application.class);
 	
 	public static void run(){
-		com.jidesoft.utils.Lm.verifyLicense("Alex Theodoridis", "ProMaSi", "BYEuilHJx9N.HdDrNJDzRmot.sJAFQF2");
+		//com.jidesoft.utils.
+		//com.jidesoft.utils.Lm.verifyLicense("Alex Theodoridis", "ProMaSi", "BYEuilHJx9N.HdDrNJDzRmot.sJAFQF2");
 		_logger.info("Start application");
 		if(SpringApplicationContext.getInstance().init("promasi_beans.xml")){
 			 SwingUtilities.invokeLater(new Runnable() {

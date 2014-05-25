@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
+	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="Temp"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="Libs/Apache/commons-codec-1.4/commons-codec-1.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="Libs/MigLayout/miglayout-4.0-swing.jar"/>
-	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-common.jar"/>
-	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-gantt.jar"/>
-	<classpathentry exported="true" kind="lib" path="Libs/jide.3.3.3/lib/jide-grids.jar"/>
-	<classpathentry kind="lib" path="Libs/Themes/JTattoo.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
