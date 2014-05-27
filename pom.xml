@@ -17,6 +17,9 @@
         <module>org.promasi.utils_swing</module>
         <module>org.promasi.desktop_swing</module>
         <module>org.promasi.client_swing</module>
+        <module>org.promasi.server</module>
+	<module>org.promasi.network</module>
+	<module>org.promasi.protocol</module>
     </modules>
     <build>
         <plugins>

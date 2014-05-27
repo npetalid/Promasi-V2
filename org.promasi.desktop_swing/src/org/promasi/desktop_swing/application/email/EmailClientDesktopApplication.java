@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.promasi.desktop_swing.application.email;
 
@@ -44,292 +44,300 @@ import org.promasi.utils_swing.Painters;
  * @author alekstheod
  *
  */
-public class EmailClientDesktopApplication extends ADesktopApplication implements ICompanyListener, IDepartmentListener{
+public class EmailClientDesktopApplication extends ADesktopApplication implements ICompanyListener, IDepartmentListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 
-	 */
-	public static final String CONST_APPNAME = "Email";
-	
-	/**
-	 * 
-	 */
-	public static final String CONST_APP_ICON = "gmail.png";
-	
-	/**
-	 * 
-	 */
-	private TaskBarIcon _quickStartButton;
-	
-	/**
-	 * A list with received messages \see="Message"
-	 */
-	private JTable _messageTable;
-	
-	/**
-	 * 
-	 */
-	private MessageTableModel _msgTableModel;
-	
-	/**|
-	 * 
-	 */
-	private EmailJPanel _emailPanel;
-	
-	/**
-	 * Lock object.
-	 */
-	private Lock _lockObject;
-	
-	/**
-	 * 
-	 */
-	private IGame _game;
-	
-	/**
-	 * 
-	 * @throws GuiException
-	 * @throws IOException 
-	 */
-	public EmailClientDesktopApplication( IGame game, IDesktop desktop ) throws GuiException, IOException {
-		super(CONST_APPNAME, RootDirectory.getInstance().getImagesDirectory() + CONST_APP_ICON);
-		
-		if( game == null ){
-			throw new GuiException("Wrong argument game == null");
-		}
-		
-		_lockObject = new ReentrantLock();
-		_game = game;
-		_quickStartButton = new TaskBarIcon(this, desktop);
-		desktop.addQuickStartButton(_quickStartButton);
-		setLayout(new BorderLayout());
-		
-		JXPanel bgPanel = new JXPanel();
-		bgPanel.setBackgroundPainter(Painters.Background);
-		bgPanel.setLayout(new BorderLayout());
-		
-		_messageTable = new JTable();
-		_messageTable.setShowHorizontalLines(false);
-		_messageTable.setShowVerticalLines(true);
-		_messageTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 13));
-		JLabel label = (JLabel)_messageTable.getTableHeader().getDefaultRenderer();
-		label.setHorizontalAlignment(JLabel.LEFT);
-		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setOneTouchExpandable(true);
-		splitPane.setDividerLocation(300);
-		splitPane.setOpaque(false);
-		splitPane.setBackground(Colors.White.alpha(0f));
-		
-		Dimension minSize = new Dimension(100, 50);
-		splitPane.setMinimumSize(minSize);
-		splitPane.setMinimumSize(minSize);
-		
-		JXPanel messagesPanel = new JXPanel();
-		messagesPanel.setOpaque(false);
-		messagesPanel.setBorder(new EmptyBorder(10,10,10,10));
-		_msgTableModel =  new MessageTableModel( new Vector<Message>( ) );
-		_messageTable.setModel( _msgTableModel );
-		messagesPanel.setLayout(new BorderLayout());
-		JScrollPane scrollpane = new JScrollPane(_messageTable);
-		messagesPanel.add(scrollpane, BorderLayout.CENTER);
-		
-		splitPane.setLeftComponent(messagesPanel);
-		
-		_emailPanel = new EmailJPanel();
-		splitPane.setRightComponent(_emailPanel);
-		
-		bgPanel.add(splitPane, BorderLayout.CENTER);
-		add(bgPanel, BorderLayout.CENTER);
-		
-		_messageTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			
-			@Override
-			public void valueChanged(ListSelectionEvent arg0) {
-				try {
-					Message msg =_msgTableModel.getMessage( _messageTable.getSelectedRow() );
-					_emailPanel.showMessage(msg);
-				} catch (GuiException e) {
-					// TODO Log error
-				}
-			}
-		});
-		
-		_messageTable.setDefaultRenderer(Object.class, new MessageTableCellRenderer());
-		_game.addCompanyListener(this);
-		_game.addDepartmentListener(this);
-	}
+    /**
+     *
+     */
+    public static final String CONST_APPNAME = "Email";
 
-	@Override
-	public void projectAssigned(final String owner, CompanyModel company,
-			final ProjectModel project, final DateTime dateTime) {
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					_lockObject.lock();
-					Message msg = new Message("Customer", "Project assigned", dateTime, project.getDescription());
-					List< Message > messages = _msgTableModel.getMessages();
-					messages.add(msg);
-					_msgTableModel = new MessageTableModel(messages);
-					_messageTable.setModel(_msgTableModel);
-					_quickStartButton.showPopupNotifier("You have " + getUnreadMessages() + " unread messages");
-				} catch (GuiException e) {
-					e.printStackTrace();
-				}finally{
-					_lockObject.unlock();
-				}
-			}
-		});
-	}
+    /**
+     *
+     */
+    public static final String CONST_APP_ICON = "gmail.png";
 
-	@Override
-	public void projectFinished(String owner, CompanyModel company,
-			ProjectModel project, DateTime dateTime) {
+    /**
+     *
+     */
+    private TaskBarIcon _quickStartButton;
+
+    /**
+     * A list with received messages \see="Message"
+     */
+    private JTable _messageTable;
+
+    /**
+     *
+     */
+    private MessageTableModel _msgTableModel;
+
+    /**
+     * |
+     *
+     */
+    private EmailJPanel _emailPanel;
+
+    /**
+     * Lock object.
+     */
+    private Lock _lockObject;
+
+    /**
+     *
+     */
+    private IGame _game;
+
+    /**
+     *
+     * @throws GuiException
+     * @throws IOException
+     */
+    public EmailClientDesktopApplication(IGame game, IDesktop desktop) throws GuiException, IOException {
+        super(CONST_APPNAME, RootDirectory.getInstance().getImagesDirectory() + CONST_APP_ICON);
+
+        if (game == null) {
+            throw new GuiException("Wrong argument game == null");
+        }
+
+        _lockObject = new ReentrantLock();
+        _game = game;
+        _quickStartButton = new TaskBarIcon(this, desktop);
+        desktop.addQuickStartButton(_quickStartButton);
+        setLayout(new BorderLayout());
+
+        JXPanel bgPanel = new JXPanel();
+        bgPanel.setBackgroundPainter(Painters.Background);
+        bgPanel.setLayout(new BorderLayout());
+
+        _messageTable = new JTable();
+        _messageTable.setShowHorizontalLines(false);
+        _messageTable.setShowVerticalLines(true);
+        _messageTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 13));
+        JLabel label = (JLabel) _messageTable.getTableHeader().getDefaultRenderer();
+        label.setHorizontalAlignment(JLabel.LEFT);
+
+        JSplitPane splitPane = new JSplitPane();
+        splitPane.setOneTouchExpandable(true);
+        splitPane.setDividerLocation(300);
+        splitPane.setOpaque(false);
+        splitPane.setBackground(Colors.White.alpha(0f));
+
+        Dimension minSize = new Dimension(100, 50);
+        splitPane.setMinimumSize(minSize);
+        splitPane.setMinimumSize(minSize);
+
+        JXPanel messagesPanel = new JXPanel();
+        messagesPanel.setOpaque(false);
+        messagesPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        _msgTableModel = new MessageTableModel(new Vector<Message>());
+        _messageTable.setModel(_msgTableModel);
+        messagesPanel.setLayout(new BorderLayout());
+        JScrollPane scrollpane = new JScrollPane(_messageTable);
+        messagesPanel.add(scrollpane, BorderLayout.CENTER);
+
+        splitPane.setLeftComponent(messagesPanel);
+
+        _emailPanel = new EmailJPanel();
+        splitPane.setRightComponent(_emailPanel);
+
+        bgPanel.add(splitPane, BorderLayout.CENTER);
+        add(bgPanel, BorderLayout.CENTER);
+
+        _messageTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent arg0) {
+                try {
+                    Message msg = _msgTableModel.getMessage(_messageTable.getSelectedRow());
+                    _emailPanel.showMessage(msg);
+                } catch (GuiException e) {
+                    // TODO Log error
+                }
+            }
+        });
+
+        _messageTable.setDefaultRenderer(Object.class, new MessageTableCellRenderer());
+        _game.addCompanyListener(this);
+        _game.addDepartmentListener(this);
+    }
+
+    @Override
+    public void projectAssigned(final String owner, CompanyModel company,
+            final ProjectModel project, final DateTime dateTime) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    _lockObject.lock();
+                    Message msg = new Message("Customer", "Project assigned", dateTime, project.getDescription());
+                    List< Message> messages = _msgTableModel.getMessages();
+                    messages.add(msg);
+                    _msgTableModel = new MessageTableModel(messages);
+                    _messageTable.setModel(_msgTableModel);
+                    _quickStartButton.showPopupNotifier("You have " + getUnreadMessages() + " unread messages");
+                } catch (GuiException e) {
+                    e.printStackTrace();
+                } finally {
+                    _lockObject.unlock();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void projectFinished(String owner, CompanyModel company,
+            ProjectModel project, DateTime dateTime) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void companyIsInsolvent(String owner, CompanyModel company,
-			ProjectModel assignedProject, DateTime dateTime) {
+    }
+
+    @Override
+    public void companyIsInsolvent(String owner, CompanyModel company,
+            ProjectModel assignedProject, DateTime dateTime) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void onExecuteWorkingStep(String owner, CompanyModel company,
-			ProjectModel assignedProject, DateTime dateTime) {
+    }
+
+    @Override
+    public void onExecuteWorkingStep(String owner, CompanyModel company,
+            ProjectModel assignedProject, DateTime dateTime) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void companyAssigned(String owner, CompanyModel company) {
+    }
+
+    @Override
+    public void companyAssigned(String owner, CompanyModel company) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void employeeDischarged(String director, DepartmentModel department, final EmployeeModel employee, final DateTime dateTime) {
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					_lockObject.lock();
-					if( employee != null ){
-						Message msg = new Message("IT Department", "Employee discharged", dateTime, employee.getCurriculumVitae());
-						List< Message > messages = _msgTableModel.getMessages();
-						messages.add(0, msg);
-						_msgTableModel = new MessageTableModel(messages);
-						_messageTable.setModel(_msgTableModel);
-						_quickStartButton.showPopupNotifier("You have " + getUnreadMessages() + " unread messages");
-					}
-				} catch (GuiException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}finally{
-					_lockObject.unlock();
-				}
-			}
-		});
-	}
+    }
 
-	@Override
-	public void employeeHired(String director, DepartmentModel department, final EmployeeModel employee, final DateTime dateTime) {
-		SwingUtilities.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					_lockObject.lock();
-					Message msg = new Message("IT Department", "Employee hired", dateTime, employee.getCurriculumVitae());
-					List< Message > messages = _msgTableModel.getMessages();
-					messages.add(0, msg);
-					_msgTableModel = new MessageTableModel(messages);
-					_messageTable.setModel(_msgTableModel);
-					_quickStartButton.showPopupNotifier( "You have " + getUnreadMessages() + " unread messages");
-				} catch (GuiException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}finally{
-					_lockObject.unlock();
-				}
-			}
-		});
-	}
+    @Override
+    public void employeeDischarged(String director, DepartmentModel department, final EmployeeModel employee, final DateTime dateTime) {
+        SwingUtilities.invokeLater(new Runnable() {
 
-	@Override
-	public void tasksAssigned(String director, DepartmentModel department, final DateTime dateTime) {
+            @Override
+            public void run() {
+                try {
+                    _lockObject.lock();
+                    if (employee != null) {
+                        Message msg = new Message("Human Resources", "Employee discharged", dateTime, employee.getCurriculumVitae());
+                        List< Message> messages = _msgTableModel.getMessages();
+                        messages.add(0, msg);
+                        _msgTableModel = new MessageTableModel(messages);
+                        _messageTable.setModel(_msgTableModel);
+                        _quickStartButton.showPopupNotifier("You have " + getUnreadMessages() + " unread messages");
+                    }
+                } catch (GuiException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } finally {
+                    _lockObject.unlock();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void employeeHired(String director, DepartmentModel department, final EmployeeModel employee, final DateTime dateTime) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    _lockObject.lock();
+                    Message msg = new Message("Human Resources", "New team member", dateTime, employee.getCurriculumVitae());
+                    List< Message> messages = _msgTableModel.getMessages();
+                    messages.add(0, msg);
+                    _msgTableModel = new MessageTableModel(messages);
+                    _messageTable.setModel(_msgTableModel);
+                    _quickStartButton.showPopupNotifier("You have " + getUnreadMessages() + " unread messages");
+                } catch (GuiException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } finally {
+                    _lockObject.unlock();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void tasksAssigned(String director, DepartmentModel department, final DateTime dateTime) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void tasksAssignFailed(String director, DepartmentModel department, final DateTime dateTime) {
+    }
+
+    @Override
+    public void tasksAssignFailed(String director, DepartmentModel department, final DateTime dateTime) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void departmentAssigned(String director, DepartmentModel department, final DateTime dateTime) {
+    }
+
+    @Override
+    public void departmentAssigned(String director, DepartmentModel department, final DateTime dateTime) {
 		// TODO Auto-generated method stub
-		
-	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	private int getUnreadMessages(){
-		int result = 0;
-		List< Message > messages = _msgTableModel.getMessages();
-		for( Message msg : messages){
-			if( !msg.itWasOpened()){
-				result++;
-			}
-		}
-		return result;
-	}
-	
-	/**
-	 * 
-	 * @author alekstheod
-	 *
-	 */
-	class MessageTableCellRenderer extends DefaultTableCellRenderer {  
-		 /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-			
-		/**
-		 * 
-		 */
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {  
-			JLabel parent = (JLabel)super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
-			
-			try {
-				 
-				Message msg = _msgTableModel.getMessage( row );
-				if(!msg.itWasOpened()){ 
-					parent.setFont(parent.getFont().deriveFont(Font.BOLD)); 
-				}else{
-					parent.setFont(parent.getFont().deriveFont(Font.PLAIN)); 
-				}
-			     
-			} catch (Exception e) {
-				//TODO log
-			}
-			
-			return parent;  
-		}      
-	}  
+    }
+
+    /**
+     *
+     * @return
+     */
+    private int getUnreadMessages() {
+        int result = 0;
+        List< Message> messages = _msgTableModel.getMessages();
+        for (Message msg : messages) {
+            if (!msg.itWasOpened()) {
+                result++;
+            }
+        }
+        return result;
+    }
+
+    /**
+     *
+     * @author alekstheod
+     *
+     */
+    class MessageTableCellRenderer extends DefaultTableCellRenderer {
+
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+
+        /**
+         *
+         */
+        @Override
+        public Component getTableCellRendererComponent(JTable table, 
+                Object value, 
+                boolean isSelected, 
+                boolean hasFocus, 
+                int row, 
+                int column) {
+            JLabel parent = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+
+            try {
+
+                Message msg = _msgTableModel.getMessage(row);
+                if (!msg.itWasOpened()) {
+                    parent.setFont(parent.getFont().deriveFont(Font.BOLD));
+                } else {
+                    parent.setFont(parent.getFont().deriveFont(Font.PLAIN));
+                }
+
+            } catch (GuiException e) {
+                //TODO log
+            }
+
+            return parent;
+        }
+    }
 }

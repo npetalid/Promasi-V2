@@ -27,7 +27,7 @@ public class SdSystemBasedSimulatorModel extends SimulatorModel{
 	}
 
 	/**
-	 * @param _sdSystemModel the _sdSystemModel to set
+	 * @param sdSystemModel the _sdSystemModel to set
 	 */
 	public void setSdSystemModel(SdSystemModel sdSystemModel) {
 		_sdSystemModel = sdSystemModel;

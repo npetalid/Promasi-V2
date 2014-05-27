@@ -1,0 +1,2 @@
+2014-05-27 20:17:29,749 main INFO  org.promasi.server.Application - Application started
+2014-05-27 20:17:29,765 main INFO  org.promasi.server.ProMaSiServer - ProMaSi server initialization compelete, listening on port :55555
