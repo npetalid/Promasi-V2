@@ -56,7 +56,6 @@ public final class Clock extends Observer<IClockListener> implements IClock
     {
         _clockThread = new Thread( new Runnable() {
 			
-			@Override
 			public void run() {
 				boolean running = true;
 				while ( running ) {

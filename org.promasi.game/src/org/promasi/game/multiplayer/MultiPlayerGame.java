@@ -135,7 +135,6 @@ public class MultiPlayerGame implements IMultiPlayerGame, IClockListener, IGameM
 		_logger.info("New multiplayer game initialization complete game owner:" + clientId + " game id:" + _gameModel.getGameName() );
 	}
 
-
 	@Override
 	public String getGameName() {
 		return _gameModel.getGameName();
